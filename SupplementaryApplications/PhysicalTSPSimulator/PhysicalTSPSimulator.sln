@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C# Express 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysicalTSPSimulator", "PhysicalTSPSimulator.csproj", "{B4C8FB5F-C04E-4330-8550-2CB3CEBDA0F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib", "..\..\SharpNeatLib\SharpNeatLib.csproj", "{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatExperiments", "..\..\Experiments\SharpNeatExperiments\SharpNeatExperiments.csproj", "{D9828EED-D730-40BF-9A1C-7C3D947E7689}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RudyGraph", "..\..\..\..\RudyGraph\RudyGraph.csproj", "{7B0AB121-5140-4BE4-8200-9E661EEC52E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4C8FB5F-C04E-4330-8550-2CB3CEBDA0F9}.Debug|Default.ActiveCfg = Debug|Any CPU
+		{B4C8FB5F-C04E-4330-8550-2CB3CEBDA0F9}.Debug|Default.Build.0 = Debug|Any CPU
+		{B4C8FB5F-C04E-4330-8550-2CB3CEBDA0F9}.Release|Default.ActiveCfg = Release|Any CPU
+		{B4C8FB5F-C04E-4330-8550-2CB3CEBDA0F9}.Release|Default.Build.0 = Release|Any CPU
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Debug|Default.ActiveCfg = Debug|Any CPU
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Debug|Default.Build.0 = Debug|Any CPU
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Release|Default.ActiveCfg = Release|Any CPU
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Release|Default.Build.0 = Release|Any CPU
+		{D9828EED-D730-40BF-9A1C-7C3D947E7689}.Debug|Default.ActiveCfg = Debug|Any CPU
+		{D9828EED-D730-40BF-9A1C-7C3D947E7689}.Debug|Default.Build.0 = Debug|Any CPU
+		{D9828EED-D730-40BF-9A1C-7C3D947E7689}.Release|Default.ActiveCfg = Release|Any CPU
+		{D9828EED-D730-40BF-9A1C-7C3D947E7689}.Release|Default.Build.0 = Release|Any CPU
+		{7B0AB121-5140-4BE4-8200-9E661EEC52E3}.Debug|Default.ActiveCfg = Debug|Any CPU
+		{7B0AB121-5140-4BE4-8200-9E661EEC52E3}.Debug|Default.Build.0 = Debug|Any CPU
+		{7B0AB121-5140-4BE4-8200-9E661EEC52E3}.Release|Default.ActiveCfg = Release|Any CPU
+		{7B0AB121-5140-4BE4-8200-9E661EEC52E3}.Release|Default.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

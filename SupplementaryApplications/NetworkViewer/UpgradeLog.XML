@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="NetworkViewer">
+</Property><Property Name="Solution File" Value="C:\work\projects\SharpNeat\src\SupplementaryApplications\NetworkViewer\NetworkViewer.sln">
+</Property><Property Name="Date" Value="27 March 2006">
+</Property><Property Name="Time" Value="21:32">
+</Property></Properties><Event ErrorLevel="0" Project="NetworkViewer" Source="NetworkViewer.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="NetworkViewer" Source="NetworkViewer.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="SharpNeatLib" Source="..\..\SharpNeatLib\SharpNeatLib.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="SharpNeatLib" Source="..\..\SharpNeatLib\SharpNeatLib.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="RudyGraph" Source="..\..\..\..\RudyGraph\RudyGraph.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="RudyGraph" Source="..\..\..\..\RudyGraph\RudyGraph.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="" Source="NetworkViewer.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="NetworkViewer.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="NetworkViewer" Source="NetworkViewer.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

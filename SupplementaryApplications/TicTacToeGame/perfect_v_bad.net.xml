@@ -1,0 +1,42 @@
+<network activation-fn-id="SteepenedSigmoidApproximation">
+  <neurons>
+    <neuron id="0" type="bias" />
+    <neuron id="1" type="in" />
+    <neuron id="2" type="in" />
+    <neuron id="3" type="in" />
+    <neuron id="4" type="in" />
+    <neuron id="5" type="in" />
+    <neuron id="6" type="in" />
+    <neuron id="7" type="in" />
+    <neuron id="8" type="in" />
+    <neuron id="9" type="in" />
+    <neuron id="10" type="out" />
+    <neuron id="11" type="out" />
+    <neuron id="12" type="out" />
+    <neuron id="13" type="out" />
+    <neuron id="14" type="out" />
+    <neuron id="15" type="out" />
+    <neuron id="16" type="out" />
+    <neuron id="17" type="out" />
+    <neuron id="18" type="out" />
+  </neurons>
+  <connections>
+    <connection src-id="5" tgt-id="10" weight="2.0169940415751" />
+    <connection src-id="7" tgt-id="11" weight="0.882620949243485" />
+    <connection src-id="5" tgt-id="15" weight="2.49703342013999" />
+    <connection src-id="9" tgt-id="11" weight="-0.0237798626964518" />
+    <connection src-id="3" tgt-id="14" weight="3.55790615864655" />
+    <connection src-id="9" tgt-id="14" weight="2.36273176466143" />
+    <connection src-id="3" tgt-id="15" weight="-4.27778910346226" />
+    <connection src-id="6" tgt-id="12" weight="3.26195021552565" />
+    <connection src-id="6" tgt-id="15" weight="2.35156704056172" />
+    <connection src-id="2" tgt-id="13" weight="0.776320017847374" />
+    <connection src-id="1" tgt-id="18" weight="2.62122551477968" />
+    <connection src-id="9" tgt-id="18" weight="1.30564295629136" />
+    <connection src-id="4" tgt-id="16" weight="0.653692130803835" />
+    <connection src-id="2" tgt-id="18" weight="-1.58485408983638" />
+    <connection src-id="3" tgt-id="18" weight="-3.91048993153173" />
+    <connection src-id="7" tgt-id="18" weight="-1.98412323287056" />
+    <connection src-id="10" tgt-id="17" weight="-2.75255142411152" />
+  </connections>
+</network>

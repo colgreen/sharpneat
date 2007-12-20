@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib", "SharpNeatLib.csproj", "{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Debug.ActiveCfg = Debug|.NET
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Debug.Build.0 = Debug|.NET
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Release.ActiveCfg = Release|.NET
+		{3A64602B-C5E0-4CB7-99B0-1FC6ABB4449A}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

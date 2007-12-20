@@ -1,0 +1,67 @@
+<network activation-fn-id="SteepenedSigmoidApproximation">
+  <neurons>
+    <neuron id="0" type="bias" />
+    <neuron id="1" type="in" />
+    <neuron id="2" type="in" />
+    <neuron id="3" type="in" />
+    <neuron id="4" type="in" />
+    <neuron id="5" type="in" />
+    <neuron id="6" type="in" />
+    <neuron id="7" type="in" />
+    <neuron id="8" type="in" />
+    <neuron id="9" type="in" />
+    <neuron id="10" type="out" />
+    <neuron id="11" type="out" />
+    <neuron id="12" type="out" />
+    <neuron id="13" type="out" />
+    <neuron id="14" type="out" />
+    <neuron id="15" type="out" />
+    <neuron id="16" type="out" />
+    <neuron id="17" type="out" />
+    <neuron id="18" type="out" />
+    <neuron id="378" type="hid" />
+  </neurons>
+  <connections>
+    <connection src-id="2" tgt-id="13" weight="0.582411779069412" />
+    <connection src-id="2" tgt-id="12" weight="3.18105018548832" />
+    <connection src-id="8" tgt-id="11" weight="-3.30739626582125" />
+    <connection src-id="7" tgt-id="12" weight="-3.73356113784558" />
+    <connection src-id="9" tgt-id="14" weight="1.03941883166162" />
+    <connection src-id="6" tgt-id="17" weight="2.98983179467047" />
+    <connection src-id="7" tgt-id="13" weight="2.66859050934871" />
+    <connection src-id="6" tgt-id="16" weight="4.54133601654341" />
+    <connection src-id="1" tgt-id="14" weight="0.869398101307405" />
+    <connection src-id="4" tgt-id="18" weight="3.18634523567672" />
+    <connection src-id="2" tgt-id="16" weight="4.15884845167722" />
+    <connection src-id="9" tgt-id="15" weight="0.359691957974291" />
+    <connection src-id="5" tgt-id="17" weight="0.112745392183596" />
+    <connection src-id="8" tgt-id="18" weight="-1.02545563821683" />
+    <connection src-id="5" tgt-id="18" weight="4.84518554064764" />
+    <connection src-id="7" tgt-id="18" weight="-2.24243732669075" />
+    <connection src-id="10" tgt-id="15" weight="0.481850537975195" />
+    <connection src-id="17" tgt-id="13" weight="-4.1558232903626" />
+    <connection src-id="6" tgt-id="10" weight="-4.47913138841739" />
+    <connection src-id="2" tgt-id="10" weight="-4.81897162811054" />
+    <connection src-id="13" tgt-id="10" weight="4.34382942292309" />
+    <connection src-id="4" tgt-id="11" weight="-0.451597628667441" />
+    <connection src-id="14" tgt-id="17" weight="0.722400959394166" />
+    <connection src-id="16" tgt-id="15" weight="0.457878282137161" />
+    <connection src-id="12" tgt-id="17" weight="-0.349970922596687" />
+    <connection src-id="3" tgt-id="14" weight="0.778782295891448" />
+    <connection src-id="4" tgt-id="13" weight="3.4866351106782" />
+    <connection src-id="0" tgt-id="10" weight="3.36319620013866" />
+    <connection src-id="16" tgt-id="13" weight="3.92755876668426" />
+    <connection src-id="18" tgt-id="12" weight="1.04209985868962" />
+    <connection src-id="13" tgt-id="17" weight="3.99498290694513" />
+    <connection src-id="1" tgt-id="18" weight="-0.721726854699666" />
+    <connection src-id="5" tgt-id="12" weight="1.70238589760614" />
+    <connection src-id="15" tgt-id="13" weight="0.0735700458807764" />
+    <connection src-id="9" tgt-id="16" weight="-0.857626137257379" />
+    <connection src-id="16" tgt-id="16" weight="2.54182612533658" />
+    <connection src-id="7" tgt-id="378" weight="0.940283908224736" />
+    <connection src-id="378" tgt-id="18" weight="0.832676528160743" />
+    <connection src-id="10" tgt-id="10" weight="1.07983640825369" />
+    <connection src-id="18" tgt-id="18" weight="-0.00190677411649754" />
+    <connection src-id="18" tgt-id="10" weight="4.4318381414897" />
+  </connections>
+</network>
