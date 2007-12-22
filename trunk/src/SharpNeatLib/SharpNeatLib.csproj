@@ -480,6 +480,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\RudyGraph\RudyGraph.csproj">
+      <Project>{7B0AB121-5140-4BE4-8200-9E661EEC52E3}</Project>
+      <Name>RudyGraph</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="DeadCode\Experiments\TicTacToe\" />
     <Folder Include="DeadCode\NetworkEvaluators\Old\DoublePoleBalancing\" />
     <Folder Include="DeadCode\NetworkEvaluators\Old\PreyCapture\" />

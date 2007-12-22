@@ -89,10 +89,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\..\RudyGraph\RudyGraph.csproj">
-      <Name>RudyGraph</Name>
+    <ProjectReference Include="..\..\..\..\RudyGraph\RudyGraph.csproj">
       <Project>{7B0AB121-5140-4BE4-8200-9E661EEC52E3}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>RudyGraph</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharpNeatLib\SharpNeatLib.csproj">
       <Name>SharpNeatLib</Name>
