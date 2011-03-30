@@ -1,0 +1,3023 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ZedGraph.Web</name>
+    </assembly>
+    <members>
+        <member name="T:ZedGraph.Web.GenericViewStateAssistant">
+            <summary>
+            Assists in managing viewstate sub-objects. The host of the assistant is
+            responsible for managing an array within the statebag. This assistant
+            helps deal with that by simply registering each hosted object with a
+            unique code value. It also simplies the on demand creation of the sub object
+            by creating the instance only when the getobject method is called.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="F:ZedGraph.Web.GenericViewStateAssistant.list">
+            <summary>
+            Array of child class instances managed in the viewstate
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.Register(System.Char,System.Type)">
+            <summary>
+            Registers a code with a datatype in the assistance. Once registered
+            the datatype will be available for retrievable using the same code value.
+            </summary>
+            <param name="code">Type identifier</param>
+            <param name="type">Object type being hosted</param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.GetValue(System.Char,System.Boolean)">
+            <summary>
+            Retrieves instance based on the registered code and datatype.
+            If the value is null, the datatype is used to create a new instance
+            that is cached in the assistant node.
+            </summary>
+            <param name="code">code to search on</param>
+            <param name="IsTrackingViewState">Indicates if the parent is currently
+            tracking viewstate</param>
+            <returns>class instance</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.GetValue(System.Int32,System.Boolean)">
+            <summary>
+            Retrieves the object instance for an assistant node given an
+            index value.
+            </summary>
+            <param name="index">Index value in the assistants node collection</param>
+            <param name="IsTrackingViewState">Indicates if the parent is currently
+            tracking viewstate changes</param>
+            <returns>Object instance based on the node found in the collection</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.SaveViewState(System.Object)">
+            <summary>
+            Returns the current viewstate of every object hosted in
+            the assistants collection.
+            </summary>
+            <param name="BaseState">parents viewstate bag</param>
+            <returns>Combined saved viewstate for the parent and all hosted
+            objects in the assistant collection</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.LoadViewState(System.Object,System.Boolean)">
+            <summary>
+            Loads the viewstate from the provided statebag into each of the
+            registered objects hosted in the assistants collection.
+            </summary>
+            <param name="savedState">statebag provided by parent</param>
+            <param name="IsTrackingViewState">indicates if the parent is currently
+            tracking viewstate changes</param>
+            <returns>The parents individual statebag</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.TrackViewState">
+            <summary>
+            Triggers the assistant to begin tracking viewstate changes
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.GenericViewStateAssistant.AssistNode">
+            <summary>
+            Internal child class instance node, identified by a code,
+            its datatype, and the class instance.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericViewStateAssistant.AssistNode.#ctor(System.Char,System.Type)">
+            <summary>
+            Creates an assistant node given a character key and
+            the hosted class type.
+            </summary>
+            <param name="code">Identifier code</param>
+            <param name="type">Class data type hosted by the node</param>
+        </member>
+        <member name="F:ZedGraph.Web.GenericViewStateAssistant.AssistNode.Code">
+            <summary>
+            Code to uniquely identify this node entry
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericViewStateAssistant.AssistNode.Key">
+            <summary>
+            Object type identifying hosted value type.
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericViewStateAssistant.AssistNode.Value">
+            <summary>
+            Object instance based on Key definition. May be null
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.GenericCollectionItemSchema">
+            <summary>
+            Identifies state management items by a unique code and its datatype. The code is defined 
+            in the implementation of a GenericCollection class constructor.
+            </summary>
+            <author>Darren Martz</author>
+            <version> $ </version>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollectionItemSchema.#ctor(System.Char,System.Type)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="c">Single character code used to identify the state item datatype</param>
+            <param name="t">Item datatype</param>
+        </member>
+        <member name="F:ZedGraph.Web.GenericCollectionItemSchema.code">
+            <summary>
+            The state item datatype character code
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericCollectionItemSchema.type">
+            <summary>
+            The state item datatype
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.GenericItem">
+            <summary>
+            Generic state management item used in a state management aware collection.
+            This class is intended to be subclasses with public property values added.
+            Property values should be added in the full {get/set} format reading and writing
+            the current state from the ViewState array.
+            </summary>
+            <example>
+            public class MyItem : GenericItem
+            {
+            	[NotifyParentProperty(true)]
+            	public bool IsVisible
+            	{
+            		get 
+            		{ 
+            			object x = ViewState["IsVisible"]; 
+            			return (null == x) ? true : (bool)x;
+            		}
+            		set { ViewState["IsLegendLabelVisible"] = value; }
+            	}
+            }
+            </example>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.#ctor">
+            <summary>
+            Default constructor that does nothing
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericItem._isTrackingViewState">
+            <summary>
+            Internal indicator of the current tracking state
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericItem._viewState">
+            <summary>
+            Internal view state used by the asp.net infrastructure
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.Register(System.Char,System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.GetValue(System.Char)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.SetDirty">
+            <summary>
+            Internal method to mark the statebag as dirty so it can be resaved if necessary
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.LoadViewState(System.Object)">
+            <summary>
+            Loads the viewstate into the local statebag given a viewstate collection object
+            </summary>
+            <param name="savedState">object containing asp.net page viewstate</param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.System#Web#UI#IStateManager#LoadViewState(System.Object)">
+            <summary>
+            Implementation of the IStateManager.LoadViewState method
+            </summary>
+            <param name="savedState">object containing asp.net page viewstate</param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.SaveViewState">
+            <summary>
+            Saves the current viewstate into a portable object
+            </summary>
+            <returns>object containing classes viewstate</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.System#Web#UI#IStateManager#SaveViewState">
+            <summary>
+            Implementation of the IStateManager.SaveViewState method
+            </summary>
+            <returns>object containing classes viewstate</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.TrackViewState">
+            <summary>
+            Tells the statebag to begin tracking changes to state values
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericItem.System#Web#UI#IStateManager#TrackViewState">
+            <summary>
+            Implementation of the IStateManager.TrackViewState method
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericItem.ViewState">
+            <summary>
+            Internal access to the viewstate array. Subclassed objects can access this
+            to read/write changes to the objects view state.
+            </summary>
+            <example>
+            ViewState["myelement"] = "value";
+            string val = (string)ViewState["myelement"];
+            </example>
+        </member>
+        <member name="P:ZedGraph.Web.GenericItem.System#Web#UI#IStateManager#IsTrackingViewState">
+            <summary>
+            Implementation of the IStateManager.IsTrackingViewState property.
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.GenericCollectionEditor">
+            <summary>
+            Provides a few hints to the development editor on how to create
+            child items in the collection. This class uses the schema defined
+            inside the collection implementation.
+            </summary>
+            <example>
+            public class MyCollection : GenericCollection
+            {
+            	public MyCollection() : base()
+            	{
+            		Schema = new GenericCollectionItemSchema[1];
+            		Schema[0].code = 'b';
+            		Schema[1].type = typeof(MyItem);
+            	}
+            	public void Add(MyItem item)
+            	{
+            		if ( null != item ) ListAdd( item );
+            		else throw new ArgumentException("parameter cannot be null","item");
+            	}	
+            	
+            	[NotifyParentProperty(true)]
+            	public ZedGraphWebCurveItem this [int index]
+            	{
+            		get { return (MyItem)ListGet(index); }
+            		set { ListInsert(index,value); }
+            	}
+            }
+            </example>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollectionEditor.#ctor(System.Type)">
+            <summary>
+            Default constructor based on CollectionEditor contructor
+            </summary>
+            <param name="type">Datetype of the collection to manage</param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollectionEditor.CreateNewItemTypes">
+            <summary>
+            Informs the visual editor what kinds of classes are accepted as elements
+            within the collection.
+            </summary>
+            <returns>Array of datatypes supported as items within the collection</returns>
+        </member>
+        <member name="T:ZedGraph.Web.GenericCollection">
+            <summary>
+            Provides array services in a web state engine environment. This collection can
+            support 1:N datatypes as items provided they are based on the GenericItem class.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericCollection.Schema">
+            <summary>
+            Internal collection item schema table. All supported data types must be
+            identified in this array. The default constructor should populate this
+            value.
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericCollection.List">
+            <summary>
+            Internal array of items. Some public access to the array is provided by default.
+            Additional public access should be added when subclassing.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.Clear">
+            <summary>
+            Empty the array list and marks the viewstate.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.SupportedType(System.Object)">
+            <summary>
+            Verifies if the object is a supported datatype
+            </summary>
+            <param name="item">object to verify</param>
+            <returns>true if supported</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.ListInsert(System.Int32,System.Object)">
+            <summary>
+            Internal insert item method that also tracks the change in the viewstate
+            </summary>
+            <param name="index">location in the array to insert the object</param>
+            <param name="item">object to insert</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.ListGet(System.Int32)">
+            <summary>
+            Retrieves an item by index
+            </summary>
+            <param name="index">array index</param>
+            <returns>array item</returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.ListAdd(System.Object)">
+            <summary>
+            Appends item to array and tracks the change in the viewstate
+            </summary>
+            <param name="item">Item to append</param>
+            <returns>new index of item</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.ListRemoveAt(System.Int32)">
+            <summary>
+            Removes the item from the array and tracks the change in the viewstate
+            </summary>
+            <param name="index">item index to remove</param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.ListRemove(System.Object)">
+            <summary>
+            Removes the item from the array and tracks the change in the viewstate
+            </summary>
+            <param name="item">object to remove</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.IndexOf(System.Object)">
+            <summary>
+            Identifies the items index in the list given the item object
+            </summary>
+            <param name="item">item to locate in list</param>
+            <returns>index of item</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>		
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.GetEnumerator">
+            <summary>
+            <see cref="M:System.Collections.IEnumerable.GetEnumerator"/> 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.CopyTo(System.Array,System.Int32)">
+            <summary>
+            <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)"/>
+            </summary>
+            <param name="array"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#Add(System.Object)">
+            <summary>
+            Adds item based on the rules of ListAdd
+            <see cref="M:System.Collections.IList.Add(System.Object)"/>
+            <seealso cref="M:ZedGraph.Web.GenericCollection.ListAdd(System.Object)"/>
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#Clear">
+            <summary>
+            <see cref="M:System.Collections.IList.Clear"/>
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#Contains(System.Object)">
+            <summary>
+            <see cref="M:System.Collections.IList.Contains(System.Object)"/>
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#IndexOf(System.Object)">
+            <summary>
+            <see cref="M:System.Collections.IList.IndexOf(System.Object)"/>
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <summary>
+            Inserts item according to the rules of ListInsert
+            <see cref="M:System.Collections.IList.Insert(System.Int32,System.Object)"/>
+            <seealso cref="M:ZedGraph.Web.GenericCollection.ListInsert(System.Int32,System.Object)"/>
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#Remove(System.Object)">
+            <summary>
+            Removes item based on ListRemove
+            <see cref="M:System.Collections.IList.Remove(System.Object)"/>
+            <seealso cref="M:ZedGraph.Web.GenericCollection.ListRemove(System.Object)"/>
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Collections#IList#RemoveAt(System.Int32)">
+            <summary>
+            Removes item based on RemoveAt
+            <see cref="M:System.Collections.IList.RemoveAt(System.Int32)"/>
+            <seealso cref="M:System.Collections.CollectionBase.RemoveAt(System.Int32)"/>
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="F:ZedGraph.Web.GenericCollection._isTrackingViewState">
+            <summary>
+            preserves internal tracking state
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.GenericCollection._saveAll">
+            <summary>
+            marks the entire statebag as dirty requiring the entire state to be saved
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Web#UI#IStateManager#TrackViewState">
+            <summary>
+            <see cref="M:System.Web.UI.IStateManager.TrackViewState"/>
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Web#UI#IStateManager#LoadViewState(System.Object)">
+            <summary>
+            Loads the view state. This involves reading each state item pair, verifying
+            schema support for each datatype, creating each item instance, and loading
+            the state into each newly created instance.
+            <seealso cref="M:System.Web.UI.IStateManager.LoadViewState(System.Object)"/>
+            </summary>
+            <param name="savedState">state management object</param>
+        </member>
+        <member name="M:ZedGraph.Web.GenericCollection.System#Web#UI#IStateManager#SaveViewState">
+            <summary>
+            Saves the viewstate into a portable object format. This involves
+            saving the state of each item in the list.
+            <seealso cref="M:System.Web.UI.IStateManager.SaveViewState"/>
+            </summary>
+            <returns>portable state object</returns>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.Count">
+            <summary>
+            <see cref="P:System.Collections.ICollection.Count"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.IsSynchronized">
+            <summary>
+            <see cref="P:System.Collections.ICollection.IsSynchronized"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.SyncRoot">
+            <summary>
+            <see cref="P:System.Collections.ICollection.SyncRoot"/>		
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Privately implement those members of IList that take or 
+            return the object type and expose equivalent public members
+            that take or return an item instance instead. Also
+            implement privately those members of IList that are not meaninful
+            to expose in the public object model of this Collection.		
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.System#Collections#IList#IsFixedSize">
+            <summary>
+            <see cref="P:System.Collections.IList.IsFixedSize"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.System#Collections#IList#IsReadOnly">
+            <summary>
+            <see cref="P:System.Collections.IList.IsReadOnly"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.GenericCollection.System#Web#UI#IStateManager#IsTrackingViewState">
+            <summary>
+            <see cref="P:System.Web.UI.IStateManager.IsTrackingViewState"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebCurveItem">
+            <summary>
+            Base class for curve items in the web control
+            <seealso cref="T:ZedGraph.CurveItem"/>
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveItem.ToString">
+            <summary>
+            Identifies curve item by the labels value
+            </summary>
+            <returns>A string containing "CurveItem: label", where 'label' is the
+            <see cref="P:ZedGraph.CurveItem.Label"/> property of the <see cref="T:ZedGraph.CurveItem"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveItem.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveItem.#ctor(System.String)">
+            <summary>
+            Constructor that accepts a default label value
+            </summary>
+            <param name="label">Curve item label</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveItem.CopyTo(ZedGraph.CurveItem)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> to the specified
+            <see cref="T:ZedGraph.CurveItem"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.CurveItem"/> object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveItem.CreateInPane(ZedGraph.GraphPane,ZedGraph.PointPairList)">
+            <summary>
+            Creates a new CurveItem using the PointPairList and add it the the given pane.
+            </summary>
+            <param name="pane">the GraphPane object to which to add the new curve</param>
+            <param name="points">a PointPairList collection defining the points for this curve</param>
+            <returns>the newly created CurveItem added to the given GraphPane</returns>
+            <remarks>This method must be overriden by childs</remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.DataSource">
+            <summary>
+            The object reference that points to a data source from which to bind curve data.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.DataMember">
+            <summary>
+            The <see cref="T:System.String"/> name of the data member that contains the data to be
+            bound to this <see cref="T:ZedGraph.CurveItem"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.Label">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.CurveItem.Label"/>.
+            </summary>
+            <remarks> A text string that represents the <see cref="T:ZedGraph.Legend"/>
+            entry for the the <see cref="T:ZedGraph.CurveItem"/> object.
+            </remarks>
+            <seealso cref="P:ZedGraph.CurveItem.Label"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.Color">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.CurveItem.Color"/>.
+            </summary>
+            <remarks> The <see cref="P:ZedGraph.LineItem.Line"/>/<see cref="P:ZedGraph.LineItem.Symbol"/>/<see cref="P:ZedGraph.BarItem.Bar"/> 
+            color (FillColor for the Bar).  This is a common access to
+            <see cref="P:ZedGraph.LineBase.Color">Line.Color</see>,
+            <see cref="P:ZedGraph.LineBase.Color">Border.Color</see>, and
+            <see cref="P:ZedGraph.Fill.Color"/> properties for this curve
+            </remarks>
+            <seealso cref="P:ZedGraph.CurveItem.Color"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.CurveItem.IsVisible"/>.
+            </summary>
+            <remarks> Determines whether the <see cref="T:ZedGraph.CurveItem"/> is visible on the graph.
+            Note that this value turns the curve display on or off, but it does not
+            affect the display of the legend entry.  To hide the legend entry, you
+            have to set <see cref="P:ZedGraph.Web.ZedGraphWebCurveItem.IsLegendLabelVisible"/> to false.
+            </remarks>
+            <seealso cref="P:ZedGraph.CurveItem.IsVisible">CurveItem.IsVisible</seealso>
+            <seealso cref="P:ZedGraph.Label.IsVisible">Label.IsVisible</seealso>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.IsLegendLabelVisible">
+            <summary>
+            Proxy property that gets or sets the value of
+            <seealso cref="P:ZedGraph.Label.IsVisible">Label.IsVisible</seealso>.
+            </summary>
+            <remarks> Determines whether the label for this <see cref="T:ZedGraph.CurveItem"/> is
+            visible in the legend.
+            Note that this value turns the legend entry display on or off, but it does not
+            affect the display of the curve on the graph.  To hide the curve, you
+            have to set <see cref="P:ZedGraph.Web.ZedGraphWebCurveItem.IsVisible"/> to false.
+            </remarks>
+            <seealso cref="P:ZedGraph.CurveItem.IsVisible"/>
+            <seealso cref="P:ZedGraph.Label.IsVisible">Label.IsVisible</seealso>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.IsY2Axis">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.CurveItem.IsY2Axis"/>.
+            </summary>
+            <remarks> Determines which Y axis this <see cref="T:ZedGraph.CurveItem"/>
+            is assigned to.  The
+            <see cref="T:ZedGraph.YAxis"/> is on the left side of the graph and the
+            <see cref="T:ZedGraph.Y2Axis"/> is on the right side.  Assignment to an axis
+            determines the scale that is used to draw the curve on the graph.
+            </remarks>
+            <seealso cref="P:ZedGraph.CurveItem.IsY2Axis"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveItem.Points">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.CurveItem.Points"/>.
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebBorder">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.Border"/> object.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBorder.ToString">
+            <summary>
+            Override ToString function
+            </summary>
+            <returns>Always returns "Border"</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBorder.CopyTo(ZedGraph.Border)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> to the specified
+            <see cref="T:ZedGraph.Border"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Border"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBorder.Color">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.Color"/>.
+            </summary>
+            <remarks> Determines the <see cref="T:System.Drawing.Color"/> of the <see cref="T:System.Drawing.Pen"/> used to
+            draw this Border.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBorder.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.IsVisible"/>.
+            </summary>
+            <remarks> Determines whether or not the Border will be drawn.  true to draw the Border,
+            false otherwise.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBorder.Width">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.Width"/>.
+            </summary>
+            <remarks> Gets or sets the width, in points (1/72 inch), of the <see cref="T:System.Drawing.Pen"/>
+            used to draw this Border.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBorder.InflateFactor">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Border.InflateFactor"/>.
+            </summary>
+            <remarks> Gets or sets the amount of inflation to be done on the rectangle
+            before rendering.
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebBorder2">
+            <summary>
+            Todo: idem ZedGraphWebFill2
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBorder2.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebFill">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.Fill"/> object.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebFill.ToString">
+            <summary>
+            Override ToString() function
+            </summary>
+            <returns>Always returns "Fill"</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebFill.CopyTo(ZedGraph.Fill)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> to the specified
+            <see cref="T:ZedGraph.Fill"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Fill"/> object</param>
+        </member>
+        <member name="F:ZedGraph.Web.ZedGraphWebFill.Brush">
+            <summary>
+            The <see cref="F:ZedGraph.Web.ZedGraphWebFill.Brush"/> object associated with this <see cref="T:ZedGraph.Fill"/> object.
+            Not accessible via webcontrol properties.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.Color">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.Color"/>.
+            </summary>
+            <remarks> The fill color.  This property is used as a single color to make a solid fill
+            (<see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/> is <see cref="F:ZedGraph.FillType.Solid"/>), or it can be used in 
+            combination with <see cref="P:System.Drawing.Color.White"/> to make a
+            <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush"/>
+            when <see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/> is <see cref="F:ZedGraph.FillType.Brush"/> and <see cref="F:ZedGraph.Web.ZedGraphWebFill.Brush"/>
+            is null.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.ColorOpacity">
+            <summary>
+            Opacity of <see cref="P:ZedGraph.Web.ZedGraphWebFill.Color"/>, range from 0 to 100.
+            100 is opaque, 0 is invisible.
+            </summary>
+            <remarks>
+            To be replaced by a best color designer which enables the selection of a transparency level.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.IsVisible"/>.
+            </summary>
+            <remarks> This property determines the type of color fill. 
+            Returns true if the <see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/> property is either
+            <see cref="F:ZedGraph.FillType.Solid"/> or
+            <see cref="F:ZedGraph.FillType.Brush"/>.  If set to true, this property
+            will automatically set the <see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/> to
+            <see cref="F:ZedGraph.FillType.Brush"/>.  If set to false, this property
+            will automatically set the <see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/> to
+            <see cref="F:ZedGraph.FillType.None"/>.  In order to get a regular
+            solid-color fill, you have to manually set <see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/>
+            to <see cref="F:ZedGraph.FillType.Solid"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.RangeMax">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.RangeMax"/>.
+            </summary>
+            <remarks> The maximum user-scale value for the gradient-by-value determination.  This defines
+            the user-scale value for the end of the gradient.
+            </remarks>
+            <seealso cref="F:ZedGraph.FillType.GradientByX"/>
+            <seealso cref="F:ZedGraph.FillType.GradientByY"/>
+            <seealso cref="F:ZedGraph.FillType.GradientByZ"/>
+            <seealso cref="P:ZedGraph.Fill.IsGradientValueType"/>
+            <value>A double value, in user scale unit</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.RangeMin">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.RangeMin"/>.
+            </summary>
+            <remarks> The minimum user-scale value for the gradient-by-value determination.  This defines
+            the user-scale value for the start of the gradient.
+            </remarks>
+            <seealso cref="F:ZedGraph.FillType.GradientByX"/>
+            <seealso cref="F:ZedGraph.FillType.GradientByY"/>
+            <seealso cref="F:ZedGraph.FillType.GradientByZ"/>
+            <seealso cref="P:ZedGraph.Fill.IsGradientValueType"/>
+            <value>A double value, in user scale unit</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.Type">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.Type"/>.
+            </summary>
+            <remarks> Determines the type of fill, which can be either solid
+            color (<see cref="F:ZedGraph.FillType.Solid"/>) or a custom brush
+            (<see cref="F:ZedGraph.FillType.Brush"/>).  See <see cref="P:ZedGraph.Web.ZedGraphWebFill.Type"/> for
+            more information.
+            </remarks>
+            <seealso cref="P:ZedGraph.Fill.Color"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.AlignH">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.AlignH"/>.
+            </summary>
+            <remarks> Determines how the brush will be aligned with the filled object
+            in the horizontal direction.  This value is a <see cref="T:ZedGraph.AlignH"/> enumeration.
+            This field only applies if <see cref="P:ZedGraph.Web.ZedGraphWebFill.IsScaled"/> is false.
+            </remarks>
+            <seealso cref="P:ZedGraph.Web.ZedGraphWebFill.AlignV"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.AlignV">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.AlignV"/>.
+            </summary>
+            <remarks> Determines how the brush will be aligned with the filled object
+            in the vertical direction.  This value is a <see cref="T:ZedGraph.AlignV"/> enumeration.
+            This field only applies if <see cref="P:ZedGraph.Web.ZedGraphWebFill.IsScaled"/> is false.
+            </remarks>
+            <seealso cref="P:ZedGraph.Web.ZedGraphWebFill.AlignH"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFill.IsScaled">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Fill.IsScaled"/>.
+            </summary>
+            <remarks> Determines if the brush will be scaled to the bounding box
+            of the filled object.  If this value is false, then the brush will only be aligned
+            with the filled object based on the <see cref="P:ZedGraph.Web.ZedGraphWebFill.AlignH"/> and <see cref="P:ZedGraph.Web.ZedGraphWebFill.AlignV"/>
+            properties.
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebFill2">
+            <summary>
+            TODO: change the vsassist system so different default constructors or initializers can be called,
+            or to be able to know if a the object is already initialized or not (new).
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebFill2.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebSymbol">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.Symbol"/> object
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebSymbol.ToString">
+            <summary>
+            Override ToString() function
+            </summary>
+            <returns>Always returns "Symbol"</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebSymbol.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebSymbol.CopyTo(ZedGraph.Symbol)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebSymbol"/> to the specified
+            <see cref="T:ZedGraph.Symbol"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Symbol"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSymbol.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Symbol.IsVisible"/>.
+            </summary>
+            <remarks> Gets or sets a property that shows or hides the <see cref="T:ZedGraph.Symbol"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSymbol.Size">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Symbol.Size"/>.
+            </summary>
+            <remarks> Gets or sets the size of the <see cref="T:ZedGraph.Symbol"/> in points (1/72nd inch).
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSymbol.SymbolType">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Symbol.Type"/>.
+            </summary>
+            <remarks> Gets or sets the type (shape) of the <see cref="T:ZedGraph.Symbol"/> using
+            a <see cref="P:ZedGraph.Web.ZedGraphWebSymbol.SymbolType"/> enumeration.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSymbol.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.Symbol"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSymbol.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.Symbol"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebBarItem">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.BarItem"/> class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBarItem.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.BarItem"/> by the labels value
+            </summary>
+            <returns>A string containing "BarItem: label", where 'label' is the
+            <see cref="P:ZedGraph.CurveItem.Label"/> property of the <see cref="T:ZedGraph.CurveItem"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBarItem.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBarItem.CopyTo(ZedGraph.BarItem)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebBarItem"/> to the specified
+            <see cref="T:ZedGraph.BarItem"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.BarItem"/> object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBarItem.CreateInPane(ZedGraph.GraphPane,ZedGraph.PointPairList)">
+            <summary>
+            Creates a new CurveItem using the PointPairList and add it the the given pane.
+            </summary>
+            <param name="pane">the GraphPane object to which to add the new curve</param>
+            <param name="points">a PointPairList collection defining the points for this curve</param>
+            <returns>the newly created CurveItem added to the given GraphPane</returns>
+            <remarks>This method must be overriden by childs</remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBarItem.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.BarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBarItem.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.BarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebErrorBarItem">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.ErrorBarItem"/> class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebErrorBarItem.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.ErrorBarItem"/> by the labels value
+            </summary>
+            <returns>A string containing "ErrorBarItem: label", where 'label' is the
+            <see cref="P:ZedGraph.CurveItem.Label"/> property of the <see cref="T:ZedGraph.CurveItem"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebErrorBarItem.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebErrorBarItem.CopyTo(ZedGraph.ErrorBarItem)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebErrorBarItem"/> to the specified
+            <see cref="T:ZedGraph.ErrorBarItem"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.ErrorBarItem"/> object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebErrorBarItem.CreateInPane(ZedGraph.GraphPane,ZedGraph.PointPairList)">
+            <summary>
+            Creates a new CurveItem using the PointPairList and add it the the given pane.
+            </summary>
+            <param name="pane">the GraphPane object to which to add the new curve</param>
+            <param name="points">a PointPairList collection defining the points for this curve</param>
+            <returns>the newly created CurveItem added to the given GraphPane</returns>
+            <remarks>This method must be overriden by childs</remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebErrorBarItem.Symbol">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebSymbol"/> object for
+            this <see cref="T:ZedGraph.ErrorBarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Symbol"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebErrorBarItem.PenWidth">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.ErrorBar.PenWidth"/>.
+            </summary>
+            <remarks> The pen width to be used for drawing error bars
+            Units are points.  This property only controls the pen width for the
+            vertical line.  The pen width for the symbol outline is
+            controlled separately by the <see cref="P:ZedGraph.Web.ZedGraphWebErrorBarItem.Symbol"/> property.
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebHiLowBarItem">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.HiLowBarItem"/> class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebHiLowBarItem.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.HiLowBarItem"/> by the labels value
+            </summary>
+            <returns>A string containing "HiLowBarItem: label", where 'label' is the
+            <see cref="P:ZedGraph.CurveItem.Label"/> property of the <see cref="T:ZedGraph.CurveItem"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebHiLowBarItem.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebHiLowBarItem.CopyTo(ZedGraph.HiLowBarItem)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebHiLowBarItem"/> to the specified
+            <see cref="T:ZedGraph.HiLowBarItem"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.HiLowBarItem"/> object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebHiLowBarItem.CreateInPane(ZedGraph.GraphPane,ZedGraph.PointPairList)">
+            <summary>
+            Creates a new CurveItem using the PointPairList and add it the the given pane.
+            </summary>
+            <param name="pane">the GraphPane object to which to add the new curve</param>
+            <param name="points">a PointPairList collection defining the points for this curve</param>
+            <returns>the newly created CurveItem added to the given GraphPane</returns>
+            <remarks>This method must be overriden by childs</remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebHiLowBarItem.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.HiLowBarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebHiLowBarItem.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.HiLowBarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebLineItem">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.LineItem"/> class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLineItem.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.LineItem"/> by the labels value
+            </summary>
+            <returns>A string containing "LineItem: label", where 'label' is the
+            <see cref="P:ZedGraph.CurveItem.Label"/> property of the <see cref="T:ZedGraph.CurveItem"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLineItem.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLineItem.CopyTo(ZedGraph.LineItem)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebLineItem"/> to the specified
+            <see cref="T:ZedGraph.LineItem"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.LineItem"/> object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLineItem.CreateInPane(ZedGraph.GraphPane,ZedGraph.PointPairList)">
+            <summary>
+            Creates a new CurveItem using the PointPairList and add it the the given pane.
+            </summary>
+            <param name="pane">the GraphPane object to which to add the new curve</param>
+            <param name="points">a PointPairList collection defining the points for this curve</param>
+            <returns>the newly created CurveItem added to the given GraphPane</returns>
+            <remarks>This method must be overriden by childs</remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.IsSmooth">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Line.IsSmooth"/>.
+            </summary>
+            <remarks> Gets or sets a property that determines if this <see cref="T:ZedGraph.Line"/>
+            will be drawn smooth.  The "smoothness" is controlled by
+            the <see cref="P:ZedGraph.Web.ZedGraphWebLineItem.SmoothTension"/> property.
+            </remarks>
+            <seealso cref="P:ZedGraph.Line.IsSmooth"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.Width">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.Width"/>.
+            </summary>
+            <remarks> The pen width used to draw the <see cref="T:ZedGraph.Line"/>, in points (1/72 inch)
+            </remarks>
+            <seealso cref="P:ZedGraph.LineBase.Width"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.SmoothTension">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Line.SmoothTension"/>.
+            </summary>
+            <remarks> Gets or sets a property that determines the smoothing tension
+            for this <see cref="T:ZedGraph.Line"/>.  This property is only used if
+            <see cref="P:ZedGraph.Web.ZedGraphWebLineItem.IsSmooth"/> is true.  A tension value 0.0 will just
+            draw ordinary line segments like an unsmoothed line.  A tension
+            value of 1.0 will be smooth.  Values greater than 1.0 will generally
+            give odd results.
+            </remarks>
+            <value>A floating point value indicating the level of smoothing.
+            0.0F for no smoothing, 1.0F for lots of smoothing, &gt;1.0 for odd
+            smoothing.</value>
+            <seealso cref="P:ZedGraph.Line.IsSmooth"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.LineStyle">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.Style"/>.
+            </summary>
+            <remarks> The style of the <see cref="T:ZedGraph.Line"/>, defined as a <see cref="T:System.Drawing.Drawing2D.DashStyle"/> enum.
+            This allows the line to be solid, dashed, or dotted.
+            </remarks>
+            <seealso cref="P:ZedGraph.LineBase.Style"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.StepType">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Line.StepType"/>.
+            </summary>
+            <remarks> Determines if the <see cref="T:ZedGraph.LineItem"/> will be drawn by directly connecting the
+            points from the <see cref="P:ZedGraph.CurveItem.Points"/> data collection,
+            or if the curve will be a "stair-step" in which the points are
+            connected by a series of horizontal and vertical lines that
+            represent discrete, constant values.  Note that the values can
+            be forward oriented <c>ForwardStep</c> (<see cref="T:ZedGraph.StepType"/>) or
+            rearward oriented <c>RearwardStep</c>.
+            That is, the points are defined at the beginning or end
+            of the constant value for which they apply, respectively.
+            The <see cref="P:ZedGraph.Web.ZedGraphWebLineItem.StepType"/> property is ignored for lines
+            that have <see cref="P:ZedGraph.Web.ZedGraphWebLineItem.IsSmooth"/> set to true.
+            </remarks>
+            <seealso cref="P:ZedGraph.Line.StepType"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.Symbol">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebSymbol"/> object for
+            this <see cref="T:ZedGraph.LineItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Symbol"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLineItem.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.LineItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebPieItem">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.PieItem"/> class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPieItem.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.PieItem"/> by the labels value
+            </summary>
+            <returns>A string containing "PieItem: label", where 'label' is the
+            <see cref="P:ZedGraph.CurveItem.Label"/> property of the <see cref="T:ZedGraph.CurveItem"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPieItem.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPieItem.CopyTo(ZedGraph.PieItem)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebPieItem"/> to the specified
+            <see cref="T:ZedGraph.PieItem"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.PieItem"/> object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPieItem.CreateInPane(ZedGraph.GraphPane,ZedGraph.PointPairList)">
+            <summary>
+            Creates a new CurveItem using the PointPairList and add it the the given pane.
+            </summary>
+            <param name="pane">the GraphPane object to which to add the new curve</param>
+            <param name="points">a PointPairList collection defining the points for this curve</param>
+            <returns>the newly created CurveItem added to the given GraphPane</returns>
+            <remarks>This method must be overriden by childs</remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.Value">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PieItem.Value"/>.
+            </summary>
+            <remarks> Gets or sets the value of this <see cref="T:ZedGraph.PieItem"/>.  
+            Minimum value is 0. 
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.Displacement">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PieItem.Displacement"/>.
+            </summary>
+            <remarks> Gets or sets the a value which determines the amount, if any, of
+            this <see cref="T:ZedGraph.PieItem"/> displacement.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.LabelType">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PieItem.LabelType"/>.
+            </summary>
+            <remarks> Gets or sets the <see cref="T:ZedGraph.PieLabelType"/> to be used in displaying 
+            <see cref="T:ZedGraph.PieItem"/> labels.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.ValueDecimalDigits">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PieItem.ValueDecimalDigits"/>.
+            </summary>
+            <remarks> Gets or sets the number of decimal digits to be displayed in a <see cref="T:ZedGraph.PieItem"/> 
+            value label.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.PercentDecimalDigits">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PieItem.PercentDecimalDigits"/>.
+            </summary>
+            <remarks> Gets or sets the number of decimal digits to be displayed in a <see cref="T:ZedGraph.PieItem"/> 
+            percent label.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.LabelDetail">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PieItem.LabelDetail"/>.
+            </summary>
+            <remarks> Gets or sets the <see cref="T:ZedGraph.TextObj"/> to be used
+            for displaying this <see cref="T:ZedGraph.PieItem"/>'s label.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPieItem.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.PieItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebGraphObj">
+            <summary>
+            Baseclass for graph items in the web control
+            <seealso cref="T:ZedGraph.GraphObj"/>
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGraphObj.ToString">
+            <summary>
+            Override the ToString() method.
+            </summary>
+            <returns>Always returns the string "GraphObj".</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGraphObj.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGraphObj.CopyTo(ZedGraph.GraphObj)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> to the specified
+            <see cref="T:ZedGraph.GraphObj"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.GraphObj"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGraphObj.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.GraphObj.IsVisible"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGraphObj.Location">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.GraphObj.Location"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGraphObj.ZOrder">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.GraphObj.ZOrder"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebCurveCollection">
+            <summary>
+            Manages a collection of <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> objects that are 
+            state management aware.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveCollection.ToString">
+            <summary>
+            Override the ToString() method.
+            </summary>
+            <returns>Always returns String.Empty</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveCollection.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebCurveCollection.Add(ZedGraph.Web.ZedGraphWebCurveItem)">
+            <summary>
+            Add a <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> to this collection.
+            </summary>
+            <param name="item">The <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> to be added.</param>
+            <seealso cref="T:ZedGraph.CurveItem"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebCurveCollection.Item(System.Int32)">
+            <summary>
+            Indexer to access the specified <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> object by
+            its ordinal position in the list.
+            </summary>
+            <param name="index">The ordinal position (zero-based) of the
+            <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> object to be accessed.</param>
+            <value>A <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> object reference.</value>
+            <seealso cref="T:ZedGraph.CurveItem"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebGraphObjCollection">
+            <summary>
+            Manages a collection of <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> objects that are 
+            state management aware.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGraphObjCollection.ToString">
+            <summary>
+            Override the ToString() method.
+            </summary>
+            <returns>Always returns String.Empty</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGraphObjCollection.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGraphObjCollection.Add(ZedGraph.Web.ZedGraphWebGraphObj)">
+            <summary>
+            Add a <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> to this collection.
+            </summary>
+            <param name="item">The <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> to be added.</param>
+            <seealso cref="T:ZedGraph.GraphObj"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGraphObjCollection.Item(System.Int32)">
+            <summary>
+            Indexer to access the specified <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> object by
+            its ordinal position in the list.
+            </summary>
+            <param name="index">The ordinal position (zero-based) of the
+            <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> object to be accessed.</param>
+            <value>A <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> object reference.</value>
+            <seealso cref="T:ZedGraph.GraphObj"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebStringCollection">
+            <summary>
+            Manages a collection of <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> objects that are 
+            state management aware.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebStringCollection.ToString">
+            <summary>
+            Override the ToString() method.
+            </summary>
+            <returns>Always returns String.Empty</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebStringCollection.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebStringCollection.Add(ZedGraph.Web.ZedGraphWebString)">
+            <summary>
+            Add a <see cref="T:ZedGraph.Web.ZedGraphWebString"/> to the collection.
+            </summary>
+            <param name="item">The <see cref="T:ZedGraph.Web.ZedGraphWebString"/> object to be added</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebStringCollection.Item(System.Int32)">
+            <summary>
+            Indexer to access the specified <see cref="T:System.String"/> object by
+            its ordinal position in the list.
+            </summary>
+            <param name="index">The ordinal position (zero-based) of the
+            <see cref="T:System.String"/> object to be accessed.</param>
+            <value>A <see cref="T:System.String"/> object reference.</value>
+            <seealso cref="T:System.String"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebPointPairCollection">
+            <summary>
+            Manages a collection of <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> objects that are 
+            state management aware.
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointPairCollection.ToString">
+            <summary>
+            Override the ToString() method.
+            </summary>
+            <returns>Always returns String.Empty</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointPairCollection.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointPairCollection.Add(ZedGraph.Web.ZedGraphWebPointPair)">
+            <summary>
+            Add a <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> to this collection.
+            </summary>
+            <param name="item">The <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> to be added.</param>
+            <seealso cref="T:ZedGraph.PointPair"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPointPairCollection.Item(System.Int32)">
+            <summary>
+            Indexer to access the specified <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> object by
+            its ordinal position in the list.
+            </summary>
+            <param name="index">The ordinal position (zero-based) of the
+            <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> object to be accessed.</param>
+            <value>A <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> object reference.</value>
+            <seealso cref="T:ZedGraph.PointPair"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebPointPair">
+            <summary>
+            A Web PointPair class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointPair.ToString">
+            <summary>
+            Identifies PointPair instance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointPair.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointPair.CopyTo(ZedGraph.PointPair)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebPointPair"/> to the specified
+            <see cref="T:ZedGraph.PointPair"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.PointPair"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPointPair.X">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="F:ZedGraph.PointPairBase.X"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPointPair.Y">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="F:ZedGraph.PointPairBase.Y"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPointPair.Z">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="F:ZedGraph.PointPair.Z"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebString">
+            <summary>
+            A Web String class
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebString.ToString">
+            <summary>
+            Identifies fontspec instance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebString.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebString.Value">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:System.Drawing.SizeF.Height"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebXAxis">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.XAxis"/> object
+            </summary>
+            <author>Darren Martz</author>	
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebAxis">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.Axis"/> object
+            </summary>
+            <author>Darren Martz</author>	
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebAxis.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.Axis"/> by the <see cref="P:ZedGraph.Axis.Title"/> value
+            </summary>
+            <returns>A string containing "Axis: title", where 'title' is the
+            <see cref="P:ZedGraph.Axis.Title"/> property of the <see cref="T:ZedGraph.Axis"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebAxis.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebAxis.CopyTo(ZedGraph.Axis)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebAxis"/> to the specified
+            <see cref="T:ZedGraph.Axis"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Axis"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.Cross">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Cross"/>.
+            </summary>
+            <remarks>This property allows the axis to be shifted away from its default location.
+            For example, for a graph with an X range from -100 to +100, the Y Axis can be located
+            at the X=0 value rather than the left edge of the ChartRect.  This value can be set
+            automatically based on the state of <see cref="P:ZedGraph.Web.ZedGraphWebAxis.CrossAuto"/>.  If
+            this value is set manually, then <see cref="P:ZedGraph.Web.ZedGraphWebAxis.CrossAuto"/> will
+            also be set to false.  The "other" axis is the axis the handles the second dimension
+            for the graph.  For the XAxis, the "other" axis is the YAxis.  For the YAxis or
+            Y2Axis, the "other" axis is the XAxis.
+            </remarks>
+            <value> The value is defined in user scale units </value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.CrossAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.CrossAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the axis intersection point <see cref="P:ZedGraph.Axis.Cross"/>
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.AxisColor">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Color"/>.
+            </summary>
+            <remarks> This affects only the grid lines, since the <see cref="P:ZedGraph.Axis.Title"/> and
+            <see cref="P:ZedGraph.Axis.Scale"/> both have their own color specification.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.Title">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Title"/>.
+            </summary>
+            <remarks> The title normally shows the basis and dimensions of
+            the scale range, such as "Time (Years)".  The title is only shown if the
+            <see cref="P:ZedGraph.Label.IsVisible"/> property is set to true.  If the Title text is empty,
+            then no title is shown, and no space is "reserved" for the title on the graph.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.MinSpace">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.MinSpace"/>.
+            </summary>
+            <remarks> This is the minimum axis space allocation.
+            This term, expressed in points (1/72 inch) and scaled according to <see cref="M:ZedGraph.PaneBase.CalcScaleFactor"/>
+            for the <see cref="T:ZedGraph.GraphPane"/>, determines the minimum amount of space
+            an axis must have between the <see cref="P:ZedGraph.Chart.Rect"/> and the
+            <see cref="P:ZedGraph.PaneBase.Rect"/>.  This minimum space
+            applies whether <see cref="P:ZedGraph.Axis.IsVisible"/> is true or false.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsTicsBetweenLabels">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MajorTic.IsBetweenLabels"/>.
+            </summary>
+            <remarks> This property determines whether or not the major tics will be drawn
+            inbetween the labels, rather than right at the labels.  Note that this setting is only
+            applicable if <see cref="P:ZedGraph.Axis.Type"/> = <see cref="F:ZedGraph.AxisType.Text"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsZeroLine">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MajorGrid.IsZeroLine"/>.
+            </summary>
+            <remarks> This boolean value determines if a line will be drawn at the
+            zero value for the axis.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.IsVisible"/>.
+            </summary>
+            <remarks> Determines whether or not the <see cref="T:ZedGraph.Axis"/> is shown.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.Type">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Type"/>.
+            </summary>
+            <remarks> Determines the <see cref="T:ZedGraph.AxisType"/> for this <see cref="T:ZedGraph.Axis"/>.
+            The type can be either <see cref="F:ZedGraph.AxisType.Linear"/>,
+            <see cref="F:ZedGraph.AxisType.Log"/>, <see cref="F:ZedGraph.AxisType.Date"/>,
+            or <see cref="F:ZedGraph.AxisType.Text"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsOmitMag">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.AxisLabel.IsOmitMag"/>.
+            </summary>
+            <remarks> This property controls whether or not the magnitude factor (power of 10) for
+            this scale will be included in the label.
+            For large scale values, a "magnitude" value (power of 10) is automatically
+            used for scaling the graph.  This magnitude value is automatically appended
+            to the end of the Axis <see cref="P:ZedGraph.Axis.Title"/> (e.g., "(10^4)") to indicate
+            that a magnitude is in use.  This property controls whether or not the
+            magnitude is included in the title.  Note that it only affects the axis
+            title; a magnitude value may still be used even if it is not shown in the title.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsShowTitle">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Title"/>
+            <see cref="P:ZedGraph.Label.IsVisible"/>.
+            </summary>
+            <remarks> Determines whether or not the <see cref="T:ZedGraph.Axis"/>
+            <see cref="P:ZedGraph.Axis.Title"/> will be displayed.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsUseTenPower">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.IsUseTenPower"/>.
+            </summary>
+            <remarks> Determines if powers-of-ten notation will be used for the numeric value labels.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.IsPreventLabelOverlap">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.IsPreventLabelOverlap"/>.
+            </summary>
+            <remarks> This <see cref="T:System.Boolean"/> value determines if ZedGraph will check to
+            see if the <see cref="T:ZedGraph.Axis"/> scale labels are close enough to overlap.  If so,
+            ZedGraph will adjust the step size to prevent overlap.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.FontSpec">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Title"/> <see cref="P:ZedGraph.Web.ZedGraphWebAxis.FontSpec"/>.
+            </summary>
+            <remarks> Gets a reference to the <see cref="T:ZedGraph.FontSpec"/> class used to render
+            the <see cref="P:ZedGraph.Axis.Title"/>
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.MinorGrid">
+            <summary>
+            Proxy property to get or set the values for the <see cref="T:ZedGraph.GraphPane"/> minor grid.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.MajorGrid">
+            <summary>
+            Proxy property to get or set the values for the <see cref="T:ZedGraph.GraphPane"/> major grid.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.MinorTic">
+            <summary>
+            Proxy property to get or set the values for the <see cref="T:ZedGraph.GraphPane"/> minor tics.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.MajorTic">
+            <summary>
+            Proxy property to get or set the values for the <see cref="T:ZedGraph.GraphPane"/> major tics.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebAxis.Scale">
+            <summary>
+            Proxy property to get or set the values for the axis scale.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebXAxis.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.XAxis"/> by the <see cref="P:ZedGraph.Axis.Title"/> value
+            </summary>
+            <returns>A string containing "XAxis: title", where 'title' is the
+            <see cref="P:ZedGraph.Axis.Title"/> property of the <see cref="T:ZedGraph.XAxis"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebXAxis.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebYAxis">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.YAxis"/> object
+            </summary>
+            <author>Darren Martz</author>	
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebYAxis.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.YAxis"/> by the <see cref="P:ZedGraph.Axis.Title"/> value
+            </summary>
+            <returns>A string containing "YAxis: title", where 'title' is the
+            <see cref="P:ZedGraph.Axis.Title"/> property of the <see cref="T:ZedGraph.YAxis"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebYAxis.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebY2Axis">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.Y2Axis"/> object
+            </summary>
+            <author>Darren Martz</author>	
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebY2Axis.ToString">
+            <summary>
+            Identifies <see cref="T:ZedGraph.Y2Axis"/> by the <see cref="P:ZedGraph.Axis.Title"/> value
+            </summary>
+            <returns>A string containing "Y2Axis: title", where 'title' is the
+            <see cref="P:ZedGraph.Axis.Title"/> property of the <see cref="T:ZedGraph.Y2Axis"/>
+            </returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebY2Axis.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebGrid">
+            <summary>
+            Proxy class to manage all properties associated with a grid
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGrid.ToString">
+            <summary>
+            Returns a string description of the class
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebGrid.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGrid.Color">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Axis.Color"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGrid.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorGrid.IsVisible"/>.
+            </summary>
+            <remarks> This property determines if the major <see cref="T:ZedGraph.Axis"/> gridlines
+            (at each labeled value) will be visible.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGrid.DashOn">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorGrid.DashOn"/>.
+            </summary>
+            <remarks> This is the distance,
+            in points (1/72 inch), of the dash segments that make up the dashed grid lines.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGrid.DashOff">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorGrid.DashOff"/>.
+            </summary>
+            <remarks> This is the distance,
+            in points (1/72 inch), of the spaces between the dash segments that make up
+            the dashed grid lines.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebGrid.PenWidth">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorGrid.PenWidth"/>.
+            </summary>
+            <remarks> The pen width used for drawing the grid lines, expressed in points (1/72nd inch).
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebTic">
+            <summary>
+            Proxy class to manage all properties associated with a grid
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebTic.ToString">
+            <summary>
+            Returns a string description of the class
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebTic.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTic.Color">
+            <summary>
+            Proxy property that gets or sets the color of the tics.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTic.Size">
+            <summary>
+            Proxy property that gets or sets the size of the tics.
+            </summary>
+            <remarks> The length of the <see cref="T:ZedGraph.Axis"/> tic marks, expressed in points
+            (1/72nd inch).
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTic.IsOutside">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorTic.IsOutside"/>.
+            </summary>
+            <remarks> Determines whether or not the <see cref="T:ZedGraph.Axis"/> major tics (where the
+            scale labels are located) will be displayed.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTic.IsInside">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorTic.IsInside"/>.
+            </summary>
+            <remarks> This value determines whether or not the major inside tic marks
+            are shown.  These are the tic marks on the inside of the <see cref="T:ZedGraph.Axis"/> border.
+            The major tic spacing is controlled by <see cref="P:ZedGraph.Scale.MajorStep"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTic.IsOpposite">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorTic.IsOpposite"/>.
+            </summary>
+            <remarks> This value determines whether or not the major opposite tic marks
+            are shown.  These are the tic marks on the inside of the <see cref="T:ZedGraph.Axis"/> border on
+            the opposite side from the axis.
+            The major tic spacing is controlled by <see cref="P:ZedGraph.Scale.MajorStep"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTic.PenWidth">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.MinorTic.PenWidth"/>.
+            </summary>
+            <remarks> This property determines the pen width to be used when drawing the tic marks for
+            this <see cref="T:ZedGraph.Axis"/>.  The pen width is expressed in points (1/72nd inch).
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebScale">
+            <summary>
+            Proxy class to manage all properties associated with a grid
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebScale.ToString">
+            <summary>
+            Returns a string description of the class
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebScale.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebScale.CopyTo(ZedGraph.Scale)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebScale"/> to the specified
+            <see cref="T:ZedGraph.Scale"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Scale"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.Min">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.Min"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.Max">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.Max"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MajorStepAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MajorStepAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the scale major step size value
+            <see cref="P:ZedGraph.Scale.MajorStep"/>
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MajorStep">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MajorStepAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the scale major step size value
+            <see cref="P:ZedGraph.Scale.MajorStep"/>
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MajorUnit">
+            <summary>
+            Proxy property to handle the units for the <see cref="P:ZedGraph.Scale.MajorStep"/>
+            property.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MinorStepAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MinorStepAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the scale minor step size value
+            <see cref="P:ZedGraph.Scale.MinorStep"/>
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MinorStep">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MinorStep"/>.
+            </summary>
+            <remarks> Determines the minor step size value for the scale
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MinorUnit">
+            <summary>
+            Proxy property to handle the units for the <see cref="P:ZedGraph.Scale.MinorStep"/>
+            property.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MinAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MinAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the minimum scale value <see cref="P:ZedGraph.Scale.Min"/>
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MaxAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MaxAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the maximum scale value <see cref="P:ZedGraph.Scale.Max"/>
+            is set automatically.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MinGrace">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MinGrace"/>.
+            </summary>
+            <remarks> This is the "grace" value applied to the minimum data range.
+            This value is expressed as a fraction of the total data range.  For example, assume the data
+            range is from 4.0 to 16.0, leaving a range of 12.0.  If MinGrace is set to
+            0.1, then 10% of the range, or 1.2 will be subtracted from the minimum data value.
+            The scale will then be ranged to cover at least 2.8 to 16.0.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MaxGrace">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MaxGrace"/>.
+            </summary>
+            <remarks> This is the "grace" value applied to the maximum data range.
+            This value is expressed as a fraction of the total data range.  For example, assume the data
+            range is from 4.0 to 16.0, leaving a range of 12.0.  If MaxGrace is set to
+            0.1, then 10% of the range, or 1.2 will be added to the maximum data value.
+            The scale will then be ranged to cover at least 4.0 to 17.2.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.IsReverse">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.IsReverse"/>.
+            </summary>
+            <remarks> Determines if the scale values are reversed for this <see cref="T:ZedGraph.Axis"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.FormatAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.FormatAuto"/>.
+            </summary>
+            <remarks> Determines whether or not the scale label format <see cref="P:ZedGraph.Scale.Format"/>
+            is determined automatically based on the range of data values.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.Format">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.Format"/>.
+            </summary>
+            <remarks> The format of the <see cref="T:ZedGraph.Axis"/> tic labels.
+            This property is only used if the <see cref="T:System.Type"/> is set to <see cref="F:ZedGraph.AxisType.Date"/>.
+            This property may be set automatically by ZedGraph, depending on the state of
+            <see cref="P:ZedGraph.Scale.FormatAuto"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.Align">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.Align"/>.
+            </summary>
+            <remarks> Controls the alignment of the <see cref="T:ZedGraph.Axis"/> tic labels.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.Mag">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.Mag"/>.
+            </summary>
+            <remarks> The magnitude multiplier for scale values.
+            This is used to limit
+            the size of the displayed value labels.  For example, if the value
+            is really 2000000, then the graph will display 2000 with a 10^3
+            magnitude multiplier.  This value can be determined automatically
+            depending on the state of <see cref="P:ZedGraph.Scale.MagAuto"/>.
+            If this value is set manually by the user,
+            then <see cref="P:ZedGraph.Scale.MagAuto"/> will also be set to false.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.MagAuto">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.MagAuto"/>.
+            </summary>
+            <remarks> Determines whether the <see cref="P:ZedGraph.Scale.Mag"/> value will be set
+            automatically based on the data, or manually by the user.
+            If the user manually sets the <see cref="P:ZedGraph.Scale.Mag"/> value, then this
+            flag will be set to false.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebScale.FontSpec">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Scale.FontSpec"/>.
+            </summary>
+            <remarks> Gets a reference to the <see cref="T:ZedGraph.FontSpec"/> class used to render
+            the scale values.
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebLegend">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.Legend"/> object
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLegend.ToString">
+            <summary>
+            Identifies legend instance
+            </summary>
+            <returns>Always returns the string "Legend".</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLegend.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLegend.CopyTo(ZedGraph.Legend)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebLegend"/> to the specified
+            <see cref="T:ZedGraph.Legend"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Legend"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.Location">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.Legend.Location"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.FontSpec">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.Legend.FontSpec"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.Fill">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.Legend.Fill"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.Border">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.Legend.Border"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.IsVisible">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Legend.IsVisible"/>.
+            </summary>
+            <remarks> This property shows or hides the <see cref="T:ZedGraph.Legend"/> entirely.
+            </remarks>
+            <value> true to show the <see cref="T:ZedGraph.Legend"/>, false to hide it </value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.IsHStack">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Legend.IsHStack"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.Position">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Legend.Position"/>.
+            </summary>
+            <remarks> Sets or gets the location of the <see cref="T:ZedGraph.Legend"/> on the
+            <see cref="T:ZedGraph.GraphPane"/> using the <see cref="T:ZedGraph.LegendPos"/> enum type
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLegend.IsReverse">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Legend.IsReverse"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebFontSpec">
+            <summary>
+            Web control state management class for a <see cref="T:ZedGraph.FontSpec"/> object
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebFontSpec.ToString">
+            <summary>
+            Identifies fontspec instance
+            </summary>
+            <returns>Always returns the string "FontSpec".</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebFontSpec.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebFontSpec.CopyTo(ZedGraph.FontSpec)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebFontSpec"/> to the specified
+            <see cref="T:ZedGraph.FontSpec"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.FontSpec"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.Angle">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.Angle"/>.
+            </summary>
+            <remarks> The angle at which this <see cref="T:ZedGraph.FontSpec"/> object is drawn.
+            </remarks>
+            <value>The angle of the font, measured in anti-clockwise degrees from
+            horizontal.  Negative values are permitted.</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.Size">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.Size"/>.
+            </summary>
+            <remarks> The size of the font for this <see cref="T:ZedGraph.FontSpec"/> object.
+            </remarks>
+            <value>The size of the font, measured in points (1/72 inch).</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.Family">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.Family"/>.
+            </summary>
+            <remarks> The font family name for this <see cref="T:ZedGraph.FontSpec"/>.
+            </remarks>
+            <value>A text string with the font family name, e.g., "Arial"</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.FontColor">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.FontColor"/>.
+            </summary>
+            <remarks> The color of the font characters for this <see cref="T:ZedGraph.FontSpec"/>.
+            Note that the border and background
+            colors are set using the <see cref="P:ZedGraph.LineBase.Color"/> and
+            <see cref="P:ZedGraph.Fill.Color"/> properties, respectively.
+            </remarks>
+            <value>A system <see cref="T:System.Drawing.Color"/> reference.</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.StringAlignment">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.StringAlignment"/>.
+            </summary>
+            <remarks> Determines the alignment with which this
+            <see cref="T:ZedGraph.FontSpec"/> object is drawn.  This alignment really only
+            affects multi-line strings.
+            </remarks>
+            <value>A <see cref="P:ZedGraph.Web.ZedGraphWebFontSpec.StringAlignment"/> enumeration.</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.IsBold">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.IsBold"/>.
+            </summary>
+            <remarks> Determines whether this <see cref="T:ZedGraph.FontSpec"/> is
+            drawn with bold typeface.
+            </remarks>
+            <value>A boolean value, true for bold, false for normal</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.IsItalic">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.IsItalic"/>.
+            </summary>
+            <remarks> Determines whether this <see cref="T:ZedGraph.FontSpec"/> is
+            drawn with an italic typeface.
+            </remarks>
+            <value>A boolean value, true for italic, false for normal</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.IsUnderline">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.FontSpec.IsUnderline"/>.
+            </summary>
+            <remarks> Determines whether this <see cref="T:ZedGraph.FontSpec"/> is
+            drawn with an underline typeface.
+            </remarks>
+            <value>A boolean value, true for underline, false for normal</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.FontSpec"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebFontSpec.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.FontSpec"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebRect">
+            <summary>
+            Rectangle class for margins
+            </summary>
+            <author>Benjamin Mayrargue</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebRect.ToString">
+            <summary>
+            Override ToString
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebRect.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebRect.Left">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebRect.Top">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebRect.Right">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebRect.Bottom">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebSize">
+            <summary>
+            Size class for a <see cref="T:ZedGraph.FontSpec"/> object
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebSize.ToString">
+            <summary>
+            Identifies fontspec instance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebSize.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSize.Height">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:System.Drawing.SizeF.Height"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebSize.Width">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:System.Drawing.SizeF.Width"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebPointD">
+            <summary>
+            Point class for a <see cref="T:ZedGraph.FontSpec"/> object
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointD.ToString">
+            <summary>
+            Identifies fontspec instance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebPointD.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPointD.X">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="F:ZedGraph.PointD.X"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebPointD.Y">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="F:ZedGraph.PointD.Y"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebTextObj">
+            <summary>
+            Baseclass for graph items in the web control
+            <seealso cref="T:ZedGraph.GraphObj"/>
+            </summary>
+            <author>Darren Martz</author>
+            <remarks>
+            A TextObj uses only:
+            	FontSpec
+            	Location
+            		.CoordinateFrame (<see cref="T:ZedGraph.CoordType"/>)
+            		.X (between 0 and 1 for fraction CoordTypes) 0=left, 1=right
+            		.Y (between 0 and 1 for fraction CoordTypes) 0=top, 1=bottom
+            		.AlignH
+            		.AlignV
+            		.layoutArea
+            </remarks>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebTextObj.ToString">
+            <summary>
+            Identifies curve item by the labels value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebTextObj.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebTextObj.CopyTo(ZedGraph.TextObj)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebTextObj"/> to the specified
+            <see cref="T:ZedGraph.TextObj"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.TextObj"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTextObj.Text">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.TextObj.Text"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTextObj.LayoutArea">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.TextObj.LayoutArea"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebTextObj.FontSpec">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.TextObj.FontSpec"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebArrowObj">
+            <summary>
+            Baseclass for graph items in the web control
+            <seealso cref="T:ZedGraph.GraphObj"/>
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebArrowObj.ToString">
+            <summary>
+            Identifies curve item by the labels value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebArrowObj.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebArrowObj.CopyTo(ZedGraph.ArrowObj)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebArrowObj"/> to the specified
+            <see cref="T:ZedGraph.ArrowObj"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.ArrowObj"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebArrowObj.Size">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.ArrowObj.Size"/>.
+            </summary>
+            <remarks> The size of the arrowhead, expressed in points (1/72nd inch).
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebArrowObj.PenWidth">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.Width"/>.
+            </summary>
+            <remarks> The width of the pen, expressed in points (1/72nd inch), used to draw the
+            arrow line segment.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebArrowObj.Color">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.LineBase.Color"/>.
+            </summary>
+            <remarks> The <see cref="T:System.Drawing.Color"/> value used to draw the <see cref="T:ZedGraph.ArrowObj"/>.
+            </remarks>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebArrowObj.IsArrowHead">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.ArrowObj.IsArrowHead"/>.
+            </summary>
+            <remarks> Determines whether or not an arrowhead will be draw.  If false, only a line segment
+            will be drawn.
+            </remarks>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebImageObj">
+            <summary>
+            Baseclass for graph items in the web control
+            <seealso cref="T:ZedGraph.GraphObj"/>
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebImageObj.ToString">
+            <summary>
+            Identifies curve item by the labels value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebImageObj.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebImageObj.CopyTo(ZedGraph.ImageObj)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebImageObj"/> to the specified
+            <see cref="T:ZedGraph.ImageObj"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.ImageObj"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebImageObj.ImageUrl">
+            <summary>
+            The <see cref="T:System.String"/> url reference from which to get the <see cref="T:System.Drawing.Image"/>
+            data for this <see cref="T:ZedGraph.ImageObj"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebImageObj.IsScaled">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.ImageObj.IsScaled"/>.
+            </summary>
+            <remarks>
+            Determines if the image will be scaled to the output rectangle (see <see cref="T:ZedGraph.Location"/>).
+            </remarks>
+            <value>true to scale the image, false to draw the image unscaled, but clipped
+            to the destination rectangle</value>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebBoxObj">
+            <summary>
+            Baseclass for graph items in the web control
+            <seealso cref="T:ZedGraph.GraphObj"/>
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBoxObj.ToString">
+            <summary>
+            Identifies curve item by the labels value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBoxObj.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebBoxObj.CopyTo(ZedGraph.BoxObj)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebBoxObj"/> to the specified
+            <see cref="T:ZedGraph.BoxObj"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.BoxObj"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBoxObj.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.BarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebBoxObj.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.BarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebEllipseObj">
+            <summary>
+            Baseclass for graph items in the web control
+            <seealso cref="T:ZedGraph.GraphObj"/>
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebEllipseObj.ToString">
+            <summary>
+            Identifies curve item by the labels value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebEllipseObj.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebEllipseObj.CopyTo(ZedGraph.EllipseObj)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebEllipseObj"/> to the specified
+            <see cref="T:ZedGraph.EllipseObj"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.EllipseObj"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebEllipseObj.Border">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebBorder"/> object for
+            this <see cref="T:ZedGraph.BarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Border"/>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebEllipseObj.Fill">
+            <summary>
+            Proxy property that gets or sets the <see cref="T:ZedGraph.Web.ZedGraphWebFill"/> object for
+            this <see cref="T:ZedGraph.BarItem"/>.
+            </summary>
+            <seealso cref="T:ZedGraph.Fill"/>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebLocation">
+            <summary>
+            Location class for a <see cref="T:ZedGraph.FontSpec"/> object
+            </summary>
+            <author>Darren Martz</author>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLocation.ToString">
+            <summary>
+            Identifies location instance
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLocation.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWebLocation.CopyTo(ZedGraph.Location)">
+            <summary>
+            Copy the properties of this <see cref="T:ZedGraph.Web.ZedGraphWebLocation"/> to the specified
+            <see cref="T:ZedGraph.Location"/> object.
+            </summary>
+            <param name="item">The destination <see cref="T:ZedGraph.Location"/> object</param>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.TopLeft">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.Location.TopLeft"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.BottomRight">
+            <summary>
+            Proxy property that gets the value of <see cref="P:ZedGraph.Location.BottomRight"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.Height">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.Height"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.Width">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.Width"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.Y">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.Y"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.X">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.X"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.AlignH">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.AlignH"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.AlignV">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.AlignV"/>
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWebLocation.CoordinateFrame">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Location.CoordinateFrame"/>
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.TempFileDestructor">
+            <summary>
+            The ZedGraphWeb class which remove temporary file 
+            associated with this object. File is deleted when 
+            this object is removed from cache.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.TempFileDestructor.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:ZedGraph.Web.TempFileDestructor.RemovedCallback(System.String,System.Object,System.Web.Caching.CacheItemRemovedReason)">
+            <summary>
+            Called when object removed from cache
+            </summary>
+            <param name="k"></param>
+            <param name="v"></param>
+            <param name="r"></param>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWeb">
+            <summary>
+            The ZedGraphWeb class provides a web control interface to the
+            <see cref="N:ZedGraph"/> class library.  This allows ZedGraph to be used
+            from a web page with ASP.net.  All graph
+            attributes are accessible via the <see cref="T:ZedGraph.GraphPane"/>
+            property.
+            </summary>
+            <author>Darren Martz revised by John Champion revised by Benjamin Mayrargue</author>
+            <version>$Revision: 1.20 $ $Date: 2007-08-20 03:23:42 $</version>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.ToString">
+            <summary>
+            Override the <see cref="M:ZedGraph.Web.ZedGraphWeb.ToString"/> method to do nothing.
+            </summary>
+            <returns>An empty string</returns>
+        </member>
+        <member name="F:ZedGraph.Web.ZedGraphWeb._tmpImageDuration">
+            <summary>
+            This private field contains duration (in hours) of a temp file generated 
+            by control in mode "ImageTag"
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.RenderDemo(System.Drawing.Graphics,ZedGraph.GraphPane)">
+            <summary>
+            Renders the demo graph with one call.
+            </summary>
+            <param name="g">A <see cref="T:System.Drawing.Graphics"/> object for which the drawing will be done.</param>
+            <param name="pane">A reference to the <see cref="T:ZedGraph.GraphPane"/></param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.OnDrawPane(System.Drawing.Graphics,ZedGraph.MasterPane)">
+            <summary>
+            stub method that passes control for the render event to the the registered
+            event handler.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.SetWebProperties(System.Drawing.Graphics,ZedGraph.GraphPane)">
+            <summary>
+            Adds content to the <see cref="T:ZedGraph.GraphPane"/> instance based on the web controls state elements.
+            This requires applying each <see cref="T:ZedGraph.Web.ZedGraphWebCurveItem"/> to the <see cref="T:ZedGraph.GraphPane"/> 
+            including all the values and sub objects.
+            </summary>
+            <param name="g"><see cref="T:System.Drawing.Graphics"/></param>
+            <param name="pane"><see cref="T:ZedGraph.GraphPane"/></param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.AddWebGraphItems(System.Drawing.Graphics,ZedGraph.GraphPane)">
+            <summary>
+            Add the <see cref="T:ZedGraph.Web.ZedGraphWebGraphObj"/> objects defined in the webcontrol to
+            the <see cref="T:ZedGraph.GraphPane"/> as <see cref="T:ZedGraph.GraphObj"/> objects.
+            </summary>
+            <param name="g">The <see cref="T:System.Drawing.Graphics"/> instance of interest.</param>
+            <param name="pane">The <see cref="T:ZedGraph.GraphPane"/> object to receive the
+            <see cref="T:ZedGraph.GraphObj"/> objects.</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.PopulateByDataSource(System.Drawing.Graphics,ZedGraph.GraphPane)">
+            <summary>
+            Provides binding between <see cref="P:ZedGraph.Web.ZedGraphWeb.DataSource"/> and the specified pane.  Extracts the
+            data from <see cref="P:ZedGraph.Web.ZedGraphWeb.DataSource"/> and copies it into the appropriate
+            <see cref="T:ZedGraph.IPointList"/> for each <see cref="T:ZedGraph.CurveItem"/> in the
+            specified <see cref="T:ZedGraph.GraphPane"/>.
+            </summary>
+            <param name="g">The <see cref="T:System.Drawing.Graphics"/> object to be used for rendering the data.</param>
+            <param name="pane">The <see cref="T:ZedGraph.GraphPane"/> object which will receive the data.</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.OnPreRender(System.EventArgs)">
+            <summary>
+            Calls the Draw() method for the control.
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"/> reference for the event.</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.CreateGraph(System.IO.Stream,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Method to create a <see cref="T:ZedGraph.GraphPane"/> class for the control.
+            </summary>
+            <param name="OutputStream">A <see cref="T:System.IO.Stream"/> in which to output the ZedGraph
+            <see cref="T:System.Drawing.Image"/>.</param>
+            <param name="Format">The <see cref="P:ZedGraph.Web.ZedGraphWeb.ImageFormat"/> type to be output.</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.CreateGraph(System.IO.Stream,System.Drawing.Imaging.ImageFormat,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="OutputStream"></param>
+            <param name="Format"></param>
+            <param name="bShowTransparency">if true, draw squares instead of leaving the
+            background transparent</param>
+            <remarks>
+            bShowTransparency is set to true in design mode, to false otherwise.
+            </remarks>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Override the Render() method with a do-nothing method.
+            </summary>
+            <param name="output"></param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.MakeImageMap(ZedGraph.MasterPane,System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Generate an ImageMap as Html tags
+            </summary>
+            <param name="masterPane">The source <see cref="T:ZedGraph.MasterPane"/> to be
+            image mapped.</param>
+            <param name="output">An <see cref="T:System.Web.UI.HtmlTextWriter"/> instance in which
+            the html tags will be written for the image map.</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.Draw(System.Boolean)">
+            <summary>
+            Draws graph on HttpResponse object
+            </summary>
+            <param name="end"></param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.Draw(System.IO.Stream)">
+            <summary>
+            Draws graph on stream object
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.LoadViewState(System.Object)">
+            <summary>
+            Used by asp.net to load the viewstate values into the web control
+            </summary>
+            <param name="savedState">portable view state object</param>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.SaveViewState">
+            <summary>
+            Used by asp.net to save the viewstate to the class instance given a portable state object.
+            </summary>
+            <returns>portable state object</returns>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.TrackViewState">
+            <summary>
+            Used by asp.net to inform the viewstate to start tracking changes.
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.Dispose">
+            <summary>
+            Free up resources associated with the FileStream
+            </summary>
+        </member>
+        <member name="M:ZedGraph.Web.ZedGraphWeb.GetService(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="serviceType"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.DataMember">
+            <summary>
+            The <see cref="T:System.String"/> name of the data member that contains the data to be
+            bound to the graph.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.DataSource">
+            <summary>
+            The object reference that points to a data source from which to bind curve data.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.CurveList">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.GraphPane.CurveList"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.GraphObjList">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.Web.ZedGraphWeb.GraphObjList"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.TmpImageDuration">
+            <summary>
+            Gets or sets a value that determines the duration (in hours) of a temporary file generated 
+            by control in mode "ImageTag"
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.BaseDimension">
+            <summary>
+            Proxy property that gets or sets the value of the <see cref="P:ZedGraph.PaneBase.BaseDimension"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.MasterPaneFill">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.PaneBase.Fill"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.MasterPaneBorder">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.Chart.Border"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.Width">
+            <summary>
+            Proxy property that gets or sets the width of the <see cref="P:ZedGraph.PaneBase.Rect"/>.
+            </summary>
+            <value>The width in output device pixels</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.Height">
+            <summary>
+            Proxy property that gets or sets the height of the <see cref="P:ZedGraph.PaneBase.Rect"/>.
+            </summary>
+            <value>The height in output device pixels</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.Margins">
+            <summary>
+            Proxy property that gets the value of the <see cref="T:ZedGraph.GraphPane"/> Margin
+            properties (<see cref="P:ZedGraph.Margin.Left"/>, <see cref="P:ZedGraph.Margin.Right"/>,
+            <see cref="P:ZedGraph.Margin.Top"/> and <see cref="P:ZedGraph.Margin.Bottom"/>).
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.Title">
+            <summary>
+            Proxy property that gets or sets the Title of the <see cref="T:ZedGraph.GraphPane"/>.
+            </summary>
+            <value>A title <see cref="T:System.String"/></value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.IsShowTitle">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Label.IsVisible"/>, which
+            determines if the <see cref="P:ZedGraph.PaneBase.Title"/> is visible.
+            </summary>
+            <value>true to show the pane title, false otherwise</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.IsFontsScaled">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PaneBase.IsFontsScaled"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.IsPenWidthScaled">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.PaneBase.IsPenWidthScaled"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.BarType">
+            <summary>
+            Proxy property that gets or sets the value of the <see cref="P:ZedGraph.BarSettings.Type"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.LineType">
+            <summary>
+            Proxy property that gets or sets the value of the <see cref="P:ZedGraph.GraphPane.LineType"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.MinClusterGap">
+            <summary>
+            Proxy property that gets or sets the value of the
+            <see cref="P:ZedGraph.BarSettings.MinClusterGap"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.MinBarGap">
+            <summary>
+            Proxy property that gets or sets the value of the
+            <see cref="P:ZedGraph.BarSettings.MinBarGap"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.IsIgnoreInitial">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.GraphPane.IsIgnoreInitial"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.IsIgnoreMissing">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.GraphPane.IsIgnoreMissing"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.BarBase">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.BarSettings.Base"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.FontSpec">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.PaneBase.Title"/>
+            <see cref="P:ZedGraph.Web.ZedGraphWeb.FontSpec"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.PaneBorder">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.PaneBase.Border"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.PaneFill">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.PaneBase.Fill"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.ChartBorder">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.Chart.Border"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.ChartFill">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.Chart.Fill"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.XAxis">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.GraphPane.XAxis"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.YAxis">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.GraphPane.YAxis"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.Y2Axis">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.GraphPane.Y2Axis"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.Legend">
+            <summary>
+            Proxy property that gets the value of the <see cref="P:ZedGraph.PaneBase.Legend"/>.
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.CacheDuration">
+            <summary>
+            Optional setting that determines how long the cached image will remain valid. 
+            A zero value disables caching.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.CacheSuffix">
+            <summary>
+            Optional cache file suffix that can be used to modify the output cache file name
+            to make it unique.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.AxisChanged">
+            <summary>
+            Gets or sets a boolean flag value that, if true, will cause the
+            <see cref="M:ZedGraph.GraphPane.AxisChange"/> method to be called when
+            <see cref="M:ZedGraph.Web.ZedGraphWeb.CreateGraph(System.IO.Stream,System.Drawing.Imaging.ImageFormat)"/> is called.
+            </summary>
+            <value>A boolean value, true to call <see cref="M:ZedGraph.GraphPane.AxisChange"/>,
+            false otherwise</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.OutputFormat">
+            <summary>
+            Proxy property that gets or sets the value that determines the output format for the control, in the
+            form of a <see cref="T:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat"/> enumeration.  This is typically Gif, Jpeg,
+            Png, or Icon.
+            </summary>
+            <value>A <see cref="T:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat"/> enumeration.</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.RenderMode">
+            <summary>
+            What to return ?
+            A raw image or an IMG tag referencing a generated image ?
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.RenderedImagePath">
+            <summary>
+            What to return ?
+            A raw image or an IMG tag referencing a generated image ?
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.IsImageMap">
+            <summary>
+            Proxy property that gets or sets the value of <see cref="P:ZedGraph.Web.ZedGraphWeb.IsImageMap"/>.
+            </summary>
+        </member>
+        <member name="E:ZedGraph.Web.ZedGraphWeb.RenderGraph">
+            <summary>
+            Sets the rendering event handler.
+            </summary>
+            <value>An event type for the RenderGraph event</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.ImageFormat">
+            <summary>
+            Gets the <see cref="P:ZedGraph.Web.ZedGraphWeb.OutputFormat"/> property, translated to an
+            <see cref="P:ZedGraph.Web.ZedGraphWeb.ImageFormat"/> enumeration.
+            </summary>
+            <value>An <see cref="P:ZedGraph.Web.ZedGraphWeb.ImageFormat"/> enumeration representing the image type
+            to be output.</value>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.ImageFormatFileExtension">
+            <summary>
+            Gets the current image format file extension
+            </summary>
+        </member>
+        <member name="P:ZedGraph.Web.ZedGraphWeb.ContentType">
+            <summary>
+            Gets the <see cref="P:ZedGraph.Web.ZedGraphWeb.OutputFormat"/> property, translated to an
+            html content type string (such as "image/png").
+            </summary>
+            <value>A string representing the image type to be output.</value>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat">
+            <summary>
+            An enumeration type that defines the output image types supported by
+            the ZedGraph Web control.
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat.Gif">
+            <summary>
+            The Gif bitmap format (CompuServe)
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat.Jpeg">
+            <summary>
+            The JPEG format
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat.Icon">
+            <summary>
+            A windows Icon format
+            </summary>
+        </member>
+        <member name="F:ZedGraph.Web.ZedGraphWeb.ZedGraphWebFormat.Png">
+            <summary>
+            The portable network graphics format
+            </summary>
+        </member>
+        <member name="T:ZedGraph.Web.ZedGraphWebControlEventHandler">
+            <summary>
+            A delegate to handle the rendering event for this control.
+            </summary>
+            <param name="webObject">A reference to this <see cref="T:ZedGraph.Web.ZedGraphWeb"/> object</param>
+            <param name="g">A <see cref="T:System.Drawing.Graphics"/> object for which the drawing will be done.</param>
+            <param name="pane">A reference to the <see cref="T:ZedGraph.GraphPane"/>
+            class to be rendered.</param>
+        </member>
+    </members>
+</doc>
