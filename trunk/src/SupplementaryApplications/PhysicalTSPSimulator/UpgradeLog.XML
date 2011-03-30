@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
-<Properties><Property Name="Solution" Value="PhysicalTSPSimulator">
-</Property><Property Name="Solution File" Value="C:\work\projects\SharpNeat\src\SupplementaryApplications\PhysicalTSPSimulator\PhysicalTSPSimulator.sln">
-</Property><Property Name="Date" Value="27 March 2006">
-</Property><Property Name="Time" Value="21:39">
-</Property></Properties><Event ErrorLevel="0" Project="" Source="PhysicalTSPSimulator.sln" Description="Solution converted successfully">
-</Event><Event ErrorLevel="3" Project="" Source="PhysicalTSPSimulator.sln" Description="Converted">
-</Event></UpgradeLog>
