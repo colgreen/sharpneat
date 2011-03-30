@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{73AB8C8C-6315-4DC7-A3DE-3C747F86AC78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpNeat.Domains</RootNamespace>
+    <AssemblyName>SharpNeatDomains</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SharpNeatDomains.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SharpNeatDomains.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdPartyAssemblies\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\..\ThirdPartyAssemblies\zedgraph_dll_v5.1.5\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractGenomeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BinarySixMultiplexer\BinarySixMultiplexerEvaluator.cs" />
+    <Compile Include="AbstractDomainView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BinarySixMultiplexer\BinarySixMultiplexerExperiment.cs" />
+    <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerExperiment.cs" />
+    <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
+    <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
+    <Compile Include="FunctionRegression\AbsFunction.cs" />
+    <Compile Include="IGuiNeatExperiment.cs" />
+    <Compile Include="IntPoint.cs" />
+    <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.Designer.cs">
+      <DependentUpon>BoxesVisualDiscriminationView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BoxesVisualDiscrimination\TestCaseField.cs" />
+    <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationExperiment.cs" />
+    <Compile Include="BinaryElevenMultiplexer\BinaryElevenMultiplexerEvaluator.cs" />
+    <Compile Include="BinaryElevenMultiplexer\BinaryElevenMultiplexerExperiment.cs" />
+    <Compile Include="CppnGenomeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CppnGenomeView.Designer.cs">
+      <DependentUpon>CppnGenomeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DoublePoleBalancing\DoublePoleBalancingEvaluatorNvAntiWiggle.cs" />
+    <Compile Include="DoublePoleBalancing\DoublePoleBalancingEvaluatorNv.cs" />
+    <Compile Include="DoublePoleBalancing\DoublePoleBalancingEvaluator.cs" />
+    <Compile Include="DoublePoleBalancing\DoublePoleBalancingExperiment.cs" />
+    <Compile Include="DoublePoleBalancing\JiggleBuffer.cs" />
+    <Compile Include="ExperimentUtils.cs" />
+    <Compile Include="FunctionRegression\SineXSquaredFunction.cs" />
+    <Compile Include="FunctionRegression\FunctionRegressionView2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FunctionRegression\FunctionRegressionView2D.Designer.cs">
+      <DependentUpon>FunctionRegressionView2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionRegression\SineFunction.cs" />
+    <Compile Include="FunctionRegression\FunctionRegressionEvaluator.cs" />
+    <Compile Include="FunctionRegression\FunctionId.cs" />
+    <Compile Include="FunctionRegression\IFunction.cs" />
+    <Compile Include="FunctionRegression\MultiplicationFunction.cs" />
+    <Compile Include="FunctionRegression\ParameterSamplingInfo.cs" />
+    <Compile Include="FunctionRegression\FunctionRegressionExperiment.cs" />
+    <Compile Include="INeatExperiment.cs" />
+    <Compile Include="NeatGenomeUtils.cs" />
+    <Compile Include="NeatGenomeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NeatGenomeView.Designer.cs">
+      <DependentUpon>NeatGenomeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolarPoint.cs" />
+    <Compile Include="PreyCapture\PreyCaptureView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PreyCapture\PreyCaptureView.Designer.cs">
+      <DependentUpon>PreyCaptureView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PreyCapture\PreyCaptureWorld.cs" />
+    <Compile Include="PreyCapture\PreyCaptureEvaluator.cs" />
+    <Compile Include="PreyCapture\PreyCaptureExperiment.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SinglePoleBalancing\SinglePoleBalancingEvaluator.cs" />
+    <Compile Include="SinglePoleBalancing\SinglePoleStateData.cs" />
+    <Compile Include="SinglePoleBalancing\SinglePoleBalancingExperiment.cs" />
+    <Compile Include="XmlUtils.cs" />
+    <Compile Include="Xor\XorBlackBoxEvaluator.cs" />
+    <Compile Include="Xor\XorExperiment.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpNeatLib\SharpNeatLib.csproj">
+      <Project>{ABC5C77A-DEBA-420C-926C-BD3E6F37AE15}</Project>
+      <Name>SharpNeatLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpNeatViewLib\SharpNeatViewLib.csproj">
+      <Project>{4EA80D7B-B680-4AB8-BC4A-B51AF33A3FDE}</Project>
+      <Name>SharpNeatViewLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.resx">
+      <DependentUpon>BoxesVisualDiscriminationView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CppnGenomeView.resx">
+      <DependentUpon>CppnGenomeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FunctionRegression\FunctionRegressionView2D.resx">
+      <DependentUpon>FunctionRegressionView2D.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NeatGenomeView.resx">
+      <DependentUpon>NeatGenomeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreyCapture\PreyCaptureView.resx">
+      <DependentUpon>PreyCaptureView.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DoublePoleBalancing\Antiwiggle_Explanation_Email.txt" />
+    <Content Include="SharpNeatDomains.experiments.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
