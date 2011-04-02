@@ -117,7 +117,7 @@ namespace SharpNeat.Network
             List<ActivationFunctionInfo> fnList = new List<ActivationFunctionInfo>(4);
             fnList.Add(new ActivationFunctionInfo(0, 0.25, Linear.__DefaultInstance));
             fnList.Add(new ActivationFunctionInfo(1, 0.25, BipolarSigmoid.__DefaultInstance));
-            fnList.Add(new ActivationFunctionInfo(2, 0.25, BipolarGaussian.__DefaultInstance));
+            fnList.Add(new ActivationFunctionInfo(2, 0.25, Gaussian.__DefaultInstance));
             fnList.Add(new ActivationFunctionInfo(3, 0.25, Sine.__DefaultInstance));
             return new DefaultActivationFunctionLibrary(fnList);
         }
