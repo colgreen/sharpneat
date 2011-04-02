@@ -64,7 +64,7 @@ namespace SharpNeat.Genomes.Neat
         public NeuronGeneList(ICollection<NeuronGene> copyFrom) 
             : base(copyFrom.Count+1)
         {
-            // ENHANCEMENT: List.Foreach() is potentially faster then a foreach loop. 
+            // ENHANCEMENT: List.Foreach() is potentially faster than a foreach loop. 
             // http://diditwith.net/2006/10/05/PerformanceOfForeachVsListForEach.aspx
             foreach(NeuronGene srcGene in copyFrom) {
                 Add(srcGene.CreateCopy());

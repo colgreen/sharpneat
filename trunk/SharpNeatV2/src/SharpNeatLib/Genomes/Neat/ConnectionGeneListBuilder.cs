@@ -33,7 +33,7 @@ namespace SharpNeat.Genomes.Neat
     {
         readonly ConnectionGeneList _connectionGeneList;
         readonly Dictionary<ConnectionEndpointsStruct,ConnectionGene> _connectionGeneDictionary;
-        readonly SortedDictionary<uint,uint> _neuronIdDictionary;
+        readonly SortedDictionary<uint,NeuronGene> _neuronDictionary;
 
         #region Constructor
 
@@ -46,7 +46,8 @@ namespace SharpNeat.Genomes.Neat
         {
             _connectionGeneList = new ConnectionGeneList(connectionCapacity);
             _connectionGeneDictionary = new Dictionary<ConnectionEndpointsStruct,ConnectionGene>(connectionCapacity);
-            _neuronIdDictionary = new SortedDictionary<uint,uint>();
+            // TODO: Determine better initial capacity.
+            _neuronDictionary = new SortedDictionary<uint,NeuronGene>();
         }
 
         #endregion
@@ -72,9 +73,9 @@ namespace SharpNeat.Genomes.Neat
         /// <summary>
         /// Gets the builder's dictionary of neuron IDs obtained from contained connection gene endpoints.
         /// </summary>
-        public SortedDictionary<uint,uint> NeuronIdDictionary
+        public SortedDictionary<uint,NeuronGene> NeuronDictionary
         {
-            get { return _neuronIdDictionary; }
+            get { return _neuronDictionary; }
         }
 
         #endregion
@@ -86,7 +87,7 @@ namespace SharpNeat.Genomes.Neat
         /// not on innovation ID) and register the neuron IDs (from the connection end points) with the neuron 
         /// ID dictionary.
         /// </summary>
-        public void Append(ConnectionGene connectionGene, ConnectionEndpointsStruct connectionKey)
+        public void Append(ConnectionGene connectionGene, ConnectionEndpointsStruct connectionKey, NeuronGene srcNeuronGene, NeuronGene tgtNeuronGene)
         {
             // Add the gene and register it with the connection gene dictionary (keyed on end 
             // points, not on innovation ID).
@@ -94,8 +95,8 @@ namespace SharpNeat.Genomes.Neat
             _connectionGeneDictionary.Add(connectionKey, connectionGene);
 
             // Register encountered neuron IDs with neuronIdDictionary.
-            _neuronIdDictionary[connectionGene.SourceNodeId] = connectionGene.SourceNodeId;
-            _neuronIdDictionary[connectionGene.TargetNodeId] = connectionGene.TargetNodeId;
+            _neuronDictionary[connectionGene.SourceNodeId] = srcNeuronGene;
+            _neuronDictionary[connectionGene.TargetNodeId] = tgtNeuronGene;
         }
 
         #endregion
