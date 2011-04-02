@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
@@ -307,21 +308,21 @@ namespace SharpNeat.Network
         public static List<NetworkDefinition> ReadCompleteNetworkDefinitionList(XmlReader xr, bool nodeFnIds)
         {
             // Find <Root>.
-            MoveToElement(xr, false, __ElemRoot);
+            XmlIoUtils.MoveToElement(xr, false, __ElemRoot);
 
             // Read IActivationFunctionLibrray. 
-            MoveToElement(xr, true, __ElemActivationFunctions);
+            XmlIoUtils.MoveToElement(xr, true, __ElemActivationFunctions);
             IActivationFunctionLibrary activationFnLib = ReadActivationFunctionLibrary(xr);
-            MoveToElement(xr, false, __ElemNetworks);
+            XmlIoUtils.MoveToElement(xr, false, __ElemNetworks);
 
             List<NetworkDefinition> networkDefList = new List<NetworkDefinition>();
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root <Networks> element.
-                MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first Network elem.
-                MoveToElement(xr, true, __ElemNetwork);
+                XmlIoUtils.MoveToElement(xr, true, __ElemNetwork);
                 
                 // Read Network elements.
                 do
@@ -347,11 +348,11 @@ namespace SharpNeat.Network
         public static NetworkDefinition ReadNetworkDefinition(XmlReader xr, IActivationFunctionLibrary activationFnLib, bool nodeFnIds)
         {
             // Find <Network>.
-            MoveToElement(xr, false, __ElemNetwork);
+            XmlIoUtils.MoveToElement(xr, false, __ElemNetwork);
             int initialDepth = xr.Depth;
 
             // Find <Nodes>.
-            MoveToElement(xr, true, __ElemNodes);
+            XmlIoUtils.MoveToElement(xr, true, __ElemNodes);
             
             // Create a reader over the <Nodes> sub-tree.
             int inputNodeCount = 0;
@@ -360,19 +361,19 @@ namespace SharpNeat.Network
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root <Nodes> element.
-                MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first node elem.
-                MoveToElement(xrSubtree, true, __ElemNode);
+                XmlIoUtils.MoveToElement(xrSubtree, true, __ElemNode);
 
                 // Read node elements.
                 do
                 {
                     NodeType nodeType = ReadAttributeAsNodeType(xrSubtree, __AttrType);
-                    uint id = ReadAttributeAsUInt(xrSubtree, __AttrId);
+                    uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
                     int fnId = 0;
                     if(nodeFnIds) {
-                        fnId = ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
+                        fnId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
                     }
 
                     NetworkNode node = new NetworkNode(id, nodeType, fnId);
@@ -393,25 +394,25 @@ namespace SharpNeat.Network
             }
 
             // Find <Connections>.
-            MoveToElement(xr, false, __ElemConnections);
+            XmlIoUtils.MoveToElement(xr, false, __ElemConnections);
 
             // Create a reader over the <Connections> sub-tree.
             ConnectionList connList = new ConnectionList();
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root <Connections> element.
-                MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first connection elem.
-                string localName = MoveToElement(xrSubtree, true);
+                string localName = XmlIoUtils.MoveToElement(xrSubtree, true);
                 if(localName == __ElemConnection)
                 {   // We have at least one connection.
                     // Read connection elements.
                     do
                     {
-                        uint srcId = ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
-                        uint tgtId = ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
-                        double weight = ReadAttributeAsDouble(xrSubtree, __AttrWeight);
+                        uint srcId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
+                        uint tgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
+                        double weight = XmlIoUtils.ReadAttributeAsDouble(xrSubtree, __AttrWeight);
                         NetworkConnection conn = new NetworkConnection(srcId, tgtId, weight);
                         connList.Add(conn);
                     } 
@@ -437,23 +438,23 @@ namespace SharpNeat.Network
         /// </summary>
         public static IActivationFunctionLibrary ReadActivationFunctionLibrary(XmlReader xr)
         {
-            MoveToElement(xr, false, __ElemActivationFunctions);
+            XmlIoUtils.MoveToElement(xr, false, __ElemActivationFunctions);
             
             // Create a reader over the sub-tree.
             List<ActivationFunctionInfo> fnList = new List<ActivationFunctionInfo>();
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root element.
-                MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first function elem.
-                MoveToElement(xrSubtree, true, __ElemActivationFn);
+                XmlIoUtils.MoveToElement(xrSubtree, true, __ElemActivationFn);
                 
                 // Read function elements.
                 do
                 {
-                    int id = ReadAttributeAsInt(xrSubtree, __AttrId);
-                    double selectionProb = ReadAttributeAsDouble(xrSubtree, __AttrProbability);
+                    int id = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrId);
+                    double selectionProb = XmlIoUtils.ReadAttributeAsDouble(xrSubtree, __AttrProbability);
                     string fnName = xrSubtree.GetAttribute(__AttrName);
 
                     // Lookup function name.
@@ -476,87 +477,6 @@ namespace SharpNeat.Network
         #endregion
 
         #region Public Static Methods [Low-level XML Parsing]
-
-        /// <summary>
-        /// Read from the XmlReader until we encounter an element. If the name doesn't match
-        /// elemName then throw an exception, else return normally.
-        /// 
-        /// </summary>
-        public static void MoveToElement(XmlReader xr, bool skipCurrent, string elemName)
-        {
-            string localName = MoveToElement(xr, skipCurrent);            
-            if(localName != elemName)
-            {   // No element or unexpected element.
-                throw new InvalidDataException(string.Format("Expected element [{0}], encountered [{1}]", elemName, localName));
-            }
-        }
-
-        /// <summary>
-        /// Read from the XmlReader until we encounter an element. 
-        /// Return the Local name of the element or null if no element was found before 
-        /// the end of the input.
-        /// </summary>
-        public static string MoveToElement(XmlReader xr, bool skipCurrent)
-        {
-            // Optionally skip the current node.
-            if(skipCurrent) 
-            {
-                if(!xr.Read())
-                {   // EOF.
-                    return null;
-                }
-            }
-
-            // Keep reading until we encounter an element.
-            do
-            {
-                if(XmlNodeType.Element == xr.NodeType) {
-                    return xr.LocalName;
-                }
-            } while(xr.Read());
-
-            // No element encountered.
-            return null;
-        }
-
-        /// <summary>
-        /// Read the named attribute and parse its string value as an integer.
-        /// </summary>
-        public static int ReadAttributeAsInt(XmlReader xr, string attrName)
-        {
-            string valStr = xr.GetAttribute(attrName);
-            int val;
-            if(!int.TryParse(valStr, out val)) {
-                throw new InvalidDataException(string.Format("Failed to parse string as integer [{0}]", valStr));
-            }
-            return val;
-        }
-
-        /// <summary>
-        /// Read the named attribute and parse its string value as a uint.
-        /// </summary>
-        public static uint ReadAttributeAsUInt(XmlReader xr, string attrName)
-        {
-            string valStr = xr.GetAttribute(attrName);
-            uint val;
-            if(!uint.TryParse(valStr, out val)) {
-                throw new InvalidDataException(string.Format("Failed to parse string as integer [{0}]", valStr));
-            }
-            return val;
-        }
-
-        /// <summary>
-        /// Read the named attribute and parse its string value as a double.
-        /// </summary>
-        public static double ReadAttributeAsDouble(XmlReader xr, string attrName)
-        {
-            string valStr = xr.GetAttribute(attrName);
-            double val;
-            if(!double.TryParse(valStr, out val)) {
-                throw new InvalidDataException(string.Format("Failed to parse string as double [{0}]", valStr));
-            }
-            return val;
-        }
 
         /// <summary>
         /// Read the named attribute and parse its string value as a NodeType.

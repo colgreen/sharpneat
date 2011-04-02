@@ -305,22 +305,22 @@ namespace SharpNeat.Genomes.Neat
                                                               NeatGenomeParameters genomeParameters)
         {
             // Find <Root>.
-            NetworkXmlIO.MoveToElement(xr, false, __ElemRoot);
+            XmlIoUtils.MoveToElement(xr, false, __ElemRoot);
 
             // Read IActivationFunctionLibrary.
-            NetworkXmlIO.MoveToElement(xr, true, __ElemActivationFunctions);
+            XmlIoUtils.MoveToElement(xr, true, __ElemActivationFunctions);
             IActivationFunctionLibrary activationFnLib = NetworkXmlIO.ReadActivationFunctionLibrary(xr);
-            NetworkXmlIO.MoveToElement(xr, false, __ElemNetworks);
+            XmlIoUtils.MoveToElement(xr, false, __ElemNetworks);
 
             // Read genomes.
             List<NeatGenome> genomeList = new List<NeatGenome>();
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root <Networks> element.
-                NetworkXmlIO.MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first Network elem.
-                NetworkXmlIO.MoveToElement(xrSubtree, true, __ElemNetwork);
+                XmlIoUtils.MoveToElement(xrSubtree, true, __ElemNetwork);
                 
                 // Read Network elements.
                 do
@@ -390,7 +390,7 @@ namespace SharpNeat.Genomes.Neat
         public static NeatGenome ReadGenome(XmlReader xr, bool nodeFnIds)
         {
             // Find <Network>.
-            NetworkXmlIO.MoveToElement(xr, false, __ElemNetwork);
+            XmlIoUtils.MoveToElement(xr, false, __ElemNetwork);
             int initialDepth = xr.Depth;
 
             // Read genome ID attribute if present. Otherwise default to zero; it's the caller's responsibility to 
@@ -405,7 +405,7 @@ namespace SharpNeat.Genomes.Neat
             uint.TryParse(birthGenStr, out birthGen);
 
             // Find <Nodes>.
-            NetworkXmlIO.MoveToElement(xr, true, __ElemNodes);
+            XmlIoUtils.MoveToElement(xr, true, __ElemNodes);
             
             // Create a reader over the <Nodes> sub-tree.
             int inputNodeCount = 0;
@@ -414,19 +414,19 @@ namespace SharpNeat.Genomes.Neat
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root <Nodes> element.
-                NetworkXmlIO.MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first node elem.
-                NetworkXmlIO.MoveToElement(xrSubtree, true, __ElemNode);
+                XmlIoUtils.MoveToElement(xrSubtree, true, __ElemNode);
 
                 // Read node elements.
                 do
                 {
                     NodeType neuronType = NetworkXmlIO.ReadAttributeAsNodeType(xrSubtree, __AttrType);
-                    uint id = NetworkXmlIO.ReadAttributeAsUInt(xrSubtree, __AttrId);
+                    uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
                     int functionId = 0;
                     if(nodeFnIds) {
-                        functionId = NetworkXmlIO.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
+                        functionId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
                     }
 
                     NeuronGene nGene = new NeuronGene(id, neuronType, functionId);
@@ -447,26 +447,26 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Find <Connections>.
-            NetworkXmlIO.MoveToElement(xr, false, __ElemConnections);
+            XmlIoUtils.MoveToElement(xr, false, __ElemConnections);
 
             // Create a reader over the <Connections> sub-tree.
             ConnectionGeneList cGeneList = new ConnectionGeneList();
             using(XmlReader xrSubtree = xr.ReadSubtree())
             {
                 // Re-scan for the root <Connections> element.
-                NetworkXmlIO.MoveToElement(xrSubtree, false);
+                XmlIoUtils.MoveToElement(xrSubtree, false);
 
                 // Move to first connection elem.
-                string localName = NetworkXmlIO.MoveToElement(xrSubtree, true);
+                string localName = XmlIoUtils.MoveToElement(xrSubtree, true);
                 if(localName == __ElemConnection)
                 {   // We have at least one connection.
                     // Read connection elements.
                     do
                     {
-                        uint id = NetworkXmlIO.ReadAttributeAsUInt(xrSubtree, __AttrId);
-                        uint srcId = NetworkXmlIO.ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
-                        uint tgtId = NetworkXmlIO.ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
-                        double weight = NetworkXmlIO.ReadAttributeAsDouble(xrSubtree, __AttrWeight);
+                        uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
+                        uint srcId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
+                        uint tgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
+                        double weight = XmlIoUtils.ReadAttributeAsDouble(xrSubtree, __AttrWeight);
                         ConnectionGene cGene = new ConnectionGene(id, srcId, tgtId, weight);
                         cGeneList.Add(cGene);
                     } 
