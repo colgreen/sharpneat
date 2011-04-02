@@ -259,13 +259,13 @@ namespace SharpNeat.Genomes.Neat
             // neuron ID dictionary. We do this so that we can use the dictionary later on as a complete list of
             // all neuron IDs required by the offspring genome - if we didn't do this we might miss some of the fixed neurons
             // that happen to not be connected to or from.
-            SortedDictionary<uint,uint> neuronIdDictionary = connectionListBuilder.NeuronIdDictionary;
+            SortedDictionary<uint,NeuronGene> neuronIdDictionary = connectionListBuilder.NeuronDictionary;
             for(int i=0; i<_inputBiasOutputNeuronCount; i++) {
-                neuronIdDictionary.Add(_neuronGeneList[i].InnovationId, _neuronGeneList[i].InnovationId);
+                neuronIdDictionary.Add(_neuronGeneList[i].InnovationId, _neuronGeneList[i]);
             }
 
-            // A variable that stores which parent is fittest, 1 or 2. 0 if both are equal. We pre-calculate this value because this
-            // fitness test needs to be done in in subsequent sub-routine calls for each connection gene.
+            // A variable that stores which parent is fittest, 1 or 2. We pre-calculate this value because this
+            // fitness test needs to be done in subsequent sub-routine calls for each connection gene.
             int fitSwitch;
             if(_evalInfo.Fitness > parent._evalInfo.Fitness) {
                 fitSwitch = 1;
@@ -280,7 +280,7 @@ namespace SharpNeat.Genomes.Neat
 
             // TODO: Reconsider this approach.
             // Pre-calcualte a flag that inidates if excess and disjoint genes should be copied into the offspring genome.
-            // Excess and disjoint genes are either copied alltogether or none at all.
+            // Excess and disjoint genes are either copied altogether or none at all.
             bool combineDisjointExcessFlag = _genomeFactory.Rng.NextDouble() < _genomeFactory.NeatGenomeParameters.DisjointExcessGenesRecombinedProbability;
 
             // Loop through the items within the CorrelationResults, processing each one in turn.
@@ -291,49 +291,24 @@ namespace SharpNeat.Genomes.Neat
             for(int i=0; i<itemCount; i++) {
                 CreateOffspring_Sexual_ProcessCorrelationItem(connectionListBuilder,
                                                               correlationResults.CorrelationItemList[i],
-                                                              fitSwitch, combineDisjointExcessFlag);
+                                                              fitSwitch, combineDisjointExcessFlag, parent);
             }
 
-            // Build a list of neuron genes for the new genome. Conveniently connectionListBuilder.NeuronIdDictionary has
-            // been tracking all neuron IDs referred to by connection endpoints, and was also pre-loaded with all of the 
+            // Build a list of neuron genes for the new genome. Conveniently connectionListBuilder.NeuronDictionary has
+            // been tracking all neurons referred to by connection endpoints, and was also pre-loaded with all of the 
             // fixed (bias, input and output) neurons. Thus we already know how many and which neurons our new genome will
             // have - *and* they are already sorted by innovation ID as required by NeuronGeneList.
-            NeuronGeneList neuronGeneList = new NeuronGeneList(connectionListBuilder.NeuronIdDictionary.Count);
-            IEnumerator<KeyValuePair<uint,uint>> neuronDictEnumerator = neuronIdDictionary.GetEnumerator();
-
-            // Add single bias neuron.
-            neuronDictEnumerator.MoveNext();
-            neuronGeneList.Add(_genomeFactory.CreateNeuronGene(neuronDictEnumerator.Current.Key, NodeType.Bias));
-
-            // Add input neuron genes.
-            // MoveNext() doesn't need to be in the while tests. We know the bias, input, output neuron genes are available.
-            int inputIdx=0;
-            while(inputIdx++ < _inputNeuronCount) {   
-                neuronDictEnumerator.MoveNext();
-                neuronGeneList.Add(_genomeFactory.CreateNeuronGene(neuronDictEnumerator.Current.Key, NodeType.Input));
-            }
-            
-            // Add output neuron genes.
-            int outputIdx=0;
-            while(outputIdx++ < _outputNeuronCount) {
-                neuronDictEnumerator.MoveNext();
-                neuronGeneList.Add(_genomeFactory.CreateNeuronGene(neuronDictEnumerator.Current.Key, NodeType.Output));
-            }
-
-            // All remaining IDs in neuronDictEnumerator (if any) are hidden nodes.
-            while(neuronDictEnumerator.MoveNext()) {
-                neuronGeneList.Add(_genomeFactory.CreateNeuronGene(neuronDictEnumerator.Current.Key, NodeType.Hidden));
+            NeuronGeneList neuronGeneList = new NeuronGeneList(connectionListBuilder.NeuronDictionary.Count);
+            foreach(NeuronGene neuronGene in neuronIdDictionary.Values) {
+                neuronGeneList.Add(neuronGene.CreateCopy()); 
             }
 
             // Note that connectionListBuilder.ConnectionGeneList is already sorted by connection gene innovation ID 
             // because it was generated by passing over the correlation items generated by CorrelateConnectionGeneLists()
             // - which returns correlation items in order.
-            return _genomeFactory.CreateGenome(_genomeFactory.NextGenomeId(),
-                                               birthGeneration,
-                                               neuronGeneList,
-                                               connectionListBuilder.ConnectionGeneList,
-                                               _inputNeuronCount,
-                                               _outputNeuronCount);
+            return _genomeFactory.CreateGenome(_genomeFactory.NextGenomeId(), birthGeneration,
+                                               neuronGeneList, connectionListBuilder.ConnectionGeneList,
+                                               _inputNeuronCount, _outputNeuronCount);
         }
 
         #endregion
@@ -1009,8 +984,13 @@ namespace SharpNeat.Genomes.Neat
         private void CreateOffspring_Sexual_ProcessCorrelationItem(ConnectionGeneListBuilder connectionListBuilder,
                                                                    CorrelationItem correlationItem,
                                                                    int fitSwitch,
-                                                                   bool combineDisjointExcessFlag)                                             
+                                                                   bool combineDisjointExcessFlag,
+                                                                   NeatGenome parent)                                             
         {
+            ConnectionGene connectionGene;
+            NeuronGene srcNeuronGene;
+            NeuronGene tgtNeuronGene;
+
             switch(correlationItem.CorrelationItemType)
             {   
                 // Disjoint and excess genes.
@@ -1020,23 +1000,39 @@ namespace SharpNeat.Genomes.Neat
                     // If the gene is in the fittest parent then override any existing entry in the connectionGeneTable.
                     if(1==fitSwitch && null != correlationItem.ConnectionGene1)
                     {
-                        CreateOffspring_Sexual_AddGene(connectionListBuilder, correlationItem.ConnectionGene1, true);
+                        connectionGene = correlationItem.ConnectionGene1;
+                        srcNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
+                        tgtNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
+                        CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, true, srcNeuronGene, tgtNeuronGene);
                         return;
                     }
                     if(fitSwitch==2 && correlationItem.ConnectionGene2 != null)
                     {
-                        CreateOffspring_Sexual_AddGene(connectionListBuilder, correlationItem.ConnectionGene2, true);
+                        connectionGene = correlationItem.ConnectionGene2;
+                        srcNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
+                        tgtNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
+                        CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, true, srcNeuronGene, tgtNeuronGene);
                         return;
                     }
 
                     // The disjoint/excess gene must be on the least fit parent.
                     if(combineDisjointExcessFlag)
                     {
-                        // Only add the gene to the genome if a equivalent gene (same endpoints) hasn't already been added.
-                        CreateOffspring_Sexual_AddGene(
-                            connectionListBuilder,
-                            correlationItem.ConnectionGene1 ?? correlationItem.ConnectionGene2,
-                            false);
+                        if(null != correlationItem.ConnectionGene1)
+                        {
+                            connectionGene = correlationItem.ConnectionGene1;
+                            srcNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
+                            tgtNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
+                        }
+                        else
+                        {
+                            connectionGene = correlationItem.ConnectionGene2;
+                            srcNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
+                            tgtNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
+                        }
+
+                        // Only add the gene to the genome if an equivalent gene (same endpoints) hasn't already been added.
+                        CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, false, srcNeuronGene, tgtNeuronGene);
                     }
                     break;
                 }
@@ -1044,10 +1040,19 @@ namespace SharpNeat.Genomes.Neat
                 {
                     // Pick one of the two genes at random. Override any existing gene in case it was a disjoint/excess gene - 
                     // we prefer matched genes to disjoint/excess ones as they are more likely to contribute to fitness.
-                    CreateOffspring_Sexual_AddGene(
-                            connectionListBuilder,
-                            RouletteWheel.SingleThrow(0.5, _genomeFactory.Rng) ? correlationItem.ConnectionGene1 : correlationItem.ConnectionGene2,
-                            true);
+                    if(RouletteWheel.SingleThrow(0.5, _genomeFactory.Rng))
+                    {
+                        connectionGene = correlationItem.ConnectionGene1;
+                        srcNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
+                        tgtNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
+                    }
+                    else
+                    {
+                        connectionGene = correlationItem.ConnectionGene2;
+                        srcNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
+                        tgtNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
+                    }
+                    CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, true, srcNeuronGene, tgtNeuronGene);
                     break;
                 }
             } 
@@ -1065,7 +1070,8 @@ namespace SharpNeat.Genomes.Neat
         /// because it has O(log n) insertion time for unsorted data versus the SortedList's O(n).
         /// </summary>
         private void CreateOffspring_Sexual_AddGene(ConnectionGeneListBuilder connectionListBuilder,
-                                                    ConnectionGene connectionGene, bool overwriteExisting)
+                                                    ConnectionGene connectionGene, bool overwriteExisting,
+                                                    NeuronGene srcNeuronGene, NeuronGene tgtNeuronGene)
         {
             ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(
                                                                 connectionGene.SourceNodeId, 
@@ -1077,7 +1083,7 @@ namespace SharpNeat.Genomes.Neat
             if(null == existingGene)
             {   // We have not yet added a connection with the same neuron endpoints as the one we are trying to add.
                 // Append the connection gene to the ConnectionListBuilder.
-                connectionListBuilder.Append(connectionGene, connectionKey);
+                connectionListBuilder.Append(connectionGene, connectionKey, srcNeuronGene, tgtNeuronGene);
             }
             else if(overwriteExisting)
             {   // The genome we are building already has a connection with the same neuron endpoints as the one we are
