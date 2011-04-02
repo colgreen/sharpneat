@@ -164,8 +164,7 @@ Sin(x) evaluated over [-PI,+PI]
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
-      <Description>
-        Logical XOR. The goal is to reproduce the following logic truth table:
+      <Description>Logical XOR. The goal is to reproduce the following logic truth table:
         In1 | In2 | Out
         -----------------
         0    | 0    | 0
@@ -173,7 +172,7 @@ Sin(x) evaluated over [-PI,+PI]
         1    | 0    | 1
         1    | 1    | 0
 
-        Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interprested as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completey wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a sucessful network.
+Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interprested as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completey wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a sucessful network.
       </Description>
 
     </Config>
@@ -345,32 +344,6 @@ Difficulty of the task can be varying
       </Description>
     </Config>
   </Experiment>  
-  
-  <Experiment name="Logical XOR (NEAT)">
-    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.Xor.XorExperiment</ClassName>
-    <Config>
-      <PopulationSize>150</PopulationSize>
-      <SpecieCount>10</SpecieCount>
-      <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>2</Iters>
-      </Activation>
-      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
-      <ComplexityThreshold>10</ComplexityThreshold>
-      <Description>Logical XOR. The goal is to reproduce the following logic truth table:
-In1 | In2 | Out
------------------
-0    | 0    | 0
-0    | 1    | 1
-1    | 0    | 1
-1    | 1    | 0
-
-Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interprested as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completey wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a sucessful network.
-      </Description>
-      
-    </Config>
-  </Experiment>
   
   <Experiment name="Boxes Visual Discrimination (HyperNEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
