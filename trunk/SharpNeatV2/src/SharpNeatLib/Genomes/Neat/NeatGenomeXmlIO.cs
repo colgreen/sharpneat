@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Xml;
 using SharpNeat.Network;
 using SharpNeat.Utility;
+using System.Text;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -50,6 +51,7 @@ namespace SharpNeat.Genomes.Neat
         const string __AttrTargetId = "tgt";
         const string __AttrWeight = "wght";
         const string __AttrActivationFunctionId = "fnId";
+        const string __AttrAuxState = "aux";
 
         #endregion
 
@@ -119,29 +121,12 @@ namespace SharpNeat.Genomes.Neat
         /// <param name="xmlNode">The XmlNode to read from. This can be an XmlDocument or XmlElement.</param>
         /// <param name="nodeFnIds">Indicates if node activation function IDs should be read. If false then 
         /// all node activation function IDs default to 0.</param>
-        /// <param name="genomeParameters">A NeatGenomeParameters object to construct genomes and their 
-        /// associated NeatGenomeFactory against.</param>
-        public static List<NeatGenome> LoadCompleteGenomeList(XmlNode xmlNode, bool nodeFnIds,
-                                                              NeatGenomeParameters genomeParameters)
+        /// <param name="genomeFactory">A NeatGenomeFactory object to construct genomes against.</param>
+        public static List<NeatGenome> LoadCompleteGenomeList(XmlNode xmlNode, bool nodeFnIds, NeatGenomeFactory genomeFactory)
         {
             using(XmlNodeReader xr = new XmlNodeReader(xmlNode))
             {
-                return ReadCompleteGenomeList(xr, nodeFnIds, genomeParameters);
-            }
-        }
-
-        /// <summary>
-        /// Reads a list of NeatGenome(s) from XML that has a containing 'Root' element. The root element 
-        /// also contains the activation function library that the network definitions are associated with.
-        /// </summary>
-        /// <param name="xmlNode">The XmlNode to read from. This can be an XmlDocument or XmlElement.</param>
-        /// <param name="nodeFnIds">Indicates if node activation function IDs should be read. If false then 
-        /// all node activation function IDs default to 0.</param>
-        public static List<NeatGenome> LoadCompleteGenomeList(XmlNode xmlNode, bool nodeFnIds)
-        {
-            using(XmlNodeReader xr = new XmlNodeReader(xmlNode))
-            {
-                return ReadCompleteGenomeList(xr, nodeFnIds);
+                return ReadCompleteGenomeList(xr, nodeFnIds, genomeFactory);
             }
         }
 
@@ -246,14 +231,19 @@ namespace SharpNeat.Genomes.Neat
             xw.WriteAttributeString(__AttrFitness, genome.EvaluationInfo.Fitness.ToString("R"));
 
             // Emit nodes.
+            StringBuilder sb = new StringBuilder();
             xw.WriteStartElement(__ElemNodes);
             foreach(NeuronGene nGene in genome.NeuronGeneList)
             {
                 xw.WriteStartElement(__ElemNode);
                 xw.WriteAttributeString(__AttrType, NetworkXmlIO.GetNodeTypeString(nGene.NodeType));
                 xw.WriteAttributeString(__AttrId, nGene.Id.ToString());
-                if(nodeFnIds) {
+                if(nodeFnIds) 
+                {	// Write activation fn ID.
                     xw.WriteAttributeString(__AttrActivationFunctionId, nGene.ActivationFnId.ToString());
+
+                    // Write aux state as comma separated list of real values.
+                    XmlIoUtils.WriteAttributeString(xw, __AttrAuxState, nGene.AuxState);
                 }
                 xw.WriteEndElement();
             }
@@ -281,33 +271,20 @@ namespace SharpNeat.Genomes.Neat
         #region Public Static Methods [Read from XML]
 
         /// <summary>
-        /// Reads a list of NeatGenome(s) from XML and from within a containing 'Root' element and packaged
-        /// alongside XML describing the activation function library that the genomes are associated with.
-        /// </summary>
-        /// <param name="xr">The XmlReader to read from.</param>
-        /// <param name="nodeFnIds">Indicates if node activation function IDs should be read. If false then 
-        /// all node activation function IDs default to 0.</param>
-        public static List<NeatGenome> ReadCompleteGenomeList(XmlReader xr, bool nodeFnIds)
-        {
-            return ReadCompleteGenomeList(xr, nodeFnIds, new NeatGenomeParameters());
-        }
-
-        /// <summary>
         /// Reads a list of NeatGenome(s) from XML that has a containing 'Root' element. The root 
         /// element also contains the activation function library that the genomes are associated with.
         /// </summary>
         /// <param name="xr">The XmlReader to read from.</param>
         /// <param name="nodeFnIds">Indicates if node activation function IDs should be read. If false then 
         /// all node activation function IDs default to 0.</param>
-        /// <param name="genomeParameters">A NeatGenomeParameters object to construct genomes and their 
-        /// associated NeatGenomeFactory against.</param>
-        public static List<NeatGenome> ReadCompleteGenomeList(XmlReader xr, bool nodeFnIds,
-                                                              NeatGenomeParameters genomeParameters)
+        /// <param name="genomeFactory">A NeatGenomeFactory object to construct genomes against.</param>
+        public static List<NeatGenome> ReadCompleteGenomeList(XmlReader xr, bool nodeFnIds, NeatGenomeFactory genomeFactory)
         {
             // Find <Root>.
             XmlIoUtils.MoveToElement(xr, false, __ElemRoot);
 
-            // Read IActivationFunctionLibrary.
+            // Read IActivationFunctionLibrary. This library is not used, it is compared against the one already present in the 
+            // genome factory to confirm that the loaded genomes are compatible with the genome factory.
             XmlIoUtils.MoveToElement(xr, true, __ElemActivationFunctions);
             IActivationFunctionLibrary activationFnLib = NetworkXmlIO.ReadActivationFunctionLibrary(xr);
             XmlIoUtils.MoveToElement(xr, false, __ElemNetworks);
@@ -336,9 +313,9 @@ namespace SharpNeat.Genomes.Neat
                 return genomeList;
             }
 
-            // Determine the number of inputs and outputs from the first genome.
-            int inputCount = genomeList[0].InputNodeCount;
-            int outputCount = genomeList[0].OutputNodeCount;
+            // Get the number of inputs and outputs expected by the genome factory.
+            int inputCount = genomeFactory.InputNeuronCount;
+            int outputCount = genomeFactory.OutputNeuronCount;
 
             // Check all genomes have the same number of inputs & outputs.
             // Also track the highest genomeID and innovation ID values; we need these to construct a new genome factory.
@@ -367,10 +344,24 @@ namespace SharpNeat.Genomes.Neat
                 }
             }
 
-            // Create a genome factory for the genomes.
-            UInt32IdGenerator genomeIdGenerator = new UInt32IdGenerator(maxGenomeId+1);
-            UInt32IdGenerator innovationIdGenerator = new UInt32IdGenerator(maxInnovationId+1);
-            NeatGenomeFactory genomeFactory = new NeatGenomeFactory(inputCount, outputCount, activationFnLib, genomeParameters, genomeIdGenerator, innovationIdGenerator);
+            // Check that activation functions in XML match that in the genome factory.
+            IList<ActivationFunctionInfo> loadedActivationFnList = activationFnLib.GetFunctionList();
+            IList<ActivationFunctionInfo> factoryActivationFnList = genomeFactory.ActivationFnLibrary.GetFunctionList();
+            if(loadedActivationFnList.Count != factoryActivationFnList.Count) {
+                throw new SharpNeatException("The activation function library loaded from XML does not match the genome factory's activation function library.");
+            }
+
+            for(int i=0; i<factoryActivationFnList.Count; i++) 
+            {
+                if(    (loadedActivationFnList[i].Id != factoryActivationFnList[i].Id)
+                    || (loadedActivationFnList[i].ActivationFunction.FunctionId != factoryActivationFnList[i].ActivationFunction.FunctionId)) {
+                    throw new SharpNeatException("The activation function library loaded from XML does not match the genome factory's activation function library.");
+                }
+            }
+
+            // Initialise the genome factory's genome and innovation ID generators.
+            genomeFactory.GenomeIdGenerator.Reset(maxGenomeId+1);
+            genomeFactory.InnovationIdGenerator.Reset(maxInnovationId+1);
 
             // Retrospecitively assign the genome factory to the genomes. This is how we overcome the genome/genomeFactory
             // chicken and egg problem.
@@ -425,11 +416,16 @@ namespace SharpNeat.Genomes.Neat
                     NodeType neuronType = NetworkXmlIO.ReadAttributeAsNodeType(xrSubtree, __AttrType);
                     uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
                     int functionId = 0;
-                    if(nodeFnIds) {
+                    double[] auxState = null;
+                    if(nodeFnIds) 
+                    {	// Read activation fn ID.
                         functionId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
+
+                        // Read aux state as comma seperated list of real values.
+                        auxState = XmlIoUtils.ReadAttributeAsDoubleArray(xrSubtree, __AttrAuxState);
                     }
 
-                    NeuronGene nGene = new NeuronGene(id, neuronType, functionId);
+                    NeuronGene nGene = new NeuronGene(id, neuronType, functionId, auxState);
                     nGeneList.Add(nGene);
 
                     // Track the number of input and output nodes.

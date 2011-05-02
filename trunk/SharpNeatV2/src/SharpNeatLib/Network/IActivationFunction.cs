@@ -17,6 +17,8 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using SharpNeat.Utility;
+
 namespace SharpNeat.Network
 {
     /// <summary>
@@ -37,37 +39,44 @@ namespace SharpNeat.Network
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
         /// is using.
         /// </summary>
-        string FunctionId
-        {
-            get;
-        }
+        string FunctionId { get; }
 
         /// <summary>
         /// Gets a human readable string representation of the function. E.g 'y=1/x'.
         /// </summary>
-        string FunctionString
-        {
-            get;
-        }
+        string FunctionString { get; }
 
         /// <summary>
         /// Gets a human readable verbose description of the activation function.
         /// </summary>
-        string FunctionDescription
-        {
-            get;
-        }
+        string FunctionDescription { get; }
 
         /// <summary>
-        /// Calculates the output value for the specified input value.
+        /// Gets a flag that indicates if the activation function accepts auxiliary arguments.
         /// </summary>
-        double Calculate(double x);
+        bool AcceptsAuxArgs { get; } 
 
         /// <summary>
-        /// Calculates the output value for the specified input value with float/single precision.
+        /// Calculates the output value for the specified input value and optional activation function auxiliary arguments.
+        /// </summary>
+        double Calculate(double x, double[] auxArgs);
+
+        /// <summary>
+        /// Calculates the output value for the specified input value and optional activation function auxiliary arguments.
         /// This single precision overload of Calculate() will be used in neural network code 
         /// that has been specifically written to use floats instead of doubles.
         /// </summary>
-        float Calculate(float x);
+        float Calculate(float x, float[] auxArgs);
+
+        /// <summary>
+        /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
+        /// added nodes (from an 'add neuron' mutation).
+        /// </summary>
+        double[] GetRandomAuxArgs(FastRandom rng, double connectionWeightRange);
+
+        /// <summary>
+        /// Genetic mutation for auxiliary argument data.
+        /// </summary>
+        void MutateAuxArgs(double[] auxArgs, FastRandom rng, GaussianGenerator gaussianRng, double connectionWeightRange);
     }
 }

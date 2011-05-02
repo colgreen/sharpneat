@@ -66,7 +66,15 @@ namespace SharpNeat.Utility
         /// </summary>
         public void Reset()
         {
-            _nextId=0;
+            _nextId = 0;
+        }
+
+        /// <summary>
+        /// Resets the next ID to a specific value.
+        /// </summary>
+        public void Reset(uint nextId)
+        {
+            _nextId = nextId;
         }
 
         #endregion

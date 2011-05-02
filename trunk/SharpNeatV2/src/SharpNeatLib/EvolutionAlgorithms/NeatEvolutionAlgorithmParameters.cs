@@ -214,7 +214,7 @@ namespace SharpNeat.EvolutionAlgorithms
         {
             // Make a copy of the current 'complexifying' parameters (as required by complexity regulation)
             // and modify the copy to be suitable for simplifcation. Basically we disable sexual reproduction
-            // whle in simplifying mode to revent proliferation on structure through sexual reproduction.
+            // whle in simplifying mode to prevent proliferation of structure through sexual reproduction.
             NeatEvolutionAlgorithmParameters eaParams = new NeatEvolutionAlgorithmParameters(this);
             eaParams._offspringAsexualProportion = 1.0;
             eaParams._offspringSexualProportion = 0.0;

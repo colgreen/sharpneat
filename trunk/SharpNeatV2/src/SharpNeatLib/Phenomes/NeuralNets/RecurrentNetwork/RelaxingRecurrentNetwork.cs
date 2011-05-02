@@ -107,7 +107,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 for(int j=_inputAndBiasNeuronCount; j<neuronCount; j++) 
                 {
                     Neuron neuron = _neuronList[j];
-                    double tmp = neuron.ActivationFunction.Calculate(neuron.InputValue);
+                    double tmp = neuron.ActivationFunction.Calculate(neuron.InputValue, neuron.AuxiliaryArguments);
 
                     // Compare the neuron's new output value with its old value. If the difference is greater
                     // than _signalDeltaThreshold then the network is not yet relaxed.

@@ -28,6 +28,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         readonly uint _id;
         readonly NodeType _neuronType;
         readonly IActivationFunction _activationFn;
+        readonly double[] _auxArgs;
         double _inputValue;
         double _outputValue;
         
@@ -36,11 +37,12 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Constructs a Neuron with the provided ID, type and activation function.
         /// </summary>
-        public Neuron(uint id, NodeType neuronType, IActivationFunction activationFn)
+        public Neuron(uint id, NodeType neuronType, IActivationFunction activationFn, double[] auxArgs)
         {            
             _id = id;
             _neuronType = neuronType;
             _activationFn = activationFn;
+            _auxArgs = auxArgs;
 
             // Bias neurons have a fixed output value of 1.0
             _outputValue = (NodeType.Bias == _neuronType) ? 1.0 : 0.0;
@@ -72,6 +74,14 @@ namespace SharpNeat.Phenomes.NeuralNets
         public IActivationFunction ActivationFunction
         {
             get { return _activationFn; }
+        }
+
+        /// <summary>
+        /// Gets the neuron's acticvation function auxiliary arguments (if any).
+        /// </summary>
+        public double[] AuxiliaryArguments
+        {
+            get { return _auxArgs; }
         }
 
         /// <summary>

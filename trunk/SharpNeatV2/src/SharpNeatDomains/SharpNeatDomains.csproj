@@ -55,15 +55,18 @@
     <Compile Include="AbstractGenomeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="BinaryElevenMultiplexer\RbfBinaryElevenMultiplexerExperiment.cs" />
     <Compile Include="BinarySixMultiplexer\BinarySixMultiplexerEvaluator.cs" />
     <Compile Include="AbstractDomainView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BinarySixMultiplexer\BinarySixMultiplexerExperiment.cs" />
+    <Compile Include="BinarySixMultiplexer\RbfBinarySixMultiplexerExperiment.cs" />
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerExperiment.cs" />
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
     <Compile Include="FunctionRegression\AbsFunction.cs" />
+    <Compile Include="FunctionRegression\RbfFunctionRegressionExperiment.cs" />
     <Compile Include="IGuiNeatExperiment.cs" />
     <Compile Include="IntPoint.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.cs">
@@ -103,7 +106,6 @@
     <Compile Include="FunctionRegression\ParameterSamplingInfo.cs" />
     <Compile Include="FunctionRegression\FunctionRegressionExperiment.cs" />
     <Compile Include="INeatExperiment.cs" />
-    <Compile Include="NeatGenomeUtils.cs" />
     <Compile Include="NeatGenomeView.cs">
       <SubType>UserControl</SubType>
     </Compile>

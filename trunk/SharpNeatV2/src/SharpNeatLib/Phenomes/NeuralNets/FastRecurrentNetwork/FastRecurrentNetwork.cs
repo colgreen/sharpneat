@@ -59,6 +59,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     {
         protected readonly FastConnection[] _connectionArray;
         protected readonly IActivationFunction[] _neuronActivationFnArray;
+        protected readonly double[][] _neuronAuxArgsArray;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -83,6 +84,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// </summary>
         public FastRecurrentNetwork(FastConnection[] connectionArray,
                                     IActivationFunction[] neuronActivationFnArray,
+                                    double[][] neuronAuxArgsArray,
                                     int neuronCount,
                                     int inputNeuronCount,
                                     int outputNeuronCount,
@@ -90,6 +92,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         {
             _connectionArray = connectionArray;
             _neuronActivationFnArray = neuronActivationFnArray;
+            _neuronAuxArgsArray = neuronAuxArgsArray;
 
             // Create neuron pre- and post-activation signal arrays.
             _preActivationArray = new double[neuronCount];
@@ -178,7 +181,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // post-activation values and are never activated. 
                 for(int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
                 {
-                    _postActivationArray[j] = _neuronActivationFnArray[j].Calculate(_preActivationArray[j]);
+                    _postActivationArray[j] = _neuronActivationFnArray[j].Calculate(_preActivationArray[j], _neuronAuxArgsArray[j]);
                     
                     // Take the opportunity to reset the pre-activation signal array in preperation for the next 
                     // activation loop.

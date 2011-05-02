@@ -89,7 +89,8 @@ namespace SharpNeat.Decoders
                 // be introduced.
                 Neuron neuron = new Neuron(nodeDef.Id,
                                            nodeDef.NodeType,
-                                           activationFnLib.GetFunction(nodeDef.ActivationFnId));
+                                           activationFnLib.GetFunction(nodeDef.ActivationFnId),
+                                           nodeDef.AuxState);
                 neuronList.Add(neuron);
                 neuronDictionary.Add(nodeDef.Id, neuron);
             }

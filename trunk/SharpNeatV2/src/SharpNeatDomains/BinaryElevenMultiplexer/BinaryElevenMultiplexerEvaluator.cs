@@ -30,7 +30,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
     /// </summary>
     public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox>
     {
-        const double MaxFitness = 12048;
+        const double StopFitness = 10000.0;
         ulong _evalCount;
         bool _stopConditionSatisfied;
 
@@ -97,18 +97,20 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
                 // The condition is true if the correct answer is true (1.0).
                 if(((1<<(3+(i&0x7)))&i) != 0)
                 {   // correct answer = true.
-                    // Assign fitness on sliding scale between 0.0 and 1.0.
-                    fitness += output;
-
+                    // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
+                    // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
+                    // Note. To base fitness on absolute error use: fitness += output;
+                    fitness += 1.0-((1.0-output)*(1.0-output));
                     if(output<0.5) {
                         success=false;
                     }
                 }
                 else
                 {   // correct answer = false.
-                    // Assign fitness on sliding scale between 0.0 and 1.0.
-                    fitness += 1.0-output;
-
+                    // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
+                    // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
+                    // Note. To base fitness on absolute error use: fitness += 1.0-output;
+                    fitness += 1.0-(output*output);
                     if(output>=0.5) {
                         success=false;
                     }
@@ -123,7 +125,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
                 fitness += 10000.0;
             }
 
-            if(MaxFitness == fitness) {
+            if(fitness >= StopFitness) {
                 _stopConditionSatisfied = true;
             }
 

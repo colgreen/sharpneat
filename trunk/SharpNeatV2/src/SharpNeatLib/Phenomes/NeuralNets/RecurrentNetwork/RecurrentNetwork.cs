@@ -163,7 +163,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 for(int j=_inputAndBiasNeuronCount; j<neuronCount; j++) 
                 {
                     Neuron neuron = _neuronList[j];
-                    neuron.OutputValue = neuron.ActivationFunction.Calculate(neuron.InputValue);
+                    neuron.OutputValue = neuron.ActivationFunction.Calculate(neuron.InputValue, neuron.AuxiliaryArguments);
 
                     // Reset input value, in preparation for the next timestep/iteration.
                     neuron.InputValue = 0.0;

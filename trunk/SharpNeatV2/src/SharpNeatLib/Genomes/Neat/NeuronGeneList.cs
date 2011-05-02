@@ -99,14 +99,17 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>
         /// Remove the neuron gene with the specified innovation ID.
+        /// Returns the removed gene.
         /// </summary>
-        public void Remove(uint neuronId)
+        public NeuronGene Remove(uint neuronId)
         {
             int idx = BinarySearch(neuronId);
             if(idx<0) {
                 throw new ApplicationException("Attempt to remove neuron with an unknown neuronId");
             } 
+            NeuronGene neuronGene = this[idx];
             RemoveAt(idx);
+            return neuronGene;
         }
 
         /// <summary>

@@ -43,12 +43,13 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// </summary>
         public FastRelaxingRecurrentNetwork(FastConnection[] connectionArray,
                                             IActivationFunction[] neuronActivationFnArray,
+                                            double[][] neuronAuxArgsArray,
                                             int neuronCount,
                                             int inputNeuronCount,
                                             int outputNeuronCount,
                                             int maxTimesteps,
                                             double signalDeltaThreshold)
-            : base(connectionArray, neuronActivationFnArray,
+            : base(connectionArray, neuronActivationFnArray, neuronAuxArgsArray,
                    neuronCount, inputNeuronCount, outputNeuronCount,
                    maxTimesteps)
         {
@@ -93,7 +94,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 // post-activation values and are never activated. 
                 for(int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
                 {
-                    double tmp = _neuronActivationFnArray[j].Calculate(_preActivationArray[j]);
+                    double tmp = _neuronActivationFnArray[j].Calculate(_preActivationArray[j], _neuronAuxArgsArray[j]);
                     
                     // Compare the neuron's new output value with its old value. If the difference is greater
                     // than _signalDeltaThreshold then the network is not yet relaxed.

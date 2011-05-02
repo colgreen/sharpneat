@@ -49,6 +49,7 @@ namespace SharpNeat.Network
         const string __AttrTargetId = "tgt";
         const string __AttrWeight = "wght";
         const string __AttrActivationFunctionId = "fnId";
+        const string __AttrAuxState = "aux";
         const string __AttrProbability = "prob";
 
         #endregion
@@ -133,7 +134,7 @@ namespace SharpNeat.Network
         /// <param name="xmlNode">The XmlNode to read from. This can be an XmlDocument or XmlElement.</param>
         /// <param name="activationFnLib">The activation function library used to decode node activation function IDs.</param>
         /// <param name="nodeFnIds">Indicates if node activation function IDs should be read. They are required
-        /// for HyperNEAT genomes but not for NEAT</param>
+        /// for HyperNEAT genomes but not for NEAT.  If false then all node activation function IDs default to 0.</param>
         public static NetworkDefinition ReadGenome(XmlNode xmlNode, IActivationFunctionLibrary activationFnLib, bool nodeFnIds)
         {
             using(XmlNodeReader xr = new XmlNodeReader(xmlNode))
@@ -372,11 +373,17 @@ namespace SharpNeat.Network
                     NodeType nodeType = ReadAttributeAsNodeType(xrSubtree, __AttrType);
                     uint id = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrId);
                     int fnId = 0;
-                    if(nodeFnIds) {
+                    double[] auxState = null;
+                    if(nodeFnIds) 
+                    {   // Read activation fn ID.
                         fnId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
+
+                        // Read aux state as comma seperated list of real values.
+                        auxState = XmlIoUtils.ReadAttributeAsDoubleArray(xrSubtree, __AttrAuxState);
                     }
 
-                    NetworkNode node = new NetworkNode(id, nodeType, fnId);
+                    // TODO: Read node aux state data.
+                    NetworkNode node = new NetworkNode(id, nodeType, fnId, auxState);
                     nodeList.Add(node);
 
                     // Track the number of input and output nodes.
@@ -560,6 +567,8 @@ namespace SharpNeat.Network
                     return SteepenedSigmoidApproximation.__DefaultInstance;
                 case "StepFunction":
                     return StepFunction.__DefaultInstance;
+                case "RbfGaussian":
+                    return RbfGaussian.__DefaultInstance;
             }
             throw new ArgumentException(string.Format("Unexpected activation function [{0}]", name));
         }

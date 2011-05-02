@@ -39,15 +39,17 @@ namespace SharpNeat.Decoders
         {
             FastConnection[] fastConnectionArray;
             IActivationFunction[] activationFnArray;
+            double[][] neuronAuxArgsArray;
             InternalDecode(networkDef, 
                            activationScheme.RelaxingActivation ? activationScheme.MaxTimesteps : activationScheme.TimestepsPerActivation,
-                           out fastConnectionArray, out activationFnArray);
+                           out fastConnectionArray, out activationFnArray, out neuronAuxArgsArray);
 
             // Construct neural net.
             if(activationScheme.RelaxingActivation)
             {
                 return new FastRelaxingRecurrentNetwork(fastConnectionArray,
                                                         activationFnArray, 
+                                                        neuronAuxArgsArray,
                                                         networkDef.NodeList.Count,
                                                         networkDef.InputNodeCount,
                                                         networkDef.OutputNodeCount,
@@ -56,7 +58,8 @@ namespace SharpNeat.Decoders
             }
 
             return new FastRecurrentNetwork(fastConnectionArray,
-                                            activationFnArray, 
+                                            activationFnArray,
+                                            neuronAuxArgsArray,
                                             networkDef.NodeList.Count,
                                             networkDef.InputNodeCount,
                                             networkDef.OutputNodeCount,
@@ -70,7 +73,8 @@ namespace SharpNeat.Decoders
         private static void InternalDecode(INetworkDefinition networkDef,
                                            int timestepsPerActivation,
                                            out FastConnection[] fastConnectionArray,
-                                           out IActivationFunction[] activationFnArray)
+                                           out IActivationFunction[] activationFnArray,
+                                           out double[][] neuronAuxArgsArray)
         {
             IConnectionList connectionList = networkDef.ConnectionList;
             INodeList nodeList = networkDef.NodeList;
@@ -170,8 +174,10 @@ namespace SharpNeat.Decoders
             // these don't have an activation function (because they aren't activated).
             IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
             activationFnArray = new IActivationFunction[nodeCount];
+            neuronAuxArgsArray = new double[nodeCount][];
             for(int i=0; i<nodeCount; i++) {
                 activationFnArray[i] = activationFnLibrary.GetFunction(nodeList[i].ActivationFnId);
+                neuronAuxArgsArray[i] = nodeList[i].AuxState;
             }
         }
 
