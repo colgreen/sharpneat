@@ -36,7 +36,8 @@ namespace SharpNeat.Genomes.Neat
     {
         const int __INNOVATION_HISTORY_BUFFER_SIZE = 0x20000;
 
-        NeatGenomeParameters _neatGenomeParamsCurrent;
+        /// <summary>NeatGenomeParameters currently in effect.</summary>
+        protected NeatGenomeParameters _neatGenomeParamsCurrent;
         readonly NeatGenomeParameters _neatGenomeParamsComplexifying;
         readonly NeatGenomeParameters _neatGenomeParamsSimplifying;
         readonly NeatGenomeStats _stats = new NeatGenomeStats();
@@ -428,6 +429,22 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
+        /// Gets the number of input neurons expressed by the genomes related to this factory.
+        /// </summary>
+        public int InputNeuronCount
+        {
+            get { return _inputNeuronCount; }
+        }
+
+        /// <summary>
+        /// Gets the number of output neurons expressed by the genomes related to this factory.
+        /// </summary>
+        public int OutputNeuronCount
+        {
+            get { return _outputNeuronCount; }
+        }
+
+        /// <summary>
         /// Gets the factory's activation function library.
         /// </summary>
         public IActivationFunctionLibrary ActivationFnLibrary
@@ -474,6 +491,16 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
+        /// Gets a random number generator associated with the factory. 
+        /// Note. The provided RNG is not thread safe, if concurrent use is required then sync locks
+        /// are necessary or some other RNG mechanism.
+        /// </summary>
+        public GaussianGenerator GaussianRng
+        {
+            get { return _gaussianRng; }
+        }
+
+        /// <summary>
         /// Gets some statistics assocated with the factory and NEAT genomes that it has spawned.
         /// </summary>
         public NeatGenomeStats Stats
@@ -515,11 +542,12 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public double SampleGaussianDistribution(double mu, double sigma)
         {
-            return mu + (_gaussianRng.NextDouble() * sigma);
+            return _gaussianRng.NextDouble(mu, sigma);
         }
 
         /// <summary>
-        /// Overridable method to allow alternative NeatGenome classes to be used.
+        /// Create a genome with the provided internal state/definition data/objects.
+        /// Overridable method to allow alternative NeatGenome sub-classes to be used.
         /// </summary>
         public virtual NeatGenome CreateGenome(uint id, 
                                                uint birthGeneration,
@@ -533,7 +561,8 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Overridable method to allow alternative NeatGenome classes to be used.
+        /// Create a copy of an existing NeatGenome, substituting in the specified ID and birth generation.
+        /// Overridable method to allow alternative NeatGenome sub-classes to be used.
         /// </summary>
         public virtual NeatGenome CreateGenomeCopy(NeatGenome copyFrom, uint id, uint birthGeneration)
         {
@@ -541,7 +570,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Overridable method to allow alternative NeuronGene classes to be used.
+        /// Overridable method to allow alternative NeuronGene sub-classes to be used.
         /// </summary>
         public virtual NeuronGene CreateNeuronGene(uint innovationId, NodeType neuronType)
         {

@@ -33,6 +33,7 @@ namespace SharpNeat.Genomes.Neat
         readonly uint _innovationId;
         readonly NodeType _neuronType;
         readonly int _activationFnId;
+        readonly double[] _auxState;
 
         #region Constructor
 
@@ -44,6 +45,9 @@ namespace SharpNeat.Genomes.Neat
             _innovationId = copyFrom._innovationId;
             _neuronType = copyFrom._neuronType;
             _activationFnId = copyFrom._activationFnId;
+            if(null != copyFrom._auxState) {
+                _auxState = (double[])copyFrom._auxState.Clone();
+            }
         }
 
         /// <summary>
@@ -55,6 +59,19 @@ namespace SharpNeat.Genomes.Neat
             _innovationId = innovationId;
             _neuronType = neuronType;
             _activationFnId = activationFnId;
+            _auxState = null;
+        }
+
+        /// <summary>
+        /// Construct new NeuronGene with the specified innovationId, neuron type 
+        /// activation function ID and auxiliary state data.
+        /// </summary>
+        public NeuronGene(uint innovationId, NodeType neuronType, int activationFnId, double[] auxState)
+        {
+            _innovationId = innovationId;
+            _neuronType = neuronType;
+            _activationFnId = activationFnId;
+            _auxState = auxState;
         }
 
         #endregion
@@ -86,6 +103,15 @@ namespace SharpNeat.Genomes.Neat
         public int ActivationFnId
         {
             get { return _activationFnId; }
+        }
+
+        /// <summary>
+        /// Optional auxilliary node state. Null if no aux state is present. 
+        /// Note. Radial Basis Function center and epsilon values are stored here.
+        /// </summary>
+        public double[] AuxState
+        {
+            get { return _auxState; }
         }
 
         #endregion

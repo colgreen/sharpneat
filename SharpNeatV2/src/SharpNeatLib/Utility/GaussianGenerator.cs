@@ -20,8 +20,9 @@ using System;
 
 namespace SharpNeat.Utility
 {
+    // TODO: Use faster Ziggurat algorithm (http://en.wikipedia.org/wiki/Ziggurat_algorithm)
     /// <summary>
-    /// Source of random Gaussian values. Uses the polar form of the Box-Muller method.
+    /// Source of random values sample from a Gaussian distribution. Uses the polar form of the Box-Muller method.
     /// http://en.wikipedia.org/wiki/Box_Muller_transform
     /// </summary>
     public class GaussianGenerator
@@ -30,9 +31,8 @@ namespace SharpNeat.Utility
         double? _spareValue = null;
 
         /// <summary>
-        /// Get the next gaussian variable.
+        /// Get the next sample point from the gaussian distribution.
         /// </summary>
-        /// <returns></returns>
         public double NextDouble()
         {
             if(null != _spareValue)
@@ -59,6 +59,14 @@ namespace SharpNeat.Utility
 
             _spareValue = x * fac;
             return y * fac;
+        }
+
+        /// <summary>
+        /// Get the next sample point from the gaussian distribution.
+        /// </summary>
+        public double NextDouble(double mu, double sigma)
+        {
+            return mu + (NextDouble() * sigma);
         }
     }
 }

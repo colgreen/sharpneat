@@ -27,6 +27,7 @@ namespace SharpNeat.Network
         readonly uint _id;
         readonly NodeType _nodeType;
         readonly int _activationFnId;
+        readonly double[] _auxState;
         
         #region Constructor
 
@@ -38,6 +39,18 @@ namespace SharpNeat.Network
             _id = id;
             _nodeType = nodeType;
             _activationFnId = activationFnId;
+            _auxState = null;
+        }
+
+        /// <summary>
+        /// Constructs with the provided node ID, type, activation function ID and auxiliary state data.
+        /// </summary>
+        public NetworkNode(uint id, NodeType nodeType, int activationFnId, double[] auxState)
+        {
+            _id = id;
+            _nodeType = nodeType;
+            _activationFnId = activationFnId;
+            _auxState = auxState;
         }
 
         #endregion
@@ -67,6 +80,15 @@ namespace SharpNeat.Network
         public int ActivationFnId
         {
             get { return _activationFnId; }
+        }
+
+        /// <summary>
+        /// Optional auxilliary node state. Null if no aux state is present. 
+        /// Note. Radial Basis Function center and epsilon values are stored here.
+        /// </summary>
+        public double[] AuxState
+        {
+            get { return _auxState; }
         }
 
         #endregion

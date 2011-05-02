@@ -122,6 +122,17 @@ namespace SharpNeat.Network
             return new DefaultActivationFunctionLibrary(fnList);
         }
 
+        /// <summary>
+        /// Create an IActivationFunctionLibrary for use with Radial Basis Function NEAT.
+        /// </summary>
+        public static IActivationFunctionLibrary CreateLibraryRbf(IActivationFunction activationFn, double auxArgsMutationSigmaCenter, double auxArgsMutationSigmaRadius)
+        {
+            List<ActivationFunctionInfo> fnList = new List<ActivationFunctionInfo>(2);
+            fnList.Add(new ActivationFunctionInfo(0, 0.8, activationFn));
+            fnList.Add(new ActivationFunctionInfo(1, 0.2, new RbfGaussian(auxArgsMutationSigmaCenter, auxArgsMutationSigmaRadius)));
+            return new DefaultActivationFunctionLibrary(fnList);
+        }
+
         #endregion
     }
 }

@@ -90,5 +90,28 @@ namespace SharpNeat.Domains
             }
             return parallelOptions;
         }
+
+        /// <summary>
+        /// Read Radial Basis Function settings from config XML.
+        /// </summary>
+        public static void ReadRbfAuxArgMutationConfig(XmlElement xmlConfig, out double mutationSigmaCenter, out double mutationSigmaRadius)
+        {
+            // Get root activation element.
+            XmlNodeList nodeList = xmlConfig.GetElementsByTagName("RbfAuxArgMutationConfig", "");
+            if(nodeList.Count != 1) {
+                throw new ArgumentException("Missing or invalid RbfAuxArgMutationConfig XML config settings.");
+            }
+
+            XmlElement xmlRbfConfig = nodeList[0] as XmlElement;
+            double? center = XmlUtils.TryGetValueAsDouble(xmlRbfConfig, "MutationSigmaCenter");
+            double? radius = XmlUtils.TryGetValueAsDouble(xmlRbfConfig, "MutationSigmaRadius");
+            if(null == center || null == radius)
+            {
+                throw new ArgumentException("Missing or invalid RbfAuxArgMutationConfig XML config settings.");
+            }
+
+            mutationSigmaCenter = center.Value;
+            mutationSigmaRadius = radius.Value;
+        }
     }
 }

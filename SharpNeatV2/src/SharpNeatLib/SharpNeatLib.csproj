@@ -124,8 +124,11 @@
     <None Include="DeadCode\PhasedSearchStats.cs" />
     <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallClockTimeTrigger.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
-    <Compile Include="Network\ActivationFunctionInfo.cs" />
+    <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
+    <None Include="Genomes\RbfNeat\RbfNeatGenome.cs" />
+    <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
+    <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
     <Compile Include="Network\ConnectionList.cs" />
     <None Include="DeadCode\DefaultCppnActivationFunctionLibrary.cs" />
     <Compile Include="Network\DefaultActivationFunctionLibrary.cs" />
@@ -216,6 +219,7 @@
     <Compile Include="Utility\DoubleCircularBufferWithStats.cs" />
     <Compile Include="Utility\FastRandom.cs" />
     <Compile Include="Utility\GaussianGenerator.cs" />
+    <Compile Include="Utility\XmlIoUtils.cs" />
     <Compile Include="Utility\KeyedCircularBuffer.cs" />
     <Compile Include="SharpNeatException.cs" />
     <Compile Include="Utility\ParallelSort.cs" />
@@ -247,6 +251,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

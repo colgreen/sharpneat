@@ -180,7 +180,8 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         /// </summary>
         public List<NeatGenome> LoadPopulation(XmlReader xr)
         {
-            return NeatGenomeUtils.LoadPopulation(xr, true, this.InputCount, this.OutputCount);
+            NeatGenomeFactory genomeFactory = (NeatGenomeFactory)CreateGenomeFactory();
+            return NeatGenomeXmlIO.ReadCompleteGenomeList(xr, false, genomeFactory);
         }
 
         /// <summary>

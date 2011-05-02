@@ -53,7 +53,7 @@ namespace SharpNeat.Domains
     /// </summary>
     public class XorBlackBoxEvaluator : IPhenomeEvaluator<IBlackBox>
     {
-        const double MaxFitness = 14.0;
+        const double StopFitness = 10.0;
         ulong _evalCount;
         bool _stopConditionSatisfied;
 
@@ -110,7 +110,8 @@ namespace SharpNeat.Domains
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
 
             // Calculate this test case's contribution to the overall fitness score.
-            fitness += 1.0 - output;
+            //fitness += 1.0 - output; // Use this line to punish absolute error instead of squared error.
+            fitness += 1.0-(output*output);
             if(output > 0.5) {
                 pass = 0.0;
             }
@@ -136,7 +137,8 @@ namespace SharpNeat.Domains
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
 
             // Calculate this test case's contribution to the overall fitness score.
-            fitness += 1.0 - output;
+            //fitness += 1.0 - output; // Use this line to punish absolute error instead of squared error.
+            fitness += 1.0-(output*output);
             if(output > 0.5) {
                 pass = 0.0;
             }
@@ -162,7 +164,8 @@ namespace SharpNeat.Domains
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
 
             // Calculate this test case's contribution to the overall fitness score.
-            fitness += output;
+            // fitness += output; // Use this line to punish absolute error instead of squared error.
+            fitness += 1.0-((1.0-output)*(1.0-output));
             if(output <= 0.5) {
                 pass = 0.0;
             }
@@ -188,7 +191,8 @@ namespace SharpNeat.Domains
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
 
             // Calculate this test case's contribution to the overall fitness score.
-            fitness += output;
+            // fitness += output; // Use this line to punish absolute error instead of squared error.
+            fitness += 1.0-((1.0-output)*(1.0-output));
             if(output <= 0.5) {
                 pass = 0.0;
             }
@@ -196,7 +200,8 @@ namespace SharpNeat.Domains
             // If all four outputs were correct, that is, all four were on the correct side of the
             // threshold level - then we add 10 to the fitness.
             fitness += pass * 10.0;
-            if(fitness >= MaxFitness) {
+
+            if(fitness >= StopFitness) {
                 _stopConditionSatisfied = true;
             }
 

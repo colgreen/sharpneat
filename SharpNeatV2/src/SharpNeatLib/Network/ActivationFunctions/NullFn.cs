@@ -17,6 +17,8 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using SharpNeat.Utility;
+
 namespace SharpNeat.Network
 {
     /// <summary>
@@ -55,9 +57,17 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
+        /// Gets a flag that indicates if the activation function accepts auxiliary arguments.
+        /// </summary>
+        public bool AcceptsAuxArgs 
+        { 
+            get { return false; }
+        } 
+
+        /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>
-        public double Calculate(double x)
+        public double Calculate(double x, double[] auxArgs)
         {
             return 0.0;
         }
@@ -67,9 +77,26 @@ namespace SharpNeat.Network
         /// This single precision overload of Calculate() will be used in neural network code 
         /// that has been specifically written to use floats instead of doubles.
         /// </summary>
-        public float Calculate(float x)
+        public float Calculate(float x, float[] auxArgs)
         {
             return 0.0f;
+        }
+
+        /// <summary>
+        /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
+        /// added nodes (from an 'add neuron' mutation).
+        /// </summary>
+        public double[] GetRandomAuxArgs(FastRandom rng, double connectionWeightRange)
+        {
+            throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
+        }
+
+        /// <summary>
+        /// Genetic mutation for auxiliary argument data.
+        /// </summary>
+        public void MutateAuxArgs(double[] auxArgs, FastRandom rng, GaussianGenerator gaussianRng, double connectionWeightRange)
+        {
+            throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
     }
 }
