@@ -153,6 +153,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpNeatDomainsExtra\SharpNeatDomainsExtra.csproj">
+      <Project>{3A1B9DEC-AECE-42F3-BAD9-9172482C43AB}</Project>
+      <Name>SharpNeatDomainsExtra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpNeatDomains\SharpNeatDomains.csproj">
       <Project>{73AB8C8C-6315-4DC7-A3DE-3C747F86AC78}</Project>
       <Name>SharpNeatDomains</Name>

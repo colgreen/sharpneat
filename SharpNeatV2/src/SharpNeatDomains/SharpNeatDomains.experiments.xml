@@ -388,7 +388,48 @@ This controller uses normalized, continous inputs rather than discretized inputs
       </Description>
     </Config>
   </Experiment>
+  <!-- SinglePoleBalancingExperiment has been superceded by SinglePoleBalancingBox2DExperiment. That domain uses the tried and tested Box2D physics engine and also has visualisation. -->
+  <!--
+  <Experiment name="Pole Balancing[Single Pole] (NEAT)">
+    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
+    <ClassName>SharpNeat.Domains.SinglePoleBalancing.SinglePoleBalancingExperiment</ClassName>
+    <Config>
+      <PopulationSize>150</PopulationSize>
+      <SpecieCount>10</SpecieCount>
+      <Activation>
+        <Scheme>FixedIters</Scheme>
+        <Iters>1</Iters>
+      </Activation>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
+      <ComplexityThreshold>10</ComplexityThreshold>
+      <Variant>DoublePole</Variant>
+      <Description>
+        Single Pole Balancing in 2D.
 
+        The experimental model consists of a cart on a rail with fixed length. The cart moves along the x-axis (x=0 represents the center of the rail). A single poles is attached to the cart with a hinge that allows the pole to move left and right.
+
+        An external agent can push the cart with a fixed force of 10 Newtons either left or right.
+
+        The model variables are:
+        * Cart position on rail (x-axis).
+        * Cart velocity.
+        * Pole1 angle.
+        * Pole1 angular velocity.
+
+        All four variables are provided to the controller; the velocity input in particular make the task an easy one to solve with no hidden nodes required.
+
+        The task is for the controller to balance the pole for as long as possible by applying force to the cart.
+        * Timesteps are in increments of 0.01 seconds.
+        * Maximum timesteps for a trial is 100,000 (1000 seconds, or about 16 minutes clock time).
+
+        The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 12 degress
+
+        The model code was ported from the C/C++ code in NEAT by K.Stanley (http://www.cs.utexas.edu/users/kstanley/neat.html), that code in turn originated from the pole balancing simulator written by Richard Sutton and Charles Anderson.
+      </Description>
+    </Config>
+  </Experiment>  
+  -->
+  
   <Experiment name="Prey Capture (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.PreyCapture.PreyCaptureExperiment</ClassName>
