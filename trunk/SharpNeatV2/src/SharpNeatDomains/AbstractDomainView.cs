@@ -22,7 +22,7 @@ using System.Windows.Forms;
 namespace SharpNeat.Domains
 {
     /// <summary>
-    /// Abstract class for problem domain visualization controls.
+    /// Abstract class for problem domain visualization.
     /// </summary>
     public abstract class AbstractDomainView : UserControl
     {

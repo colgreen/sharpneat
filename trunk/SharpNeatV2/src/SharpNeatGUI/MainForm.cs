@@ -788,7 +788,7 @@ namespace SharpNeatGUI
             }
 
             // Create form.
-            _domainForm = new ProblemDomainForm(string.Format("Problem Domain[{0}]", experiment.Name), domainView, _ea);
+            _domainForm = new ProblemDomainForm(experiment.Name, domainView, _ea);
 
             // Attach a event handler to update this main form when the domain form is closed.
             _domainForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
