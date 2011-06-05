@@ -220,7 +220,7 @@ namespace SharpNeat.DomainsExtra.Box2D
 				md.Body2 = body;
 				md.Target = p;
                 md.MaxForce = 1000.0f * body.GetMass();
-
+                md.FrequencyHz = 30f;
 				_mouseJoint = (MouseJoint)_world.CreateJoint(md);
 				body.WakeUp();
 			}

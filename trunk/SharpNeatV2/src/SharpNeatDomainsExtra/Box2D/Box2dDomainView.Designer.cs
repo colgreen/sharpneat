@@ -31,6 +31,7 @@
             this.lblMouseWorldCoords = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblMouseWorldCoords
@@ -77,10 +78,21 @@
             this.openGlControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openGlControl_MouseUp);
             this.openGlControl.Resize += new System.EventHandler(this.openGlControl_Resize);
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(309,-1);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(77,20);
+            this.btnReset.TabIndex = 9;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // Box2dDomainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F,13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.openGlControl);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblMouseWorldCoords);
@@ -96,5 +108,6 @@
         private System.Windows.Forms.Label lblMouseWorldCoords;
         private System.Windows.Forms.Label label1;
         private Tao.Platform.Windows.SimpleOpenGlControl openGlControl;
+        private System.Windows.Forms.Button btnReset;
     }
 }

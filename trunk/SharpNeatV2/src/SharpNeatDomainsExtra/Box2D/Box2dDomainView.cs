@@ -56,6 +56,10 @@ namespace SharpNeat.DomainsExtra.Box2D
         /// </summary>
         AutoResetEvent _simStartEvent = new AutoResetEvent(false);
         /// <summary>
+        /// Signal sim thread to stop current simulation.
+        /// </summary>
+        bool _simStopFlag = false;
+        /// <summary>
         /// The Box2D world.
         /// </summary>
         protected SimulationWorld _simWorld;
@@ -129,7 +133,10 @@ namespace SharpNeat.DomainsExtra.Box2D
         /// <summary>
         /// Test if the Box2D world has arrived at a stop condition.
         /// </summary>
-        protected abstract bool TestStopCondition();
+        protected virtual bool TestStopCondition()
+        {
+            return _simStopFlag;
+        }
 
         #endregion
 
@@ -240,6 +247,9 @@ namespace SharpNeat.DomainsExtra.Box2D
         /// </summary>
         private void RunTrial()
         {
+            // Ensure flag is reset before we enter the main trial loop.
+            _simStopFlag = false;
+
             // Get local copy of black box pointer so that the same one is used throughout each individual simulation trial/run 
             // (_box is being continually updated by the evolution algorithm update events). This is probably an atomic
             // operation and thus thread safe.
@@ -284,13 +294,16 @@ namespace SharpNeat.DomainsExtra.Box2D
                 // Slow simulation down to run it in realtime.
                 Thread.Sleep(_timestepDelayMs);
             }
-            // Freeze view before starting a new simulation.
-            Thread.Sleep(2000);
         }
 
         #endregion
 
         #region GUI Wiring [Event Handlers]
+
+        private void btnReset_Click(object sender,EventArgs e)
+        {
+            _simStopFlag = true;
+        }
 
         private void openGlControl_MouseDown(object sender,MouseEventArgs e)
         {
@@ -327,6 +340,9 @@ namespace SharpNeat.DomainsExtra.Box2D
             SetView();
         }
 
+        /// <summary>
+        /// Event handler to clean-up on window closure.
+        /// </summary>
         protected override void OnHandleDestroyed(EventArgs e)
         {
             // Stop the simulation thread. Otherwise painting requests to the dead control will throw an exception.
@@ -337,5 +353,7 @@ namespace SharpNeat.DomainsExtra.Box2D
         }
 
         #endregion
+
+
     }
 }
