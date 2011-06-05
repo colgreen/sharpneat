@@ -5,6 +5,7 @@ using Box2DX.Dynamics;
 using SharpNeat.DomainsExtra.Box2D;
 using Tao.OpenGl;
 using SharpNeat.DomainsExtra.SinglePoleBalancingBox2d;
+using SharpNeat.DomainsExtra.InvertedDoublePendulum;
 
 namespace SharpNeat.Box2dTestHarness
 {
@@ -40,6 +41,7 @@ namespace SharpNeat.Box2dTestHarness
         private void PopulateSimulationWorldListBox()
         {
             cmbSimulationWorlds.Items.Add(new ListItem(string.Empty, "Single Pole Balancing", typeof(SinglePoleBalancingWorld)));
+            cmbSimulationWorlds.Items.Add(new ListItem(string.Empty, "Inverted Double Pendulum", typeof(InvertedDoublePendulumWorld)));
         }
 
         /// <summary>

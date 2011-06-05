@@ -22,12 +22,12 @@ using SharpNeat.DomainsExtra.Box2D;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
 
-namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
+namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
 {
     /// <summary>
     /// View class for the box2d single pole balancing domain.
     /// </summary>
-    public class SinglePoleBalancingBox2dView : Box2dDomainView
+    public class InvertedDoublePendulumView : Box2dDomainView
     {
         #region Constants
 
@@ -35,6 +35,9 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         const float __TrackLengthHalf = __TrackLength * 0.5f;
         const float __MaxForceNewtons   = 100f;
         const float __MaxForceNewtonsX2 = __MaxForceNewtons * 2f;
+
+        const float __TwoDegrees		= (float)(Math.PI / 90.0);
+        const float __ThreeDegrees		= (float)(Math.PI / 60.0);
         const float __SixDegrees		= (float)(Math.PI / 30.0);	//= 0.1047192;
         const float __TwelveDegrees		= (float)(Math.PI / 15.0);	//= 0.2094384;
 
@@ -45,7 +48,7 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         /// <summary>
         /// Construct with the provided IGenomeDecoder, this is used to decode genome(s) into IBlackBox controllers.
         /// </summary>
-        public SinglePoleBalancingBox2dView(IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
+        public InvertedDoublePendulumView(IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
             : base(genomeDecoder)
         {}
 
@@ -60,7 +63,7 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         {
             // Init sim world. We add extra length to the track to allow cart to overshoot, we then detect overshooting by monitoring the cart's X position 
             // (this is just simpler and more robust than detecting if the cart has hit the ends of the track exactly).
-            SinglePoleBalancingWorld simWorld = new SinglePoleBalancingWorld(__TrackLength + 0.5f, __SixDegrees);
+            InvertedDoublePendulumWorld simWorld = new InvertedDoublePendulumWorld(__TrackLength + 0.5f, __ThreeDegrees, 0f);
             simWorld.InitSimulationWorld();
             return simWorld;
         }
@@ -71,18 +74,23 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         protected override void InvokeController()
         {
             // Provide state info to the black box inputs.
-            SinglePoleBalancingWorld simWorld = (SinglePoleBalancingWorld)_simWorld;
+            InvertedDoublePendulumWorld simWorld = (InvertedDoublePendulumWorld)_simWorld;
             // _box is updated by other threads so copy the reference so that we know we are workign with the same IBlackBox within this method.
             IBlackBox box = _box;
             box.InputSignalArray[0] = simWorld.CartPosX / __TrackLengthHalf;    // CartPosX range is +-trackLengthHalf. Here we normalize it to [-1,1].
             box.InputSignalArray[1] = simWorld.CartVelocityX;                   // Cart track velocity x is typically +-0.75.
-            box.InputSignalArray[2] = simWorld.PoleAngle / __TwelveDegrees;     // Rescale angle to match range of values during balancing.
-            box.InputSignalArray[3] = simWorld.PoleAngularVelocity;             // Pole angular velocity is typically +-1.0 radians. No scaling required.
+
+            box.InputSignalArray[2] = simWorld.CartJointAngle / __TwelveDegrees;// Rescale angle to match range of values during balancing.
+            box.InputSignalArray[3] = simWorld.CartJointAngularVelocity;        // Pole angular velocity is typically +-1.0 radians. No scaling required.
+
+            box.InputSignalArray[4] = simWorld.ElbowJointAngle / __TwelveDegrees;
+            box.InputSignalArray[5] = simWorld.ElbowJointAngularVelocity;
 
             // Activate the network.
             box.Activate();
 
             // Read the network's force signal output.
+            // FIXME: Force mag should be configurable somewhere.
             float force = (float)(box.OutputSignalArray[0] - 0.5f) * __MaxForceNewtonsX2;
             simWorld.SetCartForce(force);
         }
