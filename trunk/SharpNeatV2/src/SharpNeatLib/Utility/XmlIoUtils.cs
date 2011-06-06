@@ -16,12 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace SharpNeat.Utility
@@ -81,11 +78,7 @@ namespace SharpNeat.Utility
         public static int ReadAttributeAsInt(XmlReader xr, string attrName)
         {
             string valStr = xr.GetAttribute(attrName);
-            int val;
-            if(!int.TryParse(valStr, out val)) {
-                throw new InvalidDataException(string.Format("Failed to parse string as integer [{0}]", valStr));
-            }
-            return val;
+            return int.Parse(valStr, NumberFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -94,11 +87,7 @@ namespace SharpNeat.Utility
         public static uint ReadAttributeAsUInt(XmlReader xr, string attrName)
         {
             string valStr = xr.GetAttribute(attrName);
-            uint val;
-            if(!uint.TryParse(valStr, out val)) {
-                throw new InvalidDataException(string.Format("Failed to parse string as integer [{0}]", valStr));
-            }
-            return val;
+            return uint.Parse(valStr, NumberFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -107,11 +96,7 @@ namespace SharpNeat.Utility
         public static double ReadAttributeAsDouble(XmlReader xr, string attrName)
         {
             string valStr = xr.GetAttribute(attrName);
-            double val;
-            if(!double.TryParse(valStr, out val)) {
-                throw new InvalidDataException(string.Format("Failed to parse string as double [{0}]", valStr));
-            }
-            return val;
+            return double.Parse(valStr, NumberFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -128,9 +113,7 @@ namespace SharpNeat.Utility
             string[] strArr = valStr.Split(',');
             double[] dblArr = new double[strArr.Length];
             for(int i=0; i<strArr.Length; i++) {
-                if(!double.TryParse(strArr[i], out dblArr[i])) {
-                    throw new InvalidDataException(string.Format("Failed to parse string as comma separated double array [{0}]", valStr));
-                }    
+                dblArr[i] = double.Parse(strArr[i], NumberFormatInfo.InvariantInfo);
             }
             return dblArr;
         }
@@ -145,16 +128,15 @@ namespace SharpNeat.Utility
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(arr[0].ToString("R"));
+            sb.Append(arr[0].ToString("R", NumberFormatInfo.InvariantInfo));
             for(int i=1; i<arr.Length; i++)
             {
                 sb.Append(',');
-                sb.Append(arr[i].ToString("R"));
+                sb.Append(arr[i].ToString("R", NumberFormatInfo.InvariantInfo));
             }
             xw.WriteAttributeString(attrName, sb.ToString());
         }
 
         #endregion
-
     }
 }

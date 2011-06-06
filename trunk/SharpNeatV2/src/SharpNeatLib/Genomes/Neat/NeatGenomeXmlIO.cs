@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Text;
 using System.Xml;
 using SharpNeat.Network;
 using SharpNeat.Utility;
-using System.Text;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -226,9 +226,9 @@ namespace SharpNeat.Genomes.Neat
         public static void Write(XmlWriter xw, NeatGenome genome, bool nodeFnIds)
         {
             xw.WriteStartElement(__ElemNetwork);
-            xw.WriteAttributeString(__AttrId, genome.Id.ToString());
-            xw.WriteAttributeString(__AttrBirthGeneration, genome.BirthGeneration.ToString());
-            xw.WriteAttributeString(__AttrFitness, genome.EvaluationInfo.Fitness.ToString("R"));
+            xw.WriteAttributeString(__AttrId, genome.Id.ToString(NumberFormatInfo.InvariantInfo));
+            xw.WriteAttributeString(__AttrBirthGeneration, genome.BirthGeneration.ToString(NumberFormatInfo.InvariantInfo));
+            xw.WriteAttributeString(__AttrFitness, genome.EvaluationInfo.Fitness.ToString("R", NumberFormatInfo.InvariantInfo));
 
             // Emit nodes.
             StringBuilder sb = new StringBuilder();
@@ -237,10 +237,10 @@ namespace SharpNeat.Genomes.Neat
             {
                 xw.WriteStartElement(__ElemNode);
                 xw.WriteAttributeString(__AttrType, NetworkXmlIO.GetNodeTypeString(nGene.NodeType));
-                xw.WriteAttributeString(__AttrId, nGene.Id.ToString());
+                xw.WriteAttributeString(__AttrId, nGene.Id.ToString(NumberFormatInfo.InvariantInfo));
                 if(nodeFnIds) 
                 {	// Write activation fn ID.
-                    xw.WriteAttributeString(__AttrActivationFunctionId, nGene.ActivationFnId.ToString());
+                    xw.WriteAttributeString(__AttrActivationFunctionId, nGene.ActivationFnId.ToString(NumberFormatInfo.InvariantInfo));
 
                     // Write aux state as comma separated list of real values.
                     XmlIoUtils.WriteAttributeString(xw, __AttrAuxState, nGene.AuxState);
@@ -254,10 +254,10 @@ namespace SharpNeat.Genomes.Neat
             foreach(ConnectionGene cGene in genome.ConnectionList)
             {
                 xw.WriteStartElement(__ElemConnection);
-                xw.WriteAttributeString(__AttrId, cGene.InnovationId.ToString());
-                xw.WriteAttributeString(__AttrSourceId, cGene.SourceNodeId.ToString());
-                xw.WriteAttributeString(__AttrTargetId, cGene.TargetNodeId.ToString());
-                xw.WriteAttributeString(__AttrWeight, cGene.Weight.ToString("R"));
+                xw.WriteAttributeString(__AttrId, cGene.InnovationId.ToString(NumberFormatInfo.InvariantInfo));
+                xw.WriteAttributeString(__AttrSourceId, cGene.SourceNodeId.ToString(NumberFormatInfo.InvariantInfo));
+                xw.WriteAttributeString(__AttrTargetId, cGene.TargetNodeId.ToString(NumberFormatInfo.InvariantInfo));
+                xw.WriteAttributeString(__AttrWeight, cGene.Weight.ToString("R", NumberFormatInfo.InvariantInfo));
                 xw.WriteEndElement();
             }
             xw.WriteEndElement();
