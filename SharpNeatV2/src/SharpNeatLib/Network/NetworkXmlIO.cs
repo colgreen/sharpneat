@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 using SharpNeat.Utility;
@@ -250,9 +251,9 @@ namespace SharpNeat.Network
             {
                 xw.WriteStartElement(__ElemNode);
                 xw.WriteAttributeString(__AttrType, GetNodeTypeString(node.NodeType));
-                xw.WriteAttributeString(__AttrId, node.Id.ToString());
+                xw.WriteAttributeString(__AttrId, node.Id.ToString(NumberFormatInfo.InvariantInfo));
                 if(nodeFnIds) {
-                    xw.WriteAttributeString(__AttrActivationFunctionId, node.ActivationFnId.ToString());
+                    xw.WriteAttributeString(__AttrActivationFunctionId, node.ActivationFnId.ToString(NumberFormatInfo.InvariantInfo));
                 }
                 xw.WriteEndElement();
             }
@@ -263,9 +264,9 @@ namespace SharpNeat.Network
             foreach(INetworkConnection con in networkDef.ConnectionList)
             {
                 xw.WriteStartElement(__ElemConnection);
-                xw.WriteAttributeString(__AttrSourceId, con.SourceNodeId.ToString());
-                xw.WriteAttributeString(__AttrTargetId, con.TargetNodeId.ToString());
-                xw.WriteAttributeString(__AttrWeight, con.Weight.ToString("R"));
+                xw.WriteAttributeString(__AttrSourceId, con.SourceNodeId.ToString(NumberFormatInfo.InvariantInfo));
+                xw.WriteAttributeString(__AttrTargetId, con.TargetNodeId.ToString(NumberFormatInfo.InvariantInfo));
+                xw.WriteAttributeString(__AttrWeight, con.Weight.ToString("R", NumberFormatInfo.InvariantInfo));
                 xw.WriteEndElement();
             }
             xw.WriteEndElement();
@@ -287,9 +288,9 @@ namespace SharpNeat.Network
             foreach(ActivationFunctionInfo fnInfo in fnList)
             {
                 xw.WriteStartElement(__ElemActivationFn);
-                xw.WriteAttributeString(__AttrId, fnInfo.Id.ToString());
+                xw.WriteAttributeString(__AttrId, fnInfo.Id.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrName, fnInfo.ActivationFunction.FunctionId);
-                xw.WriteAttributeString(__AttrProbability, fnInfo.SelectionProbability.ToString("R"));
+                xw.WriteAttributeString(__AttrProbability, fnInfo.SelectionProbability.ToString("R", NumberFormatInfo.InvariantInfo));
                 xw.WriteEndElement();
             }
             xw.WriteEndElement();
