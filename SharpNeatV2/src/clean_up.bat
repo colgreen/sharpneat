@@ -1,4 +1,4 @@
-del SharpNeat.suo
+del /F SharpNeat.suo
 
 rmdir /S /Q Box2dTestHarness\bin
 rmdir /S /Q Box2dTestHarness\obj
