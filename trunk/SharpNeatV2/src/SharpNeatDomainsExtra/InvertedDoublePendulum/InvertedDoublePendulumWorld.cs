@@ -78,10 +78,10 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         public override void InitSimulationWorld()
         {
             SimulationParameters simParams = new SimulationParameters();
-            simParams._lowerBoundPhysics.Set(-_trackLengthHalf - 2f , -0.5f);
-            simParams._upperBoundPhysics.Set(_trackLengthHalf + 2f, 3f);
-            simParams._lowerBoundView.Set(-_trackLengthHalf - 1f, -0.5f);
-            simParams._upperBoundView.Set(_trackLengthHalf + 1, 3f);
+            simParams._lowerBoundPhysics.Set(-_trackLengthHalf - 2f , -1f);
+            simParams._upperBoundPhysics.Set(_trackLengthHalf + 2f, 2f);
+            simParams._lowerBoundView.Set(-_trackLengthHalf - 1f, -1f);
+            simParams._upperBoundView.Set(_trackLengthHalf + 1, 2f);
             base.InitSimulationWorld(simParams);
         }
 
@@ -110,7 +110,17 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         /// </summary>
         public float CartJointAngle
         {
-            get { return _cartJoint.JointAngle; }
+            get 
+            {
+                // Joint angle is cumulative (increases for successive revolutions), so first we factor out the excess revolutions.
+                double angle = (_cartJointInitialAngle + _cartJoint.JointAngle) % (2.0*SysMath.PI);
+
+                // Now define an alternative scheme with 0 degrees at the top and +-180 degrees at the bottom (+ve is CCW, -ve is CW).
+                if(angle > SysMath.PI) {
+                    angle = angle - (2.0*SysMath.PI);
+                }
+                return (float)angle;
+            }
         }
 
         /// <summary>
@@ -118,7 +128,17 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         /// </summary>
         public float ElbowJointAngle
         {
-            get { return _elbowJoint.JointAngle; }
+            get 
+            {
+                // Joint angle is cumulative (increases for successive revolutions), so first we factor out the excess revolutions.
+                double angle = (_elbowJointInitialAngle + _elbowJoint.JointAngle) % (2.0*SysMath.PI);
+
+                // Now define an alternative scheme with 0 degrees at the top and +-180 degrees at the bottom (+ve is CCW, -ve is CW).
+                if(angle > SysMath.PI) {
+                    angle = angle - (2.0*SysMath.PI);
+                }
+                return (float)angle;
+            }
         }
 
         /// <summary>

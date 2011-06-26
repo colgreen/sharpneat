@@ -64,6 +64,11 @@
     <Compile Include="Box2D\OpenGLDebugDraw.cs" />
     <Compile Include="Box2D\SimulationParameters.cs" />
     <Compile Include="Box2D\SimulationWorld.cs" />
+    <Compile Include="SinglePoleBalancingSwingUp\SinglePoleBalancingSwingUpEvaluator.cs" />
+    <Compile Include="SinglePoleBalancingSwingUp\SinglePoleBalancingSwingUpExperiment.cs" />
+    <Compile Include="SinglePoleBalancingSwingUp\SinglePoleBalancingSwingUpView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="InvertedDoublePendulum\InvertedDoublePendulumWorld.cs" />
     <Compile Include="InvertedDoublePendulum\InvertedDoublePendulumEvaluator.cs" />
     <Compile Include="InvertedDoublePendulum\InvertedDoublePendulumExperiment.cs" />
