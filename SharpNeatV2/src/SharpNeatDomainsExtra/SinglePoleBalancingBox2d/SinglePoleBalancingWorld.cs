@@ -45,7 +45,7 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         /// <summary>
         /// Construct with default world settings.
         /// </summary>
-        public SinglePoleBalancingWorld() : this(4.8f, 0f)
+        public SinglePoleBalancingWorld() : this(4.8f, (float)SysMath.PI)
         {}
 
         /// <summary>
@@ -68,10 +68,10 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         public override void InitSimulationWorld()
         {
             SimulationParameters simParams = new SimulationParameters();
-            simParams._lowerBoundPhysics.Set(-_trackLengthHalf - 2f , -0.5f);
-            simParams._upperBoundPhysics.Set(_trackLengthHalf + 2f, 3f);
-            simParams._lowerBoundView.Set(-_trackLengthHalf - 1f, -0.5f);
-            simParams._upperBoundView.Set(_trackLengthHalf + 1, 3f);
+            simParams._lowerBoundPhysics.Set(-_trackLengthHalf - 2f , -1.0f);
+            simParams._upperBoundPhysics.Set(_trackLengthHalf + 2f, 2f);
+            simParams._lowerBoundView.Set(-_trackLengthHalf - 1f, -1.0f);
+            simParams._upperBoundView.Set(_trackLengthHalf + 1, 2f);
             base.InitSimulationWorld(simParams);
         }
 
@@ -100,7 +100,17 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         /// </summary>
         public float PoleAngle
         {
-            get { return _poleJoint.JointAngle; }
+            get 
+            {
+                // Joint angle is cumulative (increases for successive revolutions), so first we factor out the excess revolutions.
+                double angle = (_initialPoleAngle + _poleJoint.JointAngle) % (2.0*SysMath.PI);
+
+                // Now define an alternative scheme with 0 degrees at the top and +-180 degrees at the bottom (+ve is CCW, -ve is CW).
+                if(angle > SysMath.PI) {
+                    angle = angle - (2.0*SysMath.PI);
+                }
+                return (float)angle; 
+            }
         }
 
         /// <summary>
@@ -184,7 +194,7 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         // ===== Create pole.
             const float poleRadius = 0.025f;	// Half the thickness of the pole.
             Vec2 polePosBase = new Vec2(0f, 0.275f);
-            Body poleBody = CreatePole(polePosBase, _initialPoleAngle, poleRadius, 0f, 0f, 2f, 0x2);
+            Body poleBody = CreatePole(polePosBase, _initialPoleAngle, poleRadius, 0f, 0f, 2f, 0x0);
 
             // Join pole to cart.
             RevoluteJointDef poleJointDef = new RevoluteJointDef();
@@ -219,6 +229,23 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
             shapeDef.Filter.MaskBits = layers;
             shapeDef.Filter.CategoryBits = 0x3;
             body.CreateShape(shapeDef);
+
+            // ==== Place some end caps on the pole. ====
+            CircleDef circleDef = new CircleDef();
+            circleDef.Radius = radius;
+            circleDef.Friction = friction;
+            circleDef.Restitution = restitution;
+            circleDef.Density = 0f;
+            circleDef.Filter.MaskBits = layers;
+            circleDef.Filter.CategoryBits = 0x3;
+            // Top cap.
+            circleDef.LocalPosition.Set(0f, __poleLength * 0.5f);
+            body.CreateShape(circleDef);
+
+            // Bottom cap.
+            circleDef.LocalPosition.Set(0f, -__poleLength * 0.5f);
+            body.CreateShape(circleDef);
+
             body.SetMassFromShapes();
             return body;
         }

@@ -37,6 +37,25 @@
     </Config>
   </Experiment>
 
+  <Experiment name="Single Pole Balancing / Swing-Up (NEAT)">
+    <AssemblyPath>SharpNeatDomainsExtra.dll</AssemblyPath>
+    <ClassName>SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp.SinglePoleBalancingSwingUpExperiment</ClassName>
+    <Config>
+      <PopulationSize>500</PopulationSize>
+      <SpecieCount>30</SpecieCount>
+      <Activation>
+        <Scheme>FixedIters</Scheme>
+        <Iters>1</Iters>
+      </Activation>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
+      <ComplexityThreshold>10</ComplexityThreshold>
+      <Description>
+       
+      </Description>
+    </Config>
+  </Experiment>
+
+
   <Experiment name="Inverted Double Pendulum (NEAT)">
     <AssemblyPath>SharpNeatDomainsExtra.dll</AssemblyPath>
     <ClassName>SharpNeat.DomainsExtra.InvertedDoublePendulum.InvertedDoublePendulumExperiment</ClassName>
