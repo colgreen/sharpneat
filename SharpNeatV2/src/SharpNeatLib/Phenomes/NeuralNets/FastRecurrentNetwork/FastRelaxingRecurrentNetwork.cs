@@ -111,7 +111,7 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // If we performed the maximum number of update iterations without the network relaxing then
             // we define the network's state as being invalid.
-            _isStateValid = isNotRelaxed;
+            _isStateValid = !isNotRelaxed;
         }
 
         #endregion
