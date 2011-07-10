@@ -62,7 +62,7 @@ namespace SharpNeat.Utility
             {
                 accumulator += layout.Probabilities[i];
                 if(throwValue < accumulator) {
-                    return i;
+                    return layout.Labels[i];
                 }
             }
 
@@ -74,7 +74,7 @@ namespace SharpNeat.Utility
             for(int i=0; i<layout.Probabilities.Length; i++)
             {
                 if(layout.Probabilities[i] != 0.0) {
-                    return i;
+                    return layout.Labels[i];
                 }
             }
 

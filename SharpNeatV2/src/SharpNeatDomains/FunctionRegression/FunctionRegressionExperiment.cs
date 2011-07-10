@@ -142,6 +142,7 @@ namespace SharpNeat.Domains.FunctionRegression
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
             _neatGenomeParams = new NeatGenomeParameters();
+            _neatGenomeParams.FeedforwardOnly = true;
 
             // Determne what function to regress.
             string fnIdStr = XmlUtils.GetValueAsString(xmlConfig, "Function");
