@@ -27,6 +27,7 @@ namespace SharpNeat.Utility
     /// </summary>
     public class RouletteWheelLayout
     {
+        readonly double _probabilitiesTotal;
         readonly double[] _probabilities;
 
         #region Constructor
@@ -38,40 +39,20 @@ namespace SharpNeat.Utility
         /// </summary>
         public RouletteWheelLayout(double[] probabilities)
         {
-            // Normalise provided values so that all probabilities add up to 1.0.
-            double total = 0;
+            // Total up probabilities. Rather than ensuring all probabilites sum to 1.0 we sum them and interpret
+            // the probability values as proportions of the total (rather than actual probabilities).
+            _probabilitiesTotal = 0.0;
             for(int i=0; i<probabilities.Length; i++) {
-                total += probabilities[i];
+                _probabilitiesTotal += probabilities[i];
             }
 
             // Handle special case where all provided probabilities are zero. In that case we evenly 
             // assign probabilities across all choices.
-            if(0.0 == total) 
+            if(0.0 == _probabilitiesTotal) 
             {
-                double prob = 1.0/probabilities.Length;
-                for(int i=0; i<probabilities.Length; i++) {
-                    probabilities[i] = prob;
-                }
-            }
-            else
-            {
-                double total2 = 0;
-                double factor = 1.0 / total;
-                for(int i=0; i<probabilities.Length; i++) 
-                {
-                    probabilities[i] = probabilities[i] * factor;
-                    total2 +=  probabilities[i];
-                }
-
-                // Check that the probabilities add up to about 1. If not then we give up and assign
-                // the probabilities evenly across all choices. This can happen in some pathological cases
-                // as the result of floating point arithmetic .
-                if(Math.Abs(1.0 - total2) > 0.02)
-                {
-                    double prob = 1.0/probabilities.Length;
-                    for(int i=0; i<probabilities.Length; i++) {
-                        probabilities[i] = prob;
-                    }
+                _probabilitiesTotal = probabilities.Length;
+                for(int i=0; i < probabilities.Length; i++) {
+                    probabilities[i] = 1.0;       
                 }
             }
             _probabilities = probabilities;
@@ -82,12 +63,21 @@ namespace SharpNeat.Utility
         /// </summary>
         public RouletteWheelLayout(RouletteWheelLayout copyFrom)
         {
+            _probabilitiesTotal = copyFrom._probabilitiesTotal;
             _probabilities = copyFrom._probabilities;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the total of all values within <see cref="Probabilities"/>.
+        /// </summary>
+        public double ProbabilitiesTotal
+        {
+            get { return _probabilitiesTotal; }
+        }
 
         /// <summary>
         /// Gets the array of probabilities.
@@ -99,5 +89,23 @@ namespace SharpNeat.Utility
 
         #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Remove the specified outcome from the set of probabilities and return as a new RouletteWheelLayout object.
+        /// </summary>
+        public RouletteWheelLayout RemoveOutcome(int idx)
+        {
+            double[] probabilities = new double[_probabilities.Length-1];
+            for(int i=0; i < idx; i++) {
+                probabilities[i] = _probabilities[i];
+            }
+            for(int i=idx+1, j=idx; i < _probabilities.Length; i++, j++) {
+                probabilities[j] = _probabilities[i];
+            }
+            return new RouletteWheelLayout(probabilities);
+        }
+
+        #endregion
     }
 }

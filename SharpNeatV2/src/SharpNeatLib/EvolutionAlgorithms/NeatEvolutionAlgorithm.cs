@@ -597,9 +597,12 @@ namespace SharpNeat.EvolutionAlgorithms
                         // Select parents. SelectRouletteWheelItem() guarantees parent2Idx!=parent1Idx
                         int parent1Idx = RouletteWheel.SingleThrow(rwl, _rng);
                         TGenome parent1 = genomeList[parent1Idx];
-                        int parent2Idx = RouletteWheel.SingleThrow(rwl, _rng, parent1Idx);
-                        if(-1 != parent2Idx) 
+
+                        // Remove selected parent from set of possible outcomes.
+                        RouletteWheelLayout rwlTmp = rwl.RemoveOutcome(parent1Idx);
+                        if(0.0 != rwlTmp.ProbabilitiesTotal)
                         {   // Get the two parents to mate.
+                            int parent2Idx = RouletteWheel.SingleThrow(rwlTmp, _rng);
                             TGenome parent2 = genomeList[parent2Idx];
                             TGenome offspring = parent1.CreateOffspring(parent2, _currentGeneration);
                             offspringList.Add(offspring);
@@ -636,7 +639,8 @@ namespace SharpNeat.EvolutionAlgorithms
             int parent1Idx = RouletteWheel.SingleThrow(rwl, _rng);
 
             // Select specie other than current one for 2nd parent genome.
-            int specie2Idx = RouletteWheel.SingleThrow(rwlSpecies, _rng, currentSpecieIdx);
+            RouletteWheelLayout rwlSpeciesTmp = rwlSpecies.RemoveOutcome(currentSpecieIdx);
+            int specie2Idx = RouletteWheel.SingleThrow(rwlSpeciesTmp, _rng);
             
             // Select a parent genome from the second specie.
             int parent2Idx = RouletteWheel.SingleThrow(rwlArr[specie2Idx], _rng);
