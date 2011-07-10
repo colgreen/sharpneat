@@ -256,6 +256,11 @@ namespace SharpNeat.Genomes.Neat
         /// Assigned to the new genome at its birth generation.</param>
         public NeatGenome CreateOffspring(NeatGenome parent, uint birthGeneration)
         {
+            // NOTE: Feed-forward only networks. Due to how this crossover method works the resulting offsprign will never have recurrent
+            // conenctions if the two parents are feed-forward only, this is because we do not actually mix the connectivity of the two
+            // parents (only the connection weights were there is a match). Therefore any changes to this method must take feed-forward 
+            // networks into account.
+
             CorrelationResults correlationResults = CorrelateConnectionGeneLists(_connectionGeneList, parent._connectionGeneList);
             Debug.Assert(correlationResults.PerformIntegrityCheck(), "CorrelationResults failed integrity check.");
 
@@ -605,9 +610,8 @@ namespace SharpNeat.Genomes.Neat
             // of testing the suitability of randomly selected pairs and after some number of failed tests we bail out
             // of the routine and perform weight mutation as a last resort - so that we did at least some form of mutation on 
             // the genome.
-            if(_neuronGeneList.Count < 2) 
-            {   // No possibility of adding a connection (Very unlikely, we always need at least on input and one output neuron!)
-                // Indicate failure. 
+            if(_neuronGeneList.Count < 3) 
+            {   // We should always have at least three neurons - one each of a bias, input and output neuron.
                 return null;
             }
 
@@ -616,71 +620,165 @@ namespace SharpNeat.Genomes.Neat
             int neuronCount = _neuronGeneList.Count;
             int hiddenOutputNeuronCount = neuronCount - _inputAndBiasNeuronCount;
 
-            for(int attempts=0; attempts<5; attempts++)
+            // Use slightly different logic when evolving feedforward only networks.
+            if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
             {
-                // Select candidate source and target neurons. Any neuron can be used as the source. Input neurons 
-                // should not be used as a target           
-                // Source neuron can by any neuron. Target neuron is any neuron except input neurons.
-                int srcNeuronIdx = _genomeFactory.Rng.Next(neuronCount);
-                int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount);
-
-                NeuronGene sourceNeuron = _neuronGeneList[srcNeuronIdx];            
-                NeuronGene targetNeuron = _neuronGeneList[tgtNeuronIdx];
-
-                // Check if a connection already exists between these two neurons.
-                // Note. we allow a neuron to connect back on itself, thus the source and target neuron can be the same.
-                uint sourceId = sourceNeuron.InnovationId;
-                uint targetId = targetNeuron.InnovationId;
-
-                // Test if this connection already exists.
-                if(!sourceNeuron.TargetNeurons.Contains(targetId))
+                // Feeforward networks.
+                for(int attempts=0; attempts<5; attempts++)
                 {
-                    // Check if a matching mutation has already occured on another genome. 
-                    // If so then re-use the connection ID.
-                    ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(sourceId, targetId);
-                    uint? existingConnectionId;
-                    ConnectionGene newConnectionGene;
-                    if(_genomeFactory.AddedConnectionBuffer.TryGetValue(connectionKey, out existingConnectionId))
-                    {   
-                        // Create a new connection, re-using the ID from existingConnectionId, and add it to the Genome.
-                        newConnectionGene = new ConnectionGene(existingConnectionId.Value,
-                                                               sourceId, targetId,
-                                                               _genomeFactory.GenerateRandomConnectionWeight());
-
-                        // Add the new gene to this genome. We are re-using an ID so we must ensure the connection gene is
-                        // inserted into the correct position (sorted by innovation ID). The ID is most likely an older one
-                        // with a lower value than recent IDs, and thus it probably doesn't belong on the end of the list.
-                        _connectionGeneList.InsertIntoPosition(newConnectionGene);
-                    }
-                    else
-                    {   
-                        // Create a new connection with a new ID and add it to the Genome.
-                        newConnectionGene = new ConnectionGene(_genomeFactory.NextInnovationId(),
-                                                               sourceId, targetId,
-                                                               _genomeFactory.GenerateRandomConnectionWeight());
-
-                        // Add the new gene to this genome. We have a new ID so we can safely append the gene to the end 
-                        // of the list without risk of breaking the innovation ID sort order.
-                        _connectionGeneList.Add(newConnectionGene);
-
-                        // Register the new connection with the added connection history buffer.
-                        _genomeFactory.AddedConnectionBuffer.Enqueue(new ConnectionEndpointsStruct(sourceId, targetId),
-                                                                     newConnectionGene.InnovationId);
+                    // Select candidate source and target neurons. Any neuron can be used as the source. Input neurons 
+                    // should not be used as a target           
+                    // Source neuron can by any neuron. Target neuron is any neuron except input neurons.
+                    int srcNeuronIdx = _genomeFactory.Rng.Next(neuronCount);
+                    int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
+                    if(srcNeuronIdx == tgtNeuronIdx)  {
+                        if(++tgtNeuronIdx == neuronCount) {
+                            // Wrap around to first possible target neuron (first output).
+                            // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic conenction is tested for below). 
+                            tgtNeuronIdx = _inputAndBiasNeuronCount;
+                        }
                     }
 
-                    // Track connections associated with each neuron.
-                    sourceNeuron.TargetNeurons.Add(targetId);
-                    targetNeuron.SourceNeurons.Add(sourceId);
+                    // Test if this connection already exists or is recurrent
+                    NeuronGene sourceNeuron = _neuronGeneList[srcNeuronIdx];            
+                    NeuronGene targetNeuron = _neuronGeneList[tgtNeuronIdx];
+                    if(sourceNeuron.TargetNeurons.Contains(targetNeuron.Id) || IsConnectionRecurrent(sourceNeuron, targetNeuron.Id)) 
+                    {   // Try again.
+                        continue;
+                    }
+                    return Mutate_AddConnection_CreateConnection(sourceNeuron, targetNeuron);
+                }
+            }
+            else
+            {
+                // Recurrent networks.
+                for(int attempts=0; attempts<5; attempts++)
+                {
+                    // Select candidate source and target neurons. Any neuron can be used as the source. Input neurons 
+                    // should not be used as a target           
+                    // Source neuron can by any neuron. Target neuron is any neuron except input neurons.
+                    int srcNeuronIdx = _genomeFactory.Rng.Next(neuronCount);
+                    int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount);
 
-                    // Update stats.
-                    _genomeFactory.Stats._mutationCountAddConnection++;
-                    return newConnectionGene;
+                    // Test if this connection already exists.
+                    NeuronGene sourceNeuron = _neuronGeneList[srcNeuronIdx];            
+                    NeuronGene targetNeuron = _neuronGeneList[tgtNeuronIdx];
+                    if(sourceNeuron.TargetNeurons.Contains(targetNeuron.Id)) 
+                    {   // Try again.
+                        continue;
+                    }
+                    return Mutate_AddConnection_CreateConnection(sourceNeuron, targetNeuron);
                 }
             }
 
             // No valid connection to create was found. 
             // Indicate failure.
             return null;
+        }
+
+        /// <summary>
+        /// Tests if adding the specified connection would cause a cyclic pathway in the network connectivity.
+        /// Returns true if the connection is recurrent.
+        /// </summary>
+        private bool IsConnectionRecurrent(NeuronGene sourceNeuron, uint targetNeuronId)
+        {
+            // Quick test. Is connection connectign a neuron to itself.
+            if(sourceNeuron.Id == targetNeuronId) {
+                return true;
+            }
+
+            // Maintain a set of neurons that have been visited. This allows unnecessary re-traversal of the network
+            // and detection of cyclic connections.
+            HashSet<uint> visitedNeurons = new HashSet<uint>();
+            visitedNeurons.Add(sourceNeuron.Id);
+
+            // Trace backwards through sourceNeuron's source neurons. If targetNeuron is encountered then it feeds
+            // signals into sourceNeuron already and therefore a new connection between sourceNeuron and targetNeuron
+            // would create a cycle.
+            // Search uses an explicitly created stack instead of function recursion, the logic here is that this 
+            // may be more efficient through avoidance of multiple function calls (but not sure).
+            Stack<uint> workStack = new Stack<uint>();
+
+            // Push source neuron's sources onto the work stack. We could just push the source neuron but we choose
+            // to cover that test above to avoid the one extra neuronID lookup that would require.
+            foreach(uint neuronId in sourceNeuron.SourceNeurons) {
+                workStack.Push(neuronId);
+            }
+
+            // While there are neurons to check/traverse.
+            while(0 != workStack.Count)
+            {
+                // Pop a neuron to check from the top of the stack, and then check it.
+                uint currNeuronId = workStack.Pop();
+                if(visitedNeurons.Contains(currNeuronId)) {
+                    // Already visited (via a different route).
+                    continue;
+                }
+
+                // Register visit of this node.
+                visitedNeurons.Add(currNeuronId);                
+
+                if(currNeuronId == targetNeuronId) {
+                    // Target neuron already feeds into the source neuron.
+                    return true;
+                }
+
+                // Push the current neuron's source neurons onto the work stack.
+                NeuronGene currNeuron = _neuronGeneList.GetNeuronById(currNeuronId);
+                foreach(uint neuronId in currNeuron.SourceNeurons) {
+                    workStack.Push(neuronId);
+                }
+            }
+
+            // Connection not recurrent.
+            return false;
+        }
+
+        private ConnectionGene Mutate_AddConnection_CreateConnection(NeuronGene sourceNeuron, NeuronGene targetNeuron)
+        {
+            uint sourceId = sourceNeuron.Id;
+            uint targetId = targetNeuron.Id;
+
+            // Check if a matching mutation has already occured on another genome. 
+            // If so then re-use the connection ID.
+            ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(sourceId, targetId);
+            uint? existingConnectionId;
+            ConnectionGene newConnectionGene;
+            if(_genomeFactory.AddedConnectionBuffer.TryGetValue(connectionKey, out existingConnectionId))
+            {   
+                // Create a new connection, re-using the ID from existingConnectionId, and add it to the Genome.
+                newConnectionGene = new ConnectionGene(existingConnectionId.Value,
+                                                        sourceId, targetId,
+                                                        _genomeFactory.GenerateRandomConnectionWeight());
+
+                // Add the new gene to this genome. We are re-using an ID so we must ensure the connection gene is
+                // inserted into the correct position (sorted by innovation ID). The ID is most likely an older one
+                // with a lower value than recent IDs, and thus it probably doesn't belong on the end of the list.
+                _connectionGeneList.InsertIntoPosition(newConnectionGene);
+            }
+            else
+            {   
+                // Create a new connection with a new ID and add it to the Genome.
+                newConnectionGene = new ConnectionGene(_genomeFactory.NextInnovationId(),
+                                                        sourceId, targetId,
+                                                        _genomeFactory.GenerateRandomConnectionWeight());
+
+                // Add the new gene to this genome. We have a new ID so we can safely append the gene to the end 
+                // of the list without risk of breaking the innovation ID sort order.
+                _connectionGeneList.Add(newConnectionGene);
+
+                // Register the new connection with the added connection history buffer.
+                _genomeFactory.AddedConnectionBuffer.Enqueue(new ConnectionEndpointsStruct(sourceId, targetId),
+                                                                newConnectionGene.InnovationId);
+            }
+
+            // Track connections associated with each neuron.
+            sourceNeuron.TargetNeurons.Add(targetId);
+            targetNeuron.SourceNeurons.Add(sourceId);
+
+            // Update stats.
+            _genomeFactory.Stats._mutationCountAddConnection++;
+            return newConnectionGene;
         }
 
         /// <summary>
@@ -783,7 +881,6 @@ namespace SharpNeat.Genomes.Neat
             // Indicate success.
             return connectionToDelete;
         }
-
 
         private void Mutate_ConnectionWeights()
         {
