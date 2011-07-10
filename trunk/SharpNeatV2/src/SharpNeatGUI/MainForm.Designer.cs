@@ -43,9 +43,9 @@
             this.txtFileLogBaseName = new System.Windows.Forms.TextBox();
             this.chkFileWriteLog = new System.Windows.Forms.CheckBox();
             this.txtFileBaseName = new System.Windows.Forms.TextBox();
-            this.chkFileSaveGenomeOnImprovement = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.chkFileSaveGenomeOnImprovement = new System.Windows.Forms.CheckBox();
             this.gbxCurrentStats = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -87,9 +87,7 @@
             this.cmbExperiments = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.gbxNeatGenomeParameters = new System.Windows.Forms.GroupBox();
-            this.label43 = new System.Windows.Forms.Label();
             this.txtParamConnectionWeightRange = new System.Windows.Forms.TextBox();
-            this.txtParamMutateDeleteNeuron = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
             this.txtParamMutateConnectionWeights = new System.Windows.Forms.TextBox();
@@ -323,14 +321,6 @@
             this.txtFileBaseName.TabIndex = 1;
             this.txtFileBaseName.Text = "champ";
             // 
-            // chkFileSaveGenomeOnImprovement
-            // 
-            this.chkFileSaveGenomeOnImprovement.Location = new System.Drawing.Point(8,16);
-            this.chkFileSaveGenomeOnImprovement.Name = "chkFileSaveGenomeOnImprovement";
-            this.chkFileSaveGenomeOnImprovement.Size = new System.Drawing.Size(233,24);
-            this.chkFileSaveGenomeOnImprovement.TabIndex = 0;
-            this.chkFileSaveGenomeOnImprovement.Text = "Save Genome on Improvement (*.gnm.xml)";
-            // 
             // label13
             // 
             this.label13.Location = new System.Drawing.Point(181,34);
@@ -348,6 +338,14 @@
             this.label8.TabIndex = 28;
             this.label8.Text = "Filename prefix";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // chkFileSaveGenomeOnImprovement
+            // 
+            this.chkFileSaveGenomeOnImprovement.Location = new System.Drawing.Point(8,16);
+            this.chkFileSaveGenomeOnImprovement.Name = "chkFileSaveGenomeOnImprovement";
+            this.chkFileSaveGenomeOnImprovement.Size = new System.Drawing.Size(233,24);
+            this.chkFileSaveGenomeOnImprovement.TabIndex = 0;
+            this.chkFileSaveGenomeOnImprovement.Text = "Save Genome on Improvement (*.gnm.xml)";
             // 
             // gbxCurrentStats
             // 
@@ -742,9 +740,7 @@
             // 
             // gbxNeatGenomeParameters
             // 
-            this.gbxNeatGenomeParameters.Controls.Add(this.label43);
             this.gbxNeatGenomeParameters.Controls.Add(this.txtParamConnectionWeightRange);
-            this.gbxNeatGenomeParameters.Controls.Add(this.txtParamMutateDeleteNeuron);
             this.gbxNeatGenomeParameters.Controls.Add(this.label16);
             this.gbxNeatGenomeParameters.Controls.Add(this.label42);
             this.gbxNeatGenomeParameters.Controls.Add(this.txtParamMutateConnectionWeights);
@@ -761,14 +757,6 @@
             this.gbxNeatGenomeParameters.TabStop = false;
             this.gbxNeatGenomeParameters.Text = "NEAT Genome Parameters";
             // 
-            // label43
-            // 
-            this.label43.Location = new System.Drawing.Point(58,136);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(144,16);
-            this.label43.TabIndex = 29;
-            this.label43.Text = "p Mutate Delete Neuron";
-            // 
             // txtParamConnectionWeightRange
             // 
             this.txtParamConnectionWeightRange.Location = new System.Drawing.Point(6,19);
@@ -776,14 +764,6 @@
             this.txtParamConnectionWeightRange.Size = new System.Drawing.Size(48,20);
             this.txtParamConnectionWeightRange.TabIndex = 50;
             this.txtParamConnectionWeightRange.Text = "5";
-            // 
-            // txtParamMutateDeleteNeuron
-            // 
-            this.txtParamMutateDeleteNeuron.Location = new System.Drawing.Point(6,133);
-            this.txtParamMutateDeleteNeuron.Name = "txtParamMutateDeleteNeuron";
-            this.txtParamMutateDeleteNeuron.Size = new System.Drawing.Size(48,20);
-            this.txtParamMutateDeleteNeuron.TabIndex = 28;
-            this.txtParamMutateDeleteNeuron.Text = "0";
             // 
             // label16
             // 
@@ -795,7 +775,7 @@
             // 
             // label42
             // 
-            this.label42.Location = new System.Drawing.Point(58,160);
+            this.label42.Location = new System.Drawing.Point(58,137);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(152,16);
             this.label42.TabIndex = 27;
@@ -811,7 +791,7 @@
             // 
             // txtParamMutateDeleteConnection
             // 
-            this.txtParamMutateDeleteConnection.Location = new System.Drawing.Point(6,157);
+            this.txtParamMutateDeleteConnection.Location = new System.Drawing.Point(6,134);
             this.txtParamMutateDeleteConnection.Name = "txtParamMutateDeleteConnection";
             this.txtParamMutateDeleteConnection.Size = new System.Drawing.Size(48,20);
             this.txtParamMutateDeleteConnection.TabIndex = 26;
@@ -1346,8 +1326,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox txtParamSelectionProportion;
         private System.Windows.Forms.TextBox txtParamElitismProportion;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.TextBox txtParamMutateDeleteNeuron;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.TextBox txtParamMutateDeleteConnection;
         private System.Windows.Forms.Label label34;

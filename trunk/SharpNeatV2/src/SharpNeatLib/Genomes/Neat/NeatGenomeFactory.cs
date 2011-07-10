@@ -199,6 +199,40 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
+        /// Gets or sets a mode value. This is intended as a means for an evolution algorithm to convey changes
+        /// in search mode to genomes, and because the set of modes is specific to each concrete implementation
+        /// of an IEvolutionAlgorithm the mode is defined as an integer (rather than an enum[eration]).
+        /// E.g. SharpNEAT's implementation of NEAT uses an evolutionary algorithm that alternates between
+        /// a complexifying and simplifying mode, in order to do this the algorithm class needs to notify the genomes
+        /// of the current mode so that the CreateOffspring() methods are able to generate offspring appropriately - 
+        /// e.g. we avoid adding new nodes and connections and increase the rate of deletion mutations when in
+        /// simplifying mode.
+        /// </summary>
+        public int SearchMode 
+        { 
+            get { return _searchMode; }
+            set 
+            {
+                // Store the mode and switch to a set of NeatGenomeParameters appropriate to the mode.
+                // Note. we don't reference the ComplexityRegulationMode enum directly so as not to introduce a
+                // compile time dependency between this class and the NeatEvolutionaryAlgorithm - we
+                // may wish to use NeatGenome with other algorithm classes in the future.
+                _searchMode = value; 
+                switch(value)
+                {
+                    case 0: // ComplexityRegulationMode.Complexifying
+                        _neatGenomeParamsCurrent = _neatGenomeParamsComplexifying;
+                        break;
+                    case 1: // ComplexityRegulationMode.Simplifying
+                        _neatGenomeParamsCurrent = _neatGenomeParamsSimplifying;
+                        break;
+                    default:
+                        throw new SharpNeatException("Unexpected SearchMode");
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates a list of randomly initialised genomes.
         /// </summary>
         /// <param name="length">The number of genomes to create.</param>
@@ -366,54 +400,37 @@ namespace SharpNeat.Genomes.Neat
             for(int i=0; i<connectionCount; i++)
             {
                 ConnectionDefinition def = connectionDefArr[i];
-                ConnectionGene gene = new ConnectionGene(def._innovationId,
-                                                        inputNeuronGeneList[def._sourceNeuronIdx].InnovationId,
-                                                        outputNeuronGeneList[def._targetNeuronIdx].InnovationId,
+                NeuronGene srcNeuronGene = inputNeuronGeneList[def._sourceNeuronIdx];
+                NeuronGene tgtNeuronGene = outputNeuronGeneList[def._targetNeuronIdx];
+
+                ConnectionGene cGene = new ConnectionGene(def._innovationId,
+                                                        srcNeuronGene.InnovationId,
+                                                        tgtNeuronGene.InnovationId,
                                                         GenerateRandomConnectionWeight());
-                connectionGeneList.Add(gene);
+                connectionGeneList.Add(cGene);
+
+                // Register connection with endpoint neurons.
+                srcNeuronGene.TargetNeurons.Add(cGene.TargetNodeId);
+                tgtNeuronGene.SourceNeurons.Add(cGene.SourceNodeId);
             }
 
             // Ensure connections are sorted.
             connectionGeneList.SortByInnovationId();
 
-            // Create and the completed genome object.
+            // Create and return the completed genome object.
             return CreateGenome(_genomeIdGenerator.NextId, birthGeneration,
                                 neuronGeneList, connectionGeneList,
-                                _inputNeuronCount, _outputNeuronCount);
+                                _inputNeuronCount, _outputNeuronCount, false);
         }
 
         /// <summary>
-        /// Gets or sets a mode value. This is intended as a means for an evolution algorithm to convey changes
-        /// in search mode to genomes, and because the set of modes is specific to each concrete implementation
-        /// of an IEvolutionAlgorithm the mode is defined as an integer (rather than an enum[eration]).
-        /// E.g. SharpNEAT's implementation of NEAT uses an evolutionary algorithm that alternates between
-        /// a complexifying and simplifying mode, in order to do this the algorithm class needs to notify the genomes
-        /// of the current mode so that the CreateOffspring() methods are able to generate offspring appropriately - 
-        /// e.g. we avoid adding new nodes and connections and increase the rate of deletion mutations when in
-        /// simplifying mode.
+        /// Supports debug/integrity checks. Checks that a given genome object's type is consistent with the genome factory. 
+        /// Typically the wrong type of object may occur where factorys are subtyped and not all of the relevant virtual methods are overriden.
+        /// Returns true if OK.
         /// </summary>
-        public int SearchMode 
-        { 
-            get { return _searchMode; }
-            set 
-            {
-                // Store the mode and switch to a set of NeatGenomeParameters appropriate to the mode.
-                // Note. we don't reference the ComplexityRegulationMode enum directly so as not to introduce a
-                // compile time dependency between this class and the NeatEvolutionaryAlgorithm - we
-                // may wish to use NeatGenome with other algorithm classes in the future.
-                _searchMode = value; 
-                switch(value)
-                {
-                    case 0: // ComplexityRegulationMode.Complexifying
-                        _neatGenomeParamsCurrent = _neatGenomeParamsComplexifying;
-                        break;
-                    case 1: // ComplexityRegulationMode.Simplifying
-                        _neatGenomeParamsCurrent = _neatGenomeParamsSimplifying;
-                        break;
-                    default:
-                        throw new SharpNeatException("Unexpected SearchMode");
-                }
-            }
+        public virtual bool CheckGenomeType(NeatGenome genome)
+        {
+            return genome.GetType() == typeof(NeatGenome);
         }
 
         #endregion
@@ -554,10 +571,11 @@ namespace SharpNeat.Genomes.Neat
                                                NeuronGeneList neuronGeneList, 
                                                ConnectionGeneList connectionGeneList, 
                                                int inputNeuronCount,
-                                               int outputNeuronCount)
+                                               int outputNeuronCount,
+                                               bool rebuildNeuronGeneConnectionInfo)
         {
             return new NeatGenome(this, id, birthGeneration, neuronGeneList, connectionGeneList,
-                                  inputNeuronCount, outputNeuronCount);
+                                  inputNeuronCount, outputNeuronCount, rebuildNeuronGeneConnectionInfo);
         }
 
         /// <summary>

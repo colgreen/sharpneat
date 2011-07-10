@@ -152,7 +152,6 @@ namespace SharpNeat.Domains.FunctionRegression
             _neatGenomeParams.AddConnectionMutationProbability = 0.01;
             _neatGenomeParams.NodeAuxStateMutationProbability = 0.2;
             _neatGenomeParams.DeleteConnectionMutationProbability = 0.001;
-            _neatGenomeParams.DeleteSimpleNeuronMutationProbability = 0.00;
 
             // Determine what function to regress.
             string fnIdStr = XmlUtils.GetValueAsString(xmlConfig, "Function");

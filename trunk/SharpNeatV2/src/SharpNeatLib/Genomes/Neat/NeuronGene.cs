@@ -18,6 +18,7 @@
  */
 
 using SharpNeat.Network;
+using System.Collections.Generic;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -34,19 +35,31 @@ namespace SharpNeat.Genomes.Neat
         readonly NodeType _neuronType;
         readonly int _activationFnId;
         readonly double[] _auxState;
+        readonly HashSet<uint> _srcNeurons;
+        readonly HashSet<uint> _tgtNeurons;
 
         #region Constructor
 
         /// <summary>
         /// Copy constructor.
         /// </summary>
-        public NeuronGene(NeuronGene copyFrom)
+        /// <param name="copyFrom">NeuronGene to copy from.</param>
+        /// <param name="copyConnectivityData">Indicates whether or not top copy connectivity data for the neuron.</param>
+        public NeuronGene(NeuronGene copyFrom, bool copyConnectivityData)
         {
             _innovationId = copyFrom._innovationId;
             _neuronType = copyFrom._neuronType;
             _activationFnId = copyFrom._activationFnId;
             if(null != copyFrom._auxState) {
                 _auxState = (double[])copyFrom._auxState.Clone();
+            }
+
+            if(copyConnectivityData) {
+                _srcNeurons = new HashSet<uint>(copyFrom._srcNeurons);
+                _tgtNeurons = new HashSet<uint>(copyFrom._tgtNeurons);
+            } else {
+                _srcNeurons = new HashSet<uint>();
+                _tgtNeurons = new HashSet<uint>();
             }
         }
 
@@ -60,6 +73,8 @@ namespace SharpNeat.Genomes.Neat
             _neuronType = neuronType;
             _activationFnId = activationFnId;
             _auxState = null;
+            _srcNeurons = new HashSet<uint>();
+            _tgtNeurons = new HashSet<uint>();
         }
 
         /// <summary>
@@ -72,6 +87,8 @@ namespace SharpNeat.Genomes.Neat
             _neuronType = neuronType;
             _activationFnId = activationFnId;
             _auxState = auxState;
+            _srcNeurons = new HashSet<uint>();
+            _tgtNeurons = new HashSet<uint>();
         }
 
         #endregion
@@ -114,6 +131,22 @@ namespace SharpNeat.Genomes.Neat
             get { return _auxState; }
         }
 
+        /// <summary>
+        /// Gets a set of IDs for the source neurons that directly connect into this neuron.
+        /// </summary>
+        public HashSet<uint> SourceNeurons
+        {
+            get { return _srcNeurons; }
+        }
+
+        /// <summary>
+        /// Gets a set of IDs for the target neurons this neuron directly connects out to.
+        /// </summary>
+        public HashSet<uint> TargetNeurons
+        {
+            get { return _tgtNeurons; }
+        }
+
         #endregion
 
         #region Public Methods
@@ -123,7 +156,16 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public virtual NeuronGene CreateCopy()
         {
-            return new NeuronGene(this);
+            return new NeuronGene(this, true);
+        }
+
+        /// <summary>
+        /// Creates a copy of the current gene. Virtual method that can be overriden by sub-types.
+        /// </summary>
+        /// <param name="copyConnectivityData">Indicates whether or not top copy connectivity data for the neuron.</param>
+        public virtual NeuronGene CreateCopy(bool copyConnectivityData)
+        {
+            return new NeuronGene(this, copyConnectivityData);
         }
 
         #endregion
