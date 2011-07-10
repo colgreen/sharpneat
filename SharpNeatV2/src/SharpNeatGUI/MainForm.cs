@@ -171,7 +171,6 @@ namespace SharpNeatGUI
             txtParamMutateConnectionWeights.Text = ngParams.ConnectionWeightMutationProbability.ToString();
             txtParamMutateAddNode.Text = ngParams.AddNodeMutationProbability.ToString();
             txtParamMutateAddConnection.Text = ngParams.AddConnectionMutationProbability.ToString();
-            txtParamMutateDeleteNeuron.Text = ngParams.DeleteSimpleNeuronMutationProbability.ToString();
             txtParamMutateDeleteConnection.Text = ngParams.DeleteConnectionMutationProbability.ToString();
         }
 
@@ -317,9 +316,7 @@ namespace SharpNeatGUI
             ngParams.ConnectionWeightMutationProbability = ParseDouble(txtParamMutateConnectionWeights, ngParams.ConnectionWeightMutationProbability);
             ngParams.AddNodeMutationProbability = ParseDouble(txtParamMutateAddNode, ngParams.AddNodeMutationProbability);
             ngParams.AddConnectionMutationProbability = ParseDouble(txtParamMutateAddConnection, ngParams.AddConnectionMutationProbability);
-            ngParams.DeleteSimpleNeuronMutationProbability = ParseDouble(txtParamMutateDeleteNeuron, ngParams.DeleteSimpleNeuronMutationProbability);
             ngParams.DeleteConnectionMutationProbability = ParseDouble(txtParamMutateDeleteConnection, ngParams.DeleteConnectionMutationProbability);
-            
         }
 
         #endregion
@@ -382,7 +379,6 @@ namespace SharpNeatGUI
             txtParamMutateConnectionWeights.Enabled = true;
             txtParamMutateAddNode.Enabled = true;
             txtParamMutateAddConnection.Enabled = true;
-            txtParamMutateDeleteNeuron.Enabled = true;
             txtParamMutateDeleteConnection.Enabled = true;
 
             // Logging to file.
@@ -424,7 +420,6 @@ namespace SharpNeatGUI
             txtParamMutateConnectionWeights.Enabled = true;
             txtParamMutateAddNode.Enabled = true;
             txtParamMutateAddConnection.Enabled = true;
-            txtParamMutateDeleteNeuron.Enabled = true;
             txtParamMutateDeleteConnection.Enabled = true;
 
             // Logging to file.
@@ -469,7 +464,6 @@ namespace SharpNeatGUI
             txtParamMutateConnectionWeights.Enabled = false;
             txtParamMutateAddNode.Enabled = false;
             txtParamMutateAddConnection.Enabled = false;
-            txtParamMutateDeleteNeuron.Enabled = false;
             txtParamMutateDeleteConnection.Enabled = false;
 
             // Logging to file.
@@ -514,7 +508,6 @@ namespace SharpNeatGUI
             txtParamMutateConnectionWeights.Enabled = false;
             txtParamMutateAddNode.Enabled = false;
             txtParamMutateAddConnection.Enabled = false;
-            txtParamMutateDeleteNeuron.Enabled = false;
             txtParamMutateDeleteConnection.Enabled = false;
 
             // Logging to file.

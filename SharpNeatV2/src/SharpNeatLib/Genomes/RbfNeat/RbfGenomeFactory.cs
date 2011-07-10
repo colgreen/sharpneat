@@ -22,22 +22,13 @@ using SharpNeat.Utility;
 
 namespace SharpNeat.Genomes.RbfNeat
 {
-    #region Constructors
-
     /// <summary>
     /// A sub-class of NeatGenomeFactory for creating RBF-Neat genomes.
     /// RBF = Radial Basis Functions.
     /// </summary>
     public class RbfGenomeFactory : NeatGenomeFactory
     {
-        /// <summary>
-        /// Constructs with default NeatGenomeParameters, ID generators initialized to zero and a
-        /// default IActivationFunctionLibrary.
-        /// </summary>
-        public RbfGenomeFactory(int inputNeuronCount, int outputNeuronCount)
-            : base(inputNeuronCount, outputNeuronCount, DefaultActivationFunctionLibrary.CreateLibraryCppn())
-        {
-        }
+        #region Constructors
 
         /// <summary>
         /// Constructs with default NeatGenomeParameters, ID generators initialized to zero and the

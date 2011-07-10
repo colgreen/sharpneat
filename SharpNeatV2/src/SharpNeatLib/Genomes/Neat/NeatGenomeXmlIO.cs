@@ -480,7 +480,7 @@ namespace SharpNeat.Genomes.Neat
             while(xr.Read());
 
             // Construct and return loaded NeatGenome.
-            return new NeatGenome(null, genomeId, birthGen, nGeneList, cGeneList, inputNodeCount, outputNodeCount);
+            return new NeatGenome(null, genomeId, birthGen, nGeneList, cGeneList, inputNodeCount, outputNodeCount, true);
         }
 
         #endregion

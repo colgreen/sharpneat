@@ -149,7 +149,6 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
             _neatGenomeParams.AddConnectionMutationProbability = 0.01;
             _neatGenomeParams.NodeAuxStateMutationProbability = 0.2;
             _neatGenomeParams.DeleteConnectionMutationProbability = 0.001;
-            _neatGenomeParams.DeleteSimpleNeuronMutationProbability = 0.00;
         }
 
         /// <summary>

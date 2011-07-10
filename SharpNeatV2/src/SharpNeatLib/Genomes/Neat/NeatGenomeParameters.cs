@@ -41,7 +41,6 @@ namespace SharpNeat.Genomes.Neat
         const double DefaultAddConnectionMutationProbability = 0.01;
         const double DefaultNodeAuxStateMutationProbability = 0.00;
         const double DefaultDeleteConnectionMutationProbability = 0.001;
-        const double DefaultDeleteSimpleNeuronMutationProbability = 0.00;
 
         #endregion
 
@@ -58,7 +57,6 @@ namespace SharpNeat.Genomes.Neat
         double _addConnectionMutationProbability;
         double _nodeAuxStateMutationProbability;
         double _deleteConnectionMutationProbability;
-        double _deleteSimpleNeuronMutationProbability;
 
         // RouletteWheelLayout representing the above five mutation probabilities.
         RouletteWheelLayout _rouletteWheelLayout;
@@ -94,7 +92,6 @@ namespace SharpNeat.Genomes.Neat
             _addConnectionMutationProbability           = DefaultAddConnectionMutationProbability;
             _nodeAuxStateMutationProbability            = DefaultNodeAuxStateMutationProbability;
             _deleteConnectionMutationProbability        = DefaultDeleteConnectionMutationProbability;
-            _deleteSimpleNeuronMutationProbability      = DefaultDeleteSimpleNeuronMutationProbability;
 
             _rouletteWheelLayout = CreateRouletteWheelLayout();
             _rouletteWheelLayoutNonDestructive = CreateRouletteWheelLayout_NonDestructive();
@@ -120,7 +117,6 @@ namespace SharpNeat.Genomes.Neat
             _addConnectionMutationProbability           = copyFrom._addConnectionMutationProbability;
             _nodeAuxStateMutationProbability            = copyFrom._nodeAuxStateMutationProbability;
             _deleteConnectionMutationProbability        = copyFrom._deleteConnectionMutationProbability;
-            _deleteSimpleNeuronMutationProbability      = copyFrom._deleteSimpleNeuronMutationProbability;
 
             _rouletteWheelLayout = new RouletteWheelLayout(copyFrom._rouletteWheelLayout);
             _rouletteWheelLayoutNonDestructive = new RouletteWheelLayout(copyFrom._rouletteWheelLayoutNonDestructive);
@@ -263,25 +259,6 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets or sets the probability that a genome mutation is a 'delete simple neuron' mutation (neurons with a single incoming and/or outgoign connection).
-        /// The neuron is fctored out of the network by replacing it with connections that connect up all neurons on its source and target side, thus maintaining 
-        /// the same connectivity.
-        /// </summary>
-        public double DeleteSimpleNeuronMutationProbability
-        {
-            get 
-            {
-                return _deleteSimpleNeuronMutationProbability; 
-            }
-            set 
-            {
-                _deleteSimpleNeuronMutationProbability = value; 
-                _rouletteWheelLayout = CreateRouletteWheelLayout();
-                _rouletteWheelLayoutNonDestructive = CreateRouletteWheelLayout_NonDestructive();
-            }
-        }
-
-        /// <summary>
         /// Gets a RouletteWheelLayout that represents the probabilities of each type of genome mutation.
         /// </summary>
         public RouletteWheelLayout RouletteWheelLayout
@@ -328,8 +305,7 @@ namespace SharpNeat.Genomes.Neat
                     _addNodeMutationProbability,
                     _addConnectionMutationProbability,
                     _nodeAuxStateMutationProbability,
-                    _deleteConnectionMutationProbability,
-                    _deleteSimpleNeuronMutationProbability
+                    _deleteConnectionMutationProbability
                 };
             return new RouletteWheelLayout(probabilities);
         }
@@ -440,8 +416,7 @@ namespace SharpNeat.Genomes.Neat
             newParams._addConnectionMutationProbability = 0.0;
             // TODO: better method for automatically generating simplifying parameters?
             newParams._nodeAuxStateMutationProbability = copyFrom._nodeAuxStateMutationProbability;
-            newParams._deleteConnectionMutationProbability = 0.2;
-            newParams._deleteSimpleNeuronMutationProbability = 0.2;
+            newParams._deleteConnectionMutationProbability = 0.4;
             newParams._rouletteWheelLayout = newParams.CreateRouletteWheelLayout();
             newParams._rouletteWheelLayoutNonDestructive = newParams.CreateRouletteWheelLayout_NonDestructive();
 
