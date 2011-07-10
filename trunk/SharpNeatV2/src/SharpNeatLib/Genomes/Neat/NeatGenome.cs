@@ -401,77 +401,58 @@ namespace SharpNeat.Genomes.Neat
 
         private void Mutate()
         {
-            // If we have fewer than two conenctions then use an alternative RouletteWheelLayout that avoids 
+            // If we have fewer than two connections then use an alternative RouletteWheelLayout that avoids 
             // destructive mutations. This prevents the creation of genomes with no connections.
-            RouletteWheelLayout rwl = (_connectionGeneList.Count < 2) ?
+            RouletteWheelLayout rwlInitial = (_connectionGeneList.Count < 2) ?
                   _genomeFactory.NeatGenomeParameters.RouletteWheelLayoutNonDestructive 
                 : _genomeFactory.NeatGenomeParameters.RouletteWheelLayout;
 
-            // Roulette wheel selection of mutation type.
-            int outcome = RouletteWheel.SingleThrow(rwl, _genomeFactory.Rng);
-            switch(outcome)
+            // Select a type of mutation and attempt to perform it. If that mutation is not possible
+            // then we eliminate that possibility from the roulette wheel and try again until a mutation is successful 
+            // or we have no mutation types remaining to try.
+            RouletteWheelLayout rwlCurrent = rwlInitial;
+            bool success = false;
+            for(;;)
             {
-                case 0:
-                    Mutate_ConnectionWeights();
+                int outcome = RouletteWheel.SingleThrow(rwlCurrent, _genomeFactory.Rng);
+                switch(outcome)
+                {
+                    case 0:
+                        Mutate_ConnectionWeights();
+                        // Connection weight mutation is assumed to always succeed - genomes should always have at least one connection to mutate.
+                        success = true;
+                        break;
+                    case 1:
+                        success = (null != Mutate_AddNode());
+                        break;
+                    case 2:
+                        success = (null != Mutate_AddConnection());
+                        break;
+                    case 3:
+                        success = Mutate_NodeAuxState();
+                        break;
+                    case 4:
+                        success = (null != Mutate_DeleteConnection());
+                        break;
+                    default:
+                        throw new SharpNeatException(string.Format("NeatGenome.Mutate(): Unexpected outcome value [{0}]", outcome));
+                }
+
+                // Success. Break out of loop.
+                if(success) {
                     break;
-                case 1:
-                    TryMutate_AddNode();
-                    break;
-                case 2:
-                    TryMutate_AddConnection();
-                    break;
-                case 3:
-                    TryMutate_NodeAuxState();
-                    break;
-                case 4:
-                    Mutate_DeleteConnection();
-                    break;
+                }
+
+                // Mutation did not succeed. Remove attempted type of mutation from set of possible outcomes.
+                rwlCurrent = rwlCurrent.RemoveOutcome(outcome);
+                if(0.0 == rwlCurrent.ProbabilitiesTotal)
+                {   // Nothing left to try. Do nothing.
+                    return;
+                }
             }
 
+            // Mutation succeeded. Check resulting genome.
             Debug.Assert(PerformIntegrityCheck());
-        }
-
-        private void TryMutate_AddNode()
-        {
-            if(null == Mutate_AddNode())
-            {   // Attempt to add a connection instead (but only if 'add connection' mutations are enabled).
-                if(0.0 != _genomeFactory.NeatGenomeParameters.AddConnectionMutationProbability) {
-                    TryMutate_AddConnection();
-                }
-                else if(0.0 != _genomeFactory.NeatGenomeParameters.ConnectionWeightRange) {
-                    Mutate_ConnectionWeights();
-                }
-            }
-        }
-
-        private void TryMutate_AddConnection()
-        {
-            if(null == Mutate_AddConnection())
-            {   // Attempt to mutate connection weights instead (but only if connection weight mutations are enabled).
-                if(0.0 != _genomeFactory.NeatGenomeParameters.ConnectionWeightRange) {
-                    Mutate_ConnectionWeights();
-                }
-            }
-        }
-
-        private void TryMutate_NodeAuxState()
-        {
-            if(!Mutate_NodeAuxState())
-            {   // Attempt to mutate connection weights instead (but only if connection weight mutations are enabled).
-                if(0.0 != _genomeFactory.NeatGenomeParameters.ConnectionWeightRange) {
-                    Mutate_ConnectionWeights();
-                }
-            }
-        }
-
-        private void TryMutate_DeleteConnection()
-        {
-            if(null == Mutate_DeleteConnection())
-            {   // Attempt to mutate connection weights instead (but only if connection weight mutations are enabled).
-                if(0.0 != _genomeFactory.NeatGenomeParameters.ConnectionWeightRange) {
-                    Mutate_ConnectionWeights();
-                }
-            }
         }
 
         /// <summary>
@@ -702,6 +683,9 @@ namespace SharpNeat.Genomes.Neat
             return null;
         }
 
+        /// <summary>
+        /// Mutate a neuron's auxiliary state. Returns true if successfull (failure can occur if there are no neuron's with auxiliary state).
+        /// </summary>
         private bool Mutate_NodeAuxState()
         {
             if(_auxStateNeuronCount == 0)
@@ -799,6 +783,7 @@ namespace SharpNeat.Genomes.Neat
             // Indicate success.
             return connectionToDelete;
         }
+
 
         private void Mutate_ConnectionWeights()
         {

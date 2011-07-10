@@ -46,6 +46,7 @@ namespace SharpNeat.Genomes.Neat
 
         #region Instance Fields
 
+        bool _feedforwardOnly;
         IActivationFunction _activationFn;
         double _connectionWeightRange;
         double _initialInterconnectionsProportion;
@@ -108,6 +109,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public NeatGenomeParameters(NeatGenomeParameters copyFrom)
         {
+            _feedforwardOnly                            = copyFrom._feedforwardOnly;
             _activationFn                               = copyFrom._activationFn;
             _connectionWeightRange                      = copyFrom._connectionWeightRange;
             _initialInterconnectionsProportion          = copyFrom._initialInterconnectionsProportion;
@@ -129,6 +131,15 @@ namespace SharpNeat.Genomes.Neat
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets a boolean that indicates if NEAT should produce only feedforward networks (no recurrent/cyclic connection paths).
+        /// </summary>
+        public bool FeedforwardOnly
+        {
+            get { return _feedforwardOnly; }
+            set { _feedforwardOnly = value; }
+        }
 
         /// <summary>
         /// Gets or sets the neuron activation function to use in evolved networks. NEAT uses the same activation
