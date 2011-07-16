@@ -23,17 +23,17 @@ using SharpNeat.Phenomes.NeuralNets;
 namespace SharpNeat.Decoders
 {
     /// <summary>
-    /// Static factory for creating RecurrentNetwork's from INetworkDefinition's.
+    /// Static factory for creating CyclicNetwork's from INetworkDefinition's.
     /// </summary>
-    public class RecurrentNetworkFactory
+    public class CyclicNetworkFactory
     {
         #region Public Static Methods
 
         /// <summary>
-        /// Creates a RecurrentNetwork from an INetworkDefinition.
+        /// Creates a CyclicNetwork from an INetworkDefinition.
         /// </summary>
-        public static RecurrentNetwork CreateRecurrentNetwork(INetworkDefinition networkDef,
-                                                              NetworkActivationScheme activationScheme)
+        public static CyclicNetwork CreateCyclicNetwork(INetworkDefinition networkDef,
+                                                           NetworkActivationScheme activationScheme)
         {
             List<Neuron> neuronList;
             List<Connection> connectionList;
@@ -42,19 +42,19 @@ namespace SharpNeat.Decoders
             // Construct neural net.
             if(activationScheme.RelaxingActivation)
             {
-                return new RelaxingRecurrentNetwork(neuronList,
-                                                    connectionList,
-                                                    networkDef.InputNodeCount,
-                                                    networkDef.OutputNodeCount,
-                                                    activationScheme.MaxTimesteps,
-                                                    activationScheme.SignalDeltaThreshold);
+                return new RelaxingCyclicNetwork(neuronList,
+                                                 connectionList,
+                                                 networkDef.InputNodeCount,
+                                                 networkDef.OutputNodeCount,
+                                                 activationScheme.MaxTimesteps,
+                                                 activationScheme.SignalDeltaThreshold);
             }
 
-            return new RecurrentNetwork(neuronList,
-                                        connectionList,
-                                        networkDef.InputNodeCount,
-                                        networkDef.OutputNodeCount,
-                                        activationScheme.TimestepsPerActivation);
+            return new CyclicNetwork(neuronList,
+                                     connectionList,
+                                     networkDef.InputNodeCount,
+                                     networkDef.OutputNodeCount,
+                                     activationScheme.TimestepsPerActivation);
         }
 
         #endregion

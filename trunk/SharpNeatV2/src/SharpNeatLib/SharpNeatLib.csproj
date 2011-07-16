@@ -88,7 +88,8 @@
     <Compile Include="Core\Specie.cs" />
     <Compile Include="Core\UpdateMode.cs" />
     <Compile Include="Core\UpdateScheme.cs" />
-    <Compile Include="Decoders\FastRecurrentNetworkFactory.cs" />
+    <Compile Include="Decoders\CyclicNetworkFactory.cs" />
+    <Compile Include="Decoders\FastCyclicNetworkFactory.cs" />
     <Compile Include="Decoders\HyperNeat\DefaultNodeSetMappingFunction.cs" />
     <Compile Include="Decoders\HyperNeat\HyperNeatDecoder.cs" />
     <Compile Include="Decoders\HyperNeat\INodeSetMappingFunction.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="Decoders\NetworkActivationScheme.cs" />
     <None Include="DeadCode\NeatActivationFunctionLibrary.cs" />
     <Compile Include="Decoders\Neat\NeatGenomeDecoder.cs" />
-    <Compile Include="Decoders\RecurrentNetworkFactory.cs" />
     <Compile Include="DistanceMetrics\DistanceMetricUtils.cs" />
     <Compile Include="DistanceMetrics\ManhattanDistanceMetric.cs" />
     <Compile Include="DistanceMetrics\EuclideanDistanceMetric.cs" />
@@ -176,18 +176,18 @@
     <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoid.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoidApproximation.cs" />
-    <Compile Include="Phenomes\NeuralNets\FastRecurrentNetwork\FastRecurrentNetwork.cs" />
-    <Compile Include="Phenomes\NeuralNets\FastRecurrentNetwork\FastConnection.cs" />
-    <Compile Include="Phenomes\NeuralNets\FastRecurrentNetwork\FastRelaxingRecurrentNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Connection.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Neuron.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\RelaxingCyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastConnection.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastCyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastRelaxingCyclicNetwork.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
-    <Compile Include="Phenomes\NeuralNets\RecurrentNetwork\RecurrentNetwork.cs" />
-    <Compile Include="Phenomes\NeuralNets\RecurrentNetwork\Neuron.cs" />
-    <Compile Include="Phenomes\NeuralNets\RecurrentNetwork\Connection.cs" />
     <Compile Include="Network\NodeType.cs" />
     <Compile Include="Network\IActivationFunction.cs" />
     <Compile Include="Network\ActivationFunctions\NullFn.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\StepFunction.cs" />
-    <Compile Include="Phenomes\NeuralNets\RecurrentNetwork\RelaxingRecurrentNetwork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

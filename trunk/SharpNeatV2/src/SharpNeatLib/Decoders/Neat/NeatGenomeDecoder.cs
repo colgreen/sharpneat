@@ -65,19 +65,19 @@ namespace SharpNeat.Decoders.Neat
         {
             if(activationScheme.FastFlag)
             {
-                return DecodeToFastRecurrentNetwork;
+                return DecodeToFastCyclicNetwork;
             }
-            return DecodeToRecurrentNetwork;
+            return DecodeToCyclicNetwork;
         }
 
-        private RecurrentNetwork DecodeToRecurrentNetwork(NeatGenome genome)
+        private CyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
         {
-            return RecurrentNetworkFactory.CreateRecurrentNetwork(genome, _activationScheme);
+            return CyclicNetworkFactory.CreateCyclicNetwork(genome, _activationScheme);
         }
 
-        private FastRecurrentNetwork DecodeToFastRecurrentNetwork(NeatGenome genome)
+        private FastCyclicNetwork DecodeToFastCyclicNetwork(NeatGenome genome)
         {
-            return FastRecurrentNetworkFactory.CreateFastRecurrentNetwork(genome, _activationScheme);
+            return FastCyclicNetworkFactory.CreateFastCyclicNetwork(genome, _activationScheme);
         }
 
         #endregion

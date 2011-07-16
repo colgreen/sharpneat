@@ -26,7 +26,7 @@ namespace SharpNeat.Phenomes
     /// provides offset indexed access to the underlying native array.
     /// 
     /// SignalArray minimizes the amount of value copying required when setting input signal values to, and
-    /// reading output values from an IBlackBox. E.g. FastRecurrentNetwork requires all input, output and 
+    /// reading output values from an IBlackBox. E.g. FastCyclicNetwork requires all input, output and 
     /// hidden node activation values to be stored in a single array. This class allows us to handle direct 
     /// access to the input and output values through their own SignalArray, thus we can set individual values
     /// in the underlying native array directly without having knowledge of that array's structure. An alternative
