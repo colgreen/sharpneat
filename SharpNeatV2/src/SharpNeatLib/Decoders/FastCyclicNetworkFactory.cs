@@ -25,17 +25,17 @@ using SharpNeat.Phenomes.NeuralNets;
 namespace SharpNeat.Decoders
 {
     /// <summary>
-    /// Static factory for creating RecurrentNetwork's from INetworkDefinition's.
+    /// Static factory for creating CyclicNetwork's from INetworkDefinition's.
     /// </summary>
-    public class FastRecurrentNetworkFactory
+    public class FastCyclicNetworkFactory
     {
         #region Public Static Methods
 
         /// <summary>
-        /// Creates a RecurrentNetwork from an INetworkDefinition.
+        /// Creates a CyclicNetwork from an INetworkDefinition.
         /// </summary>
-        public static FastRecurrentNetwork CreateFastRecurrentNetwork(INetworkDefinition networkDef,
-                                                                      NetworkActivationScheme activationScheme)
+        public static FastCyclicNetwork CreateFastCyclicNetwork(INetworkDefinition networkDef,
+                                                                NetworkActivationScheme activationScheme)
         {
             FastConnection[] fastConnectionArray;
             IActivationFunction[] activationFnArray;
@@ -47,7 +47,7 @@ namespace SharpNeat.Decoders
             // Construct neural net.
             if(activationScheme.RelaxingActivation)
             {
-                return new FastRelaxingRecurrentNetwork(fastConnectionArray,
+                return new FastRelaxingCyclicNetwork(fastConnectionArray,
                                                         activationFnArray, 
                                                         neuronAuxArgsArray,
                                                         networkDef.NodeList.Count,
@@ -57,7 +57,7 @@ namespace SharpNeat.Decoders
                                                         activationScheme.SignalDeltaThreshold);
             }
 
-            return new FastRecurrentNetwork(fastConnectionArray,
+            return new FastCyclicNetwork(fastConnectionArray,
                                             activationFnArray,
                                             neuronAuxArgsArray,
                                             networkDef.NodeList.Count,
