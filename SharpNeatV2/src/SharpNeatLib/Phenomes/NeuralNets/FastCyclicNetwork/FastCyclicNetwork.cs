@@ -83,12 +83,12 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// associated data.
         /// </summary>
         public FastCyclicNetwork(FastConnection[] connectionArray,
-                                    IActivationFunction[] neuronActivationFnArray,
-                                    double[][] neuronAuxArgsArray,
-                                    int neuronCount,
-                                    int inputNeuronCount,
-                                    int outputNeuronCount,
-                                    int timestepsPerActivation)
+                                 IActivationFunction[] neuronActivationFnArray,
+                                 double[][] neuronAuxArgsArray,
+                                 int neuronCount,
+                                 int inputNeuronCount,
+                                 int outputNeuronCount,
+                                 int timestepsPerActivation)
         {
             _connectionArray = connectionArray;
             _neuronActivationFnArray = neuronActivationFnArray;
