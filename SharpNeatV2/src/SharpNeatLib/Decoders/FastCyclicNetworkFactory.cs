@@ -85,26 +85,26 @@ namespace SharpNeat.Decoders
             // decoding is the conversion of the neuron IDs at connection endpoints into neuron indexes. For small
             // genomes we simply use the BinarySearch() method on NeuronGeneList for each lookup; Each lookup is
             // an operation with O(log n) time complexity. Thus for C connections and N neurons the number of operations
-            // to perform all lookups is approximately O(2*C*Log(N))
+            // to perform all lookups is approximately = 2*C*Log(N)
             //
             // For larger genomes we invest time in building a Dictionary that maps neuron IDs to their indexes, this on the
             // basis that the time invested will be more than recovered in time saved performing lookups; The time complexity
-            // of a dictionary lookup is near constant O(1). Thus we have O(2*C*1) plus the time required to build the
-            // dictionary which is approximately O(N).
+            // of a dictionary lookup is near constant O(1). Thus number of operations is approximately = O(2*C*1) + the time
+            // required to build the dictionary which is approximately O(N).
             //
             // Therefore the choice of lookup type is based on which of these two expressions gives the lowest value. 
             //
-            //      Binary search.      LookupOps = a*2*C*Log2(N)
-            //      Dictionary Search.  LookupOps = b*N + c*2*C
+            //      Binary search.      LookupOps = 2 * C * Log2(N) * x
+            //      Dictionary Search.  LookupOps = (N * y) + (2 * C * z)
             //
-            // Where a, b and c are constants that adjust for the relative speeds of the lookup and dictionary building operations.
+            // Where x, y and z are constants that adjust for the relative speeds of the lookup and dictionary building operations.
             // Note that the actual time required to perform these separate algorithms is actually a far more complex problem, and 
             // for modern CPUs exact times cannot be calculated because of large memory caches and superscalar architecture that
             // makes execution times in a real environment effectively non-deterministic. Thus these calculations are a rough 
             // guide/heuristic that estimate which algorithm will perform best. The constants can be found experimentally but will
             // tend to vary depending on factors such as CPU and memory architecture, .Net framework version and what other tasks the
             // CPU is currently doing which may affect our utilisation of memory caches.
-            // TODO: Experimentally determine reasonably good values for constants a,b and c in some common real world runtime platform.
+            // TODO: Experimentally determine reasonably good values for constants x,y and z in some common real world runtime platform.
             fastConnectionArray = new FastConnection[connectionCount];
 
             if((2.0 * connectionCount * Math.Log(nodeCount, 2.0)) < ((2.0 * connectionCount) + nodeCount))
