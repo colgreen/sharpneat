@@ -88,6 +88,7 @@
     <Compile Include="Core\Specie.cs" />
     <Compile Include="Core\UpdateMode.cs" />
     <Compile Include="Core\UpdateScheme.cs" />
+    <Compile Include="Decoders\AcyclicNetworkFactory.cs" />
     <Compile Include="Decoders\CyclicNetworkFactory.cs" />
     <Compile Include="Decoders\FastCyclicNetworkFactory.cs" />
     <Compile Include="Decoders\HyperNeat\DefaultNodeSetMappingFunction.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
     <None Include="DeadCode\PhasedSearchStats.cs" />
     <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallClockTimeTrigger.cs" />
+    <Compile Include="Genomes\Neat\CyclicNetworkTest.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
@@ -176,6 +178,7 @@
     <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoid.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoidApproximation.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\AcyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Connection.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Neuron.cs" />

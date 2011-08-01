@@ -264,7 +264,7 @@ namespace SharpNeat.Genomes.Neat
             CorrelationResults correlationResults = CorrelateConnectionGeneLists(_connectionGeneList, parent._connectionGeneList);
             Debug.Assert(correlationResults.PerformIntegrityCheck(), "CorrelationResults failed integrity check.");
 
-            // Construct a ConnectionGeneListBuilder with the capacity set the the maximum number of connections that
+            // Construct a ConnectionGeneListBuilder with its capacity set the the maximum number of connections that
             // could be added to it (all connection genes from both parents). This eliminates the possiblity of having to
             // re-allocate list memory, improving performance at the cost of a little additional allocated memory on average.
             ConnectionGeneListBuilder connectionListBuilder = new ConnectionGeneListBuilder(_connectionGeneList.Count +
@@ -274,9 +274,9 @@ namespace SharpNeat.Genomes.Neat
             // neuron ID dictionary. We do this so that we can use the dictionary later on as a complete list of
             // all neuron IDs required by the offspring genome - if we didn't do this we might miss some of the fixed neurons
             // that happen to not be connected to or from.
-            SortedDictionary<uint,NeuronGene> neuronIdDictionary = connectionListBuilder.NeuronDictionary;
+            SortedDictionary<uint,NeuronGene> neuronDictionary = connectionListBuilder.NeuronDictionary;
             for(int i=0; i<_inputBiasOutputNeuronCount; i++) {
-                neuronIdDictionary.Add(_neuronGeneList[i].InnovationId, _neuronGeneList[i]);
+                neuronDictionary.Add(_neuronGeneList[i].InnovationId, _neuronGeneList[i].CreateCopy(false));
             }
 
             // A variable that stores which parent is fittest, 1 or 2. We pre-calculate this value because this
@@ -294,29 +294,101 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // TODO: Reconsider this approach.
-            // Pre-calcualte a flag that indicates if excess and disjoint genes should be copied into the offspring genome.
+            // Pre-calculate a flag that indicates if excess and disjoint genes should be copied into the offspring genome.
             // Excess and disjoint genes are either copied altogether or none at all.
             bool combineDisjointExcessFlag = _genomeFactory.Rng.NextDouble() < _genomeFactory.NeatGenomeParameters.DisjointExcessGenesRecombinedProbability;
 
             // Loop through the items within the CorrelationResults, processing each one in turn.
-            // Where we have a match between parents we select which parent's copy to use probabilistically with even chance.
-            // Otherwise we refer to fitSwitch to select if the gene is used or not.
-            // All accepted genes are accumulated in the ConnectionListBuilder.
-            int itemCount = correlationResults.CorrelationItemList.Count;
-            for(int i=0; i<itemCount; i++) {
-                CreateOffspring_Sexual_ProcessCorrelationItem(connectionListBuilder,
-                                                              correlationResults.CorrelationItemList[i],
-                                                              fitSwitch, combineDisjointExcessFlag, parent);
+            // Where we have a match between parents we select which parent's copy (effectively which connection weight) to 
+            // use probabilistically with even chance.
+            // For disjoint and excess genes, if they are on the fittest parent (as indicated by fitSwitch) we always take that gene.
+            // If the disjoint/excess gene is on the least fit parent then we take that gene also but only when 
+            // combineDisjointExcessFlag is true.
+            
+            // Loop 1: Get all genes that are present on the fittest parent. 
+            // Note. All accepted genes are accumulated within connectionListBuilder.
+            // Note. Any disjoint/excess genes that we wish to select from the least fit parent are stored in a second list for processing later 
+            // (this avoids having to do another complete pass through the correlation results). The principle reason for this is hancling detection of
+            // cyclic connections when combining two genomes when evolving feedforward-only networks. Each genome by itself will be acyclic, so can safely
+            // copy all genes from any one parent, but for any genes from the other parent we then need to check each one as we add it to the offspring 
+            // genome to check if it would create a cycle.
+            List<CorrelationItem> disjointExcessGeneList = combineDisjointExcessFlag ? new List<CorrelationItem>(correlationResults.CorrelationStatistics.DisjointConnectionGeneCount + correlationResults.CorrelationStatistics.ExcessConnectionGeneCount) : null;
+
+            foreach(CorrelationItem correlItem in correlationResults.CorrelationItemList)
+            {
+                // Determine which genome to copy from (if any)
+                int selectionSwitch;
+                if(CorrelationItemType.Match == correlItem.CorrelationItemType) 
+                {   // For matches pick a parent genome at random (they both have the same connection gene, 
+                    // but with a different connection weight)   
+                    selectionSwitch = RouletteWheel.SingleThrow(0.5, _genomeFactory.Rng) ? 1 : 2;
+                }
+                else if(1==fitSwitch && null != correlItem.ConnectionGene1) 
+                {   // Disjoint/excess gene on the fittest genome (genome #1).
+                    selectionSwitch = 1;
+                }
+                else if(2==fitSwitch && null != correlItem.ConnectionGene2) 
+                {   // Disjoint/excess gene on the fittest genome (genome #2).
+                    selectionSwitch = 2;
+                }
+                else 
+                {   // Disjoint/excess gene on the least fit genome. 
+                    if(combineDisjointExcessFlag) 
+                    {   // Put to one side for processing later.
+                        disjointExcessGeneList.Add(correlItem);
+                    }
+                    // Skip to next gene.
+                    continue;
+                }
+
+                // Get ref to the selected connection gene and its source target neuron genes.
+                ConnectionGene connectionGene;
+                NeatGenome parentGenome;
+                if(1 == selectionSwitch) {
+                    connectionGene = correlItem.ConnectionGene1;
+                    parentGenome = this;
+                } else {
+                    connectionGene = correlItem.ConnectionGene2;
+                    parentGenome = parent;
+                }
+
+                // Add connection gene to the offspring's genome. For genes from a match we set a flag to force
+                // an override of any existing gene with the same innovation ID (which may have come from a previous disjoint/excess gene).
+                // We prefer matched genes as they will tend to give better fitness to the offspring - this logic if based purely on the 
+                // fact that the gene has clearly been replicated at least once before and survived within at least two genomes.
+                connectionListBuilder.TryAddGene(connectionGene, parentGenome, (CorrelationItemType.Match == correlItem.CorrelationItemType));
             }
 
-            // Build a list of neuron genes for the new genome. Conveniently connectionListBuilder.NeuronDictionary has
-            // been tracking all neurons referred to by connection endpoints, and was also pre-loaded with all of the 
-            // fixed (bias, input and output) neurons. Thus we already know how many and which neurons our new genome will
-            // have - *and* they are already sorted by innovation ID as required by NeuronGeneList.
+            // Loop 2: Add disjoint/excess genes from the least fit parent (if any). These may create connectivity cycles, hence we need to test
+            // for this when evoloving feedforward-only networks.
+            if(null != disjointExcessGeneList && 0 != disjointExcessGeneList.Count)
+            {
+                foreach(CorrelationItem correlItem in disjointExcessGeneList)
+                {
+                    // Get ref to the selected connection gene and its source target neuron genes.
+                    ConnectionGene connectionGene;
+                    NeatGenome parentGenome;
+                    if(null != correlItem.ConnectionGene1) {
+                        connectionGene = correlItem.ConnectionGene1;
+                        parentGenome = this;
+                    } else {
+                        connectionGene = correlItem.ConnectionGene2;
+                        parentGenome = parent;
+                    }
+
+                    // We are effectively adding connections from one genome to another, as such it is possible to create cyclic conenctions here.
+                    // Thus only add the connection if we allow cyclic connections *or* the connection does not form a cycle.
+                    if(!_genomeFactory.NeatGenomeParameters.FeedforwardOnly || !connectionListBuilder.IsConnectionCyclic(connectionGene.SourceNodeId, connectionGene.TargetNodeId))
+                    {   // Add connection gene to the offspring's genome.
+                        connectionListBuilder.TryAddGene(connectionGene, parentGenome, false);
+                    }
+                }
+            }
+
+            // Extract the connection builders definitive list of neurons into a list.
             NeuronGeneList neuronGeneList = new NeuronGeneList(connectionListBuilder.NeuronDictionary.Count);
-            foreach(NeuronGene neuronGene in neuronIdDictionary.Values) 
-            {   // Note. Don't copy neuron connectivity data, it will need to be completely rebuilt.
-                neuronGeneList.Add(neuronGene.CreateCopy(false));
+            foreach(NeuronGene neuronGene in neuronDictionary.Values) {   
+                neuronGeneList.Add(neuronGene);
             }
 
             // Note that connectionListBuilder.ConnectionGeneList is already sorted by connection gene innovation ID 
@@ -324,7 +396,7 @@ namespace SharpNeat.Genomes.Neat
             // - which returns correlation items in order.
             return _genomeFactory.CreateGenome(_genomeFactory.NextGenomeId(), birthGeneration,
                                                                neuronGeneList, connectionListBuilder.ConnectionGeneList,
-                                                               _inputNeuronCount, _outputNeuronCount, true);
+                                                               _inputNeuronCount, _outputNeuronCount, false);            
         }
 
         #endregion
@@ -642,7 +714,7 @@ namespace SharpNeat.Genomes.Neat
                     // Test if this connection already exists or is recurrent
                     NeuronGene sourceNeuron = _neuronGeneList[srcNeuronIdx];            
                     NeuronGene targetNeuron = _neuronGeneList[tgtNeuronIdx];
-                    if(sourceNeuron.TargetNeurons.Contains(targetNeuron.Id) || IsConnectionRecurrent(sourceNeuron, targetNeuron.Id)) 
+                    if(sourceNeuron.TargetNeurons.Contains(targetNeuron.Id) || IsConnectionCyclic(sourceNeuron, targetNeuron.Id)) 
                     {   // Try again.
                         continue;
                     }
@@ -678,24 +750,25 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>
         /// Tests if adding the specified connection would cause a cyclic pathway in the network connectivity.
-        /// Returns true if the connection is recurrent.
+        /// Returns true if the connection would form a cycle.
         /// </summary>
-        private bool IsConnectionRecurrent(NeuronGene sourceNeuron, uint targetNeuronId)
+        private bool IsConnectionCyclic(NeuronGene sourceNeuron, uint targetNeuronId)
         {
-            // Quick test. Is connection connectign a neuron to itself.
+            // Quick test. Is connection connecting a neuron to itself.
             if(sourceNeuron.Id == targetNeuronId) {
                 return true;
             }
 
-            // Maintain a set of neurons that have been visited. This allows unnecessary re-traversal of the network
-            // and detection of cyclic connections.
-            HashSet<uint> visitedNeurons = new HashSet<uint>();
-            visitedNeurons.Add(sourceNeuron.Id);
-
             // Trace backwards through sourceNeuron's source neurons. If targetNeuron is encountered then it feeds
             // signals into sourceNeuron already and therefore a new connection between sourceNeuron and targetNeuron
             // would create a cycle.
-            // Search uses an explicitly created stack instead of function recursion, the logic here is that this 
+
+            // Maintain a set of neurons that have been visited. This allows us to avoid unnecessary re-traversal 
+            // of the network and detection of cyclic connections.
+            HashSet<uint> visitedNeurons = new HashSet<uint>();
+            visitedNeurons.Add(sourceNeuron.Id);
+
+            // This search uses an explicitly created stack instead of function recursion, the logic here is that this 
             // may be more efficient through avoidance of multiple function calls (but not sure).
             Stack<uint> workStack = new Stack<uint>();
 
@@ -715,13 +788,13 @@ namespace SharpNeat.Genomes.Neat
                     continue;
                 }
 
-                // Register visit of this node.
-                visitedNeurons.Add(currNeuronId);                
-
                 if(currNeuronId == targetNeuronId) {
                     // Target neuron already feeds into the source neuron.
                     return true;
                 }
+
+                // Register visit of this node.
+                visitedNeurons.Add(currNeuronId);                
 
                 // Push the current neuron's source neurons onto the work stack.
                 NeuronGene currNeuron = _neuronGeneList.GetNeuronById(currNeuronId);
@@ -730,7 +803,7 @@ namespace SharpNeat.Genomes.Neat
                 }
             }
 
-            // Connection not recurrent.
+            // Connection not cyclic.
             return false;
         }
 
@@ -1010,126 +1083,6 @@ namespace SharpNeat.Genomes.Neat
                 return false;
             }
             return (0 == (neuronGene.SourceNeurons.Count + neuronGene.TargetNeurons.Count));
-        }
-
-        #endregion
-
-        #region Private Methods [Sexual Reproduction]
-
-        private void CreateOffspring_Sexual_ProcessCorrelationItem(ConnectionGeneListBuilder connectionListBuilder,
-                                                                   CorrelationItem correlationItem,
-                                                                   int fitSwitch,
-                                                                   bool combineDisjointExcessFlag,
-                                                                   NeatGenome parent)                                             
-        {
-            ConnectionGene connectionGene;
-            NeuronGene srcNeuronGene;
-            NeuronGene tgtNeuronGene;
-
-            switch(correlationItem.CorrelationItemType)
-            {   
-                // Disjoint and excess genes.
-                case CorrelationItemType.Disjoint:
-                case CorrelationItemType.Excess:
-                {
-                    // If the gene is in the fittest parent then override any existing entry in the connectionGeneTable.
-                    if(1==fitSwitch && null != correlationItem.ConnectionGene1)
-                    {
-                        connectionGene = correlationItem.ConnectionGene1;
-                        srcNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
-                        tgtNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
-                        CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, true, srcNeuronGene, tgtNeuronGene);
-                        return;
-                    }
-                    if(fitSwitch==2 && correlationItem.ConnectionGene2 != null)
-                    {
-                        connectionGene = correlationItem.ConnectionGene2;
-                        srcNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
-                        tgtNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
-                        CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, true, srcNeuronGene, tgtNeuronGene);
-                        return;
-                    }
-
-                    // The disjoint/excess gene must be on the least fit parent.
-                    if(combineDisjointExcessFlag)
-                    {
-                        if(null != correlationItem.ConnectionGene1)
-                        {
-                            connectionGene = correlationItem.ConnectionGene1;
-                            srcNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
-                            tgtNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
-                        }
-                        else
-                        {
-                            connectionGene = correlationItem.ConnectionGene2;
-                            srcNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
-                            tgtNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
-                        }
-
-                        // Only add the gene to the genome if an equivalent gene (same endpoints) hasn't already been added.
-                        CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, false, srcNeuronGene, tgtNeuronGene);
-                    }
-                    break;
-                }
-                case CorrelationItemType.Match:
-                {
-                    // Pick one of the two genes at random. Override any existing gene in case it was a disjoint/excess gene - 
-                    // we prefer matched genes to disjoint/excess ones as they are more likely to contribute to fitness.
-                    if(RouletteWheel.SingleThrow(0.5, _genomeFactory.Rng))
-                    {
-                        connectionGene = correlationItem.ConnectionGene1;
-                        srcNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
-                        tgtNeuronGene = _neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
-                    }
-                    else
-                    {
-                        connectionGene = correlationItem.ConnectionGene2;
-                        srcNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.SourceNodeId);
-                        tgtNeuronGene = parent._neuronGeneList.GetNeuronById(connectionGene.TargetNodeId);
-                    }
-                    CreateOffspring_Sexual_AddGene(connectionListBuilder, connectionGene, true, srcNeuronGene, tgtNeuronGene);
-                    break;
-                }
-            } 
-        }
-
-        /// <summary>
-        /// Register/add a connection gene to the provided ConnectionGeneListBuilder. This is a list that will be used to 
-        /// instantiate a new genome. New additions are registered with a dictionary of ConnectionGenes keyed
-        /// on ConnectionEndpointsStruct so that we can avoid adding connection genes with the same neuron endpoints,
-        /// this is possible because the innovation history buffers throw away old innovations in a FIFO manner in 
-        /// order to prevent them from growing in size indefinitely.
-        /// 
-        /// A dictionary of neuron IDs keeps track of all neuron IDs encountered on connection endpoints. We use this
-        /// as the source of unique neuron IDs when creating neuron genes for the new genome. We use a SortedDictionary
-        /// because it has O(log n) insertion time for unsorted data versus the SortedList's O(n).
-        /// </summary>
-        private void CreateOffspring_Sexual_AddGene(ConnectionGeneListBuilder connectionListBuilder,
-                                                    ConnectionGene connectionGene, bool overwriteExisting,
-                                                    NeuronGene srcNeuronGene, NeuronGene tgtNeuronGene)
-        {
-            ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(
-                                                                connectionGene.SourceNodeId, 
-                                                                connectionGene.TargetNodeId);
-
-            // Check if a matching gene has already been added.
-            ConnectionGene existingGene;
-            connectionListBuilder.ConnectionGeneDictionary.TryGetValue(connectionKey, out existingGene);
-            if(null == existingGene)
-            {   // We have not yet added a connection with the same neuron endpoints as the one we are trying to add.
-                // Append the connection gene to the ConnectionListBuilder.
-                connectionListBuilder.Append(connectionGene, connectionKey, srcNeuronGene, tgtNeuronGene);
-            }
-            else if(overwriteExisting)
-            {   // The genome we are building already has a connection with the same neuron endpoints as the one we are
-                // trying to add. It didn't match up during correlation because it has a different innovation number, this
-                // is possible because the innovation history buffers throw away old innovations in a FIFO manner in order
-                // to prevent them from bloating.
-
-                // Here the 'overwriteExisting' flag is set so the gene we are currently trying to add is probably from the
-                // fitter parent, and therefore we want to use its connection weight in place of the existing gene's weight.
-                existingGene.Weight = connectionGene.Weight;
-            }
         }
 
         #endregion
@@ -1451,13 +1404,13 @@ namespace SharpNeat.Genomes.Neat
 
                 // Check source node count.
                 if(nGene.SourceNeurons.Count != conInfo._srcNeurons.Count) {
-                    Debug.WriteLine("NeuronGene has incorrrect number of source neurons recorded.");
+                    Debug.WriteLine("NeuronGene has incorrect number of source neurons recorded.");
                     return false;
                 }
 
                 // Check target node count.
                 if(nGene.TargetNeurons.Count != conInfo._tgtNeurons.Count) {
-                    Debug.WriteLine("NeuronGene has incorrrect number of target neurons recorded.");
+                    Debug.WriteLine("NeuronGene has incorrect number of target neurons recorded.");
                     return false;
                 }
 
@@ -1465,7 +1418,7 @@ namespace SharpNeat.Genomes.Neat
                 foreach(uint srcNeuronId in nGene.SourceNeurons)
                 {
                     if(!conInfo._srcNeurons.Contains(srcNeuronId)) {
-                        Debug.WriteLine("NeuronGene has incorrrect list of source neurons recorded.");
+                        Debug.WriteLine("NeuronGene has incorrect list of source neurons recorded.");
                         return false;
                     }
                 }
@@ -1474,9 +1427,19 @@ namespace SharpNeat.Genomes.Neat
                 foreach(uint tgtNeuronId in nGene.TargetNeurons)
                 {
                     if(!conInfo._tgtNeurons.Contains(tgtNeuronId)) {
-                        Debug.WriteLine("NeuronGene has incorrrect list of target neurons recorded.");
+                        Debug.WriteLine("NeuronGene has incorrect list of target neurons recorded.");
                         return false;
                     }
+                }
+            }
+
+            // Check that network is acyclic if we are evolving feedforward only networks.
+            if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
+            {
+                CyclicNetworkTest cyclicTest = new CyclicNetworkTest();
+                if(cyclicTest.IsNetworkCyclic(this)) {
+                    Debug.WriteLine("Feedforward only network has one or more cyclic paths.");
+                    return false;
                 }
             }
 
