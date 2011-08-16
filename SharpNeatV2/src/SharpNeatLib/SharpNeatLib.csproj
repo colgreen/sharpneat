@@ -88,7 +88,7 @@
     <Compile Include="Core\Specie.cs" />
     <Compile Include="Core\UpdateMode.cs" />
     <Compile Include="Core\UpdateScheme.cs" />
-    <Compile Include="Decoders\AcyclicNetworkFactory.cs" />
+    <Compile Include="Decoders\FastAcyclicNetworkFactory.cs" />
     <Compile Include="Decoders\CyclicNetworkFactory.cs" />
     <Compile Include="Decoders\FastCyclicNetworkFactory.cs" />
     <Compile Include="Decoders\HyperNeat\DefaultNodeSetMappingFunction.cs" />
@@ -124,7 +124,6 @@
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
     <None Include="DeadCode\PhasedSearchStats.cs" />
     <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallClockTimeTrigger.cs" />
-    <Compile Include="Genomes\Neat\CyclicNetworkTest.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
@@ -132,6 +131,7 @@
     <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
     <Compile Include="Network\ConnectionList.cs" />
     <None Include="DeadCode\DefaultCppnActivationFunctionLibrary.cs" />
+    <Compile Include="Network\CyclicNetworkTest.cs" />
     <Compile Include="Network\DefaultActivationFunctionLibrary.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
     <Compile Include="Network\ConnectionEndpointsStruct.cs" />
@@ -160,9 +160,13 @@
     <Compile Include="Network\INetworkNode.cs" />
     <Compile Include="Network\INodeList.cs" />
     <Compile Include="Network\NetworkConnection.cs" />
+    <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NetworkDefinition.cs" />
+    <Compile Include="Network\NetworkDepthAnalysis.cs" />
+    <Compile Include="Network\NetworkDepthInfo.cs" />
     <Compile Include="Network\NetworkXmlIO.cs" />
     <Compile Include="Network\NetworkNode.cs" />
+    <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Network\NodeList.cs" />
     <Compile Include="Phenomes\IBlackBox.cs" />
     <Compile Include="Phenomes\ISignalArray.cs" />
@@ -178,7 +182,9 @@
     <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoid.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoidApproximation.cs" />
-    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\AcyclicNetwork.cs" />
+    <Compile Include="Phenomes\MappingSignalArray.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\FastAcyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Connection.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Neuron.cs" />

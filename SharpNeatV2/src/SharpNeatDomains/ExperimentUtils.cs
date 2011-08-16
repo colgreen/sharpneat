@@ -17,10 +17,10 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 using System;
+using System.Threading.Tasks;
 using System.Xml;
 using SharpNeat.Decoders;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
-using System.Threading.Tasks;
 
 namespace SharpNeat.Domains
 {
@@ -45,13 +45,15 @@ namespace SharpNeat.Domains
             string schemeStr = XmlUtils.TryGetValueAsString(xmlActivation, "Scheme");
             switch(schemeStr)
             {
-                case "FixedIters":
+                case "Acyclic":
+                    return NetworkActivationScheme.CreateAcyclicScheme();
+                case "CyclicFixedIters":
                     int iters = XmlUtils.GetValueAsInt(xmlActivation, "Iters");
-                    return new NetworkActivationScheme(iters);
-                case "Relax":
+                    return NetworkActivationScheme.CreateCyclicFixedTimestepsScheme(iters);
+                case "CyclicRelax":
                     double deltaThreshold = XmlUtils.GetValueAsInt(xmlActivation, "Threshold");
                     int maxIters = XmlUtils.GetValueAsInt(xmlActivation, "MaxIters");
-                    return new NetworkActivationScheme(deltaThreshold, maxIters);
+                    return NetworkActivationScheme.CreateCyclicRelaxingActivationScheme(deltaThreshold, maxIters);
             }
             throw new ArgumentException(string.Format("Invalid or missing ActivationScheme XML config setting [{0}]", schemeStr));
         }

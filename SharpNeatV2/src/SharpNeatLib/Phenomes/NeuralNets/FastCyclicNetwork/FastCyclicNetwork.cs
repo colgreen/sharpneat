@@ -40,7 +40,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// caches. Finally, representing the network directly as a graph of connected nodes is not conducive to 
     /// writing code with in-order memory accesses.
     /// 
-    /// Algorithm overview.
+    /// Algorithm Overview.
     /// 1) Loop connections. Each connection gets its input signal from its source neuron, applies its weight and
     /// stores its output value./ Connections are ordered by source neuron index, thus all memory accesses here are
     /// sequential/in-order.
@@ -169,7 +169,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i<_timestepsPerActivation; i++)
             {
-                // Loop connections. Get each connections input signal, apply the weight and add the result to 
+                // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the preactivation signal of the target neuron.
                 for(int j=0; j<_connectionArray.Length; j++) {
                     _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;

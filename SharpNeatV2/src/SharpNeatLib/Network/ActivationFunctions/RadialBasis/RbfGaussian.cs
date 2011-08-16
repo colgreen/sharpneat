@@ -16,13 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 using System;
 using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
-    // FIXME: Implement as RBF gaussian.
     /// <summary>
     /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the gaussian
     /// distribution curve tend towards 0 as abs(x) -> Infinity and the gaussian's peak is at x = 0.

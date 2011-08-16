@@ -139,7 +139,7 @@ namespace SharpNeat.Domains.BinaryElevenMultiplexer
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
             _neatGenomeParams = new NeatGenomeParameters();
-            _neatGenomeParams.FeedforwardOnly = true;
+            _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
         }
 
         /// <summary>

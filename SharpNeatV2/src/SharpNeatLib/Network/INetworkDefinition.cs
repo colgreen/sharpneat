@@ -51,5 +51,9 @@ namespace SharpNeat.Network
         /// Gets the list of network connections.
         /// </summary>
         IConnectionList ConnectionList { get; }
+        /// <summary>
+        /// Gets NetworkConnectivityData for the network.
+        /// </summary>
+        NetworkConnectivityData GetConnectivityData();
     }
 }

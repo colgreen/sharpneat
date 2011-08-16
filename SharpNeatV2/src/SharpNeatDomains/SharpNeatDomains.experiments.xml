@@ -8,8 +8,7 @@
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>2</Iters>        
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -28,8 +27,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <PopulationSize>500</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>4</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>50</ComplexityThreshold>
@@ -48,8 +46,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <PopulationSize>500</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>4</Iters>
+        <Scheme>Acyclic</Scheme>        
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>50</ComplexityThreshold>
@@ -73,8 +70,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <PopulationSize>1000</PopulationSize>
       <SpecieCount>50</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>4</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -93,8 +89,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <PopulationSize>1000</PopulationSize>
       <SpecieCount>50</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>4</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -118,8 +113,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <PopulationSize>150</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>3</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -140,8 +134,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>3</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -163,8 +156,7 @@ Sample resolution is 11, thus the sample values are 0.0, 0.1, 0.2, 0.3, 0.4, 0.5
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>3</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
@@ -187,9 +179,8 @@ Sin(x) evaluated over [-PI,+PI]
       <PopulationSize>1000</PopulationSize>
       <SpecieCount>50</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>4</Iters>
-      </Activation>     
+        <Scheme>Acyclic</Scheme>
+      </Activation>   
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>      
       <Function>SineXSquared</Function>
@@ -210,8 +201,7 @@ Sin(x) evaluated over [-PI,+PI]
       <PopulationSize>1000</PopulationSize>
       <SpecieCount>50</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>4</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -237,8 +227,7 @@ Sin(x) evaluated over [-PI,+PI]
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
-        <Iters>2</Iters>
+        <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
@@ -263,7 +252,7 @@ Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
@@ -305,7 +294,7 @@ This controller uses normalized, continous inputs rather than discretized inputs
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>3</Iters>
       </Activation>    
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
@@ -349,7 +338,7 @@ This controller uses normalized, continous inputs rather than discretized inputs
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>3</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
@@ -397,7 +386,7 @@ This controller uses normalized, continous inputs rather than discretized inputs
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
@@ -437,7 +426,7 @@ This controller uses normalized, continous inputs rather than discretized inputs
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>3</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
@@ -471,11 +460,11 @@ Difficulty of the task can be varying
       <PopulationSize>500</PopulationSize>
       <SpecieCount>40</SpecieCount>
       <ActivationCppn>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>4</Iters>
       </ActivationCppn>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
@@ -502,11 +491,11 @@ The problem domain view allows the performance of the best genome to be observed
       <PopulationSize>500</PopulationSize>
       <SpecieCount>40</SpecieCount>
       <ActivationCppn>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>4</Iters>
       </ActivationCppn>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>      
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>

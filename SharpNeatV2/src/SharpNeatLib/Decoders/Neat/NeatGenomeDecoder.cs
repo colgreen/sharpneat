@@ -63,11 +63,21 @@ namespace SharpNeat.Decoders.Neat
 
         private DecodeGenome GetDecodeMethod(NetworkActivationScheme activationScheme)
         {
+            if(activationScheme.AcyclicNetwork)
+            {
+                return DecodeToFastAcyclicNetwork;
+            }
+
             if(activationScheme.FastFlag)
             {
                 return DecodeToFastCyclicNetwork;
             }
             return DecodeToCyclicNetwork;
+        }
+
+        private FastAcyclicNetwork DecodeToFastAcyclicNetwork(NeatGenome genome)
+        {
+            return FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(genome);
         }
 
         private CyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
