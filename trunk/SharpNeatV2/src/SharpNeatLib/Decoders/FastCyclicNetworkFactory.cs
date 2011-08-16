@@ -48,22 +48,22 @@ namespace SharpNeat.Decoders
             if(activationScheme.RelaxingActivation)
             {
                 return new FastRelaxingCyclicNetwork(fastConnectionArray,
-                                                        activationFnArray, 
-                                                        neuronAuxArgsArray,
-                                                        networkDef.NodeList.Count,
-                                                        networkDef.InputNodeCount,
-                                                        networkDef.OutputNodeCount,
-                                                        activationScheme.MaxTimesteps,
-                                                        activationScheme.SignalDeltaThreshold);
+                                                     activationFnArray, 
+                                                     neuronAuxArgsArray,
+                                                     networkDef.NodeList.Count,
+                                                     networkDef.InputNodeCount,
+                                                     networkDef.OutputNodeCount,
+                                                     activationScheme.MaxTimesteps,
+                                                     activationScheme.SignalDeltaThreshold);
             }
 
             return new FastCyclicNetwork(fastConnectionArray,
-                                            activationFnArray,
-                                            neuronAuxArgsArray,
-                                            networkDef.NodeList.Count,
-                                            networkDef.InputNodeCount,
-                                            networkDef.OutputNodeCount,
-                                            activationScheme.TimestepsPerActivation);
+                                         activationFnArray,
+                                         neuronAuxArgsArray,
+                                         networkDef.NodeList.Count,
+                                         networkDef.InputNodeCount,
+                                         networkDef.OutputNodeCount,
+                                         activationScheme.TimestepsPerActivation);
         }
 
         #endregion
@@ -76,11 +76,46 @@ namespace SharpNeat.Decoders
                                            out IActivationFunction[] activationFnArray,
                                            out double[][] neuronAuxArgsArray)
         {
-            IConnectionList connectionList = networkDef.ConnectionList;
-            INodeList nodeList = networkDef.NodeList;
-            int connectionCount = connectionList.Count;
-            int nodeCount = nodeList.Count;
+            // Create an array of FastConnection(s) that represent the connectivity of the network.
+            fastConnectionArray = CreateFastConnectionArray(networkDef);
 
+            // TODO: Test/optimize heuristic - this is just back of envelope maths.
+            // A rough heuristic to decide if we should sort fastConnectionArray by source neuron index.
+            // The principle here is that each activation loop will be about 2x faster (unconfirmed) if we sort 
+            // fastConnectionArray, but sorting takes about n*log2(n) operations. Therefore the decision to sort
+            // depends on length of fastConnectionArray and _timestepsPerActivation.
+            // Another factor here is that small networks will fit into CPU caches and therefore will not appear
+            // to speed up - however the unsorted data will 'scramble' CPU caches more than they otherwise would 
+            // have and thus may slow down other threads (so we just keep it simple).
+            double len = fastConnectionArray.Length;
+            double timesteps = timestepsPerActivation;
+            if((len > 2) && (((len * Math.Log(len,2)) + ((timesteps * len)/2.0)) < (timesteps * len)))
+            {   // Sort fastConnectionArray by source neuron index.
+                Array.Sort(fastConnectionArray, delegate(FastConnection x, FastConnection y)
+                {   // Use simple/fast diff method.
+                    return x._srcNeuronIdx - y._srcNeuronIdx;
+                });
+            }
+
+            // Construct an array of neuron activation functions. Skip bias and input neurons as
+            // these don't have an activation function (because they aren't activated).
+            INodeList nodeList = networkDef.NodeList;
+            int nodeCount = nodeList.Count;
+            IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
+            activationFnArray = new IActivationFunction[nodeCount];
+            neuronAuxArgsArray = new double[nodeCount][];
+
+            for(int i=0; i<nodeCount; i++) {
+                activationFnArray[i] = activationFnLibrary.GetFunction(nodeList[i].ActivationFnId);
+                neuronAuxArgsArray[i] = nodeList[i].AuxState;
+            }
+        }
+
+        /// <summary>
+        /// Create an array of FastConnection(s) representing the connectivity of the provided INetworkDefinition.
+        /// </summary>
+        private static FastConnection[] CreateFastConnectionArray(INetworkDefinition networkDef)
+        {
             // We vary the decode logic depending on the size of the genome. The most CPU intensive aspect of
             // decoding is the conversion of the neuron IDs at connection endpoints into neuron indexes. For small
             // genomes we simply use the BinarySearch() method on NeuronGeneList for each lookup; Each lookup is
@@ -105,7 +140,12 @@ namespace SharpNeat.Decoders
             // tend to vary depending on factors such as CPU and memory architecture, .Net framework version and what other tasks the
             // CPU is currently doing which may affect our utilisation of memory caches.
             // TODO: Experimentally determine reasonably good values for constants x,y and z in some common real world runtime platform.
-            fastConnectionArray = new FastConnection[connectionCount];
+            IConnectionList connectionList = networkDef.ConnectionList;
+            INodeList nodeList = networkDef.NodeList;
+            int connectionCount = connectionList.Count;
+            int nodeCount = nodeList.Count;
+
+            FastConnection[] fastConnectionArray = new FastConnection[connectionCount];
 
             if((2.0 * connectionCount * Math.Log(nodeCount, 2.0)) < ((2.0 * connectionCount) + nodeCount))
             {
@@ -152,33 +192,7 @@ namespace SharpNeat.Decoders
                 }
             }
 
-            // TODO: Test/optimize heuristic - this is just back of envelope maths.
-            // Another rough heuristic to decide if we should sort fastConnectionArray by source neuron index.
-            // The principle here is that each activation loop will be about 2x faster (unconfirmed) if we sort 
-            // fastConnectionArray, but sorting takes about n*log2(n) operations. Therefore the decision to sort
-            // depends on length of fastConnectionArray and _timestepsPerActivation.
-            // Another factor here is that small networks will fit into CPU caches and therefore will not appear
-            // to speed up - however the unsorted data will 'scramble' CPU caches more than they otherwise would 
-            // have and thus may slow down other threads (so we just keep it simple).
-            double len = fastConnectionArray.Length;
-            double timesteps = timestepsPerActivation;
-            if((len > 2) && (((len * Math.Log(len,2)) + ((timesteps * len)/2.0)) < (timesteps * len)))
-            {   // Sort fastConnectionArray by source neuron index.
-                Array.Sort(fastConnectionArray, delegate(FastConnection x, FastConnection y)
-                {   // Use simple/fast diff method.
-                    return x._srcNeuronIdx - y._srcNeuronIdx;
-                });
-            }
-
-            // Construct an array of neuron activation functions. Skip bias and input neurons as
-            // these don't have an activation function (because they aren't activated).
-            IActivationFunctionLibrary activationFnLibrary = networkDef.ActivationFnLibrary;
-            activationFnArray = new IActivationFunction[nodeCount];
-            neuronAuxArgsArray = new double[nodeCount][];
-            for(int i=0; i<nodeCount; i++) {
-                activationFnArray[i] = activationFnLibrary.GetFunction(nodeList[i].ActivationFnId);
-                neuronAuxArgsArray[i] = nodeList[i].AuxState;
-            }
+            return fastConnectionArray;
         }
 
         #endregion

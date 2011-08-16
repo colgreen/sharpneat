@@ -147,6 +147,7 @@ namespace SharpNeat.Domains.FunctionRegression
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
             _neatGenomeParams = new NeatGenomeParameters();
+            _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
             _neatGenomeParams.ConnectionWeightMutationProbability = 0.788;
             _neatGenomeParams.AddConnectionMutationProbability = 0.001;
             _neatGenomeParams.AddConnectionMutationProbability = 0.01;

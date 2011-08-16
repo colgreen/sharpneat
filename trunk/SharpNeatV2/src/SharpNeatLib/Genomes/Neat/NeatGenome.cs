@@ -72,6 +72,9 @@ namespace SharpNeat.Genomes.Neat
         readonly int _inputBiasOutputNeuronCount;
         int _auxStateNeuronCount;
 
+        // Created in a just-in-time manner and cached for possible re-use.
+        NetworkConnectivityData _networkConnectivityData;
+
         #endregion
 
         #region Constructors
@@ -489,6 +492,7 @@ namespace SharpNeat.Genomes.Neat
             // or we have no mutation types remaining to try.
             RouletteWheelLayout rwlCurrent = rwlInitial;
             bool success = false;
+            bool structureChange = false;
             for(;;)
             {
                 int outcome = RouletteWheel.SingleThrow(rwlCurrent, _genomeFactory.Rng);
@@ -500,23 +504,28 @@ namespace SharpNeat.Genomes.Neat
                         success = true;
                         break;
                     case 1:
-                        success = (null != Mutate_AddNode());
+                        success = structureChange = (null != Mutate_AddNode());
                         break;
                     case 2:
-                        success = (null != Mutate_AddConnection());
+                        success = structureChange = (null != Mutate_AddConnection());
                         break;
                     case 3:
                         success = Mutate_NodeAuxState();
                         break;
                     case 4:
-                        success = (null != Mutate_DeleteConnection());
+                        success = structureChange = (null != Mutate_DeleteConnection());
                         break;
                     default:
                         throw new SharpNeatException(string.Format("NeatGenome.Mutate(): Unexpected outcome value [{0}]", outcome));
                 }
 
                 // Success. Break out of loop.
-                if(success) {
+                if(success) 
+                {
+                    if(structureChange) 
+                    {   // Discard any cached connectivity data. It is now invalidated.
+                        _networkConnectivityData = null;
+                    }
                     break;
                 }
 
@@ -1436,8 +1445,7 @@ namespace SharpNeat.Genomes.Neat
             // Check that network is acyclic if we are evolving feedforward only networks.
             if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
             {
-                CyclicNetworkTest cyclicTest = new CyclicNetworkTest();
-                if(cyclicTest.IsNetworkCyclic(this)) {
+                if(CyclicNetworkTest.IsNetworkCyclic(this)) {
                     Debug.WriteLine("Feedforward only network has one or more cyclic paths.");
                     return false;
                 }
@@ -1508,6 +1516,33 @@ namespace SharpNeat.Genomes.Neat
         public IConnectionList ConnectionList
         {
             get { return _connectionGeneList; }
+        }
+
+        /// <summary>
+        /// Gets NetworkConnectivityData for the network.
+        /// </summary>
+        public NetworkConnectivityData GetConnectivityData()
+        {
+            if(null != _networkConnectivityData) 
+            {   // Return cached data.
+                return _networkConnectivityData;
+            }
+
+            int nodeCount = _neuronGeneList.Count;
+            NodeConnectivityData[] nodeConnectivityDataArr = new NodeConnectivityData[nodeCount];
+            Dictionary<uint,NodeConnectivityData> nodeConnectivityDataById = new Dictionary<uint,NodeConnectivityData>(nodeCount);
+
+            // NeatGenome(s) have connectivity data pre-calculated, as such we point to this data rather than copying or
+            // rebuilding it. Essentially NetworkConnectivityData becomes a useful general-purpose layer over the connectivity data.
+            for(int i=0; i<nodeCount; i++)
+            {
+                NeuronGene neuronGene = _neuronGeneList[i];
+                NodeConnectivityData ncd = new NodeConnectivityData(neuronGene.Id, neuronGene.SourceNeurons, neuronGene.TargetNeurons);
+                nodeConnectivityDataArr[i] = ncd;
+                nodeConnectivityDataById.Add(neuronGene.Id, ncd);
+            }
+            _networkConnectivityData = new NetworkConnectivityData(nodeConnectivityDataArr, nodeConnectivityDataById);
+            return _networkConnectivityData;
         }
 
         #endregion

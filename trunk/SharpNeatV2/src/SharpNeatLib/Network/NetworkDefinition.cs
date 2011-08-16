@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -36,6 +35,9 @@ namespace SharpNeat.Network
         readonly IActivationFunctionLibrary _activationFnLib;
         readonly NodeList _nodeList;
         readonly ConnectionList _connectionList;
+
+        // Created in a just-in-time manner and cached for possible re-use.
+        NetworkConnectivityData _networkConnectivityData;
 
         #region Constructors
         
@@ -112,6 +114,47 @@ namespace SharpNeat.Network
         public IConnectionList ConnectionList
         {
             get { return _connectionList; }
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Gets NetworkConnectivityData for the network.
+        /// </summary>
+        public NetworkConnectivityData GetConnectivityData()
+        {
+            if(null != _networkConnectivityData) {
+                return _networkConnectivityData;
+            }
+
+            int nodeCount = _nodeList.Count;
+            NodeConnectivityData[] nodeConnectivityDataArr = new NodeConnectivityData[nodeCount];
+            Dictionary<uint,NodeConnectivityData> nodeConnectivityDataById = new Dictionary<uint,NodeConnectivityData>(nodeCount);
+
+            // Instantiate NodeConnectivityData for each node.
+            for(int i=0; i<nodeCount; i++)
+            {
+                uint nodeId = _nodeList[i].Id;
+                NodeConnectivityData ncd = new NodeConnectivityData(nodeId);
+                nodeConnectivityDataArr[i] = ncd;
+                nodeConnectivityDataById.Add(nodeId, ncd);
+            }
+
+            // Loop connections and register them with the source and target nodes.
+            int conCount = _connectionList.Count;
+            for(int i=0; i<conCount; i++)
+            {
+                INetworkConnection conn = _connectionList[i];
+                NodeConnectivityData srcNodeData = nodeConnectivityDataById[conn.SourceNodeId];
+                NodeConnectivityData tgtNodeData = nodeConnectivityDataById[conn.TargetNodeId];
+                srcNodeData._tgtNodes.Add(conn.TargetNodeId);
+                tgtNodeData._srcNodes.Add(conn.SourceNodeId);
+            }
+
+            _networkConnectivityData = new NetworkConnectivityData(nodeConnectivityDataArr, nodeConnectivityDataById);
+            return _networkConnectivityData;
         }
 
         #endregion

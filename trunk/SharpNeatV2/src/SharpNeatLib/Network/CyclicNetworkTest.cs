@@ -18,28 +18,36 @@
  */
 using System.Collections.Generic;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Network
 {
     /// <summary>
-    /// Logic to determine if the network described by a NeatGenome is cyclic (has at least one cycle in its connectivity).
+    /// An algorithm for testing for the presence of at least one connectivity cycle within a network.
     /// 
-    /// Method. We perform a depth first traversal of the network, starting from each neuron in turn as it
-    /// appears in _neuronGeneList. Hence we traverse from the bias and input node's first, followed by the
-    /// output and then hidden nodes (this order is not important for the correctness of the method).
-    /// During traversal we maintain a stack of all ancestor nodes of the current traversal node (a single 
-    /// pathway from the start node to the current node, but not necessarily the only pathway between those two nodes).
-    /// When traversing to a new child/target node we check:
-    /// (A) Has the node already been visted (via another traversal path). If so we do no traverse into that node.
-    /// (B) Is the node in ancestorNodeStack. This would indicate that a cycle exists and we return true.
+    /// Method.
+    /// =======
+    /// 1) We loop over all nodes in the network and perform a depth-first traversal from each node. 
+    /// (Note. the order that the nodes are traversed does not affext the correctness of the method)
+    /// 
+    /// 2) Each traversal keeps track of its ancestor nodes (the path to the current node) for each step
+    /// in the traversal. Thus if the traversal encounters an ancestor node then a cycle has been detected.
+    /// 
+    /// 3) A set of visited nodes is maintained. This persists between traversals and allows each traversal 
+    /// to avoid traversing into nodes that have already been traversed.
+    /// 
+    /// Note. We must traverse from each node rather then just e.g. the input nodes, because the network may 
+    /// have connectivity dead ends or even isolated connectivity that therefore would not be traversed into 
+    /// by following connectivity from the input nodes only, hence we perform a traversal from each node and
+    /// attempt to maintain algorithmic efficiency by avoiding traversal into ndoes that haev already been 
+    /// traversed into.
     /// </summary>
     public class CyclicNetworkTest
     {
         #region Instance Fields
 
         /// <summary>
-        /// The NeatGenome that is currently being tested.
+        /// Connectivity data for the INetworkDefinition that is currently being tested.
         /// </summary>
-        NeatGenome _neatGenome;
+        NetworkConnectivityData _networkConnectivityData;
         /// <summary>
         /// Set of traversal ancestors of current node. 
         /// </summary>
@@ -51,31 +59,54 @@ namespace SharpNeat.Genomes.Neat
 
         #endregion
 
-        #region Public Methods
+        #region Constructor
 
         /// <summary>
-        /// Returns true if the network described by the specified genome is cyclic (has at least one cycle in the connectivity).
+        /// Private consrtcutor. Prevents construction from outside of this class.
         /// </summary>
-        public bool IsNetworkCyclic(NeatGenome neatGenome)
+        private CyclicNetworkTest()
         {
-            // Clear any existing state (allow reuse).
+        }
+
+        #endregion
+
+        #region Public Static Methods
+
+        /// <summary>
+        /// Returns true if there is at least one connectivity cycle within the provided INetworkDefinition.
+        /// </summary>
+        public static bool IsNetworkCyclic(INetworkDefinition networkDef)
+        {
+            return new CyclicNetworkTest().IsNetworkCyclicInternal(networkDef);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Returns true if there is at least one connectivity cycle within the provided INetworkDefinition.
+        /// </summary>
+        public bool IsNetworkCyclicInternal(INetworkDefinition networkDef)
+        {
+            // Clear any existing state (allow reuse of this class).
             _ancestorNodeSet.Clear();
             _visitedNodeSet.Clear();
-            
-            // Store ref to genome.
-            _neatGenome = neatGenome;
 
-            // Loop neurons. Take each one in turn as a traversal root node.
-            foreach(NeuronGene neuronGene in neatGenome.NeuronGeneList)
+            // Get and store connectivity data for the network.
+            _networkConnectivityData = networkDef.GetConnectivityData();
+
+            // Loop over all nodes. Take each one in turn as a traversal root node.
+            foreach(INetworkNode node in networkDef.NodeList)
             {
                 // Determine if the node has already been visited.
-                if(_visitedNodeSet.Contains(neuronGene.Id)) 
-                {   // Already traversed. Skip.
+                if(_visitedNodeSet.Contains(node.Id)) 
+                {   // Already traversed; Skip.
                     continue;
                 }
 
                 // Traverse into the node. 
-                if(TraverseNode(neuronGene.Id))
+                if(TraverseNode(node.Id))
                 {   // Cycle detected.
                     return true;
                 }
@@ -84,10 +115,6 @@ namespace SharpNeat.Genomes.Neat
             // No cycles detected.
             return false;
         }
-
-        #endregion
-
-        #region Private Methods
 
         private bool TraverseNode(uint nodeId)
         {
@@ -104,8 +131,8 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Traverse into the node's targets / children (if it has any)
-            NeuronGene node = _neatGenome.NeuronGeneList.GetNeuronById(nodeId);
-            if(0 == node.TargetNeurons.Count) 
+            NodeConnectivityData node = _networkConnectivityData.GetNodeDataById(nodeId);
+            if(0 == node._tgtNodes.Count) 
             {   // No cycles on this traversal path.
                 return false;
             }
@@ -117,7 +144,7 @@ namespace SharpNeat.Genomes.Neat
             _visitedNodeSet.Add(nodeId);
 
             // Traverse into targets.
-            foreach(uint targetId in node.TargetNeurons)
+            foreach(uint targetId in node._tgtNodes)
             {
                 if(TraverseNode(targetId)) 
                 {   // Cycle detected.
