@@ -7,7 +7,7 @@
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
@@ -44,7 +44,7 @@
       <PopulationSize>500</PopulationSize>
       <SpecieCount>30</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
@@ -63,7 +63,7 @@
       <PopulationSize>500</PopulationSize>
       <SpecieCount>30</SpecieCount>
       <Activation>
-        <Scheme>FixedIters</Scheme>
+        <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
