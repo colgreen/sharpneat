@@ -37,7 +37,7 @@ namespace SharpNeat.View.Graph
         public IOGraphViewportPainter(IOGraphPainter graphPainter)
         {
             _graph = null;
-            _layoutManager = new GridLayoutManager();
+            _layoutManager = new DepthLayoutManager();
             _graphPainter = graphPainter;
         }
 

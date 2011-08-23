@@ -41,12 +41,12 @@ namespace SharpNeat.Decoders
             // Determine the depth of each node in the network. 
             // Node depths are used to seperate the nodes into depth based layers, these layers can then be
             // used to determine the order in which signals are propogated through the network.
-            NetworkDepthAnalysis depthAnalysis = new NetworkDepthAnalysis();
+            AcyclicNetworkDepthAnalysis depthAnalysis = new AcyclicNetworkDepthAnalysis();
             NetworkDepthInfo netDepthInfo = depthAnalysis.CalculateNodeDepths(networkDef);
 
             // Construct an array of NodeInfo, ordered by node depth.
             // Create/populate NodeInfo array.
-            int[] nodeDepthArr = netDepthInfo._nodeDepths;
+            int[] nodeDepthArr = netDepthInfo._nodeDepthArr;
             INodeList nodeList = networkDef.NodeList;
             int nodeCount = nodeList.Count;
             NodeInfo[] nodeInfoByDepth = new NodeInfo[nodeCount];

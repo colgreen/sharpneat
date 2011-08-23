@@ -47,13 +47,10 @@ namespace SharpNeat.View.Graph
         /// <summary>
         /// Paints the provided IOGraph onto the provided GDI+ Graphics drawing surface.
         /// </summary>
-        public void PaintNetwork(IOGraph graph,
-                                 Graphics g, 
-                                 Rectangle viewportArea,
-                                 float zoomFactor)
+        public void PaintNetwork(IOGraph graph, Graphics g, Rectangle viewportArea, float zoomFactor)
         {
             // Create a PaintState object. This holds all temporary state info for the painting routines.
-            // Pass the call on to teh virtual PaintNetwork. This allows us to override a version of PaintNetwork 
+            // Pass the call on to the virtual PaintNetwork. This allows us to override a version of PaintNetwork 
             // that has access to a PaintState object.
             PaintState state = new PaintState(g, viewportArea, zoomFactor, graph.ConnectionWeightRange);
             PaintNetwork(graph, state);

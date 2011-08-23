@@ -32,6 +32,7 @@ namespace SharpNeat.Network
     {
         readonly int _inputNodeCount;
         readonly int _outputNodeCount;
+        readonly bool _isAcyclic = false;
         readonly IActivationFunctionLibrary _activationFnLib;
         readonly NodeList _nodeList;
         readonly ConnectionList _connectionList;
@@ -40,21 +41,6 @@ namespace SharpNeat.Network
         NetworkConnectivityData _networkConnectivityData;
 
         #region Constructors
-        
-        /// <summary>
-        /// Constructs with the provided input/output node count, activation function library and
-        /// initial capacities for the node and connection lists.
-        /// </summary>
-        public NetworkDefinition(int inputNodeCount, int outputNodeCount,
-                                 IActivationFunctionLibrary activationFnLib,
-                                 int nodeCapacity, int connectionCapacity)
-        {
-            _inputNodeCount = inputNodeCount;
-            _outputNodeCount = outputNodeCount;
-            _activationFnLib = activationFnLib;
-            _nodeList = new NodeList(nodeCapacity);
-            _connectionList = new ConnectionList(connectionCapacity);
-        }
 
         /// <summary>
         /// Constructs with the provided input/output node count, activation function library, 
@@ -69,6 +55,26 @@ namespace SharpNeat.Network
             _activationFnLib = activationFnLib;
             _nodeList = nodeList;
             _connectionList = connectionList;
+            _isAcyclic = !CyclicNetworkTest.IsNetworkCyclic(this);
+        }
+
+        /// <summary>
+        /// Constructs with the provided input/output node count, activation function library, 
+        /// node and connection lists.
+        /// </summary>
+        public NetworkDefinition(int inputNodeCount, int outputNodeCount,
+                                 IActivationFunctionLibrary activationFnLib,
+                                 NodeList nodeList, ConnectionList connectionList,
+                                 bool isAcyclic)
+        {
+            _inputNodeCount = inputNodeCount;
+            _outputNodeCount = outputNodeCount;
+            _activationFnLib = activationFnLib;
+            _nodeList = nodeList;
+            _connectionList = connectionList;
+            _isAcyclic = isAcyclic;
+
+            Debug.Assert(isAcyclic == !CyclicNetworkTest.IsNetworkCyclic(this));
         }
 
         #endregion
@@ -89,6 +95,14 @@ namespace SharpNeat.Network
         public int OutputNodeCount
         {
             get { return _outputNodeCount; }
+        }
+
+        /// <summary>
+        /// Gets a bool flag that indicates if the network is acyclic.
+        /// </summary>
+        public bool IsAcyclic 
+        { 
+            get { return _isAcyclic;  }
         }
 
         /// <summary>

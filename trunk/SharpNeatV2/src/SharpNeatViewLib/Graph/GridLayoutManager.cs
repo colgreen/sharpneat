@@ -47,7 +47,7 @@ namespace SharpNeat.View.Graph
             double heightWidthRatio = (double)layoutArea.Height/(double)layoutArea.Width;
 
             // Determine how many layers/rows to arrange the nodes into. 
-            // Note. we always show the inputs and output in their own rows, therefore this just
+            // Note. we always show the inputs and outputs in their own rows, therefore this just
             // handles how many additional rows are requried for the hidden nodes.
             int numLayersHidden=0;
 

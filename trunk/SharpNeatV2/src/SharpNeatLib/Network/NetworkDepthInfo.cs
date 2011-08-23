@@ -31,17 +31,17 @@ namespace SharpNeat.Network
         public readonly int _networkDepth;
         /// <summary>
         /// An array containing the depth of each node in the network 
-        /// ('keyed' by its index within INodeList)
+        /// (indexed by position within the analysed INodeList).
         /// </summary>
-        public readonly int[] _nodeDepths;
+        public readonly int[] _nodeDepthArr;
 
         /// <summary>
         /// Construct with the provided info.
         /// </summary>
-        public NetworkDepthInfo(int networkDepth, int[] nodeDepths)
+        public NetworkDepthInfo(int networkDepth, int[] nodeDepthArr)
         {
             _networkDepth = networkDepth;
-            _nodeDepths = nodeDepths;
+            _nodeDepthArr = nodeDepthArr;
         }
     }
 }

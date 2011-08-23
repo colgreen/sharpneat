@@ -21,12 +21,16 @@ using System.Collections.Generic;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.
+    /// An algorithm for analysing cyclic networks and calculating the depth of each node in the network.
     /// Bias and input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
     /// the maximum number of hops from the depth 0 nodes, so where multiple paths exist to a node (potentially
     /// with different numbers of hops) we take the maximum number of hops as that node's depth. 
+    /// 
+    /// The number of hops to a node ignores any cycles in the connectivity, that is, teh numebr of hops is the 
+    /// number of hops in the direct routes to a node (no node in the pathway more than once, hence not including 
+    /// any cycles)
     /// </summary>
-    public class NetworkDepthAnalysis
+    public class CyclicNetworkDepthAnalysis
     {
         /// <summary>
         /// Connectivity data for the INetworkDefinition that is currently being tested.
@@ -51,11 +55,14 @@ namespace SharpNeat.Network
             // Get and store connectivity data for the network.
             _networkConnectivityData = networkDef.GetConnectivityData();
 
-            // Loop over all layer zero nodes; Perform a depth first traversal of each in turn.
+            // Loop over all input (and bias) nodes; Perform a depth first traversal of each in turn.
+            // Set of nodes visited in the current traversal (reset before each individual depth first traversal).
+            HashSet<uint> visitedNodeSet = new HashSet<uint>();
             int inputAndBiasCount = networkDef.InputNodeCount + 1;
             for(int i=0; i<inputAndBiasCount; i++)
             {
-                TraverseNode(_networkConnectivityData.GetNodeDataByIndex(i), 0);
+                visitedNodeSet.Clear();
+                TraverseNode(_networkConnectivityData.GetNodeDataByIndex(i), visitedNodeSet, 0);
             }
 
             // Extract node depths from _nodeDepthById into an array of depths (node depth by node index).
@@ -67,7 +74,7 @@ namespace SharpNeat.Network
             int maxDepth = 0;
 
             // Loop over nodes and set the node depth. Skip over input and bias nodes, they are defined as 
-            // being in in layer zero.
+            // being in layer zero.
             for(int i=inputAndBiasCount; i<nodeCount; i++)
             {
                 // Lookup the node's depth. If not found depth remains set to zero.
@@ -90,9 +97,18 @@ namespace SharpNeat.Network
 
         #region Private Methods
 
-        private void TraverseNode(NodeConnectivityData nodeData, int depth)
+        private void TraverseNode(NodeConnectivityData nodeData, HashSet<uint> visitedNodeSet, int depth)
         {
-            // Check if the node has been visited before.
+            // Check if the node has already been encountered during the current traversal (have we followed a cycle in the connectivity).
+            if(visitedNodeSet.Contains(nodeData._id)) 
+            {   // Dont follow cycles.
+                return;
+            }
+
+            // Register the visit.
+            visitedNodeSet.Add(nodeData._id);
+
+            // Check if the node has been traversed by a previous traversal.
             int assignedDepth;
             if(_nodeDepthById.TryGetValue(nodeData._id, out assignedDepth) && assignedDepth >= depth)
             {   // The node already has already been visited via a path that assigned it a greater depth than the 
@@ -105,7 +121,7 @@ namespace SharpNeat.Network
             _nodeDepthById[nodeData._id] = depth;
             foreach(uint targetId in nodeData._tgtNodes)
             {
-                TraverseNode(_networkConnectivityData.GetNodeDataById(targetId), depth + 1);
+                TraverseNode(_networkConnectivityData.GetNodeDataById(targetId), visitedNodeSet, depth + 1);
             }
         }
 

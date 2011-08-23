@@ -30,8 +30,9 @@ namespace SharpNeat.View.Graph
         readonly List<GraphNode> _inputNodeList;
         readonly List<GraphNode> _outputNodeList;
         readonly List<GraphNode> _hiddenNodeList;
-        readonly float _connectionWeightRange;
+        float _connectionWeightRange;
         Size _bounds;
+        int _depth;
 
         #region Constructors
 
@@ -52,12 +53,13 @@ namespace SharpNeat.View.Graph
         /// pre-allocate storage.
         /// Weight range is used to determine each connection's strength relative to the overall range.
         /// </summary>
-        public IOGraph(int inputCount, int outputCount, int hiddenCount, float connectionWeightRange)
+        public IOGraph(int inputCount, int outputCount, int hiddenCount, float connectionWeightRange, int depth)
         {
             _inputNodeList = new List<GraphNode>(inputCount);
             _outputNodeList = new List<GraphNode>(outputCount);
             _hiddenNodeList = new List<GraphNode>(hiddenCount);
             _connectionWeightRange = connectionWeightRange;
+            _depth = depth;
         }
 
         #endregion
@@ -94,6 +96,7 @@ namespace SharpNeat.View.Graph
         public float ConnectionWeightRange
         {
             get { return _connectionWeightRange; }
+            set { _connectionWeightRange = value; }
         }
 
         /// <summary>
@@ -103,6 +106,17 @@ namespace SharpNeat.View.Graph
         {
             get { return _bounds; }
             set { _bounds = value; }
+        }
+
+        /// <summary>
+        /// Indicates the total depth of the network. 
+        /// E.g. a network with a single hidden node connected up to an input and output will have three layers
+        /// (input, hidden layer 1, output) and will thus have a depth of 3. The layers are assigned deph values
+        /// of 0, 1 and 2 respectively.
+        /// </summary>
+        public int Depth
+        {
+            get { return _depth; }
         }
 
         #endregion
