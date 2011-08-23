@@ -66,6 +66,7 @@
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
     <Compile Include="FunctionRegression\AbsFunction.cs" />
+    <Compile Include="FunctionRegression\LogFunction.cs" />
     <Compile Include="FunctionRegression\RbfFunctionRegressionExperiment.cs" />
     <Compile Include="IGuiNeatExperiment.cs" />
     <Compile Include="IntPoint.cs" />
