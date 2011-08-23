@@ -111,12 +111,12 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>150</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
-      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
-      <ComplexityThreshold>10</ComplexityThreshold>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
+      <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Abs</Function>
       <SampleResolution>11</SampleResolution>
       <SampleMin>-1.0</SampleMin>
@@ -126,7 +126,29 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       </Description>
     </Config>
   </Experiment>
-  
+
+  <Experiment name="Function Regression - Log(x) (NEAT)">
+    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
+    <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
+    <Config>
+      <PopulationSize>150</PopulationSize>
+      <SpecieCount>10</SpecieCount>
+      <Activation>
+        <Scheme>Acyclic</Scheme>
+      </Activation>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
+      <ComplexityThreshold>20</ComplexityThreshold>
+      <Function>Log</Function>
+      <SampleResolution>21</SampleResolution>
+      <SampleMin>1</SampleMin>
+      <SampleMax>100</SampleMax>
+      <Description>
+        Function Regression - Log(x)
+        Ln(x) evaluated over [1,100]
+      </Description>
+    </Config>
+  </Experiment>
+
   <Experiment name="Function Regression - Positive Multiplication (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>

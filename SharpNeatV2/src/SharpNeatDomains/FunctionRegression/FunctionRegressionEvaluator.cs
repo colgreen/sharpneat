@@ -192,6 +192,9 @@ namespace SharpNeat.Domains.FunctionRegression
                 case FunctionId.Abs:
                     return new AbsFunction();    
 
+                case FunctionId.Log:
+                    return new LogFunction();
+
                 case FunctionId.Multiplication:
                     return new MultiplicationFunction();
 

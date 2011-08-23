@@ -16,20 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
+using System;
+
 // Disable comment warnings for trivial class.
 #pragma warning disable 1591
 
 namespace SharpNeat.Domains.FunctionRegression
 {
-    /// <summary>
-    /// Enumeration of function IDs for the function regression task.
-    /// </summary>
-    public enum FunctionId
+    public class LogFunction : IFunction
     {
-        Abs,
-        Log,
-        Multiplication,
-        Sine,
-        SineXSquared
+        public double GetValue(double[] args)
+        {
+            return 0.1 + (Math.Log(args[0]) * 0.17);
+        }
+
+        public int InputCount
+        {
+            get { return 1; }
+        }
     }
 }
