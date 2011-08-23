@@ -48,8 +48,9 @@
     <Compile Include="GraphControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GraphFactories\NeatGenomeGraphFactory.cs" />
+    <Compile Include="GraphFactories\NetworkGraphFactory.cs" />
     <Compile Include="Graph\CppnGraphPainter.cs" />
+    <Compile Include="Graph\DepthLayoutManager.cs" />
     <Compile Include="Graph\GraphConnection.cs" />
     <Compile Include="Graph\GraphNode.cs" />
     <Compile Include="Graph\GridLayoutManager.cs" />

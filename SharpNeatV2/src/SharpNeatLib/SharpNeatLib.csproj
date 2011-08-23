@@ -129,8 +129,10 @@
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
+    <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\ConnectionList.cs" />
     <None Include="DeadCode\DefaultCppnActivationFunctionLibrary.cs" />
+    <Compile Include="Network\CyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\CyclicNetworkTest.cs" />
     <Compile Include="Network\DefaultActivationFunctionLibrary.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
@@ -162,7 +164,6 @@
     <Compile Include="Network\NetworkConnection.cs" />
     <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NetworkDefinition.cs" />
-    <Compile Include="Network\NetworkDepthAnalysis.cs" />
     <Compile Include="Network\NetworkDepthInfo.cs" />
     <Compile Include="Network\NetworkXmlIO.cs" />
     <Compile Include="Network\NetworkNode.cs" />

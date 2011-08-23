@@ -39,6 +39,10 @@ namespace SharpNeat.Network
         /// </summary>
         int OutputNodeCount { get; }
         /// <summary>
+        /// Gets a bool flag that indicates if the network is acyclic.
+        /// </summary>
+        bool IsAcyclic { get; }
+        /// <summary>
         /// Gets the network's activation function library. The activation function at each node is 
         /// represented by an integer ID, which refers to a function in this activation function library.
         /// </summary>

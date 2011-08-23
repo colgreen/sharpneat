@@ -132,6 +132,7 @@ namespace SharpNeat.Genomes.Neat
 
         #region Properties
 
+        // TODO: rename to AcyclicOnly?
         /// <summary>
         /// Gets or sets a boolean that indicates if NEAT should produce only feedforward networks (no recurrent/cyclic connection paths).
         /// </summary>

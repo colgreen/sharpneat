@@ -29,6 +29,7 @@ namespace SharpNeat.View.Graph
         string _tag;
         Point _position;
         object[] _auxData;
+        int _depth;
 
         readonly List<GraphConnection> _inConnectionList;
         readonly List<GraphConnection> _outConnectionList;
@@ -39,24 +40,32 @@ namespace SharpNeat.View.Graph
         /// Constructs with the provided string tag.
         /// </summary>
         public GraphNode(string tag) 
-            : this(tag, Point.Empty, null)
+            : this(tag, Point.Empty, null, 0)
         {}
 
         /// <summary>
         /// Constructs with the provided string tag and position.
         /// </summary>
         public GraphNode(string tag, Point position)
-            : this(tag, position, null)
+            : this(tag, position, null, 0)
         {}
 
         /// <summary>
         /// Constructs with the provided string tag, position and auxilliary data.
         /// </summary>
         public GraphNode(string tag, Point position, object[] auxData)
+            : this(tag, position, auxData, 0)
+        {}
+
+        /// <summary>
+        /// Constructs with the provided string tag, position, auxilliary data and node depth.
+        /// </summary>
+        public GraphNode(string tag, Point position, object[] auxData, int depth)
         {
             _tag = tag;
             _position = position;
             _auxData = auxData;
+            _depth = depth;
             _inConnectionList = new List<GraphConnection>();
             _outConnectionList = new List<GraphConnection>();
         }
@@ -90,6 +99,16 @@ namespace SharpNeat.View.Graph
         {
             get { return _auxData; }
             set { _auxData = value; }
+        }
+
+        /// <summary>
+        /// Depth of the node within the network. Input nodes are defined as beign at depth zero,
+        /// all other nodes are defined by the number of connection hops to reach them from an input node.
+        /// </summary>
+        public int Depth
+        {
+            get { return _depth; }
+            set { _depth = value; }
         }
 
         /// <summary>
