@@ -700,6 +700,7 @@ namespace SharpNeat.Genomes.Neat
             // We have at least 2 neurons, so we have a chance at creating a connection.
             int neuronCount = _neuronGeneList.Count;
             int hiddenOutputNeuronCount = neuronCount - _inputAndBiasNeuronCount;
+            int inputBiasHiddenNeuronCount = neuronCount - _outputNeuronCount;
 
             // Use slightly different logic when evolving feedforward only networks.
             if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
@@ -707,10 +708,16 @@ namespace SharpNeat.Genomes.Neat
                 // Feeforward networks.
                 for(int attempts=0; attempts<5; attempts++)
                 {
-                    // Select candidate source and target neurons. Any neuron can be used as the source. Input neurons 
-                    // should not be used as a target           
-                    // Source neuron can by any neuron. Target neuron is any neuron except input neurons.
-                    int srcNeuronIdx = _genomeFactory.Rng.Next(neuronCount);
+                    // Select candidate source and target neurons. 
+                    // Valid source nodes are bias, input and hidden nodes. Output nodes are not source node candidates
+                    // for acyclic nets (because that can prevent futrue conenctions from targeting the output if it would
+                    // create a cycle).
+                    int srcNeuronIdx = _genomeFactory.Rng.Next(inputBiasHiddenNeuronCount);
+                    if(srcNeuronIdx >= _inputAndBiasNeuronCount && srcNeuronIdx < _inputBiasOutputNeuronCount) {
+                        srcNeuronIdx += _outputNeuronCount;
+                    }
+
+                    // Valid target nodes are all hidden and output nodes.
                     int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
                     if(srcNeuronIdx == tgtNeuronIdx)  {
                         if(++tgtNeuronIdx == neuronCount) {
@@ -1500,6 +1507,14 @@ namespace SharpNeat.Genomes.Neat
         public IActivationFunctionLibrary ActivationFnLibrary 
         {
             get { return _genomeFactory.ActivationFnLibrary; }
+        }
+
+        /// <summary>
+        /// Gets a bool flag that indicates if the network is acyclic.
+        /// </summary>
+        public bool IsAcyclic 
+        { 
+            get { return _genomeFactory.NeatGenomeParameters.FeedforwardOnly;  }
         }
 
         /// <summary>
