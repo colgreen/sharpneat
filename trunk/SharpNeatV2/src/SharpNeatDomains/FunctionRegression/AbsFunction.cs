@@ -27,7 +27,7 @@ namespace SharpNeat.Domains.FunctionRegression
     {
         public double GetValue(double[] args)
         {
-            return Math.Abs(args[0]);
+            return 0.1 + Math.Abs(args[0]) * 0.8;
         }
 
         public int InputCount
