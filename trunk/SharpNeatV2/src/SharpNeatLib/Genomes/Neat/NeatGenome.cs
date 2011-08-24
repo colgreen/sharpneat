@@ -1261,8 +1261,8 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public bool PerformIntegrityCheck()
         {
-            // Check genome class type.
-            if(!_genomeFactory.CheckGenomeType(this)) {
+            // Check genome class type (can only do this if we have a genome factory).
+            if(null != _genomeFactory && !_genomeFactory.CheckGenomeType(this)) {
                 Debug.WriteLine(string.Format("Invalid genome class type [{0}]", this.GetType().Name));
                 return false;
             }
@@ -1338,7 +1338,7 @@ namespace SharpNeat.Genomes.Neat
                 prevId = _neuronGeneList[idx].InnovationId;
             }
 
-            // Count nodes with aux state. (can only do this if we have a genome factory)
+            // Count nodes with aux state (can only do this if we have a genome factory).
             if(null != _genomeFactory)
             {
                 IActivationFunctionLibrary fnLib = _genomeFactory.ActivationFnLibrary;
@@ -1449,8 +1449,9 @@ namespace SharpNeat.Genomes.Neat
                 }
             }
 
-            // Check that network is acyclic if we are evolving feedforward only networks.
-            if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
+            // Check that network is acyclic if we are evolving feedforward only networks 
+            // (can only do this if we have a genome factory).
+            if(null != _genomeFactory && _genomeFactory.NeatGenomeParameters.FeedforwardOnly)
             {
                 if(CyclicNetworkTest.IsNetworkCyclic(this)) {
                     Debug.WriteLine("Feedforward only network has one or more cyclic paths.");
