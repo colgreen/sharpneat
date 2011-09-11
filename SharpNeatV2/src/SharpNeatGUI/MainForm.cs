@@ -1674,14 +1674,6 @@ namespace SharpNeatGUI
             }
         }
 
-
-
-
-
-
-
-
-
         private Point2DDouble[] CalcDistributionDataPoints(double[] valArr)
         {
             // Square root is a fairly good choice for automatically determining the category count based on number of values being analysed.
