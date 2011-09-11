@@ -22,7 +22,7 @@ using System.Diagnostics;
 namespace SharpNeat.Utility
 {
     /// <summary>
-    /// A fast Gaussian sample generator for .Net
+    /// A fast Gaussian distribution sampler for .Net
     /// Colin Green, 11/09/2011
     ///
     /// An implementation of the Ziggurat algorithm for random sampling from a Gaussian distribution. See:
@@ -32,16 +32,12 @@ namespace SharpNeat.Utility
     ///  - An Improved Ziggurat Method to Generate Normal Random Samples, Jurgen A Doornik 
     ///    (http://www.doornik.com/research/ziggurat.pdf)
     ///  
-    /// This is a non-optimized implementation of the algorithm that is intended to be used to obtain a better
-    /// understanding of the algorithm's details without being obfuscated by optimizations. If you just want fast
-    /// Gaussian sampling then consider using the optimized version of this class instead (ZigguratGaussianSampler).
-    ///
     /// 
     /// Ziggurate Algorithm Overview
     /// ============================
     /// 
     /// Consider the right hand side of the Gaussian probability density function (for x >=0) as described by y = f(x).
-    /// This half of distribution is covered by a series of stacked horizontal rectangles, like so:
+    /// This half of the distribution is covered by a series of stacked horizontal rectangles, like so:
     /// 
     ///  _____
     /// |     |                    R6  S6
@@ -62,10 +58,10 @@ namespace SharpNeat.Utility
     /// ----------
     /// 1) Each rectangle is assigned a number (the R numbers shown above). 
     /// 
-    /// 2) The right hand edge of each rectangle is placed so the it just covers the distribution, that is, the 
+    /// 2) The right hand edge of each rectangle is placed so that it just covers the distribution, that is, the 
     /// bottom right corner is on the curve, and therefore some of the area in top right of the rectangle is outside of 
     /// the distribution (points with y greater than f(x)) - except for R0 (see next point). Therefore the rectangles 
-    /// cover an area slightly larger than the distribution curve.
+    /// taken together cover an area slightly larger than the distribution curve.
     /// 
     /// 3) R0 is a special case. The tail of the Gaussian effectively projects into x=Infinity asymptotically approaching
     /// zero, thus we do not cover the tail with a rectangle. Instead we define a cut-off point (x=3.442619855899 in this 
@@ -92,11 +88,11 @@ namespace SharpNeat.Utility
     /// Because the segments have equal area we can select from them with equal probability. (Also see special notes, below).
     /// 
     /// 2) Segment 0 is a special case, if S0 is selected then generate a random area value w between 0 and A. If w is less 
-    /// than or equal to the area of R0 then we are sampling a point from within R0 (goto step 4), otherwise we are sampling 
-    /// from the tail.
+    /// than or equal to the area of R0 then we are sampling a point from within R0 (step 2A), otherwise we are sampling 
+    /// from the tail (step 2B).
     /// 
     /// 2A) Sampling from R0. R0 is entirely within the distribution curve and we have already geenrated a random area value
-    /// w. Convert w to an x value we can return by dividing w by the height of R0 (y[0]).
+    /// w. Convert w to an x value that we can return by dividing w by the height of R0 (y[0]).
     /// 
     /// 2B) Sampling from the tail. To sample from the tail we fall back to a slow implementation using logarithms, see:
     /// Generating a Variable from the Tail of the Normal Distribution, George Marsaglia (1963).
@@ -117,9 +113,9 @@ namespace SharpNeat.Utility
     /// 
     /// Special notes
     /// -------------
-    /// S1) Segments have equal area and are thus selected with equal probability. However, the area under the distribution curve
-    /// covered by each segment/rectangle differs where a rectangles overlap the edge of the distribution curve. Thus it has been 
-    /// suggested that to avoid samplign bias that the segments should be selected with a probability that reflects the area of 
+    /// Note 1) Segments have equal area and are thus selected with equal probability. However, the area under the distribution curve
+    /// covered by each segment/rectangle differs where rectangles overlap the edge of the distribution curve. Thus it has been 
+    /// suggested that to avoid sampling bias that the segments should be selected with a probability that reflects the area of 
     /// the distribution curve they cover not their total area, this is an incorrect suggestion for the algorithm as described above
     /// and implemented in this class. To explain why consider an extreme case. Say that rectangle R1 covers an area entirely within
     /// the distribution curve, now consider R2 that covers an area only 10% within the curve. Both rectangles are chosen with equal
@@ -129,13 +125,30 @@ namespace SharpNeat.Utility
     /// If instead we re-attempted sampling from R2 until a valid point was found then R2 would indeed become over-represented, hence 
     /// we do not do this and the algorithm therefore does not exhibit any such bias.
     /// 
-    /// S2) George Marsaglia's original implementation used a single random number (32bit unsigned integer) for both selecting the 
+    /// Note 2) George Marsaglia's original implementation used a single random number (32bit unsigned integer) for both selecting the 
     /// segment and producing the x coordinate with the chosen segment. The segment index was taken from the the least significant
     /// bits (so the least significant 7 bits if using 128 segments). This effectively created a perculair type of bias in which all
-    /// x coords produced withina given segment would have an identical least significant 7 bits, albeit prior to casting to a floating
+    /// x coords produced within a given segment would have an identical least significant 7 bits, albeit prior to casting to a floating
     /// point value. The bias is perhaps small especially in comparison to the performance gain (one less call to the RNG). This 
-    /// implementation avoid this bias by never re-usign random bits in such a way. For more info see:
+    /// implementation avoids this bias by not re-using random bits in such a way. For more info see:
     /// An Improved Ziggurat Method to Generate Normal Random Samples, Jurgen A Doornik (http://www.doornik.com/research/ziggurat.pdf)
+    /// 
+    /// 
+    /// Optimizations
+    /// -------------
+    /// Optimization 1) On selecting a segment/rectangle we generate a random x value within the range of the rectangle (or the range of
+    /// the area of S0), this requires multiplying a random number with range [0,1] to the requried x range before performing the first
+    /// test for x being within the 'certain' left-hand side of the rectangle. We avoid this multiplication and indeed conversion of a
+    /// random integer into a float with range [0,1], thus allowing the first comparion to be performed using integer arithmetic.
+    /// 
+    /// Instead of usign the x coord of RN+1 to test whether a randomly generated point within RN is within the 'certain' left hand side 
+    /// part of the distribution, we precalculate the probability of a random x coord being within the safe part for each rectangle. 
+    /// Furthermore we store this probability as a UInt with range [0, 0xffffffff] thus allowing direct comparison with randomly 
+    /// generated UInts from the RNG, this allows the comparison to be performed using integer arithmetic. If the test succeeds then
+    /// we continue to convert the random value into an appropriate x sample value.
+    /// 
+    /// Optimization 2) Simple collapsing calculations into precomputed values where possible. This affects readability, but hopefully the
+    /// above explanations will help understand the code if necessary.
     /// </summary>
     public class ZigguratGaussianSampler
     {
@@ -155,7 +168,7 @@ namespace SharpNeat.Utility
         /// </summary>
         const double __A = 9.91256303526217e-3;
         /// <summary>
-        /// Scale factor for converting a UInt with range [0,0xFFFFFFFF] to a double with range [0,1].
+        /// Scale factor for converting a UInt with range [0,0xffffffff] to a double with range [0,1].
         /// </summary>
         const double __UIntToU = 1.0 / (double)uint.MaxValue;
 
@@ -272,7 +285,7 @@ namespace SharpNeat.Utility
                 int i = (int)(u & 0x7F);
                 double sign = ((u & 0x80) == 0) ? -1.0 : 1.0;
 
-                // Generate uniform random value with range [0,0xFFFFFFFF].
+                // Generate uniform random value with range [0,0xffffffff].
                 uint u2 = _rng.NextUInt();
 
                 // Special case for the base segment.
