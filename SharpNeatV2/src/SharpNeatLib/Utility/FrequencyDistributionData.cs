@@ -17,6 +17,7 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 namespace SharpNeat.Utility
 {
     /// <summary>
@@ -80,6 +81,22 @@ namespace SharpNeat.Utility
         public int[] FrequencyArray
         {
             get { return _frequencyArr; }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the index of the bucket that covers the specified x value. Throws an exception if x is 
+        /// outside the range of represented by the distribution buckets.
+        /// </summary>
+        public int GetBucketIndex(double x)
+        {
+            if(x < _min || x > _max) {
+                throw new ApplicationException("x is outide the range represented by the distribution data.");
+            }
+            return (int)((x- _min) / _incr);
         }
 
         #endregion
