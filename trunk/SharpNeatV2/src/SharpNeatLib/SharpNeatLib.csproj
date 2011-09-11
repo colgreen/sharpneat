@@ -224,10 +224,11 @@
     <Compile Include="SpeciationStrategies\RandomClusteringStrategy.cs" />
     <Compile Include="SpeciationStrategies\SpeciationUtils.cs" />
     <Compile Include="Utility\CircularBuffer.cs" />
+    <Compile Include="Utility\ZigguratGaussianSampler.cs" />
     <Compile Include="Utility\FrequencyDistributionData.cs" />
     <Compile Include="Utility\DoubleCircularBufferWithStats.cs" />
     <Compile Include="Utility\FastRandom.cs" />
-    <Compile Include="Utility\GaussianGenerator.cs" />
+    <None Include="Utility\GaussianGenerator.cs" />
     <Compile Include="Utility\XmlIoUtils.cs" />
     <Compile Include="Utility\KeyedCircularBuffer.cs" />
     <Compile Include="SharpNeatException.cs" />

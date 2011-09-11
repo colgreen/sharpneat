@@ -907,7 +907,7 @@ namespace SharpNeat.Genomes.Neat
             Debug.Assert(fnLib.GetFunction(gene.ActivationFnId).AcceptsAuxArgs);
 
             // Invoke mutation method (specific to each activation function).
-            fnLib.GetFunction(gene.ActivationFnId).MutateAuxArgs(gene.AuxState, _genomeFactory.Rng, _genomeFactory.GaussianRng,
+            fnLib.GetFunction(gene.ActivationFnId).MutateAuxArgs(gene.AuxState, _genomeFactory.Rng, _genomeFactory.GaussianSampler,
                                                                  _genomeFactory.NeatGenomeParameters.ConnectionWeightRange);
             // Indicate success.
             return true;
