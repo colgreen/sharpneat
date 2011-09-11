@@ -122,11 +122,11 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, FastRandom rng, GaussianGenerator gaussianRng, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, FastRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
         {
             // Mutate center.            
             // Add gaussian ditribution sample and clamp result to +-connectionWeightRange.
-            double tmp = auxArgs[0] + gaussianRng.NextDouble(0, _auxArgsMutationSigmaCenter);
+            double tmp = auxArgs[0] + gaussianSampler.NextSample(0, _auxArgsMutationSigmaCenter);
             if(tmp < -connectionWeightRange) {
                 auxArgs[0] = -connectionWeightRange;
             }
@@ -139,7 +139,7 @@ namespace SharpNeat.Network
 
             // Mutate radius.
             // Add gaussian ditribution sample and clamp result to [0,1]
-            tmp = auxArgs[1] + gaussianRng.NextDouble(0, _auxArgsMutationSigmaRadius);
+            tmp = auxArgs[1] + gaussianSampler.NextSample(0, _auxArgsMutationSigmaRadius);
             if(tmp < 0.0) {
                 auxArgs[1] = 0.0;
             }

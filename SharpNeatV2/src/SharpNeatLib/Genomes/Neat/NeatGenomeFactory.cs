@@ -55,7 +55,7 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>Random number generator associated with this factory.</summary>
         protected readonly FastRandom _rng = new FastRandom();
-        readonly GaussianGenerator _gaussianRng = new GaussianGenerator();
+        readonly ZigguratGaussianSampler _gaussianSampler = new ZigguratGaussianSampler();
 
         /// <summary>Activation function library associated with this factory.</summary>
         protected readonly IActivationFunctionLibrary _activationFnLibrary;
@@ -508,13 +508,13 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets a random number generator associated with the factory. 
+        /// Gets a Gaussian sampler associated with the factory. 
         /// Note. The provided RNG is not thread safe, if concurrent use is required then sync locks
         /// are necessary or some other RNG mechanism.
         /// </summary>
-        public GaussianGenerator GaussianRng
+        public ZigguratGaussianSampler GaussianSampler
         {
-            get { return _gaussianRng; }
+            get { return _gaussianSampler; }
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public double SampleGaussianDistribution(double mu, double sigma)
         {
-            return _gaussianRng.NextDouble(mu, sigma);
+            return _gaussianSampler.NextSample(mu, sigma);
         }
 
         /// <summary>
