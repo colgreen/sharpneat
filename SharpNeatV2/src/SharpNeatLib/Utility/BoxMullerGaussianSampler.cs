@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2010 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2006, 2009-2011 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +20,11 @@ using System;
 
 namespace SharpNeat.Utility
 {
-    // TODO: Use faster Ziggurat algorithm (http://en.wikipedia.org/wiki/Ziggurat_algorithm)
     /// <summary>
     /// Source of random values sample from a Gaussian distribution. Uses the polar form of the Box-Muller method.
     /// http://en.wikipedia.org/wiki/Box_Muller_transform
     /// </summary>
-    public class GaussianGenerator
+    public class BoxMullerGaussianSampler
     {
         FastRandom _rng = new FastRandom();
         double? _spareValue = null;
