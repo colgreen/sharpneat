@@ -29,7 +29,7 @@ namespace SharpNeat.Utility
     /// Key points:
     ///  1) Based on a simple and fast xor-shift pseudo random number generator (RNG) specified in: 
     ///  Marsaglia, George. (2003). Xorshift RNGs.
-    ///  http://www.jstatsoft.org/v08/i14/xorshift.pdf
+    ///  http://www.jstatsoft.org/v08/i14/paper
     ///  
     ///  This particular implementation of xorshift has a period of 2^128-1. See the above paper to see
     ///  how this can be easily extened if you need a longer period. At the time of writing I could find no 
@@ -54,16 +54,32 @@ namespace SharpNeat.Utility
     /// 
     /// 
     /// Colin Green, September 4th 2005
-    ///     Added NextBytesUnsafe() - commented out by default.
-    ///     Fixed bug in Reinitialise() - y,z and w variables were not being reset.
-    /// 
-    /// 
-    /// Colin Green, December 2008. 
-    ///     Fix to Next() - Was previously able to return int.MaxValue, contrary to the method's contract and comments.
-    ///     Modified NextBool() to use _bitMask instead of a count of remaining bits. Also reset the bit buffer in Reinitialise().
+    ///   - Added NextBytesUnsafe() - commented out by default.
+    ///   - Fixed bug in Reinitialise() - y,z and w variables were not being reset.
+    ///     
+    /// Colin Green, December 2008.
+    ///   - Fix to Next() - Was previously able to return int.MaxValue, contrary to the method's contract and comments.
+    ///   - Modified NextBool() to use _bitMask instead of a count of remaining bits. Also reset the bit buffer in Reinitialise().
+    ///    
+    /// Colin Green, 2011-08-31
+    ///   - Added NextByte() method.
+    ///   - Added new statically declared seedRng FastRandom to allow easy creation of multiple FastRandoms with different seeds 
+    ///     within a single clock tick.
     /// </summary>
     public class FastRandom
     {
+        #region Static Fields
+        /// <summary>
+        /// A static RNG that is used to generate seed values when constructing new instances of FastRandom.
+        /// This overcomes the problem whereby multiple FastRandom instances are instantiated within the same
+        /// tick count and thus obtain the same seed, that approach can result in extreme biases occuring 
+        /// in some cases depending on how the RNG is used.
+        /// </summary>
+        static readonly FastRandom __seedRng = new FastRandom((int)Environment.TickCount);
+        #endregion
+
+        #region Instance Fields
+
         // The +1 ensures NextDouble doesn't generate 1.0
         const double REAL_UNIT_INT = 1.0/((double)int.MaxValue+1.0);
         const double REAL_UNIT_UINT = 1.0/((double)uint.MaxValue+1.0);
@@ -71,15 +87,16 @@ namespace SharpNeat.Utility
 
         uint _x, _y, _z, _w;
 
+        #endregion
+
         #region Constructors
 
         /// <summary>
-        /// Initialises a new instance using time dependent seed.
+        /// Initialises a new instance using a seed generated from the class's static seed RNG.
         /// </summary>
         public FastRandom()
         {
-            // Initialise using the system tick count.
-            Reinitialise((int)Environment.TickCount);
+            Reinitialise(__seedRng.NextInt());
         }
 
         /// <summary>
@@ -155,6 +172,7 @@ namespace SharpNeat.Utility
             uint t = _x^(_x<<11);
             _x=_y; _y=_z; _z=_w;
 
+            // ENHANCEMENT: Can we do this without converting to a double and back again?
             // The explicit int cast before the first multiplication gives better performance.
             // See comments in NextDouble.
             return (int)((REAL_UNIT_INT*(int)(0x7FFFFFFF&(_w=(_w^(_w>>19))^(t^(t>>8)))))*upperBound);
@@ -340,7 +358,7 @@ namespace SharpNeat.Utility
         /// </summary>
         public bool NextBool()
         {
-            if(_bitMask==0)
+            if(0 == _bitMask)
             {   
                 // Generate 32 more bits.
                 uint t = _x^(_x<<11);
@@ -353,6 +371,32 @@ namespace SharpNeat.Utility
             }
 
             return (_bitBuffer & (_bitMask>>=1))==0;
+        }
+
+        // Buffer of random bytes. A single UInt32 is used to buffer 4 bytes.
+        // _byteBufferState tracks how bytes remain in the buffer, a value of 
+        // zero  indicates that the buffer is empty.
+        uint _byteBuffer;
+        byte _byteBufferState;
+
+        /// <summary>
+        /// Generates a signle random byte with range [0,255].
+        /// This method's performance is improved by generating 4 bytes in one operation and storing them
+        /// ready for future calls.
+        /// </summary>
+        public byte NextByte()
+        {
+            if(0 == _byteBufferState)
+            {
+                // Generate 4 more bytes.
+                uint t = _x^(_x<<11);
+                _x=_y; _y=_z; _z=_w;
+                _byteBuffer = _w=(_w^(_w>>19))^(t^(t>>8));
+                _byteBufferState = 0x4;
+                return (byte)_byteBuffer;  // Note. Masking with 0xFF is unnecessary.
+            }
+            _byteBufferState >>= 1;
+            return (byte)(_byteBuffer >>=1);
         }
 
         #endregion
