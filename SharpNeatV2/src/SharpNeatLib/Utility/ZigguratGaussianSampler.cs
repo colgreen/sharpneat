@@ -21,23 +21,36 @@ using System.Diagnostics;
 
 namespace SharpNeat.Utility
 {
+    // ENHANCEMENT: Further performance improvement can be obtained by using a less precise method
+    // whereby we represent the distribution curve as a piecewise linear curve, i.e. approximate
+    // the curve using stacked trapezoids instead of stacked rectangles, and skip handling of the
+    // corner cases where we would normally perform expensive calculations to obtain precise 
+    // results. Such an approach should be suitable for generating mutations for evolutionary
+    // computing.
+    // For details about this approach see:
+    // Hardware-Optimized Ziggurat Algorithm for High-Speed Gaussian Random Number Generators,
+    // Hassan M. Edrees, Brian Cheung, McCullen Sandora, David Nummey, Deian Stefan
+    // (http://www.ee.cooper.edu/~stefan/pubs/conference/ersa2009.pdf)
+    //
     /// <summary>
     /// A fast Gaussian distribution sampler for .Net
     /// Colin Green, 11/09/2011
     ///
-    /// An implementation of the Ziggurat algorithm for random sampling from a Gaussian distribution. See:
+    /// An implementation of the Ziggurat algorithm for random sampling from a Gaussian 
+    /// distribution. See:
     ///  - Wikipedia:Ziggurat algorithm (http://en.wikipedia.org/wiki/Ziggurat_algorithm).
-    ///  - The Ziggurat Method for Generating Random Variables, George Marsaglia and Wai Wan Tsang 
-    ///    (http://www.jstatsoft.org/v05/i08/paper).
+    ///  - The Ziggurat Method for Generating Random Variables, George Marsaglia and
+    ///    Wai Wan Tsang (http://www.jstatsoft.org/v05/i08/paper).
     ///  - An Improved Ziggurat Method to Generate Normal Random Samples, Jurgen A Doornik 
     ///    (http://www.doornik.com/research/ziggurat.pdf)
     ///  
     /// 
-    /// Ziggurate Algorithm Overview
+    /// Ziggurat Algorithm Overview
     /// ============================
     /// 
-    /// Consider the right hand side of the Gaussian probability density function (for x >=0) as described by y = f(x).
-    /// This half of the distribution is covered by a series of stacked horizontal rectangles, like so:
+    /// Consider the right hand side of the Gaussian probability density function (for x >=0) as
+    /// described by y = f(x). This half of the distribution is covered by a series of stacked
+    /// horizontal rectangles, like so:
     /// 
     ///  _____
     /// |     |                    R6  S6
@@ -56,99 +69,156 @@ namespace SharpNeat.Utility
     /// 
     /// The Basics
     /// ----------
-    /// 1) Each rectangle is assigned a number (the R numbers shown above). 
+    /// (1) 
+    /// Each rectangle is assigned a number (the R numbers shown above). 
     /// 
-    /// 2) The right hand edge of each rectangle is placed so that it just covers the distribution, that is, the 
-    /// bottom right corner is on the curve, and therefore some of the area in top right of the rectangle is outside of 
-    /// the distribution (points with y greater than f(x)) - except for R0 (see next point). Therefore the rectangles 
-    /// taken together cover an area slightly larger than the distribution curve.
+    /// (2) 
+    /// The right hand edge of each rectangle is placed so that it just covers the distribution,
+    /// that is, the bottom right corner is on the curve, and therefore some of the area in the 
+    /// top right of the rectangle is outside of the distribution (points with y greater than 
+    /// f(x)), except for R0 (see next point). Therefore the rectangles taken together cover an
+    /// area slightly larger than the distribution curve.
     /// 
-    /// 3) R0 is a special case. The tail of the Gaussian effectively projects into x=Infinity asymptotically approaching
-    /// zero, thus we do not cover the tail with a rectangle. Instead we define a cut-off point (x=3.442619855899 in this 
-    /// implementation). R0's right hand edge is at the cut-off point with it's top right corner on the distribution curve.
-    /// The tail is then defined as that part of the distribution with x > tailCutOff and is combined with R0 to form segment
-    /// S0. Note that the whole of R0 is within the distribution, unlike the other rectangles.
+    /// (3) 
+    /// R0 is a special case. The tail of the Gaussian effectively projects into x=Infinity
+    /// asymptotically approaching zero, thus we do not cover the tail with a rectangle. Instead
+    /// we define a cut-off point (x=3.442619855899 in this implementation). R0's right hand
+    /// edge is at the cut-off point with its top right corner on the distribution curve. The
+    /// tail is then defined as that part of the distribution with x > tailCutOff and is
+    /// combined with R0 to form segment S0. Note that the whole of R0 is within the
+    /// distribution, unlike the other rectangles.
     /// 
-    /// 4) Segments. Each rectangle is also referred to as a segment with the exception of R0 which is a special case as 
-    /// explained above. Essentially S[i] == R[i], except for S[0] == R[0] + tail.
+    /// (4)
+    /// Segments. Each rectangle is also referred to as a segment with the exception of R0 which
+    /// is a special case as explained above. Essentially S[i] == R[i], except for 
+    /// S[0] == R[0] + tail.
     /// 
-    /// 5) Each segment has identical area A, this also applies to the special segment S0, thus the area of R0 is A minus
-    /// the area represented by the tail. For all other segments the segment area is the same as the rectangle area.
+    /// (5)
+    /// Each segment has identical area A, this also applies to the special segment S0, thus the
+    /// area of R0 is A minus the area represented by the tail. For all other segments the
+    /// segment area is the same as the rectangle area.
     /// 
-    /// 6) R[i] has right hand edge x[i]. And from drawing the rectangles over the distribution curve it is clear that 
-    /// the region of R[i] to the left of x[i+1] is entirely within the distribution curve, whereas the region greater 
-    /// than x[i+1] is partially above the distribution curve. 
+    /// (6)
+    /// R[i] has right hand edge x[i]. And from drawing the rectangles over the distribution
+    /// curve it is clear that the region of R[i] to the left of x[i+1] is entirely within the
+    /// distribution curve, whereas the region greater than x[i+1] is partially above the
+    /// distribution curve. 
     /// 
-    /// 7) R[i] has top edge of y[i].
+    /// (7)
+    /// R[i] has top edge of y[i].
     /// 
     /// 
     /// Operation
     /// ---------
-    /// 1) Randomly select a segment to sample from, call this S[i], this amounts to a low resolution random y coordinate.
-    /// Because the segments have equal area we can select from them with equal probability. (Also see special notes, below).
+    /// (1)
+    /// Randomly select a segment to sample from, call this S[i], this amounts to a low
+    /// resolution random y coordinate. Because the segments have equal area we can select from
+    /// them with equal probability. (Also see special notes, below).
     /// 
-    /// 2) Segment 0 is a special case, if S0 is selected then generate a random area value w between 0 and A. If w is less 
-    /// than or equal to the area of R0 then we are sampling a point from within R0 (step 2A), otherwise we are sampling 
-    /// from the tail (step 2B).
+    /// (2)
+    /// Segment 0 is a special case, if S0 is selected then generate a random area value w
+    /// between 0 and A. If w is less than or equal to the area of R0 then we are sampling a
+    /// point from within R0 (step 2A), otherwise we are sampling from the tail (step 2B).
     /// 
-    /// 2A) Sampling from R0. R0 is entirely within the distribution curve and we have already geenrated a random area value
-    /// w. Convert w to an x value that we can return by dividing w by the height of R0 (y[0]).
+    /// (2A)
+    /// Sampling from R0. R0 is entirely within the distribution curve and we have already
+    /// generated a random area value w. Convert w to an x value that we can return by dividing
+    /// w by the height of R0 (y[0]).
     /// 
-    /// 2B) Sampling from the tail. To sample from the tail we fall back to a slow implementation using logarithms, see:
+    /// (2B)
+    /// Sampling from the tail. To sample from the tail we fall back to a slow implementation
+    /// using logarithms, see: 
     /// Generating a Variable from the Tail of the Normal Distribution, George Marsaglia (1963).
     /// (http://www.dtic.mil/cgi-bin/GetTRDoc?AD=AD423993&Location=U2&doc=GetTRDoc.pdf)
-    /// The area represented by the tail is relatively small and therefore this execution pathway is avoided for a significant
-    /// proportion of samples generated.
+    /// The area represented by the tail is relatively small and therefore this execution
+    /// pathway is avoided for a significant proportion of samples generated.
     ///
-    /// 3) Sampling from all other rectangles/segments other then R0/S0. Randomly select x from within R[i]. If x is less than 
-    /// x[i+1] then x is within the curve, return x. If x is greater than or equal to x[i+1] then generate a random y variable
-    /// from within R[i] (this amounts to producing a high resolution y coordinate, a refinement of the low resolution y coord 
-    /// we effectively produced by selecting a rectangle/segment). If y is below f(x) then return x, otherwise we disregard the
-    /// sample point and return to step 1. We specifically do *not* re-attempt to sample from R[i] until a valid point is found
-    /// (see special notes 1).
+    /// (3)
+    /// Sampling from all other rectangles/segments other then R0/S0. 
+    /// Randomly select x from within R[i]. If x is less than x[i+1] then x is within the curve,
+    /// return x.
+    ///    
+    /// If x is greater than or equal to x[i+1] then generate a random y variable from within
+    /// R[i] (this amounts to producing a high resolution y coordinate, a refinement of the low
+    /// resolution y coord we effectively produced by selecting a rectangle/segment).
+    ///    
+    /// If y is below f(x) then return x, otherwise we disregard the sample point and return to
+    /// step 1. We specifically do *not* re-attempt to sample from R[i] until a valid point is
+    /// found (see special notes 1).
     /// 
-    /// 4) Finally, all of the above describes sampling from the positive half of the distribution (x greater than or equal to zero)
-    /// hence to obtain a symetrical distribution we need one more random bit to decide whether to flip the sign of the returned x.
+    /// (4)
+    /// Finally, all of the above describes sampling from the positive half of the distribution
+    /// (x greater than or equal to zero) hence to obtain a symetrical distribution we need one
+    /// more random bit to decide whether to flip the sign of the returned x.
     /// 
     /// 
     /// Special notes
     /// -------------
-    /// Note 1) Segments have equal area and are thus selected with equal probability. However, the area under the distribution curve
-    /// covered by each segment/rectangle differs where rectangles overlap the edge of the distribution curve. Thus it has been 
-    /// suggested that to avoid sampling bias that the segments should be selected with a probability that reflects the area of 
-    /// the distribution curve they cover not their total area, this is an incorrect suggestion for the algorithm as described above
-    /// and implemented in this class. To explain why consider an extreme case. Say that rectangle R1 covers an area entirely within
-    /// the distribution curve, now consider R2 that covers an area only 10% within the curve. Both rectangles are chosen with equal
-    /// probability, thus the argument is that R2 will be 10x overrepresented (will generate sample points as often as R1 despite 
-    /// covering a much smaller proportion of the area under the distribution curve). In reality sample points within R2 will be 
-    /// rejected 90% of the time and we disregard the attempt to sample from R2 and go back to step 1 (select a segment to sample from).
-    /// If instead we re-attempted sampling from R2 until a valid point was found then R2 would indeed become over-represented, hence 
-    /// we do not do this and the algorithm therefore does not exhibit any such bias.
+    /// (Note 1) 
+    /// Segments have equal area and are thus selected with equal probability. However, the area
+    /// under the distribution curve covered by each segment/rectangle differs where rectangles
+    /// overlap the edge of the distribution curve. Thus it has been suggested that to avoid
+    /// sampling bias that the segments should be selected with a probability that reflects the
+    /// area of the distribution curve they cover not their total area, this is an incorrect
+    /// approach for the algorithm as described above and implemented in this class. To explain
+    /// why consider an extreme case. 
     /// 
-    /// Note 2) George Marsaglia's original implementation used a single random number (32bit unsigned integer) for both selecting the 
-    /// segment and producing the x coordinate with the chosen segment. The segment index was taken from the the least significant
-    /// bits (so the least significant 7 bits if using 128 segments). This effectively created a perculair type of bias in which all
-    /// x coords produced within a given segment would have an identical least significant 7 bits, albeit prior to casting to a floating
-    /// point value. The bias is perhaps small especially in comparison to the performance gain (one less call to the RNG). This 
-    /// implementation avoids this bias by not re-using random bits in such a way. For more info see:
-    /// An Improved Ziggurat Method to Generate Normal Random Samples, Jurgen A Doornik (http://www.doornik.com/research/ziggurat.pdf)
+    /// Say that rectangle R1 covers an area entirely within the distribution curve, now consider
+    /// R2 that covers an area only 10% within the curve. Both rectangles are chosen with equal
+    /// probability, thus the argument is that R2 will be 10x overrepresented (will generate
+    /// sample points as often as R1 despite covering a much smaller proportion of the area under
+    /// the distribution curve). In reality sample points within R2 will be rejected 90% of the
+    /// time and we disregard the attempt to sample from R2 and go back to step 1 (select a
+    /// segment to sample from).
+    /// 
+    /// If instead we re-attempted sampling from R2 until a valid point was found then R2 would 
+    /// indeed become over-represented, hence we do not do this and the algorithm therefore does
+    /// not exhibit any such bias.
+    /// 
+    /// (Note 2)
+    /// George Marsaglia's original implementation used a single random number (32bit unsigned
+    /// integer) for both selecting the segment and producing the x coordinate with the chosen
+    /// segment. The segment index was taken from the the least significant bits (so the least
+    /// significant 7 bits if using 128 segments). This effectively created a perculair type of
+    /// bias in which all x coords produced within a given segment would have an identical least
+    /// significant 7 bits, albeit prior to casting to a floating point value. The bias is perhaps
+    /// small especially in comparison to the performance gain (one less call to the RNG). This 
+    /// implementation avoids this bias by not re-using random bits in such a way. For more info 
+    /// see:
+    /// An Improved Ziggurat Method to Generate Normal Random Samples, Jurgen A Doornik 
+    /// (http://www.doornik.com/research/ziggurat.pdf)
     /// 
     /// 
     /// Optimizations
     /// -------------
-    /// Optimization 1) On selecting a segment/rectangle we generate a random x value within the range of the rectangle (or the range of
-    /// the area of S0), this requires multiplying a random number with range [0,1] to the requried x range before performing the first
-    /// test for x being within the 'certain' left-hand side of the rectangle. We avoid this multiplication and indeed conversion of a
-    /// random integer into a float with range [0,1], thus allowing the first comparion to be performed using integer arithmetic.
+    /// (Optimization 1) 
+    /// On selecting a segment/rectangle we generate a random x value within the range of the
+    /// rectangle (or the range of the area of S0), this requires multiplying a random number with
+    /// range [0,1] to the requried x range before performing the first test for x being within the
+    /// 'certain' left-hand side of the rectangle. We avoid this multiplication and indeed
+    /// conversion of a random integer into a float with range [0,1], thus allowing the first 
+    /// comparison to be performed using integer arithmetic.
     /// 
-    /// Instead of usign the x coord of RN+1 to test whether a randomly generated point within RN is within the 'certain' left hand side 
-    /// part of the distribution, we precalculate the probability of a random x coord being within the safe part for each rectangle. 
-    /// Furthermore we store this probability as a UInt with range [0, 0xffffffff] thus allowing direct comparison with randomly 
-    /// generated UInts from the RNG, this allows the comparison to be performed using integer arithmetic. If the test succeeds then
-    /// we continue to convert the random value into an appropriate x sample value.
+    /// Instead of using the x coord of RN+1 to test whether a randomly generated point within RN
+    /// is within the 'certain' left hand side part of the distribution, we precalculate the
+    /// probability of a random x coord being within the safe part for each rectangle. Furthermore
+    /// we store this probability as a UInt with range [0, 0xffffffff] thus allowing direct
+    /// comparison with randomly generated UInts from the RNG, this allows the comparison to be
+    /// performed using integer arithmetic. If the test succeeds then we continue to convert the
+    /// random value into an appropriate x sample value.
+    ///  
+    /// (Optimization 2)
+    /// Simple collapsing of calculations into precomputed values where possible. This affects 
+    /// readability, but hopefully the above explanations will help understand the code if necessary.
     /// 
-    /// Optimization 2) Simple collapsing calculations into precomputed values where possible. This affects readability, but hopefully the
-    /// above explanations will help understand the code if necessary.
+    /// (Optimization 3)
+    /// The gaussian probability density function (PDF) contains terms for distribution mean and 
+    /// standard deviation. We remove all excess terms and denormalise the function to obtain a 
+    /// simpler equation with the same shape. This simplified equation is no longer a PDF as the
+    /// total area under the curve is no loner 1.0 (a key property of PDFs), however as it has the
+    /// same overall shape it remains suitable for sampling from a Gaussian using rejection methods
+    /// such as the Ziggurat algorithm (it's the shape of the curve that matters, not the absolute
+    /// area under the curve).
     /// </summary>
     public class ZigguratGaussianSampler
     {
