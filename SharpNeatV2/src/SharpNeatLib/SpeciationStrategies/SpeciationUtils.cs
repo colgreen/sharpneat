@@ -18,6 +18,7 @@
  */
 using System.Collections.Generic;
 using SharpNeat.Core;
+using System.Diagnostics;
 
 namespace SharpNeat.SpeciationStrategies
 {
@@ -51,6 +52,34 @@ namespace SharpNeat.SpeciationStrategies
             {
                 if(specie.GenomeList.Count == 0) {
                     return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Perform an integrity check on the provided species.
+        /// Returns true if everything is OK.
+        /// </summary>
+        public static bool PerformIntegrityCheck<TGenome>(IList<Specie<TGenome>> specieList)
+            where TGenome : class, IGenome<TGenome>
+        {
+            // Check that all species contain at least one genome.
+            // Also check that the specieIdx of each genome corresponds to the specie it is within.
+            foreach(Specie<TGenome> specie in specieList)
+            {
+                if(specie.GenomeList.Count == 0) {
+                    Debug.WriteLine(string.Format("Empty species. SpecieIdx = [{0}]. Speciation must allocate at least one genome to each specie.", specie.Idx));
+                    return false;
+                }
+
+                foreach(TGenome genome in specie.GenomeList) 
+                {
+                    if(genome.SpecieIdx != specie.Idx) 
+                    {
+                        Debug.WriteLine(string.Format("Genome with incorrect specieIdx [{0}]. Parent SpecieIdx = [{1}]", genome.SpecieIdx, specie.Idx));
+                        return false;
+                    }
                 }
             }
             return true;

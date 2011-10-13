@@ -120,7 +120,7 @@ namespace SharpNeat.SpeciationStrategies
             // Perform the main k-means loop until convergence.
             SpeciateUntilConvergence(genomeList, specieList);
 
-            Debug.Assert(SpeciationUtils.TestPopulatedSpecies(specieList), "Speciation must allocate at least one genome to each specie.");
+            Debug.Assert(SpeciationUtils.PerformIntegrityCheck(specieList));
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace SharpNeat.SpeciationStrategies
             // Perform the main k-means loop until convergence.
             SpeciateUntilConvergence(genomeList, specieList);
 
-            Debug.Assert(SpeciationUtils.TestPopulatedSpecies(specieList), "Speciation must allocate at least one genome to each species.");
+            Debug.Assert(SpeciationUtils.PerformIntegrityCheck(specieList));
         }
 
         #endregion
