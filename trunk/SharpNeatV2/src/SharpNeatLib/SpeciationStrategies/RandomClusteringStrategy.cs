@@ -63,7 +63,7 @@ namespace SharpNeat.SpeciationStrategies
         public void SpeciateGenomes(IList<TGenome> genomeList, IList<Specie<TGenome>> specieList)
         {
             Debug.Assert(SpeciationUtils.TestEmptySpecies(specieList), "SpeciateGenomes(IList<TGenome>,IList<Species<TGenome>>) called with non-empty species");
-            Debug.Assert(genomeList.Count >= specieList.Count, string.Format("SpeciateGenomes(IList<TGenome>,IList<Species<TGenome>>). Specie count [{0}] is greater than genome count [{1}].", specieList.Count, genomeList.Count));
+            Debug.Assert(genomeList.Count >= specieList.Count, string.Format("SpeciateGenomes(IList<TGenome>,IList<Species<TGenome>>). Species count [{0}] is greater than genome count [{1}].", specieList.Count, genomeList.Count));
 
             // Make a copy of genomeList and shuffle the items.
             List<TGenome> gList = new List<TGenome>(genomeList);
@@ -81,15 +81,28 @@ namespace SharpNeat.SpeciationStrategies
             for(int i=0; i<specieCount; i++)
             {
                 Specie<TGenome> specie = specieList[i];
-                for(int j=0; j<genomesPerSpecie; j++, genomeIdx++) {
+                for(int j=0; j<genomesPerSpecie; j++, genomeIdx++) 
+                {
+                    gList[genomeIdx].SpecieIdx = specie.Idx;
                     specie.GenomeList.Add(gList[genomeIdx]);
                 }
             }
 
             // Evenly allocate any remaining genomes.
-            for(int i=0; i<specieCount && genomeIdx < genomeCount; i++, genomeIdx++) {
-                specieList[i].GenomeList.Add(gList[genomeIdx]);
+            int[] specieIdxArr = new int[specieCount];
+            for(int i=0; i<specieCount; i++) {
+                specieIdxArr[i] = i;
             }
+            Utilities.Shuffle(specieIdxArr, _rng);
+
+            for(int i=0; i<specieCount && genomeIdx < genomeCount; i++, genomeIdx++) 
+            {
+                int specieIdx = specieIdxArr[i];
+                gList[genomeIdx].SpecieIdx = specieIdx;
+                specieList[specieIdx].GenomeList.Add(gList[genomeIdx]);
+            }
+
+            Debug.Assert(SpeciationUtils.PerformIntegrityCheck(specieList));
         }
 
         /// <summary>
@@ -101,8 +114,16 @@ namespace SharpNeat.SpeciationStrategies
         /// </summary>
         public void SpeciateOffspring(IList<TGenome> genomeList, IList<Specie<TGenome>> specieList)
         {
+            // Each specie should contain at least one genome. We need at least one existing genome per specie to act
+            // as a specie centroid in order to define where the specie is within the encoding space.
+            Debug.Assert(SpeciationUtils.TestPopulatedSpecies(specieList), "SpeciateOffspring(IList<TGenome>,IList<Species<TGenome>>) called with an empty specie.");
+
+            // Make a copy of genomeList and shuffle the items.
+            List<TGenome> gList = new List<TGenome>(genomeList);
+            Utilities.Shuffle(gList, _rng);
+
             // Count how many genomes we have in total.
-            int genomeCount = genomeList.Count;
+            int genomeCount = gList.Count;
             int totalGenomeCount = genomeCount;
             foreach(Specie<TGenome> specie in specieList) {
                 totalGenomeCount += specie.GenomeList.Count;
@@ -115,7 +136,9 @@ namespace SharpNeat.SpeciationStrategies
             int genomesPerSpecie = totalGenomeCount / specieCount;
 
             // Sort species, smallest first. We must make a copy of specieList to do this; Species must remain at
-            // the correct index in the main specieList.
+            // the correct index in the main specieList. The principle here is that we wish to ensure that genomes are
+            // allocated to smaller species in preference to larger species, this is motivated by the desire to create
+            // evenly sized species.
             List<Specie<TGenome>> sList = new List<Specie<TGenome>>(specieList);
             sList.Sort(delegate(Specie<TGenome> x, Specie<TGenome> y)
                         {   // We use the difference in size where we aren't expecting that diff value to overflow the range of an int.
@@ -130,10 +153,9 @@ namespace SharpNeat.SpeciationStrategies
                 int fillcount = genomesPerSpecie - specie.GenomeList.Count;
 
                 if(fillcount <= 0) 
-                {   // Wer may encounter species with more than genomesPerSpecie because genomesPerSpecie was rounded 
-                    // down, thus although we allocated that many genomes to each specie with less than that number of genomes
-                    // we may still have genome left over once we encounter a specie with more than genomesPerSpecie genomes.
-                    // We handle this by resetting speciesIdx and allocating genomes evenly across all species from now on.
+                {   // We may encounter species with more than genomesPerSpecie genomes. Since we have
+                    // ordered the species by size we break out of this loop and allocate the remaining
+                    // genomes randomly.
                     break;
                 }
 
@@ -147,15 +169,28 @@ namespace SharpNeat.SpeciationStrategies
                 }
 
                 // genomeIdx test not required. Already taken into account by fillCount.
-                for(int j=0; j<fillcount; j++) {
-                    specie.GenomeList.Add(genomeList[genomeIdx++]);
+                for(int j=0; j<fillcount; j++) 
+                {
+                    gList[genomeIdx].SpecieIdx = specie.Idx;
+                    specie.GenomeList.Add(gList[genomeIdx++]);
                 }
             }
 
-            // Evenly allocate any remaining genomes. We need only perform one loop of the species.
-            for(int i=0; i<specieCount && genomeIdx < genomeCount; i++, genomeIdx++) {
-                specieList[i].GenomeList.Add(genomeList[genomeIdx]);
+            // Evenly allocate any remaining genomes.
+            int[] specieIdxArr = new int[specieCount];
+            for(int i=0; i<specieCount; i++) {
+                specieIdxArr[i] = i;
             }
+            Utilities.Shuffle(specieIdxArr, _rng);
+
+            for(int i=0; i<specieCount && genomeIdx < genomeCount; i++, genomeIdx++) 
+            {
+                int specieIdx = specieIdxArr[i];
+                gList[genomeIdx].SpecieIdx = specieIdx;
+                specieList[specieIdx].GenomeList.Add(gList[genomeIdx]);
+            }
+
+            Debug.Assert(SpeciationUtils.PerformIntegrityCheck(specieList));
         }
     }
 }
