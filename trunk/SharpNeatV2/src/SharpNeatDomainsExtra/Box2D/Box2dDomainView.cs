@@ -254,6 +254,7 @@ namespace SharpNeat.DomainsExtra.Box2D
             // (_box is being continually updated by the evolution algorithm update events). This is probably an atomic
             // operation and thus thread safe.
             IBlackBox box = _box;
+            box.ResetState();
 
             // Create/init new simulation world.
             _simWorld = CreateSimulationWorld();
@@ -353,7 +354,5 @@ namespace SharpNeat.DomainsExtra.Box2D
         }
 
         #endregion
-
-
     }
 }
