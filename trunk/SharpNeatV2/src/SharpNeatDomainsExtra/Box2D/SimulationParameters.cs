@@ -74,11 +74,11 @@ namespace SharpNeat.DomainsExtra.Box2D
         /// <summary>
         /// Default friction.
         /// </summary>
-        public float _defaultFriction = 0.2f;
+        public float _defaultFriction = 2f;
         /// <summary>
         /// Default restitution.
         /// </summary>
-        public float _defaultRestitution = 0.0f;
+        public float _defaultRestitution = 0.5f;
         /// <summary>
         /// Default density.
         /// </summary>
