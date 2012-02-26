@@ -76,17 +76,17 @@ namespace SharpNeat.Domains
 
         public static bool operator !=(IntPoint a, IntPoint b)
         {
-            return (a._x != b._x) || (a._y == b._y);
+            return (a._x != b._x) || (a._y != b._y);
         }
 
         public static IntPoint operator -(IntPoint a, IntPoint b)
         {
-            return new IntPoint(a._x - b._x, a._x - b._y);
+            return new IntPoint(a._x - b._x, a._y - b._y);
         }
 
         public static IntPoint operator +(IntPoint a, IntPoint b)
         {
-            return new IntPoint(a._x + b._x, a._x + b._y);
+            return new IntPoint(a._x + b._x, a._y + b._y);
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace SharpNeat.Domains
         public static double CalculateDistance(IntPoint a, IntPoint b)
         {
             double x = (a._x - b._x);
-            double y = (a._x - b._x);
+            double y = (a._y - b._y);
             return Math.Sqrt(x*x + y*y);
         }
 
