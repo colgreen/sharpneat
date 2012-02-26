@@ -324,8 +324,8 @@ namespace SharpNeat.Utility
             _xComp = new uint[__blockCount];
 
             // Special case for base box. _xComp[0] stores the area of B0 as a proportion of __R 
-            // (recalling that all segments have area __A, but htat the base segment is the combination of B0 and the distribution tail).
-            // Thus -xComp[0[ is teh probability that a sample point is within the box part of the segment.
+            // (recalling that all segments have area __A, but that the base segment is the combination of B0 and the distribution tail).
+            // Thus -xComp[0[ is the probability that a sample point is within the box part of the segment.
             _xComp[0] = (uint)(((__R * _y[0]) / __A) * (double)uint.MaxValue);
 
             for(int i=1; i<__blockCount-1; i++) {
