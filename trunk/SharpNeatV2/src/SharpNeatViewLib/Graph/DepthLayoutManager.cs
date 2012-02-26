@@ -145,12 +145,14 @@ namespace SharpNeat.View.Graph
             {
                 // Calculate inter-node gap and margin width (we use the same principle as with the vertical layout of layers, see notes above).
                 int nodeCount = layerNodeList.Count;
-                int xIncr = (int)Math.Round((float)layoutArea.Width / ((float)nodeCount + p2 - 1f));
+                float xIncr = (float)layoutArea.Width / ((float)nodeCount + p2 - 1f);
                 int xMargin = (int)Math.Round(xIncr * p);
 
                 // Loop nodes in layer; Assign position to each.
-                for(int nodeIdx=0, xCurrent = xMargin; nodeIdx < nodeCount; nodeIdx++, xCurrent += xIncr) {
-                    layerNodeList[nodeIdx].Position = new Point(xCurrent, yCurrent);
+                float xCurrent = xMargin;
+                for(int nodeIdx=0; nodeIdx < nodeCount; nodeIdx++, xCurrent += xIncr) 
+                {
+                    layerNodeList[nodeIdx].Position = new Point((int)xCurrent, yCurrent);
                     UpdateModelBounds(layerNodeList[nodeIdx], ref bounds);
                 }
 
