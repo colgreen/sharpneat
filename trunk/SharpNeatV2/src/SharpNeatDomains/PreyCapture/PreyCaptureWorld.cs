@@ -241,7 +241,7 @@ namespace SharpNeat.Domains.PreyCapture
             {
                 if(agent.OutputSignalArray[i] > maxSig) 
                 {
-                    maxSig = agent.OutputSignalArray[1];
+                    maxSig = agent.OutputSignalArray[i];
                     maxSigIdx = i;
                 }
                 else if(agent.OutputSignalArray[i] == maxSig)
@@ -327,7 +327,6 @@ namespace SharpNeat.Domains.PreyCapture
 
         #endregion
 
-
         #region Private Methods
 
 		private double MovePrey_T(double distance)
@@ -352,6 +351,5 @@ namespace SharpNeat.Domains.PreyCapture
         }
 
         #endregion
-
     }
 }
