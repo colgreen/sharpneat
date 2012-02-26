@@ -51,7 +51,7 @@ namespace SharpNeat.Domains
                     int iters = XmlUtils.GetValueAsInt(xmlActivation, "Iters");
                     return NetworkActivationScheme.CreateCyclicFixedTimestepsScheme(iters);
                 case "CyclicRelax":
-                    double deltaThreshold = XmlUtils.GetValueAsInt(xmlActivation, "Threshold");
+                    double deltaThreshold = XmlUtils.GetValueAsDouble(xmlActivation, "Threshold");
                     int maxIters = XmlUtils.GetValueAsInt(xmlActivation, "MaxIters");
                     return NetworkActivationScheme.CreateCyclicRelaxingActivationScheme(deltaThreshold, maxIters);
             }
