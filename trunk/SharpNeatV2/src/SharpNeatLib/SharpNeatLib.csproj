@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AuxFitnessInfo.cs" />
     <Compile Include="Core\CoordinateVector.cs" />
     <Compile Include="Core\FitnessInfo.cs" />
     <Compile Include="Core\GenomeFitnessComparer.cs" />

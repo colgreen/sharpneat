@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2010 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2006, 2009-2012 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,6 +59,8 @@ namespace SharpNeatGUI
         XmlWriterSettings _xwSettings;
         /// <summary>Tracks the best champ fitness observed so far.</summary>
         double _champGenomeFitness;
+        /// <summary>Array of 'nice' colors for chart plots.</summary>
+        Color[] _plotColorArr;
 
         #endregion
 
@@ -98,6 +100,8 @@ namespace SharpNeatGUI
 
             _xwSettings = new XmlWriterSettings();
             _xwSettings.Indent = true;
+
+            _plotColorArr = GenerateNiceColors(10);
         }
 
         /// <summary>
@@ -537,7 +541,15 @@ namespace SharpNeatGUI
 
             txtStatsGeneration.Text = _ea.CurrentGeneration.ToString("N0");
             txtStatsBest.Text = stats._maxFitness.ToString();
-            txtStatsAlternativeFitness.Text = _ea.CurrentChampGenome.EvaluationInfo.AlternativeFitness.ToString("#.######");
+
+            // Auxiliary fitness info.
+            AuxFitnessInfo[] auxFitnessArr = _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr;
+            if(auxFitnessArr.Length > 0) {
+                txtStatsAlternativeFitness.Text = auxFitnessArr[0]._value.ToString("#.######");
+            } else {
+                txtStatsAlternativeFitness.Text = "";
+            }
+
             txtStatsMean.Text = stats._meanFitness.ToString("#.######");
             txtSpecieChampMean.Text = stats._meanSpecieChampFitness.ToString("#.######");
             txtStatsTotalEvals.Text = stats._totalEvaluationCount.ToString("N0");
@@ -805,24 +817,42 @@ namespace SharpNeatGUI
         private void fitnessBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create data sources.
-            TimeSeriesDataSource dsBestFitness = new TimeSeriesDataSource("Best", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Red, delegate() 
+            List<TimeSeriesDataSource> _dsList = new List<TimeSeriesDataSource>();
+
+
+            _dsList.Add(new TimeSeriesDataSource("Best", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Red, delegate() 
                                                             {
                                                                 return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._maxFitness);
-                                                            });
+                                                            }));
 
-            TimeSeriesDataSource dsMeanFitness = new TimeSeriesDataSource("Mean", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Black, delegate() 
+            _dsList.Add(new TimeSeriesDataSource("Mean", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Black, delegate() 
                                                             {
                                                                 return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._meanFitness);
-                                                            });
+                                                            }));
 
-            TimeSeriesDataSource dsBestFitnessMA = new TimeSeriesDataSource("Best (Moving Average)", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Orange, delegate() 
+            _dsList.Add(new TimeSeriesDataSource("Best (Moving Average)", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Orange, delegate() 
                                                             {
                                                                 return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._bestFitnessMA.Mean);
-                                                            });
+                                                            }));
+
+            // Create a data sources for any auxiliary fitness info.
+            AuxFitnessInfo[] auxFitnessArr = _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr;
+            if(null != auxFitnessArr)
+            {
+                for(int i=0; i<auxFitnessArr.Length; i++)
+                {
+                    // 'Capture' the value of i in a locally defined variable that has scope specific to each delegate creation (below). If capture 'i' instead then it will always have
+                    // its last value in each delegate (which happens to be one past the end of the array).
+                    int ii = i;
+                    _dsList.Add(new TimeSeriesDataSource(_ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr[i]._name, TimeSeriesDataSource.DefaultHistoryLength, 0, _plotColorArr[i % _plotColorArr.Length], delegate() 
+                                                                    {   
+                                                                        return new Point2DDouble(_ea.CurrentGeneration, _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr[ii]._value);
+                                                                    }));
+                }
+            }
 
             // Create form.
-            TimeSeriesGraphForm graphForm = new TimeSeriesGraphForm("Fitness (Best and Mean)", "Generation", "Fitness", string.Empty,
-                                                 new TimeSeriesDataSource[] {dsBestFitness, dsMeanFitness, dsBestFitnessMA}, _ea);
+            TimeSeriesGraphForm graphForm = new TimeSeriesGraphForm("Fitness (Best and Mean)", "Generation", "Fitness", string.Empty, _dsList.ToArray(), _ea);
             _timeSeriesGraphFormList.Add(graphForm);
 
             // Attach a event handler to update this main form when the graph form is closed.
@@ -1692,6 +1722,25 @@ namespace SharpNeatGUI
                 pointArr[i].Y = fdd.FrequencyArray[i];
             }
             return pointArr;
+        }
+
+        private Color[] GenerateNiceColors(int count)
+        {
+            Color[] arr = new Color[count];
+            Color baseColor = ColorTranslator.FromHtml("#8A56E2");
+            double baseHue = (new HSLColor(baseColor)).Hue;
+
+            List<Color> colorList = new List<Color>();
+            colorList.Add(baseColor);
+
+            double step = (240.0 / (double)count);
+            for (int i=1; i < count; i++)
+            {
+                HSLColor nextColor = new HSLColor(baseColor);
+                nextColor.Hue = (baseHue + step * ((double)i)) % 240.0;
+                colorList.Add((Color)nextColor);
+            }
+            return colorList.ToArray();
         }
 
         #endregion

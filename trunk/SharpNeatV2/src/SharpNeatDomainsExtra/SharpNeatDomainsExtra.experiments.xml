@@ -94,4 +94,42 @@
     </Config>
   </Experiment>
 
+  <Experiment name="Walker [Box2D] (NEAT)">
+    <AssemblyPath>SharpNeatDomainsExtra.dll</AssemblyPath>
+    <ClassName>SharpNeat.DomainsExtra.WalkerBox2d.WalkerBox2dExperiment</ClassName>
+    <Config>
+      <PopulationSize>4000</PopulationSize>
+      <SpecieCount>100</SpecieCount>
+      <Activation>
+        <Scheme>CyclicFixedIters</Scheme>
+        <Iters>1</Iters>
+      </Activation>
+      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityThreshold>10</ComplexityThreshold>
+      <Description>
+      </Description>
+    </Config>
+  </Experiment>  
+  
+  <Experiment name="Walker [Box2D] (HyperNEAT)">
+    <AssemblyPath>SharpNeatDomainsExtra.dll</AssemblyPath>
+    <ClassName>SharpNeat.DomainsExtra.WalkerBox2d.WalkerBox2dExperimentHyperNeat</ClassName>
+    <Config>
+      <PopulationSize>2000</PopulationSize>
+      <SpecieCount>50</SpecieCount>      
+      <ActivationCppn>
+        <Scheme>Acyclic</Scheme>
+      </ActivationCppn>
+      <Activation>
+        <Scheme>CyclicFixedIters</Scheme>
+        <Iters>1</Iters>
+      </Activation>   
+      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityThreshold>10</ComplexityThreshold>
+      <LengthCppnInput>false</LengthCppnInput>
+      <Description>
+      </Description>
+    </Config>
+  </Experiment> 
+  
 </Experiments>

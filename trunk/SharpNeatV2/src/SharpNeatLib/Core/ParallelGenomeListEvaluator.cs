@@ -1,7 +1,7 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2010 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2006, 2009-2012 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -140,13 +140,13 @@ namespace SharpNeat.Core
                 if(null == phenome)
                 {   // Non-viable genome.
                     genome.EvaluationInfo.SetFitness(0.0);
-                    genome.EvaluationInfo.AlternativeFitness = 0.0;
+                    genome.EvaluationInfo.AuxFitnessArr = null;
                 }
                 else
                 {   
                     FitnessInfo fitnessInfo = _phenomeEvaluator.Evaluate(phenome);
                     genome.EvaluationInfo.SetFitness(fitnessInfo._fitness);
-                    genome.EvaluationInfo.AlternativeFitness = fitnessInfo._alternativeFitness;
+                    genome.EvaluationInfo.AuxFitnessArr = fitnessInfo._auxFitnessArr;
                 }
             });
         }
@@ -169,13 +169,13 @@ namespace SharpNeat.Core
                 if(null == phenome)
                 {   // Non-viable genome.
                     genome.EvaluationInfo.SetFitness(0.0);
-                    genome.EvaluationInfo.AlternativeFitness = 0.0;
+                    genome.EvaluationInfo.AuxFitnessArr = null;
                 }
                 else
                 {   
                     FitnessInfo fitnessInfo = _phenomeEvaluator.Evaluate(phenome);
                     genome.EvaluationInfo.SetFitness(fitnessInfo._fitness);
-                    genome.EvaluationInfo.AlternativeFitness = fitnessInfo._alternativeFitness;
+                    genome.EvaluationInfo.AuxFitnessArr = fitnessInfo._auxFitnessArr;
                 }
             });
         }

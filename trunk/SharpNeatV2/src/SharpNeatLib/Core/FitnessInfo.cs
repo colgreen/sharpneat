@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2010 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2006, 2009-2012 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,15 +33,12 @@ namespace SharpNeat.Core
         /// Fitness score.
         /// </summary>
         public double _fitness;
+
         /// <summary>
-        /// Alternative fitness score. This value is provided to allow evaulators to report a number that is 
-        /// more meaningful to humans, it is not used by the evolutionary algorithm in any way. The idea here is that fitness
-        /// functions often apply complex traformations to one or more underlying fitness values to obtain a value with a number 
-        /// of attributes that are desirable in fitenss functions (e.g. smooth fitness landscape). In applying those transformations
-        /// the end fitness value can become hard to interpret directly, as such this value can be used to provide some meaningful
-        /// underlying fitness value.
+        /// Auxiliary fitness info, i.e. for evaluation metrics other than the
+        /// primary fitness metric but that nonetheless we are interested in observing.
         /// </summary>
-        public double _alternativeFitness;
+        public AuxFitnessInfo[] _auxFitnessArr;
 
         /// <summary>
         /// Default constructor.
@@ -49,7 +46,16 @@ namespace SharpNeat.Core
         public FitnessInfo(double fitness, double alternativeFitness)
         {
             _fitness = fitness;
-            _alternativeFitness = alternativeFitness;
+            _auxFitnessArr = new AuxFitnessInfo[] {new AuxFitnessInfo("Alternative Fitness", alternativeFitness)};
+        }
+
+        /// <summary>
+        /// Construct with the provided fitness value and auxiliary fitness info.
+        /// </summary>
+        public FitnessInfo(double fitness, AuxFitnessInfo[] auxFitnessArr)
+        {
+            _fitness = fitness;
+            _auxFitnessArr = auxFitnessArr;
         }
     }
 }
