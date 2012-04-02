@@ -360,8 +360,8 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Initialise the genome factory's genome and innovation ID generators.
-            genomeFactory.GenomeIdGenerator.Reset(maxGenomeId+1);
-            genomeFactory.InnovationIdGenerator.Reset(maxInnovationId+1);
+            genomeFactory.GenomeIdGenerator.Reset(Math.Max(genomeFactory.GenomeIdGenerator.Peek, maxGenomeId+1));
+            genomeFactory.InnovationIdGenerator.Reset(Math.Max(genomeFactory.InnovationIdGenerator.Peek, maxInnovationId+1));
 
             // Retrospecitively assign the genome factory to the genomes. This is how we overcome the genome/genomeFactory
             // chicken and egg problem.

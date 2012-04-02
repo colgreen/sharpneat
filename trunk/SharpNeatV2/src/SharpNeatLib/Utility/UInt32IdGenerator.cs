@@ -62,6 +62,14 @@ namespace SharpNeat.Utility
         }
 
         /// <summary>
+        /// Get the next ID without incrementing (peek the ID).
+        /// </summary>
+        public uint Peek
+        {
+            get { return _nextId; }
+        }
+
+        /// <summary>
         /// Resets the next ID back to zero.
         /// </summary>
         public void Reset()
