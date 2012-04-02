@@ -245,7 +245,6 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
             // Bottom cap.
             circleDef.LocalPosition.Set(0f, -__poleLength * 0.5f);
             body.CreateShape(circleDef);
-
             body.SetMassFromShapes();
             return body;
         }

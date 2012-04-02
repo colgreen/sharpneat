@@ -62,6 +62,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HSLColor.cs" />
     <Compile Include="SummaryGraphForm.cs">
       <SubType>Form</SubType>
     </Compile>

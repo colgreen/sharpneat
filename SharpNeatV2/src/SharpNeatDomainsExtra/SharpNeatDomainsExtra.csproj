@@ -82,6 +82,17 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SinglePoleBalancingBox2d\SinglePoleBalancingWorld.cs" />
+    <Compile Include="WalkerBox2d\WalkerBox2dExperimentHyperNeat.cs" />
+    <Compile Include="WalkerBox2d\LegInterface.cs" />
+    <Compile Include="WalkerBox2d\NeuralNetController.cs" />
+    <Compile Include="WalkerBox2d\WalkerBox2dView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WalkerBox2d\WalkerBox2dExperiment.cs" />
+    <Compile Include="WalkerBox2d\WalkerBox2dEvaluator.cs" />
+    <Compile Include="WalkerBox2d\WalkerController.cs" />
+    <Compile Include="WalkerBox2d\WalkerInterface.cs" />
+    <Compile Include="WalkerBox2d\WalkerWorld.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />

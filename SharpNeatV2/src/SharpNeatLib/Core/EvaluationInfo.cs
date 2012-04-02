@@ -1,7 +1,7 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2010 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2006, 2009-2012 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ namespace SharpNeat.Core
         bool _isEvaluated;
         uint _evaluationCount;
         uint _evaluationPassCount;
-        double _alternativeFitness;
+        AuxFitnessInfo[] _auxFitnessArr;
 
         #region Constructor
 
@@ -96,17 +96,13 @@ namespace SharpNeat.Core
         }
 
         /// <summary>
-        /// Gets or sets an alternative fitness score. This value is provided to allow evaulators to report a number that is 
-        /// more meaningful to humans, it is not used by the evolutionary algorithm in any way. The idea here is that fitness
-        /// functions often apply complex traformations to one or more underlying fitness values to obtain a value with a number 
-        /// of attributes that are desirable in fitenss functions (e.g. smooth fitness landscape). In applying those transformations
-        /// the end fitness value can become hard to interpret directly, as such this value can be used to provide some meaningful
-        /// underlying fitness value.
+        /// Gets or sets auxiliary fitness info, i.e. for evaluation metrics other than the
+        /// primary fitness metric but that nonetheless we are interested in observing.
         /// </summary>
-        public double AlternativeFitness
+        public AuxFitnessInfo[] AuxFitnessArr
         {
-            get { return _alternativeFitness; }
-            set { _alternativeFitness = value; }
+            get { return _auxFitnessArr; }
+            set { _auxFitnessArr = value; }
         }
 
         /// <summary>
