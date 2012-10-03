@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SharpNeatGUI")]
-[assembly: AssemblyCopyright("Copyright © 2004 - 2010")]
+[assembly: AssemblyCopyright("Copyright © Colin Green 2004 - 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
