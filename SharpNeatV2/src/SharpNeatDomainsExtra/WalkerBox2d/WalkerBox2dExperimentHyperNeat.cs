@@ -240,7 +240,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
         private void AddNode(SubstrateNodeSet nodeSet, uint id, double x, double y, double z)
         {
-            nodeSet.NodeList.Add(new SubstrateNode(id, new double[] {x, y, y}));
+            nodeSet.NodeList.Add(new SubstrateNode(id, new double[] {x, y, z}));
         }
 
         /// <summary>
