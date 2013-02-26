@@ -15,6 +15,8 @@
         {
             if(disposing && (components != null))
             {
+                // Cleanup OpenGL (one report of this being necessary on one machine and not another - video driver related?).
+                openGlControl.DestroyContexts();  
                 components.Dispose();
             }
             base.Dispose(disposing);
