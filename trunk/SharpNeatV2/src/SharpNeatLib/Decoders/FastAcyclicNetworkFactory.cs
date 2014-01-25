@@ -67,9 +67,9 @@ namespace SharpNeat.Decoders
             // Array of live node indexes indexed by their index in the original network definition. This allows us to 
             // locate the position of input and output nodes in their new positions in the live network data structures.
             int[] newIdxByDefinitionIdx = new int[nodeCount];
-            
+
             // Dictionary of live node indexes keyed by node ID. This allows us to convert the network definition connection
-            // endpoints from referring to node IDs to indexes to node data in the live network data structures.
+            // endpoints from node IDs to indexes into the live/runtime network data structures.
             Dictionary<uint,int> newIdxById = new Dictionary<uint,int>(nodeCount);
 
             // Populate both the lookup array and dictionary.
@@ -92,7 +92,7 @@ namespace SharpNeat.Decoders
             double[][] nodeAuxArgsArray = new double[nodeCount][];
             for(int i=0; i<nodeCount; i++) 
             {
-                int definitionIdx = newIdxByDefinitionIdx[i];
+                int definitionIdx = nodeInfoByDepth[i]._definitionIdx;
                 nodeActivationFnArr[i] = activationFnLibrary.GetFunction(nodeList[definitionIdx].ActivationFnId);
                 nodeAuxArgsArray[i] = nodeList[definitionIdx].AuxState;
             }
