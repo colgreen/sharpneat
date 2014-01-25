@@ -26,11 +26,11 @@ namespace SharpNeat.Phenomes.NeuralNets
     public struct LayerInfo
     {
         /// <summary>
-        /// The index of the last node in the layer + 1.
+        /// The index (+1) of the last node in the layer.
         /// </summary>
         public int _endNodeIdx;
         /// <summary>
-        /// The index of the last connection in the layer + 1.
+        /// The index (+1) of the last connection in the layer.
         /// </summary>        
         public int _endConnectionIdx;
     }
