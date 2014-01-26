@@ -225,7 +225,7 @@ namespace SharpNeat.Utility
         }
 
         /// <summary>
-        /// Generates a random double. Values returned are from 0.0 up to but not including 1.0.
+        /// Generates a random double. Values returned are over the range [0, 1). That is, inclusive of 0.0 and exclusive of 1.0.
         /// </summary>
         public double NextDouble()
         {   
@@ -363,6 +363,19 @@ namespace SharpNeat.Utility
             uint t = _x^(_x<<11);
             _x=_y; _y=_z; _z=_w;
             return (int)(0x7FFFFFFF&(_w=(_w^(_w>>19))^(t^(t>>8))));
+        }
+
+        /// <summary>
+        /// Generates a random double. Values returned are over the range (0, 1). That is, exclusive of both 0.0 and 1.0.
+        /// </summary>
+        public double NextDoubleNonZero()
+        {
+            uint t = _x^(_x<<11);
+            _x=_y; _y=_z; _z=_w;
+
+            // See notes on NextDouble(). Here we generate a random value from 0 to 0x7f ff ff fe, and add one
+            // to generate a random value from 1 to 0x7f ff ff ff.
+            return REAL_UNIT_INT*(int)((0x7FFFFFFE&(_w=(_w^(_w>>19))^(t^(t>>8))))+1U); 
         }
 
         // Buffer 32 bits in bitBuffer, return 1 at a time, keep track of how many have been returned
