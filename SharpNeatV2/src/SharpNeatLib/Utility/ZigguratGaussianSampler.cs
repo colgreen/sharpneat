@@ -409,8 +409,9 @@ namespace SharpNeat.Utility
             double x, y;
             do
             {
-                x = -Math.Log(_rng.NextDouble()) / __R;
-                y = -Math.Log(_rng.NextDouble());
+                // Note. we use NextDoubleNonZero() because Log(0) returns NaN and will also tend to be a very slow execution path (when it occurs, which is rarely).
+                x = -Math.Log(_rng.NextDoubleNonZero()) / __R;
+                y = -Math.Log(_rng.NextDoubleNonZero());
             }
             while(y+y < x*x);
             return __R + x;
