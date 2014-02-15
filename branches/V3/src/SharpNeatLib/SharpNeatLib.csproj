@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ABC5C77A-DEBA-420C-926C-BD3E6F37AE15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpNeat</RootNamespace>
+    <AssemblyName>SharpNeatLib</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SharpNeatLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SharpNeatLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdPartyAssemblies\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\AuxFitnessInfo.cs" />
+    <Compile Include="Core\CoordinateVector.cs" />
+    <Compile Include="Core\FitnessInfo.cs" />
+    <Compile Include="Core\GenomeFitnessComparer.cs" />
+    <Compile Include="Core\IDistanceMetric.cs" />
+    <Compile Include="Core\EvaluationInfo.cs" />
+    <Compile Include="Core\IEvolutionAlgorithm.cs" />
+    <Compile Include="Core\IGenome.cs" />
+    <Compile Include="Core\IGenomeDecoder.cs" />
+    <Compile Include="Core\IGenomeFactory.cs" />
+    <Compile Include="Core\IGenomeListEvaluator.cs" />
+    <None Include="Core\ParallelGenomeListEvaluatorV1.cs" />
+    <Compile Include="Core\ParallelGenomeListEvaluator.cs" />
+    <Compile Include="Core\SelectiveGenomeListEvaluator.cs" />
+    <Compile Include="Core\SerialGenomeListEvaluator.cs" />
+    <Compile Include="Core\IPhenomeEvaluator.cs" />
+    <None Include="DeadCode\Population.cs" />
+    <Compile Include="Core\ISpeciationStrategy.cs" />
+    <Compile Include="Core\RunState.cs" />
+    <Compile Include="Core\Specie.cs" />
+    <Compile Include="Core\UpdateMode.cs" />
+    <Compile Include="Core\UpdateScheme.cs" />
+    <Compile Include="Decoders\FastAcyclicNetworkFactory.cs" />
+    <Compile Include="Decoders\CyclicNetworkFactory.cs" />
+    <Compile Include="Decoders\FastCyclicNetworkFactory.cs" />
+    <Compile Include="Decoders\HyperNeat\DefaultNodeSetMappingFunction.cs" />
+    <Compile Include="Decoders\HyperNeat\HyperNeatDecoder.cs" />
+    <Compile Include="Decoders\HyperNeat\INodeSetMappingFunction.cs" />
+    <Compile Include="Decoders\HyperNeat\NodeSetMapping.cs" />
+    <Compile Include="Decoders\HyperNeat\Substrate.cs" />
+    <Compile Include="Decoders\HyperNeat\SubstrateConnection.cs" />
+    <Compile Include="Decoders\HyperNeat\SubstrateNode.cs" />
+    <Compile Include="Decoders\HyperNeat\SubstrateNodeSet.cs" />
+    <Compile Include="Decoders\NetworkActivationScheme.cs" />
+    <None Include="DeadCode\NeatActivationFunctionLibrary.cs" />
+    <Compile Include="Decoders\Neat\NeatGenomeDecoder.cs" />
+    <Compile Include="DistanceMetrics\DistanceMetricUtils.cs" />
+    <Compile Include="DistanceMetrics\ManhattanDistanceMetric.cs" />
+    <Compile Include="DistanceMetrics\EuclideanDistanceMetric.cs" />
+    <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityCeilingType.cs" />
+    <Compile Include="EvolutionAlgorithms\ComplexityRegulation\DefaultComplexityRegulationStrategy.cs" />
+    <Compile Include="EvolutionAlgorithms\ComplexityRegulation\IComplexityRegulationStrategy.cs" />
+    <Compile Include="EvolutionAlgorithms\ComplexityRegulation\NullComplexityRegulationStrategy.cs" />
+    <Compile Include="EvolutionAlgorithms\NeatAlgorithmStats.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\AbsoluteMeanComplexityCeilingTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallGenerationsTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\ElapsedClockTimeTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\FitnessStallClockTimeTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\ElapsedGenerationsTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\FitnessStallGenerationsTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\MovingMeanComplexityCeilingTrigger.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\IPhaseTransitionTrigger.cs" />
+    <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithm.cs" />
+    <Compile Include="EvolutionAlgorithms\AbstractGenerationalAlgorithm.cs" />
+    <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithmParameters.cs" />
+    <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
+    <None Include="DeadCode\PhasedSearchStats.cs" />
+    <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallClockTimeTrigger.cs" />
+    <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
+    <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
+    <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
+    <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
+    <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
+    <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
+    <Compile Include="Network\ConnectionList.cs" />
+    <None Include="DeadCode\DefaultCppnActivationFunctionLibrary.cs" />
+    <Compile Include="Network\CyclicNetworkDepthAnalysis.cs" />
+    <Compile Include="Network\CyclicNetworkTest.cs" />
+    <Compile Include="Network\DefaultActivationFunctionLibrary.cs" />
+    <Compile Include="Network\IActivationFunctionLibrary.cs" />
+    <Compile Include="Network\ConnectionEndpointsStruct.cs" />
+    <Compile Include="Genomes\Neat\ConnectionGene.cs" />
+    <Compile Include="Genomes\Neat\ConnectionGeneListBuilder.cs" />
+    <Compile Include="Genomes\Neat\ConnectionMutationInfo.cs" />
+    <Compile Include="Genomes\Neat\ConnectionMutationInfoList.cs" />
+    <Compile Include="Genomes\Neat\ConnectionPerturbanceType.cs" />
+    <Compile Include="Genomes\Neat\ConnectionSelectionType.cs" />
+    <Compile Include="Genomes\Neat\CorrelationItem.cs" />
+    <Compile Include="Genomes\Neat\CorrelationItemType.cs" />
+    <Compile Include="Genomes\Neat\CorrelationResults.cs" />
+    <Compile Include="Genomes\Neat\CorrelationStatistics.cs" />
+    <Compile Include="Genomes\Neat\NeatGenome.cs" />
+    <Compile Include="Genomes\Neat\ConnectionGeneComparer.cs" />
+    <Compile Include="Genomes\Neat\ConnectionGeneList.cs" />
+    <Compile Include="Genomes\Neat\NeatGenomeFactory.cs" />
+    <Compile Include="Genomes\Neat\NeatGenomeStats.cs" />
+    <Compile Include="Genomes\Neat\NeatGenomeParameters.cs" />
+    <Compile Include="Genomes\Neat\NeuronGene.cs" />
+    <Compile Include="Genomes\Neat\NeuronGeneList.cs" />
+    <Compile Include="Genomes\Neat\AddedNeuronGeneStruct.cs" />
+    <Compile Include="Network\IConnectionList.cs" />
+    <Compile Include="Network\INetworkConnection.cs" />
+    <Compile Include="Network\INetworkDefinition.cs" />
+    <Compile Include="Network\INetworkNode.cs" />
+    <Compile Include="Network\INodeList.cs" />
+    <Compile Include="Network\NetworkConnection.cs" />
+    <Compile Include="Network\NetworkConnectivityData.cs" />
+    <Compile Include="Network\NetworkDefinition.cs" />
+    <Compile Include="Network\NetworkDepthInfo.cs" />
+    <Compile Include="Network\NetworkXmlIO.cs" />
+    <Compile Include="Network\NetworkNode.cs" />
+    <Compile Include="Network\NodeConnectivityData.cs" />
+    <Compile Include="Network\NodeList.cs" />
+    <Compile Include="Phenomes\IBlackBox.cs" />
+    <Compile Include="Phenomes\ISignalArray.cs" />
+    <Compile Include="Network\ActivationFunctions\Bipolar\BipolarSigmoid.cs" />
+    <Compile Include="Network\ActivationFunctions\Bipolar\BipolarGaussian.cs" />
+    <Compile Include="Network\ActivationFunctions\Bipolar\Linear.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\Absolute.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\AbsoluteRoot.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\Gaussian.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\InverseAbsoluteSigmoid.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\PlainSigmoid.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\ReducedSigmoid.cs" />
+    <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoid.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoidApproximation.cs" />
+    <Compile Include="Phenomes\MappingSignalArray.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\FastAcyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Connection.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Neuron.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\RelaxingCyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastConnection.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastCyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastRelaxingCyclicNetwork.cs" />
+    <Compile Include="Phenomes\SignalArray.cs" />
+    <Compile Include="Network\NodeType.cs" />
+    <Compile Include="Network\IActivationFunction.cs" />
+    <Compile Include="Network\ActivationFunctions\NullFn.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\StepFunction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SpeciationStrategies\GenomeDistancePair.cs" />
+    <Compile Include="SpeciationStrategies\ParallelKMeansClusteringStrategy.cs" />
+    <Compile Include="SpeciationStrategies\KMeansClusteringStrategy.cs" />
+    <Compile Include="SpeciationStrategies\RandomClusteringStrategy.cs" />
+    <Compile Include="SpeciationStrategies\SpeciationUtils.cs" />
+    <Compile Include="Utility\BoxMullerGaussianSampler.cs" />
+    <Compile Include="Utility\CircularBuffer.cs" />
+    <Compile Include="Utility\ZigguratGaussianSampler.cs" />
+    <Compile Include="Utility\FrequencyDistributionData.cs" />
+    <Compile Include="Utility\DoubleCircularBufferWithStats.cs" />
+    <Compile Include="Utility\FastRandom.cs" />
+    <Compile Include="Utility\XmlIoUtils.cs" />
+    <Compile Include="Utility\KeyedCircularBuffer.cs" />
+    <Compile Include="SharpNeatException.cs" />
+    <Compile Include="Utility\ParallelSort.cs" />
+    <Compile Include="Utility\Point2DDouble.cs" />
+    <Compile Include="Utility\RouletteWheel.cs" />
+    <Compile Include="Utility\RouletteWheelLayout.cs" />
+    <Compile Include="Utility\UInt32IdGenerator.cs" />
+    <Compile Include="Utility\Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
