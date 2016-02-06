@@ -28,13 +28,12 @@ using System.Xml;
 
 using log4net;
 using log4net.Config;
-
+using Redzen.Numerics;
 using SharpNeat.Core;
 using SharpNeat.Domains;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
-using SharpNeat.Network;
 using SharpNeat.Utility;
 
 namespace SharpNeatGUI
@@ -1709,17 +1708,17 @@ namespace SharpNeatGUI
             // Square root is a fairly good choice for automatically determining the category count based on number of values being analysed.
             // See http://en.wikipedia.org/wiki/Histogram (section: Number of bins and width).
             int categoryCount = (int)Math.Sqrt(valArr.Length);
-            FrequencyDistributionData fdd = Utilities.CalculateDistribution(valArr, categoryCount);
+            HistogramData hd = NumericsUtils.BuildHistogramData(valArr, categoryCount);
 
             // Create array of distribution plot points.
-            Point2DDouble[] pointArr = new Point2DDouble[fdd.FrequencyArray.Length];
-            double incr = fdd.Increment;
-            double x = fdd.Min + (incr/2.0);
+            Point2DDouble[] pointArr = new Point2DDouble[hd.FrequencyArray.Length];
+            double incr = hd.Increment;
+            double x = hd.Min + (incr/2.0);
 
-            for(int i=0; i<fdd.FrequencyArray.Length; i++, x+=incr)
+            for(int i=0; i<hd.FrequencyArray.Length; i++, x+=incr)
             {
                 pointArr[i].X = x;
-                pointArr[i].Y = fdd.FrequencyArray[i];
+                pointArr[i].Y = hd.FrequencyArray[i];
             }
             return pointArr;
         }

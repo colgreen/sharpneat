@@ -19,8 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen.Numerics;
+using Redzen.Sorting;
 using SharpNeat.Core;
-using SharpNeat.Utility;
 
 namespace SharpNeat.SpeciationStrategies
 {
@@ -34,7 +35,7 @@ namespace SharpNeat.SpeciationStrategies
     public class RandomClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome>
         where TGenome : class, IGenome<TGenome>
     {
-        readonly FastRandom _rng = new FastRandom();
+        readonly XorShiftRandom _rng = new XorShiftRandom();
        
         /// <summary>
         /// Speciates the genomes in genomeList into the number of species specified by specieCount
@@ -67,7 +68,7 @@ namespace SharpNeat.SpeciationStrategies
 
             // Make a copy of genomeList and shuffle the items.
             List<TGenome> gList = new List<TGenome>(genomeList);
-            Utilities.Shuffle(gList, _rng);
+            SortUtils.Shuffle(gList, _rng);
 
             // We evenly distribute genomes between species. 
             // Calc how many genomes per specie. Baseline number given by integer division rounding down (by truncating fractional part).
@@ -93,7 +94,7 @@ namespace SharpNeat.SpeciationStrategies
             for(int i=0; i<specieCount; i++) {
                 specieIdxArr[i] = i;
             }
-            Utilities.Shuffle(specieIdxArr, _rng);
+            SortUtils.Shuffle(specieIdxArr, _rng);
 
             for(int i=0; i<specieCount && genomeIdx < genomeCount; i++, genomeIdx++) 
             {
@@ -120,7 +121,7 @@ namespace SharpNeat.SpeciationStrategies
 
             // Make a copy of genomeList and shuffle the items.
             List<TGenome> gList = new List<TGenome>(genomeList);
-            Utilities.Shuffle(gList, _rng);
+            SortUtils.Shuffle(gList, _rng);
 
             // Count how many genomes we have in total.
             int genomeCount = gList.Count;
@@ -181,7 +182,7 @@ namespace SharpNeat.SpeciationStrategies
             for(int i=0; i<specieCount; i++) {
                 specieIdxArr[i] = i;
             }
-            Utilities.Shuffle(specieIdxArr, _rng);
+            SortUtils.Shuffle(specieIdxArr, _rng);
 
             for(int i=0; i<specieCount && genomeIdx < genomeCount; i++, genomeIdx++) 
             {

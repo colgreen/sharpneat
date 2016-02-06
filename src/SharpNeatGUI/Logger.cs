@@ -21,7 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using SharpNeat.Utility;
+using Redzen.Structures;
 
 namespace SharpNeatGUI
 {

@@ -19,8 +19,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Redzen.Sorting;
 using SharpNeat.Core;
-using SharpNeat.Utility;
 
 namespace SharpNeat.SpeciationStrategies
 {
