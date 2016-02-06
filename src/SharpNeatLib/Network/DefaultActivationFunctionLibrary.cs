@@ -18,6 +18,7 @@
  */
 
 using System.Collections.Generic;
+using Redzen.Numerics;
 using SharpNeat.Utility;
 
 namespace SharpNeat.Network
@@ -30,7 +31,7 @@ namespace SharpNeat.Network
     {
         readonly IList<ActivationFunctionInfo> _functionList;
         readonly Dictionary<int,IActivationFunction> _functionDict;
-        readonly RouletteWheelLayout _rwl;
+        readonly DiscreteDistribution _rwl;
 
         #region Constructor
 
@@ -45,7 +46,7 @@ namespace SharpNeat.Network
             for(int i=0; i<count; i++) {
                 probabilities[i] = fnList[i].SelectionProbability;
             }
-            _rwl = new RouletteWheelLayout(probabilities);
+            _rwl = new DiscreteDistribution(probabilities);
             _functionList = fnList;
 
             // Build a dictionary of functions keyed on integer ID.
@@ -67,9 +68,9 @@ namespace SharpNeat.Network
         /// <summary>
         /// Randomly select a function based on each function's selection probability.
         /// </summary>
-        public ActivationFunctionInfo GetRandomFunction(FastRandom rng)
+        public ActivationFunctionInfo GetRandomFunction(XorShiftRandom rng)
         {
-            return _functionList[RouletteWheel.SingleThrow(_rwl, rng)];
+            return _functionList[DiscreteDistributionUtils.Sample(_rwl, rng)];
         }
 
         /// <summary>

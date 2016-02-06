@@ -17,8 +17,8 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 using System;
+using Redzen.Numerics;
 using SharpNeat.Phenomes;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Domains.PreyCapture
 {
@@ -48,7 +48,7 @@ namespace SharpNeat.Domains.PreyCapture
         IntPoint _agentPos;
         
         // Random number generator.
-        FastRandom _rng;
+        XorShiftRandom _rng;
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace SharpNeat.Domains.PreyCapture
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
             _maxTimesteps = maxTimesteps;
-            _rng = new FastRandom();
+            _rng = new XorShiftRandom();
         }
 
         #endregion
@@ -298,8 +298,8 @@ namespace SharpNeat.Domains.PreyCapture
             probs[2] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI * 1.5) / Math.PI) * T * 0.33);  // South.
             probs[3] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI) / Math.PI) * T * 0.33);        // West.
             
-            RouletteWheelLayout rwl = new RouletteWheelLayout(probs);
-            int action = RouletteWheel.SingleThrow(rwl, _rng);
+            DiscreteDistribution rwl = new DiscreteDistribution(probs);
+            int action = DiscreteDistributionUtils.Sample(rwl, _rng);
             switch(action)
             {
                  case 0: // Move north.

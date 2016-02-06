@@ -20,6 +20,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen.Numerics;
+using Redzen.Sorting;
+using Redzen.Structures;
 using SharpNeat.Core;
 using SharpNeat.Network;
 using SharpNeat.Utility;
@@ -54,7 +57,7 @@ namespace SharpNeat.Genomes.Neat
                 = new KeyedCircularBuffer<uint,AddedNeuronGeneStruct>(__INNOVATION_HISTORY_BUFFER_SIZE);
 
         /// <summary>Random number generator associated with this factory.</summary>
-        protected readonly FastRandom _rng = new FastRandom();
+        protected readonly XorShiftRandom _rng = new XorShiftRandom();
         readonly ZigguratGaussianSampler _gaussianSampler = new ZigguratGaussianSampler();
 
         /// <summary>Activation function library associated with this factory.</summary>
@@ -293,7 +296,7 @@ namespace SharpNeat.Genomes.Neat
 
             // Create a copy of the list so that we can shuffle the items without modifying the original list.
             seedGenomeList = new List<NeatGenome>(seedGenomeList);
-            Utilities.Shuffle(seedGenomeList, _rng);
+            SortUtils.Shuffle(seedGenomeList, _rng);
 
             // Make exact copies of seed genomes and insert them into our new genome list.
             List<NeatGenome> genomeList = new List<NeatGenome>(length);
@@ -386,11 +389,11 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Shuffle the array of possible connections.
-            Utilities.Shuffle(connectionDefArr, _rng);
+            SortUtils.Shuffle(connectionDefArr, _rng);
 
             // Select connection definitions from the head of the list and convert them to real connections.
             // We want some proportion of all possible connections but at least one (Connectionless genomes are not allowed).
-            int connectionCount = (int)Utilities.ProbabilisticRound(
+            int connectionCount = (int)NumericsUtils.ProbabilisticRound(
                 (double)connectionDefArr.Length * _neatGenomeParamsComplexifying.InitialInterconnectionsProportion,
                 _rng);
             connectionCount = Math.Max(1, connectionCount);
@@ -502,7 +505,7 @@ namespace SharpNeat.Genomes.Neat
         /// Note. The provided RNG is not thread safe, if concurrent use is required then sync locks
         /// are necessary or some other RNG mechanism.
         /// </summary>
-        public FastRandom Rng
+        public XorShiftRandom Rng
         {
             get { return _rng; }
         }

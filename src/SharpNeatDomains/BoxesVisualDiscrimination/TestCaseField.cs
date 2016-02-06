@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
+using Redzen.Numerics;
 using SharpNeat.Utility;
 
 namespace SharpNeat.Domains.BoxesVisualDiscrimination
@@ -35,7 +36,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         IntPoint _smallBoxTopLeft;
         IntPoint _largeBoxTopLeft;
 
-        FastRandom _rng;
+        XorShiftRandom _rng;
 
         #region Constructor
 
@@ -44,7 +45,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         /// </summary>
         public TestCaseField()
         {
-            _rng = new FastRandom();
+            _rng = new XorShiftRandom();
         }
 
         #endregion

@@ -61,6 +61,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ThirdPartyAssemblies\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Redzen, Version=1.0.3.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Redzen.1.0.3.0\lib\net452\Redzen.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -212,6 +216,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -226,19 +231,9 @@
     <Compile Include="SpeciationStrategies\KMeansClusteringStrategy.cs" />
     <Compile Include="SpeciationStrategies\RandomClusteringStrategy.cs" />
     <Compile Include="SpeciationStrategies\SpeciationUtils.cs" />
-    <Compile Include="Utility\BoxMullerGaussianSampler.cs" />
-    <Compile Include="Utility\CircularBuffer.cs" />
-    <Compile Include="Utility\ZigguratGaussianSampler.cs" />
-    <Compile Include="Utility\FrequencyDistributionData.cs" />
-    <Compile Include="Utility\DoubleCircularBufferWithStats.cs" />
-    <Compile Include="Utility\FastRandom.cs" />
     <Compile Include="Utility\XmlIoUtils.cs" />
-    <Compile Include="Utility\KeyedCircularBuffer.cs" />
     <Compile Include="SharpNeatException.cs" />
-    <Compile Include="Utility\ParallelSort.cs" />
     <Compile Include="Utility\Point2DDouble.cs" />
-    <Compile Include="Utility\RouletteWheel.cs" />
-    <Compile Include="Utility\RouletteWheelLayout.cs" />
     <Compile Include="Utility\UInt32IdGenerator.cs" />
     <Compile Include="Utility\Utilities.cs" />
   </ItemGroup>
@@ -264,7 +259,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

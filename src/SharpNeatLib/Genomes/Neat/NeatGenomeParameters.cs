@@ -17,6 +17,7 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Redzen.Numerics;
 using SharpNeat.Network;
 using SharpNeat.Utility;
 
@@ -60,11 +61,11 @@ namespace SharpNeat.Genomes.Neat
         double _deleteConnectionMutationProbability;
 
         // RouletteWheelLayout representing the above five mutation probabilities.
-        RouletteWheelLayout _rouletteWheelLayout;
+        DiscreteDistribution _rouletteWheelLayout;
 
         // Alternative RouletteWheelLayout used when we wish to avoid deletion mutations, e.g. when 
         // mutating a genome with just one connection.
-        RouletteWheelLayout _rouletteWheelLayoutNonDestructive;
+        DiscreteDistribution _rouletteWheelLayoutNonDestructive;
 
         /// <summary>
         /// A list of ConnectionMutationInfo objects that drives the types of connection mutation
@@ -120,8 +121,8 @@ namespace SharpNeat.Genomes.Neat
             _nodeAuxStateMutationProbability            = copyFrom._nodeAuxStateMutationProbability;
             _deleteConnectionMutationProbability        = copyFrom._deleteConnectionMutationProbability;
 
-            _rouletteWheelLayout = new RouletteWheelLayout(copyFrom._rouletteWheelLayout);
-            _rouletteWheelLayoutNonDestructive = new RouletteWheelLayout(copyFrom._rouletteWheelLayoutNonDestructive);
+            _rouletteWheelLayout = new DiscreteDistribution(copyFrom._rouletteWheelLayout);
+            _rouletteWheelLayoutNonDestructive = new DiscreteDistribution(copyFrom._rouletteWheelLayoutNonDestructive);
             
             _connectionMutationInfoList = new ConnectionMutationInfoList(copyFrom._connectionMutationInfoList);
             _connectionMutationInfoList.Initialize();
@@ -273,7 +274,7 @@ namespace SharpNeat.Genomes.Neat
         /// <summary>
         /// Gets a RouletteWheelLayout that represents the probabilities of each type of genome mutation.
         /// </summary>
-        public RouletteWheelLayout RouletteWheelLayout
+        public DiscreteDistribution RouletteWheelLayout
         {
             get { return _rouletteWheelLayout; }
         }
@@ -282,7 +283,7 @@ namespace SharpNeat.Genomes.Neat
         /// Gets an alternative RouletteWheelLayout for use when we wish to avoid deletion mutations, 
         /// e.g. when  mutating a genome with just one connection.
         /// </summary>
-        public RouletteWheelLayout RouletteWheelLayoutNonDestructive
+        public DiscreteDistribution RouletteWheelLayoutNonDestructive
         {
             get { return _rouletteWheelLayoutNonDestructive; }
         }
@@ -309,7 +310,7 @@ namespace SharpNeat.Genomes.Neat
 
         #region Private Methods
 
-        private RouletteWheelLayout CreateRouletteWheelLayout()
+        private DiscreteDistribution CreateRouletteWheelLayout()
         {
             double[] probabilities = new double[] 
                 {
@@ -319,10 +320,10 @@ namespace SharpNeat.Genomes.Neat
                     _nodeAuxStateMutationProbability,
                     _deleteConnectionMutationProbability
                 };
-            return new RouletteWheelLayout(probabilities);
+            return new DiscreteDistribution(probabilities);
         }
 
-        private RouletteWheelLayout CreateRouletteWheelLayout_NonDestructive()
+        private DiscreteDistribution CreateRouletteWheelLayout_NonDestructive()
         {
             double[] probabilities = new double[] 
                 {
@@ -331,7 +332,7 @@ namespace SharpNeat.Genomes.Neat
                     _addConnectionMutationProbability,
                     _nodeAuxStateMutationProbability
                 };
-            return new RouletteWheelLayout(probabilities);
+            return new DiscreteDistribution(probabilities);
         }
 
         /// <summary>

@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen.Numerics;
 using SharpNeat.Core;
 using SharpNeat.Network;
 using SharpNeat.Utility;
@@ -324,7 +325,7 @@ namespace SharpNeat.Genomes.Neat
                 if(CorrelationItemType.Match == correlItem.CorrelationItemType) 
                 {   // For matches pick a parent genome at random (they both have the same connection gene, 
                     // but with a different connection weight)   
-                    selectionSwitch = RouletteWheel.SingleThrow(0.5, _genomeFactory.Rng) ? 1 : 2;
+                    selectionSwitch = DiscreteDistributionUtils.SampleBinaryDistribution(0.5, _genomeFactory.Rng) ? 1 : 2;
                 }
                 else if(1==fitSwitch && null != correlItem.ConnectionGene1) 
                 {   // Disjoint/excess gene on the fittest genome (genome #1).
@@ -483,19 +484,19 @@ namespace SharpNeat.Genomes.Neat
         {
             // If we have fewer than two connections then use an alternative RouletteWheelLayout that avoids 
             // destructive mutations. This prevents the creation of genomes with no connections.
-            RouletteWheelLayout rwlInitial = (_connectionGeneList.Count < 2) ?
+            DiscreteDistribution rwlInitial = (_connectionGeneList.Count < 2) ?
                   _genomeFactory.NeatGenomeParameters.RouletteWheelLayoutNonDestructive 
                 : _genomeFactory.NeatGenomeParameters.RouletteWheelLayout;
 
             // Select a type of mutation and attempt to perform it. If that mutation is not possible
             // then we eliminate that possibility from the roulette wheel and try again until a mutation is successful 
             // or we have no mutation types remaining to try.
-            RouletteWheelLayout rwlCurrent = rwlInitial;
+            DiscreteDistribution rwlCurrent = rwlInitial;
             bool success = false;
             bool structureChange = false;
             for(;;)
             {
-                int outcome = RouletteWheel.SingleThrow(rwlCurrent, _genomeFactory.Rng);
+                int outcome = DiscreteDistributionUtils.Sample(rwlCurrent, _genomeFactory.Rng);
                 switch(outcome)
                 {
                     case 0:
@@ -531,7 +532,7 @@ namespace SharpNeat.Genomes.Neat
 
                 // Mutation did not succeed. Remove attempted type of mutation from set of possible outcomes.
                 rwlCurrent = rwlCurrent.RemoveOutcome(outcome);
-                if(0.0 == rwlCurrent.ProbabilitiesTotal)
+                if(0 == rwlCurrent.Probabilities.Length)
                 {   // Nothing left to try. Do nothing.
                     return;
                 }
@@ -883,7 +884,7 @@ namespace SharpNeat.Genomes.Neat
             // ENHANCEMENT: Target for performance improvement.
             // Select neuron to mutate. Depending on the genome type it may be the case that not all genomes have mutable state, hence
             // we may have to scan for mutable neurons.
-            int auxStateNodeIdx = RouletteWheel.SingleThrowEven(_auxStateNeuronCount, _genomeFactory.Rng) + 1;
+            int auxStateNodeIdx = DiscreteDistributionUtils.SampleUniformDistribution(_auxStateNeuronCount, _genomeFactory.Rng) + 1;
 
             IActivationFunctionLibrary fnLib = _genomeFactory.ActivationFnLibrary;
             NeuronGene gene;
