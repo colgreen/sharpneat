@@ -152,7 +152,7 @@ namespace SharpNeat.DomainsExtra.Box2D
             uint flags = 0;
             flags += (uint)DebugDraw.DrawFlags.Shape;
             //flags += (uint)DebugDraw.DrawFlags.Joint;
-            flags += (uint)DebugDraw.DrawFlags.Controller;
+            //flags += (uint)DebugDraw.DrawFlags.Controller;
             //flags += (uint)DebugDraw.DrawFlags.CoreShape;
             //flags += (uint)DebugDraw.DrawFlags.Aabb;
             //flags += (uint)DebugDraw.DrawFlags.Obb;
