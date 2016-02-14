@@ -25,7 +25,6 @@ using SharpNeat.Core;
 using SharpNeat.DistanceMetrics;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.SpeciationStrategies;
-using SharpNeat.Utility;
 
 namespace SharpNeat.EvolutionAlgorithms
 {
@@ -362,7 +361,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     DiscreteDistribution rwl = new DiscreteDistribution(probabilities);
 
                     // Probabilistically assign the required number of additional allocations.
-                    // ENHANCEMENT: We can improve the allocation fairness by updating the RouletteWheelLayout 
+                    // FIXME/ENHANCEMENT: We can improve the allocation fairness by updating the RouletteWheelLayout 
                     // after each allocation (to reflect that allocation).
                     // targetSizeDeltaInt is negative, so flip the sign for code clarity.
                     targetSizeDeltaInt *= -1;

@@ -25,7 +25,7 @@ namespace SharpNeat.Core
     public struct FitnessInfo
     {
         /// <summary>
-        /// Precosntructed FitnessInfo for commen case of representing zero fitness.
+        /// Preconstructed FitnessInfo for common case of representing zero fitness.
         /// </summary>
         public static FitnessInfo Zero = new FitnessInfo(0.0, 0.0);
 
