@@ -702,6 +702,8 @@ namespace SharpNeat.Genomes.Neat
             int neuronCount = _neuronGeneList.Count;
             int hiddenOutputNeuronCount = neuronCount - _inputAndBiasNeuronCount;
             int inputBiasHiddenNeuronCount = neuronCount - _outputNeuronCount;
+            
+
 
             // Use slightly different logic when evolving feedforward only networks.
             if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
@@ -714,18 +716,18 @@ namespace SharpNeat.Genomes.Neat
                     // for acyclic nets (because that can prevent futrue conenctions from targeting the output if it would
                     // create a cycle).
                     int srcNeuronIdx = _genomeFactory.Rng.Next(inputBiasHiddenNeuronCount);
-                    if(srcNeuronIdx >= _inputAndBiasNeuronCount && srcNeuronIdx < _inputBiasOutputNeuronCount) {
+                    if(srcNeuronIdx >= _inputAndBiasNeuronCount) {
                         srcNeuronIdx += _outputNeuronCount;
                     }
 
                     // Valid target nodes are all hidden and output nodes.
+                    // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic conenction is tested for below). 
                     int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
-                    if(srcNeuronIdx == tgtNeuronIdx)  {
-                        if(++tgtNeuronIdx == neuronCount) {
-                            // Wrap around to first possible target neuron (first output).
-                            // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic conenction is tested for below). 
-                            tgtNeuronIdx = _inputAndBiasNeuronCount;
-                        }
+                    if(srcNeuronIdx == tgtNeuronIdx)
+                    {
+                        // The source neuron was selected. To ensure selections are evenly distributed across all valid targets, this
+                        // selection is substituted with the last possible node in the list of possibilities (the last output node).
+                        tgtNeuronIdx = neuronCount-1;
                     }
 
                     // Test if this connection already exists or is recurrent
@@ -1012,7 +1014,11 @@ namespace SharpNeat.Genomes.Neat
                     return;
                 }
 
-                // TODO: Review this approach.
+                // ENHANCEMENT: If the number of connections is large relative to the number of required mutations, or the 
+                // absolute number of connections is small then the current approach is OK. If however the number of required 
+                // mutations is large such that the probability of 'hitting' an unmutated connections is low as the loop progresses,
+                // then we should use a set of non-mutated conenctions that we removed mutated connectiosn from in each loop.
+                //
                 // The mutation loop. Here we pick an index at random and scan forward from that point
                 // for the first non-mutated gene. This prevents any gene from being mutated more than once without
                 // too much overhead.
@@ -1020,17 +1026,18 @@ namespace SharpNeat.Genomes.Neat
                 // possibility of getting stuck in the inner while loop forever, as well as preventing previously 
                 // mutated connections from being mutated again.
                 _connectionGeneList.ResetIsMutatedFlags();
-                for(int i=0; i<mutations; i++)
+                
+                int maxRetries = mutations * 5;
+                for(int i=0, retryCount=0; i<mutations && retryCount < maxRetries; i++)
                 {
                     // Pick an index at random.
                     int index = _genomeFactory.Rng.Next(connectionCount);
 
-                    // Scan forward and find the first non-mutated gene.
-                    while(_connectionGeneList[index].IsMutated)
-                    {   // Increment index. Wrap around back to the start if we go off the end.
-                        if(++index==connectionCount) {
-                            index=0; 
-                        }
+                    // Test if the connection has already been mutated.
+                    if(_connectionGeneList[index].IsMutated)
+                    {
+                        retryCount++;
+                        continue;
                     }
                     
                     // Mutate the gene at 'index'.
