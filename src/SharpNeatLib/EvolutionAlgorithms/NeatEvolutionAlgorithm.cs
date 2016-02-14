@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Redzen.Numerics;
+using Redzen.Sorting;
 using SharpNeat.Core;
 using SharpNeat.DistanceMetrics;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
@@ -762,7 +763,7 @@ namespace SharpNeat.EvolutionAlgorithms
 
             for(int i=0; i<specieCount; i++)
             {
-                _specieList[i].GenomeList.Sort(GenomeFitnessComparer<TGenome>.Singleton);
+                SortUtils.SortUnstable(_specieList[i].GenomeList, GenomeFitnessComparer<TGenome>.Singleton, _rng);
                 minSize = Math.Min(minSize, _specieList[i].GenomeList.Count);
                 maxSize = Math.Max(maxSize, _specieList[i].GenomeList.Count);
             }

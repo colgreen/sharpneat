@@ -46,8 +46,8 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Redzen, Version=1.0.3.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Redzen.1.0.3.0\lib\net452\Redzen.dll</HintPath>
+    <Reference Include="Redzen, Version=1.0.4.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Redzen.1.0.4.0\lib\net452\Redzen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -143,7 +143,9 @@
     <None Include="log4net.properties">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -181,6 +183,7 @@
   <ItemGroup>
     <None Include="Resources\About.txt" />
     <None Include="Resources\Licensing.txt" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Resources\sharpneat.ico" />
     <EmbeddedResource Include="Resources\sharpneat_logo_small.png" />
   </ItemGroup>
