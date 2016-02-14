@@ -702,8 +702,6 @@ namespace SharpNeat.Genomes.Neat
             int neuronCount = _neuronGeneList.Count;
             int hiddenOutputNeuronCount = neuronCount - _inputAndBiasNeuronCount;
             int inputBiasHiddenNeuronCount = neuronCount - _outputNeuronCount;
-            
-
 
             // Use slightly different logic when evolving feedforward only networks.
             if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
