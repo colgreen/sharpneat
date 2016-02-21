@@ -89,7 +89,6 @@
     <Compile Include="Core\SelectiveGenomeListEvaluator.cs" />
     <Compile Include="Core\SerialGenomeListEvaluator.cs" />
     <Compile Include="Core\IPhenomeEvaluator.cs" />
-    <None Include="DeadCode\Population.cs" />
     <Compile Include="Core\ISpeciationStrategy.cs" />
     <Compile Include="Core\RunState.cs" />
     <Compile Include="Core\Specie.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Decoders\HyperNeat\SubstrateNode.cs" />
     <Compile Include="Decoders\HyperNeat\SubstrateNodeSet.cs" />
     <Compile Include="Decoders\NetworkActivationScheme.cs" />
-    <None Include="DeadCode\NeatActivationFunctionLibrary.cs" />
     <Compile Include="Decoders\Neat\NeatGenomeDecoder.cs" />
     <Compile Include="DistanceMetrics\DistanceMetricUtils.cs" />
     <Compile Include="DistanceMetrics\ManhattanDistanceMetric.cs" />
@@ -117,20 +115,10 @@
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\IComplexityRegulationStrategy.cs" />
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\NullComplexityRegulationStrategy.cs" />
     <Compile Include="EvolutionAlgorithms\NeatAlgorithmStats.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\AbsoluteMeanComplexityCeilingTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallGenerationsTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\ElapsedClockTimeTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\FitnessStallClockTimeTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\ElapsedGenerationsTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\FitnessStallGenerationsTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\MovingMeanComplexityCeilingTrigger.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\IPhaseTransitionTrigger.cs" />
     <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithm.cs" />
     <Compile Include="EvolutionAlgorithms\AbstractGenerationalAlgorithm.cs" />
     <Compile Include="EvolutionAlgorithms\NeatEvolutionAlgorithmParameters.cs" />
     <Compile Include="EvolutionAlgorithms\ComplexityRegulation\ComplexityRegulationMode.cs" />
-    <None Include="DeadCode\PhasedSearchStats.cs" />
-    <None Include="DeadCode\PhasedSearch\Triggers\SimplificationStallClockTimeTrigger.cs" />
     <Compile Include="Genomes\Neat\NeatGenomeXmlIO.cs" />
     <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
@@ -138,7 +126,6 @@
     <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
     <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\ConnectionList.cs" />
-    <None Include="DeadCode\DefaultCppnActivationFunctionLibrary.cs" />
     <Compile Include="Network\CyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\CyclicNetworkTest.cs" />
     <Compile Include="Network\DefaultActivationFunctionLibrary.cs" />
