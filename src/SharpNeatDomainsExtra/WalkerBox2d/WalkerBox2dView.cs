@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
+using Redzen.Numerics;
 using SharpNeat.Core;
 using SharpNeat.DomainsExtra.Box2D;
 using SharpNeat.Genomes.Neat;
@@ -49,7 +50,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         protected override SimulationWorld CreateSimulationWorld()
         {
             // Init Box2D world.
-            WalkerWorld world = new WalkerWorld();
+            WalkerWorld world = new WalkerWorld(new XorShiftRandom());
             world.InitSimulationWorld();
 
             // Create an interface onto the walker.

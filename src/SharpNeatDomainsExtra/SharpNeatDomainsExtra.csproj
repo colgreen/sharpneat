@@ -43,6 +43,10 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Redzen, Version=1.0.4.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Redzen.1.0.4.0\lib\net452\Redzen.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -98,8 +102,10 @@
     <Compile Include="WalkerBox2d\WalkerController.cs" />
     <Compile Include="WalkerBox2d\WalkerInterface.cs" />
     <Compile Include="WalkerBox2d\WalkerWorld.cs" />
+    <Compile Include="WalkerBox2d\WalkerWorldUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LICENSE.txt" />
     <Content Include="Readme.txt" />
     <Content Include="SharpNeatDomainsExtra.experiments.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

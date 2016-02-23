@@ -139,7 +139,16 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
+            _eaParams.SelectionProportion = 0.4;
+            _eaParams.ElitismProportion = 0.8;
+            _eaParams.OffspringAsexualProportion = 0.95;
+            _eaParams.OffspringSexualProportion = 0.05;
+
             _neatGenomeParams = new NeatGenomeParameters();
+            _neatGenomeParams.AddConnectionMutationProbability = 0.08;
+            _neatGenomeParams.AddNodeMutationProbability = 0.01;
+            _neatGenomeParams.ConnectionWeightMutationProbability = 0.91;
+            _neatGenomeParams.FitnessHistoryLength = 4;
         }
 
         /// <summary>
@@ -236,7 +245,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             // that were in the population in previous generations (elite genomes). This is determiend by examining each genome's evaluation info object.
             IGenomeListEvaluator<NeatGenome> selectiveEvaluator = new SelectiveGenomeListEvaluator<NeatGenome>(
                                                                                     innerEvaluator,
-                                                                                    SelectiveGenomeListEvaluator<NeatGenome>.CreatePredicate_OnceOnly());
+                                                                                    SelectiveGenomeListEvaluator<NeatGenome>.CreatePredicate_PeriodicReevaluation(1));
             // Initialize the evolution algorithm.
             ea.Initialize(selectiveEvaluator, genomeFactory, genomeList);
 

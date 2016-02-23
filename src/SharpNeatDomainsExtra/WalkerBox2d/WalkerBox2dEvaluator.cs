@@ -19,6 +19,7 @@
 using System;
 using SharpNeat.Core;
 using SharpNeat.Phenomes;
+using Redzen.Numerics;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
@@ -29,6 +30,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     {
         #region Instance Fields
 
+        XorShiftRandom _rng;
 		int	_maxTimesteps;
 
         // Evaluator state.
@@ -50,7 +52,8 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
 		public WalkerBox2dEvaluator(int maxTimesteps)
 		{
-			_maxTimesteps = maxTimesteps;
+            _rng = new XorShiftRandom();
+            _maxTimesteps = maxTimesteps;
 		}
 
 		#endregion
@@ -81,7 +84,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         public FitnessInfo Evaluate(IBlackBox box)
         {
             // Init Box2D world.
-            WalkerWorld world = new WalkerWorld();
+            WalkerWorld world = new WalkerWorld(_rng);
             world.InitSimulationWorld();
 
             // Create an interface onto the walker.
@@ -93,7 +96,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             // Run the simulation.
             LegInterface leftLeg = walkerIface.LeftLegIFace;
             LegInterface rightLeg = walkerIface.RightLegIFace;
-            double angleLimit = Math.PI * 0.5;
+            double angleLimit = Math.PI * 0.8;
             double totalAppliedTorque = 0.0;
             int timestep = 0;
             for(; timestep < _maxTimesteps; timestep++)
@@ -103,11 +106,16 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
                 walkerController.Step();
                 totalAppliedTorque += walkerIface.TotalAppliedTorque;
 
-                // Test for breaking conditions.
-                if(    walkerIface.TorsoPosition.X > 290f || walkerIface.TorsoPosition.Y < 1.30f 
-                    || (leftLeg.FootHeight > 0.11f && rightLeg.FootHeight > 0.11f)
+                // Test for stopping conditions scoring zero.
+                if(leftLeg.FootHeight > 0.3f && rightLeg.FootHeight > 0.3f
                     || Math.Abs(leftLeg.HipJointAngle) > angleLimit || Math.Abs(leftLeg.KneeJointAngle) > angleLimit
                     || Math.Abs(rightLeg.HipJointAngle) > angleLimit || Math.Abs(rightLeg.KneeJointAngle) > angleLimit)
+                {   // Stop simulation.
+                    return new FitnessInfo(0.0, walkerIface.TorsoPosition.X);
+                }
+
+                // Test for scoring stopping conditions.
+                if(walkerIface.TorsoPosition.X < -0.7 || walkerIface.TorsoPosition.X > 150f || walkerIface.TorsoPosition.Y < 0.6f)
                 {   // Stop simulation.
                     break;
                 }
