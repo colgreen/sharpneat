@@ -2,3 +2,4 @@ NEAT is NeuroEvolution of Augmenting Topologies; an evolutionary algorithm devis
 
 SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET (on both MS Windows and Mono/Linux).
 
+http://sharpneat.sourceforge.net/

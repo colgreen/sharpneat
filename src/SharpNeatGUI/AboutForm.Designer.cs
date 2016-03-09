@@ -100,6 +100,7 @@
             this.txtAbout.Size = new System.Drawing.Size(486, 325);
             this.txtAbout.TabIndex = 10;
             this.txtAbout.Text = "";
+            this.txtAbout.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtAbout_LinkClicked);
             // 
             // tabPage2
             // 
@@ -107,7 +108,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(582, 377);
+            this.tabPage2.Size = new System.Drawing.Size(492, 331);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Licensing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -120,7 +121,7 @@
             this.txtLicensing.Location = new System.Drawing.Point(3, 3);
             this.txtLicensing.Name = "txtLicensing";
             this.txtLicensing.ReadOnly = true;
-            this.txtLicensing.Size = new System.Drawing.Size(576, 371);
+            this.txtLicensing.Size = new System.Drawing.Size(486, 325);
             this.txtLicensing.TabIndex = 6;
             this.txtLicensing.Text = "";
             // 

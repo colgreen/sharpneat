@@ -45,5 +45,10 @@ namespace SharpNeatGUI
 			txtVersionInfo.Text =	"SharpNEAT:          " + oVersion.Major.ToString() + "." + oVersion.Minor.ToString()+ "." + oVersion.Revision.ToString() + "." + oVersion.Build.ToString() + "\r\n" + 
 									".NET Framework:  " + Environment.Version.ToString();
         }
+
+        private void txtAbout_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", e.LinkText);
+        }
     }
 }
