@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2010 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -65,7 +65,7 @@ namespace SharpNeatGUI.Properties {
         ///
         ///SharpNEAT is an implementation of NEAT created by Colin Green. SharpNEAT is written in C# and targetting the .Net framework. For more information visit http://sharpneat.sourceforge.net/
         ///
-        ///The NEAT method was devised by Kenneth Stanley, currently of the University of Central Florida School of Electrical Engineering and Computer Science. Visit http://www.cs.ucf.edu/~kstanley/ for more info on NEAT including research papers, s [rest of string was truncated]&quot;;.
+        ///The NEAT method was devised by Kenneth Stanley, currently of the University of Central Florida School of Electrical Engineering and Computer Science. Visit http://www.cs.ucf.edu/~kstanley/ for more info on NEAT including research papers, softw [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string About {
             get {
@@ -87,7 +87,7 @@ namespace SharpNeatGUI.Properties {
         ///software and other kinds of works.
         ///
         ///  The licenses for most software and other practical works are designed
-        ///to [rest of string was truncated]&quot;;.
+        ///to take away yo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Licensing {
             get {
@@ -98,9 +98,9 @@ namespace SharpNeatGUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sharpneat_logo_small {
+        internal static System.Drawing.Bitmap sharpneat_banner {
             get {
-                object obj = ResourceManager.GetObject("sharpneat_logo_small", resourceCulture);
+                object obj = ResourceManager.GetObject("sharpneat_banner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

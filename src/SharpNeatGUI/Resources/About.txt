@@ -1,8 +1,4 @@
-NEAT is Neuro-Evolution of Augmenting Topologies - Evolution of Neural Networks.
+NEAT is NeuroEvolution of Augmenting Topologies; an evolutionary algorithm devised by Kenneth O. Stanley. 
 
-SharpNEAT is an implementation of NEAT created by Colin Green. SharpNEAT is written in C# and targetting the .Net framework. For more information visit http://sharpneat.sourceforge.net/
-
-The NEAT method was devised by Kenneth Stanley, currently of the University of Central Florida School of Electrical Engineering and Computer Science. Visit http://www.cs.ucf.edu/~kstanley/ for more info on NEAT including research papers, software, source code, a FAQ and an active discussion group.
-
-SharpNEAT is released under the GNU General Public License (GPL) Version 3.
+SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET (on both MS Windows and Mono/Linux).
 

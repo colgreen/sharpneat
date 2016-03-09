@@ -45,20 +45,21 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::SharpNeatGUI.Properties.Resources.sharpneat_logo_small;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.Image = global::SharpNeatGUI.Properties.Resources.sharpneat_banner;
             this.pictureBox1.InitialImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(7, 7);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(112, 181);
+            this.pictureBox1.Size = new System.Drawing.Size(497, 142);
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(122, 300);
+            this.label1.Location = new System.Drawing.Point(4, 514);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 8;
@@ -66,15 +67,15 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(125, 7);
+            this.tabControl1.Location = new System.Drawing.Point(7, 155);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(652, 279);
+            this.tabControl1.Size = new System.Drawing.Size(500, 357);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -83,7 +84,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(644, 253);
+            this.tabPage1.Size = new System.Drawing.Size(492, 331);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "About";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -96,7 +97,7 @@
             this.txtAbout.Location = new System.Drawing.Point(3, 3);
             this.txtAbout.Name = "txtAbout";
             this.txtAbout.ReadOnly = true;
-            this.txtAbout.Size = new System.Drawing.Size(638, 247);
+            this.txtAbout.Size = new System.Drawing.Size(486, 325);
             this.txtAbout.TabIndex = 10;
             this.txtAbout.Text = "";
             // 
@@ -106,7 +107,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(515, 288);
+            this.tabPage2.Size = new System.Drawing.Size(582, 377);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Licensing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -119,20 +120,20 @@
             this.txtLicensing.Location = new System.Drawing.Point(3, 3);
             this.txtLicensing.Name = "txtLicensing";
             this.txtLicensing.ReadOnly = true;
-            this.txtLicensing.Size = new System.Drawing.Size(509, 282);
+            this.txtLicensing.Size = new System.Drawing.Size(576, 371);
             this.txtLicensing.TabIndex = 6;
             this.txtLicensing.Text = "";
             // 
             // txtVersionInfo
             // 
-            this.txtVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtVersionInfo.BackColor = System.Drawing.Color.White;
             this.txtVersionInfo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtVersionInfo.Location = new System.Drawing.Point(125, 316);
+            this.txtVersionInfo.Location = new System.Drawing.Point(7, 530);
             this.txtVersionInfo.Name = "txtVersionInfo";
             this.txtVersionInfo.ReadOnly = true;
-            this.txtVersionInfo.Size = new System.Drawing.Size(652, 61);
+            this.txtVersionInfo.Size = new System.Drawing.Size(500, 122);
             this.txtVersionInfo.TabIndex = 11;
             this.txtVersionInfo.Text = "";
             // 
@@ -140,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 389);
+            this.ClientSize = new System.Drawing.Size(519, 664);
             this.Controls.Add(this.txtVersionInfo);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
