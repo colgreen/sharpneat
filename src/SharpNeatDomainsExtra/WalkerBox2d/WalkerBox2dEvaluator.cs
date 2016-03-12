@@ -91,12 +91,11 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             WalkerInterface walkerIface = world.CreateWalkerInterface();
 
             // Create a neural net controller for the walker.
-            NeuralNetController walkerController = new NeuralNetController(walkerIface, box);
+            NeuralNetController walkerController = new NeuralNetController(walkerIface, box, world.SimulationParameters._frameRate);
 
             // Run the simulation.
             LegInterface leftLeg = walkerIface.LeftLegIFace;
             LegInterface rightLeg = walkerIface.RightLegIFace;
-            double angleLimit = Math.PI * 0.8;
             double totalAppliedTorque = 0.0;
             int timestep = 0;
             for(; timestep < _maxTimesteps; timestep++)
@@ -106,24 +105,22 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
                 walkerController.Step();
                 totalAppliedTorque += walkerIface.TotalAppliedTorque;
 
-                // Test for stopping conditions scoring zero.
-                if(leftLeg.FootHeight > 0.3f && rightLeg.FootHeight > 0.3f
-                    || Math.Abs(leftLeg.HipJointAngle) > angleLimit || Math.Abs(leftLeg.KneeJointAngle) > angleLimit
-                    || Math.Abs(rightLeg.HipJointAngle) > angleLimit || Math.Abs(rightLeg.KneeJointAngle) > angleLimit)
-                {   // Stop simulation.
-                    return new FitnessInfo(0.0, walkerIface.TorsoPosition.X);
-                }
-
-                // Test for scoring stopping conditions.
-                if(walkerIface.TorsoPosition.X < -0.7 || walkerIface.TorsoPosition.X > 150f || walkerIface.TorsoPosition.Y < 0.6f)
+                // Test for stopping conditions.
+                if (walkerIface.TorsoPosition.X < -0.7 || walkerIface.TorsoPosition.X > 150f || walkerIface.TorsoPosition.Y < 1.15f)
                 {   // Stop simulation.
                     break;
                 }
             }
 
+            // Track number of evaluations.
             _evalCount++;
-            double fitness = Math.Max(0.0, walkerIface.TorsoPosition.X);
-            return new FitnessInfo(fitness, walkerIface.TorsoPosition.X);
+
+            // Final fitness calcs / adjustments.
+            double fitness; 
+            double x = walkerIface.TorsoPosition.X;
+            if(x < 0) fitness = 0.0;
+            else fitness = x*x;
+            return new FitnessInfo(fitness, x);
         }
 
         /// <summary>

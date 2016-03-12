@@ -85,7 +85,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
         public int InputCount
         {
-            get { return 13; }
+            get { return 12; }
         }
 
         /// <summary>
@@ -139,16 +139,18 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
-            _eaParams.SelectionProportion = 0.4;
-            _eaParams.ElitismProportion = 0.8;
+            _eaParams.SelectionProportion = 0.5;
+            _eaParams.ElitismProportion = 0.5;
             _eaParams.OffspringAsexualProportion = 0.95;
             _eaParams.OffspringSexualProportion = 0.05;
+            _eaParams.InterspeciesMatingProportion = 0.00;
 
             _neatGenomeParams = new NeatGenomeParameters();
-            _neatGenomeParams.AddConnectionMutationProbability = 0.08;
+            _neatGenomeParams.AddConnectionMutationProbability = 0.1;
             _neatGenomeParams.AddNodeMutationProbability = 0.01;
-            _neatGenomeParams.ConnectionWeightMutationProbability = 0.91;
-            _neatGenomeParams.FitnessHistoryLength = 4;
+            _neatGenomeParams.ConnectionWeightMutationProbability = 0.89;
+            _neatGenomeParams.FitnessHistoryLength = 17;
+            _neatGenomeParams.InitialInterconnectionsProportion = 0.15;
         }
 
         /// <summary>
