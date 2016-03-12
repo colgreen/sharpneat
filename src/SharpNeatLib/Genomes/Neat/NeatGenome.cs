@@ -17,13 +17,12 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Redzen.Numerics;
 using SharpNeat.Core;
 using SharpNeat.Network;
-using SharpNeat.Utility;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -828,6 +827,14 @@ namespace SharpNeat.Genomes.Neat
         {
             uint sourceId = sourceNeuron.Id;
             uint targetId = targetNeuron.Id;
+
+            // Determine the connection weight.
+            // TODO: Make this behaviour configurable.
+            // 50% of the time us weights very close to zero.
+            double connectionWeight = _genomeFactory.GenerateRandomConnectionWeight();
+            if(_genomeFactory.Rng.NextBool()) {
+                connectionWeight *= 0.01;
+            }
 
             // Check if a matching mutation has already occured on another genome. 
             // If so then re-use the connection ID.
