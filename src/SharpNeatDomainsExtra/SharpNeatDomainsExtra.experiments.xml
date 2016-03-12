@@ -98,14 +98,15 @@
     <AssemblyPath>SharpNeatDomainsExtra.dll</AssemblyPath>
     <ClassName>SharpNeat.DomainsExtra.WalkerBox2d.WalkerBox2dExperiment</ClassName>
     <Config>
-      <PopulationSize>2000</PopulationSize>
-      <SpecieCount>6</SpecieCount>
+      <PopulationSize>4000</PopulationSize>
+      <SpecieCount>20</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
-      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityRegulationStrategy>None</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
+      <MaxDegreeOfParallelism>7</MaxDegreeOfParallelism>
       <Description>
       </Description>
     </Config>
