@@ -51,6 +51,12 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// <summary>
         /// Defautl constrcutor.
         /// </summary>
+        public WalkerWorld() : this(new XorShiftRandom(), 300)
+        {}
+
+        /// <summary>
+        /// Defautl constrcutor.
+        /// </summary>
         public WalkerWorld(XorShiftRandom rng) : this(rng, 300)
         {}
 
