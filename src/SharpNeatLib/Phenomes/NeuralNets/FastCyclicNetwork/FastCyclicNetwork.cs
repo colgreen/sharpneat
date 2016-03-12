@@ -185,7 +185,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                     
                     // Take the opportunity to reset the pre-activation signal array in preperation for the next 
                     // activation loop.
-                    _preActivationArray[j] = 0.0F;
+                    _preActivationArray[j] = 0.0;
                 }
             }
         }
