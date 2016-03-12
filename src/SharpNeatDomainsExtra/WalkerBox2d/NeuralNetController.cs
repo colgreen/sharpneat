@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2006, 2009-2012 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  * along with SharpNEAT.  If not, see <http://www.gnu.org/licenses/>.
  */
 using SharpNeat.Phenomes;
-using System.Diagnostics;
+using System;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
@@ -27,43 +27,52 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     public class NeuralNetController : WalkerController
     {
         IBlackBox _box;
+        int _timestep;
+        double _sineWaveIncr;
 
         #region Constructor
 
         /// <summary>
         /// Construct with the provided player interface and black box controller.
         /// </summary>
-        public NeuralNetController(WalkerInterface iface, IBlackBox box) 
+        public NeuralNetController(WalkerInterface iface, IBlackBox box, int simFrameRate) 
             : base(iface) 
         {
             _box = box;
+            _sineWaveIncr = (2.0 * Math.PI) / simFrameRate;
         }
 
         #endregion
 
+        /// <summary>
+        /// Perform one simulation timestep; provide inputs to the neural net, activate it, read its outputs and assign them to the 
+        /// relevant motors (leg joints).
+        /// </summary>
         public override void Step()
         {
-        //---- Feed input signals into black box.
+            //---- Feed input signals into black box.
             // Torso state.
             _box.InputSignalArray[0] = _iface.TorsoPosition.Y;  // Torso Y pos.
             _box.InputSignalArray[1] = _iface.TorsoAngle;
-            _box.InputSignalArray[2] = _iface.TorsoAnglularVelocity;
-            _box.InputSignalArray[3] = _iface.TorsoVelocity.X;
-            _box.InputSignalArray[4] = _iface.TorsoVelocity.Y;
-            
+            _box.InputSignalArray[2] = _iface.TorsoVelocity.X;
+            _box.InputSignalArray[3] = _iface.TorsoVelocity.Y;
+
             // Left leg state.
-            _box.InputSignalArray[5] = _iface.LeftLegIFace.HipJointAngle;
-            _box.InputSignalArray[6] = _iface.LeftLegIFace.HipJointVelocity;
-            _box.InputSignalArray[7] = _iface.LeftLegIFace.KneeJointAngle;
-            _box.InputSignalArray[8] = _iface.LeftLegIFace.KneeJointVelocity;
+            _box.InputSignalArray[4] = _iface.LeftLegIFace.HipJointAngle;
+            _box.InputSignalArray[5] = _iface.LeftLegIFace.KneeJointAngle;
 
             // Right leg state.
-            _box.InputSignalArray[9] = _iface.RightLegIFace.HipJointAngle;
-            _box.InputSignalArray[10] = _iface.RightLegIFace.HipJointVelocity;
-            _box.InputSignalArray[11] = _iface.RightLegIFace.KneeJointAngle;
-            _box.InputSignalArray[12] = _iface.RightLegIFace.KneeJointVelocity;
+            _box.InputSignalArray[6] = _iface.RightLegIFace.HipJointAngle;
+            _box.InputSignalArray[7] = _iface.RightLegIFace.KneeJointAngle;
 
-        //---- Activate black box.
+            // Sine wave inputs (4 inputs, i.e. one wave at 4 different phases)
+            _box.InputSignalArray[8] = (Math.Sin(_timestep * _sineWaveIncr) + 1.0) * 0.5;
+            _box.InputSignalArray[9] = (Math.Sin((_timestep+15) * _sineWaveIncr) + 1.0) * 0.5;
+            _box.InputSignalArray[10] = (Math.Sin((_timestep+30) * _sineWaveIncr) + 1.0) * 0.5;
+            _box.InputSignalArray[11] = (Math.Sin((_timestep+45) * _sineWaveIncr) + 1.0) * 0.5;
+            _timestep++;
+
+            //---- Activate black box.
             _box.Activate();
 
         //---- Read joint torque outputs (proportion of max torque).
