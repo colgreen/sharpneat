@@ -131,13 +131,13 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             groundBody.CreateShape(groundShapeDef);
 
             // Add some small mounds/bumps to the ground.
-            for (float x = -1f; x < 40f; x += 0.3f + ((float)_rng.NextDouble() * 0.2f)) {
+            for (float x = -1f; x < 40f; x += 0.4f + ((_rng.NextFloat()-0.5f) * 0.2f)) {
                 WalkerWorldUtils.CreateMound(_world, x, 0f, _simParams._defaultFriction, _simParams._defaultRestitution);
             }
 
             // ==== Define walker torso.
             float walkerX = 0f;
-            float walkerY = 1.55f;// + ((float)_rng.NextDouble() * 0.1f);
+            float walkerY = 1.4f;// + ((float)_rng.NextDouble() * 0.1f);
 
             BodyDef torsoBodyDef = new BodyDef();
             torsoBodyDef.Position.Set(walkerX, walkerY);
@@ -146,7 +146,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             // Create walker torso.
             _torsoBody = _world.CreateBody(torsoBodyDef);
             PolygonDef torsoShapeDef = new PolygonDef();
-            torsoShapeDef.SetAsBox(0.10f, 0.45f);
+            torsoShapeDef.SetAsBox(0.10f, 0.30f);
             torsoShapeDef.Friction = _simParams._defaultFriction;
             torsoShapeDef.Restitution = 0f;
             torsoShapeDef.Density = 2f;
@@ -163,8 +163,8 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
             // Other re-usable stuff .
             const float legRadius = 0.05f;	// Half the thickness of the leg
-            Vec2 upperLegPosBase = new Vec2(walkerX, walkerY - 0.4f);
-            Vec2 lowerLegPosBase = new Vec2(walkerX, walkerY - 0.9f);
+            Vec2 upperLegPosBase = new Vec2(walkerX, walkerY - 0.25f);
+            Vec2 lowerLegPosBase = new Vec2(walkerX, walkerY - 0.75f);
 
         // ===== Create left leg.
             // Upper leg.
