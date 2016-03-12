@@ -19,7 +19,6 @@
 
 using Redzen.Numerics;
 using SharpNeat.Network;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -37,11 +36,11 @@ namespace SharpNeat.Genomes.Neat
         const double DefaultDisjointExcessGenesRecombineProbability = 0.1;
 
         // High level mutation probabilities
-        const double DefaultConnectionWeightMutationProbability = 0.988;
-        const double DefaultAddNodeMutationProbability = 0.001;
-        const double DefaultAddConnectionMutationProbability = 0.01;
+        const double DefaultConnectionWeightMutationProbability = 0.94;
+        const double DefaultAddNodeMutationProbability = 0.01;
+        const double DefaultAddConnectionMutationProbability = 0.025;
         const double DefaultNodeAuxStateMutationProbability = 0.00;
-        const double DefaultDeleteConnectionMutationProbability = 0.001;
+        const double DefaultDeleteConnectionMutationProbability = 0.025;
 
         #endregion
 
@@ -340,51 +339,29 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         private ConnectionMutationInfoList CreateConnectionWeightMutationScheme_Default()
         {
-            ConnectionMutationInfoList list = new ConnectionMutationInfoList(12);
+            ConnectionMutationInfoList list = new ConnectionMutationInfoList(6);
 
-            // Gaussian jiggle with sigma=0.02 (most values between +-0.04)
+            // Gaussian jiggle with sigma=0.01 (most values between +-0.02)
             // Jiggle 1,2 and 3 connections respectively.
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.FixedQuantity, 0.0, 1, 0.0, 0.02));
+            list.Add(new ConnectionMutationInfo(0.5985, ConnectionPerturbanceType.JiggleGaussian,
+                                                ConnectionSelectionType.FixedQuantity, 0.0, 1, 0.0, 0.01));
 
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.FixedQuantity, 0.0, 2, 0.0, 0.02));
+            list.Add(new ConnectionMutationInfo(0.2985, ConnectionPerturbanceType.JiggleGaussian,
+                                                ConnectionSelectionType.FixedQuantity, 0.0, 2, 0.0, 0.01));
 
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.FixedQuantity, 0.0, 3, 0.0, 0.02));
-
-            // Jiggle 2% of connections.
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.Proportional, 0.02, 0, 0.0, 0.02));
-
-            // Gaussian jiggle with sigma=1 (most values between +-2)
-            // Jiggle 1,2 and 3 connections respectively.
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.FixedQuantity, 0.0, 1, 0.0, 1));
-
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.FixedQuantity, 0.0, 2, 0.0, 1));
-
-            list.Add(new ConnectionMutationInfo(0.11375, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.FixedQuantity, 0.0, 3, 0.0, 1));
-
-            // Jiggle 2% of connections.
-            list.Add(new ConnectionMutationInfo(0.11275, ConnectionPerturbanceType.JiggleGaussian,
-                                                ConnectionSelectionType.Proportional, 0.02, 0, 0.0, 1));
+            list.Add(new ConnectionMutationInfo(0.0985, ConnectionPerturbanceType.JiggleGaussian,
+                                                ConnectionSelectionType.FixedQuantity, 0.0, 3, 0.0, 0.01));
 
             // Reset mutations. 1, 2 and 3 connections respectively.
-            list.Add(new ConnectionMutationInfo(0.03, ConnectionPerturbanceType.Reset,
+            list.Add(new ConnectionMutationInfo(0.015, ConnectionPerturbanceType.Reset,
                                                 ConnectionSelectionType.FixedQuantity, 0.0, 1, 0.0, 0));
 
-            list.Add(new ConnectionMutationInfo(0.03, ConnectionPerturbanceType.Reset,
+            list.Add(new ConnectionMutationInfo(0.015, ConnectionPerturbanceType.Reset,
                                                 ConnectionSelectionType.FixedQuantity, 0.0, 2, 0.0, 0));
 
-            list.Add(new ConnectionMutationInfo(0.03, ConnectionPerturbanceType.Reset,
+            list.Add(new ConnectionMutationInfo(0.015, ConnectionPerturbanceType.Reset,
                                                 ConnectionSelectionType.FixedQuantity, 0.0, 3, 0.0, 0));
 
-            // Reset 2% of connections.
-            list.Add(new ConnectionMutationInfo(0.001, ConnectionPerturbanceType.Reset,
-                                                ConnectionSelectionType.Proportional, 0.02, 0, 0.0, 0));
             list.Initialize();
             return list;
         }
