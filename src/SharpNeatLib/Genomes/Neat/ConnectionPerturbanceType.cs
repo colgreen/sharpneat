@@ -36,5 +36,7 @@ namespace SharpNeat.Genomes.Neat
         /// Jiggle weight using deltas from a Gaussian distribution.
         /// </summary>
         JiggleGaussian
+
+        // TODO: Replace gaussian with a fatter tailed distribution.
     }
 }

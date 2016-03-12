@@ -25,6 +25,7 @@ namespace SharpNeat.Genomes.Neat
     /// </summary>
     public enum ConnectionSelectionType
     {
+        // TODO: Remove as this probably isn't useful
         /// <summary>
         /// Select a proportion of the weights in a genome.
         /// </summary>
