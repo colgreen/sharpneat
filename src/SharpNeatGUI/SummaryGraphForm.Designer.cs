@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeSeriesGraphForm));
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SummaryGraphForm));
             this.zed = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
             // 
@@ -46,15 +47,16 @@
             this.zed.ScrollMinY2 = 0D;
             this.zed.Size = new System.Drawing.Size(561, 324);
             this.zed.TabIndex = 0;
+            this.zed.UseExtendedPrintDialog = true;
             // 
-            // GraphForm
+            // SummaryGraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 324);
             this.Controls.Add(this.zed);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "GraphForm";
+            this.Name = "SummaryGraphForm";
             this.Text = "GraphForm";
             this.ResumeLayout(false);
 
