@@ -131,13 +131,13 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             groundBody.CreateShape(groundShapeDef);
 
             // Add some small mounds/bumps to the ground.
-            for (float x = -1f; x < 40f; x += 0.4f + ((_rng.NextFloat()-0.5f) * 0.2f)) {
+            for (float x = -1f; x < 40f; x += 0.4f + ((_rng.NextFloat()-0.5f) * 0.15f)) {
                 WalkerWorldUtils.CreateMound(_world, x, 0f, _simParams._defaultFriction, _simParams._defaultRestitution);
             }
 
             // ==== Define walker torso.
             float walkerX = 0f;
-            float walkerY = 1.4f;// + ((float)_rng.NextDouble() * 0.1f);
+            float walkerY = 1.30f;// + ((float)_rng.NextDouble() * 0.1f);
 
             BodyDef torsoBodyDef = new BodyDef();
             torsoBodyDef.Position.Set(walkerX, walkerY);

@@ -98,8 +98,8 @@
     <AssemblyPath>SharpNeatDomainsExtra.dll</AssemblyPath>
     <ClassName>SharpNeat.DomainsExtra.WalkerBox2d.WalkerBox2dExperiment</ClassName>
     <Config>
-      <PopulationSize>4000</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <PopulationSize>2000</PopulationSize>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>

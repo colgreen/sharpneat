@@ -65,11 +65,11 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             _box.InputSignalArray[6] = _iface.RightLegIFace.HipJointAngle;
             _box.InputSignalArray[7] = _iface.RightLegIFace.KneeJointAngle;
 
-            // Sine wave inputs (4 inputs, i.e. one wave at 4 different phases)
-            _box.InputSignalArray[8] = (Math.Sin(_timestep * _sineWaveIncr) + 1.0) * 0.5;
-            _box.InputSignalArray[9] = (Math.Sin((_timestep+15) * _sineWaveIncr) + 1.0) * 0.5;
-            _box.InputSignalArray[10] = (Math.Sin((_timestep+30) * _sineWaveIncr) + 1.0) * 0.5;
-            _box.InputSignalArray[11] = (Math.Sin((_timestep+45) * _sineWaveIncr) + 1.0) * 0.5;
+            // Sine wave inputs (one is a 180 degree phase shift of the other).
+            double sinWave0 = (Math.Sin(_timestep * _sineWaveIncr) + 1.0) * 0.5;
+            double sinWave180 = (Math.Sin((_timestep+30) * _sineWaveIncr) + 1.0) * 0.5;
+            _box.InputSignalArray[8] = sinWave0;
+            _box.InputSignalArray[9] = sinWave180;
             _timestep++;
 
             //---- Activate black box.
