@@ -18,7 +18,8 @@
  */
 using System;
 using Box2DX.Dynamics;
-
+using Box2DX.Common;
+using SysMath = System.Math;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
@@ -71,6 +72,14 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         }
 
         /// <summary>
+        /// Gets the hip joint angular velocity.
+        /// </summary>
+        public Vec2 HipJointPosition
+        {
+            get { return _hipJoint.Anchor1; }
+        }
+
+        /// <summary>
         /// Gets the knee joint angle.
         /// </summary>
         public float KneeJointAngle
@@ -91,7 +100,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
         public float TotalAppliedTorque
         {
-            get { return Math.Abs(_hipAppliedTorque) + Math.Abs(_kneeAppliedTorque); }
+            get { return SysMath.Abs(_hipAppliedTorque) + SysMath.Abs(_kneeAppliedTorque); }
         }
 
         /// <summary>
@@ -103,7 +112,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             {   // Note. zero degrees is directly up, hence Cos(theta) == -1 when the leg is straight, and 1 when the leg is inverted.
                 Box2DX.Common.Vec2 legPos = _lowerLegBody.GetPosition();
                 float theta = _lowerLegBody.GetAngle();
-                return legPos.Y + (0.5f * (float)Math.Cos(theta));
+                return legPos.Y + (0.5f * (float)SysMath.Cos(theta));
             }
         }
 
