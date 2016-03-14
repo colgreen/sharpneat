@@ -18,7 +18,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             PolygonDef moundShapeDef = new PolygonDef();
             moundShapeDef.VertexCount = 3;
             moundShapeDef.Vertices[0].Set(0.20f, 0f);
-            moundShapeDef.Vertices[1].Set(0f, 0.05f);
+            moundShapeDef.Vertices[1].Set(0f, 0.025f);
             moundShapeDef.Vertices[2].Set(-0.20f, 0f);
             moundShapeDef.Friction = friction;
             moundShapeDef.Restitution = restitution;
