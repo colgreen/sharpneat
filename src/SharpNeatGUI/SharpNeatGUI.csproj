@@ -136,10 +136,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="GenericPlotForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>GenericPlotForm.cs</DependentUpon>
-    </None>
     <None Include="log4net.properties">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -155,12 +151,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="GenericPlotForm.cs">
-      <SubType>Form</SubType>
-    </None>
-    <None Include="GenericPlotForm.Designer.cs">
-      <DependentUpon>GenericPlotForm.cs</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpNeatDomainsExtra\SharpNeatDomainsExtra.csproj">
