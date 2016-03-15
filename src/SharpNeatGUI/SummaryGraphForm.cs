@@ -22,6 +22,7 @@ using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Utility;
 using ZedGraph;
+using System.Drawing;
 
 namespace SharpNeatGUI
 {
@@ -34,6 +35,7 @@ namespace SharpNeatGUI
         SummaryDataSource[] _dataSourceArray;
         PointPairList[] _pointPlotArray;
         GraphPane _graphPane;
+        Color[] _plotColorArr = new Color[] { Color.LightSlateGray, Color.LightBlue, Color.LightGreen };
 
         #region Constructor
 
@@ -45,7 +47,7 @@ namespace SharpNeatGUI
         {
             InitializeComponent();
 
-            this.Text = string.Format("SharpNEAT Graph - {0}", title);
+            this.Text = string.Format("SharpNEAT - {0}", title);
             _dataSourceArray = dataSourceArray;
             InitGraph(title, xAxisTitle, y1AxisTitle, y2AxisTitle, dataSourceArray);
 
@@ -104,8 +106,13 @@ namespace SharpNeatGUI
             {
                 SummaryDataSource ds = dataSourceArray[i];
                 _pointPlotArray[i] =new PointPairList();
-                LineItem lineItem = _graphPane.AddCurve(ds.Name,  _pointPlotArray[i], ds.Color, SymbolType.None);
-                lineItem.IsY2Axis = (ds.YAxis == 1);
+
+                Color color = _plotColorArr[i % 3];
+                BarItem barItem = _graphPane.AddBar(ds.Name, _pointPlotArray[i], color);
+                barItem.Bar.Fill = new Fill(color);
+                _graphPane.BarSettings.MinClusterGap = 0;
+
+                barItem.IsY2Axis = (ds.YAxis == 1);
             }
         }
 

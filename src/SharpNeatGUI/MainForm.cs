@@ -815,6 +815,8 @@ namespace SharpNeatGUI
 
         private void fitnessBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             // Create data sources.
             List<TimeSeriesDataSource> _dsList = new List<TimeSeriesDataSource>();
 
@@ -870,6 +872,8 @@ namespace SharpNeatGUI
 
         private void complexityBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             // Create data sources.
             TimeSeriesDataSource dsBestCmplx = new TimeSeriesDataSource("Best", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Red, delegate() 
                                                             {
@@ -907,6 +911,8 @@ namespace SharpNeatGUI
 
         private void evaluationsPerSecToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             // Create data sources.
             TimeSeriesDataSource dsEvalsPerSec= new TimeSeriesDataSource("Evals Per Sec", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Black, delegate() 
                                                             {
@@ -933,6 +939,8 @@ namespace SharpNeatGUI
 
         private void specieSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             SummaryDataSource dsSpecieSizeRank = new SummaryDataSource("Specie Size", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
@@ -973,6 +981,8 @@ namespace SharpNeatGUI
 
         private void specieChampFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             SummaryDataSource dsSpecieChampFitnessRank = new SummaryDataSource("Specie Fitness (Champs)", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
@@ -1035,6 +1045,8 @@ namespace SharpNeatGUI
 
         private void specieChampComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             SummaryDataSource dsSpecieChampComplexityRank = new SummaryDataSource("Specie Complexity (Champs)", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
@@ -1097,6 +1109,8 @@ namespace SharpNeatGUI
 
         private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             SummaryDataSource dsGenomeFitnessRank = new SummaryDataSource("Genome Fitness", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
@@ -1137,6 +1151,8 @@ namespace SharpNeatGUI
 
         private void genomeComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(null == _ea) return;
+
             SummaryDataSource dsGenomeComplexityRank = new SummaryDataSource("Genome Complexity", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
@@ -1177,7 +1193,9 @@ namespace SharpNeatGUI
 
         private void specieSizeDistributionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SummaryDataSource dsSpecieSizeDist = new SummaryDataSource("Specie Size Distribution", 0, Color.Red, delegate()
+            if(null == _ea) return;
+
+            SummaryDataSource dsSpecieSizeDist = new SummaryDataSource("Specie Size Histogram", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int specieCount = _ea.SpecieList.Count;
@@ -1197,7 +1215,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
             // Create form.
-            SummaryGraphForm graphForm = new SummaryGraphForm("Specie Size Frequency Distribution", "Species Size", "Frequency", string.Empty,
+            SummaryGraphForm graphForm = new SummaryGraphForm("Specie Size Frequency Histogram", "Species Size", "Frequency", string.Empty,
                                                  new SummaryDataSource[] {dsSpecieSizeDist}, _ea);
             _summaryGraphFormList.Add(graphForm);
 
@@ -1217,7 +1235,9 @@ namespace SharpNeatGUI
 
         private void specieFitnessDistributionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SummaryDataSource dsSpecieChampFitnessDist = new SummaryDataSource("Specie Fitness Distribution (Champ)", 0, Color.Red, delegate()
+            if(null == _ea) return;
+
+            SummaryDataSource dsSpecieChampFitnessDist = new SummaryDataSource("Specie Fitness Histogram (Champ)", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int specieCount = _ea.SpecieList.Count;
@@ -1237,7 +1257,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
 
-            SummaryDataSource dsSpecieMeanFitnessDist = new SummaryDataSource("Specie Fitness Distribution (Mean)", 0, Color.Black, delegate()
+            SummaryDataSource dsSpecieMeanFitnessDist = new SummaryDataSource("Specie Fitness Histogram (Mean)", 0, Color.Black, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int specieCount = _ea.SpecieList.Count;
@@ -1257,7 +1277,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
             // Create form.
-            SummaryGraphForm graphForm = new SummaryGraphForm("Specie Fitness Distribution", "Fitness", "Frequency", string.Empty,
+            SummaryGraphForm graphForm = new SummaryGraphForm("Specie Fitness Histogram", "Fitness", "Frequency", string.Empty,
                                                  new SummaryDataSource[] {dsSpecieChampFitnessDist, dsSpecieMeanFitnessDist}, _ea);
             _summaryGraphFormList.Add(graphForm);
 
@@ -1277,7 +1297,9 @@ namespace SharpNeatGUI
 
         private void specieComplexityDistributionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SummaryDataSource dsSpecieChampComplexityDist = new SummaryDataSource("Specie Complexity Distribution (Champ)", 0, Color.Red, delegate()
+            if(null == _ea) return;
+
+            SummaryDataSource dsSpecieChampComplexityDist = new SummaryDataSource("Specie Complexity Histogram (Champ)", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int specieCount = _ea.SpecieList.Count;
@@ -1297,7 +1319,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
 
-            SummaryDataSource dsSpecieMeanComplexityDist = new SummaryDataSource("Specie Complexity Distribution (Mean)", 0, Color.Black, delegate()
+            SummaryDataSource dsSpecieMeanComplexityDist = new SummaryDataSource("Specie Complexity Histogram (Mean)", 0, Color.Black, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int specieCount = _ea.SpecieList.Count;
@@ -1317,7 +1339,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
             // Create form.
-            SummaryGraphForm graphForm = new SummaryGraphForm("Specie Complexity Distribution", "Complexity", "Frequency", string.Empty,
+            SummaryGraphForm graphForm = new SummaryGraphForm("Specie Complexity Histogram", "Complexity", "Frequency", string.Empty,
                                                  new SummaryDataSource[] {dsSpecieChampComplexityDist, dsSpecieMeanComplexityDist}, _ea);
             _summaryGraphFormList.Add(graphForm);
 
@@ -1325,11 +1347,11 @@ namespace SharpNeatGUI
             graphForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
             {
                 _summaryGraphFormList.Remove(senderObj as SummaryGraphForm);
-                specieFitnessDistributionsToolStripMenuItem.Enabled = true;
+                specieComplexityDistributionsToolStripMenuItem.Enabled = true;
             });
 
             // Prevent creating more then one instance fo the form.
-            specieFitnessDistributionsToolStripMenuItem.Enabled = false;
+            specieComplexityDistributionsToolStripMenuItem.Enabled = false;
 
             // Show the form.
             graphForm.Show(this);
@@ -1337,7 +1359,9 @@ namespace SharpNeatGUI
 
         private void genomeFitnessDistributionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SummaryDataSource dsGenomeFitnessDist = new SummaryDataSource("Genome Fitness Distribution", 0, Color.Red, delegate()
+            if(null == _ea) return;
+
+            SummaryDataSource dsGenomeFitnessDist = new SummaryDataSource("Genome Fitness Histogram", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int genomeCount = _ea.GenomeList.Count;
@@ -1357,7 +1381,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
             // Create form.
-            SummaryGraphForm graphForm = new SummaryGraphForm("Genome Fitness Distribution", "Fitness", "Frequency", string.Empty,
+            SummaryGraphForm graphForm = new SummaryGraphForm("Genome Fitness Histogram", "Fitness", "Frequency", string.Empty,
                                                  new SummaryDataSource[] {dsGenomeFitnessDist}, _ea);
             _summaryGraphFormList.Add(graphForm);
 
@@ -1377,7 +1401,9 @@ namespace SharpNeatGUI
 
         private void genomeComplexityDistributionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SummaryDataSource dsGenomeComplexityDist = new SummaryDataSource("Genome Complexity Distribution", 0, Color.Red, delegate()
+            if(null == _ea) return;
+
+            SummaryDataSource dsGenomeComplexityDist = new SummaryDataSource("Genome Complexity Histogram", 0, Color.Red, delegate()
                                     {
                                         // Ensure temp working storage is ready.
                                         int genomeCount = _ea.GenomeList.Count;
@@ -1397,7 +1423,7 @@ namespace SharpNeatGUI
                                         return pointArr;
                                     });
             // Create form.
-            SummaryGraphForm graphForm = new SummaryGraphForm("Genome Complexity Distribution", "Complexity", "Frequency", string.Empty,
+            SummaryGraphForm graphForm = new SummaryGraphForm("Genome Complexity Histogram", "Complexity", "Frequency", string.Empty,
                                                  new SummaryDataSource[] {dsGenomeComplexityDist}, _ea);
             _summaryGraphFormList.Add(graphForm);
 
