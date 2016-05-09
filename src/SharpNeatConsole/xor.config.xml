@@ -3,8 +3,7 @@
   <PopulationSize>150</PopulationSize>
   <SpecieCount>10</SpecieCount>
   <Activation>
-    <Scheme>FixedIters</Scheme>
-    <Iters>2</Iters>
+    <Scheme>Acyclic</Scheme>
   </Activation>
   <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
   <ComplexityThreshold>10</ComplexityThreshold>
