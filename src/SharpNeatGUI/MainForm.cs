@@ -354,7 +354,7 @@ namespace SharpNeatGUI
             btnLoadDomainDefaults.Enabled = true;
             btnCreateRandomPop.Enabled = true;
 
-            // Display population statuc (empty).
+            // Display population status (empty).
             txtPopulationStatus.Text = "Population not initialized";
             txtPopulationStatus.BackColor = Color.Red;
 
@@ -761,14 +761,14 @@ namespace SharpNeatGUI
             // Create form.
             _bestGenomeForm = new GenomeForm("Best Genome", genomeView, _ea);
 
-            // Attach a event handler to update this main form when the genom form is closed.
+            // Attach a event handler to update this main form when the genome form is closed.
             _bestGenomeForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
             {
                 _bestGenomeForm = null;
                 bestGenomeToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             bestGenomeToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -794,7 +794,7 @@ namespace SharpNeatGUI
                 problemDomainToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             problemDomainToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -856,7 +856,7 @@ namespace SharpNeatGUI
                 fitnessBestMeansToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             fitnessBestMeansToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -895,7 +895,7 @@ namespace SharpNeatGUI
                 complexityBestMeansToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             complexityBestMeansToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -923,7 +923,7 @@ namespace SharpNeatGUI
                 evaluationsPerSecToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             evaluationsPerSecToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -965,7 +965,7 @@ namespace SharpNeatGUI
                 specieSizeByRankToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             specieSizeByRankToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1029,7 +1029,7 @@ namespace SharpNeatGUI
                 specieChampFitnessByRankToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             specieChampFitnessByRankToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1093,7 +1093,7 @@ namespace SharpNeatGUI
                 specieChampComplexityByRankToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             specieChampComplexityByRankToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1135,7 +1135,7 @@ namespace SharpNeatGUI
                 genomeFitnessByRankToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             genomeFitnessByRankToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1177,7 +1177,7 @@ namespace SharpNeatGUI
                 genomeComplexityByRankToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             genomeComplexityByRankToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1219,7 +1219,7 @@ namespace SharpNeatGUI
                 specieSizeDistributionToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             specieSizeDistributionToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1281,7 +1281,7 @@ namespace SharpNeatGUI
                 specieFitnessDistributionsToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             specieFitnessDistributionsToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1343,7 +1343,7 @@ namespace SharpNeatGUI
                 specieComplexityDistributionsToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             specieComplexityDistributionsToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1385,7 +1385,7 @@ namespace SharpNeatGUI
                 genomeFitnessDistributionToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             genomeFitnessDistributionToolStripMenuItem.Enabled = false;
 
             // Show the form.
@@ -1427,7 +1427,7 @@ namespace SharpNeatGUI
                 genomeComplexityDistributionToolStripMenuItem.Enabled = true;
             });
 
-            // Prevent creating more then one instance fo the form.
+            // Prevent creating more then one instance of the form.
             genomeComplexityDistributionToolStripMenuItem.Enabled = false;
 
             // Show the form.

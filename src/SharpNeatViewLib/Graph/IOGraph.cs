@@ -104,7 +104,7 @@ namespace SharpNeat.View.Graph
         /// <summary>
         /// Indicates the total depth of the network. 
         /// E.g. a network with a single hidden node connected up to an input and output will have three layers
-        /// (input, hidden layer 1, output) and will thus have a depth of 3. The layers are assigned deph values
+        /// (input, hidden layer 1, output) and will thus have a depth of 3. The layers are assigned depth values
         /// of 0, 1 and 2 respectively.
         /// </summary>
         public int Depth

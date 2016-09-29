@@ -315,7 +315,7 @@ namespace SharpNeat.Genomes.Neat
         /// Creates a single randomly initialised genome. 
         /// A random set of connections are made form the input to the output neurons, the number of 
         /// connections made is based on the NeatGenomeParameters.InitialInterconnectionsProportion
-        /// which specifies the proportion of all posssible input-output connections to be made in
+        /// which specifies the proportion of all possible input-output connections to be made in
         /// initial genomes.
         /// 
         /// The connections that are made are allocated innovation IDs in a consistent manner across
@@ -421,7 +421,7 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>
         /// Supports debug/integrity checks. Checks that a given genome object's type is consistent with the genome factory. 
-        /// Typically the wrong type of object may occur where factorys are subtyped and not all of the relevant virtual methods are overriden.
+        /// Typically the wrong type of object may occur where factories are sub-typed and not all of the relevant virtual methods are overridden.
         /// Returns true if OK.
         /// </summary>
         public virtual bool CheckGenomeType(NeatGenome genome)
@@ -514,7 +514,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets some statistics assocated with the factory and NEAT genomes that it has spawned.
+        /// Gets some statistics associated with the factory and NEAT genomes that it has spawned.
         /// </summary>
         public NeatGenomeStats Stats
         {

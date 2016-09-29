@@ -57,7 +57,7 @@ namespace SharpNeat.Box2dTestHarness
         /// </summary>
         private void SetView()
         {
-            // Set viewport size to match teh size of its containing form control.
+            // Set viewport size to match the size of its containing form control.
             int viewportWidth = openGlControl.Width;
             int viewportHeight = openGlControl.Height;
             Gl.glViewport(0, 0, viewportWidth, viewportHeight);

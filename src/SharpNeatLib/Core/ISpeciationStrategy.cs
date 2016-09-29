@@ -38,7 +38,7 @@ namespace SharpNeat.Core
         /// Speciates the genomes in genomeList into the provided species. It is assumed that
         /// the genomeList represents all of the required genomes and that the species are currently empty.
         /// 
-        /// This method can be used for initialization or completely respeciating an existing genome population.
+        /// This method can be used for initialization or completely re-speciating an existing genome population.
         /// </summary>
         void SpeciateGenomes(IList<TGenome> genomeList, IList<Specie<TGenome>> specieList);
 

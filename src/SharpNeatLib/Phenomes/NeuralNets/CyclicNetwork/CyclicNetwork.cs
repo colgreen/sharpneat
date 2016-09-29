@@ -128,7 +128,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             // part of the working data of the network.
             for(int i=0; i<_inputNeuronCount; i++)
             {   // The +1 takes into account the bias neuron at index 0.
-                // Note. we set the outputvalue of the input neurons, not the input value. This is because we 
+                // Note. we set the output value of the input neurons, not the input value. This is because we 
                 // don't want the signal to pass through the neuron's activation function.
                 _neuronList[i+1].OutputValue = _inputSignalArray[i];
             }

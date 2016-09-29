@@ -25,7 +25,7 @@ namespace SharpNeat.Network
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided conenctivity data.
+        /// Construct with the provided connectivity data.
         /// </summary>
         public NetworkConnectivityData(NodeConnectivityData[] nodeConnectivityDataArr,
                                        Dictionary<uint,NodeConnectivityData> nodeConnectivityDataById)

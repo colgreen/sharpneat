@@ -21,7 +21,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// A network is defined as being relaxed when the change in output signal value between two successive
     /// update iterations is less than some threshold value (defined by maxAllowedSignalDelta on the constructor)
-    /// for all hidden and output neurons (inpus and bias neurons have a fixed output value).
+    /// for all hidden and output neurons (input and bias neurons have a fixed output value).
     /// </summary>
     public class FastRelaxingCyclicNetwork : FastCyclicNetwork
     {
@@ -76,7 +76,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 isNotRelaxed = false;
 
                 // Loop connections. Get each connections input signal, apply the weight and add the result to 
-                // the preactivation signal of the target neuron.
+                // the pre-activation signal of the target neuron.
                 for(int j=0; j<_connectionArray.Length; j++) {
                     _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;
                 }
@@ -96,7 +96,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                     }
                     _postActivationArray[j] = tmp;
 
-                    // Take the opportunity to reset the pre-activation signal array in preperation for the next 
+                    // Take the opportunity to reset the pre-activation signal array in preparation for the next 
                     // activation loop.
                     _preActivationArray[j] = 0.0F;
                 }

@@ -19,7 +19,7 @@ namespace SharpNeat.Genomes.Neat
     {
         /// <summary>
         /// Total number of connection weight mutation operations. This is the number of calls to the
-        /// mutatation routine, not the total number of weights mutated (there are typically multiple
+        /// mutation routine, not the total number of weights mutated (there are typically multiple
         /// weights mutated on a genome at a time).
         /// </summary>
         public ulong _mutationCountConnectionWeights;

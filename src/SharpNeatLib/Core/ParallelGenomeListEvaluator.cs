@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace SharpNeat.Core
 {
     /// <summary>
-    /// A concrete implementation of IGenomeListEvaluator that evaulates genomes independently of each 
+    /// A concrete implementation of IGenomeListEvaluator that evaluates genomes independently of each 
     /// other and in parallel (on multiple execution threads).
     /// 
     /// Genome decoding is performed by a provided IGenomeDecoder.
@@ -93,7 +93,7 @@ namespace SharpNeat.Core
 
         /// <summary>
         /// Gets a value indicating whether some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied

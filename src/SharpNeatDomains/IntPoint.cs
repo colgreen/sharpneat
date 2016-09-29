@@ -13,7 +13,7 @@ using System;
 namespace SharpNeat.Domains
 {
     /// <summary>
-    /// Defines a 2D point with integer cartesian coordinates.
+    /// Defines a 2D point with integer Cartesian coordinates.
     /// </summary>
     public struct IntPoint
     {

@@ -69,7 +69,7 @@ namespace SharpNeat.Network
             const double One = 1.0;
             const double Half = 0.5; 
 
-            // Note. The condition statements here are actually not conducive to speedups in superscaler CPUs.
+            // Note. The condition statements here are actually not conducive to speedups in superscalar CPUs.
             // Probably still faster than exp() though.
             if(x < -1.0) {
                 return 0.0;

@@ -19,7 +19,7 @@ namespace SharpNeat.Network
     /// the maximum number of hops from the depth 0 nodes, so where multiple paths exist to a node (potentially
     /// with different numbers of hops) we take the maximum number of hops as that node's depth. 
     /// 
-    /// The number of hops to a node ignores any cycles in the connectivity, that is, teh numebr of hops is the 
+    /// The number of hops to a node ignores any cycles in the connectivity, that is, the number of hops is the 
     /// number of hops in the direct routes to a node (no node in the pathway more than once, hence not including 
     /// any cycles)
     /// </summary>
@@ -94,7 +94,7 @@ namespace SharpNeat.Network
         {
             // Check if the node has already been encountered during the current traversal (have we followed a cycle in the connectivity).
             if(visitedNodeSet.Contains(nodeData._id)) 
-            {   // Dont follow cycles.
+            {   // Don't follow cycles.
                 return;
             }
 

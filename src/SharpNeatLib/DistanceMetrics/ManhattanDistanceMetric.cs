@@ -31,7 +31,7 @@ namespace SharpNeat.DistanceMetrics
     /// multiplied by this coefficient.
     /// 
     /// mismatchDistanceCoeff, mismatchDistanceConstant - When comparing two coordinates where one describes a position in a given 
-    /// dimenasion and the other does not then the second coordinate is assumed to be at position zero in that dimension. However,
+    /// dimension and the other does not then the second coordinate is assumed to be at position zero in that dimension. However,
     /// the resulting distance is multiplied by this coefficient and mismatchDistanceConstant is added, therefore allowing matches and 
     /// mismatches to be weighted differently, e.g. more emphasis can be placed on mismatches (and therefore network topology).
     /// If mismatchDistanceCoeff is zero and mismatchDistanceConstant is non-zero then the distance of mismatches is a fixed value.
@@ -51,7 +51,7 @@ namespace SharpNeat.DistanceMetrics
         /// a position in a given dimension. The other point is taken to be at position zero in that dimension.</summary>
         readonly double _mismatchDistanceCoeff;
         /// <summary>A constant that is added to the distance where only one of the coordinates describes a position in a given dimension.
-        /// This adds extra emphasis to distance when comparing coordinates that exist in different dimesions.</summary>
+        /// This adds extra emphasis to distance when comparing coordinates that exist in different dimensions.</summary>
         readonly double _mismatchDistanceConstant;
 
         #region Constructors
@@ -72,7 +72,7 @@ namespace SharpNeat.DistanceMetrics
         /// <param name="mismatchDistanceCoeff">A coefficient applied to the distance obtained from two coordinates where only one of the coordinates describes
         /// a position in a given dimension. The other point is taken to be at position zero in that dimension.</param>
         /// <param name="mismatchDistanceConstant">A constant that is added to the distance where only one of the coordinates describes a position in a given dimension.
-        /// This adds extra emphasis to distance when comparing coordinates that exist in different dimesions.</param>
+        /// This adds extra emphasis to distance when comparing coordinates that exist in different dimensions.</param>
         public ManhattanDistanceMetric(double matchDistanceCoeff, double mismatchDistanceCoeff, double mismatchDistanceConstant)
         {
             _matchDistanceCoeff = matchDistanceCoeff;
@@ -292,7 +292,7 @@ namespace SharpNeat.DistanceMetrics
         ///// points to centroid. For euclidean distance this has the side effect of also minimizing squared distance,
         ///// but this is not the goal when calculating a centroid.
         ///// 
-        ///// For manhattan distance the centroid is thus given by the calculating the median value for each axis, this 
+        ///// For Manhattan distance the centroid is thus given by the calculating the median value for each axis, this 
         ///// achieves the goal of minimizing total distance to the centroid but not squared distance. Other distance
         ///// metrics require their own centroid calculation accordingly.
         ///// 
@@ -306,14 +306,14 @@ namespace SharpNeat.DistanceMetrics
         //    // so that we can calculate the median value. 
         //    // Note. Where a coordinate does not specify a position on an axis that other coordinates in 
         //    // the list do specify, that coordinate's position on that axis is taken to be zero. However
-        //    // we do not record those zeroes at this stage. We save storage and time by not recording the 
-        //    // zeroes and taking them into account later.
+        //    // we do not record those zeros at this stage. We save storage and time by not recording the 
+        //    // zeros and taking them into account later.
 
         //    // Coord elements within a CoordinateVector must be sorted by ID, therefore we use a 
         //    // SortedDictionary here to eliminate the need to sort elements later.
         //    // We use SortedDictionary and not SortedList for performance, SortedList is fastest for insertion
         //    // only if the inserts are in order (sorted). However this is generally not the case here because although
-        //    // cordinate IDs are sorted with a given CoordinateVector, not all IDs exist within all genomes, thus a 
+        //    // coordinate IDs are sorted with a given CoordinateVector, not all IDs exist within all genomes, thus a 
         //    // low ID may be presented to coordElemArrays after a higher ID.
         //    SortedDictionary<ulong, List<double>> coordElemArrays = new SortedDictionary<ulong,List<double>>();
 
@@ -336,7 +336,7 @@ namespace SharpNeat.DistanceMetrics
         //        }
         //    }
 
-        //    // We now now how many axes the centroid coordinate has. Allocate storage for the centroid coordinate elements.
+        //    // We now how many axes the centroid coordinate has. Allocate storage for the centroid coordinate elements.
         //    int centroidElemCount = coordElemArrays.Count;
         //    KeyValuePair<ulong,double>[] centroidElemArr = new KeyValuePair<ulong,double>[centroidElemCount];
 
@@ -373,8 +373,8 @@ namespace SharpNeat.DistanceMetrics
         //        {
         //            // ENHANCEMENT: We can stop and calculate the median once we reach halfway through the values.
 
-        //            // Combine valueList with the required number of zeroes. Sort the list and calc the median.
-        //            // We can save some effort by sorting valueList first and inserting the zeroes in-place afterwards.
+        //            // Combine valueList with the required number of zeros. Sort the list and calc the median.
+        //            // We can save some effort by sorting valueList first and inserting the zeros in-place afterwards.
         //            valueList.Sort();
                     
         //            // Insert all values below zero.
@@ -386,7 +386,7 @@ namespace SharpNeat.DistanceMetrics
         //                tmpArr[k] = valueList[valueListIdx];
         //            }
                     
-        //            // Insert zeroes.
+        //            // Insert zeros.
         //            for(int l=0; l<zeroCount; l++, k++)
         //            {
         //                tmpArr[k] = 0.0;
@@ -415,7 +415,7 @@ namespace SharpNeat.DistanceMetrics
 
 
         // TODO: Determine mathematically correct centroid. This method calculates the Euclidean distance centroid and
-        // is an approximation of the true centroid in L1 space (manhatten distance).
+        // is an approximation of the true centroid in L1 space (Manhattan distance).
         // Note. In practice this is possibly a near optimal centroid for all but small clusters.
         /// <summary>
         /// Calculates the centroid for the given set of points.
@@ -445,7 +445,7 @@ namespace SharpNeat.DistanceMetrics
             //
             // We use SortedDictionary and not SortedList for performance. SortedList is fastest for insertion
             // only if the inserts are in order (sorted). However, this is generally not the case here because although
-            // cordinate IDs are sorted within the source CoordinateVectors, not all IDs exist within all CoordinateVectors
+            // coordinate IDs are sorted within the source CoordinateVectors, not all IDs exist within all CoordinateVectors
             // therefore a low ID may be presented to coordElemTotals after a higher ID.
             SortedDictionary<ulong, double[]> coordElemTotals = new SortedDictionary<ulong,double[]>();
 
@@ -456,7 +456,7 @@ namespace SharpNeat.DistanceMetrics
                 foreach(KeyValuePair<ulong,double> coordElem in coord.CoordArray)
                 {
                     // If the ID has previously been encountered then add the current element value to it, otherwise
-                    // add a new double[1] tp hold the value. 
+                    // add a new double[1] to hold the value. 
                     // Note that we wrap the double value in an object so that we do not have to re-insert values
                     // to increment them. In tests this approach was about 40% faster (including GC overhead).
                     double[] doubleWrapper;
@@ -475,7 +475,7 @@ namespace SharpNeat.DistanceMetrics
             KeyValuePair<ulong,double>[] centroidElemArr = new KeyValuePair<ulong,double>[coordElemTotals.Count];
             int i=0;
             foreach(KeyValuePair<ulong,double[]> coordElem in coordElemTotals)
-            {   // For speed we multiply by reciprocol instead of dividing by coordCount.
+            {   // For speed we multiply by reciprocal instead of dividing by coordCount.
                 centroidElemArr[i++] = new KeyValuePair<ulong,double>(coordElem.Key, coordElem.Value[0] * coordCountReciprocol);
             }
 
@@ -550,7 +550,7 @@ namespace SharpNeat.DistanceMetrics
             KeyValuePair<ulong, double>[] centroidElemArr = new KeyValuePair<ulong, double>[coordElemTotals.Count];
             int i = 0;
             foreach (KeyValuePair<ulong, double[]> coordElem in coordElemTotals)
-            {   // For speed we multiply by reciprocol instead of dividing by coordCount.
+            {   // For speed we multiply by reciprocal instead of dividing by coordCount.
                 centroidElemArr[i++] = new KeyValuePair<ulong, double>(coordElem.Key, coordElem.Value[0] * coordCountReciprocol);
             }
 

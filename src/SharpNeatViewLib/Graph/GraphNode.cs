@@ -44,14 +44,14 @@ namespace SharpNeat.View.Graph
         {}
 
         /// <summary>
-        /// Constructs with the provided string tag, position and auxilliary data.
+        /// Constructs with the provided string tag, position and auxiliary data.
         /// </summary>
         public GraphNode(string tag, Point position, object[] auxData)
             : this(tag, position, auxData, 0)
         {}
 
         /// <summary>
-        /// Constructs with the provided string tag, position, auxilliary data and node depth.
+        /// Constructs with the provided string tag, position, auxiliary data and node depth.
         /// </summary>
         public GraphNode(string tag, Point position, object[] auxData, int depth)
         {
@@ -86,7 +86,7 @@ namespace SharpNeat.View.Graph
         }
 
         /// <summary>
-        /// Gets or sets an array of auxilliary data.
+        /// Gets or sets an array of auxiliary data.
         /// </summary>
         public object[] AuxData
         {
@@ -95,7 +95,7 @@ namespace SharpNeat.View.Graph
         }
 
         /// <summary>
-        /// Depth of the node within the network. Input nodes are defined as beign at depth zero,
+        /// Depth of the node within the network. Input nodes are defined as being at depth zero,
         /// all other nodes are defined by the number of connection hops to reach them from an input node.
         /// </summary>
         public int Depth

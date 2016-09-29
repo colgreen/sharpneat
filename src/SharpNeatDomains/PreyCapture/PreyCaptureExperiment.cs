@@ -123,7 +123,7 @@ namespace SharpNeat.Domains.PreyCapture
         }
 
         /// <summary>
-        /// Initialize the experiment with some optional XML configutation data.
+        /// Initialize the experiment with some optional XML configuration data.
         /// </summary>
         public void Initialize(string name, XmlElement xmlConfig)
         {
@@ -219,7 +219,7 @@ namespace SharpNeat.Domains.PreyCapture
         /// </summary>
         public NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm(IGenomeFactory<NeatGenome> genomeFactory, List<NeatGenome> genomeList)
         {
-            // Create distance metric. Mismatched genes have a fixed distance of 10; for matched genes the distance is their weigth difference.
+            // Create distance metric. Mismatched genes have a fixed distance of 10; for matched genes the distance is their weight difference.
             IDistanceMetric distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
             ISpeciationStrategy<NeatGenome> speciationStrategy = new ParallelKMeansClusteringStrategy<NeatGenome>(distanceMetric, _parallelOptions);
 
@@ -235,7 +235,7 @@ namespace SharpNeat.Domains.PreyCapture
             // Create genome decoder.
             IGenomeDecoder<NeatGenome, IBlackBox> genomeDecoder = CreateGenomeDecoder();
 
-            // TODO: evaulation scheme that re-evaulates existing genomes and takes average over time.
+            // TODO: evaluation scheme that re-evaluates existing genomes and takes average over time.
             // Create a genome list evaluator. This packages up the genome decoder with the genome evaluator.
             IGenomeListEvaluator<NeatGenome> genomeListEvaluator = new ParallelGenomeListEvaluator<NeatGenome, IBlackBox>(genomeDecoder, evaluator, _parallelOptions);
 

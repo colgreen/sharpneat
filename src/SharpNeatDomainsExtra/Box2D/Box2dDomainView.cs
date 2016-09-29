@@ -156,13 +156,13 @@ namespace SharpNeat.DomainsExtra.Box2D
 
         /// <summary>
         /// Set the extents of the viewport and the box2D world. The extents of the two coordinate systems are set to
-        /// preserve the correct aspect ratio when renderign the Box2d world. This is done simply be always rendering 
+        /// preserve the correct aspect ratio when rendering the Box2d world. This is done simply be always rendering 
         /// the full height of the box2D world and varying the horizontal extents to maintain the aspect ratio as the 
         /// viewport is resized.
         /// </summary>
         private void SetView()
         {
-            // Set viewport size to match teh size of its containing form control.
+            // Set viewport size to match the size of its containing form control.
             int viewportWidth = openGlControl.Width;
             int viewportHeight = openGlControl.Height;
             Gl.glViewport(0, 0, viewportWidth, viewportHeight);
@@ -285,7 +285,7 @@ namespace SharpNeat.DomainsExtra.Box2D
                     break;
                 }
 
-                // Slow simulation down to run it in realtime.
+                // Slow simulation down to run it in real-time.
                 Thread.Sleep(_timestepDelayMs);
             }
         }

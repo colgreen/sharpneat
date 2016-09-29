@@ -13,7 +13,7 @@
 namespace SharpNeat.Genomes.Neat
 {
     /// <summary>
-    /// Defines types of weight perturbance.
+    /// Defines types of weight perturbation.
     /// </summary>
     public enum ConnectionPerturbanceType
     {
@@ -30,6 +30,6 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         JiggleGaussian
 
-        // TODO: Replace gaussian with a fatter tailed distribution.
+        // TODO: Replace Gaussian with a fatter tailed distribution.
     }
 }

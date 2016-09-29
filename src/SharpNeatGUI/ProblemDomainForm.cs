@@ -91,7 +91,7 @@ namespace SharpNeatGUI
             if(this.InvokeRequired)
             {
                 // Use Invoke instead of BeginInvoke. This blocks the caller and thus makes the evolution algorithm wait for the view to refresh.
-                // This prevent the GUI message queue from getting backlogged (if refreshign is slow) and thus prevents (or alleviates) GUI lock up / stickyness.
+                // This prevent the GUI message queue from getting backlogged (if refreshing is slow) and thus prevents (or alleviates) GUI lock up / stickiness.
                 this.Invoke(new MethodInvoker(delegate() 
                 {
                     if(this.IsDisposed) {

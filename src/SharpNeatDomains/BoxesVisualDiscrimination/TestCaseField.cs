@@ -16,7 +16,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
 {
     /// <summary>
     /// Represents test cases for the Boxes visual discrimination task. The test case field is fixed at a resolution of 11x11
-    /// the visual field of the agents being evaluated on teh task can have a variable visual field resolution - the visual 
+    /// the visual field of the agents being evaluated on the task can have a variable visual field resolution - the visual 
     /// field pixels sample the 11x11 pixels in the test field.
     /// </summary>
     public class TestCaseField

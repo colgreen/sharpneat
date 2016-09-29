@@ -21,16 +21,16 @@ the networks get better and therefore balance the pole for longer, I'll
 get back to this point.
 
 Another problem with Gruau's function is the specific use of  the 
-'jiggle factor' (I coin this phrase for convienience). It is calculated 
+'jiggle factor' (I coin this phrase for convenience). It is calculated 
 for the last 100 timesteps(1 sec) and as such may be misleading, since 
 if the system became unstable then it's likely that a lot of wiggling 
-occured in the last second of a simulation. Therefore I switched to 
+occurred in the last second of a simulation. Therefore I switched to 
 calculating this factor for the 100 timesteps from between 2secs and 
 1sec ago - ignoring the last 1 sec.
 
 I then switched to maintaining a sliding window (FIFO buffer) of the 
 state variable used to calculate the jiggle factor, this then allows me 
-to check the jiggle factor (from 2 to 1 sec ago) at each timstep, and if 
+to check the jiggle factor (from 2 to 1 sec ago) at each timestep, and if 
 it passes a threshold then I stop the simulation. This saved wasting 
 time simulating networks that just wiggle the poles for 50,000 timesteps.
 
@@ -38,7 +38,7 @@ A few other minor refinements were then necessary. Firstly I don't test
 the sliding jiggle factor until 5 secs has passed, this is on the basis 
 that the system may have to oscillate quite a bit initially in order to 
 get the system into a stable state, thus punishing oscillations will 
-probably place the popualtion into a very poor part of fitness space for 
+probably place the population into a very poor part of fitness space for 
 the overall task. On a similar note between 5secs and 6secs the jiggle 
 factor is calculated for a sliding window for the 1 sec just gone, from 
 6 secs on this becomes the sliding window from 1 to 2 secs ago.

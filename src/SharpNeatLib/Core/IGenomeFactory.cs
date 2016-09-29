@@ -85,8 +85,8 @@ namespace SharpNeat.Core
 
         /// <summary>
         /// Supports debug/integrity checks. Checks that a given genome object's type is consistent with the genome factory. 
-        /// Typically the wrong type of object may occur where factoriess are subtyped and not all of the relevant virtual
-		/// methods are overriden. Returns true if type is correct.
+        /// Typically the wrong type of object may occur where factories are subtypes and not all of the relevant virtual
+		/// methods are overridden. Returns true if type is correct.
         /// </summary>
         bool CheckGenomeType(TGenome genome);
     }

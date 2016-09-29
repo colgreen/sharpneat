@@ -252,7 +252,7 @@ namespace SharpNeat.DistanceMetrics
             //
             // We use SortedDictionary and not SortedList for performance. SortedList is fastest for insertion
             // only if the inserts are in order (sorted). However, this is generally not the case here because although
-            // cordinate IDs are sorted within the source CoordinateVectors, not all IDs exist within all CoordinateVectors
+            // coordinate IDs are sorted within the source CoordinateVectors, not all IDs exist within all CoordinateVectors
             // therefore a low ID may be presented to coordElemTotals after a higher ID.
             SortedDictionary<ulong, double[]> coordElemTotals = new SortedDictionary<ulong,double[]>();
 
@@ -282,7 +282,7 @@ namespace SharpNeat.DistanceMetrics
             KeyValuePair<ulong,double>[] centroidElemArr = new KeyValuePair<ulong,double>[coordElemTotals.Count];
             int i=0;
             foreach(KeyValuePair<ulong,double[]> coordElem in coordElemTotals)
-            {   // For speed we multiply by reciprocol instead of dividing by coordCount.
+            {   // For speed we multiply by reciprocal instead of dividing by coordCount.
                 centroidElemArr[i++] = new KeyValuePair<ulong,double>(coordElem.Key, coordElem.Value[0] * coordCountReciprocol);
             }
 
@@ -357,7 +357,7 @@ namespace SharpNeat.DistanceMetrics
             KeyValuePair<ulong, double>[] centroidElemArr = new KeyValuePair<ulong, double>[coordElemTotals.Count];
             int i = 0;
             foreach (KeyValuePair<ulong, double[]> coordElem in coordElemTotals)
-            {   // For speed we multiply by reciprocol instead of dividing by coordCount.
+            {   // For speed we multiply by reciprocal instead of dividing by coordCount.
                 centroidElemArr[i++] = new KeyValuePair<ulong, double>(coordElem.Key, coordElem.Value[0] * coordCountReciprocol);
             }
 

@@ -17,8 +17,8 @@ using SharpNeat.Utility;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Bipolar gaussian activation function. Output range is -1 to 1, that is, the tails of the gaussian
-    /// distribution curve tend towards -1 as abs(x) -> Infinity and the gaussian's peak is at y = 1.
+    /// Bipolar Gaussian activation function. Output range is -1 to 1, that is, the tails of the Gaussian
+    /// distribution curve tend towards -1 as abs(x) -> Infinity and the Gaussian peak is at y = 1.
     /// </summary>
     public class BipolarGaussian : IActivationFunction
     {
@@ -49,7 +49,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return "Bipolar gaussian.\r\nEffective xrange->[-1,1] yrange->[-1,1]"; }
+            get { return "Bipolar Gaussian.\r\nEffective xrange->[-1,1] yrange->[-1,1]"; }
         }
 
         /// <summary>

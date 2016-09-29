@@ -32,8 +32,8 @@ namespace SharpNeat.Decoders
             Debug.Assert(!CyclicNetworkTest.IsNetworkCyclic(networkDef), "Attempt to decode a cyclic network into a FastAcyclicNetwork.");
 
             // Determine the depth of each node in the network. 
-            // Node depths are used to seperate the nodes into depth based layers, these layers can then be
-            // used to determine the order in which signals are propogated through the network.
+            // Node depths are used to separate the nodes into depth based layers, these layers can then be
+            // used to determine the order in which signals are propagated through the network.
             AcyclicNetworkDepthAnalysis depthAnalysis = new AcyclicNetworkDepthAnalysis();
             NetworkDepthInfo netDepthInfo = depthAnalysis.CalculateNodeDepths(networkDef);
 
@@ -73,7 +73,7 @@ namespace SharpNeat.Decoders
                 newIdxById.Add(nodeInfo._nodeId, i);
             }
 
-            // Make a copy of the sub-range of newIdxByDefinitionIdx that respresents the output nodes.
+            // Make a copy of the sub-range of newIdxByDefinitionIdx that represents the output nodes.
             int outputCount = networkDef.OutputNodeCount;
             int[] outputNeuronIdxArr = new int[outputCount];
             // Note. 'inputAndBiasCount' holds the index of the first output node.
@@ -173,7 +173,7 @@ namespace SharpNeat.Decoders
 
             public int Compare(NodeInfo x, NodeInfo y)
             {
-                // Use fast method of comparison (subtraction) instead of perfoming multiple tests. 
+                // Use fast method of comparison (subtraction) instead of performing multiple tests. 
                 // We can do this safely because this delta will always be well within the range on an Int32.
                 // (If you have a network with a greater depth range then you have other problems).
                 return x._nodeDepth - y._nodeDepth;

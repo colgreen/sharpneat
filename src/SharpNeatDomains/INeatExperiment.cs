@@ -64,7 +64,7 @@ namespace SharpNeat.Domains
         NeatGenomeParameters NeatGenomeParameters { get; }
 
         /// <summary>
-        /// Initialize the experiment with some optional XML configutation data.
+        /// Initialize the experiment with some optional XML configuration data.
         /// </summary>
         void Initialize(string name, XmlElement xmlConfig);
 

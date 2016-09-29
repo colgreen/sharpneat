@@ -39,11 +39,11 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         /// </summary>
         const double MeanLineInSquareRootMeanSquareLength = 0.5773;
         /// <summary>
-        /// Maximum fitness for this evaulator. Problem domain is considered perfectly 'solved' if this score is achieved.
+        /// Maximum fitness for this evaluator. Problem domain is considered perfectly 'solved' if this score is achieved.
         /// </summary>
         const double MaxFitness = 110.0;
         /// <summary>
-        /// The resoltion of the visual and output fields.
+        /// The resolution of the visual and output fields.
         /// </summary>
         int _visualFieldResolution;
         /// <summary>
@@ -140,7 +140,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
 
         /// <summary>
         /// Gets a value indicating whether some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied
@@ -235,7 +235,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
             // Apply test case visual field to black box inputs.
             ApplyVisualFieldToBlackBox(testCaseField, box, _visualFieldResolution, _visualOriginPixelXY, _visualPixelSize);
 
-            // Clear any pre-existign state and activate.
+            // Clear any pre-existing state and activate.
             box.ResetState();
             box.Activate();
             if(!box.IsStateValid) 

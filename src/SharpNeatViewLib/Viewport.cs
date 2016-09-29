@@ -18,7 +18,7 @@ using System.Windows.Forms;
 namespace SharpNeat.View
 {
     /// <summary>
-    /// A user control that provides a re resizable area that can be painted to by an 
+    /// A user control that provides a re-sizable area that can be painted to by an 
     /// IViewportPainter.
     /// </summary>
     public class Viewport : UserControl
@@ -173,10 +173,10 @@ namespace SharpNeat.View
 
             // If the viewport has grown beyond the size of the image then create a new image. 
             // Note. If the viewport shrinks we just paint on the existing (larger) image, this prevents unnecessary 
-            // and expensive construction/destrucion of Image objects.
+            // and expensive construction/destruction of Image objects.
             if(width > _image.Width || height > _image.Height) 
-            {   // Reset the image's size. We round up the the nearest __imageSizeChangeDelta. This prevents unnecessary 
-                // and expensive construction/destrucion of Image objects as the viewport is resized multiple times.
+            {   // Reset the image's size. We round up the nearest __imageSizeChangeDelta. This prevents unnecessary 
+                // and expensive construction/destruction of Image objects as the viewport is resized multiple times.
                 int imageWidth = (int)(Math.Ceiling((float)width / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 int imageHeight = (int)(Math.Ceiling((float)height / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 _image = new Bitmap(imageWidth, imageHeight, ViewportPixelFormat);

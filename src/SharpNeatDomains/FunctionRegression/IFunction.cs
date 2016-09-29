@@ -18,7 +18,7 @@ namespace SharpNeat.Domains.FunctionRegression
     public interface IFunction
     {
         /// <summary>
-        /// Get the funection value for th specified function arguments.
+        /// Get the function value for the specified function arguments.
         /// </summary>
         double GetValue(double[] args);
         /// <summary>

@@ -23,7 +23,7 @@ namespace SharpNeat.Domains.FunctionRegression
     {
         /// <summary>
         /// The maximum error for the evaluator. The output at each sample point is in the range 0 to 1. Thus the error at each point has a maximum of 1.0.
-        /// The error for the evaulator as a whole is the root mean square error (RMSE) over all sample points. Thus max error is always 1.0
+        /// The error for the evaluator as a whole is the root mean square error (RMSE) over all sample points. Thus max error is always 1.0
         /// </summary>
         const double MaxError = 1.0;
 
@@ -44,7 +44,7 @@ namespace SharpNeat.Domains.FunctionRegression
             _paramSamplingInfoArr = paramSamplingInfoArr;
             _fnTask = fnTask;
 
-            // Calculate the total numeber of sample points.
+            // Calculate the total number of sample points.
             int samplePointCount = 1;
             for(int i=0; i<_paramSamplingInfoArr.Length; i++) {
                 samplePointCount *= _paramSamplingInfoArr[i]._sampleCount;
@@ -67,7 +67,7 @@ namespace SharpNeat.Domains.FunctionRegression
 
         /// <summary>
         /// Gets a value indicating whether some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied
@@ -118,7 +118,7 @@ namespace SharpNeat.Domains.FunctionRegression
                 // Get correct function value to compare with.
                 double correctVal = _fnTask.GetValue(paramValueArr);
 
-                // Accumulate squared error at each sample bpoint. Abs() not required because we are squaring.
+                // Accumulate squared error at each sample point. Abs() not required because we are squaring.
                 errorAcc += (response-correctVal) * (response-correctVal);
 
                 // Determine next sample point.

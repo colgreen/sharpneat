@@ -34,7 +34,7 @@ namespace SharpNeat.Domains.FunctionRegression
         #region Constructor
 
         /// <summary>
-        /// Constructs with the details of teh function regression problem to be visualized. 
+        /// Constructs with the details of the function regression problem to be visualized. 
         /// </summary>
         /// <param name="func">The function being regressed.</param>
         /// <param name="xMin">The minimum value of the input range being sampled.</param>
@@ -52,7 +52,7 @@ namespace SharpNeat.Domains.FunctionRegression
             _sampleCount = sampleCount;
             _genomeDecoder = genomeDecoder;
 
-            // Prebuild plot point objects.
+            // Pre-build plot point objects.
             _plotPointListTarget = new PointPairList();
             _plotPointListResponse = new PointPairList();
             

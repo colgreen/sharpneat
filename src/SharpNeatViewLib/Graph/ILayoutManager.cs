@@ -21,8 +21,8 @@ namespace SharpNeat.View.Graph
         /// <summary>
         /// Position/layout the nodes of an IOGraph within a specified 2D layout area.
         /// </summary>
-        /// <param name="graph">The network/graph structure to be layed out.</param>
-        /// <param name="layoutArea">The area the structrue is to be layed out on.</param>
+        /// <param name="graph">The network/graph structure to be laid out.</param>
+        /// <param name="layoutArea">The area the structure is to be laid out on.</param>
         void Layout(IOGraph graph, Size layoutArea);
     }
 }

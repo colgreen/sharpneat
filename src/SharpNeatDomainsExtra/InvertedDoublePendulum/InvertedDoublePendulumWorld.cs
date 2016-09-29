@@ -117,7 +117,7 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         }
 
         /// <summary>
-        /// Get the angle of the second joint joint (pole elbow joint).
+        /// Get the angle of the second joint (pole elbow joint).
         /// </summary>
         public float ElbowJointAngle
         {
@@ -135,7 +135,7 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         }
 
         /// <summary>
-        /// Get the anglular velocity of the first joint (cart-pole joint).
+        /// Get the angular velocity of the first joint (cart-pole joint).
         /// </summary>
         public float CartJointAngularVelocity
         {
@@ -143,7 +143,7 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         }
 
         /// <summary>
-        /// Get the anglular velocity of the second joint joint (pole elbow joint).
+        /// Get the angular velocity of the second joint (pole elbow joint).
         /// </summary>
         public float ElbowJointAngularVelocity
         {

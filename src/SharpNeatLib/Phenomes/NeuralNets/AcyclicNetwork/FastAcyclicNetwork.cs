@@ -17,7 +17,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// A neural network implementation for acyclic networks.
     /// 
     /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by 
-    /// propogating a signal 'wave' from the input nodes through each depth layer through to the output nodes, thus each node
+    /// propagating a signal 'wave' from the input nodes through each depth layer through to the output nodes, thus each node
     /// requires activating only once at most, whereas in cyclic networks we have to activate each node multiple times and we 
     /// must have a scheme for determining when to stop activating.
     /// 
@@ -31,7 +31,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// 3) Reset all node activation values to zero. This resets any state from a previous activation.
     /// 
-    /// 4) Each layer of the network can now be activated in turn to propogate the signals on the input nodes through the network.
+    /// 4) Each layer of the network can now be activated in turn to propagate the signals on the input nodes through the network.
     /// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0), 
     /// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest 
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
@@ -53,8 +53,8 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// </summary>
         readonly FastConnection[] _connectionArr;
         /// <summary>
-        /// Array of layer information. Feedforward-only network activation can be performed most 
-        /// efficiently by propogating signals through the network one layer at a time.
+        /// Array of layer information. Feed-forward-only network activation can be performed most 
+        /// efficiently by propagating signals through the network one layer at a time.
         /// </summary>
         readonly LayerInfo[] _layerInfoArr;
 
@@ -100,7 +100,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                                   int inputNodeCount,
                                   int outputNodeCount)
         {
-            // Store refs to network structrue data.
+            // Store refs to network structure data.
             _nodeActivationFnArr = nodeActivationFnArr;
             _nodeAuxArgsArr = nodeAuxArgsArr;
             _connectionArr = connectionArr;

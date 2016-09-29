@@ -17,7 +17,7 @@ namespace SharpNeat.Domains.DoublePoleBalancing
 {
     /// <summary>
     /// Evaluator for the double pole balancing task with no velocity (NV) inputs and an alternative
-    /// evaulation scheme that punsihes fast oscillations (anti-wiggle).
+    /// evaluation scheme that punishes fast oscillations (anti-wiggle).
     /// </summary>
     public class DoublePoleBalancingEvaluatorNvAntiWiggle : DoublePoleBalancingEvaluator
     {
@@ -106,12 +106,12 @@ namespace SharpNeat.Domains.DoublePoleBalancing
 			if(timestep > 499 && timestep < 600)
 			{	// For the 100(1 sec) steps after the 500(5 secs) mark we punish wiggling based
 				// on the values from the 1 sec just gone. This is on the basis that the values
-				// in jiggleBuffer2 (from 2 to 1 sec ago) will refelct the large amount of
+				// in jiggleBuffer2 (from 2 to 1 sec ago) will reflect the large amount of
 				// wiggling that occurs at the start of the simulation when the system is still stabilising.
 				fitness = timestep + (10.0 / Math.Max(1.0, jiggleBuffer1.Total));
 			}
 			else if(timestep > 599)
-			{	// After 600 steps we use jiggleBuffer2 to punsih wiggling, this contains data from between
+			{	// After 600 steps we use jiggleBuffer2 to punish wiggling, this contains data from between
 				// 2 and 1 secs ago. This is on the basis that when the system becomes unstable and causes
 				// the simulation to terminate prematurely, the immediately prior 1 secs data will reflect that
 				// instability, which may not be indicative of the overall stability of the system up to that time.

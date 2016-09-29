@@ -88,7 +88,7 @@ namespace SharpNeat.Decoders.HyperNeat
 
         #endregion
 
-        #region Publc Static Methods [Convenient Factory Methods]
+        #region Public Static Methods [Convenient Factory Methods]
 
         /// <summary>
         /// Creates a NodeSet from the provided source and target nodeset indexes and mapping function.
@@ -108,7 +108,7 @@ namespace SharpNeat.Decoders.HyperNeat
 
         /// <summary>
         /// Creates a NodeSet from the provided source and target nodeset indexes, maximum connection distance for mappings/connections and 
-        /// a flag defining if local recurrent conenctions should be created when mapping between nodes in the same nodeset.
+        /// a flag defining if local recurrent connections should be created when mapping between nodes in the same nodeset.
         /// </summary>
         public static NodeSetMapping Create(int srcNodeSetIdx, int tgtNodeSetIdx, double? maximumConnectionDistance,  bool allowLocalRecurrentConnections)
         {

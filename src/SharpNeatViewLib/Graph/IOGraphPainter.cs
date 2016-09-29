@@ -202,9 +202,9 @@ namespace SharpNeat.View.Graph
             }
 
         //--- Point B.
-            // The line AB is a connection leg emerging from the base of a node. To visually seperate multiple legs
+            // The line AB is a connection leg emerging from the base of a node. To visually separate multiple legs
             // the first leg has a gentle gradient (almost horizontal) and each successive leg has a steeper gradient.
-            // Once a vertical gradient has been reached each sucessive leg is made longer.
+            // Once a vertical gradient has been reached each successive leg is made longer.
             // Calculate leg slope: 0=horizontal, 1=vertical. Hence this is value is not a gradient.
             // Slope pre-trimming back to maximum of 1.0.
             float slopePre = SlopeInit + (SlopeIncr * srcConIdx);
@@ -219,7 +219,7 @@ namespace SharpNeat.View.Graph
             }
 
             // Calculate position of B as relative to A. 
-            // Note. Length is taken to be L1 length (Manhatten distance). This means that the successive B positions 
+            // Note. Length is taken to be L1 length (Manhattan distance). This means that the successive B positions 
             // describe a straight line (rather than the circle you get with L2/Euclidean distance) which in turn 
             // ensures that the BC segments of successive connections are evenly spaced out.
             int xDelta = (int)(lenAB * (1f - slope)) * srcSide;
@@ -310,7 +310,7 @@ namespace SharpNeat.View.Graph
             public readonly int _nodeDiameter;
             /// <summary>Used in conjunction with _nodeDiameter to draw nodes.</summary>
             public readonly int _nodeDiameterHalf;
-            /// <summary>Length of connection legs eminating from the base of nodes when drawing conenctions
+            /// <summary>Length of connection legs emanating from the base of nodes when drawing connections
             /// to nodes above the source node.</summary>
             public readonly float _backConnectionLegLength;
 

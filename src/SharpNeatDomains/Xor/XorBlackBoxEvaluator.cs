@@ -22,19 +22,19 @@ namespace SharpNeat.Domains
     /// a value of true if and only if exactly one of the operands has a value of 'true'. A simple way 
     /// to state this is 'one or the other but not both.'.
     /// 
-    /// This evaulator therefore requires that the black box to be evaluated has has two inputs and one 
+    /// This evaluator therefore requires that the black box to be evaluated has two inputs and one 
     /// output all using the range 0..1
     /// 
     /// In turn each of the four possible test cases are applied to the two inputs, the network is activated
-    /// and the output is evaulated. If a 'false' response is requried we expect an output of zero, for true
+    /// and the output is evaluated. If a 'false' response is required we expect an output of zero, for true
     /// we expect a 1.0. Fitness for each test case is the difference between the output and the wrong output, 
     /// thus a maximum of 1 can be scored on each test case giving a maximum of 4. In addition each outputs is
-    /// compared against a threshold of 0.5, if all four outputs are on teh correct side of the threshold then
+    /// compared against a threshold of 0.5, if all four outputs are on the correct side of the threshold then
     /// 10.0 is added to the total fitness. Therefore a black box that answers correctly but very close to the
     /// threshold will score just above 10, and a black box that answers correctly with perfect 0.0 and 1.0 
     /// answers will score a maximum of 14.0.
     /// 
-    /// The first type of evaulation punishes for difference from the required outputs and therefore represents
+    /// The first type of evaluation punishes for difference from the required outputs and therefore represents
     /// a smooth fitness space (we can evolve gradually towards better scores). The +10 score for 4 correct
     /// responses is 'all or nothing', in other words it is a fitness space with a large step and no indication
     /// of where the step is, which on it's own would be a poor fitness space as it required evolution to stumble
@@ -42,7 +42,7 @@ namespace SharpNeat.Domains
     /// stumble on a black box that answers correctly but close to the threshold, then we would like that box to 
     /// obtain a higher score than a network with, say, 3 strong correct responses and but wrong overall. We can
     /// improve the correct box's output difference from threshold value gradually, while the box with 3 correct
-    /// responses may actually be in the wrong area of the fitness space alltogether - in the wrong 'ballpark'.
+    /// responses may actually be in the wrong area of the fitness space altogether - in the wrong 'ballpark'.
     /// </summary>
     public class XorBlackBoxEvaluator : IPhenomeEvaluator<IBlackBox>
     {
@@ -62,7 +62,7 @@ namespace SharpNeat.Domains
 
         /// <summary>
         /// Gets a value indicating whether some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied

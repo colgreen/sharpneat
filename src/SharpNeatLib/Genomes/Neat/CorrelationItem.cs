@@ -15,7 +15,7 @@ namespace SharpNeat.Genomes.Neat
     /// <summary>
     /// A single comparison item resulting from the comparison of two genomes. If the CorrelationItemType
     /// is Match then both connection gene properties will be non-null, otherwise one of them will be null 
-    /// and and the other will hold a reference to a disjoint or excess connection gene.
+    /// and the other will hold a reference to a disjoint or excess connection gene.
     /// 
     /// Note. We generally only compare connection genes when comparing genomes. Connection genes along with
     /// their innovation IDs actually represent the complete network topology (and of course the connection weights).

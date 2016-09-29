@@ -127,7 +127,7 @@ namespace SharpNeat.Genomes.Neat
 
         // TODO: rename to AcyclicOnly?
         /// <summary>
-        /// Gets or sets a boolean that indicates if NEAT should produce only feedforward networks (no recurrent/cyclic connection paths).
+        /// Gets or sets a boolean that indicates if NEAT should produce only feed-forward networks (no recurrent/cyclic connection paths).
         /// </summary>
         public bool FeedforwardOnly
         {
@@ -169,8 +169,7 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>
         /// Gets or sets the probability that all excess and disjoint genes are copied into an offspring genome
-        /// during sexual reproduction. Currently the execss/disjoint genes are copied in an all or nothing 
-        /// strategy.
+        /// during sexual reproduction. Currently the excess/disjoint genes are copied in an all or nothing strategy.
         /// </summary>
         public double DisjointExcessGenesRecombinedProbability
         {

@@ -97,7 +97,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         }
 
         /// <summary>
-        /// Gets the height of the leg's foot. Note that this is actualy the mid point of the circular leg cap which.
+        /// Gets the height of the leg's foot. Note that this is actual the mid point of the circular leg cap which.
         /// </summary>
         public float FootHeight
         {

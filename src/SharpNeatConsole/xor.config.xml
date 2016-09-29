@@ -16,7 +16,7 @@
     1    | 0    | 1
     1    | 1    | 0
 
-    Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interprested as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completey wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a sucessful network.
+    Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interpreted as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completely wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a successful network.
   </Description>
 
 </Config>

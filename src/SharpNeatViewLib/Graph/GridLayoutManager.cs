@@ -26,8 +26,8 @@ namespace SharpNeat.View.Graph
         /// <summary>
         /// Layout nodes evenly spaced out on a grid.
         /// </summary>
-        /// <param name="graph">The network/graph structure to be layed out.</param>
-        /// <param name="layoutArea">The area the structrue is to be layed out on.</param>
+        /// <param name="graph">The network/graph structure to be laid out.</param>
+        /// <param name="layoutArea">The area the structure is to be laid out on.</param>
         public void Layout(IOGraph graph, Size layoutArea)
         {
             // Size struct to keep track of the area that bounds all nodes.
@@ -41,11 +41,11 @@ namespace SharpNeat.View.Graph
 
             // Determine how many layers/rows to arrange the nodes into. 
             // Note. we always show the inputs and outputs in their own rows, therefore this just
-            // handles how many additional rows are requried for the hidden nodes.
+            // handles how many additional rows are required for the hidden nodes.
             int numLayersHidden=0;
 
             if(hiddenCount>0)
-            {   // Arrange nodes in a sqare and adjust for height/width ratio of layout area.
+            {   // Arrange nodes in a square and adjust for height/width ratio of layout area.
                 double sqrtHidden = Math.Sqrt(hiddenCount);
                 numLayersHidden = (int)Math.Floor(sqrtHidden * heightWidthRatio);
 

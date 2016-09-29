@@ -19,7 +19,7 @@ namespace SharpNeat.Network
     /// Method.
     /// =======
     /// 1) We loop over all nodes in the network and perform a depth-first traversal from each node. 
-    /// (Note. the order that the nodes are traversed does not affext the correctness of the method)
+    /// (Note. the order that the nodes are traversed does not affect the correctness of the method)
     /// 
     /// 2) Each traversal keeps track of its ancestor nodes (the path to the current node) for each step
     /// in the traversal. Thus if the traversal encounters an ancestor node then a cycle has been detected.
@@ -30,7 +30,7 @@ namespace SharpNeat.Network
     /// Note. We must traverse from each node rather then just e.g. the input nodes, because the network may 
     /// have connectivity dead ends or even isolated connectivity that therefore would not be traversed into 
     /// by following connectivity from the input nodes only, hence we perform a traversal from each node and
-    /// attempt to maintain algorithmic efficiency by avoiding traversal into ndoes that haev already been 
+    /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
     /// traversed into.
     /// </summary>
     public class CyclicNetworkTest
@@ -46,7 +46,7 @@ namespace SharpNeat.Network
         /// </summary>
         HashSet<uint> _ancestorNodeSet = new HashSet<uint>();
         /// <summary>
-        /// Set of all visted nodes. This allows us to quickly determine if a path should be traversed or not. 
+        /// Set of all visited nodes. This allows us to quickly determine if a path should be traversed or not. 
         /// </summary>
         HashSet<uint> _visitedNodeSet = new HashSet<uint>();
 
@@ -55,7 +55,7 @@ namespace SharpNeat.Network
         #region Constructor
 
         /// <summary>
-        /// Private consrtcutor. Prevents construction from outside of this class.
+        /// Private constructor. Prevents construction from outside of this class.
         /// </summary>
         private CyclicNetworkTest()
         {

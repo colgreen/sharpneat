@@ -163,7 +163,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             for(int i=0; i<_timestepsPerActivation; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
-                // the preactivation signal of the target neuron.
+                // the pre-activation signal of the target neuron.
                 for(int j=0; j<_connectionArray.Length; j++) {
                     _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;
                 }
@@ -176,7 +176,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                 {
                     _postActivationArray[j] = _neuronActivationFnArray[j].Calculate(_preActivationArray[j], _neuronAuxArgsArray[j]);
                     
-                    // Take the opportunity to reset the pre-activation signal array in preperation for the next 
+                    // Take the opportunity to reset the pre-activation signal array in preparation for the next 
                     // activation loop.
                     _preActivationArray[j] = 0.0;
                 }

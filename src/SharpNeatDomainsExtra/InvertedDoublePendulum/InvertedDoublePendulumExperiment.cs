@@ -117,7 +117,7 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         }
 
         /// <summary>
-        /// Initialize the experiment with some optional XML configutation data.
+        /// Initialize the experiment with some optional XML configuration data.
         /// </summary>
         public void Initialize(string name, XmlElement xmlConfig)
         {
@@ -206,7 +206,7 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         /// </summary>
         public NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm(IGenomeFactory<NeatGenome> genomeFactory, List<NeatGenome> genomeList)
         {
-            // Create distance metric. Mismatched genes have a fixed distance of 10; for matched genes the distance is their weigth difference.
+            // Create distance metric. Mismatched genes have a fixed distance of 10; for matched genes the distance is their weight difference.
             IDistanceMetric distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
             ISpeciationStrategy<NeatGenome> speciationStrategy = new ParallelKMeansClusteringStrategy<NeatGenome>(distanceMetric, _parallelOptions);
 
@@ -226,8 +226,8 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
             IGenomeListEvaluator<NeatGenome> innerEvaluator = new ParallelGenomeListEvaluator<NeatGenome, IBlackBox>(genomeDecoder, evaluator, _parallelOptions);
             //IGenomeListEvaluator<NeatGenome> innerEvaluator = new SerialGenomeListEvaluator<NeatGenome, IBlackBox>(genomeDecoder, evaluator);
 
-            // Wrap the list evaluator in a 'selective' evaulator that will only evaluate new genomes. That is, we skip re-evaluating any genomes
-            // that were in the population in previous generations (elite genomes). This is determiend by examining each genome's evaluation info object.
+            // Wrap the list evaluator in a 'selective' evaluator that will only evaluate new genomes. That is, we skip re-evaluating any genomes
+            // that were in the population in previous generations (elite genomes). This is determined by examining each genome's evaluation info object.
             IGenomeListEvaluator<NeatGenome> selectiveEvaluator = new SelectiveGenomeListEvaluator<NeatGenome>(
                                                                                     innerEvaluator,
                                                                                     SelectiveGenomeListEvaluator<NeatGenome>.CreatePredicate_OnceOnly());

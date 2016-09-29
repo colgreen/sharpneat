@@ -57,7 +57,7 @@ namespace SharpNeat.Domains
         #region Static Factory Methods
 
         /// <summary>
-        /// Create a point in the polar coordinate system from the provided cartesian coordinates.
+        /// Create a point in the polar coordinate system from the provided Cartesian coordinates.
         /// </summary>
         public static PolarPoint FromCartesian(IntPoint p)
         {

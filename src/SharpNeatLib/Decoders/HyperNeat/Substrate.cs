@@ -27,9 +27,9 @@ namespace SharpNeat.Decoders.HyperNeat
     public class Substrate
     {
         /// <summary>
-        /// The maximum number of substrate conenctions that we cache when using _nodeSetMappingList. If the number of 
-        /// connections is less then this then we cache the susbstrate connections to avoid having to invoke the mapping 
-        /// functions when creating/growing a network fromt the substrate.
+        /// The maximum number of substrate connections that we cache when using _nodeSetMappingList. If the number of 
+        /// connections is less then this then we cache the substrate connections to avoid having to invoke the mapping 
+        /// functions when creating/growing a network from the substrate.
         /// </summary>
         const int ConnectionCountCacheThreshold = 50000;
         /// <summary>
@@ -43,7 +43,7 @@ namespace SharpNeat.Decoders.HyperNeat
         /// </summary>
         readonly IActivationFunctionLibrary _activationFnLibrary;
         /// <summary>
-        /// The activation function ID that is uniformly allocated to all nodes in the netorks that are 'grown' 
+        /// The activation function ID that is uniformly allocated to all nodes in the networks that are 'grown' 
         /// from the substrate.
         /// </summary>
         readonly int _activationFnId;
@@ -70,11 +70,11 @@ namespace SharpNeat.Decoders.HyperNeat
         /// </summary>
         readonly double _maxWeight;
         /// <summary>
-        /// Precalculated value for rescaling grown conenctions to the required weight range as described by _maxWeight.
+        /// Pre-calculated value for rescaling grown connections to the required weight range as described by _maxWeight.
         /// </summary>
         readonly double _weightRescalingCoeff;
         /// <summary>
-        /// Pre-built node list for creating new concrete network instances. This can be prebuilt because
+        /// Pre-built node list for creating new concrete network instances. This can be pre-built because
         /// the set of nodes remains the same for each network instantiation, only the connections differ between
         /// instantiations.
         /// </summary>
@@ -100,7 +100,7 @@ namespace SharpNeat.Decoders.HyperNeat
         /// <param name="nodeSetList">Substrate nodes, represented as distinct sets of nodes. By convention the first and second
         /// sets in the list represent the input and output noes respectively. All other sets represent hidden nodes.</param>
         /// <param name="activationFnLibrary">The activation function library allocated to the networks that are 'grown' from the substrate.</param>
-        /// <param name="activationFnId">The ID of an activation function function in activationFnLibrary. This is the activation function 
+        /// <param name="activationFnId">The ID of an activation function in activationFnLibrary. This is the activation function 
         /// ID assigned to all nodes in networks that are 'grown' from the substrate. </param>
         /// <param name="weightThreshold">The weight threshold below which substrate connections are not created in grown networks.</param>
         /// <param name="maxWeight">Defines the weight range of grown connections (+-maxWeight).</param>
@@ -138,7 +138,7 @@ namespace SharpNeat.Decoders.HyperNeat
         /// <param name="nodeSetList">Substrate nodes, represented as distinct sets of nodes. By convention the first and second
         /// sets in the list represent the input and output noes respectively. All other sets represent hidden nodes.</param>
         /// <param name="activationFnLibrary">The activation function library allocated to the networks that are 'grown' from the substrate.</param>
-        /// <param name="activationFnId">The ID of an activation function function in activationFnLibrary. This is the activation function 
+        /// <param name="activationFnId">The ID of an activation function in activationFnLibrary. This is the activation function 
         /// ID assigned to all nodes in networks that are 'grown' from the substrate. </param>
         /// <param name="weightThreshold">The weight threshold below which substrate connections are not created in grown networks.</param>
         /// <param name="maxWeight">Defines the weight range of grown connections (+-maxWeight).</param>/// 
@@ -306,7 +306,7 @@ namespace SharpNeat.Decoders.HyperNeat
             }
 
             // Check for no connections.
-            // If no connections were generated then there is no point in further evaulating the network.
+            // If no connections were generated then there is no point in further evaluating the network.
             // However, null is a valid response when decoding genomes to phenomes, therefore we do that here.
             if(networkConnList.Count == 0) {
                 return null;
@@ -329,7 +329,7 @@ namespace SharpNeat.Decoders.HyperNeat
         {
             // Baseline validation tests. There should be at least two nodesets (input and output sets), and each of those must have at least one node.
             if(nodeSetList.Count < 2) {
-                throw new ArgumentException("Substrate requires a minimum of two NodeSets - one each for input and outut nodes.");
+                throw new ArgumentException("Substrate requires a minimum of two NodeSets - one each for input and output nodes.");
             }
 
             // Input nodes.
@@ -358,14 +358,14 @@ namespace SharpNeat.Decoders.HyperNeat
             }
 
             // Check ID ordering.
-            // Input node IDs should be contiguous and ordered sequentially after the bais node with ID 0.
+            // Input node IDs should be contiguous and ordered sequentially after the bias node with ID 0.
             SubstrateNodeSet inputNodeSet = nodeSetList[0];
             int count = inputNodeSet.NodeList.Count;
             int expectedId = 1;
             for(int i=0; i<count; i++, expectedId++)
             {
                 if(inputNodeSet.NodeList[i]._id != expectedId) {
-                    throw new ArgumentException(string.Format("Substrate input node with unexpected ID of [{0}]. Ids should be contguous and starting from 1.", inputNodeSet.NodeList[i]._id));
+                    throw new ArgumentException(string.Format("Substrate input node with unexpected ID of [{0}]. Ids should be contiguous and starting from 1.", inputNodeSet.NodeList[i]._id));
                 }
             }
 
@@ -412,7 +412,7 @@ namespace SharpNeat.Decoders.HyperNeat
 
         /// <summary>
         /// Pre-build the network node list used for constructing new networks 'grown' on the substrate.
-        /// This can be prebuilt because the set of nodes remains the same for each network instantiation,
+        /// This can be pre-built because the set of nodes remains the same for each network instantiation,
         /// only the connections differ between instantiations.
         /// </summary>
         private NodeList CreateNetworkNodeList()

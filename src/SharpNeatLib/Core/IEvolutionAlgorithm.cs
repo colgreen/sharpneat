@@ -21,7 +21,7 @@ namespace SharpNeat.Core
         where TGenome : class, IGenome<TGenome>
     {
         /// <summary>
-        /// Notifies listeners that some state change has occured.
+        /// Notifies listeners that some state change has occurred.
         /// </summary>
         event EventHandler UpdateEvent;
 

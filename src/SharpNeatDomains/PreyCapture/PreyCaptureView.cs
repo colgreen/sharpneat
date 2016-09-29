@@ -102,7 +102,7 @@ namespace SharpNeat.Domains.PreyCapture
             // Zero indicates that the simulation is not currently running.
             if(0 == Interlocked.Exchange(ref _simRunningFlag, 1))
             {
-                // We got the lock. Decode the genome and store resuly in an instance field.
+                // We got the lock. Decode the genome and store result in an instance field.
                 NeatGenome neatGenome = genome as NeatGenome;
                 _agent = _genomeDecoder.Decode(neatGenome);
 
@@ -249,7 +249,7 @@ namespace SharpNeat.Domains.PreyCapture
                 xg = GridLeft;
                 for(int x=0; x<_world.GridSize; x++, xg += visualFieldPixelSize)
                 {
-                    // Calc distance of sqaure from agent.
+                    // Calc distance of square from agent.
                     if(IntPoint.CalculateDistance(_world.AgentPosition, x, y) <= _world.SensorRange) {
                         g.FillRectangle(sensorBrush, xg+1, yg+1, visualFieldPixelSize-2, visualFieldPixelSize-2);
                     }
@@ -283,10 +283,10 @@ namespace SharpNeat.Domains.PreyCapture
 
             // If the viewport has grown beyond the size of the image then create a new image. 
             // Note. If the viewport shrinks we just paint on the existing (larger) image, this prevents unnecessary 
-            // and expensive construction/destrucion of Image objects.
+            // and expensive construction/destruction of Image objects.
             if(width > _image.Width || height > _image.Height) 
-            {   // Reset the image's size. We round up the the nearest __imageSizeChangeDelta. This prevents unnecessary 
-                // and expensive construction/destrucion of Image objects as the viewport is resized multiple times.
+            {   // Reset the image's size. We round up the nearest __imageSizeChangeDelta. This prevents unnecessary 
+                // and expensive construction/destruction of Image objects as the viewport is resized multiple times.
                 int imageWidth = (int)(Math.Ceiling((float)width / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 int imageHeight = (int)(Math.Ceiling((float)height / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 _image = new Bitmap(imageWidth, imageHeight, ViewportPixelFormat);

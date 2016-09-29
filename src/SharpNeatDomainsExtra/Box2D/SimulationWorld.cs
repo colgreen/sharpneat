@@ -247,7 +247,7 @@ namespace SharpNeat.DomainsExtra.Box2D
         #region Private Methods [Mouse Joint Drawing]
 
         /// <summary>
-        /// Draw the mouse joint (user interation via mouse events). This method can be removed to remove the dependency on OpenGL.
+        /// Draw the mouse joint (user interaction via mouse events). This method can be removed to remove the dependency on OpenGL.
         /// </summary>
         private void DrawMouseJoint()
         {

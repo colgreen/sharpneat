@@ -36,7 +36,7 @@ namespace SharpNeat.SpeciationStrategies
         /// </summary>
         public IList<Specie<TGenome>> InitializeSpeciation(IList<TGenome> genomeList, int specieCount)
         {
-            // Craete the empty specie objects.
+            // Create the empty specie objects.
             List<Specie<TGenome>> specieList = new List<Specie<TGenome>>(specieCount);
             int capacity = (int)Math.Ceiling((double)genomeList.Count/(double)specieCount);
             for(int i=0; i<specieCount; i++) {
@@ -52,7 +52,7 @@ namespace SharpNeat.SpeciationStrategies
         /// Speciates the genomes in genomeList into the provided species. It is assumed that
         /// the genomeList represents all of the required genomes and that the species are currently empty.
         /// 
-        /// This method can be used for initialization or completely respeciating an existing genome population.
+        /// This method can be used for initialization or completely re-speciating an existing genome population.
         /// </summary>
         public void SpeciateGenomes(IList<TGenome> genomeList, IList<Specie<TGenome>> specieList)
         {

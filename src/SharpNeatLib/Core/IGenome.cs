@@ -14,7 +14,7 @@ namespace SharpNeat.Core
     /// <summary>
     /// Generic interface for genome classes.
     /// 
-    /// Concrete IGenome classes are expected to to be given a reference to their concrete IGenomeFactory class even 
+    /// Concrete IGenome classes are expected to be given a reference to their concrete IGenomeFactory class even 
     /// if they are spawned from another IGenome. This allows all genomes to use the same set of parameters
     /// for spawning - which may change during evolution, e.g. in the case of phased searching in NEAT.
     /// </summary>
@@ -27,7 +27,7 @@ namespace SharpNeat.Core
         uint Id { get; }
 
         /// <summary>
-        /// Gets or sets a specie index. An implemention of this is required only when using 
+        /// Gets or sets a specie index. An implementation of this is required only when using 
         /// evolution algorithms that speciate genomes.
         /// </summary>
         int SpecieIdx { get; set; }
@@ -50,12 +50,12 @@ namespace SharpNeat.Core
         /// <summary>
         /// Gets a coordinate that represents the genome's position in the search space (also known
         /// as the genetic encoding space). This allows speciation/clustering algorithms to operate on
-        /// an abstract cordinate data type rather than being coded against specific IGenome types.
+        /// an abstract coordinate data type rather than being coded against specific IGenome types.
         /// </summary>
         CoordinateVector Position { get; }
 
         /// <summary>
-        /// Gets or sets a cached phenome obtained from decodign the genome.
+        /// Gets or sets a cached phenome obtained from decoding the genome.
         /// Genomes are typically decoded to Phenomes for evaluation. This property allows decoders to 
         /// cache the phenome in order to avoid decoding on each re-evaluation; However, this is optional.
         /// The phenome in un-typed to prevent the class framework from becoming overly complex.

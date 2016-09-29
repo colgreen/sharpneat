@@ -67,7 +67,7 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp
         {
             // Provide state info to the black box inputs.
             SinglePoleBalancingWorld simWorld = (SinglePoleBalancingWorld)_simWorld;
-            // _box is updated by other threads so copy the reference so that we know we are workign with the same IBlackBox within this method.
+            // _box is updated by other threads so copy the reference so that we know we are working with the same IBlackBox within this method.
             IBlackBox box = _box;
             box.InputSignalArray[0] = simWorld.CartPosX / __TrackLengthHalf;    // CartPosX range is +-trackLengthHalf. Here we normalize it to [-1,1].
             box.InputSignalArray[1] = simWorld.CartVelocityX;                   // Cart track velocity x is typically +-0.75.

@@ -116,7 +116,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Optional auxilliary node state. Null if no aux state is present. 
+        /// Optional auxiliary node state. Null if no aux state is present. 
         /// Note. Radial Basis Function center and epsilon values are stored here.
         /// </summary>
         public double[] AuxState
@@ -145,7 +145,7 @@ namespace SharpNeat.Genomes.Neat
         #region Public Methods
 
         /// <summary>
-        /// Creates a copy of the current gene. Virtual method that can be overriden by sub-types.
+        /// Creates a copy of the current gene. Virtual method that can be overridden by sub-types.
         /// </summary>
         public virtual NeuronGene CreateCopy()
         {
@@ -153,7 +153,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Creates a copy of the current gene. Virtual method that can be overriden by sub-types.
+        /// Creates a copy of the current gene. Virtual method that can be overridden by sub-types.
         /// </summary>
         /// <param name="copyConnectivityData">Indicates whether or not top copy connectivity data for the neuron.</param>
         public virtual NeuronGene CreateCopy(bool copyConnectivityData)

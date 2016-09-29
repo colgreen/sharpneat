@@ -356,7 +356,7 @@ namespace SharpNeat.Genomes.Neat
             genomeFactory.GenomeIdGenerator.Reset(Math.Max(genomeFactory.GenomeIdGenerator.Peek, maxGenomeId+1));
             genomeFactory.InnovationIdGenerator.Reset(Math.Max(genomeFactory.InnovationIdGenerator.Peek, maxInnovationId+1));
 
-            // Retrospecitively assign the genome factory to the genomes. This is how we overcome the genome/genomeFactory
+            // Retrospectively assign the genome factory to the genomes. This is how we overcome the genome/genomeFactory
             // chicken and egg problem.
             foreach(NeatGenome genome in genomeList) {
                 genome.GenomeFactory = genomeFactory;
@@ -414,7 +414,7 @@ namespace SharpNeat.Genomes.Neat
                     {	// Read activation fn ID.
                         functionId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
 
-                        // Read aux state as comma seperated list of real values.
+                        // Read aux state as comma separated list of real values.
                         auxState = XmlIoUtils.ReadAttributeAsDoubleArray(xrSubtree, __AttrAuxState);
                     }
 

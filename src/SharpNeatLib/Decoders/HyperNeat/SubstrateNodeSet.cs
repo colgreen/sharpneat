@@ -14,9 +14,9 @@ using System.Collections.Generic;
 namespace SharpNeat.Decoders.HyperNeat
 {
     /// <summary>
-    /// Represenst a set of nodes on a substrate. Nodesets are used to represent sets such as the input and output nodes.
+    /// Represents a set of nodes on a substrate. Nodesets are used to represent sets such as the input and output nodes.
     /// Hidden nodes can be represented as layers with each layer being represented by a set. This allows connection mapping
-    /// to be defined between between sets.
+    /// to be defined between sets.
     /// </summary>
     public class SubstrateNodeSet
     {

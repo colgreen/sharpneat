@@ -58,7 +58,7 @@ namespace SharpNeat.DistanceMetrics
         /// the provided distance metric.
         /// </summary>
         /// <param name="distanceMetric">The distance metric.</param>
-        /// <param name="coordList">The list of coordinatres.</param>
+        /// <param name="coordList">The list of coordinates.</param>
         /// <param name="idx">The index of the coordinate to measure distance to.</param>
         private static double CalculateMeanDistanceFromCoords(IDistanceMetric distanceMetric, IList<CoordinateVector> coordList, int idx)
         {

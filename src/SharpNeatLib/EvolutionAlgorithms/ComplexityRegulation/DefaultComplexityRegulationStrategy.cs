@@ -13,7 +13,7 @@ namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
 {
     /// <summary>
     /// Default complexity regulation strategy. 
-    /// This strategy provides a choice of hard/absolute comelity ceiling or a ceiling relative to the 
+    /// This strategy provides a choice of hard/absolute complexity ceiling or a ceiling relative to the 
     /// complexity at the end of the most recent simplification phase.
     /// The strategy transitions from complexifying to simplifying when the ceiling is reached. 
     /// Transitioning from simplifying to complexifying occurs when complexity is no longer falling
@@ -25,7 +25,7 @@ namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
         #region Consts
 
         /// <summary>
-        /// The minimum number of generations we stay within simplifcation mode.
+        /// The minimum number of generations we stay within simplification mode.
         /// </summary>
         const int MinSimplifcationGenerations = 10;
 
@@ -57,7 +57,7 @@ namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
         ComplexityRegulationMode _currentMode;
 
         /// <summary>
-        /// The generation at which the last transition occured.
+        /// The generation at which the last transition occurred.
         /// </summary>
         uint _lastTransitionGeneration;
 
@@ -108,7 +108,7 @@ namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
                 }
             }
             else
-            {   // Currently simplifying. Test if simplication (ongoing reduction in complexity) has stalled.
+            {   // Currently simplifying. Test if simplification (ongoing reduction in complexity) has stalled.
                 // We allow simplification to progress for a few generations before testing of it has stalled, this allows
                 // a lead in time for the effects of simplification to occur.
                 // In addition we do not switch to complexifying if complexity is above the currently defined ceiling.

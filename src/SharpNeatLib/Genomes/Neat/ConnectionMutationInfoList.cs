@@ -61,7 +61,7 @@ namespace SharpNeat.Genomes.Neat
         #region Public Methods/Properties
 
         /// <summary>
-        /// Initialize the list. Call this after all items have been aded to the list. This
+        /// Initialize the list. Call this after all items have been add to the list. This
         /// creates a RouletteWheelLayout based upon the activation probability of each item 
         /// in the list.
         /// </summary>

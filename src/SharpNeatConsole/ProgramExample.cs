@@ -22,7 +22,7 @@ using SharpNeat.Genomes.Neat;
 namespace SharpNeatConsole
 {
     /// <summary>
-    /// Minimal console application that hardwaires the setting up on a evolution algorithm and start it running.
+    /// Minimal console application that hardwires the setting up on a evolution algorithm and start it running.
     /// </summary>
     class Program
     {

@@ -46,7 +46,7 @@ namespace SharpNeat.Utility
         public uint NextId
         {
             get
-            {   // ENHANCEMENT: Consider triggering an ID deframentaion here.
+            {   // ENHANCEMENT: Consider triggering an ID defragmentation here.
                 if (_nextId == uint.MaxValue) {
                     _nextId = 0;
                 }

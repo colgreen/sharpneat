@@ -81,8 +81,8 @@ namespace SharpNeat.Genomes.Neat
         /// Add a ConnectionGene to the builder, but only if the connection is not already present (as determined by it's neuron ID endpoints).
         /// </summary>
         /// <param name="connectionGene">The connection to add.</param>
-        /// <param name="parentGenome">The conenction's parent genome. This is used to obtain NeuronGene(s) for the connection endpoints.</param>
-        /// <param name="overwriteExisting">A flag that indicates if this connection should take precedence oevr an existing connection with
+        /// <param name="parentGenome">The connection's parent genome. This is used to obtain NeuronGene(s) for the connection endpoints.</param>
+        /// <param name="overwriteExisting">A flag that indicates if this connection should take precedence over an existing connection with
         /// the same endpoints.</param>
         public void TryAddGene(ConnectionGene connectionGene, NeatGenome parentGenome, bool overwriteExisting)
         {

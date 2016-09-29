@@ -19,7 +19,7 @@ namespace SharpNeat.Core
     /// Encapsulates genome evaluation data; specifically whether the genome has been evaluated, the genome's fitness,
     /// how many times the genome has been evaluated and if more than once then the mean fitness.
     /// 
-    /// Mean fitness is sometimes used when evaluations are non-determininstic (where each evaluation with the 
+    /// Mean fitness is sometimes used when evaluations are non-deterministic (where each evaluation with the 
     /// same parameters results in a different fitness, usually following some distribution curve) or else 
     /// successive evaluations use different evaluation parameters and therefore result in different fitnesses. 
     /// This approach is sometimes used in order to evaluate against a very computationally expensive fitness
@@ -118,7 +118,7 @@ namespace SharpNeat.Core
         /// <summary>
         /// Gets or sets the total number of times the genome has skipped evaluation.
         /// Some evaluation schemes re-evaluate genomes that persist between generations (e.g. elite genomes)
-        /// at each generation, whereas other schemes may chose to not re-evaulate or only re-evaluate every Nth
+        /// at each generation, whereas other schemes may chose to not re-evaluate or only re-evaluate every Nth
         /// generation/attempt. This counter tracks how many times the genome has been skipped to support such schemes.
         /// </summary>
         public uint EvaluationPassCount

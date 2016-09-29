@@ -20,7 +20,7 @@ using System.Diagnostics;
 namespace SharpNeat.Genomes.Neat
 {
     /// <summary>
-    /// A genome class for Neuro Evolution of Augemting Topologies (NEAT).
+    /// A genome class for Neuro Evolution of Augmenting Topologies (NEAT).
     /// 
     /// Note that neuron genes must be arranged according to the following layout plan.
     ///      Bias - single neuron. Innovation ID = 0
@@ -32,7 +32,7 @@ namespace SharpNeat.Genomes.Neat
     /// input and output neurons; This is convenient because bias and input and output neurons are
     /// fixed, they cannot be added to or removed and so remain constant throughout a given run. In fact they
     /// are only stored in the same list as hidden nodes as an efficiency measure when producing offspring 
-    /// and decoding genomes, otherwise it would probably make sense to store them in readonly lists.
+    /// and decoding genomes, otherwise it would probably make sense to store them in read-only lists.
     /// </summary>
     public class NeatGenome : IGenome<NeatGenome>, INetworkDefinition
     {
@@ -125,7 +125,7 @@ namespace SharpNeat.Genomes.Neat
             _neuronGeneList = new NeuronGeneList(copyFrom._neuronGeneList);
             _connectionGeneList = new ConnectionGeneList(copyFrom._connectionGeneList);
             
-            // Copy precalculated values.
+            // Copy pre-calculated values.
             _inputNeuronCount = copyFrom._inputNeuronCount;
             _outputNeuronCount = copyFrom._outputNeuronCount;
             _auxStateNeuronCount = copyFrom._auxStateNeuronCount;
@@ -191,7 +191,7 @@ namespace SharpNeat.Genomes.Neat
         /// <summary>
         /// Gets a coordinate that represents the genome's position in the search space (also known
         /// as the genetic encoding space). This allows speciation/clustering algorithms to operate on
-        /// an abstract cordinate data type rather than being coded against specific IGenome types.
+        /// an abstract coordinate data type rather than being coded against specific IGenome types.
         /// </summary>
         public CoordinateVector Position 
         { 
@@ -218,7 +218,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets or sets a cached phenome obtained from decodign the genome.
+        /// Gets or sets a cached phenome obtained from decoding the genome.
         /// Genomes are typically decoded to Phenomes for evaluation. This property allows decoders to 
         /// cache the phenome in order to avoid decoding on each re-evaluation; However, this is optional.
         /// The phenome in un-typed to prevent the class framework from becoming overly complex.
@@ -252,16 +252,16 @@ namespace SharpNeat.Genomes.Neat
         /// Assigned to the new genome at its birth generation.</param>
         public NeatGenome CreateOffspring(NeatGenome parent, uint birthGeneration)
         {
-            // NOTE: Feed-forward only networks. Due to how this crossover method works the resulting offsprign will never have recurrent
-            // conenctions if the two parents are feed-forward only, this is because we do not actually mix the connectivity of the two
+            // NOTE: Feed-forward only networks. Due to how this crossover method works the resulting offspring will never have recurrent
+            // connections if the two parents are feed-forward only, this is because we do not actually mix the connectivity of the two
             // parents (only the connection weights were there is a match). Therefore any changes to this method must take feed-forward 
             // networks into account.
 
             CorrelationResults correlationResults = CorrelateConnectionGeneLists(_connectionGeneList, parent._connectionGeneList);
             Debug.Assert(correlationResults.PerformIntegrityCheck(), "CorrelationResults failed integrity check.");
 
-            // Construct a ConnectionGeneListBuilder with its capacity set the the maximum number of connections that
-            // could be added to it (all connection genes from both parents). This eliminates the possiblity of having to
+            // Construct a ConnectionGeneListBuilder with its capacity set the maximum number of connections that
+            // could be added to it (all connection genes from both parents). This eliminates the possibility of having to
             // re-allocate list memory, improving performance at the cost of a little additional allocated memory on average.
             ConnectionGeneListBuilder connectionListBuilder = new ConnectionGeneListBuilder(_connectionGeneList.Count +
                                                                                             parent._connectionGeneList.Count);
@@ -304,8 +304,8 @@ namespace SharpNeat.Genomes.Neat
             // Loop 1: Get all genes that are present on the fittest parent. 
             // Note. All accepted genes are accumulated within connectionListBuilder.
             // Note. Any disjoint/excess genes that we wish to select from the least fit parent are stored in a second list for processing later 
-            // (this avoids having to do another complete pass through the correlation results). The principle reason for this is hancling detection of
-            // cyclic connections when combining two genomes when evolving feedforward-only networks. Each genome by itself will be acyclic, so can safely
+            // (this avoids having to do another complete pass through the correlation results). The principle reason for this is handling detection of
+            // cyclic connections when combining two genomes when evolving feed-forward-only networks. Each genome by itself will be acyclic, so can safely
             // copy all genes from any one parent, but for any genes from the other parent we then need to check each one as we add it to the offspring 
             // genome to check if it would create a cycle.
             List<CorrelationItem> disjointExcessGeneList = combineDisjointExcessFlag ? new List<CorrelationItem>(correlationResults.CorrelationStatistics.DisjointConnectionGeneCount + correlationResults.CorrelationStatistics.ExcessConnectionGeneCount) : null;
@@ -356,7 +356,7 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Loop 2: Add disjoint/excess genes from the least fit parent (if any). These may create connectivity cycles, hence we need to test
-            // for this when evoloving feedforward-only networks.
+            // for this when evolving feed-forward-only networks.
             if(null != disjointExcessGeneList && 0 != disjointExcessGeneList.Count)
             {
                 foreach(CorrelationItem correlItem in disjointExcessGeneList)
@@ -372,7 +372,7 @@ namespace SharpNeat.Genomes.Neat
                         parentGenome = parent;
                     }
 
-                    // We are effectively adding connections from one genome to another, as such it is possible to create cyclic conenctions here.
+                    // We are effectively adding connections from one genome to another, as such it is possible to create cyclic connections here.
                     // Thus only add the connection if we allow cyclic connections *or* the connection does not form a cycle.
                     if(!_genomeFactory.NeatGenomeParameters.FeedforwardOnly || !connectionListBuilder.IsConnectionCyclic(connectionGene.SourceNodeId, connectionGene.TargetNodeId))
                     {   // Add connection gene to the offspring's genome.
@@ -623,7 +623,7 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>
         /// Gets innovation IDs for a new neuron and two connections. We add neurons by splitting an existing connection, here we
-        /// check if the connection to be split has previously been split and if so attemopt to re-use the IDs assigned during that
+        /// check if the connection to be split has previously been split and if so attempt to re-use the IDs assigned during that
         /// split.
         /// </summary>
         /// <param name="connectionToReplaceId">ID of the connection that is being replaced.</param>
@@ -635,7 +635,7 @@ namespace SharpNeat.Genomes.Neat
             if(_genomeFactory.AddedNeuronBuffer.TryGetValue(connectionToReplaceId, out idStruct))
             {   
                 // Found existing matching structure.
-                // However we can only re-use the IDs from that structrue if they aren't already present in the current genome;
+                // However we can only re-use the IDs from that structure if they aren't already present in the current genome;
                 // this is possible because genes can be acquired from other genomes via sexual reproduction.
                 // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
                 // structures throughout the population, which is the reason for ID re-use.
@@ -695,15 +695,15 @@ namespace SharpNeat.Genomes.Neat
             int hiddenOutputNeuronCount = neuronCount - _inputAndBiasNeuronCount;
             int inputBiasHiddenNeuronCount = neuronCount - _outputNeuronCount;
 
-            // Use slightly different logic when evolving feedforward only networks.
+            // Use slightly different logic when evolving feed-forward only networks.
             if(_genomeFactory.NeatGenomeParameters.FeedforwardOnly)
             {
-                // Feeforward networks.
+                // Feed-forward networks.
                 for(int attempts=0; attempts<5; attempts++)
                 {
                     // Select candidate source and target neurons. 
                     // Valid source nodes are bias, input and hidden nodes. Output nodes are not source node candidates
-                    // for acyclic nets (because that can prevent futrue conenctions from targeting the output if it would
+                    // for acyclic nets (because that can prevent future connections from targeting the output if it would
                     // create a cycle).
                     int srcNeuronIdx = _genomeFactory.Rng.Next(inputBiasHiddenNeuronCount);
                     if(srcNeuronIdx >= _inputAndBiasNeuronCount) {
@@ -711,7 +711,7 @@ namespace SharpNeat.Genomes.Neat
                     }
 
                     // Valid target nodes are all hidden and output nodes.
-                    // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic conenction is tested for below). 
+                    // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic connection is tested for below). 
                     int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
                     if(srcNeuronIdx == tgtNeuronIdx)
                     {
@@ -829,7 +829,7 @@ namespace SharpNeat.Genomes.Neat
                 connectionWeight *= 0.01;
             }
 
-            // Check if a matching mutation has already occured on another genome. 
+            // Check if a matching mutation has already occurred on another genome. 
             // If so then re-use the connection ID.
             ConnectionEndpointsStruct connectionKey = new ConnectionEndpointsStruct(sourceId, targetId);
             uint? existingConnectionId;
@@ -872,7 +872,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Mutate a neuron's auxiliary state. Returns true if successfull (failure can occur if there are no neuron's with auxiliary state).
+        /// Mutate a neuron's auxiliary state. Returns true if successful (failure can occur if there are no neuron's with auxiliary state).
         /// </summary>
         private bool Mutate_NodeAuxState()
         {
@@ -978,7 +978,7 @@ namespace SharpNeat.Genomes.Neat
             ConnectionMutationInfo mutationInfo = _genomeFactory.NeatGenomeParameters.ConnectionMutationInfoList.GetRandomItem(_genomeFactory.Rng);
     
             // Get a delegate that performs the mutation specified by mutationInfo. The alternative is to use a switch statement
-            // test purturbance type on each connection weight mutation - which creates a lot of unnecessary branch instructions.
+            // test perturbance type on each connection weight mutation - which creates a lot of unnecessary branch instructions.
             MutateWeightMethod mutateWeigthMethod = Mutate_ConnectionWeights_GetMutateWeightMethod(mutationInfo);
 
             // Perform mutations of the required type.
@@ -1014,8 +1014,8 @@ namespace SharpNeat.Genomes.Neat
 
                 // ENHANCEMENT: If the number of connections is large relative to the number of required mutations, or the 
                 // absolute number of connections is small then the current approach is OK. If however the number of required 
-                // mutations is large such that the probability of 'hitting' an unmutated connections is low as the loop progresses,
-                // then we should use a set of non-mutated conenctions that we removed mutated connectiosn from in each loop.
+                // mutations is large such that the probability of 'hitting' an un-mutated connection is low as the loop progresses,
+                // then we should use a set of non-mutated connections that we removed mutated connections from in each loop.
                 //
                 // The mutation loop. Here we pick an index at random and scan forward from that point
                 // for the first non-mutated gene. This prevents any gene from being mutated more than once without
@@ -1455,12 +1455,12 @@ namespace SharpNeat.Genomes.Neat
                 }
             }
 
-            // Check that network is acyclic if we are evolving feedforward only networks 
+            // Check that network is acyclic if we are evolving feed-forward only networks 
             // (can only do this if we have a genome factory).
             if(null != _genomeFactory && _genomeFactory.NeatGenomeParameters.FeedforwardOnly)
             {
                 if(CyclicNetworkTest.IsNetworkCyclic(this)) {
-                    Debug.WriteLine("Feedforward only network has one or more cyclic paths.");
+                    Debug.WriteLine("Feed-forward only network has one or more cyclic paths.");
                     return false;
                 }
             }

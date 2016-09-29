@@ -21,7 +21,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     ///
     /// A network is defined as being relaxed when the change in output signal value between two successive
     /// update iterations is less than some threshold value (defined by maxAllowedSignalDelta on the constructor)
-    /// for all hidden and output neurons (inpus and bias neurons have a fixed output value).
+    /// for all hidden and output neurons (inputs and bias neurons have a fixed output value).
     /// </summary>
     public class RelaxingCyclicNetwork : CyclicNetwork
     {
@@ -69,7 +69,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             // part of the working data of the network.
             for(int i=0; i<_inputNeuronCount; i++)
             {   // The +1 takes into account the bias neuron at index 0.
-                // Note. we set the outputvalue of the input neurons, not the input value. This is because we 
+                // Note. we set the output value of the input neurons, not the input value. This is because we 
                 // don't want the signal to pass through the neuron's activation function.
                 _neuronList[i+1].OutputValue = _inputSignalArray[i];
             }

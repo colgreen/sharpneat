@@ -39,7 +39,7 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
 
         /// <summary>
         /// Gets a value indicating whether some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied
@@ -113,7 +113,7 @@ namespace SharpNeat.Domains.BinarySixMultiplexer
                 box.ResetState();
             }
 
-            // If teh correct answer was given in each case then add a bonus value to the fitness.
+            // If the correct answer was given in each case then add a bonus value to the fitness.
             if(success) {
                 fitness += 1000.0;
             }

@@ -76,7 +76,7 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
-        /// Optional auxilliary node state. Null if no aux state is present. 
+        /// Optional auxiliary node state. Null if no aux state is present. 
         /// Note. Radial Basis Function center and epsilon values are stored here.
         /// </summary>
         public double[] AuxState

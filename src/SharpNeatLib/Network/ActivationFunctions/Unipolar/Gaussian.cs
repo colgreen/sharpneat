@@ -17,8 +17,8 @@ using SharpNeat.Utility;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the gaussian
-    /// distribution curve tend towards 0 as abs(x) -> Infinity and the gaussian's peak is at x = 0.
+    /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian
+    /// distribution curve tend towards 0 as abs(x) -> Infinity and the Gaussian peak is at x = 0.
     /// </summary>
     public class Gaussian : IActivationFunction
     {

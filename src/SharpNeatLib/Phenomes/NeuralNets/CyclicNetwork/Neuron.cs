@@ -70,7 +70,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         }
 
         /// <summary>
-        /// Gets the neuron's acticvation function auxiliary arguments (if any).
+        /// Gets the neuron's activation function auxiliary arguments (if any).
         /// </summary>
         public double[] AuxiliaryArguments
         {

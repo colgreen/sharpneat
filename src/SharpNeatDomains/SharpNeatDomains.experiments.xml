@@ -261,7 +261,7 @@ Sin(x) evaluated over [-PI,+PI]
         1    | 0    | 1
         1    | 1    | 0
 
-Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interprested as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completey wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a sucessful network.
+Each test case is tested in turn. An output less than 0.5 is interpreted as a 0(false) response, >= is interpreted as a 1(true) response. Evaluation terminates early if a network fails to relax(settle on an output value) within 10 timesteps. A fitness of 1.0 is assigned for each correct test case, this is on a linear sliding scale that assigns 0 for a completely wrong response, e.g. 1.0 when 0.0 was expected. An additional fitness of 10 is assigned if all four test cases are passed. Thus the maximum fitness is 14, but any score >=10 indicates a successful network.
       </Description>
 
     </Config>
@@ -300,11 +300,11 @@ The task is for the controller to balance the pole for as long as possible by ap
   * Timesteps are in increments of 0.01 seconds.
   * Maximum timesteps for a trial is 100,000 (1000 seconds, or about 16 minutes clock time).
 
-The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 36 degress
+The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 36 degrees
 
 The model code was ported from the C/C++ code in NEAT by K.Stanley (http://www.cs.utexas.edu/users/kstanley/neat.html), that code in turn originated from the pole balancing simulator written by Richard Sutton and Charles Anderson.
 
-This controller uses normalized, continous inputs rather than discretized inputs.
+This controller uses normalized, continuous inputs rather than discretized inputs.
       </Description>
     </Config>
   </Experiment>
@@ -344,11 +344,11 @@ The task is for the controller to balance the pole for as long as possible by ap
   * Timesteps are in increments of 0.01 seconds.
   * Maximum timesteps for a trial is 100,000 (1000 seconds, or about 16 minutes clock time).
 
-The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 36 degress
+The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 36 degrees
 
 The model code was ported from the C/C++ code in NEAT by K.Stanley (http://www.cs.utexas.edu/users/kstanley/neat.html), that code in turn originated from the pole balancing simulator written by Richard Sutton and Charles Anderson.
 
-This controller uses normalized, continous inputs rather than discretized inputs.
+This controller uses normalized, continuous inputs rather than discretized inputs.
       </Description>
     </Config>
   </Experiment>
@@ -391,15 +391,15 @@ The task is for the controller to balance the pole for as long as possible by ap
 * Timesteps are in increments of 0.01 seconds.
 * Maximum timesteps for a trial is 100,000 (1000 seconds, or about 16 minutes clock time).
 
-The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 36 degress
+The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 36 degrees
 
 The model code was ported from the C/C++ code in NEAT by K.Stanley (http://www.cs.utexas.edu/users/kstanley/neat.html), that code in turn originated from the pole balancing simulator written by Richard Sutton and Charles Anderson.
 
-This controller uses normalized, continous inputs rather than discretized inputs.
+This controller uses normalized, continuous inputs rather than discretized inputs.
       </Description>
     </Config>
   </Experiment>
-  <!-- SinglePoleBalancingExperiment has been superceded by SinglePoleBalancingBox2DExperiment. That domain uses the tried and tested Box2D physics engine and also has visualisation. -->
+  <!-- SinglePoleBalancingExperiment has been superseded by SinglePoleBalancingBox2DExperiment. That domain uses the tried and tested Box2D physics engine and also has visualisation. -->
   <!--
   <Experiment name="Pole Balancing[Single Pole] (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
@@ -433,7 +433,7 @@ This controller uses normalized, continous inputs rather than discretized inputs
         * Timesteps are in increments of 0.01 seconds.
         * Maximum timesteps for a trial is 100,000 (1000 seconds, or about 16 minutes clock time).
 
-        The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 12 degress
+        The controller is considered to have failed if the cart runs off the ends of the track and/or the pole angle is >= 12 degrees
 
         The model code was ported from the C/C++ code in NEAT by K.Stanley (http://www.cs.utexas.edu/users/kstanley/neat.html), that code in turn originated from the pole balancing simulator written by Richard Sutton and Charles Anderson.
       </Description>
@@ -462,7 +462,7 @@ This controller uses normalized, continous inputs rather than discretized inputs
       <Description>Prey capture within a 24x24 grid. As described in Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997), Adaptive Behavior, 5:317-342, 1997.
 The paper can be found online at http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf
 
-A prey and an agent each occupy a single square within a 24x24 grid of squares. The agent must catch the prey. The prey is controlled by simple stochasitic rules - with probability of moving away from the agent increasing with proximity. The agent is controlled by the evolved 'brain', with sensor inputs and motor outputs for move north, east, south, west.
+A prey and an agent each occupy a single square within a 24x24 grid of squares. The agent must catch the prey. The prey is controlled by simple stochastic rules - with probability of moving away from the agent increasing with proximity. The agent is controlled by the evolved 'brain', with sensor inputs and motor outputs for move north, east, south, west.
 
 Each trial consists of up to 100 timesteps. If the agent catches the prey within the time limit it scores 1. The agent is trialled 100 times to get a score from 0 to 100.
 
@@ -528,7 +528,7 @@ The problem domain view allows the performance of the best genome to be observed
 'A Hypercube-Based Encoding for Evolving Large-Scale Neural Networks', Kenneth O. Stanley, David B. D'Ambrosio, and Jason Gauci (2009)
 http://eplex.cs.ucf.edu/publications/2009/stanley.alife09.html
 
-This vesion of the task provides an additional input to the CPPN that provides the length of each connection being queried.
+This version of the task provides an additional input to the CPPN that provides the length of each connection being queried.
 
 The task involves a visual field of 11x11 binary pixels (on/off, black/white). The field contains two boxes, one small and one large box that has an edge length 3x that of the smaller box. The goal is to identify the center pixel of the larger box.
 

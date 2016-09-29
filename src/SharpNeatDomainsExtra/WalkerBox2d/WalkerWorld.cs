@@ -42,13 +42,13 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         #region Constructors
 
         /// <summary>
-        /// Defautl constrcutor.
+        /// Default constructor.
         /// </summary>
         public WalkerWorld() : this(new XorShiftRandom(), 300)
         {}
 
         /// <summary>
-        /// Defautl constrcutor.
+        /// Default constructor.
         /// </summary>
         public WalkerWorld(XorShiftRandom rng) : this(rng, 300)
         {}

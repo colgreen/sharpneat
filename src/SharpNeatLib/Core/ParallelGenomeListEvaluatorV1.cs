@@ -15,12 +15,12 @@ using System.Threading;
 
 namespace SharpNeat.Core
 {
-    // TODO: Delete class file. Superceded by Parallel Extensions based version.
+    // TODO: Delete class file. Superseded by Parallel Extensions based version.
     // ENHANCEMENT: Ultimately much of the code here can be replaced by using Parallel.For() which is part of the
     // 'parallel extensions' present in .Net 4.0. For now we use System.Threading directly to minimize any
     // difficulties compiling the code in different environments, e.g. .Net 2.0 and Mono.
     /// <summary>
-    /// A concrete implementation of IGenomeListEvaluator that evaulates genomes independently of each 
+    /// A concrete implementation of IGenomeListEvaluator that evaluates genomes independently of each 
     /// other and in parallel (on multiple execution threads).
     /// 
     /// Genome decoding is performed by a provided IGenomeDecoder.
@@ -142,7 +142,7 @@ namespace SharpNeat.Core
 
         /// <summary>
         /// Indicates to the evolution algorithm that some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied
@@ -235,10 +235,10 @@ namespace SharpNeat.Core
             // All work has been allocated. Wait for all worker threads to complete.            
             WaitHandle.WaitAll(_completedWorkEventArr);
 
-            // Keep track of how long the evalations took in total clock time.
+            // Keep track of how long the evaluations took in total clock time.
             _prevDuration = DateTime.Now.Ticks - startTick;
 
-            // Reset the genome list reference in all workers. Cleaning up references helps garbage colelction.
+            // Reset the genome list reference in all workers. Cleaning up references helps garbage collection.
             for(int i=0; i<workerCount; i++) {
                 _infoArr[i]._genomeList = null;
             }

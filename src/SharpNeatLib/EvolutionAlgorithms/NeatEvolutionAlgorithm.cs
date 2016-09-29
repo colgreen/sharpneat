@@ -466,7 +466,7 @@ namespace SharpNeat.EvolutionAlgorithms
                 SpecieStats inst = specieStatsArr[i];
                 inst._eliteSizeInt = Math.Min(eliteSizeInt, inst._targetSizeInt);
 
-                // Ensure the champ specie preserves the champ genome. We do this even if the targetsize is just 1
+                // Ensure the champ specie preserves the champ genome. We do this even if the target size is just 1
                 // - which means the champ genome will remain and no offspring will be produced from it, apart from 
                 // the (usually small) chance of a cross-species mating.
                 if(i == _bestSpecieIdx && inst._eliteSizeInt==0)
@@ -514,7 +514,7 @@ namespace SharpNeat.EvolutionAlgorithms
             int nonZeroSpecieCount = 0;
             for(int i=0; i<specieCount; i++) 
             {
-                // Array of probabilities for specie selection. Note that some of these probabilites can be zero, but at least one of them won't be.
+                // Array of probabilities for specie selection. Note that some of these probabilities can be zero, but at least one of them won't be.
                 SpecieStats inst = specieStatsArr[i];
                 specieFitnessArr[i] = inst._selectionSizeInt;
                 if(0 != inst._selectionSizeInt) {
@@ -620,7 +620,7 @@ namespace SharpNeat.EvolutionAlgorithms
         /// <summary>
         /// Cross specie mating.
         /// </summary>
-        /// <param name="rwl">RouletteWheelLayout for selectign genomes in teh current specie.</param>
+        /// <param name="rwl">RouletteWheelLayout for selecting genomes in the current specie.</param>
         /// <param name="rwlArr">Array of RouletteWheelLayout objects for genome selection. One for each specie.</param>
         /// <param name="rwlSpecies">RouletteWheelLayout for selecting species. Based on relative fitness of species.</param>
         /// <param name="currentSpecieIdx">Current specie's index in _specieList</param>

@@ -267,7 +267,7 @@ namespace SharpNeat.Domains.PreyCapture
 
         /// <summary>
         /// Move the prey. The prey moves by a simple set of stochastic rules that make it more likely to move away from
-        /// the agent, and moreso when it is close.
+        /// the agent, and more so when it is close.
         /// </summary>
         public void MovePrey()
         {
@@ -282,7 +282,7 @@ namespace SharpNeat.Domains.PreyCapture
 			// Calculate probabilities of moving in each of the four directions. This stochastic strategy is taken from:
             // Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997)
             // (http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf)
-            // Essentially the prey moves randomply but we bias the movements so the prey moves away from the agent, and thus 
+            // Essentially the prey moves randomly but we bias the movements so the prey moves away from the agent, and thus 
             // generally avoids getting eaten through stupidity.
             double T = MovePrey_T(relPolarPos.Radial);
             double[] probs = new double[4];

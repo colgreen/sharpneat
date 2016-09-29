@@ -89,7 +89,7 @@ namespace SharpNeat.View.Graph
 
             // Loop connections. Build GraphConnection objects and connect them to their source
             // and target nodes.
-            double maxAbsWeight = 0.1; // Start at a non-zero value to prevent possibility of a divide by zero occuring.
+            double maxAbsWeight = 0.1; // Start at a non-zero value to prevent possibility of a divide by zero occurring.
             IConnectionList connectionList = networkDef.ConnectionList;
             int connCount = connectionList.Count;            
             for(int i=0; i<connCount; i++)
@@ -104,7 +104,7 @@ namespace SharpNeat.View.Graph
                 sourceNode.OutConnectionList.Add(conn);
                 targetNode.InConnectionList.Add(conn);
 
-                // Track weight range oevr all connections.
+                // Track weight range over all connections.
                 double absWeight = Math.Abs(connection.Weight);
                 if(absWeight > maxAbsWeight) {
                     maxAbsWeight = absWeight;
@@ -117,7 +117,7 @@ namespace SharpNeat.View.Graph
 
 
         /// <summary>
-        /// Create auxilliary data for the specified INetworkNode.
+        /// Create auxiliary data for the specified INetworkNode.
         /// This version places the node activation function ID into element 0 of the aux data array.
         /// </summary>
         protected virtual object[] CreateGraphNodeAuxData(INetworkNode node)

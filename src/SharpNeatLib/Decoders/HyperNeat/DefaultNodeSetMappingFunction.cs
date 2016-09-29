@@ -18,9 +18,9 @@ namespace SharpNeat.Decoders.HyperNeat
     /// Defines a mapping between two node sets based on mapping all source nodes to all target nodes, but with an option to 
     /// omit mappings where the distance between source and target node is over some threshold. 
     /// 
-    /// In addition the same nodeset can be passed to the GenerateConnections() method as both source and targt. This allows 
+    /// In addition the same nodeset can be passed to the GenerateConnections() method as both source and target. This allows 
     /// for creating connections between nodes within a layer. The optional max distance still applies and an additional boolean
-    /// option indicates if the local recurrent conenction for each node (from its output back to its input) should be generated.
+    /// option indicates if the local recurrent connection for each node (from its output back to its input) should be generated.
     /// </summary>
     public class DefaultNodeSetMappingFunction : INodeSetMappingFunction
     {
@@ -166,7 +166,7 @@ namespace SharpNeat.Decoders.HyperNeat
         }
 
         /// <summary>
-        /// Calulcate the Euclidean distance between two points in n-dimensions.
+        /// Calculate the Euclidean distance between two points in n-dimensions.
         /// </summary>
         private double CalcDistanceSquared(double[] srcPos, double[] tgtPos)
         {

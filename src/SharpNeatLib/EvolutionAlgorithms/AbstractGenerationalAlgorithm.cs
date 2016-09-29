@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace SharpNeat.EvolutionAlgorithms
 {
     /// <summary>
-    /// Abstract class providing some common/baseline data and methods for implementions of IEvolutionAlgorithm.
+    /// Abstract class providing some common/baseline data and methods for implementations of IEvolutionAlgorithm.
     /// </summary>
     /// <typeparam name="TGenome">The genome type that the algorithm will operate on.</typeparam>
     public abstract class AbstractGenerationalAlgorithm<TGenome> : IEvolutionAlgorithm<TGenome>
@@ -58,7 +58,7 @@ namespace SharpNeat.EvolutionAlgorithms
         #region Events
 
         /// <summary>
-        /// Notifies listeners that some state change has occured.
+        /// Notifies listeners that some state change has occurred.
         /// </summary>
         public event EventHandler UpdateEvent;
         /// <summary>

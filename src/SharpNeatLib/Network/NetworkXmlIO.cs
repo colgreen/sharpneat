@@ -372,7 +372,7 @@ namespace SharpNeat.Network
                     {   // Read activation fn ID.
                         fnId = XmlIoUtils.ReadAttributeAsInt(xrSubtree, __AttrActivationFunctionId);
 
-                        // Read aux state as comma seperated list of real values.
+                        // Read aux state as comma separated list of real values.
                         auxState = XmlIoUtils.ReadAttributeAsDoubleArray(xrSubtree, __AttrAuxState);
                     }
 

@@ -25,7 +25,7 @@ namespace SharpNeat.Genomes.Neat
         #region Constructor
 
         /// <summary>
-        /// Cosntructs with a specified initial correlation item list capacity.
+        /// Constructs with a specified initial correlation item list capacity.
         /// </summary>
         public CorrelationResults(int itemListCapacity)
         {

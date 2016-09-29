@@ -45,8 +45,8 @@ namespace SharpNeat.View.Graph
         /// layout area. Therefore if the only node at a given depth is an output node then the layout layer 
         /// can be empty. To handle this neatly we check for empty layout layers before invoking the layout logic.
         /// </summary>
-        /// <param name="graph">The network/graph structure to be layed out.</param>
-        /// <param name="layoutArea">The area the structure is to be layed out on.</param>
+        /// <param name="graph">The network/graph structure to be laid out.</param>
+        /// <param name="layoutArea">The area the structure is to be laid out on.</param>
         public void Layout(IOGraph graph, Size layoutArea)
         {
             int inputCount = graph.InputNodeList.Count;
@@ -123,7 +123,7 @@ namespace SharpNeat.View.Graph
             // 10) l = H / (d + 2p - 1)
             const float p = 0.33f;
             const float p2 = 2f * p;
-            // Rounding will produce 'off by one' errors, e.g. all heights may not total heinght of layout area,
+            // Rounding will produce 'off by one' errors, e.g. all heights may not total height of layout area,
             // but the effect is probably negligible on the quality of the layout.
             int layoutLayerCount = layersByDepth.Count;
             int l = (int)Math.Round((float)layoutArea.Height / ((float)layoutLayerCount + p2 - 1f));
@@ -149,7 +149,7 @@ namespace SharpNeat.View.Graph
                     UpdateModelBounds(layerNodeList[nodeIdx], ref bounds);
                 }
 
-                // Increament y coord for next layer.
+                // Increment y coord for next layer.
                 yCurrent += l;
             }
 

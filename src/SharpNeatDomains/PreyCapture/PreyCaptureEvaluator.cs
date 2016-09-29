@@ -15,7 +15,7 @@ using SharpNeat.Phenomes;
 namespace SharpNeat.Domains.PreyCapture
 {
     /// <summary>
-    /// Evaulator for the prey capture task.
+    /// Evaluator for the prey capture task.
     /// </summary>
     public class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox>
     {
@@ -60,7 +60,7 @@ namespace SharpNeat.Domains.PreyCapture
 
         /// <summary>
         /// Gets a value indicating whether some goal fitness has been achieved and that
-        /// the the evolutionary algorithm/search should stop. This property's value can remain false
+        /// the evolutionary algorithm/search should stop. This property's value can remain false
         /// to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied
@@ -86,7 +86,7 @@ namespace SharpNeat.Domains.PreyCapture
                 }
             }
 
-            // Track number of evaulations and test stop condition.
+            // Track number of evaluations and test stop condition.
             _evalCount++;
             if(fitness == _trialsPerEvaluation) {
                 _stopConditionSatisfied = true;

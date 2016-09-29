@@ -44,7 +44,7 @@ namespace SharpNeat.Domains
         /// </summary>
         int _visualFieldResolution;
         /// <summary>
-        /// The experiment class that containsconfig settings parsed from the experiment config XML.
+        /// The experiment class that contains config settings parsed from the experiment config XML.
         /// </summary>
         BoxesVisualDiscriminationExperiment _experiment;
         /// <summary>
@@ -269,10 +269,10 @@ namespace SharpNeat.Domains
 
             // If the viewport has grown beyond the size of the image then create a new image. 
             // Note. If the viewport shrinks we just paint on the existing (larger) image, this prevents unnecessary 
-            // and expensive construction/destrucion of Image objects.
+            // and expensive construction/destruction of Image objects.
             if(width > _image.Width || height > _image.Height) 
-            {   // Reset the image's size. We round up the the nearest __imageSizeChangeDelta. This prevents unnecessary 
-                // and expensive construction/destrucion of Image objects as the viewport is resized multiple times.
+            {   // Reset the image's size. We round up the nearest __imageSizeChangeDelta. This prevents unnecessary 
+                // and expensive construction/destruction of Image objects as the viewport is resized multiple times.
                 int imageWidth = (int)(Math.Ceiling((float)width / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 int imageHeight = (int)(Math.Ceiling((float)height / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 _image = new Bitmap(imageWidth, imageHeight, ViewportPixelFormat);

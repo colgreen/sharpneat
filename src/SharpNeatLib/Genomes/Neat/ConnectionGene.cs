@@ -109,7 +109,7 @@ namespace SharpNeat.Genomes.Neat
         #region Public Methods
 
         /// <summary>
-        /// Creates a copy of the current gene. Virtual method that can be overriden by sub-types.
+        /// Creates a copy of the current gene. Virtual method that can be overridden by sub-types.
         /// </summary>
         public virtual ConnectionGene CreateCopy()
         {
