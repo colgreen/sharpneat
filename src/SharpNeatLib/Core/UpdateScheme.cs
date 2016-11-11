@@ -64,7 +64,7 @@ namespace SharpNeat.Core
         }
 
         /// <summary>
-        /// Gets the number timespan between updates; Applies only to the timespan update scheme.
+        /// Gets the timespan between updates; Applies only to the timespan update scheme.
         /// </summary>
         public TimeSpan TimeSpan
         {
