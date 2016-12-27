@@ -823,7 +823,7 @@ namespace SharpNeat.Genomes.Neat
 
             // Determine the connection weight.
             // TODO: Make this behaviour configurable.
-            // 50% of the time us weights very close to zero.
+            // 50% of the time use weights very close to zero.
             double connectionWeight = _genomeFactory.GenerateRandomConnectionWeight();
             if(_genomeFactory.Rng.NextBool()) {
                 connectionWeight *= 0.01;
@@ -837,9 +837,7 @@ namespace SharpNeat.Genomes.Neat
             if(_genomeFactory.AddedConnectionBuffer.TryGetValue(connectionKey, out existingConnectionId))
             {   
                 // Create a new connection, re-using the ID from existingConnectionId, and add it to the Genome.
-                newConnectionGene = new ConnectionGene(existingConnectionId.Value,
-                                                        sourceId, targetId,
-                                                        _genomeFactory.GenerateRandomConnectionWeight());
+                newConnectionGene = new ConnectionGene(existingConnectionId.Value, sourceId, targetId, connectionWeight);
 
                 // Add the new gene to this genome. We are re-using an ID so we must ensure the connection gene is
                 // inserted into the correct position (sorted by innovation ID). The ID is most likely an older one
@@ -849,17 +847,15 @@ namespace SharpNeat.Genomes.Neat
             else
             {   
                 // Create a new connection with a new ID and add it to the Genome.
-                newConnectionGene = new ConnectionGene(_genomeFactory.NextInnovationId(),
-                                                        sourceId, targetId,
-                                                        _genomeFactory.GenerateRandomConnectionWeight());
+                newConnectionGene = new ConnectionGene(_genomeFactory.NextInnovationId(), sourceId, targetId, connectionWeight);
 
                 // Add the new gene to this genome. We have a new ID so we can safely append the gene to the end 
                 // of the list without risk of breaking the innovation ID sort order.
                 _connectionGeneList.Add(newConnectionGene);
 
                 // Register the new connection with the added connection history buffer.
-                _genomeFactory.AddedConnectionBuffer.Enqueue(new ConnectionEndpointsStruct(sourceId, targetId),
-                                                                newConnectionGene.InnovationId);
+                _genomeFactory.AddedConnectionBuffer.Enqueue(new ConnectionEndpointsStruct(sourceId, targetId), 
+                                                             newConnectionGene.InnovationId);
             }
 
             // Track connections associated with each neuron.
