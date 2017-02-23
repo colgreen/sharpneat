@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box2dTestHarness", "Box2dTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatDomainsExtra", "SharpNeatDomainsExtra\SharpNeatDomainsExtra.csproj", "{3A1B9DEC-AECE-42F3-BAD9-9172482C43AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficacySampler", "EfficacySampler\EfficacySampler.csproj", "{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,18 @@ Global
 		{3A1B9DEC-AECE-42F3-BAD9-9172482C43AB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3A1B9DEC-AECE-42F3-BAD9-9172482C43AB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3A1B9DEC-AECE-42F3-BAD9-9172482C43AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC4EDED1-7BCE-4DA2-BCFA-1532F6238F40}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
