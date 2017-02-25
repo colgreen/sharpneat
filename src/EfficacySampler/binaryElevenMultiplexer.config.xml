@@ -7,6 +7,7 @@
   </Activation>
   <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
   <ComplexityThreshold>10</ComplexityThreshold>
+  <MaxDegreeOfParallelism>4</MaxDegreeOfParallelism>
   <Description>
     Binary 11-Multiplexer task with binary inputs/outputs.
     Evaluation consists of testing a network against each of the 2048 (=2^11) possible input combinations. An output less than 0.5 is considered a binary 0 answer, and >=0.5 a binary 1. However, fitness is scored based on how close a given network's response is to each correct answer, therefore the maximum fitness is 2048 if exact answers are given, and the minimum possible fitness while still being correct overall is approx 1024.
