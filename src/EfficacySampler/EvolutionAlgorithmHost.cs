@@ -40,7 +40,7 @@ namespace EfficacySampler
             Block(_stopCond);
             
             // Stop any threads and record best fitness.
-            _ea.RequestPauseAndWait();
+            _ea.RequestTerminateAndWait();
             double fitness = _ea.Statistics._maxFitness;
 
             // Make some attempts at forcing release of resources (especially RAM) before we hand control back.

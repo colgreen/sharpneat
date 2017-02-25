@@ -50,6 +50,7 @@ namespace SharpNeat.EvolutionAlgorithms
         // Misc working variables.
         Thread _algorithmThread;
         bool _pauseRequestFlag;
+        bool _terminateFlag = false;
         readonly AutoResetEvent _awaitPauseEvent = new AutoResetEvent(false);
         readonly AutoResetEvent _awaitRestartEvent = new AutoResetEvent(false);
 
@@ -231,6 +232,22 @@ namespace SharpNeat.EvolutionAlgorithms
             }
         }
 
+        public void RequestTerminateAndWait()
+        {
+            if(RunState.Running == _runState) 
+            {   
+                // Signal worker thread to terminate.
+                _terminateFlag = true;
+                _pauseRequestFlag = true;
+                _awaitPauseEvent.WaitOne();
+            }
+        }
+
+        public void Dispose()
+        {
+            RequestTerminateAndWait();
+        }
+
         #endregion
 
         #region Private/Protected Methods [Evolution Algorithm]
@@ -261,6 +278,11 @@ namespace SharpNeat.EvolutionAlgorithms
                     {
                         // Signal to any waiting thread that we are pausing
                         _awaitPauseEvent.Set();
+
+                        // Test for terminate signal.
+                        if(_terminateFlag) {
+                            return;
+                        }
 
                         // Reset the flag. Update RunState and notify any listeners of the state change.
                         _pauseRequestFlag = false;

@@ -17,7 +17,7 @@ namespace SharpNeat.Core
     /// <summary>
     /// A generic interface for evolution algorithm classes.
     /// </summary>
-    public interface IEvolutionAlgorithm<TGenome>
+    public interface IEvolutionAlgorithm<TGenome> : IDisposable
         where TGenome : class, IGenome<TGenome>
     {
         /// <summary>
