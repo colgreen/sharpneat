@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpNeatDomainsExtra\SharpNeatDomainsExtra.csproj">
+      <Project>{3a1b9dec-aece-42f3-bad9-9172482c43ab}</Project>
+      <Name>SharpNeatDomainsExtra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpNeatDomains\SharpNeatDomains.csproj">
       <Project>{73ab8c8c-6315-4dc7-a3de-3c747f86ac78}</Project>
       <Name>SharpNeatDomains</Name>
@@ -88,7 +92,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="binaryElevenMultiplexer.config.xml">
+    <Content Include="config\invertedDoublePendulum.config.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\binaryElevenMultiplexer.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

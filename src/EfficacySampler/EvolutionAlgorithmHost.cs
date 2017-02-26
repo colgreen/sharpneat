@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Xml;
 using SharpNeat.Core;
-using SharpNeat.Domains.BinaryElevenMultiplexer;
+using SharpNeat.Domains;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.Genomes.Neat;
 
@@ -12,13 +11,15 @@ namespace EfficacySampler
 {
     public class EvolutionAlgorithmHost
     {
+        IGuiNeatExperiment _experiment;
         StopCondition _stopCond;
         NeatEvolutionAlgorithm<NeatGenome> _ea;
 
         #region Constructor
 
-        public EvolutionAlgorithmHost(StopCondition stopCond)
+        public EvolutionAlgorithmHost(IGuiNeatExperiment experiment, StopCondition stopCond)
         {
+            _experiment = experiment;
             _stopCond = stopCond;
         }
 
@@ -33,7 +34,7 @@ namespace EfficacySampler
         /// <returns></returns>
         public double Sample()
         {
-            _ea = InitEA(1000);
+            _ea = CreateEvolutionAlgorithm();
             _ea.StartContinue();
 
             // Block the current thread until the EA stop condition occurs.
@@ -53,6 +54,15 @@ namespace EfficacySampler
         #endregion
 
         #region Private Methods
+
+        private NeatEvolutionAlgorithm<NeatGenome> CreateEvolutionAlgorithm()
+        {
+            int popSize = _experiment.DefaultPopulationSize;
+            IGenomeFactory<NeatGenome> genomeFactory = _experiment.CreateGenomeFactory();
+            List<NeatGenome> genomeList = genomeFactory.CreateGenomeList(popSize, 0);
+            NeatEvolutionAlgorithm<NeatGenome> ea = _experiment.CreateEvolutionAlgorithm(genomeFactory, genomeList);
+            return ea;
+        }
 
         private void Block(StopCondition stopCond)
         {
@@ -89,26 +99,6 @@ namespace EfficacySampler
                 }
                 Thread.Sleep(1000);
             }
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        private static NeatEvolutionAlgorithm<NeatGenome> InitEA(int populationSize)
-        {
-            // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
-            BinaryElevenMultiplexerExperiment experiment = new BinaryElevenMultiplexerExperiment();
-
-            // Load config XML.
-            XmlDocument xmlConfig = new XmlDocument();
-            xmlConfig.Load("binaryElevenMultiplexer.config.xml");
-            experiment.Initialize(experiment.Name, xmlConfig.DocumentElement);
-
-            IGenomeFactory<NeatGenome> genomeFactory = experiment.CreateGenomeFactory();
-            List<NeatGenome> genomeList = genomeFactory.CreateGenomeList(populationSize, 0);
-            NeatEvolutionAlgorithm<NeatGenome> ea = experiment.CreateEvolutionAlgorithm(genomeFactory, genomeList);
-            return ea;
         }
 
         #endregion

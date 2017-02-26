@@ -1,25 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EfficacySampler
 {
     public static class ArgUtils
     {
-        public static StopCondition ReadArgs(string[] args)
+        public static StopCondition ReadArgs(string[] args, out string experimentId)
         {
-            if(args.Length != 2)
+            if(args.Length != 3)
             {
                 Console.WriteLine("Format is:");
-                Console.WriteLine("  sampler secs {n}");
-                Console.WriteLine("  sampler gens {n}");
+                Console.WriteLine("  sampler {experiment} secs {n}");
+                Console.WriteLine("  sampler {experiment} gens {n}");
+
+                Console.WriteLine("");
+                Console.WriteLine("  Experiment options are:  ");
+                Console.WriteLine("    binaryeleven");
+                Console.WriteLine("    inverted");
+                experimentId = null;
                 return null;
             }
 
+            experimentId = args[0];
+            StopCondition sc = ReadStopCondition(args[1], args[2]);
+            return sc;
+        }
+
+        private static StopCondition ReadStopCondition(string type, string valStr)
+        {
+
             StopCondition sc = new StopCondition();
-            switch(args[0].ToLowerInvariant())
+            switch(type.ToLowerInvariant())
             {
                 case "secs":
                     sc.StopConditionType = StopConditionType.ElapsedClockTime;
@@ -28,14 +38,14 @@ namespace EfficacySampler
                     sc.StopConditionType = StopConditionType.GenerationCount;
                     break;
                 default:
-                    Console.WriteLine($"Invalid stop condition type [{args[0]}]");
+                    Console.WriteLine($"Invalid stop condition type [{type}]");
                     return null;
             }
 
             int val;
-            if(!int.TryParse(args[1], out val) || val <= 0)
+            if(!int.TryParse(valStr, out val) || val <= 0)
             {
-                Console.WriteLine($"Invalid stop condition value [${args[1]}]");
+                Console.WriteLine($"Invalid stop condition value [${valStr}]");
                 return null;
             }
             sc.Value = val;
