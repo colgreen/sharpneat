@@ -10,10 +10,19 @@ namespace EfficacySampler
 {
     class Program
     {
+        static StreamWriter __streamWriter;
+
         static void Main(string[] args)
         {
+            Console.CancelKeyPress += delegate {
+                if(null != __streamWriter) {
+                    __streamWriter.Close();
+                }
+            };
+
             string experimentId;
-            StopCondition stopCond = ArgUtils.ReadArgs(args, out experimentId);
+            string filename;
+            StopCondition stopCond = ArgUtils.ReadArgs(args, out experimentId, out filename);
             if(null == stopCond) {
                 return;
             }
@@ -30,14 +39,42 @@ namespace EfficacySampler
             // Initialise evolution algorithm host.
             EvolutionAlgorithmHost eaHost = new EvolutionAlgorithmHost(experiment, stopCond);
 
-            for(;;)
+            __streamWriter = InitOutputFile(filename);
+            try
             {
-                double fitness = eaHost.Sample();
-                Console.WriteLine(fitness);
-            }  
+                for(;;)
+                {
+                    double secs;
+                    int gens;
+                    double fitness = eaHost.Sample(out secs, out gens);
+                    __streamWriter.WriteLine($"{secs},{gens},{fitness}");
+                    __streamWriter.Flush();
+                }
+            }
+            finally
+            {
+                if(null != __streamWriter) {
+                    __streamWriter.Close();
+                }
+            }
         }
 
         #region Private Static Methods
+
+        private static StreamWriter InitOutputFile(string filename)
+        {
+            FileInfo fileInfo = new FileInfo(filename);
+            if(fileInfo.Exists)
+            {
+                // Append to existing file.
+                return new StreamWriter(filename, true);
+            }
+            
+            // Create new file and write a header row.
+            StreamWriter sw = new StreamWriter(filename);
+            sw.WriteLine("secs,gens,bestfitness");
+            return sw;
+        }
 
         private static IGuiNeatExperiment InitExperiment(string experimentId)
         {

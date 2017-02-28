@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using SharpNeat.Core;
 using SharpNeat.Domains;
@@ -14,6 +15,7 @@ namespace EfficacySampler
         IGuiNeatExperiment _experiment;
         StopCondition _stopCond;
         NeatEvolutionAlgorithm<NeatGenome> _ea;
+        Stopwatch _stopwatch;
 
         #region Constructor
 
@@ -21,6 +23,7 @@ namespace EfficacySampler
         {
             _experiment = experiment;
             _stopCond = stopCond;
+            _stopwatch = new Stopwatch();
         }
 
         #endregion
@@ -32,17 +35,22 @@ namespace EfficacySampler
         /// Once the stop conditon is reached this method returns with the current best fitness in the population.
         /// </summary>
         /// <returns></returns>
-        public double Sample()
+        public double Sample(out double secs, out int gens)
         {
             _ea = CreateEvolutionAlgorithm();
+            _stopwatch.Restart();
             _ea.StartContinue();
 
             // Block the current thread until the EA stop condition occurs.
             Block(_stopCond);
-            
+
             // Stop any threads and record best fitness.
             _ea.RequestTerminateAndWait();
+            _stopwatch.Stop();
+
             double fitness = _ea.Statistics._maxFitness;
+            secs = _stopwatch.ElapsedMilliseconds * 0.001;
+            gens = (int)_ea.CurrentGeneration;
 
             // Make some attempts at forcing release of resources (especially RAM) before we hand control back.
             _ea = null;

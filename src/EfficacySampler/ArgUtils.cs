@@ -4,24 +4,28 @@ namespace EfficacySampler
 {
     public static class ArgUtils
     {
-        public static StopCondition ReadArgs(string[] args, out string experimentId)
+        public static StopCondition ReadArgs(string[] args, out string experimentId, out string filename)
         {
-            if(args.Length != 3)
+            if(args.Length != 4)
             {
                 Console.WriteLine("Format is:");
-                Console.WriteLine("  sampler {experiment} secs {n}");
-                Console.WriteLine("  sampler {experiment} gens {n}");
+                Console.WriteLine("  sampler {experiment} secs {n} {outputfilename}");
+                Console.WriteLine("  sampler {experiment} gens {n} {outputfilename}");
 
                 Console.WriteLine("");
                 Console.WriteLine("  Experiment options are:  ");
                 Console.WriteLine("    binaryeleven");
                 Console.WriteLine("    inverted");
                 experimentId = null;
+                filename = null;
                 return null;
             }
 
             experimentId = args[0];
             StopCondition sc = ReadStopCondition(args[1], args[2]);
+
+            // output filename
+            filename = args[3];
             return sc;
         }
 
