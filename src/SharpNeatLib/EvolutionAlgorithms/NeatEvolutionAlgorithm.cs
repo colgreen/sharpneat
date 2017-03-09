@@ -689,60 +689,63 @@ namespace SharpNeat.EvolutionAlgorithms
         /// </summary>
         private void UpdateStats()
         {
-            _stats._generation = _currentGeneration;
-            _stats._totalEvaluationCount = _genomeListEvaluator.EvaluationCount;
-
-            // Evaluation per second.
-            DateTime now = DateTime.Now;
-            TimeSpan duration = now - _stats._evalsPerSecLastSampleTime;  
-          
-            // To smooth out the evals per sec statistic we only update if at least 1 second has elapsed 
-            // since it was last updated.
-            if(duration.Ticks > 9999)
+            lock(_stats)
             {
-                long evalsSinceLastUpdate = (long)(_genomeListEvaluator.EvaluationCount - _stats._evalsCountAtLastUpdate);
-                _stats._evaluationsPerSec = (int)((evalsSinceLastUpdate*1e7) / duration.Ticks);
+                _stats._generation = _currentGeneration;
+                _stats._totalEvaluationCount = _genomeListEvaluator.EvaluationCount;
 
-                // Reset working variables.
-                _stats._evalsCountAtLastUpdate = _genomeListEvaluator.EvaluationCount;
-                _stats._evalsPerSecLastSampleTime = now;
+                // Evaluation per second.
+                DateTime now = DateTime.Now;
+                TimeSpan duration = now - _stats._evalsPerSecLastSampleTime;  
+          
+                // To smooth out the evals per sec statistic we only update if at least 1 second has elapsed 
+                // since it was last updated.
+                if(duration.Ticks > 9999)
+                {
+                    long evalsSinceLastUpdate = (long)(_genomeListEvaluator.EvaluationCount - _stats._evalsCountAtLastUpdate);
+                    _stats._evaluationsPerSec = (int)((evalsSinceLastUpdate*1e7) / duration.Ticks);
+
+                    // Reset working variables.
+                    _stats._evalsCountAtLastUpdate = _genomeListEvaluator.EvaluationCount;
+                    _stats._evalsPerSecLastSampleTime = now;
+                }
+
+                // Fitness and complexity stats.
+                double totalFitness = _genomeList[0].EvaluationInfo.Fitness;
+                double totalComplexity = _genomeList[0].Complexity;
+                double maxComplexity = totalComplexity;
+
+                int count = _genomeList.Count;
+                for(int i=1; i<count; i++) {
+                    totalFitness += _genomeList[i].EvaluationInfo.Fitness;
+                    totalComplexity += _genomeList[i].Complexity;
+                    maxComplexity = Math.Max(maxComplexity, _genomeList[i].Complexity);
+                }
+
+                _stats._maxFitness = _currentBestGenome.EvaluationInfo.Fitness;
+                _stats._meanFitness = totalFitness / count;
+
+                _stats._maxComplexity = maxComplexity;
+                _stats._meanComplexity = totalComplexity / count;
+
+                // Specie champs mean fitness.
+                double totalSpecieChampFitness = _specieList[0].GenomeList[0].EvaluationInfo.Fitness;
+                int specieCount = _specieList.Count;
+                for(int i=1; i<specieCount; i++) {
+                    totalSpecieChampFitness += _specieList[i].GenomeList[0].EvaluationInfo.Fitness;
+                }
+                _stats._meanSpecieChampFitness = totalSpecieChampFitness / specieCount;
+
+                // Moving averages.
+                _stats._prevBestFitnessMA = _stats._bestFitnessMA.Mean;
+                _stats._bestFitnessMA.Enqueue(_stats._maxFitness);
+
+                _stats._prevMeanSpecieChampFitnessMA = _stats._meanSpecieChampFitnessMA.Mean;
+                _stats._meanSpecieChampFitnessMA.Enqueue(_stats._meanSpecieChampFitness);
+
+                _stats._prevComplexityMA = _stats._complexityMA.Mean;
+                _stats._complexityMA.Enqueue(_stats._meanComplexity);
             }
-
-            // Fitness and complexity stats.
-            double totalFitness = _genomeList[0].EvaluationInfo.Fitness;
-            double totalComplexity = _genomeList[0].Complexity;
-            double maxComplexity = totalComplexity;
-
-            int count = _genomeList.Count;
-            for(int i=1; i<count; i++) {
-                totalFitness += _genomeList[i].EvaluationInfo.Fitness;
-                totalComplexity += _genomeList[i].Complexity;
-                maxComplexity = Math.Max(maxComplexity, _genomeList[i].Complexity);
-            }
-
-            _stats._maxFitness = _currentBestGenome.EvaluationInfo.Fitness;
-            _stats._meanFitness = totalFitness / count;
-
-            _stats._maxComplexity = maxComplexity;
-            _stats._meanComplexity = totalComplexity / count;
-
-            // Specie champs mean fitness.
-            double totalSpecieChampFitness = _specieList[0].GenomeList[0].EvaluationInfo.Fitness;
-            int specieCount = _specieList.Count;
-            for(int i=1; i<specieCount; i++) {
-                totalSpecieChampFitness += _specieList[i].GenomeList[0].EvaluationInfo.Fitness;
-            }
-            _stats._meanSpecieChampFitness = totalSpecieChampFitness / specieCount;
-
-            // Moving averages.
-            _stats._prevBestFitnessMA = _stats._bestFitnessMA.Mean;
-            _stats._bestFitnessMA.Enqueue(_stats._maxFitness);
-
-            _stats._prevMeanSpecieChampFitnessMA = _stats._meanSpecieChampFitnessMA.Mean;
-            _stats._meanSpecieChampFitnessMA.Enqueue(_stats._meanSpecieChampFitness);
-
-            _stats._prevComplexityMA = _stats._complexityMA.Mean;
-            _stats._complexityMA.Enqueue(_stats._meanComplexity);
         }
 
         /// <summary>

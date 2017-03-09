@@ -80,7 +80,7 @@ namespace EfficacySampler
         {
             switch(experimentId)
             {
-                case "binaryeleven":
+                case "binary11":
                     return InitExperiment_BinaryElevenMultiplexer();
                 case "inverted":
                     return InitExperiment_InvertedDoublePendulum();
