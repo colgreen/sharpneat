@@ -9,12 +9,12 @@ namespace EfficacySampler
             if(args.Length != 4)
             {
                 Console.WriteLine("Format is:");
-                Console.WriteLine("  sampler {experiment} secs {n} {outputfilename}");
-                Console.WriteLine("  sampler {experiment} gens {n} {outputfilename}");
+                Console.WriteLine("  efic {experiment} secs {n} {outputfilename}");
+                Console.WriteLine("  efic {experiment} gens {n} {outputfilename}");
 
                 Console.WriteLine("");
                 Console.WriteLine("  Experiment options are:  ");
-                Console.WriteLine("    binaryeleven");
+                Console.WriteLine("    binary11");
                 Console.WriteLine("    inverted");
                 experimentId = null;
                 filename = null;
