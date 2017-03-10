@@ -68,12 +68,12 @@ namespace SharpNeat.DistanceMetrics
 
             // Measure distance to all coords before the target one.
             for(int i=0; i<idx; i++) {
-                totalDistance += distanceMetric.MeasureDistance(targetCoord, coordList[i]);
+                totalDistance += distanceMetric.GetDistance(targetCoord, coordList[i]);
             }
 
             // Measure distance to all coords after the target one.
             for(int i=idx+1; i<count; i++) {
-                totalDistance += distanceMetric.MeasureDistance(targetCoord, coordList[i]);
+                totalDistance += distanceMetric.GetDistance(targetCoord, coordList[i]);
             }
 
             return totalDistance / (count-1);

@@ -94,7 +94,7 @@ namespace SharpNeat.DistanceMetrics
         /// from the method for many calls. Further to this, we can begin comparing from the ends of the vectors where 
         /// differences are most likely to occur.
         /// </summary>
-        public bool MeasureDistance(CoordinateVector p1, CoordinateVector p2, double threshold)
+        public bool TestDistance(CoordinateVector p1, CoordinateVector p2, double threshold)
         {
             KeyValuePair<ulong,double>[] arr1 = p1.CoordArray;
             KeyValuePair<ulong,double>[] arr2 = p2.CoordArray;
@@ -193,9 +193,9 @@ namespace SharpNeat.DistanceMetrics
         }
 
         /// <summary>
-        /// Measures the distance between two positions.
+        /// Gets the distance between two positions.
         /// </summary>
-        public double MeasureDistance(CoordinateVector p1, CoordinateVector p2)
+        public double GetDistance(CoordinateVector p1, CoordinateVector p2)
         {
             KeyValuePair<ulong,double>[] arr1 = p1.CoordArray;
             KeyValuePair<ulong,double>[] arr2 = p2.CoordArray;

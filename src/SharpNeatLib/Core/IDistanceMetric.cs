@@ -14,9 +14,8 @@ using System.Collections.Generic;
 namespace SharpNeat.Core
 {
     /// <summary>
-    /// An IDistanceMetric represents a metric for measuring the distance between two genome positions in an
-    /// encoding space, and thus the compatibility of the two genomes with respect to the probability of creating
-    /// fit offspring.
+    /// Represents a metric for measuring the distance between two genome positions in an encoding space, and thus 
+    /// the compatibility of the two genomes with respect to the probability of creating fit offspring.
     /// 
     /// What makes a good or ideal compatibility metric is an open question at the time of writing (August-2009).
     /// </summary>
@@ -29,15 +28,14 @@ namespace SharpNeat.Core
         /// two genomes and test if it is over the threshold. That approach requires that the internal
         /// data of both positions be fully compared. However, it is faster to compare the contents of the
         /// two positions maintaining an accumulated distance value as we progress through the comparison, 
-        /// and to return out of the method when and if the threshold is passed. Writing distance metric 
-        /// code in this way is encouraged.
+        /// and to exit the method when and if the threshold is passed.
         /// </summary>
-        bool MeasureDistance(CoordinateVector p1, CoordinateVector p2, double threshold);
+        bool TestDistance(CoordinateVector p1, CoordinateVector p2, double threshold);
 
         /// <summary>
-        /// Measures the distance between two positions.
+        /// Gets the distance between two positions.
         /// </summary>
-        double MeasureDistance(CoordinateVector p1, CoordinateVector p2);
+        double GetDistance(CoordinateVector p1, CoordinateVector p2);
 
         /// <summary>
         /// Calculates the centroid for the given set of points.
