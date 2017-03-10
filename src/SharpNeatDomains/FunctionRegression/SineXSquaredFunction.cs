@@ -20,7 +20,7 @@ namespace SharpNeat.Domains.FunctionRegression
     {
         public double GetValue(double[] args)
         {
-            double x = args[0]*6.283185;
+            double x = args[0];
             return (Math.Sin(x*x)*0.4)+0.5;
         }
 

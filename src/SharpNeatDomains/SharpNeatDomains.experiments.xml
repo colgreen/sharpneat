@@ -170,7 +170,7 @@ Sample resolution is 11, thus the sample values are 0.0, 0.1, 0.2, 0.3, 0.4, 0.5
       </Description>
     </Config>
   </Experiment>
-
+  
   <Experiment name="Function Regression - Sin(x) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
@@ -183,15 +183,63 @@ Sample resolution is 11, thus the sample values are 0.0, 0.1, 0.2, 0.3, 0.4, 0.5
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Sine</Function>      
-      <SampleResolution>21</SampleResolution>
-      <SampleMin>-3.14159</SampleMin>
-      <SampleMax>3.14159</SampleMax>
+      <SampleResolution>20</SampleResolution>
+      <SampleMin>0</SampleMin>
+      <SampleMax>6.283185</SampleMax>
       <Description>
         Function Regression - Sin(x)
-Sin(x) evaluated over [-PI,+PI]     
+Sin(x) evaluated over [0,1*PI]     
       </Description>
     </Config>
   </Experiment>
+  
+  <Experiment name="Generative Function Regression - Sin(x) (NEAT)">
+    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
+    <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFunctionRegressionExperiment</ClassName>
+    <Config>
+      <PopulationSize>1000</PopulationSize>
+      <SpecieCount>10</SpecieCount>
+      <Activation>
+        <Scheme>CyclicFixedIters</Scheme>
+        <Iters>1</Iters>
+      </Activation>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
+      <ComplexityThreshold>20</ComplexityThreshold>
+      <Function>Sine</Function>
+      <SampleResolution>100</SampleResolution>
+      <SampleMin>0</SampleMin>
+      <SampleMax>6.283185</SampleMax>
+      <Description>
+        Generative Function Regression - Sin(x)
+        Sin(x) evaluated over [0,2*PI]
+      </Description>
+    </Config>
+  </Experiment>
+  <Experiment name="Generative Function Regression - Sin(x^2) (NEAT)">
+    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
+    <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFunctionRegressionExperiment</ClassName>
+    <Config>
+      <PopulationSize>1000</PopulationSize>
+      <SpecieCount>10</SpecieCount>
+      <Activation>
+        <Scheme>CyclicFixedIters</Scheme>
+        <Iters>1</Iters>
+      </Activation>
+      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityThreshold>20</ComplexityThreshold>
+      <Function>SineXSquared</Function>
+      <SampleResolution>100</SampleResolution>
+      <SampleMin>0</SampleMin>
+      <SampleMax>3.141592654</SampleMax>
+      <Description>
+        Generative Function Regression - Sin(x^2)
+        Sin(x) evaluated over [0,PI]
+      </Description>
+    </Config>
+  </Experiment>
+
+
+
 
   <!-- Uncomment to compare NEAT with RBF-NEAT version of experiment.
   <Experiment name="Function Regression - Sin(x^2) (NEAT)">
@@ -230,7 +278,7 @@ Sin(x) evaluated over [-PI,+PI]
       <Function>SineXSquared</Function>
       <SampleResolution>100</SampleResolution>
       <SampleMin>0.0</SampleMin>
-      <SampleMax>1.0</SampleMax>
+      <SampleMax>3.141592654</SampleMax>
       <Description>
         Function Regression - Sine(x^2)
         Sin(x) evaluated over [0,2PI]

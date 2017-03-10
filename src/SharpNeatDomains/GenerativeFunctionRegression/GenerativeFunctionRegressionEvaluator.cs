@@ -1,4 +1,4 @@
-/* ***************************************************************************
+﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -11,19 +11,16 @@
  */
 using System;
 using SharpNeat.Core;
+using SharpNeat.Domains.FunctionRegression;
 using SharpNeat.Phenomes;
 
-namespace SharpNeat.Domains.FunctionRegression
+namespace SharpNeat.Domains.GenerativeFunctionRegression
 {
-    /// <summary>
-    /// Function regression task.
-    /// The function to be regressed is read from the config data. There is always one output.
-    /// </summary>
-    public class FunctionRegressionEvaluator : IPhenomeEvaluator<IBlackBox>
+    public class GenerativeFunctionRegressionEvaluator : IPhenomeEvaluator<IBlackBox>
     {
         ulong _evalCount;
         bool _stopConditionSatisfied;
-        ParameterSamplingInfo[] _paramSamplingInfoArr;
+        ParameterSamplingInfo _paramSamplingInfo;
         IFunction _fnTask;
         double _samplePointCountReciprocal;
 
@@ -32,17 +29,11 @@ namespace SharpNeat.Domains.FunctionRegression
         /// <summary>
         /// Construct a function regression evaluator with the provided parameter sampling info and function to regress.
         /// </summary>
-        public FunctionRegressionEvaluator(ParameterSamplingInfo[] paramSamplingInfoArr, IFunction fnTask)
+        public GenerativeFunctionRegressionEvaluator(ParameterSamplingInfo paramSamplingInfo, IFunction fnTask)
         {
-            _paramSamplingInfoArr = paramSamplingInfoArr;
+            _paramSamplingInfo = paramSamplingInfo;
             _fnTask = fnTask;
-
-            // Calculate the total number of sample points.
-            int samplePointCount = 1;
-            for(int i=0; i<_paramSamplingInfoArr.Length; i++) {
-                samplePointCount *= _paramSamplingInfoArr[i]._sampleCount;
-            }
-            _samplePointCountReciprocal = 1.0 / samplePointCount;
+            _samplePointCountReciprocal = 1.0 / paramSamplingInfo._sampleCount;
         }
 
         #endregion
@@ -73,33 +64,23 @@ namespace SharpNeat.Domains.FunctionRegression
         public FitnessInfo Evaluate(IBlackBox box)
         {
             _evalCount++;
-            int paramCount = _paramSamplingInfoArr.Length;
-            int paramIdxBound = paramCount - 1;
 
-            int[] sampleIdxArr = new int[paramCount];
-            int[] sampleCountArr = new int[paramCount];
-            double[] paramValueArr = new double[paramCount];
-            double[] paramIncrArr = new double[paramCount];
+            double[] paramValueArr = new double[1];
+            paramValueArr[0] = _paramSamplingInfo._min;
+            double paramIncr = _paramSamplingInfo._incr;
 
-            for(int i=0; i<paramCount; i++) 
-            {
-                sampleCountArr[i] = _paramSamplingInfoArr[i]._sampleCount;
-                paramValueArr[i] = _paramSamplingInfoArr[i]._min;
-                paramIncrArr[i] = _paramSamplingInfoArr[i]._incr;
-            }
+            // Reset black box internal state.
+            box.ResetState();
 
             // Error accumulator.
             double errorAcc = 0.0;
 
-            for(;;)
+            for(int i=0; i<_paramSamplingInfo._sampleCount; i++)
             {
-                // Reset black box internal state.
-                box.ResetState();
-
-                // Apply function arguments to black box inputs.
-                for(int i=0; i<paramCount; i++) {
-                    box.InputSignalArray[i] = paramValueArr[i];
-                }
+                //// Apply function arguments to black box inputs.
+                //for(int i=0; i<paramCount; i++) {
+                //    box.InputSignalArray[i] = paramValueArr[i];
+                //}
 
                 // Activate black box.
                 box.Activate();
@@ -115,32 +96,11 @@ namespace SharpNeat.Domains.FunctionRegression
                 errorAcc += err * err;
 
                 // Determine next sample point.
-                for(int i=0; i<paramCount; i++)
-                {
-                    sampleIdxArr[i]++;
-                    if(sampleIdxArr[i] < sampleCountArr[i]) 
-                    {   // The parameter has incremented without reaching its bound. 
-                        // We have the next valid sample point, so break out of the loop.
-                        paramValueArr[i] += paramIncrArr[i]; 
-                        break;
-                    }
-                        
-                    // The current parameter has reached its bound. 
-                    // If the *last* parameter has reached its bound then exit the outer loop.
-                    if(i == paramIdxBound) {
-                        goto exit;
-                    }
-
-                    // Reset the parameter and allow the inner loop to continue. This will 
-                    // increment the next parameter.
-                    sampleIdxArr[i] = 0;
-                    paramValueArr[i] = _paramSamplingInfoArr[i]._min;
-                }
+                paramValueArr[0] += paramIncr;
             }
 
             // Note. The output at each sample point is in the range 0 to 1, thus the error at each point has a maximum of 1.0.
             // The error for the evaluator as a whole is the root mean square error (RMSE) over all sample points; thus max fitness is 1.0.
-            exit:
             double fitness = 1.0 - Math.Sqrt(errorAcc * _samplePointCountReciprocal);
             if(fitness == 1.0) {
                 _stopConditionSatisfied = true;

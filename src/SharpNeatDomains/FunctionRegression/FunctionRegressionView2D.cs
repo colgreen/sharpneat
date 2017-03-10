@@ -24,6 +24,7 @@ namespace SharpNeat.Domains.FunctionRegression
     public partial class FunctionRegressionView2D : AbstractDomainView
     {
         IFunction _func;
+        bool _generativeMode;
         double _xMin;
         double _xIncr;
         int _sampleCount;
@@ -37,16 +38,18 @@ namespace SharpNeat.Domains.FunctionRegression
         /// Constructs with the details of the function regression problem to be visualized. 
         /// </summary>
         /// <param name="func">The function being regressed.</param>
+        /// <param name="generativeMode">Indicates that blacbox has no inputs; it will generate a waveform as a function of time.</param>
         /// <param name="xMin">The minimum value of the input range being sampled.</param>
         /// <param name="xIncr">The increment between input sample values.</param>
         /// <param name="sampleCount">The number of samples over the input range.</param>
         /// <param name="genomeDecoder">Genome decoder.</param>
-        public FunctionRegressionView2D(IFunction func, double xMin, double xIncr, int sampleCount, IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
+        public FunctionRegressionView2D(IFunction func, bool generativeMode, double xMin, double xIncr, int sampleCount, IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
         {
             InitializeComponent();
             InitGraph(string.Empty, string.Empty, string.Empty);
 
             _func = func;
+            _generativeMode = generativeMode;
             _xMin = xMin;
             _xIncr = xIncr;
             _sampleCount = sampleCount;
@@ -100,13 +103,18 @@ namespace SharpNeat.Domains.FunctionRegression
 
             // Decode genome.
             IBlackBox box = _genomeDecoder.Decode(neatGenome);
-            
+            box.ResetState();
+
+
+
             // Update plot points.
             double x = _xMin;
             for(int i=0; i<_sampleCount;i++, x += _xIncr) 
             {
-                box.ResetState();
-                box.InputSignalArray[0] = x;
+                if(!_generativeMode) {
+                    box.ResetState();
+                    box.InputSignalArray[0] = x;
+                }
                 box.Activate();
                 _plotPointListResponse[i].Y = box.OutputSignalArray[0];
             }

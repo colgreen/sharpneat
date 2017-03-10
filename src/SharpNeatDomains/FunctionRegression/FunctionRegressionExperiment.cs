@@ -140,7 +140,7 @@ namespace SharpNeat.Domains.FunctionRegression
             // Determine what function to regress.
             string fnIdStr = XmlUtils.GetValueAsString(xmlConfig, "Function");
             FunctionId fnId = (FunctionId)Enum.Parse(typeof(FunctionId), fnIdStr);
-            _func = FunctionRegressionEvaluator.GetFunction(fnId);
+            _func = FunctionUtils.GetFunction(fnId);
 
             // Read parameter sampling scheme settings.
             int sampleResolution = XmlUtils.GetValueAsInt(xmlConfig, "SampleResolution");
@@ -272,7 +272,7 @@ namespace SharpNeat.Domains.FunctionRegression
             if(1 == InputCount)
             {
                 ParameterSamplingInfo paramInfo = _paramSamplingInfoArr[0];
-                return new FunctionRegressionView2D(_func, paramInfo._min, paramInfo._incr, paramInfo._sampleCount, CreateGenomeDecoder());
+                return new FunctionRegressionView2D(_func, false, paramInfo._min, paramInfo._incr, paramInfo._sampleCount, CreateGenomeDecoder());
             }
 
             return null;

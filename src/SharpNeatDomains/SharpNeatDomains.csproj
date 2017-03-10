@@ -73,8 +73,11 @@
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
     <Compile Include="FunctionRegression\AbsFunction.cs" />
+    <Compile Include="FunctionRegression\FunctionUtils.cs" />
     <Compile Include="FunctionRegression\LogFunction.cs" />
     <Compile Include="FunctionRegression\RbfFunctionRegressionExperiment.cs" />
+    <Compile Include="GenerativeFunctionRegression\GenerativeFunctionRegressionEvaluator.cs" />
+    <Compile Include="GenerativeFunctionRegression\GenerativeFunctionRegressionExperiment.cs" />
     <Compile Include="IGuiNeatExperiment.cs" />
     <Compile Include="IntPoint.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.cs">
@@ -177,6 +180,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
