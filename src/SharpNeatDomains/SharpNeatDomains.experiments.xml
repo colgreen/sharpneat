@@ -238,9 +238,6 @@ Sin(x) evaluated over [0,1*PI]
     </Config>
   </Experiment>
 
-
-
-
   <!-- Uncomment to compare NEAT with RBF-NEAT version of experiment.
   <Experiment name="Function Regression - Sin(x^2) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
@@ -264,6 +261,7 @@ Sin(x) evaluated over [0,1*PI]
     </Config>
   </Experiment>
   -->
+  
   <Experiment name="Function Regression - Sin(x^2) (RBF-NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.FunctionRegression.RbfFunctionRegressionExperiment</ClassName>

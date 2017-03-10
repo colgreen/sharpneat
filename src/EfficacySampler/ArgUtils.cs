@@ -15,7 +15,7 @@ namespace EfficacySampler
                 Console.WriteLine("");
                 Console.WriteLine("  Experiment options are:  ");
                 Console.WriteLine("    binary11");
-                Console.WriteLine("    inverted");
+                Console.WriteLine("    sinxsqr");
                 experimentId = null;
                 filename = null;
                 return null;

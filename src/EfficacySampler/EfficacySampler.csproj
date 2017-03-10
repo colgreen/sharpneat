@@ -92,11 +92,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config\invertedDoublePendulum.config.xml">
+    <Content Include="config\sinx-squared.config.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\binaryElevenMultiplexer.config.xml">
+    <Content Include="config\binary-eleven-multiplexer.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

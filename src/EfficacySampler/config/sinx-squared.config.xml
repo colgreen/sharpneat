@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <PopulationSize>1000</PopulationSize>
+  <SpecieCount>10</SpecieCount>
+  <Activation>
+    <Scheme>CyclicFixedIters</Scheme>
+    <Iters>1</Iters>
+  </Activation>
+  <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+  <ComplexityThreshold>20</ComplexityThreshold>
+  <MaxDegreeOfParallelism>4</MaxDegreeOfParallelism>
+  <Function>SineXSquared</Function>
+  <SampleResolution>100</SampleResolution>
+  <SampleMin>0</SampleMin>
+  <SampleMax>3.141592654</SampleMax>
+  <Description>
+    Generative Function Regression - Sin(x^2)
+    Sin(x) evaluated over [0,PI]
+  </Description>
+</Config>

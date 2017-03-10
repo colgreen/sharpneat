@@ -4,6 +4,7 @@ using System.Xml;
 using log4net.Config;
 using SharpNeat.Domains;
 using SharpNeat.Domains.BinaryElevenMultiplexer;
+using SharpNeat.Domains.GenerativeFunctionRegression;
 using SharpNeat.DomainsExtra.InvertedDoublePendulum;
 
 namespace EfficacySampler
@@ -82,8 +83,8 @@ namespace EfficacySampler
             {
                 case "binary11":
                     return InitExperiment_BinaryElevenMultiplexer();
-                case "inverted":
-                    return InitExperiment_InvertedDoublePendulum();
+                case "sinxsqr":
+                    return InitExperiment_SinxSquared();
             }
 
             Console.WriteLine($"Unrecognised experiment [{experimentId}]");
@@ -93,23 +94,24 @@ namespace EfficacySampler
         private static IGuiNeatExperiment InitExperiment_BinaryElevenMultiplexer()
         {
             // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
-            BinaryElevenMultiplexerExperiment experiment = new BinaryElevenMultiplexerExperiment();
+            var experiment = new BinaryElevenMultiplexerExperiment();
 
             // Load config XML.
             XmlDocument xmlConfig = new XmlDocument();
-            xmlConfig.Load("config/binaryElevenMultiplexer.config.xml");
+            xmlConfig.Load("config/binary-eleven-multiplexer.config.xml");
             experiment.Initialize(experiment.Name, xmlConfig.DocumentElement);
             return experiment;
         }
 
-        private static IGuiNeatExperiment InitExperiment_InvertedDoublePendulum()
+        private static IGuiNeatExperiment InitExperiment_SinxSquared()
         {
             // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
-            InvertedDoublePendulumExperiment experiment = new InvertedDoublePendulumExperiment();
+            //InvertedDoublePendulumExperiment experiment = new InvertedDoublePendulumExperiment();
+            var experiment = new GenerativeFunctionRegressionExperiment();
 
             // Load config XML.
             XmlDocument xmlConfig = new XmlDocument();
-            xmlConfig.Load("config/invertedDoublePendulum.config.xml");
+            xmlConfig.Load("config/sinx-squared.config.xml");
             experiment.Initialize(experiment.Name, xmlConfig.DocumentElement);
             return experiment;
         }
