@@ -40,7 +40,7 @@ namespace SharpNeatGUI
         {
             InitializeComponent();
 
-            this.Text = string.Format("SharpNEAT - {0}", title);
+            this.Text = $"SharpNEAT - {title}";
             _dataSourceArray = dataSourceArray;
             InitGraph(title, xAxisTitle, y1AxisTitle, y2AxisTitle, dataSourceArray);
 

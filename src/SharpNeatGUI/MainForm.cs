@@ -342,7 +342,7 @@ namespace SharpNeatGUI
                         UpdateGuiState_EaRunning();
                         break;
                     default:
-                        throw new ApplicationException(string.Format("Unexpected RunState [{0}]", _ea.RunState));
+                        throw new ApplicationException($"Unexpected RunState [{_ea.RunState}]");
                 }
             }
         }
@@ -396,7 +396,7 @@ namespace SharpNeatGUI
             btnCreateRandomPop.Enabled = false;
 
             // Display how many genomes & status.
-            txtPopulationStatus.Text = string.Format("{0:D0} genomes ready", _genomeList.Count);
+            txtPopulationStatus.Text = $"{_genomeList.Count:D0} genomes ready";
             txtPopulationStatus.BackColor = Color.Orange;
 
             // Enable search control buttons.
@@ -440,7 +440,7 @@ namespace SharpNeatGUI
             btnCreateRandomPop.Enabled = false;
 
             // Display how many genomes & status.
-            txtPopulationStatus.Text = string.Format("{0:D0} genomes paused.", _genomeList.Count);
+            txtPopulationStatus.Text = $"{_genomeList.Count:D0} genomes paused.";
             txtPopulationStatus.BackColor = Color.Orange;
 
             // Search control buttons.
@@ -484,7 +484,7 @@ namespace SharpNeatGUI
             btnCreateRandomPop.Enabled = false;
 
             // Display how many genomes & status.
-            txtPopulationStatus.Text = string.Format("{0:D0} genomes running", _genomeList.Count);
+            txtPopulationStatus.Text = $"{_genomeList.Count:D0} genomes running";
             txtPopulationStatus.BackColor = Color.LightGreen;
 
             // Search control buttons.

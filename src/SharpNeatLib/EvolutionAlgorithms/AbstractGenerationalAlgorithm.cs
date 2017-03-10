@@ -182,9 +182,8 @@ namespace SharpNeat.EvolutionAlgorithms
             {   // Already running. Log a warning.
                 __log.Warn("StartContinue() called but algorithm is already running.");
             }
-            else
-            {
-                throw new SharpNeatException(string.Format("StartContinue() call failed. Unexpected RunState [{0}]", _runState));
+            else {
+                throw new SharpNeatException($"StartContinue() call failed. Unexpected RunState [{_runState}]");
             }
         }
 

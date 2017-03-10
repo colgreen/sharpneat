@@ -33,7 +33,7 @@ namespace SharpNeat.Domains.FunctionRegression
                 case FunctionId.SineXSquared:
                     return new SineXSquaredFunction();        
             }
-            throw new ArgumentException(string.Format("Unknown FunctionId type [{0}]", fnId));
+            throw new ArgumentException($"Unknown FunctionId type [{fnId}]");
         }
 
         #endregion

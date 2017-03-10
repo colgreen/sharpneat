@@ -27,7 +27,7 @@ namespace SharpNeat.Domains
         {
             int? val = TryGetValueAsInt(xmlParent, elemName);
             if(null == val) {
-                throw new ArgumentException(string.Format("Missing [{0}] configuration setting.", elemName));
+                throw new ArgumentException($"Missing [{elemName}] configuration setting.");
             }
             return val.Value;
         }
@@ -64,7 +64,7 @@ namespace SharpNeat.Domains
         {
             double? val = TryGetValueAsDouble(xmlParent, elemName);
             if(null == val) {
-                throw new ArgumentException(string.Format("Missing [{0}] configuration setting.", elemName));
+                throw new ArgumentException($"Missing [{elemName}] configuration setting.");
             }
             return val.Value;
         }
@@ -101,7 +101,7 @@ namespace SharpNeat.Domains
         {
             bool? val = TryGetValueAsBool(xmlParent, elemName);
             if(null == val) {
-                throw new ArgumentException(string.Format("Missing [{0}] configuration setting.", elemName));
+                throw new ArgumentException($"Missing [{elemName}] configuration setting.");
             }
             return val.Value;
         }
@@ -137,7 +137,7 @@ namespace SharpNeat.Domains
         {
             string val = TryGetValueAsString(xmlParent, elemName);
             if(null == val) {
-                throw new ArgumentException(string.Format("Missing [{0}] configuration setting.", elemName));
+                throw new ArgumentException($"Missing [{elemName}] configuration setting.");
             }
             return val;
         }

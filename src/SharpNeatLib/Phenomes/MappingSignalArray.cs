@@ -15,9 +15,6 @@ namespace SharpNeat.Phenomes
 {
     /// <summary>
     /// MappingSignalArray wraps a native array along with an indirection/mapping array.
-    /// The resulting MappingSignalArray provides indexed access to the underlying native array via 
-    /// a level of indirection/mapping.
-    /// 
     /// See SignalArray for more info.
     /// </summary>
     public class MappingSignalArray : ISignalArray

@@ -38,8 +38,7 @@ namespace SharpNeat.Decoders
                            out fastConnectionArray, out activationFnArray, out neuronAuxArgsArray);
 
             // Construct neural net.
-            if(activationScheme.RelaxingActivation)
-            {
+            if(activationScheme.RelaxingActivation) {
                 return new FastRelaxingCyclicNetwork(fastConnectionArray,
                                                      activationFnArray, 
                                                      neuronAuxArgsArray,

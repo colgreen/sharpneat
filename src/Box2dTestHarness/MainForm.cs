@@ -209,7 +209,7 @@ namespace SharpNeat.Box2dTestHarness
 			_simWorld.MouseMove(p);
 
             // Display mouse position in sim world coords.
-            lblMouseWorldCoords.Text = string.Format("[{0:0.00}] [{1:0.00}]", p.X, p.Y);
+            lblMouseWorldCoords.Text = $"[{p.X:0.00}] [{p.Y:0.00}]";
         }
 
         /// <summary>

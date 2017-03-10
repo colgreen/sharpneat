@@ -1265,7 +1265,7 @@ namespace SharpNeat.Genomes.Neat
         {
             // Check genome class type (can only do this if we have a genome factory).
             if(null != _genomeFactory && !_genomeFactory.CheckGenomeType(this)) {
-                Debug.WriteLine(string.Format("Invalid genome class type [{0}]", this.GetType().Name));
+                Debug.WriteLine($"Invalid genome class type [{this.GetType().Name}]");
                 return false;
             }
 
@@ -1274,7 +1274,7 @@ namespace SharpNeat.Genomes.Neat
             
             // We will always have at least a bias and an output.
             if(count < 2) {
-                Debug.WriteLine(string.Format("NeuronGeneList has less than the minimum number of neuron genes [{0}]", count));
+                Debug.WriteLine($"NeuronGeneList has less than the minimum number of neuron genes [{count}]");
                 return false;
             }
 
@@ -1285,7 +1285,7 @@ namespace SharpNeat.Genomes.Neat
             }
 
             if(0u != _neuronGeneList[0].InnovationId) {
-                Debug.WriteLine(string.Format("Bias neuron ID != 0. [{0}]", _neuronGeneList[0].InnovationId));
+                Debug.WriteLine($"Bias neuron ID != 0. [{_neuronGeneList[0].InnovationId}]");
                 return false;
             }
 
@@ -1295,7 +1295,7 @@ namespace SharpNeat.Genomes.Neat
             for(int i=0; i<_inputNeuronCount; i++, idx++)
             {
                 if(NodeType.Input != _neuronGeneList[idx].NodeType) {
-                    Debug.WriteLine(string.Format("Invalid neuron gene type. Expected Input, got [{0}]", _neuronGeneList[idx].NodeType));
+                    Debug.WriteLine($"Invalid neuron gene type. Expected Input, got [{_neuronGeneList[idx].NodeType}]");
                     return false;
                 }
 
@@ -1311,7 +1311,7 @@ namespace SharpNeat.Genomes.Neat
             for(int i=0; i<_outputNeuronCount; i++, idx++)
             {
                 if(NodeType.Output != _neuronGeneList[idx].NodeType) {
-                    Debug.WriteLine(string.Format("Invalid neuron gene type. Expected Output, got [{0}]", _neuronGeneList[idx].NodeType));
+                    Debug.WriteLine($"Invalid neuron gene type. Expected Output, got [{_neuronGeneList[idx].NodeType}]");
                     return false;
                 }
 
@@ -1328,7 +1328,7 @@ namespace SharpNeat.Genomes.Neat
             for(; idx<count; idx++)
             {
                 if(NodeType.Hidden != _neuronGeneList[idx].NodeType) {
-                    Debug.WriteLine(string.Format("Invalid neuron gene type. Expected Hidden, got [{0}]", _neuronGeneList[idx].NodeType));
+                    Debug.WriteLine($"Invalid neuron gene type. Expected Hidden, got [{_neuronGeneList[idx].NodeType}]");
                     return false;
                 }
 

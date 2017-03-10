@@ -177,7 +177,7 @@ namespace SharpNeat.Network
             // We will always have at least a bias and an output.
             int count = _nodeList.Count;
             if(count < 2) {
-                Debug.WriteLine(string.Format("Node list has less than the minimum number of neuron genes [{0}]", count));
+                Debug.WriteLine($"Node list has less than the minimum number of neuron genes [{count}]");
                 return false;
             }
 
@@ -188,7 +188,7 @@ namespace SharpNeat.Network
             }
 
             if(0u != _nodeList[0].Id) {
-                Debug.WriteLine(string.Format("Bias neuron ID != 0. [{0}]",  _nodeList[0].Id));
+                Debug.WriteLine($"Bias neuron ID != 0. [{_nodeList[0].Id}]");
                 return false;
             }
 
@@ -198,7 +198,7 @@ namespace SharpNeat.Network
             for(int i=0; i<_inputNodeCount; i++, idx++)
             {
                 if(NodeType.Input != _nodeList[idx].NodeType) {
-                    Debug.WriteLine(string.Format("Invalid node type. Expected Input, got [{0}]", _nodeList[idx].NodeType));
+                    Debug.WriteLine($"Invalid node type. Expected Input, got [{_nodeList[idx].NodeType}]");
                     return false;
                 }
 
@@ -214,7 +214,7 @@ namespace SharpNeat.Network
             for(int i=0; i<_outputNodeCount; i++, idx++)
             {
                 if(NodeType.Output != _nodeList[idx].NodeType) {
-                    Debug.WriteLine(string.Format("Invalid node type. Expected Output, got [{0}]", _nodeList[idx].NodeType));
+                    Debug.WriteLine($"Invalid node type. Expected Output, got [{_nodeList[idx].NodeType}]");
                     return false;
                 }
 
@@ -231,7 +231,7 @@ namespace SharpNeat.Network
             for(; idx<count; idx++)
             {
                 if(NodeType.Hidden != _nodeList[idx].NodeType) {
-                    Debug.WriteLine(string.Format("Invalid node type. Expected Hidden, got [{0}]", _nodeList[idx].NodeType));
+                    Debug.WriteLine($"Invalid node type. Expected Hidden, got [{_nodeList[idx].NodeType}]");
                     return false;
                 }
 

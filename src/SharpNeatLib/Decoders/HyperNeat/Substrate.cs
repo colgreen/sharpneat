@@ -351,7 +351,7 @@ namespace SharpNeat.Decoders.HyperNeat
                         throw new ArgumentException("Substrate node with invalid ID of 0 (reserved for bias node).");
                     }
                     if(idDict.ContainsKey(node._id)) {
-                        throw new ArgumentException(string.Format("Substrate node with duplicate ID of [{0}]", node._id));
+                        throw new ArgumentException($"Substrate node with duplicate ID of [{node._id}]");
                     }
                     idDict.Add(node._id, null);
                 }
@@ -365,7 +365,7 @@ namespace SharpNeat.Decoders.HyperNeat
             for(int i=0; i<count; i++, expectedId++)
             {
                 if(inputNodeSet.NodeList[i]._id != expectedId) {
-                    throw new ArgumentException(string.Format("Substrate input node with unexpected ID of [{0}]. Ids should be contiguous and starting from 1.", inputNodeSet.NodeList[i]._id));
+                    throw new ArgumentException($"Substrate input node with unexpected ID of [{inputNodeSet.NodeList[i]._id}]. Ids should be contiguous and starting from 1.");
                 }
             }
 
@@ -375,7 +375,7 @@ namespace SharpNeat.Decoders.HyperNeat
             for(int i=0; i<count; i++, expectedId++)
             {
                 if(outputNodeSet.NodeList[i]._id != expectedId) {
-                    throw new ArgumentException(string.Format("Substrate output node with unexpected ID of [{0}].", outputNodeSet.NodeList[i]._id));
+                    throw new ArgumentException($"Substrate output node with unexpected ID of [{outputNodeSet.NodeList[i]._id}].");
                 }
             }
 
@@ -387,8 +387,7 @@ namespace SharpNeat.Decoders.HyperNeat
                 foreach(SubstrateNode node in hiddenNodeSet.NodeList)
                 {
                     if(node._id < expectedId) {
-                        throw new ArgumentException(string.Format("Substrate hidden node with unexpected ID of [{0}] (must be greater than the last output node ID [{1}].",
-                                                                  hiddenNodeSet.NodeList[i]._id, expectedId-1));
+                        throw new ArgumentException($"Substrate hidden node with unexpected ID of [{hiddenNodeSet.NodeList[i]._id}] (must be greater than the last output node ID [{expectedId-1}].");
                     }
                 }
             }

@@ -38,7 +38,7 @@ namespace SharpNeatGUI
         {
             InitializeComponent();
 
-            this.Text = string.Format("SharpNEAT Graph - {0}", title);
+            this.Text = $"SharpNEAT Graph - {title}";
             _dataSourceArray = dataSourceArray;
             InitGraph(title, xAxisTitle, y1AxisTitle, y2AxisTitle, dataSourceArray);
 

@@ -232,7 +232,7 @@ namespace SharpNeat.Domains.DoublePoleBalancing
                     evaluator = new DoublePoleBalancingEvaluatorNvAntiWiggle();
                     break;
                 default:
-                    throw new SharpNeatException(string.Format("DoublePoleBalancing experiment config XML specifies unknown variant [{0}]", _variantStr));
+                    throw new SharpNeatException($"DoublePoleBalancing experiment config XML specifies unknown variant [{_variantStr}]");
             }
 
             // Create genome decoder.

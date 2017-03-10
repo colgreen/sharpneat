@@ -48,7 +48,7 @@ namespace SharpNeat.Domains
                     int maxIters = XmlUtils.GetValueAsInt(xmlActivation, "MaxIters");
                     return NetworkActivationScheme.CreateCyclicRelaxingActivationScheme(deltaThreshold, maxIters);
             }
-            throw new ArgumentException(string.Format("Invalid or missing ActivationScheme XML config setting [{0}]", schemeStr));
+            throw new ArgumentException($"Invalid or missing ActivationScheme XML config setting [{schemeStr}]");
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace SharpNeat.Domains
             }
 
             if(null == threshold) {
-                throw new ArgumentNullException("threshold", string.Format("threshold must be provided for complexity regulation strategy type [{0}]", ceilingType));
+                throw new ArgumentNullException("threshold", $"threshold must be provided for complexity regulation strategy type [{ceilingType}]");
             }
 
             return new DefaultComplexityRegulationStrategy(ceilingType, threshold.Value);

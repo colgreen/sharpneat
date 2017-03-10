@@ -43,7 +43,8 @@ namespace SharpNeat.Decoders
             INodeList nodeList = networkDef.NodeList;
             int nodeCount = nodeList.Count;
             NodeInfo[] nodeInfoByDepth = new NodeInfo[nodeCount];
-            for(int i=0; i<nodeCount; i++) {
+            for(int i=0; i<nodeCount; i++)
+            {
                 nodeInfoByDepth[i]._nodeId = nodeList[i].Id;
                 nodeInfoByDepth[i]._definitionIdx = i;
                 nodeInfoByDepth[i]._nodeDepth = nodeDepthArr[i];

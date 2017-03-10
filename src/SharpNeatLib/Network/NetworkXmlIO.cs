@@ -505,7 +505,7 @@ namespace SharpNeat.Network
                 case "hid":
                     return NodeType.Hidden;
             }
-            throw new InvalidDataException(string.Format("Unknown node type [{0}]", type));
+            throw new InvalidDataException($"Unknown node type [{type}]");
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace SharpNeat.Network
                 case NodeType.Hidden:
                     return "hid";
             }
-            throw new ArgumentException(string.Format("Unexpected NodeType [{0}]", nodeType));
+            throw new ArgumentException($"Unexpected NodeType [{nodeType}]");
         }
 
         /// <summary>
@@ -564,7 +564,7 @@ namespace SharpNeat.Network
                 case "RbfGaussian":
                     return RbfGaussian.__DefaultInstance;
             }
-            throw new ArgumentException(string.Format("Unexpected activation function [{0}]", name));
+            throw new ArgumentException($"Unexpected activation function [{name}]");
         }
 
         #endregion

@@ -33,7 +33,7 @@ namespace SharpNeat.Utility
             string localName = MoveToElement(xr, skipCurrent);            
             if(localName != elemName)
             {   // No element or unexpected element.
-                throw new InvalidDataException(string.Format("Expected element [{0}], encountered [{1}]", elemName, localName));
+                throw new InvalidDataException("Expected element [{elemName}], encountered [{localName}]");
             }
         }
 

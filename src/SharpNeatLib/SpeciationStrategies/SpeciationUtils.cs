@@ -62,7 +62,7 @@ namespace SharpNeat.SpeciationStrategies
             foreach(Specie<TGenome> specie in specieList)
             {
                 if(specie.GenomeList.Count == 0) {
-                    Debug.WriteLine(string.Format("Empty species. SpecieIdx = [{0}]. Speciation must allocate at least one genome to each specie.", specie.Idx));
+                    Debug.WriteLine($"Empty species. SpecieIdx = [{specie.Idx}]. Speciation must allocate at least one genome to each specie.");
                     return false;
                 }
 
@@ -70,7 +70,7 @@ namespace SharpNeat.SpeciationStrategies
                 {
                     if(genome.SpecieIdx != specie.Idx) 
                     {
-                        Debug.WriteLine(string.Format("Genome with incorrect specieIdx [{0}]. Parent SpecieIdx = [{1}]", genome.SpecieIdx, specie.Idx));
+                        Debug.WriteLine($"Genome with incorrect specieIdx [{genome.SpecieIdx}]. Parent SpecieIdx = [{specie.Idx}]");
                         return false;
                     }
                 }

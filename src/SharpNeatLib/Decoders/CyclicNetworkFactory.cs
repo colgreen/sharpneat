@@ -33,8 +33,7 @@ namespace SharpNeat.Decoders
             InternalDecode(networkDef, out neuronList, out connectionList);
 
             // Construct neural net.
-            if(activationScheme.RelaxingActivation)
-            {
+            if(activationScheme.RelaxingActivation) {
                 return new RelaxingCyclicNetwork(neuronList,
                                                  connectionList,
                                                  networkDef.InputNodeCount,
@@ -64,7 +63,7 @@ namespace SharpNeat.Decoders
             neuronList = new List<Neuron>(nodeCount);
 
             // A dictionary of neurons keyed on their innovation ID.
-            Dictionary<uint,Neuron> neuronDictionary = new Dictionary<uint,Neuron>(nodeCount);
+            var neuronDictionary = new Dictionary<uint,Neuron>(nodeCount);
 
             // Loop neuron genes.
             IActivationFunctionLibrary activationFnLib = networkDef.ActivationFnLibrary;

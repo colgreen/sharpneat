@@ -67,13 +67,13 @@ namespace SharpNeatConsole
 
                             // Attempt to parse population size arg.
                             if(cmdArgs.Length <= 1) {
-                                Console.WriteLine("Error. Missing {size} argument.");
+                                Console.WriteLine("Error. Missing [size] argument.");
                                 break;
                             }
 
                             int populationSize;
                             if(!int.TryParse(cmdArgs[1], out populationSize)) {
-                                Console.WriteLine(string.Format("Error. Invalid {size} argument [{0}].", cmdArgs[1]));
+                                Console.WriteLine($"Error. Invalid [size] argument [{cmdArgs[1]}].");
                                 break;
                             }
 
@@ -82,7 +82,7 @@ namespace SharpNeatConsole
 
                             // Create an initial population of randomly generated genomes.
                             _genomeList = _genomeFactory.CreateGenomeList(populationSize, 0);
-                            Console.WriteLine(string.Format("Created [{0}] random genomes.", populationSize));
+                            Console.WriteLine($"Created [{populationSize}] random genomes.");
                             break;
                         }
                         case "loadpop":
@@ -103,7 +103,7 @@ namespace SharpNeatConsole
                                 _genomeList = experiment.LoadPopulation(xr);
                             }
                             _genomeFactory = _genomeList[0].GenomeFactory;
-                            Console.WriteLine(string.Format("Loaded [{0}] genomes.", _genomeList.Count));
+                            Console.WriteLine($"Loaded [{_genomeList.Count}] genomes.");
                             break;
                         }
                         case "loadseed":
@@ -121,13 +121,13 @@ namespace SharpNeatConsole
 
                             // Attempt to parse population size arg.
                             if(cmdArgs.Length <= 2) {
-                                Console.WriteLine("Error. Missing {size} argument.");
+                                Console.WriteLine("Error. Missing [size] argument.");
                                 break;
                             }
 
                             int populationSize;
                             if(!int.TryParse(cmdArgs[1], out populationSize)) {
-                                Console.WriteLine(string.Format("Error. Invalid {size} argument [{0}].", cmdArgs[1]));
+                                Console.WriteLine($"Error. Invalid [size] argument [{cmdArgs[1]}].");
                                 break;
                             }
 
@@ -137,7 +137,7 @@ namespace SharpNeatConsole
                             }
 
                             if(_genomeList.Count == 0) {
-                                Console.WriteLine(string.Format("No genome loaded from file [{0}]", cmdArgs[1]));
+                                Console.WriteLine($"No genome loaded from file [{cmdArgs[1]}]");
                                 _genomeList = null;
                                 break;;
                             }
@@ -145,7 +145,7 @@ namespace SharpNeatConsole
                             // Create genome list from seed.
                             _genomeFactory = _genomeList[0].GenomeFactory;
                             _genomeList = _genomeFactory.CreateGenomeList(populationSize, 0u, _genomeList[0]);
-                            Console.WriteLine(string.Format("Created [{0}] genomes from loaded seed genome.", _genomeList.Count));
+                            Console.WriteLine($"Created [{_genomeList.Count}] genomes from loaded seed genome.");
                             break;
                         }
 
@@ -211,7 +211,7 @@ namespace SharpNeatConsole
                             using(XmlWriter xw = XmlWriter.Create(cmdArgs[1], xwSettings)) {
                                 experiment.SavePopulation(xw, _genomeList);
                             }
-                            Console.WriteLine(string.Format("[{0}] genomes saved to file [{1}]", _genomeList.Count, cmdArgs[1]));
+                            Console.WriteLine($"[{_genomeList.Count}] genomes saved to file [{cmdArgs[1]}]");
                             break;
                         }
                         case "savebest":
@@ -238,7 +238,7 @@ namespace SharpNeatConsole
                                 experiment.SavePopulation(xw, new NeatGenome[] {_ea.CurrentChampGenome});
                             }
 
-                            Console.WriteLine(string.Format("Best genome saved to file [{1}]", _genomeList.Count, cmdArgs[1]));
+                            Console.WriteLine($"Best genome saved to file [{cmdArgs[1]}]");
                             break;
                         }
 
@@ -263,14 +263,14 @@ namespace SharpNeatConsole
                         }
                         default:
                         {
-                            Console.WriteLine(string.Format("Unknown command [{0}]", cmdArgs[0]));
+                            Console.WriteLine($"Unknown command [{cmdArgs[0]}]");
                             break;
                         }
                     }
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(string.Format("Exception [{0}]", ex.Message));
+                    Console.WriteLine($"Exception [{ex.Message}]");
                 }
             }
 
