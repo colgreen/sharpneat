@@ -555,7 +555,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public double SampleGaussianDistribution(double mu, double sigma)
         {
-            return _gaussianSampler.NextSample(mu, sigma);
+            return _gaussianSampler.NextDouble(mu, sigma);
         }
 
         /// <summary>
