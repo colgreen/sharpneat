@@ -22,16 +22,13 @@ namespace SharpNeat.Domains.FunctionRegression
                     return new AbsFunction();    
 
                 case FunctionId.Log:
-                    return new LogFunction();
+                    return new LogFn();
 
-                case FunctionId.Multiplication:
-                    return new MultiplicationFunction();
+                case FunctionId.Sin:
+                    return new SinFn();                
 
-                case FunctionId.Sine:
-                    return new SineFunction();                
-
-                case FunctionId.SineXSquared:
-                    return new SineXSquaredFunction();        
+                case FunctionId.SinXSquared:
+                    return new SinXSquaredFn();        
             }
             throw new ArgumentException($"Unknown FunctionId type [{fnId}]");
         }

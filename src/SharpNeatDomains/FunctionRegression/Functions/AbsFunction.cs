@@ -11,21 +11,13 @@
  */
 using System;
 
-// Disable comment warnings for trivial class.
-#pragma warning disable 1591
-
 namespace SharpNeat.Domains.FunctionRegression
 {
-    public class LogFunction : IFunction
+    public class AbsFunction : IFunction
     {
-        public double GetValue(double[] args)
+        public double GetValue(double x)
         {
-            return 0.1 + (Math.Log(args[0]) * 0.17);
-        }
-
-        public int InputCount
-        {
-            get { return 1; }
+            return 0.1 + Math.Abs(x) * 0.8;
         }
     }
 }

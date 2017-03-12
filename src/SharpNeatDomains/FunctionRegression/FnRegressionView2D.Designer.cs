@@ -1,6 +1,6 @@
 ﻿namespace SharpNeat.Domains.FunctionRegression
 {
-    partial class FunctionRegressionView2D
+    partial class FnRegressionView2D
     {
         /// <summary> 
         /// Required designer variable.

@@ -107,7 +107,7 @@ namespace EfficacySampler
         {
             // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
             //InvertedDoublePendulumExperiment experiment = new InvertedDoublePendulumExperiment();
-            var experiment = new GenerativeFunctionRegressionExperiment();
+            var experiment = new GenerativeFnRegressionExperiment();
 
             // Load config XML.
             XmlDocument xmlConfig = new XmlDocument();

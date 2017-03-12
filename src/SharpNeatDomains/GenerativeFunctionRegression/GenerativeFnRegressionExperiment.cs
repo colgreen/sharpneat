@@ -30,7 +30,7 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
     /// <summary>
     /// Generative function regression task.
     /// </summary>
-    public class GenerativeFunctionRegressionExperiment : IGuiNeatExperiment
+    public class GenerativeFnRegressionExperiment : IGuiNeatExperiment
     {
         private static readonly ILog __log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -44,15 +44,15 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
         int? _complexityThreshold;
         string _description;
         ParallelOptions _parallelOptions;
-        IFunction _func;
-        ParameterSamplingInfo _paramSamplingInfo;
+        IFunction _fn;
+        ParamSamplingInfo _paramSamplingInfo;
         
         #region Constructor
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public GenerativeFunctionRegressionExperiment()
+        public GenerativeFnRegressionExperiment()
         {
         }
 
@@ -81,7 +81,7 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
         /// </summary>
         public int InputCount
         {
-            get { return _func.InputCount; }
+            get { return 1; }
         }
 
         /// <summary>
@@ -135,8 +135,8 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
-            _eaParams.SelectionProportion = 0.2;
-            _eaParams.ElitismProportion = 0.8;
+            //_eaParams.SelectionProportion = 0.5;
+            //_eaParams.ElitismProportion = 0.5;
 
             _neatGenomeParams = new NeatGenomeParameters();
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
@@ -144,16 +144,13 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
             // Determine what function to regress.
             string fnIdStr = XmlUtils.GetValueAsString(xmlConfig, "Function");
             FunctionId fnId = (FunctionId)Enum.Parse(typeof(FunctionId), fnIdStr);
-            _func = FunctionUtils.GetFunction(fnId);
-            if(1 != _func.InputCount) {
-                throw new Exception("GenerativeFunctionRegressionExperiment expects a input parameter function.");
-            }
+            _fn = FunctionUtils.GetFunction(fnId);
 
             // Read parameter sampling scheme settings.
             int sampleResolution = XmlUtils.GetValueAsInt(xmlConfig, "SampleResolution");
             double sampleMin = XmlUtils.GetValueAsDouble(xmlConfig, "SampleMin");
             double sampleMax = XmlUtils.GetValueAsDouble(xmlConfig, "SampleMax");
-            _paramSamplingInfo = new ParameterSamplingInfo(sampleMin, sampleMax, sampleResolution);
+            _paramSamplingInfo = new ParamSamplingInfo(sampleMin, sampleMax, sampleResolution);
         }
 
         /// <summary>
@@ -238,7 +235,7 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
             NeatEvolutionAlgorithm<NeatGenome> ea = new NeatEvolutionAlgorithm<NeatGenome>(_eaParams, speciationStrategy, complexityRegulationStrategy);
 
             // Create IBlackBox evaluator.
-            var evaluator = new GenerativeFunctionRegressionEvaluator(_paramSamplingInfo, _func);
+            var evaluator = new GenerativeFnRegressionEvaluator(_fn, _paramSamplingInfo);
 
             // Create genome decoder.
             IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder = CreateGenomeDecoder();
@@ -273,8 +270,8 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
         {
             if (1 == InputCount)
             {
-                ParameterSamplingInfo paramInfo = _paramSamplingInfo;
-                return new FunctionRegressionView2D(_func, true, paramInfo._min, paramInfo._incr, paramInfo._sampleCount, CreateGenomeDecoder());
+                ParamSamplingInfo paramInfo = _paramSamplingInfo;
+                return new FnRegressionView2D(_fn, paramInfo, true, CreateGenomeDecoder());
             }
 
             return null;
