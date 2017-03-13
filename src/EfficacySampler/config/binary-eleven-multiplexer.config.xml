@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Config>
-  <PopulationSize>1000</PopulationSize>
-  <SpecieCount>50</SpecieCount>
+  <PopulationSize>600</PopulationSize>
+  <SpecieCount>40</SpecieCount>
   <Activation>
     <Scheme>Acyclic</Scheme>
   </Activation>
-  <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
-  <ComplexityThreshold>10</ComplexityThreshold>
   <MaxDegreeOfParallelism>4</MaxDegreeOfParallelism>
   <Description>
     Binary 11-Multiplexer task with binary inputs/outputs.

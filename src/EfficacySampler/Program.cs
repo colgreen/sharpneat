@@ -5,7 +5,6 @@ using log4net.Config;
 using SharpNeat.Domains;
 using SharpNeat.Domains.BinaryElevenMultiplexer;
 using SharpNeat.Domains.GenerativeFunctionRegression;
-using SharpNeat.DomainsExtra.InvertedDoublePendulum;
 
 namespace EfficacySampler
 {
@@ -83,8 +82,8 @@ namespace EfficacySampler
             {
                 case "binary11":
                     return InitExperiment_BinaryElevenMultiplexer();
-                case "sinxsqr":
-                    return InitExperiment_SinxSquared();
+                case "sinewave":
+                    return InitExperiment_Sinwave();
             }
 
             Console.WriteLine($"Unrecognised experiment [{experimentId}]");
@@ -103,15 +102,14 @@ namespace EfficacySampler
             return experiment;
         }
 
-        private static IGuiNeatExperiment InitExperiment_SinxSquared()
+        private static IGuiNeatExperiment InitExperiment_Sinwave()
         {
             // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
-            //InvertedDoublePendulumExperiment experiment = new InvertedDoublePendulumExperiment();
             var experiment = new GenerativeFnRegressionExperiment();
 
             // Load config XML.
             XmlDocument xmlConfig = new XmlDocument();
-            xmlConfig.Load("config/sinx-squared.config.xml");
+            xmlConfig.Load("config/generative-sinewave.config.xml");
             experiment.Initialize(experiment.Name, xmlConfig.DocumentElement);
             return experiment;
         }
