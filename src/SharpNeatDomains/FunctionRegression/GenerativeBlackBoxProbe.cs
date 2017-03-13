@@ -54,7 +54,7 @@ namespace SharpNeat.Domains.FunctionRegression
                 box.Activate();
 
                 // Get the black box's output value.
-                responseArr[i] = (box.OutputSignalArray[0]+_offset) * _scale;
+                responseArr[i] = ((box.OutputSignalArray[0]-0.5) * _scale) + _offset;
             }
         }
 

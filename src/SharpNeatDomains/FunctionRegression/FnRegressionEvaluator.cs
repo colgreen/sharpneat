@@ -23,6 +23,8 @@ namespace SharpNeat.Domains.FunctionRegression
     {
         IFunction _fn;
         ParamSamplingInfo _paramSamplingInfo;
+        double _gradientMseWeight;
+        double _yMseWeight;
         IBlackBoxProbe _blackBoxProbe;
         readonly double[] _yArrTarget;
         readonly double[] _gradientArrTarget;
@@ -35,18 +37,20 @@ namespace SharpNeat.Domains.FunctionRegression
         /// <summary>
         /// Construct a function regression evaluator with the provided parameter sampling info and function to regress.
         /// </summary>
-        public FnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo)
-            : this(fn, paramSamplingInfo, CreateBlackBoxProbe(fn, paramSamplingInfo))
+        public FnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo, double gradientMseWeight)
+            : this(fn, paramSamplingInfo, gradientMseWeight, CreateBlackBoxProbe(fn, paramSamplingInfo))
         {
         }
 
         /// <summary>
         /// Construct a function regression evaluator with the provided parameter sampling info and function to regress.
         /// </summary>
-        public FnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo, IBlackBoxProbe blackBoxProbe)
+        public FnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo, double gradientMseWeight, IBlackBoxProbe blackBoxProbe)
         {
             _fn = fn;
             _paramSamplingInfo = paramSamplingInfo;
+            _gradientMseWeight = gradientMseWeight;
+            _yMseWeight = 1.0 - gradientMseWeight;
             _blackBoxProbe = blackBoxProbe;
 
             // Predetermine target responses.
@@ -97,19 +101,21 @@ namespace SharpNeat.Domains.FunctionRegression
             // Calc gradients.
             FnRegressionUtils.CalcGradients(_paramSamplingInfo, yArr, gradientArr);
 
-            // Calc y position mean squared error.
+            // Calc y position mean squared error, and apply weighting.
             double yMse = FnRegressionUtils.CalcMeanSquaredError(yArr, _yArrTarget);
+            yMse *= _yMseWeight;
 
             // Calc gradient mean squared error.
             double gradientMse = FnRegressionUtils.CalcMeanSquaredError(gradientArr, _gradientArrTarget);
+            gradientMse *= _gradientMseWeight;
 
             // Calc fitness as the inverse of mse (higher value is fitter). 
             // Add a constant to avoid divide by zero, and to constrain the fitness range between bad and good solutions; 
             // this allows the selection straregy to select solutions that are mediocre and therefore helps preserve diversity.
-            double fitness =  1.0 / (yMse + gradientMse + 0.01);
+            double fitness =  1000.0 / (yMse + gradientMse + 0.01);
 
             // Test for stopping condition (near perfect response).
-            if(fitness >= 100.0) {
+            if(fitness >= 100000.0) {
                 _stopConditionSatisfied = true;
             }
             _evalCount++;
@@ -132,7 +138,7 @@ namespace SharpNeat.Domains.FunctionRegression
             // Determine the mid output value of the function (over the specified sample points) and a scaling factor
             // to apply the to neural netwkrk response for it to be able to recreate the function (because the neural net
             // output range is [0,1] when using the logistic function as the neurn activation function).
-            double scale, mid;
+            double mid, scale;
             FnRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out mid, out scale);
 
             var blackBoxProbe = new BlackBoxProbe(paramSamplingInfo, mid, scale);

@@ -20,6 +20,7 @@ namespace SharpNeat.Domains.FunctionRegression
         Abs,
         Log,
         Sin,
-        SinXSquared
+        SinXSquared,
+        SinXPlusSinX
     }
 }

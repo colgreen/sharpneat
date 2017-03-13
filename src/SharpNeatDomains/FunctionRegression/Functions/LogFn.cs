@@ -17,7 +17,7 @@ namespace SharpNeat.Domains.FunctionRegression
     {
         public double GetValue(double x)
         {
-            return 0.1 + (Math.Log(x) * 0.17);
+            return Math.Log(x);
         }
     }
 }

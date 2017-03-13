@@ -28,7 +28,10 @@ namespace SharpNeat.Domains.FunctionRegression
                     return new SinFn();                
 
                 case FunctionId.SinXSquared:
-                    return new SinXSquaredFn();        
+                    return new SinXSquaredFn();
+
+                case FunctionId.SinXPlusSinX:
+                    return new SinXPlusSinXFn();      
             }
             throw new ArgumentException($"Unknown FunctionId type [{fnId}]");
         }

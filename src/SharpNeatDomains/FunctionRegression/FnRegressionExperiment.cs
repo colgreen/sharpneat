@@ -232,7 +232,7 @@ namespace SharpNeat.Domains.FunctionRegression
             NeatEvolutionAlgorithm<NeatGenome> ea = new NeatEvolutionAlgorithm<NeatGenome>(_eaParams, speciationStrategy, complexityRegulationStrategy);
 
             // Create IBlackBox evaluator.
-            FnRegressionEvaluator evaluator = new FnRegressionEvaluator(_fn, _paramSamplingInfo);
+            FnRegressionEvaluator evaluator = new FnRegressionEvaluator(_fn, _paramSamplingInfo, 0.3);
 
             // Create genome decoder.
             IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder = CreateGenomeDecoder();

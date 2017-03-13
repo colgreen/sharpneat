@@ -7,8 +7,8 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
         /// <summary>
         /// Construct a generative function regression evaluator with the provided parameter sampling info and function to regress.
         /// </summary>
-        public GenerativeFnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo)
-            : base(fn, paramSamplingInfo, CreateGenerativeBlackBoxProbe(fn, paramSamplingInfo))
+        public GenerativeFnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo, double gradientMseWeighting)
+            : base(fn, paramSamplingInfo, gradientMseWeighting, CreateGenerativeBlackBoxProbe(fn, paramSamplingInfo))
         {
         }
 

@@ -74,6 +74,7 @@
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
     <Compile Include="FunctionRegression\FunctionProbe.cs" />
+    <Compile Include="FunctionRegression\Functions\SinXPlusSinXFn.cs" />
     <Compile Include="FunctionRegression\GenerativeBlackBoxProbe.cs" />
     <Compile Include="FunctionRegression\BlackBoxProbe.cs" />
     <Compile Include="FunctionRegression\FnRegressionUtils.cs" />

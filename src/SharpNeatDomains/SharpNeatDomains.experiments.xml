@@ -24,7 +24,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.BinarySixMultiplexer.BinarySixMultiplexerExperiment</ClassName>
     <Config>
-      <PopulationSize>500</PopulationSize>
+      <PopulationSize>300</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
@@ -43,7 +43,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.BinarySixMultiplexer.RbfBinarySixMultiplexerExperiment</ClassName>
     <Config>
-      <PopulationSize>500</PopulationSize>
+      <PopulationSize>300</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>        
@@ -67,8 +67,8 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>50</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -118,7 +118,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Abs</Function>
-      <SampleResolution>11</SampleResolution>
+      <SampleResolution>30</SampleResolution>
       <SampleMin>-1.0</SampleMin>
       <SampleMax>1.0</SampleMax>
       <Description>
@@ -137,10 +137,10 @@ To distinguish between correct low scorers and incorrect low scorers an addition
         <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
-      <ComplexityThreshold>30</ComplexityThreshold>
+      <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Log</Function>
-      <SampleResolution>21</SampleResolution>
-      <SampleMin>1</SampleMin>
+      <SampleResolution>30</SampleResolution>
+      <SampleMin>2</SampleMin>
       <SampleMax>100</SampleMax>
       <Description>
         Function Regression - Log(x)
@@ -158,7 +158,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
-      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Sin</Function>      
       <SampleResolution>20</SampleResolution>
@@ -166,7 +166,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <SampleMax>6.283185</SampleMax>
       <Description>
         Function Regression - Sin(x)
-Sin(x) evaluated over [0,1*PI]     
+Sin(x) evaluated over [0,2*PI]     
       </Description>
     </Config>
   </Experiment>
@@ -175,20 +175,20 @@ Sin(x) evaluated over [0,1*PI]
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>SinXSquared</Function>
-      <SampleResolution>130</SampleResolution>
+      <SampleResolution>120</SampleResolution>
       <SampleMin>0</SampleMin>
-      <SampleMax>3.92699</SampleMax>
+      <SampleMax>4.71238898</SampleMax>
       <Description>
         Function Regression - Sin(x^2)
-        Sin(x) evaluated over [0,1.25*PI]
+        Sin(x) evaluated over [0,1.5*PI]
       </Description>
     </Config>
   </Experiment>
@@ -197,43 +197,43 @@ Sin(x) evaluated over [0,1*PI]
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
-      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Sin</Function>
-      <SampleResolution>100</SampleResolution>
+      <SampleResolution>80</SampleResolution>
       <SampleMin>0</SampleMin>
-      <SampleMax>6.283185</SampleMax>
+      <SampleMax>25.13274123</SampleMax>
       <Description>
         Generative Function Regression - Sin(x)
-        Sin(x) evaluated over [0,2*PI]
+        Sin(x) evaluated over [0,8*PI]
       </Description>
     </Config>
   </Experiment>
-  <Experiment name="Generative Function Regression - Sin(x^2) (NEAT)">
+  <Experiment name="Generative Function Regression - sin(x + sin(x)) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
-      <Function>SinXSquared</Function>
-      <SampleResolution>130</SampleResolution>
+      <Function>SinXPlusSinX</Function>
+      <SampleResolution>80</SampleResolution>
       <SampleMin>0</SampleMin>
-      <SampleMax>3.92699</SampleMax>
+      <SampleMax>25.13274123</SampleMax>
       <Description>
-        Generative Function Regression - Sin(x^2)
-        Sin(x) evaluated over [0,1.25*PI]
+        Generative Function Regression - sin(x + sin(x))
+        Sin(x) evaluated over [0,8*PI]
       </Description>
     </Config>
   </Experiment>

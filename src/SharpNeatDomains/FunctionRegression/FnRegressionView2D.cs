@@ -54,7 +54,7 @@ namespace SharpNeat.Domains.FunctionRegression
             // Determine the mid output value of the function (over the specified sample points) and a scaling factor
             // to apply the to neural netwkrk response for it to be able to recreate the function (because the neural net
             // output range is [0,1] when using the logistic function as the neurn activation function).
-            double scale, mid;
+            double mid, scale;
             FnRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out mid, out scale);
             if(generativeMode) {
                 _blackBoxProbe = new GenerativeBlackBoxProbe(paramSamplingInfo, mid, scale);

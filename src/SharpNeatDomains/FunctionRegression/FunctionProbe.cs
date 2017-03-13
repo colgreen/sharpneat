@@ -17,8 +17,6 @@ namespace SharpNeat.Domains.FunctionRegression
     public class FunctionProbe
     {
         readonly ParamSamplingInfo _paramSamplingInfo;
-        readonly double _offset;
-        readonly double _scale;
 
         #region Constructor
 

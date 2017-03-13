@@ -121,7 +121,7 @@ namespace SharpNeat.View.Graph
             // 9)            = (d-1) / (d + 2p - 1), rearranging for l gives
             //
             // 10) l = H / (d + 2p - 1)
-            const float p = 0.9f;
+            const float p = 2f;
             const float p2 = 2f * p;
             // Rounding will produce 'off by one' errors, e.g. all heights may not total height of layout area,
             // but the effect is probably negligible on the quality of the layout.

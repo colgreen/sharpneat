@@ -9,15 +9,16 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+
 using System;
 
 namespace SharpNeat.Domains.FunctionRegression
 {
-    public class AbsFunction : IFunction
+    public class SinXPlusSinXFn : IFunction
     {
         public double GetValue(double x)
         {
-            return Math.Abs(x);
+            return Math.Sin(x + Math.Sin(x));
         }
     }
 }

@@ -34,7 +34,7 @@ namespace SharpNeat.Domains.FunctionRegression
             // TODO: explain this (0.8 is logistic function range, 0.5 is the logistic function output value when its input is zero).
             double range = max - min;
             scale = range / 0.8;
-            mid = ((min+max) / 2.0) - 0.5;
+            mid = ((min+max) / 2.0);
         }
 
         public static void CalcGradients (ParamSamplingInfo paramSamplingInfo, double[] yArr, double[] gradientArr)

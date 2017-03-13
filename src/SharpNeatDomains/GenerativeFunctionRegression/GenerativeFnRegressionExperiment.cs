@@ -233,7 +233,7 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
             NeatEvolutionAlgorithm<NeatGenome> ea = new NeatEvolutionAlgorithm<NeatGenome>(_eaParams, speciationStrategy, complexityRegulationStrategy);
 
             // Create IBlackBox evaluator.
-            var evaluator = new GenerativeFnRegressionEvaluator(_fn, _paramSamplingInfo);
+            var evaluator = new GenerativeFnRegressionEvaluator(_fn, _paramSamplingInfo, 0.9);
 
             // Create genome decoder.
             IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder = CreateGenomeDecoder();
