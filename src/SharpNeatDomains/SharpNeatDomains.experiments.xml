@@ -203,8 +203,8 @@ Sin(x) evaluated over [0,2*PI]
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
-      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
-      <ComplexityThreshold>20</ComplexityThreshold>
+      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityThreshold>10</ComplexityThreshold>
       <Function>Sin</Function>
       <SampleResolution>80</SampleResolution>
       <SampleMin>0</SampleMin>
@@ -215,7 +215,7 @@ Sin(x) evaluated over [0,2*PI]
       </Description>
     </Config>
   </Experiment>
-  <Experiment name="Generative Function Regression - sin(x + sin(x)) (NEAT)">
+  <Experiment name="Generative Function Regression - Waveform #1) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
@@ -227,13 +227,14 @@ Sin(x) evaluated over [0,2*PI]
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
-      <Function>SinXPlusSinX</Function>
+      <Function>Waveform1</Function>
       <SampleResolution>80</SampleResolution>
       <SampleMin>0</SampleMin>
       <SampleMax>25.13274123</SampleMax>
       <Description>
-        Generative Function Regression - sin(x + sin(x))
-        Sin(x) evaluated over [0,8*PI]
+        Generative Function Regression - Waveform #1
+        sin(x + sin(x)
+        Evaluated over interval [0,8*PI]
       </Description>
     </Config>
   </Experiment>

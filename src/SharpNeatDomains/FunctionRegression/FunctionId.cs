@@ -21,6 +21,6 @@ namespace SharpNeat.Domains.FunctionRegression
         Log,
         Sin,
         SinXSquared,
-        SinXPlusSinX
+        Waveform1
     }
 }

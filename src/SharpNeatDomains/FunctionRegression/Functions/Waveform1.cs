@@ -14,7 +14,7 @@ using System;
 
 namespace SharpNeat.Domains.FunctionRegression
 {
-    public class SinXPlusSinXFn : IFunction
+    public class Waveform1Fn : IFunction
     {
         public double GetValue(double x)
         {
