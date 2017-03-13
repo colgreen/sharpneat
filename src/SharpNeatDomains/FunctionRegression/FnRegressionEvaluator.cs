@@ -104,11 +104,12 @@ namespace SharpNeat.Domains.FunctionRegression
             double gradientMse = FnRegressionUtils.CalcMeanSquaredError(gradientArr, _gradientArrTarget);
 
             // Calc fitness as the inverse of mse (higher value is fitter). 
-            // Add a small constant to avoid divide by zero.
-            double fitness =  1.0 / (yMse + gradientMse + 0.00001);
+            // Add a constant to avoid divide by zero, and to constrain the fitness range between bad and good solutions; 
+            // this allows the selection straregy to select solutions that are mediocre and therefore helps preserve diversity.
+            double fitness =  1.0 / (yMse + gradientMse + 0.01);
 
             // Test for stopping condition (near perfect response).
-            if(fitness >= 10000.0) {
+            if(fitness >= 100.0) {
                 _stopConditionSatisfied = true;
             }
             _evalCount++;

@@ -134,8 +134,6 @@ namespace SharpNeat.Domains.FunctionRegression
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
-            _eaParams.SelectionProportion = 0.5;
-            _eaParams.ElitismProportion = 0.5;
 
             _neatGenomeParams = new NeatGenomeParameters();
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
