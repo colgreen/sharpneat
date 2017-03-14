@@ -47,7 +47,7 @@ namespace EfficacySampler
                     double secs;
                     int gens;
                     double fitness = eaHost.Sample(out secs, out gens);
-                    __streamWriter.WriteLine($"{secs},{gens},{fitness}");
+                    __streamWriter.WriteLine($"{secs},{gens},{fitness:0.#####}");
                     __streamWriter.Flush();
                 }
             }
