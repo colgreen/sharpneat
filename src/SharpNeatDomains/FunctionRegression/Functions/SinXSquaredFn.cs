@@ -9,23 +9,16 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 
-// Disable comment warnings for trivial class.
-#pragma warning disable 1591
+using System;
 
 namespace SharpNeat.Domains.FunctionRegression
 {
-    public class AbsFunction : IFunction
+    public class SinXSquaredFn : IFunction
     {
-        public double GetValue(double[] args)
+        public double GetValue(double x)
         {
-            return 0.1 + Math.Abs(args[0]) * 0.8;
-        }
-
-        public int InputCount
-        {
-            get { return 1; }
+            return (Math.Sin(x*x)*0.4)+0.5;
         }
     }
 }

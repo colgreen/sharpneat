@@ -9,21 +9,16 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-// Disable comment warnings for trivial class.
-#pragma warning disable 1591
+
+using System;
 
 namespace SharpNeat.Domains.FunctionRegression
 {
-    public class MultiplicationFunction : IFunction
+    public class Waveform1Fn : IFunction
     {
-        public double GetValue(double[] args)
+        public double GetValue(double x)
         {
-            return args[0] * args[1];
-        }
-
-        public int InputCount
-        {
-            get { return 2; }
+            return Math.Sin(x + Math.Sin(x));
         }
     }
 }

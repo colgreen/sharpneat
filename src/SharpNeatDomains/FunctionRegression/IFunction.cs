@@ -13,17 +13,13 @@
 namespace SharpNeat.Domains.FunctionRegression
 {
     /// <summary>
-    /// Represents a mathematical function with a 1 or more real valued inputs and a single output. 
+    /// A mathematical function that has a single input parameter.
     /// </summary>
     public interface IFunction
     {
         /// <summary>
-        /// Get the function value for the specified function arguments.
+        /// Get the function value for the given function argument.
         /// </summary>
-        double GetValue(double[] args);
-        /// <summary>
-        /// Gets the number of inputs the function expects.
-        /// </summary>
-        int InputCount { get; }
+        double GetValue(double x);
     }
 }
