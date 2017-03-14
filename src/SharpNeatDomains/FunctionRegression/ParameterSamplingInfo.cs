@@ -17,27 +17,42 @@ namespace SharpNeat.Domains.FunctionRegression
     /// Parameter sampling info. Describes the value range to sample, the number of samples within
     /// that range and the increment between samples.
     /// </summary>
-    public struct ParameterSamplingInfo
+    public struct ParamSamplingInfo
     {
         /// <summary>Sample range minimum.</summary>
-        public double _min;
+        public readonly double _min;
         /// <summary>Sample range maximum.</summary>
-        public double _max;
+        public readonly double _max;
         /// <summary>Intra sample increment.</summary>
-        public double _incr;
+        public readonly double _incr;
         /// <summary>Sample count.</summary>
-        public int _sampleCount;
+        public readonly int _sampleCount;
+        /// <summary>X positions of the sample points.</summary>
+        public readonly double[] _xArr;
+        /// <summary>X positions of the sample points in the neural net input space (i.e. scaled from 0 to 1)</summary>
+        public readonly double[] _xArrNetwork;
 
         /// <summary>
         /// Construct with the provided parameter info.
         /// </summary>
-        public ParameterSamplingInfo(double min, double max, int sampleCount)
+        public ParamSamplingInfo(double min, double max, int sampleCount)
         {
             Debug.Assert(sampleCount>=3, "Sample count must be >= 3");
             _min = min;
             _max = max;
             _incr = (max-min) / (sampleCount-1);
             _sampleCount = sampleCount;
+
+            double incrNet = 1.0 / (sampleCount-1);
+            double x = min;
+            double xNet = 0;
+            _xArr = new double[sampleCount];
+            _xArrNetwork = new double[sampleCount];
+            for(int i=0; i<sampleCount; i++, x += _incr, xNet += incrNet)
+            {
+                _xArr[i] = x;
+                _xArrNetwork[i] = xNet;
+            }
         }
     }
 }

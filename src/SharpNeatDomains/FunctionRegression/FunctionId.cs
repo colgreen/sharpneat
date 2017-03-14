@@ -9,8 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-// Disable comment warnings for trivial class.
-#pragma warning disable 1591
 
 namespace SharpNeat.Domains.FunctionRegression
 {
@@ -21,8 +19,8 @@ namespace SharpNeat.Domains.FunctionRegression
     {
         Abs,
         Log,
-        Multiplication,
-        Sine,
-        SineXSquared
+        Sin,
+        SinXSquared,
+        Waveform1
     }
 }

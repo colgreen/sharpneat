@@ -21,13 +21,13 @@ namespace SharpNeat.Domains.FunctionRegression
     /// Domain View for function regression with one input and one output.
     /// Plots function on 2D graph.
     /// </summary>
-    public partial class FunctionRegressionView2D : AbstractDomainView
+    public partial class FnRegressionView2D : AbstractDomainView
     {
-        IFunction _func;
+        IFunction _fn;
+        ParamSamplingInfo _paramSamplingInfo;
         bool _generativeMode;
-        double _xMin;
-        double _xIncr;
-        int _sampleCount;
+        IBlackBoxProbe _blackBoxProbe;
+        readonly double[] _yArrTarget;
         IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
         PointPairList _plotPointListTarget;
         PointPairList _plotPointListResponse;
@@ -37,33 +37,43 @@ namespace SharpNeat.Domains.FunctionRegression
         /// <summary>
         /// Constructs with the details of the function regression problem to be visualized. 
         /// </summary>
-        /// <param name="func">The function being regressed.</param>
+        /// <param name="fn">The function being regressed.</param>
         /// <param name="generativeMode">Indicates that blacbox has no inputs; it will generate a waveform as a function of time.</param>
-        /// <param name="xMin">The minimum value of the input range being sampled.</param>
-        /// <param name="xIncr">The increment between input sample values.</param>
-        /// <param name="sampleCount">The number of samples over the input range.</param>
+        /// <param name="paramSamplingInfo">Parameter sampling info.</param>
         /// <param name="genomeDecoder">Genome decoder.</param>
-        public FunctionRegressionView2D(IFunction func, bool generativeMode, double xMin, double xIncr, int sampleCount, IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
+        public FnRegressionView2D(IFunction fn, ParamSamplingInfo paramSamplingInfo, bool generativeMode, IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
         {
             InitializeComponent();
             InitGraph(string.Empty, string.Empty, string.Empty);
 
-            _func = func;
+            _fn = fn;
+            _paramSamplingInfo = paramSamplingInfo;
             _generativeMode = generativeMode;
-            _xMin = xMin;
-            _xIncr = xIncr;
-            _sampleCount = sampleCount;
             _genomeDecoder = genomeDecoder;
+
+            // Determine the mid output value of the function (over the specified sample points) and a scaling factor
+            // to apply the to neural netwkrk response for it to be able to recreate the function (because the neural net
+            // output range is [0,1] when using the logistic function as the neurn activation function).
+            double mid, scale;
+            FnRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out mid, out scale);
+            if(generativeMode) {
+                _blackBoxProbe = new GenerativeBlackBoxProbe(paramSamplingInfo, mid, scale);
+            } else {
+                _blackBoxProbe = new BlackBoxProbe(paramSamplingInfo, mid, scale);
+            }
+            
+            _yArrTarget = new double[paramSamplingInfo._sampleCount];
 
             // Pre-build plot point objects.
             _plotPointListTarget = new PointPairList();
             _plotPointListResponse = new PointPairList();
             
-            double[] args = new double[]{xMin};
-            for(int i=0; i<sampleCount; i++, args[0] += xIncr)
+            double[] xArr = paramSamplingInfo._xArr;
+            for(int i=0; i<xArr.Length; i++)
             {
-                _plotPointListTarget.Add(args[0], _func.GetValue(args));
-                _plotPointListResponse.Add(args[0], 0.0);
+                double x = xArr[i];
+                _plotPointListTarget.Add(x, _fn.GetValue(x));
+                _plotPointListResponse.Add(x, 0.0);
             }
 
             // Bind plot points to graph.
@@ -103,20 +113,20 @@ namespace SharpNeat.Domains.FunctionRegression
 
             // Decode genome.
             IBlackBox box = _genomeDecoder.Decode(neatGenome);
-            box.ResetState();
 
-
+            // Probe the black box.
+            _blackBoxProbe.Probe(box, _yArrTarget);
 
             // Update plot points.
-            double x = _xMin;
-            for(int i=0; i<_sampleCount;i++, x += _xIncr) 
+            double[] xArr = _paramSamplingInfo._xArr;
+            for(int i=0; i < xArr.Length; i++) 
             {
                 if(!_generativeMode) {
                     box.ResetState();
-                    box.InputSignalArray[0] = x;
+                    box.InputSignalArray[0] = xArr[i];
                 }
                 box.Activate();
-                _plotPointListResponse[i].Y = box.OutputSignalArray[0];
+                _plotPointListResponse[i].Y = _yArrTarget[i];
             }
 
             // Trigger graph to redraw.

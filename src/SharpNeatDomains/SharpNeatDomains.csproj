@@ -72,12 +72,30 @@
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerExperiment.cs" />
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
-    <Compile Include="FunctionRegression\AbsFunction.cs" />
+    <Compile Include="FunctionRegression\BlackBoxProbe.cs" />
+    <Compile Include="FunctionRegression\FnRegressionEvaluator.cs" />
+    <Compile Include="FunctionRegression\FnRegressionExperiment.cs" />
+    <Compile Include="FunctionRegression\FnRegressionUtils.cs" />
+    <Compile Include="FunctionRegression\FnRegressionView2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FunctionRegression\FnRegressionView2D.Designer.cs">
+      <DependentUpon>FnRegressionView2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionRegression\FunctionId.cs" />
+    <Compile Include="FunctionRegression\FunctionProbe.cs" />
+    <Compile Include="FunctionRegression\Functions\AbsFunction.cs" />
+    <Compile Include="FunctionRegression\Functions\LogFn.cs" />
+    <Compile Include="FunctionRegression\Functions\SinFn.cs" />
+    <Compile Include="FunctionRegression\Functions\SinXSquaredFn.cs" />
+    <Compile Include="FunctionRegression\Functions\Waveform1.cs" />
     <Compile Include="FunctionRegression\FunctionUtils.cs" />
-    <Compile Include="FunctionRegression\LogFunction.cs" />
-    <Compile Include="FunctionRegression\RbfFunctionRegressionExperiment.cs" />
-    <Compile Include="GenerativeFunctionRegression\GenerativeFunctionRegressionEvaluator.cs" />
-    <Compile Include="GenerativeFunctionRegression\GenerativeFunctionRegressionExperiment.cs" />
+    <Compile Include="FunctionRegression\GenerativeBlackBoxProbe.cs" />
+    <Compile Include="FunctionRegression\IBlackBoxProbe.cs" />
+    <Compile Include="FunctionRegression\IFunction.cs" />
+    <Compile Include="FunctionRegression\ParameterSamplingInfo.cs" />
+    <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionEvaluator.cs" />
+    <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionExperiment.cs" />
     <Compile Include="IGuiNeatExperiment.cs" />
     <Compile Include="IntPoint.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.cs">
@@ -102,20 +120,6 @@
     <Compile Include="DoublePoleBalancing\DoublePoleBalancingExperiment.cs" />
     <Compile Include="DoublePoleBalancing\JiggleBuffer.cs" />
     <Compile Include="ExperimentUtils.cs" />
-    <Compile Include="FunctionRegression\SineXSquaredFunction.cs" />
-    <Compile Include="FunctionRegression\FunctionRegressionView2D.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FunctionRegression\FunctionRegressionView2D.Designer.cs">
-      <DependentUpon>FunctionRegressionView2D.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FunctionRegression\SineFunction.cs" />
-    <Compile Include="FunctionRegression\FunctionRegressionEvaluator.cs" />
-    <Compile Include="FunctionRegression\FunctionId.cs" />
-    <Compile Include="FunctionRegression\IFunction.cs" />
-    <Compile Include="FunctionRegression\MultiplicationFunction.cs" />
-    <Compile Include="FunctionRegression\ParameterSamplingInfo.cs" />
-    <Compile Include="FunctionRegression\FunctionRegressionExperiment.cs" />
     <Compile Include="INeatExperiment.cs" />
     <Compile Include="NeatGenomeView.cs">
       <SubType>UserControl</SubType>
@@ -158,8 +162,8 @@
     <EmbeddedResource Include="CppnGenomeView.resx">
       <DependentUpon>CppnGenomeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FunctionRegression\FunctionRegressionView2D.resx">
-      <DependentUpon>FunctionRegressionView2D.cs</DependentUpon>
+    <EmbeddedResource Include="FunctionRegression\FnRegressionView2D.resx">
+      <DependentUpon>FnRegressionView2D.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NeatGenomeView.resx">
       <DependentUpon>NeatGenomeView.cs</DependentUpon>
