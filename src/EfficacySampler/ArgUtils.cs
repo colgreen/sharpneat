@@ -6,28 +6,29 @@ namespace EfficacySampler
     {
         public static StopCondition ReadArgs(string[] args, out string experimentId, out string filename)
         {
-            if(args.Length != 4)
+            experimentId = null;
+            filename = null;
+            if(args.Length == 1 && args[0] == "sysinfo")
             {
-                Console.WriteLine("Format is:");
-                Console.WriteLine("  efic {experiment} secs {n} {outputfilename}");
-                Console.WriteLine("  efic {experiment} gens {n} {outputfilename}");
-
-                Console.WriteLine("");
-                Console.WriteLine("  Experiment options are:  ");
-                Console.WriteLine("    binary11");
-                Console.WriteLine("    sinewave");
-                experimentId = null;
-                filename = null;
+                SysInfo.DumpSystemInfo();
                 return null;
             }
 
-            experimentId = args[0];
-            StopCondition sc = ReadStopCondition(args[1], args[2]);
+            if(args.Length == 4)
+            {
+                experimentId = args[0];
+                StopCondition sc = ReadStopCondition(args[1], args[2]);
 
-            // output filename
-            filename = args[3];
-            return sc;
+                // output filename
+                filename = args[3];
+                return sc;
+            }
+
+            PrintHelp();
+            return null;
         }
+
+        #region Private Static Methods
 
         private static StopCondition ReadStopCondition(string type, string valStr)
         {
@@ -55,5 +56,20 @@ namespace EfficacySampler
             sc.Value = val;
             return sc;
         }
+
+        private static void PrintHelp()
+        {
+            Console.WriteLine("Format is:");
+            Console.WriteLine("  efic {experiment} secs {n} {outputfilename}");
+            Console.WriteLine("  efic {experiment} gens {n} {outputfilename}");
+            Console.WriteLine("  efic sysinfo");
+
+            Console.WriteLine("");
+            Console.WriteLine("  Experiment options are:  ");
+            Console.WriteLine("    binary11");
+            Console.WriteLine("    sinewave");
+        }
+
+        #endregion
     }
 }
