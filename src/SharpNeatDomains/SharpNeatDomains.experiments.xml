@@ -195,29 +195,29 @@ Sin(x) evaluated over [0,1*PI]
   
   <Experiment name="Generative Function Regression - Sin(x) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFunctionRegressionExperiment</ClassName>
+    <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>10</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
-      <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
-      <ComplexityThreshold>20</ComplexityThreshold>
-      <Function>Sine</Function>
-      <SampleResolution>100</SampleResolution>
+      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityThreshold>10</ComplexityThreshold>
+      <Function>Sin</Function>
+      <SampleResolution>80</SampleResolution>
       <SampleMin>0</SampleMin>
-      <SampleMax>6.283185</SampleMax>
+      <SampleMax>25.13274123</SampleMax>
       <Description>
         Generative Function Regression - Sin(x)
-        Sin(x) evaluated over [0,2*PI]
+        Sin(x) evaluated over [0,8*PI]
       </Description>
     </Config>
   </Experiment>
   <Experiment name="Generative Function Regression - Sin(x^2) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFunctionRegressionExperiment</ClassName>
+    <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>1000</PopulationSize>
       <SpecieCount>10</SpecieCount>
