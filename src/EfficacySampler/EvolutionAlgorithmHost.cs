@@ -35,7 +35,7 @@ namespace EfficacySampler
         /// Once the stop conditon is reached this method returns with the current best fitness in the population.
         /// </summary>
         /// <returns></returns>
-        public double Sample(out double secs, out int gens)
+        public Sample Sample()
         {
             _ea = CreateEvolutionAlgorithm();
             _stopwatch.Restart();
@@ -47,16 +47,21 @@ namespace EfficacySampler
             // Record stats as soon as we can (the EA is still running).
             // Strictly speaking we should sync access to these states becase the EA is still running; and we prefer 
             // not to stop it first because that can take a long time (because it waits for the current generation to complete).
-            double fitness;
+            Sample sample = new Sample();
+
             lock(_ea.Statistics)
             {
                 // Call Stop() here because we may have waited to obtain the lock, therefore this gives a more accurate
                 // measure of how much time had actually elapsed when the EA statistics were read.
                 _stopwatch.Stop();
 
-                fitness = _ea.Statistics._maxFitness;
-                secs = _stopwatch.ElapsedMilliseconds * 0.001;
-                gens = (int)_ea.CurrentGeneration;
+                sample.ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001;
+                sample.GenerationCount =  (int)_ea.CurrentGeneration;
+                sample.BestFitness = _ea.Statistics._maxFitness;
+                sample.MeanFitness = _ea.Statistics._meanFitness;
+                sample.MaxComplexity = _ea.Statistics._maxComplexity;
+                sample.MeanComplexity = _ea.Statistics._meanComplexity;
+                sample.EvaluationCount = _ea.Statistics._totalEvaluationCount;
             }
 
             // Request the EA to stop, and wait for it. 
@@ -69,7 +74,7 @@ namespace EfficacySampler
             _ea = null;
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
 
-            return fitness;
+            return sample;
         }
 
         #endregion
