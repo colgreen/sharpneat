@@ -72,6 +72,7 @@
     <Compile Include="EvolutionAlgorithmHost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sample.cs" />
     <Compile Include="StopCondition.cs" />
     <Compile Include="StopConditionType.cs" />
     <Compile Include="SysInfo.cs" />

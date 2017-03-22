@@ -44,10 +44,8 @@ namespace EfficacySampler
             {
                 for(;;)
                 {
-                    double secs;
-                    int gens;
-                    double fitness = eaHost.Sample(out secs, out gens);
-                    __streamWriter.WriteLine($"{secs},{gens},{fitness:0.#####}");
+                    Sample s = eaHost.Sample();
+                    __streamWriter.WriteLine($"{s.ElapsedTimeSecs},{s.GenerationCount},{s.BestFitness:0.#####},{s.MeanFitness:0.#####},{s.MaxComplexity:0.#####},{s.MeanComplexity:0.#####},{s.EvaluationCount}");
                     __streamWriter.Flush();
                 }
             }
@@ -72,7 +70,7 @@ namespace EfficacySampler
             
             // Create new file and write a header row.
             StreamWriter sw = new StreamWriter(filename);
-            sw.WriteLine("secs,gens,bestfitness");
+            sw.WriteLine("secs,gens,bestfitness,meanfitness,maxcomplexity,meancomplexity,evalcount");
             return sw;
         }
 
