@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{29425503-9A5D-4C86-BB9B-CA17A7742E6A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpNeat</RootNamespace>
+    <AssemblyName>SharpNeatLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\FitnessInfo.cs" />
+    <Compile Include="Core\IGenome.cs" />
+    <Compile Include="Core\IGenomeDecoder.cs" />
+    <Compile Include="Core\IGenomeFactory.cs" />
+    <Compile Include="Core\IGenomeListEvaluator.cs" />
+    <Compile Include="Core\IPhenomeEvaluator.cs" />
+    <Compile Include="Core\NodeType.cs" />
+    <Compile Include="Genomes\Neat\ConnectionGene.cs" />
+    <Compile Include="Genomes\Neat\ConnectionGeneList.cs" />
+    <Compile Include="Genomes\Neat\NeatGenome.cs" />
+    <Compile Include="Genomes\Neat\NeatGenomeIntegrity.cs" />
+    <Compile Include="Genomes\Neat\NeuronGene.cs" />
+    <Compile Include="Genomes\Neat\NeuronGeneList.cs" />
+    <Compile Include="Network\ConnectionEndpointsStruct.cs" />
+    <Compile Include="Network\NetworkConnectivityData.cs" />
+    <Compile Include="Network\NodeConnectivityData.cs" />
+    <Compile Include="Phenomes\IBlackBox.cs" />
+    <Compile Include="Phenomes\ISignalArray.cs" />
+    <Compile Include="Phenomes\MappingSignalArray.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\FastAcyclicNetwork.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastConnection.cs" />
+    <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastCyclicNetwork.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
