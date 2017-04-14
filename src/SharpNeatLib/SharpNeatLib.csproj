@@ -64,6 +64,7 @@
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
     <Compile Include="Neat\NeatDifferentialReproductionStrategySettings.cs" />
     <Compile Include="Neat\Genome\NeatGenome.cs" />
+    <Compile Include="Neat\NeatPopulation.cs" />
     <Compile Include="Neat\Reproduction\Mutation\ConnectionMutationDescriptor.cs" />
     <Compile Include="Neat\Reproduction\Mutation\ConnectionMutationScheme.cs" />
     <Compile Include="Neat\Reproduction\Mutation\ConnectionSelectionType.cs" />

@@ -1,5 +1,4 @@
 ﻿using Redzen.Numerics;
-using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
 using System;
@@ -9,36 +8,28 @@ namespace SharpNeat.Neat
 {
     public class NeatPopulationFactory
     {
-        readonly int _inNodeCount;
-        readonly int _outNodeCount;
-        readonly double _connectionWeightRange; 
+        readonly MetaNeatGenome _metaNeatGenome;
         readonly double _connectionsProportion;
 
         readonly ConnectionDefinition[] _connectionDefArr;
         readonly IRandomSource _rng;
-        Uint32Sequence _genomeIdSeq;
+        readonly Uint32Sequence _genomeIdSeq;
 
         #region Constructor
 
-        /// <summary>
-        /// Construct with the provided factory parameters.
-        /// </summary>
-        /// <param name="inNodeCount">The fixed number of input nodes in each genome.</param>
-        /// <param name="outNodeCount">The fixed number of output nodes in each genome.</param>
-        /// <param name="connectionWeightRange">The maximum weight magnitude.</param>
-        /// <param name="connectionsProportion">The proportion of all possible connections (between input and outputs) to create in each genome.</param>
-        private NeatPopulationFactory(int inNodeCount, int outNodeCount, double connectionWeightRange, double connectionsProportion)
+        private NeatPopulationFactory(MetaNeatGenome metaNeatGenome, double connectionsProportion)
         {
-            _inNodeCount = inNodeCount;
-            _outNodeCount = outNodeCount;
-            _connectionWeightRange = connectionWeightRange;
+            _metaNeatGenome = metaNeatGenome;
             _connectionsProportion = connectionsProportion;
 
             // Define the set of all possible connections between the input and output nodes (fully interconnected).
-            _connectionDefArr = new ConnectionDefinition[inNodeCount * outNodeCount];
+            int inCount = metaNeatGenome.InputNodeCount;
+            int outCount = metaNeatGenome.InputNodeCount;
+
+            _connectionDefArr = new ConnectionDefinition[inCount * outCount];
             uint id = 0;
-            for(uint srcId=0, i=0; srcId < inNodeCount; srcId++) {
-                for(uint tgtId=0; tgtId < outNodeCount; tgtId++) {
+            for(uint srcId=0, i=0; srcId < inCount; srcId++) {
+                for(uint tgtId=0; tgtId < outCount; tgtId++) {
                     _connectionDefArr[i++] = new ConnectionDefinition(id++, srcId, tgtId);
                 }
             }
@@ -51,10 +42,10 @@ namespace SharpNeat.Neat
 
         #region Public Methods
 
-        public Population<NeatGenome> CreatePopulation(int size)
+        public NeatPopulation CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
-            return new Population<NeatGenome>(_genomeIdSeq, genomeList);
+            return new NeatPopulation(_genomeIdSeq, genomeList, _metaNeatGenome);
         }
 
         #endregion
@@ -119,7 +110,7 @@ namespace SharpNeat.Neat
         /// </summary>
         private double SampleConnectionWeight()
         {
-            return ((_rng.NextDouble()*2.0) - 1.0) * _connectionWeightRange;
+            return ((_rng.NextDouble()*2.0) - 1.0) * _metaNeatGenome.ConnectionWeightRange;
         }
 
         #endregion
@@ -144,9 +135,17 @@ namespace SharpNeat.Neat
 
         #region Public Static Factory Method
 
-        public Population<NeatGenome> CreatePopulation(int inNodeCount, int outNodeCount, double connectionWeightRange, double connectionsProportion, int popSize)
+        /// <summary>
+        /// Create a new NeatPopulation with randomly initialised genomes.
+        /// Genomes are randomly initialised by giving each a random subset of all possible connections between the input and output layer.
+        /// </summary>
+        /// <param name="metaNeatGenome">Genome metadata, e.g. the number of input and output nodes that each genome should have.</param>
+        /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
+        /// <param name="popSize">Popultion size. The number of new genomes to create.</param>
+        /// <returns>A new NeatPopulation.</returns>
+        public NeatPopulation CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
         {
-            var factory = new NeatPopulationFactory(inNodeCount, outNodeCount, connectionWeightRange, connectionsProportion);
+            var factory = new NeatPopulationFactory(metaNeatGenome, connectionsProportion);
             return factory.CreatePopulation(popSize);
         }
 
