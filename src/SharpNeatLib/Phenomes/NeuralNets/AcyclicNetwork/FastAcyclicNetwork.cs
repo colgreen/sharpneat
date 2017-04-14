@@ -39,7 +39,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public class FastAcyclicNetwork : IBlackBox
+    public class FastAcyclicNetwork : IBlackBox<double>
     {
     //=== Fixed data. Network structure and activation functions/data.
         /// <summary>
@@ -65,8 +65,8 @@ namespace SharpNeat.Phenomes.NeuralNets
     //=== Misc.
         // Wrappers over _activationArr that map between black box inputs/outputs to the
         // corresponding underlying node activation levels.
-        readonly ArraySegment<double> _inputSignalArrayWrapper;
-        readonly MappingSignalArray _outputSignalArrayWrapper;
+        readonly SignalArray<double> _inputSignalArrayWrapper;
+        readonly MappingSignalArray<double> _outputSignalArrayWrapper;
 
         // Convenient counts.
         readonly int _inputNodeCount;
@@ -107,13 +107,13 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
             // Offset is 1 to skip bias neuron (The value at index 1 is the first black box input).
-            _inputSignalArrayWrapper = new ArraySegment<double>(_activationArr, 1, inputNodeCount);
+            _inputSignalArrayWrapper = new SignalArray<double>(_activationArr, 1, inputNodeCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the level of indirection described by outputNodeIdxArr.
-            _outputSignalArrayWrapper = new MappingSignalArray(_activationArr, outputNodeIdxArr);
+            _outputSignalArrayWrapper = new MappingSignalArray<double>(_activationArr, outputNodeIdxArr);
 
             // Store counts for use during activation.
             _inputNodeCount = inputNodeCount;
@@ -147,7 +147,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets an array for feeding input signals to the network.
         /// </summary>
-        public IList<double> InputSignalArray
+        public ISignalArray<double> InputSignalArray
         {
             get { return _inputSignalArrayWrapper; }
         }
@@ -155,7 +155,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets an array of output signals from the network.
         /// </summary>
-        public IList<double> OutputSignalArray
+        public ISignalArray<double> OutputSignalArray
         {
             get { return _outputSignalArrayWrapper; }
         }

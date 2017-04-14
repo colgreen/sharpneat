@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Neat.Genome
 {
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.

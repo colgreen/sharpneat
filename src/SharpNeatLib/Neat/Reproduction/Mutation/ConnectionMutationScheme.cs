@@ -1,7 +1,7 @@
 ﻿using System;
 using Redzen.Numerics;
 
-namespace SharpNeat.Genomes.Neat.Settings.Mutation
+namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
 {
     /// <summary>
     /// Connection weight mutation scheme.

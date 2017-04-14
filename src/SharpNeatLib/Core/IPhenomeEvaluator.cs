@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SharpNeat.Core
 {
     public interface IPhenomeEvaluator<TPhenome>
@@ -15,13 +10,9 @@ namespace SharpNeat.Core
         FitnessInfo Evaluate(TPhenome phenome);
 
         /// <summary>
-        /// Test for evaulator stopping condition, i.e. is the provided fitness score 
-        /// the optimal score (cannot be improved further).
-        /// 
-        /// Simply return false to keep evolution running indefinitely.
+        /// Gets the fitness of a perfect/optimal phenome. This can be used to test when to stop the evolution algorithm.
+        /// Return FitnessInfo.Empty if this is not required or useful for a given IPhenomeEvaluator.
         /// </summary>
-        /// <param name="fitnessArr">The fitness array to test.</param>
-        /// <returns>True if the fitness score meets stopping condition.</returns>
-        bool TestStoppingCondition(double[] fitnessArr);
+        FitnessInfo OptimalFitness { get; }
     }
 }

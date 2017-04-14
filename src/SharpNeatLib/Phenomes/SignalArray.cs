@@ -1,38 +1,52 @@
-﻿/* ***************************************************************************
- * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
- * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
- *
- * SharpNEAT is free software; you can redistribute it and/or modify
- * it under the terms of The MIT License (MIT).
- *
- * You should have received a copy of the MIT License
- * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
- */
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace SharpNeat.Phenomes
 {
     /// <summary>
-    /// MappingSignalArray wraps a native array along with an indirection/mapping array.
-    /// See SignalArray for more info.
+    /// SignalArray wraps a native array along with an offset into that array. The resulting SignalArray
+    /// provides offset indexed access to the underlying native array.
+    /// 
+    /// SignalArray minimizes the amount of value copying required when setting input signal values to, and
+    /// reading output values from an IBlackBox. E.g. FastCyclicNetwork requires all input, output and 
+    /// hidden node activation values to be stored in a single array. This class allows us to handle direct 
+    /// access to the input and output values through their own SignalArray, thus we can set individual values
+    /// in the underlying native array directly without having knowledge of that array's structure. An alternative
+    /// would be to pass arrays to SetInputs() and SetOutput() methods, requiring us to copy the complete contents
+    /// of the arrays into the IBlackBox's working array on each call.
+    /// 
+    /// This class is effectively a substitute for array pointer manipulation as is possible in C++, e.g. in
+    /// C++ you might do something like:
+    /// <code>
+    /// double[] allSignals = new double[100];
+    /// double[] inputSignals = &amp;allSignals + 1;    // Skip bias neuron.
+    /// double[] outputSignals = &amp;allSignals + 10;  // Skip bias and input neurons.
+    /// </code>
+    /// In the above example access to the real items outside of the bounds of the sub-ranges is
+    /// possible (e.g. inputSignals[10] yields the first output signal). SignalArray also does not check for
+    /// such out-of-bounds accesses, accept when running with a debugger attached in which case assertions will
+    /// make these tests.
     /// </summary>
-    public class MappingSignalArray<T> : ISignalArray<T> where T : struct
+    public class SignalArray<T> : ISignalArray<T> where T : struct
     {
         readonly T[] _wrappedArray;
-        readonly int[] _map;
+        readonly int _offset;
+        readonly int _length;
 
         #region Constructor
 
         /// <summary>
         /// Construct a SignalArray that wraps the provided wrappedArray.
         /// </summary>
-        public MappingSignalArray(T[] wrappedArray, int[] map)
+        public SignalArray(T[] wrappedArray, int offset, int length)
         {
+            if(offset + length > wrappedArray.Length) {
+                throw new Exception("wrappedArray is not long enough to represent the requested SignalArray.");
+            }
+
             _wrappedArray = wrappedArray;
-            _map = map;
-            Debug.Assert(ValidateMapIndexes());
+            _offset = offset;
+            _length = length;
         }
 
         #endregion
@@ -50,13 +64,13 @@ namespace SharpNeat.Phenomes
         {
             get 
             {
-                Debug.Assert(index > -1 && index < _map.Length, "Out of bounds MappingSignalArray access.");
-                return _wrappedArray[_map[index]]; 
+                Debug.Assert(index > -1 && index < _length, "Out of bounds SignalArray access.");
+                return _wrappedArray[_offset + index]; 
             }
             set
             {
-                Debug.Assert(index > -1 && index < _map.Length, "Out of bounds MappingSignalArray access.");
-                _wrappedArray[_map[index]] = value; 
+                Debug.Assert(index > -1 && index < _length, "Out of bounds SignalArray access.");
+                _wrappedArray[_offset + index] = value; 
             }
         }
 
@@ -65,23 +79,7 @@ namespace SharpNeat.Phenomes
         /// </summary>
         public int Length
         {
-            get { return _map.Length; }
-        }
-
-        public int Count
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsReadOnly
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return _length; }
         }
 
         #endregion
@@ -89,20 +87,18 @@ namespace SharpNeat.Phenomes
         #region Public Methods
 
         /// <summary>
-        /// Copies all elements from the current MappingSignalArray to the specified target array starting 
+        /// Copies all elements from the current SignalArray to the specified target array starting 
         /// at the specified target Array index. 
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
         public void CopyTo(T[] targetArray, int targetIndex)
         {
-            for(int i=0, tgtIdx=targetIndex; i<_map.Length; i++, tgtIdx++) {
-                targetArray[tgtIdx] = _wrappedArray[_map[i]];
-            }
+            Array.Copy(_wrappedArray, _offset, targetArray, targetIndex, _length);
         }
-
+        
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current MappingSignalArray to the specified target
+        /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
         /// array starting at the specified target Array index. 
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
@@ -110,14 +106,12 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
-            Debug.Assert(length <= _map.Length);
-            for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++) {
-                targetArray[tgtIdx] = _wrappedArray[_map[i]];
-            }
+            Debug.Assert(length <= _length);
+            Array.Copy(_wrappedArray, _offset, targetArray, targetIndex, length);
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current MappingSignalArray to the specified target
+        /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
         /// starting from <paramref name="targetIndex"/> on the target array and <paramref name="sourceIndex"/>
         /// on the current source SignalArray.
         /// </summary>
@@ -127,28 +121,23 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
-            Debug.Assert(sourceIndex + length < _map.Length);
-            for(int i=sourceIndex, tgtIdx=targetIndex; i<sourceIndex+length; i++, tgtIdx++) {
-                targetArray[tgtIdx] = _wrappedArray[_map[i]];
-            }
+            Debug.Assert(sourceIndex + length < _length);
+            Array.Copy(_wrappedArray, _offset + sourceIndex, targetArray, targetIndex, length);
         }
 
         /// <summary>
-        /// Copies all elements from the source array writing them into the current MappingSignalArray starting
+        /// Copies all elements from the source array writing them into the current SignalArray starting
         /// at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            Debug.Assert(sourceArray.Length <= (_map.Length - targetIndex));
-            for(int i=0, tgtIdx=targetIndex; i<sourceArray.Length; i++, tgtIdx++){
-                _wrappedArray[_map[tgtIdx]] = sourceArray[i];
-            }
+            Array.Copy(sourceArray, 0, _wrappedArray, _offset + targetIndex, sourceArray.Length);
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current MappingSignalArray 
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current SignalArray 
         /// starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
@@ -156,15 +145,13 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            Debug.Assert(length <= (_map.Length - targetIndex));
-            for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++){
-                _wrappedArray[_map[tgtIdx]] = sourceArray[i];
-            }
+            Debug.Assert(targetIndex + length < _length);
+            Array.Copy(sourceArray, 0, _wrappedArray, _offset + targetIndex, length);
         }
 
         /// <summary>
         /// Copies <paramref name="length"/> elements starting from sourceIndex on sourceArray to the current
-        /// MappingSignalArray starting at the specified targetIndex.
+        /// SignalArray starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="sourceIndex">The sourceArray index at which copying begins.</param>
@@ -172,10 +159,8 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
-            Debug.Assert((sourceIndex + length <= sourceArray.Length) && (targetIndex + length <= _map.Length));
-            for(int i=sourceIndex, tgtIdx=targetIndex; i < sourceIndex + length; i++, tgtIdx++) {
-                _wrappedArray[_map[tgtIdx]] = sourceArray[i];
-            }
+            Debug.Assert(targetIndex + length < _length);
+            Array.Copy(sourceArray, sourceIndex, _wrappedArray, _offset + targetIndex, length);
         }
 
         /// <summary>
@@ -183,29 +168,9 @@ namespace SharpNeat.Phenomes
         /// </summary>
         public void Reset()
         {
-            for(int i=0; i<_map.Length; i++) {
-                _wrappedArray[_map[i]] = default(T);
+            for(int i=_offset; i < _offset + _length; i++) {
+                _wrappedArray[i] = default(T);
             }
-        }
-
-        #endregion
-
-        #region Private Methods [Debug Assert Helper Methods]
-
-        /// <summary>
-        /// Validate the indexes within _map.
-        /// Returns true if they are all valid (within the indexable range of _wrappedArray)
-        /// </summary>
-        /// <returns></returns>
-        private bool ValidateMapIndexes()
-        {
-            for(int i=0; i < _map.Length; i++)
-            {
-                if(_map[i] < 0 || _map[i] >= _wrappedArray.Length) {
-                    return false;
-                }
-            }
-            return true;
         }
 
         #endregion

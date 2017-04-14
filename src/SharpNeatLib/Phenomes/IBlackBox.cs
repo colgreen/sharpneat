@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SharpNeat.Phenomes
 {
     /// <summary>
@@ -21,7 +16,7 @@ namespace SharpNeat.Phenomes
     /// of its input and output characteristics. Almost anything might occasionally be referred to as a black box -
     /// a transistor, an algorithm, humans, the Internet.
     /// </summary>
-    public interface IBlackBox
+    public interface IBlackBox<T> where T : struct
     {
         /// <summary>
         /// Gets the number of inputs to the blackbox. This is assumed to be fixed for the lifetime of the IBlackBox.
@@ -33,16 +28,16 @@ namespace SharpNeat.Phenomes
         /// </summary>
         int OutputCount { get; }
 
+        // TODO: Consider use of ArraySegment<T> (new framework class).
         /// <summary>
         /// Gets an array of input values that feed into the black box. 
         /// </summary>
-        IList<double> InputSignalArray { get; }
+        ISignalArray<T> InputSignalArray { get; }
 
-        // TODO: Replace with ArraySegment based approach?
         /// <summary>
         /// Gets an array of output values that feed out from the black box. 
         /// </summary>
-        IList<double> OutputSignalArray { get; }
+        ISignalArray<T> OutputSignalArray { get; }
 
         /// <summary>
         /// Activate the black box. This is a request for the box to accept its inputs and produce output signals

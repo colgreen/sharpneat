@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.Genomes.Neat
+namespace SharpNeat.Neat.Genome
 {
     // ENHANCEMENT: Consider switching to a SortedList[K,V] - which guarantees item sort order at all times. 
 

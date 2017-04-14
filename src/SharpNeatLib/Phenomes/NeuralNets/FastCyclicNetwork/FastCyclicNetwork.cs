@@ -50,7 +50,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class FastCyclicNetwork : IBlackBox
+    public class FastCyclicNetwork : IBlackBox<double>
     {
         protected readonly FastConnection[] _connectionArray;
         protected readonly Func<double,double>[] _neuronActivationFnArray;
@@ -61,8 +61,8 @@ namespace SharpNeat.Phenomes.NeuralNets
 
         // Wrappers over _postActivationArray that map between black box inputs/outputs to the
         // corresponding underlying network state variables.
-        readonly ArraySegment<double> _inputSignalArrayWrapper;
-        readonly ArraySegment<double> _outputSignalArrayWrapper;
+        readonly SignalArray<double> _inputSignalArrayWrapper;
+        readonly SignalArray<double> _outputSignalArrayWrapper;
 
         // Convenient counts.
         readonly int _inputNeuronCount;
@@ -93,10 +93,10 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
             // Offset is 1 to skip bias neuron (The value at index 1 is the first black box input).
-            _inputSignalArrayWrapper = new ArraySegment<double>(_postActivationArray, 1, inputNeuronCount);
+            _inputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, 1, inputNeuronCount);
 
             // Offset to skip bias and input neurons. Output neurons follow input neurons in the arrays.
-            _outputSignalArrayWrapper = new ArraySegment<double>(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
+            _outputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
 
             // Store counts for use during activation.
             _inputNeuronCount = inputNeuronCount;
@@ -131,7 +131,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets an array for feeding input signals to the network.
         /// </summary>
-        public IList<double> InputSignalArray
+        public ISignalArray<double> InputSignalArray
         {
             get { return _inputSignalArrayWrapper; }
         }
@@ -139,7 +139,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets an array of output signals from the network.
         /// </summary>
-        public IList<double> OutputSignalArray
+        public ISignalArray<double> OutputSignalArray
         {
             get { return _outputSignalArrayWrapper; }
         }

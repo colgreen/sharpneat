@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpNeat</RootNamespace>
     <AssemblyName>SharpNeatLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,24 +46,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\FitnessInfo.cs" />
+    <Compile Include="Core\Genome.cs" />
     <Compile Include="Core\IGenome.cs" />
     <Compile Include="Core\IGenomeDecoder.cs" />
     <Compile Include="Core\IGenomeFactory.cs" />
     <Compile Include="Core\IGenomeListEvaluator.cs" />
     <Compile Include="Core\IPhenomeEvaluator.cs" />
-    <Compile Include="Core\NodeType.cs" />
-    <Compile Include="EvolutionAlgorithm\EvolutionAlgorithmSettings.cs" />
-    <Compile Include="Genomes\Neat\ConnectionGene.cs" />
-    <Compile Include="Genomes\Neat\ConnectionGeneList.cs" />
-    <Compile Include="Genomes\Neat\NeatGenome.cs" />
-    <Compile Include="Genomes\Neat\NeatGenomeIntegrity.cs" />
-    <Compile Include="Genomes\Neat\Settings\Mutation\ConnectionMutationDescriptor.cs" />
-    <Compile Include="Genomes\Neat\Settings\Mutation\ConnectionMutationScheme.cs" />
-    <Compile Include="Genomes\Neat\Settings\Mutation\ConnectionSelectionType.cs" />
-    <Compile Include="Genomes\Neat\Settings\NeatGenomeSettings.cs" />
-    <Compile Include="Genomes\Neat\NeuronGene.cs" />
-    <Compile Include="Genomes\Neat\NeuronGeneList.cs" />
-    <Compile Include="Genomes\Neat\Settings\Mutation\WeightMutationType.cs" />
+    <Compile Include="EA\EAParameters.cs" />
+    <Compile Include="EA\EAStatistics.cs" />
+    <Compile Include="EA\EvolutionAlgorithmSettings.cs" />
+    <Compile Include="EA\IEvolutionAlgorithm.cs" />
+    <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
+    <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
+    <Compile Include="EA\Population.cs" />
+    <Compile Include="Neat\Genome\ConnectionGene.cs" />
+    <Compile Include="Neat\Genome\ConnectionGeneList.cs" />
+    <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
+    <Compile Include="Neat\NeatDifferentialReproductionStrategySettings.cs" />
+    <Compile Include="Neat\Genome\NeatGenome.cs" />
+    <Compile Include="Neat\Reproduction\Mutation\ConnectionMutationDescriptor.cs" />
+    <Compile Include="Neat\Reproduction\Mutation\ConnectionMutationScheme.cs" />
+    <Compile Include="Neat\Reproduction\Mutation\ConnectionSelectionType.cs" />
+    <Compile Include="Neat\Reproduction\Mutation\WeightMutationType.cs" />
+    <Compile Include="Neat\NeatDifferentialReproductionStrategy.cs" />
+    <Compile Include="Neat\NeatPopulationFactory.cs" />
+    <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
+    <Compile Include="Neat\Reproduction\NeatReproductionAsexual.cs" />
+    <Compile Include="Neat\Reproduction\NeatReproductionSettings.cs" />
     <Compile Include="Network\ConnectionEndpointsStruct.cs" />
     <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NodeConnectivityData.cs" />
@@ -73,12 +83,15 @@
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\FastConnection.cs" />
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastCyclicNetwork.cs" />
+    <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\RandomFactory.cs" />
+    <Compile Include="Utils\Uint32Sequence.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

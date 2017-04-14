@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Redzen.Numerics;
 using SharpNeat.Utils;
 
-namespace SharpNeat.Genomes.Neat.Settings.Mutation
+namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
 {
     /// <summary>
     /// Describes a specific form of weight mutation; i.e. the types of selection and mutation and any associated

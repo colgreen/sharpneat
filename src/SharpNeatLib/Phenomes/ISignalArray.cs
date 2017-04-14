@@ -17,7 +17,7 @@ namespace SharpNeat.Phenomes
     /// An abstraction of the SignalArray class. Provided to allow custom implementations of a signal array
     /// if required.
     /// </summary>
-    public interface ISignalArray<T> : IList<T> where T : struct
+    public interface ISignalArray<T> where T : struct
     {
         #region Indexer / Properties
         
