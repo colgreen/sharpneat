@@ -59,6 +59,7 @@
     <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
     <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
     <Compile Include="EA\Population.cs" />
+    <Compile Include="Neat\AddedNodeInfo.cs" />
     <Compile Include="Neat\Genome\ConnectionGene.cs" />
     <Compile Include="Neat\Genome\ConnectionGeneList.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionAsexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexualSettings.cs" />
-    <Compile Include="Network\ConnectionEndpointsStruct.cs" />
+    <Compile Include="Network\ConnectionEndpointsInfo.cs" />
     <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Phenomes\IBlackBox.cs" />

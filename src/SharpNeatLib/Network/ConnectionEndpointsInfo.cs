@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Represents a connection between two nodes. Used primarily as a key into a
-    /// Dictionary that uniquely identifies connections by their end points.
+    /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that 
+    /// uniquely identifies connections by their end points.
     /// </summary>
-    public struct ConnectionEndpointsStruct : IEqualityComparer<ConnectionEndpointsStruct>
+    public struct ConnectionEndpointsInfo : IEqualityComparer<ConnectionEndpointsInfo>
     {
         #region Auto Properties
 
@@ -30,7 +26,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Construct with the provided source and target node IDs.
         /// </summary>
-        public ConnectionEndpointsStruct(uint sourceNodeId, uint targetNodeId)
+        public ConnectionEndpointsInfo(uint sourceNodeId, uint targetNodeId)
         {
             this.SourceNodeId = sourceNodeId;
             this.TargetNodeId = targetNodeId;
@@ -43,7 +39,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Implementation for IEqualityComparer.
         /// </summary>
-        public bool Equals(ConnectionEndpointsStruct x, ConnectionEndpointsStruct y)
+        public bool Equals(ConnectionEndpointsInfo x, ConnectionEndpointsInfo y)
         {
             return (x.SourceNodeId == y.SourceNodeId) && (x.TargetNodeId == y.TargetNodeId);
         }
@@ -51,9 +47,9 @@ namespace SharpNeat.Network
         /// <summary>
         /// Implementation for IEqualityComparer.
         /// </summary>
-        public int GetHashCode(ConnectionEndpointsStruct obj)
+        public int GetHashCode(ConnectionEndpointsInfo obj)
         {
-            // TODO: Just use the standard appraoch of multipying by prime numbers.
+            // TODO: Just use the standard approach of multipying by prime numbers.
             // Drawing.Point uses x^y for a hash, but this is actually an extremely poor hash function
             // for a pair of coordinates. Here we swap the low and high 16 bits of one of the 
             // Id's to generate a much better hash for our (and most other likely) circumstances.
