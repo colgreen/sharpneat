@@ -62,7 +62,6 @@
     <Compile Include="Neat\Genome\ConnectionGene.cs" />
     <Compile Include="Neat\Genome\ConnectionGeneList.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
-    <Compile Include="Neat\NeatDifferentialReproductionStrategySettings.cs" />
     <Compile Include="Neat\Genome\NeatGenome.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
     <Compile Include="Neat\Reproduction\Mutation\ConnectionMutationDescriptor.cs" />
@@ -71,9 +70,10 @@
     <Compile Include="Neat\Reproduction\Mutation\WeightMutationType.cs" />
     <Compile Include="Neat\NeatDifferentialReproductionStrategy.cs" />
     <Compile Include="Neat\NeatPopulationFactory.cs" />
+    <Compile Include="Neat\Reproduction\NeatReproductionAsexualSettings.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionAsexual.cs" />
-    <Compile Include="Neat\Reproduction\NeatReproductionSettings.cs" />
+    <Compile Include="Neat\Reproduction\NeatReproductionSexualSettings.cs" />
     <Compile Include="Network\ConnectionEndpointsStruct.cs" />
     <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NodeConnectivityData.cs" />

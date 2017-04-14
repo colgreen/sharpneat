@@ -12,11 +12,11 @@ namespace SharpNeat.Neat.Reproduction
     /// </summary>
     public class NeatReproductionAsexual
     {
-        NeatReproductionSettings _settings;
+        NeatReproductionAsexualSettings _settings;
 
         #region Constructor
 
-        public NeatReproductionAsexual(NeatReproductionSettings settings)
+        public NeatReproductionAsexual(NeatReproductionAsexualSettings settings)
         {
             _settings = settings;
         }

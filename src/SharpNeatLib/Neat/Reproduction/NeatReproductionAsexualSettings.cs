@@ -1,13 +1,8 @@
 ﻿using SharpNeat.Genomes.Neat.Reproduction.Mutation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SharpNeat.Neat
+namespace SharpNeat.Neat.Reproduction
 {
-    public class NeatDifferentialReproductionStrategySettings
+    public class NeatReproductionAsexualSettings
     {
         #region Auto Properties [Genome Mutation Settings]
 
@@ -43,7 +38,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public NeatDifferentialReproductionStrategySettings()
+        public NeatReproductionAsexualSettings()
         {
             this.ConnectionMutationScheme =  ConnectionMutationScheme.CreateDefault();
         }

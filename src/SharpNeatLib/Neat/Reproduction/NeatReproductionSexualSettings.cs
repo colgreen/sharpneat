@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpNeat.Neat.Reproduction
 {
-    public class NeatReproductionSettings
+    public class NeatReproductionSexualSettings
     {
         /// <summary>
         /// Probability that all excess and disjoint genes are copied into an offspring genome during sexual reproduction. 

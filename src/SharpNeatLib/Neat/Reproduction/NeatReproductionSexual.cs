@@ -12,11 +12,11 @@ namespace SharpNeat.Neat.Reproduction
     /// </summary>
     public class NeatReproductionSexual
     {
-        NeatReproductionSettings _settings;
+        NeatReproductionSexualSettings _settings;
 
         #region Constructor
 
-        public NeatReproductionSexual(NeatReproductionSettings settings)
+        public NeatReproductionSexual(NeatReproductionSexualSettings settings)
         {
             _settings = settings;
         }
@@ -38,6 +38,5 @@ namespace SharpNeat.Neat.Reproduction
         }
         
         #endregion
-
     }
 }
