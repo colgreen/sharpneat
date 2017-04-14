@@ -11,8 +11,11 @@ namespace SharpNeat.Neat
 {
     public class NeatDifferentialReproductionStrategy : IDifferentialReproductionStrategy<NeatGenome>
     {
-        public void Invoke(IList<NeatGenome> population)
+        public void Invoke(Population<NeatGenome> population)
         {
+            var neatPop = population as NeatPopulation;
+            
+
             throw new NotImplementedException();
         }
     }

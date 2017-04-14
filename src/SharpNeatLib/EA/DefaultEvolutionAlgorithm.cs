@@ -14,7 +14,7 @@ namespace SharpNeat.EA
         EAParameters _eaParams;
         IGenomeListEvaluator<TGenome> _evaluator;
         IDifferentialReproductionStrategy<TGenome> _diffReproductionStrategy;
-        List<TGenome> _population;
+        Population<TGenome> _population;
         EAStatistics _eaStats = new EAStatistics();
 
         #endregion
@@ -25,7 +25,7 @@ namespace SharpNeat.EA
             EAParameters eaParams,
             IGenomeListEvaluator<TGenome> evaluator,
             IDifferentialReproductionStrategy<TGenome> diffReproductionStrategy,
-            List<TGenome> population)
+            Population<TGenome> population)
         {
             _eaParams = eaParams;
             _evaluator = evaluator;
@@ -43,7 +43,7 @@ namespace SharpNeat.EA
         {
             // Evaluate each genome in the population; assigning fitness info to each (a single fitness score,
             // or perhaps a series of scores each measuring a different aspect of fitness).
-            _evaluator.Evaluate(_population);
+            _evaluator.Evaluate(_population.GenomeList);
 
             // Invoke the reproduction strategy (select, cull, create offspring).
             _diffReproductionStrategy.Invoke(_population);

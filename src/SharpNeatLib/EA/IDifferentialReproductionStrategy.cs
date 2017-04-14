@@ -20,6 +20,6 @@ namespace SharpNeat.EA
         /// </summary>
         /// <param name="population">The current population.</param>
         /// <returns>A new population.</returns>
-        void Invoke(IList<TGenome> population);
+        void Invoke(Population<TGenome> population);
     }
 }
