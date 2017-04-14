@@ -1,4 +1,5 @@
-﻿using SharpNeat.Genomes.Neat.Reproduction.Mutation;
+﻿using Redzen.Numerics;
+using SharpNeat.Genomes.Neat.Reproduction.Mutation;
 
 namespace SharpNeat.Neat.Reproduction
 {
@@ -33,6 +34,20 @@ namespace SharpNeat.Neat.Reproduction
 
         #endregion
 
+        #region Auto Properties [Readonly]
+
+        /// <summary>
+        /// The mutation type probability settings represented as a DiscreteDistribution.
+        /// </summary>
+        public DiscreteDistribution MutationTypeDistribution { get; private set; }
+        /// <summary>
+        /// A copy of MutationTypeDistribution but with all destructive mutations (i.e. delete connections)
+        /// removed.
+        /// </summary>
+        public DiscreteDistribution MutationTypeDistributionNonDestructive { get; private set; }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -41,6 +56,36 @@ namespace SharpNeat.Neat.Reproduction
         public NeatReproductionAsexualSettings()
         {
             this.ConnectionMutationScheme =  ConnectionMutationScheme.CreateDefault();
+            this.MutationTypeDistribution = CreateMutationTypeDiscreteDistribution();
+            this.MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private DiscreteDistribution CreateMutationTypeDiscreteDistribution()
+        {
+            double[] probabilities = new double[] 
+                {
+                    ConnectionWeightMutationProbability, 
+                    AddNodeMutationProbability,
+                    AddConnectionMutationProbability,
+                    DeleteConnectionMutationProbability
+                };
+            return new DiscreteDistribution(probabilities);
+        }
+
+        private DiscreteDistribution CreateMutationTypeDiscreteDistribution_NonDestructive()
+        {
+            double[] probabilities = new double[] 
+                {
+                    ConnectionWeightMutationProbability, 
+                    AddNodeMutationProbability,
+                    AddConnectionMutationProbability,
+                    DeleteConnectionMutationProbability
+                };
+            return new DiscreteDistribution(probabilities);
         }
 
         #endregion
