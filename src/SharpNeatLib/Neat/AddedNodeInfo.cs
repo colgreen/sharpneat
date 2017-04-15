@@ -8,11 +8,11 @@ namespace SharpNeat.Neat
     /// and the new node, and another from the new node to the target node. This struct stores the IDs of the new node
     /// the two new connections 
     /// 
-    /// This struct exists to represent newly added structure in a history buffer of added structures. This allows re-use
+    /// This class exists to represent newly added structure in a history buffer of added structures. This allows re-use
     /// of IDs where a mutation recreates a structure that has previously occurred through previous mutations on other 
     /// genomes.
     /// </summary>
-    public struct AddedNodeInfo
+    public class AddedNodeInfo
     {
         #region Constructor
 

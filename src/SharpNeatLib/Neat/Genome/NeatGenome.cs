@@ -17,6 +17,8 @@ namespace SharpNeat.Neat.Genome
         // TODO: Consider whether birthGeneration belongs here.
         readonly uint _birthGeneration;
         readonly ConnectionGeneList _connectionGeneList;
+        HashSet<uint> _nodeIdSet;
+        //NodeConnectionInfo[] _nodeInfoArr;
 
         #endregion
 
@@ -49,7 +51,6 @@ namespace SharpNeat.Neat.Genome
 
         #region IGenome
 
-
         public uint Id { get { return _id; } }
         public FitnessInfo FitnessInfo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -57,10 +58,33 @@ namespace SharpNeat.Neat.Genome
 
         public object[] AuxObjects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public HashSet<uint> NodeIdSet 
+        {
+            get
+            {   // Lazy getter pattern.
+                if(null == _nodeIdSet) {
+                    _nodeIdSet = BuildNodeIdSet();
+                }
+                return _nodeIdSet;
+            }
+        }
+
         #endregion
 
+        #region Private Methods
 
+        private HashSet<uint> BuildNodeIdSet()
+        {
+            // Loop connection genes and build a set of all observed node IDs.
+            HashSet<uint> nodeIdSet = new HashSet<uint>();
+            foreach(ConnectionGene cGene in _connectionGeneList)
+            {
+                nodeIdSet.Add(cGene.SourceNodeId);
+                nodeIdSet.Add(cGene.TargetNodeId);
+            }
+            return nodeIdSet;
+        }
 
-
+        #endregion
     }
 }
