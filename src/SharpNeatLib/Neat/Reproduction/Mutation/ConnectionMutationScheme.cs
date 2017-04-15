@@ -57,7 +57,7 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// <returns>An <see cref="ConnectionMutationDescriptor"/>.</returns>
         public ConnectionMutationDescriptor GetDescriptor(IRandomSource rng)
         {
-            int sample = DiscreteDistributionUtils.Sample(_dist, rng);
+            int sample = _dist.Sample(rng);
             return _descriptors[sample];
         }
 

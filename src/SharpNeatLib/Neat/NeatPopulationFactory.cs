@@ -79,7 +79,8 @@ namespace SharpNeat.Neat
 
             // Select a random subset of all possible connections between the input and output nodes.
             int totalConnectionCount = _connectionDefArr.Length;
-            int[] sampleArr = SamplingWithoutReplacement.TakeSamples(totalConnectionCount, requiredConnectionCount, _rng);
+            int[] sampleArr = new int[requiredConnectionCount];
+            DiscreteDistributionUtils.SampleUniformWithoutReplacement(totalConnectionCount, sampleArr, _rng);
 
             // Sort the samples.
             // Note. This helps keep the neural net connections (and thus memory accesses) in-order.
