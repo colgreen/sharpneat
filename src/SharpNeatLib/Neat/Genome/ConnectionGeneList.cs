@@ -139,17 +139,6 @@ namespace SharpNeat.Neat.Genome
         }
 
         /// <summary>
-        /// Resets the IsMutated flag on all ConnectionGenes in the list.
-        /// </summary>
-        public void ResetIsMutatedFlags()
-        {
-            int count = this.Count;
-            for(int i=0; i<count; i++) {
-                this[i].IsMutated = false;
-            }
-        }
-
-        /// <summary>
         /// For debug purposes only. Don't call this method in normal circumstances as it is an
         /// expensive O(n) operation.
         /// </summary>

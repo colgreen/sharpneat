@@ -13,11 +13,11 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets the source node ID.
         /// </summary>
-        public uint SourceNodeId { get; private set; }
+        public uint SourceNodeId { get; }
         /// <summary>
         /// Gets the target node ID.
         /// </summary>
-        public uint TargetNodeId { get; private set; }
+        public uint TargetNodeId { get; }
 
         #endregion
 

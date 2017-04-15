@@ -75,14 +75,14 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
             var descArr = new ConnectionMutationDescriptor[6];
 
             // Select a fixed number of connections; apply gaussian noise.
-            descArr[0] = ConnectionMutationDescriptor.CreateNumberGaussianDelta(1, 0.01);
-            descArr[1] = ConnectionMutationDescriptor.CreateNumberGaussianDelta(2, 0.01);
-            descArr[2] = ConnectionMutationDescriptor.CreateNumberGaussianDelta(3, 0.01);
+            descArr[0] = ConnectionMutationDescriptor.CreateSelectCountGaussianDelta(1, 0.01);
+            descArr[1] = ConnectionMutationDescriptor.CreateSelectCountGaussianDelta(2, 0.01);
+            descArr[2] = ConnectionMutationDescriptor.CreateSelectCountGaussianDelta(3, 0.01);
 
             // Select a fixed number of connections; re-initialise weights.
-            descArr[3] = ConnectionMutationDescriptor.CreateNumberReInit(1);
-            descArr[4] = ConnectionMutationDescriptor.CreateNumberReInit(2);
-            descArr[5] = ConnectionMutationDescriptor.CreateNumberReInit(3);
+            descArr[3] = ConnectionMutationDescriptor.CreateSelectCountReInit(1);
+            descArr[4] = ConnectionMutationDescriptor.CreateSelectCountReInit(2);
+            descArr[5] = ConnectionMutationDescriptor.CreateSelectCountReInit(3);
 
             // Array of probabilities.
             // Note. These are based on the defaults in SharpNEAT 2.x. However the defaults in that version were not normalised (this was by error)

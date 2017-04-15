@@ -16,12 +16,12 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// <summary>
         /// Defines how connections are selected.
         /// </summary>
-        public ConnectionSelectionType ConnectionSelectionType { get; private set; }
+        public ConnectionSelectionType ConnectionSelectionType { get; }
 
         /// <summary>
         /// The type of connection weight mutation to apply.
         /// </summary>
-        public WeightMutationType WeightMutationType { get; private set; }
+        public WeightMutationType WeightMutationType { get; }
 
         #endregion
 
@@ -53,8 +53,11 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ConnectionMutationDescriptor()
-        { }
+        public ConnectionMutationDescriptor(ConnectionSelectionType selectionType, WeightMutationType mutationType)
+        { 
+            this.ConnectionSelectionType = selectionType;
+            this.WeightMutationType = mutationType;
+        }
 
         /// <summary>
         /// Copy constructor.
@@ -70,33 +73,29 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
 
         #endregion
 
-        #region Public Static Methods [Factory Methods - Mid Level]
+        #region Public Static Methods [Factory Methods - High Level]
 
-        public static ConnectionMutationDescriptor CreateProportionGaussianDelta(double selectionProportion, double stdDev)
+        public static ConnectionMutationDescriptor CreateSelectProportionGaussianDelta(double selectionProportion, double stdDev)
         {
             Debug.Assert(selectionProportion >= 0.0 && selectionProportion <= 1.0);
             Debug.Assert(stdDev > 0.0);
 
-            var desc = new ConnectionMutationDescriptor();
-            desc.ConnectionSelectionType = ConnectionSelectionType.Proportion;
+            var desc = new ConnectionMutationDescriptor(ConnectionSelectionType.Proportion, WeightMutationType.Delta);
             desc.SelectionProportion = selectionProportion;
 
-            desc.WeightMutationType = WeightMutationType.Delta;
             var rng = RandomFactory.Create();
             ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng, 0.0, stdDev);
             desc.WeightDeltaFunc = gaussianSampler.NextDouble;
             return desc;
         }
 
-        public static ConnectionMutationDescriptor CreateNumberGaussianDelta(int selectionCount, double stdDev)
+        public static ConnectionMutationDescriptor CreateSelectCountGaussianDelta(int selectionCount, double stdDev)
         {
             Debug.Assert(selectionCount > 0);
 
-            var desc = new ConnectionMutationDescriptor();
-            desc.ConnectionSelectionType = ConnectionSelectionType.Proportion;
+            var desc = new ConnectionMutationDescriptor(ConnectionSelectionType.Count, WeightMutationType.Delta);
             desc.SelectionCount = selectionCount;
 
-            desc.WeightMutationType = WeightMutationType.Delta;
             var rng = RandomFactory.Create();
             ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng, 0.0, stdDev);
             desc.WeightDeltaFunc = gaussianSampler.NextDouble;
@@ -107,50 +106,40 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
 
         #region Public Static Methods [Factory Methods - Low Level]
 
-        public static ConnectionMutationDescriptor CreateProportionReInit(double selectionProportion)
+        public static ConnectionMutationDescriptor CreateSelectProportionReInit(double selectionProportion)
         {
             Debug.Assert(selectionProportion >= 0.0 && selectionProportion <= 1.0);
 
-            var desc = new ConnectionMutationDescriptor();
-            desc.ConnectionSelectionType = ConnectionSelectionType.Proportion;
+            var desc = new ConnectionMutationDescriptor(ConnectionSelectionType.Proportion, WeightMutationType.ReInit);
             desc.SelectionProportion = selectionProportion;
-            desc.WeightMutationType = WeightMutationType.ReInit;
             return desc;
         }
 
-        public static ConnectionMutationDescriptor CreateProportionDelta(double selectionProportion, Func<double> weightDeltaFunc)
+        public static ConnectionMutationDescriptor CreateSelectProportionDelta(double selectionProportion, Func<double> weightDeltaFunc)
         {
             Debug.Assert(selectionProportion >= 0.0 && selectionProportion <= 1.0);
 
-            var desc = new ConnectionMutationDescriptor();
-            desc.ConnectionSelectionType = ConnectionSelectionType.Proportion;
+            var desc = new ConnectionMutationDescriptor(ConnectionSelectionType.Proportion, WeightMutationType.Delta);
             desc.SelectionProportion = selectionProportion;
-
-            desc.WeightMutationType = WeightMutationType.Delta;
             desc.WeightDeltaFunc = weightDeltaFunc;
             return desc;
         }
 
-        public static ConnectionMutationDescriptor CreateNumberReInit(int selectionCount)
+        public static ConnectionMutationDescriptor CreateSelectCountReInit(int selectionCount)
         {
             Debug.Assert(selectionCount > 0);
 
-            var desc = new ConnectionMutationDescriptor();
-            desc.ConnectionSelectionType = ConnectionSelectionType.Count;
+            var desc = new ConnectionMutationDescriptor(ConnectionSelectionType.Count, WeightMutationType.ReInit);
             desc.SelectionCount = selectionCount;
-            desc.WeightMutationType = WeightMutationType.ReInit;
             return desc;
         }
 
-        public static ConnectionMutationDescriptor CreateNumberDelta(int selectionCount, Func<double> weightDeltaFunc)
+        public static ConnectionMutationDescriptor CreateSelectCountDelta(int selectionCount, Func<double> weightDeltaFunc)
         {
             Debug.Assert(selectionCount > 0);
 
-            var desc = new ConnectionMutationDescriptor();
-            desc.ConnectionSelectionType = ConnectionSelectionType.Proportion;
+            var desc = new ConnectionMutationDescriptor(ConnectionSelectionType.Proportion, WeightMutationType.Delta);
             desc.SelectionCount = selectionCount;
-
-            desc.WeightMutationType = WeightMutationType.Delta;
             desc.WeightDeltaFunc = weightDeltaFunc;
             return desc;
         }

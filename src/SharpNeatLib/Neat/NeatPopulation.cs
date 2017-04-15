@@ -36,21 +36,21 @@ namespace SharpNeat.Neat
 
         #region Properties
 
-        public MetaNeatGenome MetaNeatGenome { get; private set; }
+        public MetaNeatGenome MetaNeatGenome { get; }
 
         /// <summary>
         /// A history buffer of added connections. 
         /// Used when adding new connections to check if an identical connection has been added to a genome elsewhere 
         /// in the population. This allows re-use of the same innovation ID for like connections.
         /// </summary>
-        public KeyedCircularBuffer<ConnectionEndpointsInfo,uint> AddedConnectionBuffer { get; set; }
+        public KeyedCircularBuffer<ConnectionEndpointsInfo,uint> AddedConnectionBuffer { get; }
 
         /// <summary>
         /// A history buffer of added neurons.
         /// Used when adding new neurons to check if an identical neuron has been added to a genome elsewhere in the 
         /// population. This allows re-use of the same innovation ID for like neurons.
         /// </summary>
-        public KeyedCircularBuffer<uint,AddedNodeInfo> AddedNodeBuffer { get; set; }
+        public KeyedCircularBuffer<uint,AddedNodeInfo> AddedNodeBuffer { get; }
 
         #endregion
     }

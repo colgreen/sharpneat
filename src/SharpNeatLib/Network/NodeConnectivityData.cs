@@ -23,15 +23,15 @@ namespace SharpNeat.Network
         /// <summary>
         /// Node ID.
         /// </summary>
-        public uint Id { get; private set; }
+        public uint Id { get; }
         /// <summary>
         /// A set of node IDs representing nodes that connect in to a given node.
         /// </summary>
-        public HashSet<uint> SourceNodes { get; private set; }
+        public HashSet<uint> SourceNodes { get; }
         /// <summary>
         /// A set of node IDs representing nodes that a given node connects out to.
         /// </summary>
-        public HashSet<uint> TargetNodes { get; private set; }
+        public HashSet<uint> TargetNodes { get; }
 
         #endregion
 

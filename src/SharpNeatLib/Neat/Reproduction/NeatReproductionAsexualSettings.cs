@@ -39,12 +39,12 @@ namespace SharpNeat.Neat.Reproduction
         /// <summary>
         /// The mutation type probability settings represented as a DiscreteDistribution.
         /// </summary>
-        public DiscreteDistribution MutationTypeDistribution { get; private set; }
+        public DiscreteDistribution MutationTypeDistribution { get; }
         /// <summary>
         /// A copy of MutationTypeDistribution but with all destructive mutations (i.e. delete connections)
         /// removed.
         /// </summary>
-        public DiscreteDistribution MutationTypeDistributionNonDestructive { get; private set; }
+        public DiscreteDistribution MutationTypeDistributionNonDestructive { get; }
 
         #endregion
 

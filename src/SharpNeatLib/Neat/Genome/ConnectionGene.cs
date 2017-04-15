@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SharpNeat.Neat.Genome
 {
     /// <summary>
@@ -13,17 +8,10 @@ namespace SharpNeat.Neat.Genome
     {
         #region Auto Properties
 
-        public uint InnovationId { get; private set; }
-        public uint SourceNodeId { get; private set; }
-        public uint TargetNodeId { get; private set; }
-        public double Weight { get; private set; }
-
-        // TODO: Doesn't belong here.
-        /// <summary>
-        /// Used by the connection mutation routine to flag mutated connections so that they aren't
-        /// mutated more than once.
-        /// </summary>
-        public bool IsMutated  { get; set; } = false;
+        public uint InnovationId { get; }
+        public uint SourceNodeId { get; }
+        public uint TargetNodeId { get; }
+        public double Weight { get; set; }
 
         #endregion
 

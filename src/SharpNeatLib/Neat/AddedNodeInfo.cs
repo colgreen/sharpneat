@@ -33,17 +33,17 @@ namespace SharpNeat.Neat
         /// <summary>
         /// The added node's ID.
         /// </summary>
-        public uint AddedNodeId { get; private set; }
+        public uint AddedNodeId { get; }
 
         /// <summary>
         /// The added input connection's ID.
         /// </summary>
-        public uint AddedInputConnectionId { get; private set; }
+        public uint AddedInputConnectionId { get; }
 
         /// <summary>
         /// Gets the added output connection's ID.
         /// </summary>
-        public uint AddedOutputConnectionId { get; private set; }
+        public uint AddedOutputConnectionId { get; }
         
         #endregion
     }
