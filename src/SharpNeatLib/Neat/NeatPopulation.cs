@@ -17,12 +17,15 @@ namespace SharpNeat.Neat
 
         #region Constructor
 
-        public NeatPopulation(Uint32Sequence genomeIdSeq, List<NeatGenome> genomeList, MetaNeatGenome metaNeatGenome)
-            : this(genomeIdSeq, genomeList, metaNeatGenome, __defaultInnovationHistoryBufferSize)
+        public NeatPopulation(Uint32Sequence genomeIdSeq, Uint32Sequence innovationIdSeq,
+                              List<NeatGenome> genomeList, MetaNeatGenome metaNeatGenome)
+            : this(genomeIdSeq, innovationIdSeq, genomeList, metaNeatGenome, __defaultInnovationHistoryBufferSize)
         {}
 
-        public NeatPopulation(Uint32Sequence genomeIdSeq, List<NeatGenome> genomeList, MetaNeatGenome metaNeatGenome, int innovationHistoryBufferSize)
-            : base(genomeIdSeq, genomeList)
+        public NeatPopulation(Uint32Sequence genomeIdSeq, Uint32Sequence innovationIdSeq,
+                              List<NeatGenome> genomeList, MetaNeatGenome metaNeatGenome,
+                              int innovationHistoryBufferSize)
+            : base(genomeIdSeq, innovationIdSeq, genomeList)
         {
             this.MetaNeatGenome = metaNeatGenome;
             this.AddedConnectionBuffer = new KeyedCircularBuffer<ConnectionEndpointsInfo,uint>(innovationHistoryBufferSize);

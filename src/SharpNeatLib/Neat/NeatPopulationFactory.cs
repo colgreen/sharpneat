@@ -14,6 +14,7 @@ namespace SharpNeat.Neat
         readonly ConnectionDefinition[] _connectionDefArr;
         readonly IRandomSource _rng;
         readonly Uint32Sequence _genomeIdSeq;
+        readonly Uint32Sequence _innovationIdSeq;
 
         #region Constructor
 
@@ -24,18 +25,27 @@ namespace SharpNeat.Neat
 
             // Define the set of all possible connections between the input and output nodes (fully interconnected).
             int inCount = metaNeatGenome.InputNodeCount;
-            int outCount = metaNeatGenome.InputNodeCount;
-
+            int outCount = metaNeatGenome.OutputNodeCount;
             _connectionDefArr = new ConnectionDefinition[inCount * outCount];
-            uint id = 0;
+
+            // Notes.
+            // Connections and nodes are assigned innovation IDs from the same ID space (from the same 'pool' of numbers).
+            // By convention the input nodes are assigned IDs first starting at zero, then the output nodes. Thus, because all 
+            // of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are fixed by convention.
+            // Here we also allocate ID to connections, and these start at the first ID after the last output node. From there evolvution
+            // will create connections and nodes, and IDs are allocated in whatever order the nodes and conenctions are created in.
+            uint firstOutputNodeId = (uint)inCount;
+            uint nextConnectionId = (uint)(inCount + outCount);
+
             for(uint srcId=0, i=0; srcId < inCount; srcId++) {
-                for(uint tgtId=0; tgtId < outCount; tgtId++) {
-                    _connectionDefArr[i++] = new ConnectionDefinition(id++, srcId, tgtId);
+                for(uint tgtIdx=0; tgtIdx < outCount; tgtIdx++) {
+                    _connectionDefArr[i++] = new ConnectionDefinition(nextConnectionId++, srcId, firstOutputNodeId + tgtIdx);
                 }
             }
 
             _rng = RandomFactory.Create();
             _genomeIdSeq = new Uint32Sequence();
+            _innovationIdSeq = new Uint32Sequence(nextConnectionId);
         }
 
         #endregion
@@ -45,7 +55,7 @@ namespace SharpNeat.Neat
         public NeatPopulation CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
-            return new NeatPopulation(_genomeIdSeq, genomeList, _metaNeatGenome);
+            return new NeatPopulation(_genomeIdSeq, _innovationIdSeq, genomeList, _metaNeatGenome);
         }
 
         #endregion
