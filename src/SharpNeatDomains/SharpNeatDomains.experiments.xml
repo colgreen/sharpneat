@@ -24,7 +24,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.BinarySixMultiplexer.BinarySixMultiplexerExperiment</ClassName>
     <Config>
-      <PopulationSize>500</PopulationSize>
+      <PopulationSize>300</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
@@ -43,7 +43,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.BinarySixMultiplexer.RbfBinarySixMultiplexerExperiment</ClassName>
     <Config>
-      <PopulationSize>500</PopulationSize>
+      <PopulationSize>300</PopulationSize>
       <SpecieCount>20</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>        
@@ -67,8 +67,8 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>50</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -108,7 +108,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
 
   <Experiment name="Function Regression - Abs (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
+    <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
@@ -118,7 +118,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Abs</Function>
-      <SampleResolution>11</SampleResolution>
+      <SampleResolution>30</SampleResolution>
       <SampleMin>-1.0</SampleMin>
       <SampleMax>1.0</SampleMax>
       <Description>
@@ -129,7 +129,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
 
   <Experiment name="Function Regression - Log(x) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
+    <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
@@ -139,8 +139,8 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
       <Function>Log</Function>
-      <SampleResolution>21</SampleResolution>
-      <SampleMin>1</SampleMin>
+      <SampleResolution>30</SampleResolution>
+      <SampleMin>2</SampleMin>
       <SampleMax>100</SampleMax>
       <Description>
         Function Regression - Log(x)
@@ -148,32 +148,10 @@ To distinguish between correct low scorers and incorrect low scorers an addition
       </Description>
     </Config>
   </Experiment>
-
-  <Experiment name="Function Regression - Positive Multiplication (NEAT)">
-    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
-    <Config>
-      <PopulationSize>150</PopulationSize>
-      <SpecieCount>10</SpecieCount>
-      <Activation>
-        <Scheme>Acyclic</Scheme>
-      </Activation>
-      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
-      <ComplexityThreshold>10</ComplexityThreshold>
-      <Function>Multiplication</Function>
-      <SampleResolution>11</SampleResolution>
-      <SampleMin>0.0</SampleMin>
-      <SampleMax>1.0</SampleMax>
-      <Description>Function Regression - Positive Multiplication
-Two inputs are input with combinations of values over the range 0.0 to 1.0.
-Sample resolution is 11, thus the sample values are 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 and there are 11x11=121 sample points in total.
-      </Description>
-    </Config>
-  </Experiment>
   
   <Experiment name="Function Regression - Sin(x) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
+    <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>150</PopulationSize>
       <SpecieCount>10</SpecieCount>
@@ -182,17 +160,39 @@ Sample resolution is 11, thus the sample values are 0.0, 0.1, 0.2, 0.3, 0.4, 0.5
       </Activation>
       <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
-      <Function>Sine</Function>      
+      <Function>Sin</Function>      
       <SampleResolution>20</SampleResolution>
       <SampleMin>0</SampleMin>
       <SampleMax>6.283185</SampleMax>
       <Description>
         Function Regression - Sin(x)
-Sin(x) evaluated over [0,1*PI]     
+Sin(x) evaluated over [0,2*PI]     
       </Description>
     </Config>
   </Experiment>
-  
+
+  <Experiment name="Function Regression - Sin(x^2) (NEAT)">
+    <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
+    <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
+    <Config>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
+      <Activation>
+        <Scheme>Acyclic</Scheme>
+      </Activation>
+      <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
+      <ComplexityThreshold>20</ComplexityThreshold>
+      <Function>SinXSquared</Function>
+      <SampleResolution>120</SampleResolution>
+      <SampleMin>0</SampleMin>
+      <SampleMax>4.71238898</SampleMax>
+      <Description>
+        Function Regression - Sin(x^2)
+        Sin(x) evaluated over [0,1.5*PI]
+      </Description>
+    </Config>
+  </Experiment>
+
   <Experiment name="Generative Function Regression - Sin(x) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
@@ -215,25 +215,26 @@ Sin(x) evaluated over [0,1*PI]
       </Description>
     </Config>
   </Experiment>
-  <Experiment name="Generative Function Regression - Sin(x^2) (NEAT)">
+  <Experiment name="Generative Function Regression - Waveform #1) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
-      <PopulationSize>1000</PopulationSize>
-      <SpecieCount>10</SpecieCount>
+      <PopulationSize>600</PopulationSize>
+      <SpecieCount>40</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>20</ComplexityThreshold>
-      <Function>SineXSquared</Function>
-      <SampleResolution>100</SampleResolution>
+      <Function>Waveform1</Function>
+      <SampleResolution>80</SampleResolution>
       <SampleMin>0</SampleMin>
-      <SampleMax>3.141592654</SampleMax>
+      <SampleMax>25.13274123</SampleMax>
       <Description>
-        Generative Function Regression - Sin(x^2)
-        Sin(x) evaluated over [0,PI]
+        Generative Function Regression - Waveform #1
+        sin(x + sin(x)
+        Evaluated over interval [0,8*PI]
       </Description>
     </Config>
   </Experiment>
@@ -241,7 +242,7 @@ Sin(x) evaluated over [0,1*PI]
   <!-- Uncomment to compare NEAT with RBF-NEAT version of experiment.
   <Experiment name="Function Regression - Sin(x^2) (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
-    <ClassName>SharpNeat.Domains.FunctionRegression.FunctionRegressionExperiment</ClassName>
+    <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>1000</PopulationSize>
       <SpecieCount>50</SpecieCount>
@@ -273,7 +274,7 @@ Sin(x) evaluated over [0,1*PI]
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
-      <Function>SineXSquared</Function>
+      <Function>SinXSquared</Function>
       <SampleResolution>100</SampleResolution>
       <SampleMin>0.0</SampleMin>
       <SampleMax>3.141592654</SampleMax>

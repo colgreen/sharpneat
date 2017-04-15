@@ -26,6 +26,8 @@ namespace SharpNeat.Core
         where TPhenome : class
     {
         readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
+
+        // TODO: If we create N evaluators (one per thread) then the evaluators can have persistent state, which may allow faster execution (i.e. re-use of allocated memory).
         readonly IPhenomeEvaluator<TPhenome> _phenomeEvaluator;
         readonly ParallelOptions _parallelOptions;
         readonly bool _enablePhenomeCaching;

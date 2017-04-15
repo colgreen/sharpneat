@@ -26,7 +26,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SharpNeatDomains.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -40,12 +41,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Redzen, Version=1.0.5.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Redzen.1.0.5.0\lib\net40\Redzen.dll</HintPath>
+    <Reference Include="Redzen, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Redzen.2.0.0\lib\net40\Redzen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -72,30 +73,19 @@
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerExperiment.cs" />
     <Compile Include="BinaryThreeMultiplexer\BinaryThreeMultiplexerEvaluator.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationEvaluator.cs" />
-    <Compile Include="FunctionRegression\BlackBoxProbe.cs" />
-    <Compile Include="FunctionRegression\FnRegressionEvaluator.cs" />
-    <Compile Include="FunctionRegression\FnRegressionExperiment.cs" />
-    <Compile Include="FunctionRegression\FnRegressionUtils.cs" />
-    <Compile Include="FunctionRegression\FnRegressionView2D.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FunctionRegression\FnRegressionView2D.Designer.cs">
-      <DependentUpon>FnRegressionView2D.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FunctionRegression\FunctionId.cs" />
     <Compile Include="FunctionRegression\FunctionProbe.cs" />
-    <Compile Include="FunctionRegression\Functions\AbsFunction.cs" />
-    <Compile Include="FunctionRegression\Functions\LogFn.cs" />
-    <Compile Include="FunctionRegression\Functions\SinFn.cs" />
-    <Compile Include="FunctionRegression\Functions\SinXSquaredFn.cs" />
     <Compile Include="FunctionRegression\Functions\Waveform1.cs" />
-    <Compile Include="FunctionRegression\FunctionUtils.cs" />
     <Compile Include="FunctionRegression\GenerativeBlackBoxProbe.cs" />
-    <Compile Include="FunctionRegression\IBlackBoxProbe.cs" />
+    <Compile Include="FunctionRegression\BlackBoxProbe.cs" />
+    <Compile Include="FunctionRegression\FnRegressionUtils.cs" />
+    <Compile Include="FunctionRegression\Functions\AbsFunction.cs" />
+    <Compile Include="FunctionRegression\FunctionUtils.cs" />
+    <Compile Include="FunctionRegression\Functions\LogFn.cs" />
+    <Compile Include="FunctionRegression\FunctionId.cs" />
     <Compile Include="FunctionRegression\IFunction.cs" />
-    <Compile Include="FunctionRegression\ParameterSamplingInfo.cs" />
-    <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionEvaluator.cs" />
+    <Compile Include="FunctionRegression\IBlackBoxProbe.cs" />
     <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionExperiment.cs" />
+    <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionEvaluator.cs" />
     <Compile Include="IGuiNeatExperiment.cs" />
     <Compile Include="IntPoint.cs" />
     <Compile Include="BoxesVisualDiscrimination\BoxesVisualDiscriminationView.cs">
@@ -120,6 +110,17 @@
     <Compile Include="DoublePoleBalancing\DoublePoleBalancingExperiment.cs" />
     <Compile Include="DoublePoleBalancing\JiggleBuffer.cs" />
     <Compile Include="ExperimentUtils.cs" />
+    <Compile Include="FunctionRegression\Functions\SinXSquaredFn.cs" />
+    <Compile Include="FunctionRegression\FnRegressionView2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FunctionRegression\FnRegressionView2D.Designer.cs">
+      <DependentUpon>FnRegressionView2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionRegression\Functions\SinFn.cs" />
+    <Compile Include="FunctionRegression\FnRegressionEvaluator.cs" />
+    <Compile Include="FunctionRegression\ParameterSamplingInfo.cs" />
+    <Compile Include="FunctionRegression\FnRegressionExperiment.cs" />
     <Compile Include="INeatExperiment.cs" />
     <Compile Include="NeatGenomeView.cs">
       <SubType>UserControl</SubType>

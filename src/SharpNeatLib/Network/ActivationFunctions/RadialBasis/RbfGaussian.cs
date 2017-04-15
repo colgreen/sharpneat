@@ -120,7 +120,7 @@ namespace SharpNeat.Network
         {
             // Mutate center.            
             // Add Gaussian distribution sample and clamp result to +-connectionWeightRange.
-            double tmp = auxArgs[0] + gaussianSampler.NextSample(0, _auxArgsMutationSigmaCenter);
+            double tmp = auxArgs[0] + gaussianSampler.NextDouble(0, _auxArgsMutationSigmaCenter);
             if(tmp < -connectionWeightRange) {
                 auxArgs[0] = -connectionWeightRange;
             }
@@ -133,7 +133,7 @@ namespace SharpNeat.Network
 
             // Mutate radius.
             // Add Gaussian distribution sample and clamp result to [0,1]
-            tmp = auxArgs[1] + gaussianSampler.NextSample(0, _auxArgsMutationSigmaRadius);
+            tmp = auxArgs[1] + gaussianSampler.NextDouble(0, _auxArgsMutationSigmaRadius);
             if(tmp < 0.0) {
                 auxArgs[1] = 0.0;
             }
