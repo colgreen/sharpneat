@@ -639,9 +639,9 @@ namespace SharpNeat.Genomes.Neat
                 // this is possible because genes can be acquired from other genomes via sexual reproduction.
                 // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
                 // structures throughout the population, which is the reason for ID re-use.
-                if(_neuronGeneList.BinarySearch(idStruct.AddedNeuronId) == -1
-                && _connectionGeneList.BinarySearch(idStruct.AddedInputConnectionId) == -1
-                && _connectionGeneList.BinarySearch(idStruct.AddedOutputConnectionId) == -1)             
+                if(_neuronGeneList.BinarySearch(idStruct.AddedNeuronId) < 0
+                && _connectionGeneList.BinarySearch(idStruct.AddedInputConnectionId) < 0
+                && _connectionGeneList.BinarySearch(idStruct.AddedOutputConnectionId) < 0)             
                 {
                     // Return true to indicate re-use of existing IDs.
                     return true;
