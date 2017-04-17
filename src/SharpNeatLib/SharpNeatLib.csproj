@@ -72,6 +72,7 @@
     <Compile Include="Neat\Reproduction\Mutation\WeightMutationType.cs" />
     <Compile Include="Neat\NeatDifferentialReproductionStrategy.cs" />
     <Compile Include="Neat\NeatPopulationFactory.cs" />
+    <Compile Include="Neat\Reproduction\NeatReproductionAsexualAddNodeMutation.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionAsexualSettings.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionAsexual.cs" />
