@@ -1,6 +1,7 @@
 ﻿
 namespace SharpNeat.Neat.Genome
 {
+    // TODO: Consider if this could/should be a struct; or maybe wrap with a struct ConnectionGeneRef class, so we get to use whichever is most appropriate in each subroutine.
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.
     /// </summary>

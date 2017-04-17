@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
-    internal class NeatReproductionAsexualAddNodeMutation
+    internal class AddNodeMutation
     {
         NeatPopulation _pop;
         IRandomSource _rng;
 
         #region Constructor
 
-        public NeatReproductionAsexualAddNodeMutation(NeatPopulation pop, IRandomSource rng)
+        public AddNodeMutation(NeatPopulation pop, IRandomSource rng)
         {
             _pop = pop;
             _rng = rng;
@@ -122,9 +122,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             AddedNodeInfo addedNodeInfo;
             bool connectionExists = _pop.AddedNodeBuffer.TryGetValue(connectionToReplaceId, out addedNodeInfo);
             if(connectionExists
-                && parent.ConnectionGeneList.BinarySearch(addedNodeInfo.AddedInputConnectionId) < 0
-                && parent.ConnectionGeneList.BinarySearch(addedNodeInfo.AddedOutputConnectionId) < 0
-                && !parent.NodeIdSet.Contains(addedNodeInfo.AddedNodeId)) 
+                && !parent.ConnectionGeneList.ContainsInnovationId(addedNodeInfo.AddedInputConnectionId)
+                && !parent.ConnectionGeneList.ContainsInnovationId(addedNodeInfo.AddedOutputConnectionId)
+                && !parent.ConnectivityInfo.ContainsNodeId(addedNodeInfo.AddedNodeId)) 
             {
                 return addedNodeInfo;
             }

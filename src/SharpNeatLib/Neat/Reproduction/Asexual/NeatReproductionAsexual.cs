@@ -2,10 +2,6 @@
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
@@ -18,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         NeatPopulation _pop;
         IRandomSource _rng;
 
-        NeatReproductionAsexualAddNodeMutation _addNodeMutation;
+        AddNodeMutation _addNodeMutation;
 
         #region Constructor
 
@@ -27,7 +23,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _settings = settings;
             _pop = pop;
             _rng = RandomFactory.Create();
-            _addNodeMutation = new NeatReproductionAsexualAddNodeMutation(pop, _rng);
+            _addNodeMutation = new AddNodeMutation(pop, _rng);
         }
 
         #endregion

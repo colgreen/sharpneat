@@ -17,8 +17,8 @@ namespace SharpNeat.Neat.Genome
         // TODO: Consider whether birthGeneration belongs here.
         readonly uint _birthGeneration;
         readonly ConnectionGeneList _connectionGeneList;
-        HashSet<uint> _nodeIdSet;
-        //NodeConnectionInfo[] _nodeInfoArr;
+
+        NetworkConnectivityInfo _connectivityInfo;
 
         #endregion
 
@@ -58,14 +58,14 @@ namespace SharpNeat.Neat.Genome
 
         public object[] AuxObjects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public HashSet<uint> NodeIdSet 
+        public NetworkConnectivityInfo ConnectivityInfo
         {
             get
             {   // Lazy getter pattern.
-                if(null == _nodeIdSet) {
-                    _nodeIdSet = BuildNodeIdSet();
+                if(null == _connectivityInfo) {
+                    _connectivityInfo = new NetworkConnectivityInfo(_connectionGeneList);
                 }
-                return _nodeIdSet;
+                return _connectivityInfo;
             }
         }
 

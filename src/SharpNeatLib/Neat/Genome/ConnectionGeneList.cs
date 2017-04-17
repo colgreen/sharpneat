@@ -111,6 +111,15 @@ namespace SharpNeat.Neat.Genome
         }
 
         /// <summary>
+        /// Returns true of the given innovation ID exists within the connection gene list.
+        /// </summary>
+        /// <param name="innovationId"></param>
+        /// <returns></returns>
+        public bool ContainsInnovationId(uint innovationId) {
+            return BinarySearch(innovationId) >= 0;
+        }
+
+        /// <summary>
         /// Obtain the index of the gene with the specified innovation ID by performing a binary search.
         /// Binary search is fast and can be performed so long as we know the genes are sorted by innovation ID.
         /// If the genes are not sorted then the behaviour of this method is undefined.
