@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
+using System;
 using System.Collections.Generic;
 
 namespace SharpNeat.Network
@@ -18,7 +19,7 @@ namespace SharpNeat.Network
     /// Represents a connection between two nodes. Used primarily as a key into a
     /// Dictionary that uniquely identifies connections by their end points.
     /// </summary>
-    public struct ConnectionEndpointsStruct : IEqualityComparer<ConnectionEndpointsStruct>
+    public struct ConnectionEndpointsStruct : IEquatable<ConnectionEndpointsStruct> 
     {
         readonly uint _srcNodeId;
         readonly uint _tgtNodeId;
@@ -56,29 +57,36 @@ namespace SharpNeat.Network
 
         #endregion
 
-        #region IEqualityComparer<ConnectionEndpointsStruct> Members
+        #region IEquatable
 
-        /// <summary>
-        /// Implementation for IEqualityComparer.
-        /// </summary>
-        public bool Equals(ConnectionEndpointsStruct x, ConnectionEndpointsStruct y)
+        public bool Equals(ConnectionEndpointsStruct other)
         {
-            return (x._srcNodeId == y._srcNodeId) && (x._tgtNodeId == y._tgtNodeId);
+            return (this.SourceNodeId == other.SourceNodeId) 
+                && (this.TargetNodeId == other.TargetNodeId);
         }
 
-        /// <summary>
-        /// Implementation for IEqualityComparer.
-        /// </summary>
-        public int GetHashCode(ConnectionEndpointsStruct obj)
+        #endregion
+
+        #region Overrides
+
+        public override bool Equals(object obj)
         {
-            // Drawing.Point uses x^y for a hash, but this is actually an extremely poor hash function
-            // for a pair of coordinates. Here we swap the low and high 16 bits of one of the 
-            // Id's to generate a much better hash for our (and most other likely) circumstances.
-            return (int)(_srcNodeId ^ ((_tgtNodeId>>16) + (_tgtNodeId<<16)));   
-         
-            // ENHANCEMENT: Consider better hashes such as FNV or SuperFastHash
-            // Also try this from Java's com.sun.hotspot.igv.data.Pair class.
-            // return (int)(_srcNeuronId * 71u + _tgtNeuronId);
+            if(obj is ConnectionEndpointsStruct) {
+                return this.Equals((ConnectionEndpointsStruct)obj);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            // Variant on FNV hash taken from: http://stackoverflow.com/a/263416/15703
+            unchecked
+            {
+                int v = (int)2166136261;
+                v = (v * 16777619) ^ (int)SourceNodeId;
+                v = (v * 16777619) ^ (int)TargetNodeId;
+                return v;
+            }
         }
 
         #endregion
