@@ -1,14 +1,14 @@
 ﻿using System;
 using Redzen.Numerics;
 
-namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
+namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
 {
     /// <summary>
     /// Connection weight mutation scheme.
     /// </summary>
-    public class ConnectionMutationScheme
+    public class WeightMutationScheme
     {
-        ConnectionMutationDescriptor[] _descriptors;
+        WeightMutationDescriptor[] _descriptors;
         DiscreteDistribution _dist;
 
         #region Constructor
@@ -19,7 +19,7 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// </summary>
         /// <param name="descriptors">An array of mutation desscriptors.</param>
         /// <param name="dist">A discrete distribution that defines the relative probability of each of the items in the descriptors array.</param>
-        public ConnectionMutationScheme (ConnectionMutationDescriptor[] descriptors, DiscreteDistribution dist)
+        public WeightMutationScheme (WeightMutationDescriptor[] descriptors, DiscreteDistribution dist)
         {
             _descriptors = descriptors;
             _dist = dist;
@@ -33,11 +33,11 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// Copy constructor.
         /// </summary>
         /// <param name="copyFrom">The object to copy.</param>
-        public ConnectionMutationScheme(ConnectionMutationScheme copyFrom)
+        public WeightMutationScheme(WeightMutationScheme copyFrom)
         {
             // Copy descriptor array.
             var descriptors = copyFrom._descriptors;
-            _descriptors = new ConnectionMutationDescriptor[descriptors.Length];
+            _descriptors = new WeightMutationDescriptor[descriptors.Length];
             for(int i=0; i<descriptors.Length; i++) {
                 _descriptors[i] = descriptors[i];
             }
@@ -54,8 +54,8 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// Get a randmply chosen descriptor, based on the selection probabilities defined at construction time.
         /// </summary>
         /// <param name="rng">Random source.</param>
-        /// <returns>An <see cref="ConnectionMutationDescriptor"/>.</returns>
-        public ConnectionMutationDescriptor GetDescriptor(IRandomSource rng)
+        /// <returns>An <see cref="WeightMutationDescriptor"/>.</returns>
+        public WeightMutationDescriptor GetDescriptor(IRandomSource rng)
         {
             int sample = _dist.Sample(rng);
             return _descriptors[sample];
@@ -70,19 +70,19 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
         /// </summary>
         /// <remarks> This weight mutation scheme is equivalent to the one defined in SharpNEAT 2.x.</remarks>
         /// <returns></returns>
-        public static ConnectionMutationScheme CreateDefault()
+        public static WeightMutationScheme CreateDefault()
         {
-            var descArr = new ConnectionMutationDescriptor[6];
+            var descArr = new WeightMutationDescriptor[6];
 
             // Select a fixed number of connections; apply gaussian noise.
-            descArr[0] = ConnectionMutationDescriptor.CreateSelectCountGaussianDelta(1, 0.01);
-            descArr[1] = ConnectionMutationDescriptor.CreateSelectCountGaussianDelta(2, 0.01);
-            descArr[2] = ConnectionMutationDescriptor.CreateSelectCountGaussianDelta(3, 0.01);
+            descArr[0] = WeightMutationDescriptor.CreateSelectCountGaussianDelta(1, 0.01);
+            descArr[1] = WeightMutationDescriptor.CreateSelectCountGaussianDelta(2, 0.01);
+            descArr[2] = WeightMutationDescriptor.CreateSelectCountGaussianDelta(3, 0.01);
 
             // Select a fixed number of connections; re-initialise weights.
-            descArr[3] = ConnectionMutationDescriptor.CreateSelectCountReInit(1);
-            descArr[4] = ConnectionMutationDescriptor.CreateSelectCountReInit(2);
-            descArr[5] = ConnectionMutationDescriptor.CreateSelectCountReInit(3);
+            descArr[3] = WeightMutationDescriptor.CreateSelectCountReInit(1);
+            descArr[4] = WeightMutationDescriptor.CreateSelectCountReInit(2);
+            descArr[5] = WeightMutationDescriptor.CreateSelectCountReInit(3);
 
             // Array of probabilities.
             // Note. These are based on the defaults in SharpNEAT 2.x. However the defaults in that version were not normalised (this was by error)
@@ -90,7 +90,7 @@ namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
             var pArr = new double[] { 0.5752, 0.2869, 0.0947, 0.0144, 0.0144, 0.0144 };
             var dist = new DiscreteDistribution(pArr);
 
-            return new ConnectionMutationScheme(descArr, dist);
+            return new WeightMutationScheme(descArr, dist);
         }
 
         #endregion

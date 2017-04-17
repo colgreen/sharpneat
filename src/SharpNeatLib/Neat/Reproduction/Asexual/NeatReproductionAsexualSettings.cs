@@ -1,7 +1,7 @@
 ﻿using Redzen.Numerics;
-using SharpNeat.Genomes.Neat.Reproduction.Mutation;
+using SharpNeat.Genomes.Neat.Reproduction.WeightMutation;
 
-namespace SharpNeat.Neat.Reproduction
+namespace SharpNeat.Neat.Reproduction.Asexual
 {
     public class NeatReproductionAsexualSettings
     {
@@ -30,7 +30,7 @@ namespace SharpNeat.Neat.Reproduction
         /// <summary>
         /// Connection weight mutation scheme.
         /// </summary>
-        public ConnectionMutationScheme ConnectionMutationScheme { get; set; }
+        public WeightMutationScheme ConnectionMutationScheme { get; set; }
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace SharpNeat.Neat.Reproduction
         /// </summary>
         public NeatReproductionAsexualSettings()
         {
-            this.ConnectionMutationScheme =  ConnectionMutationScheme.CreateDefault();
+            this.ConnectionMutationScheme =  WeightMutationScheme.CreateDefault();
             this.MutationTypeDistribution = CreateMutationTypeDiscreteDistribution();
             this.MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive();
         }

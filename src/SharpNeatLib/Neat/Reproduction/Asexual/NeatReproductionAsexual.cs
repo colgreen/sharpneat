@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.Neat.Reproduction
+namespace SharpNeat.Neat.Reproduction.Asexual
 {
     /// <summary>
     /// Creation of offspring given a single parent (asexual reproduction).

@@ -3,7 +3,7 @@ using SharpNeat.Neat.Genome;
 using System;
 using System.Collections.Generic;
 
-namespace SharpNeat.Neat.Reproduction
+namespace SharpNeat.Neat.Reproduction.Asexual
 {
     internal class NeatReproductionAsexualAddNodeMutation
     {

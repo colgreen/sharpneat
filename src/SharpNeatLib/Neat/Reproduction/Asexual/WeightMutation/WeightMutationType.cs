@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Genomes.Neat.Reproduction.Mutation
+namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
 {
     /// <summary>
     /// Connection weight mutation types.
