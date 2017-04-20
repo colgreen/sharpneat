@@ -50,10 +50,5 @@ namespace SharpNeat.Core
         /// A centroid is used in k-means clustering to define the center of a cluster.
         /// </summary>
         CoordinateVector CalculateCentroid(IList<CoordinateVector> coordList);
-
-        /// <summary>
-        /// Parallelized version of CalculateCentroid().
-        /// </summary>
-        CoordinateVector CalculateCentroidParallel(IList<CoordinateVector> coordList);
     }
 }

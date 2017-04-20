@@ -360,10 +360,6 @@ namespace SharpNeat.SpeciationStrategies
 
             // The centroid calculation is a function of the distance metric.
             return _distanceMetric.CalculateCentroid(coordList);
-
-            // TODO: Perf test this. We're already within a parallel.For (per species), and in any case this seems to
-            // spend a lot fo time in ConcurrentDictionary.TryAdd, presumably blocked.
-            // return _distanceMetric.CalculateCentroidParallel(coordList);
         }
 
         // ENHANCEMENT: Optimization candidate.
