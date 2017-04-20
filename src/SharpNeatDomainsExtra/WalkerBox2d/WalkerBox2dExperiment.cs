@@ -23,6 +23,7 @@ using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
+using SharpNeat.Network;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
