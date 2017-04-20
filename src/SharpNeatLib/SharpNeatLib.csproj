@@ -123,6 +123,8 @@
     <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\BoundedLeakyReLUCentered.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\BoundedLeakyReLU.cs" />
     <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
     <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\ConnectionList.cs" />

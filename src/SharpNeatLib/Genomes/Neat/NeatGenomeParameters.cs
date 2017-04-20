@@ -12,6 +12,7 @@
 
 using Redzen.Numerics;
 using SharpNeat.Network;
+using SharpNeat.Network.ActivationFunctions.Unipolar;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -77,7 +78,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public NeatGenomeParameters()
         {
-            _activationFn                               = SteepenedSigmoid.__DefaultInstance;
+            _activationFn                               = BoundedLeakyReLU.__DefaultInstance;
             _connectionWeightRange                      = DefaultConnectionWeightRange;
             _initialInterconnectionsProportion          = DefaultInitialInterconnectionsProportion;
             _disjointExcessGenesRecombineProbability    = DefaultDisjointExcessGenesRecombineProbability;

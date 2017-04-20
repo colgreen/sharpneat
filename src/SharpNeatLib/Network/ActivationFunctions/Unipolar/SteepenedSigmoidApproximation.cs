@@ -11,7 +11,7 @@
  */
 
 using Redzen.Numerics;
-using SharpNeat.Utility;
+
 namespace SharpNeat.Network
 {
     /// <summary>

@@ -23,6 +23,7 @@ using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
+using SharpNeat.Network;
 
 namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
 {
@@ -133,6 +134,10 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
             _neatGenomeParams = new NeatGenomeParameters();
+
+            // Control tasks may benefit from an activation function with smooth/continuous non-linearities.
+            // SteepenedSigmoidApproximation is a faster replacement for SteepenedSigmoid.
+            _neatGenomeParams.ActivationFn = SteepenedSigmoidApproximation.__DefaultInstance;
         }
 
         /// <summary>
