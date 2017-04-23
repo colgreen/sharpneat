@@ -352,16 +352,16 @@ namespace SharpNeat.EvolutionAlgorithms
                     }
 
                     // Use a built in class for choosing an item based on a list of relative probabilities.
-                    DiscreteDistribution rwl = new DiscreteDistribution(probabilities);
+                    DiscreteDistribution dist = new DiscreteDistribution(probabilities);
 
                     // Probabilistically assign the required number of additional allocations.
-                    // FIXME/ENHANCEMENT: We can improve the allocation fairness by updating the RouletteWheelLayout 
+                    // FIXME/ENHANCEMENT: We can improve the allocation fairness by updating the DiscreteDistribution 
                     // after each allocation (to reflect that allocation).
                     // targetSizeDeltaInt is negative, so flip the sign for code clarity.
                     targetSizeDeltaInt *= -1;
                     for(int i=0; i<targetSizeDeltaInt; i++)
                     {
-                        int specieIdx = DiscreteDistributionUtils.Sample(rwl, _rng);
+                        int specieIdx = dist.Sample(_rng);
                         specieStatsArr[specieIdx]._targetSizeInt++;
                     }
                 }
@@ -378,14 +378,14 @@ namespace SharpNeat.EvolutionAlgorithms
                 }
 
                 // Use a built in class for choosing an item based on a list of relative probabilities.
-                DiscreteDistribution rwl = new DiscreteDistribution(probabilities);
+                DiscreteDistribution dist = new DiscreteDistribution(probabilities);
 
                 // Probabilistically decrement specie target sizes.
-                // ENHANCEMENT: We can improve the selection fairness by updating the RouletteWheelLayout 
+                // ENHANCEMENT: We can improve the selection fairness by updating the DiscreteDistribution 
                 // after each decrement (to reflect that decrement).
                 for(int i=0; i<targetSizeDeltaInt;)
                 {
-                    int specieIdx = DiscreteDistributionUtils.Sample(rwl, _rng);
+                    int specieIdx = dist.Sample(_rng);
 
                     // Skip empty species. This can happen because the same species can be selected more than once.
                     if(0 != specieStatsArr[specieIdx]._targetSizeInt) {   
@@ -408,7 +408,7 @@ namespace SharpNeat.EvolutionAlgorithms
                 // Adjust down the target size of one of the other species to compensate.
                 // Pick a specie at random (but not the champ specie). Note that this may result in a specie with a zero 
                 // target size, this is OK at this stage. We handle allocations of zero in PerformOneGeneration().
-                int idx = DiscreteDistributionUtils.SampleUniformDistribution(specieCount-1, _rng);
+                int idx = _rng.Next(specieCount-1);
                 idx = idx==_bestSpecieIdx ? idx+1 : idx;
 
                 if(specieStatsArr[idx]._targetSizeInt > 0) {
@@ -500,13 +500,13 @@ namespace SharpNeat.EvolutionAlgorithms
         /// </summary>
         private List<TGenome> CreateOffspring(SpecieStats[] specieStatsArr, int offspringCount)
         {
-            // Build a RouletteWheelLayout for selecting species for cross-species reproduction.
-            // While we're in the loop we also pre-build a RouletteWheelLayout for each specie;
-            // Doing this before the main loop means we have RouletteWheelLayouts available for
+            // Build a DiscreteDistribution for selecting species for cross-species reproduction.
+            // While we're in the loop we also pre-build a DiscreteDistribution for each specie;
+            // Doing this before the main loop means we have DiscreteDistributions available for
             // all species when performing cross-specie matings.
             int specieCount = specieStatsArr.Length;
             double[] specieFitnessArr = new double[specieCount];
-            DiscreteDistribution[] rwlArr = new DiscreteDistribution[specieCount];
+            DiscreteDistribution[] distArr = new DiscreteDistribution[specieCount];
 
             // Count of species with non-zero selection size.
             // If this is exactly 1 then we skip inter-species mating. One is a special case because for 0 the 
@@ -521,17 +521,17 @@ namespace SharpNeat.EvolutionAlgorithms
                     nonZeroSpecieCount++;
                 }
 
-                // For each specie we build a RouletteWheelLayout for genome selection within 
+                // For each specie we build a DiscreteDistribution for genome selection within 
                 // that specie. Fitter genomes have higher probability of selection.
                 List<TGenome> genomeList = _specieList[i].GenomeList;
                 double[] probabilities = new double[inst._selectionSizeInt];
                 for(int j=0; j<inst._selectionSizeInt; j++) {
                     probabilities[j] = genomeList[j].EvaluationInfo.Fitness;
                 }
-                rwlArr[i] = new DiscreteDistribution(probabilities);
+                distArr[i] = new DiscreteDistribution(probabilities);
             }
 
-            // Complete construction of RouletteWheelLayout for specie selection.
+            // Complete construction of DiscreteDistribution for specie selection.
             DiscreteDistribution rwlSpecies = new DiscreteDistribution(specieFitnessArr);
 
             // Produce offspring from each specie in turn and store them in offspringList.
@@ -541,13 +541,13 @@ namespace SharpNeat.EvolutionAlgorithms
                 SpecieStats inst = specieStatsArr[specieIdx];
                 List<TGenome> genomeList = _specieList[specieIdx].GenomeList;
 
-                // Get RouletteWheelLayout for genome selection.
-                DiscreteDistribution rwl = rwlArr[specieIdx];
+                // Get DiscreteDistribution for genome selection.
+                DiscreteDistribution dist = distArr[specieIdx];
 
             // --- Produce the required number of offspring from asexual reproduction.
                 for(int i=0; i<inst._offspringAsexualCount; i++)
                 {
-                    int genomeIdx = DiscreteDistributionUtils.Sample(rwl, _rng);
+                    int genomeIdx = dist.Sample(_rng);
                     TGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
                     offspringList.Add(offspring);
                 }
@@ -567,7 +567,7 @@ namespace SharpNeat.EvolutionAlgorithms
                 int matingsCount = 0;
                 for(; matingsCount<crossSpecieMatings; matingsCount++)
                 {
-                    TGenome offspring = CreateOffspring_CrossSpecieMating(rwl, rwlArr, rwlSpecies, specieIdx, genomeList);
+                    TGenome offspring = CreateOffspring_CrossSpecieMating(dist, distArr, rwlSpecies, specieIdx, genomeList);
                     offspringList.Add(offspring);
                 }
 
@@ -578,7 +578,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     // Fall-back to asexual reproduction.
                     for(; matingsCount<inst._offspringSexualCount; matingsCount++)
                     {
-                        int genomeIdx = DiscreteDistributionUtils.Sample(rwl, _rng);
+                        int genomeIdx = dist.Sample(_rng);
                         TGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
                         offspringList.Add(offspring);
                     }
@@ -589,16 +589,16 @@ namespace SharpNeat.EvolutionAlgorithms
                     for(; matingsCount<inst._offspringSexualCount; matingsCount++)
                     {
                         // Select parent 1.
-                        int parent1Idx = DiscreteDistributionUtils.Sample(rwl, _rng);
+                        int parent1Idx = dist.Sample(_rng);
                         TGenome parent1 = genomeList[parent1Idx];
 
                         // Remove selected parent from set of possible outcomes.
-                        DiscreteDistribution rwlTmp = rwl.RemoveOutcome(parent1Idx);
+                        DiscreteDistribution distTmp = dist.RemoveOutcome(parent1Idx);
 
                         // Test for existence of at least one more parent to select.
-                        if(0 != rwlTmp.Probabilities.Length)
+                        if(0 != distTmp.Probabilities.Length)
                         {   // Get the two parents to mate.
-                            int parent2Idx = DiscreteDistributionUtils.Sample(rwlTmp, _rng);
+                            int parent2Idx = distTmp.Sample(_rng);
                             TGenome parent2 = genomeList[parent2Idx];
                             TGenome offspring = parent1.CreateOffspring(parent2, _currentGeneration);
                             offspringList.Add(offspring);
@@ -620,26 +620,26 @@ namespace SharpNeat.EvolutionAlgorithms
         /// <summary>
         /// Cross specie mating.
         /// </summary>
-        /// <param name="rwl">RouletteWheelLayout for selecting genomes in the current specie.</param>
-        /// <param name="rwlArr">Array of RouletteWheelLayout objects for genome selection. One for each specie.</param>
-        /// <param name="rwlSpecies">RouletteWheelLayout for selecting species. Based on relative fitness of species.</param>
+        /// <param name="dist">DiscreteDistribution for selecting genomes in the current specie.</param>
+        /// <param name="distArr">Array of DiscreteDistribution objects for genome selection. One for each specie.</param>
+        /// <param name="rwlSpecies">DiscreteDistribution for selecting species. Based on relative fitness of species.</param>
         /// <param name="currentSpecieIdx">Current specie's index in _specieList</param>
         /// <param name="genomeList">Current specie's genome list.</param>
-        private TGenome CreateOffspring_CrossSpecieMating(DiscreteDistribution rwl,
-                                                          DiscreteDistribution[] rwlArr,
+        private TGenome CreateOffspring_CrossSpecieMating(DiscreteDistribution dist,
+                                                          DiscreteDistribution[] distArr,
                                                           DiscreteDistribution rwlSpecies,
                                                           int currentSpecieIdx,
                                                           IList<TGenome> genomeList)
         {
             // Select parent from current specie.
-            int parent1Idx = DiscreteDistributionUtils.Sample(rwl, _rng);
+            int parent1Idx = dist.Sample(_rng);
 
             // Select specie other than current one for 2nd parent genome.
-            DiscreteDistribution rwlSpeciesTmp = rwlSpecies.RemoveOutcome(currentSpecieIdx);
-            int specie2Idx = DiscreteDistributionUtils.Sample(rwlSpeciesTmp, _rng);
+            DiscreteDistribution distSpeciesTmp = rwlSpecies.RemoveOutcome(currentSpecieIdx);
+            int specie2Idx = distSpeciesTmp.Sample(_rng);
             
             // Select a parent genome from the second specie.
-            int parent2Idx = DiscreteDistributionUtils.Sample(rwlArr[specie2Idx], _rng);
+            int parent2Idx = distArr[specie2Idx].Sample(_rng);
 
             // Get the two parents to mate.
             TGenome parent1 = genomeList[parent1Idx];

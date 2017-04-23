@@ -25,7 +25,7 @@ namespace SharpNeat.Genomes.Neat
     /// </summary>
     public class ConnectionMutationInfoList : List<ConnectionMutationInfo>
     {
-        DiscreteDistribution _rouletteWheelLayout;
+        DiscreteDistribution _dist;
 
         #region Constructors
 
@@ -67,7 +67,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public void Initialize()
         {
-            _rouletteWheelLayout = CreateRouletteWheelLayout();
+            _dist = CreateRouletteWheelLayout();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public ConnectionMutationInfo GetRandomItem(XorShiftRandom rng)
         {
-            return this[DiscreteDistributionUtils.Sample(_rouletteWheelLayout, rng)];
+            return this[_dist.Sample(rng)];
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public DiscreteDistribution RouletteWheelLayout
         {
-            get { return _rouletteWheelLayout; }
+            get { return _dist; }
         }
 
         #endregion

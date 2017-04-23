@@ -291,8 +291,8 @@ namespace SharpNeat.Domains.PreyCapture
             probs[2] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI * 1.5) / Math.PI) * T * 0.33);  // South.
             probs[3] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI) / Math.PI) * T * 0.33);        // West.
             
-            DiscreteDistribution rwl = new DiscreteDistribution(probs);
-            int action = DiscreteDistributionUtils.Sample(rwl, _rng);
+            DiscreteDistribution dist = new DiscreteDistribution(probs);
+            int action = dist.Sample(_rng);
             switch(action)
             {
                  case 0: // Move north.

@@ -24,7 +24,7 @@ namespace SharpNeat.Network
     {
         readonly IList<ActivationFunctionInfo> _functionList;
         readonly Dictionary<int,IActivationFunction> _functionDict;
-        readonly DiscreteDistribution _rwl;
+        readonly DiscreteDistribution _dist;
 
         #region Constructor
 
@@ -39,7 +39,7 @@ namespace SharpNeat.Network
             for(int i=0; i<count; i++) {
                 probabilities[i] = fnList[i].SelectionProbability;
             }
-            _rwl = new DiscreteDistribution(probabilities);
+            _dist = new DiscreteDistribution(probabilities);
             _functionList = fnList;
 
             // Build a dictionary of functions keyed on integer ID.
@@ -63,7 +63,7 @@ namespace SharpNeat.Network
         /// </summary>
         public ActivationFunctionInfo GetRandomFunction(XorShiftRandom rng)
         {
-            return _functionList[DiscreteDistributionUtils.Sample(_rwl, rng)];
+            return _functionList[_dist.Sample(rng)];
         }
 
         /// <summary>

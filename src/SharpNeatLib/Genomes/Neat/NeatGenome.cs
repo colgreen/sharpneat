@@ -483,12 +483,12 @@ namespace SharpNeat.Genomes.Neat
             // Select a type of mutation and attempt to perform it. If that mutation is not possible
             // then we eliminate that possibility from the roulette wheel and try again until a mutation is successful 
             // or we have no mutation types remaining to try.
-            DiscreteDistribution rwlCurrent = rwlInitial;
+            DiscreteDistribution distCurrent = rwlInitial;
             bool success = false;
             bool structureChange = false;
             for(;;)
             {
-                int outcome = DiscreteDistributionUtils.Sample(rwlCurrent, _genomeFactory.Rng);
+                int outcome = distCurrent.Sample(_genomeFactory.Rng);
                 switch(outcome)
                 {
                     case 0:
@@ -523,8 +523,8 @@ namespace SharpNeat.Genomes.Neat
                 }
 
                 // Mutation did not succeed. Remove attempted type of mutation from set of possible outcomes.
-                rwlCurrent = rwlCurrent.RemoveOutcome(outcome);
-                if(0 == rwlCurrent.Probabilities.Length)
+                distCurrent = distCurrent.RemoveOutcome(outcome);
+                if(0 == distCurrent.Probabilities.Length)
                 {   // Nothing left to try. Do nothing.
                     return;
                 }
@@ -880,7 +880,7 @@ namespace SharpNeat.Genomes.Neat
             // ENHANCEMENT: Target for performance improvement.
             // Select neuron to mutate. Depending on the genome type it may be the case that not all genomes have mutable state, hence
             // we may have to scan for mutable neurons.
-            int auxStateNodeIdx = DiscreteDistributionUtils.SampleUniformDistribution(_auxStateNeuronCount, _genomeFactory.Rng) + 1;
+            int auxStateNodeIdx = _genomeFactory.Rng.Next(_auxStateNeuronCount) + 1;
 
             IActivationFunctionLibrary fnLib = _genomeFactory.ActivationFnLibrary;
             NeuronGene gene;
