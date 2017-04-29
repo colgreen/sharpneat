@@ -78,7 +78,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public NeatGenomeParameters()
         {
-            _activationFn                               = BoundedLeakyReLU.__DefaultInstance;
+            _activationFn                               = SteepenedSigmoid.__DefaultInstance;
             _connectionWeightRange                      = DefaultConnectionWeightRange;
             _initialInterconnectionsProportion          = DefaultInitialInterconnectionsProportion;
             _disjointExcessGenesRecombineProbability    = DefaultDisjointExcessGenesRecombineProbability;
