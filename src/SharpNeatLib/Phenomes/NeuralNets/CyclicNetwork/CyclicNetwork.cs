@@ -71,7 +71,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             _outputSignalArray = new double[_outputNeuronCount];
 
             _inputSignalArrayWrapper = new SignalArray(_inputSignalArray, 0, _inputNeuronCount);
-            _outputSignalArrayWrapper = new SignalArray(_outputSignalArray, 0, outputNeuronCount);
+            _outputSignalArrayWrapper = new OutputSignalArray(_outputSignalArray, 0, outputNeuronCount);
         }
 
         #endregion

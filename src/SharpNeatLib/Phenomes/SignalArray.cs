@@ -71,7 +71,7 @@ namespace SharpNeat.Phenomes
         /// an exception would be more correct but the check would affect performance of problem
         /// domains with large I/O throughput.
         /// </summary>
-        public double this[int index]
+        public virtual double this[int index]
         {
             get 
             {

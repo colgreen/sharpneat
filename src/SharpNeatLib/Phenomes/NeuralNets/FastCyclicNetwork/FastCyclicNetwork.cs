@@ -96,7 +96,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             _inputSignalArrayWrapper = new SignalArray(_postActivationArray, 1, inputNeuronCount);
 
             // Offset to skip bias and input neurons. Output neurons follow input neurons in the arrays.
-            _outputSignalArrayWrapper = new SignalArray(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
+            _outputSignalArrayWrapper = new OutputSignalArray(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
 
             // Store counts for use during activation.
             _inputNeuronCount = inputNeuronCount;

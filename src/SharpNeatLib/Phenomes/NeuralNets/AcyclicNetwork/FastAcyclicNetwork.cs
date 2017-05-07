@@ -117,7 +117,7 @@ namespace SharpNeat.Phenomes.NeuralNets
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the level of indirection described by outputNodeIdxArr.
-            _outputSignalArrayWrapper = new MappingSignalArray(_activationArr, outputNodeIdxArr);
+            _outputSignalArrayWrapper = new OutputMappingSignalArray(_activationArr, outputNodeIdxArr);
 
             // Store counts for use during activation.
             _inputNodeCount = inputNodeCount;
