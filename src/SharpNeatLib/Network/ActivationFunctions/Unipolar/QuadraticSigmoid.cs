@@ -11,22 +11,22 @@
  */
 
 using Redzen.Numerics;
+using System;
 
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// An approximation of the SteepenedSigmoid activation function. Faster to calculate but anecdotal evidence
-    /// suggests using this function gives poorer results than SteepenedSigmoid.
+    /// A sigmoid formed by two sub-sections of the y=x^2 curve.
     /// 
-    /// The increase in speed may also be in question with more recent hardware developments. E.g. with faster
-    /// implementations of an exp function and underlying CPU execution of the code.
+    /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to 
+    /// ensure there is at least a gradient to follow at the extremes.
     /// </summary>
-    public class SteepenedSigmoidApproximation : IActivationFunction
+    public class QuadraticSigmoid : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SteepenedSigmoidApproximation();
+        public static readonly IActivationFunction __DefaultInstance = new QuadraticSigmoid();
 
         /// <summary>
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
@@ -42,7 +42,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionString
         {
-            get { return "A fast approximation of y = 1.0/(1.0 + exp(-4.9*x))"; }
+            get { return ""; }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return "An approximation of the SteepenedSigmoid function. Faster to calculate but anecdotal evidence suggests using this function gives poorer results than SteepenedSigmoid.\r\nxrange->[-1,1] yrange->[0,1]"; }
+            get { return ""; }
         }
 
         /// <summary>
@@ -66,21 +66,22 @@ namespace SharpNeat.Network
         /// </summary>
         public double Calculate(double x, double[] auxArgs)
         {
-            const double One = 1.0;
-            const double Half = 0.5; 
+            const double t = 0.999;
+            const double a = 0.00001;
 
-            // Note. The condition statements here are actually not conducive to speedups in superscalar CPUs.
-            // Probably still faster than exp() though.
-            if(x < -1.0) {
-                return 0.0;
+            double sign = Math.Sign(x);
+            x = Math.Abs(x);
+
+            double y = 0;
+            if(x >= 0 && x < t) {
+                y = t - ((x - t) * (x - t));
             }
-            if(x < 0.0) {
-                return (x + One) * (x + One) * Half;
+            else //if (x >= t) 
+            {
+                y = t + (x - t) * a;
             }
-            if(x < One) {
-                return One - ((x - One) * (x - One) * Half);
-            }
-            return One;
+
+            return (y * sign * 0.5) + 0.5;
         }
 
         /// <summary>
@@ -90,19 +91,22 @@ namespace SharpNeat.Network
         /// </summary>
         public float Calculate(float x, float[] auxArgs)
         {
-            const float One = 1.0f;
-            const float Half = 0.5f; 
+            const float t = 0.999f;
+            const float a = 0.00001f;
 
-            if(x < -1.0f) {
-                return 0.0f;
+            float sign = Math.Sign(x);
+            x = Math.Abs(x);
+
+            float y = 0f;
+            if(x >= 0f && x < t) {
+                y = t - ((x - t) * (x - t));
             }
-            if(x < 0.0f) {
-                return (x + One) * (x + One) * Half;
+            else //if (x >= t) 
+            {
+                y = t + (x - t) * a;
             }
-            if(x < One) {
-                return One - ((x - One) * (x - One) * Half);
-            }
-            return One;
+
+            return (y * sign * 0.5f) + 0.5f;
         }
 
         /// <summary>

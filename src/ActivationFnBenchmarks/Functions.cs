@@ -39,8 +39,6 @@ namespace ActivationFnBenchmarks
             double sign = Math.Sign(x);
             x = Math.Abs(x);
 
-            // Note. The condition statements here are actually not conducive to speedups in superscalar CPUs.
-            // Probably still faster than exp() though.
             double y = 0;
             if(x >= 0 && x < t) {
                 y = t - ((x - t) * (x - t));

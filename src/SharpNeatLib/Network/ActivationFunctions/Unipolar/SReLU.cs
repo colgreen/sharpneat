@@ -11,81 +11,68 @@
  */
 using Redzen.Numerics;
 
-namespace SharpNeat.Network.ActivationFunctions.Unipolar
+namespace SharpNeat.Network
 {
     /// <summary>
-    /// See https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
-    /// A fast activation function that has a simple non-linearity at x=0.5.
+    /// S-shaped rectified linear activation unit (SReLU).
+    /// From:
+    ///    https://en.wikipedia.org/wiki/Activation_function
+    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
+    ///    
     /// </summary>
-    public class BoundedLeakyReLUCentered : IActivationFunction
+    public class SReLU : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new BoundedLeakyReLUCentered();
+        public static readonly IActivationFunction __DefaultInstance = new SReLU();
 
         public string FunctionId => this.GetType().Name;
 
         public string FunctionString => "";
 
-        public string FunctionDescription => "Bounded Leaky Rectified Linear Unit (ReLU), with fn(0) = 0.5.";
+        public string FunctionDescription => "Leaky Rectified Linear Unit (ReLU)";
 
         public bool AcceptsAuxArgs => false;
 
         public double Calculate(double x, double[] auxArgs)
         {
-            const double A = 0.01;
-            const double B = 1-A;
+            const double tl = 0.001; // threshold (left).
+            const double tr = 0.999; // threshold (right).
+            const double a = 0.00001;
 
-            x += 0.5;
+            double y;
+            if(x > tl && x < tr) {
+                y = x;
+            }
+            else if(x <= tl) {
+                y = tl + (x - tl) * a;
+            }
+            else {
+                y = tr + (x - tr) * a;
+            }
 
-            if(x > A && x < B) {
-                return x;
-            }
-            else if(x < A) 
-            {
-                // Trim output at zero.
-                if(x < -100.0) {
-                    return 0.0;
-                }
-                return A + x * 0.0001;
-            }
-            else 
-            {
-                // Trim output at one.
-                if(x > 100.0) {
-                    return 1.0;
-                }
-                return B + x * 0.0001;
-            }
+            return y;
         }
 
         public float Calculate(float x, float[] auxArgs)
         {
-            const float A = 0.01f;
-            const float B = 1-A;
+            float tl = 0.001f; // threshold (left).
+            float tr = 0.999f; // threshold (right).
+            float a = 0.00001f;
 
-            x += 0.5f;
+            float y;
+            if(x > tl && x < tr) {
+                y = x;
+            }
+            else if(x <= tl) {
+                y = tl + (x - tl) * a;
+            }
+            else {
+                y = tr + (x - tr) * a;
+            }
 
-            if(x > A && x < B) {
-                return x;
-            }
-            else if(x < A) 
-            {
-                // Trim output at zero.
-                if(x < -100f) {
-                    return 0f;
-                }
-                return A + x * 0.0001f;
-            }
-            else 
-            {
-                // Trim output at one.
-                if(x > 100f) {
-                    return 1f;
-                }
-                return B + x * 0.0001f;
-            }
+            return y;
         }
 
         public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)

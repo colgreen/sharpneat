@@ -23,7 +23,6 @@ using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
-using SharpNeat.Network;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {
@@ -144,10 +143,6 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             _neatGenomeParams.AddNodeMutationProbability = 0.01;
             _neatGenomeParams.ConnectionWeightMutationProbability = 0.89;
             _neatGenomeParams.InitialInterconnectionsProportion = 0.05;
-
-            // Control tasks may benefit from an activation function with smooth/continuous non-linearities.
-            // SteepenedSigmoidApproximation is a faster replacement for SteepenedSigmoid.
-            _neatGenomeParams.ActivationFn = SteepenedSigmoidApproximation.__DefaultInstance;
         }
 
         /// <summary>

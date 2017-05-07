@@ -543,24 +543,24 @@ namespace SharpNeat.Network
                     return Linear.__DefaultInstance;
                 case "Sine":
                     return Sine.__DefaultInstance;
-                case "Absolute":
-                    return Absolute.__DefaultInstance;
-                case "AbsoluteRoot":
-                    return AbsoluteRoot.__DefaultInstance;
+
                 case "Gaussian":
                     return Gaussian.__DefaultInstance;
-                case "InverseAbsoluteSigmoid":
-                    return InverseAbsoluteSigmoid.__DefaultInstance;
-                case "PlainSigmoid":
-                    return PlainSigmoid.__DefaultInstance;
-                case "ReducedSigmoid":
-                    return ReducedSigmoid.__DefaultInstance;
-                case "SteepenedSigmoid":
-                    return SteepenedSigmoid.__DefaultInstance;
-                case "SteepenedSigmoidApproximation":
-                    return SteepenedSigmoidApproximation.__DefaultInstance;
-                case "StepFunction":
-                    return StepFunction.__DefaultInstance;
+                case "LogisticFunction":
+                    return LogisticFunction.__DefaultInstance;
+                case "LogisticFunctionSteep":
+                    return LogisticFunctionSteep.__DefaultInstance;
+                case "PolynomialApproximant":
+                    return PolynomialApproximant.__DefaultInstance;
+                case "QuadraticSigmoid":
+                    return QuadraticSigmoid.__DefaultInstance;
+                case "SoftSign":
+                    return SoftSign.__DefaultInstance;
+                case "SReLU":
+                    return SReLU.__DefaultInstance;
+                case "SReLUShifted":
+                    return SReLUShifted.__DefaultInstance;
+
                 case "RbfGaussian":
                     return RbfGaussian.__DefaultInstance;
             }

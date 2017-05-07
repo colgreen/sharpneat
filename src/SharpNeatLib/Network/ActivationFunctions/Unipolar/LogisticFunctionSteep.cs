@@ -12,21 +12,18 @@
 
 using System;
 using Redzen.Numerics;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// A sigmoid curve produced from the simple and therefore fast arithmetic operations abs,
-    /// divide and multiply. The curve is designed to match the SteepenedSigmoid activation function 
-    /// as closely as possible.
+    /// The logistic function with a steepened slope.
     /// </summary>
-    public class InverseAbsoluteSigmoid : IActivationFunction
+    public class LogisticFunctionSteep : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new InverseAbsoluteSigmoid();
+        public static readonly IActivationFunction __DefaultInstance = new LogisticFunctionSteep();
 
         /// <summary>
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
@@ -42,7 +39,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionString
         {
-            get { return "y = 0.5 + (x / (2*(0.2+abs(x))))"; }
+            get { return "y = 1.0/(1.0 + exp(-4.9*x))"; }
         }
 
         /// <summary>
@@ -50,7 +47,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return "A sigmoid curve produced from the simple/fast arithmetic operations abs, divide and multiply.\r\nEffective xrange->[-1,1] yrange->[0,1]"; }
+            get { return "Plain sigmoid.\r\nEffective xrange->[-1,1] yrange->[0,1]"; }
         }
 
         /// <summary>
@@ -66,7 +63,7 @@ namespace SharpNeat.Network
         /// </summary>
         public double Calculate(double x, double[] auxArgs)
         {
-            return 0.5 + (x / (2.0*(0.2+Math.Abs(x))));
+            return 1.0/(1.0 + Math.Exp(-4.9*x));
         }
 
         /// <summary>
@@ -76,7 +73,7 @@ namespace SharpNeat.Network
         /// </summary>
         public float Calculate(float x, float[] auxArgs)
         {
-            return 0.5f + (x / (2.0f*(0.2f+Math.Abs(x))));
+            return 1.0f/(1.0f + (float)Math.Exp(-4.9f*x));
         }
 
         /// <summary>

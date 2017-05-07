@@ -122,9 +122,10 @@
     <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\BoundedLeakyReLUCentered.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\BoundedLeakyReLU.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\SReLUShifted.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\SReLU.cs" />
     <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\PolynomialApproximant.cs" />
     <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\ConnectionList.cs" />
     <Compile Include="Network\CyclicNetworkDepthAnalysis.cs" />
@@ -169,15 +170,12 @@
     <Compile Include="Network\ActivationFunctions\Bipolar\BipolarSigmoid.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\BipolarGaussian.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\Linear.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\Absolute.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\AbsoluteRoot.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\Gaussian.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\InverseAbsoluteSigmoid.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\PlainSigmoid.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\ReducedSigmoid.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\SoftSign.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\LogisticFunction.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoid.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\SteepenedSigmoidApproximation.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\LogisticFunctionSteep.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\QuadraticSigmoid.cs" />
     <Compile Include="Phenomes\MappingSignalArray.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\FastAcyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
@@ -194,7 +192,6 @@
     <Compile Include="Network\NodeType.cs" />
     <Compile Include="Network\IActivationFunction.cs" />
     <Compile Include="Network\ActivationFunctions\NullFn.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\StepFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

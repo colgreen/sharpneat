@@ -12,19 +12,18 @@
 
 using System;
 using Redzen.Numerics;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Sigmoid activation function with a gentler (reduced) slope compared to the PlainSimple function.
+    /// The logistic function.
     /// </summary>
-    public class ReducedSigmoid : IActivationFunction
+    public class LogisticFunction : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new ReducedSigmoid();
+        public static readonly IActivationFunction __DefaultInstance = new LogisticFunction();
 
         /// <summary>
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
@@ -40,7 +39,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionString
         {
-            get { return "y = 1/(1+(exp(-0.5*x)))"; }
+            get { return "y = 1.0/(1.0+(exp(-x)))"; }
         }
 
         /// <summary>
@@ -48,10 +47,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get
-            {
-                return "Simple sigmoid function with a gentler (or reduced) slope compared to the PlainSimple function.\r\n Effective xrange->[-10,10] yrange->[0,1]";
-            }
+            get { return "Plain sigmoid.\r\nEffective xrange->[-5,5] yrange->[0,1]"; }
         }
 
         /// <summary>
@@ -67,7 +63,7 @@ namespace SharpNeat.Network
         /// </summary>
         public double Calculate(double x, double[] auxArgs)
         {
-            return 1.0/(1.0+Math.Exp(-0.5*x));  
+            return 1.0/(1.0+Math.Exp(-x));  
         }
 
         /// <summary>
@@ -76,8 +72,8 @@ namespace SharpNeat.Network
         /// that has been specifically written to use floats instead of doubles.
         /// </summary>
         public float Calculate(float x, float[] auxArgs)
-        {   
-            return 1.0f/(1.0f+((float)Math.Exp(-0.5f*x)));  
+        {
+            return 1.0f/(1.0f+((float)Math.Exp(-x)));  
         }
 
         /// <summary>

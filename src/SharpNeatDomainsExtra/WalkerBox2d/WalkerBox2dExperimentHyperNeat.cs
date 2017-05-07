@@ -224,7 +224,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             nodeSetMappingList.Add(NodeSetMapping.Create(1, 2, (double?)null));  // Output -> Hidden
 
             // Construct substrate.
-            Substrate substrate = new Substrate(nodeSetList, DefaultActivationFunctionLibrary.CreateLibraryNeat(SteepenedSigmoid.__DefaultInstance), 0, 0.2, 5, nodeSetMappingList);
+            Substrate substrate = new Substrate(nodeSetList, DefaultActivationFunctionLibrary.CreateLibraryNeat(LogisticFunctionSteep.__DefaultInstance), 0, 0.2, 5, nodeSetMappingList);
 
             // Create genome decoder. Decodes to a neural network packaged with an activation scheme that defines a fixed number of activations per evaluation.
             IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder = new HyperNeatDecoder(substrate, _activationSchemeCppn, _activationScheme, _lengthCppnInput);

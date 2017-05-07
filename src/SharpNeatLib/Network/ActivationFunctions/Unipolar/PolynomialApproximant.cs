@@ -10,21 +10,33 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using System;
 using Redzen.Numerics;
-using SharpNeat.Utility;
+using System;
 
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Sigmoid activation function with a steeper curve than the PlainSimple function.
+    /// A very close approximation of the logistic function, that avoids use of exp() and is therefore
+    /// typically much faster to compute, while giving an alomost identical sigmoid curve.
+    /// 
+    /// This function was obtained from:
+    ///    http://stackoverflow.com/a/34448562/15703
+    /// 
+    /// 
+    /// This might be based on the Pade approximant:
+    ///   https://en.wikipedia.org/wiki/Pad%C3%A9_approximant
+    ///   https://math.stackexchange.com/a/107666
+    /// 
+    /// Or perhaps the maple minimax approximation:
+    ///   http://www.maplesoft.com/support/helpJP/Maple/view.aspx?path=numapprox/minimax
+    ///   
     /// </summary>
-    public class SteepenedSigmoid : IActivationFunction
+    public class PolynomialApproximant : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SteepenedSigmoid();
+        public static readonly IActivationFunction __DefaultInstance = new PolynomialApproximant();
 
         /// <summary>
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
@@ -40,7 +52,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionString
         {
-            get { return "y = 1.0/(1.0 + exp(-4.9*x))"; }
+            get { return ""; }
         }
 
         /// <summary>
@@ -48,7 +60,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return "Plain sigmoid.\r\nEffective xrange->[-1,1] yrange->[0,1]"; }
+            get { return ""; }
         }
 
         /// <summary>
@@ -64,7 +76,12 @@ namespace SharpNeat.Network
         /// </summary>
         public double Calculate(double x, double[] auxArgs)
         {
-            return 1.0/(1.0 + Math.Exp(-4.9*x));
+            x = x * 4.9;
+            double x2 = x*x;
+            double e = 1.0 + Math.Abs(x) + x2*0.555 + x2*x2*0.143;
+
+            double f = (x > 0) ? (1.0 / e) : e;
+            return 1.0 / (1.0 + f);
         }
 
         /// <summary>
@@ -74,7 +91,12 @@ namespace SharpNeat.Network
         /// </summary>
         public float Calculate(float x, float[] auxArgs)
         {
-            return 1.0f/(1.0f + (float)Math.Exp(-4.9f*x));
+            x = x * 4.9f;
+            float x2 = x*x;
+            float e = 1.0f + Math.Abs(x) + x2*0.555f + x2*x2*0.143f;
+
+            float f = (x > 0f) ? (1.0f / e) : e;
+            return 1.0f / (1.0f + f);
         }
 
         /// <summary>
