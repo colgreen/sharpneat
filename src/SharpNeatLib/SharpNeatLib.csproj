@@ -188,6 +188,8 @@
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastConnection.cs" />
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastCyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastRelaxingCyclicNetwork.cs" />
+    <Compile Include="Phenomes\OutputMappingSignalArray.cs" />
+    <Compile Include="Phenomes\OutputSignalArray.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Network\NodeType.cs" />
     <Compile Include="Network\IActivationFunction.cs" />
