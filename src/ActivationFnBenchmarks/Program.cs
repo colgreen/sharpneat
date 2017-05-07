@@ -11,7 +11,7 @@ namespace ActivationFnBenchmarks
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<FunctionBenchmarks>();
+            var summary = BenchmarkRunner.Run<FunctionFloatBenchmarks>();
         }
     }
 }
