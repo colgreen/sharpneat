@@ -125,7 +125,7 @@
     <Compile Include="Network\ActivationFunctions\Unipolar\SReLUShifted.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\SReLU.cs" />
     <Compile Include="Network\ActivationFunctions\RadialBasis\RbfGaussian.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\PolynomialApproximant.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\PolynomialApproximantSteep.cs" />
     <Compile Include="Network\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\ConnectionList.cs" />
     <Compile Include="Network\CyclicNetworkDepthAnalysis.cs" />
@@ -171,7 +171,7 @@
     <Compile Include="Network\ActivationFunctions\Bipolar\BipolarGaussian.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\Linear.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\Gaussian.cs" />
-    <Compile Include="Network\ActivationFunctions\Unipolar\SoftSign.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\SoftSignSteep.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LogisticFunction.cs" />
     <Compile Include="Network\ActivationFunctions\Bipolar\Sine.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LogisticFunctionSteep.cs" />

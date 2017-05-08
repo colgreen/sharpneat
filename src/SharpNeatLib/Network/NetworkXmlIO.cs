@@ -550,12 +550,12 @@ namespace SharpNeat.Network
                     return LogisticFunction.__DefaultInstance;
                 case "LogisticFunctionSteep":
                     return LogisticFunctionSteep.__DefaultInstance;
-                case "PolynomialApproximant":
-                    return PolynomialApproximant.__DefaultInstance;
+                case "PolynomialApproximantSteep":
+                    return PolynomialApproximantSteep.__DefaultInstance;
                 case "QuadraticSigmoid":
                     return QuadraticSigmoid.__DefaultInstance;
-                case "SoftSign":
-                    return SoftSign.__DefaultInstance;
+                case "SoftSignSteep":
+                    return SoftSignSteep.__DefaultInstance;
                 case "SReLU":
                     return SReLU.__DefaultInstance;
                 case "SReLUShifted":

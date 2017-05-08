@@ -17,16 +17,16 @@ using SharpNeat.Utility;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// A sigmoid curve produced from the simple and therefore fast arithmetic operations abs,
-    /// divide and multiply. The curve is designed to match the SteepenedSigmoid activation function 
-    /// as closely as possible.
+    /// The softsign sigmoid.
+    /// This is a variant of softsign that has a steeper slope at and around the origin that 
+    /// is intended to be a similar slope to that of LogisticFunctionSteep.
     /// </summary>
-    public class SoftSign : IActivationFunction
+    public class SoftSignSteep : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SoftSign();
+        public static readonly IActivationFunction __DefaultInstance = new SoftSignSteep();
 
         /// <summary>
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
@@ -66,7 +66,7 @@ namespace SharpNeat.Network
         /// </summary>
         public double Calculate(double x, double[] auxArgs)
         {
-            return 0.5 + (x / (2.0*(0.2+Math.Abs(x))));
+            return 0.5 + (x / (2.0 * ( 0.2 + Math.Abs(x))));
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace SharpNeat.Network
         /// </summary>
         public float Calculate(float x, float[] auxArgs)
         {
-            return 0.5f + (x / (2.0f*(0.2f+Math.Abs(x))));
+            return 0.5f + (x / (2.0f *(0.2f + Math.Abs(x))));
         }
 
         /// <summary>

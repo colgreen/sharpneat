@@ -16,7 +16,7 @@ using System;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// A very close approximation of the logistic function, that avoids use of exp() and is therefore
+    /// A very close approximation of the logistic function that avoids use of exp() and is therefore
     /// typically much faster to compute, while giving an alomost identical sigmoid curve.
     /// 
     /// This function was obtained from:
@@ -30,13 +30,16 @@ namespace SharpNeat.Network
     /// Or perhaps the maple minimax approximation:
     ///   http://www.maplesoft.com/support/helpJP/Maple/view.aspx?path=numapprox/minimax
     ///   
+    /// This is a variant that has a steeper slope at and around the origin that is intended to be a similar
+    /// slope to that of LogisticFunctionSteep.
+    ///   
     /// </summary>
-    public class PolynomialApproximant : IActivationFunction
+    public class PolynomialApproximantSteep : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new PolynomialApproximant();
+        public static readonly IActivationFunction __DefaultInstance = new PolynomialApproximantSteep();
 
         /// <summary>
         /// Gets the unique ID of the function. Stored in network XML to identify which function a network or neuron 
@@ -78,7 +81,7 @@ namespace SharpNeat.Network
         {
             x = x * 4.9;
             double x2 = x*x;
-            double e = 1.0 + Math.Abs(x) + x2*0.555 + x2*x2*0.143;
+            double e = 1.0 + Math.Abs(x) + (x2 * 0.555) + (x2 * x2 * 0.143);
 
             double f = (x > 0) ? (1.0 / e) : e;
             return 1.0 / (1.0 + f);
@@ -93,7 +96,7 @@ namespace SharpNeat.Network
         {
             x = x * 4.9f;
             float x2 = x*x;
-            float e = 1.0f + Math.Abs(x) + x2*0.555f + x2*x2*0.143f;
+            float e = 1.0f + Math.Abs(x) + (x2 * 0.555f) + (x2 * x2 * 0.143f);
 
             float f = (x > 0f) ? (1.0f / e) : e;
             return 1.0f / (1.0f + f);
