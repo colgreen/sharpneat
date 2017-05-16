@@ -61,11 +61,12 @@ namespace SharpNeatGUI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NEAT is Neuro-Evolution of Augmenting Topologies - Evolution of Neural Networks.
+        ///   Looks up a localized string similar to NEAT is NeuroEvolution of Augmenting Topologies; an evolutionary algorithm devised by Kenneth O. Stanley. 
         ///
-        ///SharpNEAT is an implementation of NEAT created by Colin Green. SharpNEAT is written in C# and targetting the .Net framework. For more information visit http://sharpneat.sourceforge.net/
+        ///SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET (on both MS Windows and Mono/Linux).
         ///
-        ///The NEAT method was devised by Kenneth Stanley, currently of the University of Central Florida School of Electrical Engineering and Computer Science. Visit http://www.cs.ucf.edu/~kstanley/ for more info on NEAT including research papers, softw [rest of string was truncated]&quot;;.
+        ///http://sharpneat.sourceforge.net/
+        ///.
         /// </summary>
         internal static string About {
             get {
@@ -74,7 +75,13 @@ namespace SharpNeatGUI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string containing licensing info.
+        ///   Looks up a localized string similar to SharpNEAT - Evolution of Neural Networks
+        ///
+        ///Copyright 2004-2016, Colin D. Green (sharpneat@gmail.com)
+        ///
+        ///SharpNEAT is released under the terms of the MIT License.
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit pe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Licensing {
             get {
