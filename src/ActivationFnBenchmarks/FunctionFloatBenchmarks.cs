@@ -10,7 +10,7 @@ namespace ActivationFnBenchmarks
 
         public FunctionFloatBenchmarks()
         {
-            // Create some random gaussian values as the inputs to the activation functions.
+            // Create some random Gaussian values as the inputs to the activation functions.
             ZigguratGaussianSampler gaussian = new ZigguratGaussianSampler(0);
             for(int i=0; i<_x.Length; i++) {
                 _x[i] = (float)gaussian.NextDouble(0, 2.0);
@@ -22,6 +22,15 @@ namespace ActivationFnBenchmarks
         {
             for(int i=0; i<__loops; i++) {
                 FunctionsFloat.LogisticFunctionSteep(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void SoftSign1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.SoftSign(_x[i % _x.Length]);
             }
         }
 
