@@ -91,7 +91,8 @@ namespace SharpNeat.Domains.FunctionRegression
         public FitnessInfo Evaluate(IBlackBox box)
         {
             int sampleCount = _paramSamplingInfo._sampleCount;
-            // TODO: We can avoid memory alloc here by allocating at construction time, but this requires modification of ParallelGenomeListEvaluator to utilise mulitple evaluators (one per thread).
+            // TODO: We can avoid a memory allocation here by allocating at construction time, but this requires modification of
+            // ParallelGenomeListEvaluator to utilise multiple evaluators (one per thread).
             double[] yArr = new double[sampleCount];
             double[] gradientArr = new double[sampleCount];
 
@@ -101,7 +102,7 @@ namespace SharpNeat.Domains.FunctionRegression
             // Calc gradients.
             FnRegressionUtils.CalcGradients(_paramSamplingInfo, yArr, gradientArr);
 
-            // Calc y position mean squared error, and apply weighting.
+            // Calc y position mean squared error (MSE), and apply weighting.
             double yMse = FnRegressionUtils.CalcMeanSquaredError(yArr, _yArrTarget);
             yMse *= _yMseWeight;
 
@@ -109,9 +110,9 @@ namespace SharpNeat.Domains.FunctionRegression
             double gradientMse = FnRegressionUtils.CalcMeanSquaredError(gradientArr, _gradientArrTarget);
             gradientMse *= _gradientMseWeight;
 
-            // Calc fitness as the inverse of mse (higher value is fitter). 
+            // Calc fitness as the inverse of MSE (higher value is fitter). 
             // Add a constant to avoid divide by zero, and to constrain the fitness range between bad and good solutions; 
-            // this allows the selection straregy to select solutions that are mediocre and therefore helps preserve diversity.
+            // this allows the selection strategy to select solutions that are mediocre and therefore helps preserve diversity.
             double fitness =  20.0 / (yMse + gradientMse + 0.02);
 
             // Test for stopping condition (near perfect response).
@@ -136,10 +137,9 @@ namespace SharpNeat.Domains.FunctionRegression
         private static BlackBoxProbe CreateBlackBoxProbe(IFunction fn, ParamSamplingInfo paramSamplingInfo)
         {
             // Determine the mid output value of the function (over the specified sample points) and a scaling factor
-            // to apply the to neural netwkrk response for it to be able to recreate the function (because the neural net
-            // output range is [0,1] when using the logistic function as the neurn activation function).
-            double mid, scale;
-            FnRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out mid, out scale);
+            // to apply the to neural network response for it to be able to recreate the function (because the neural net
+            // output range is [0,1] when using the logistic function as the neuron activation function).
+            FnRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out double mid, out double scale);
 
             var blackBoxProbe = new BlackBoxProbe(paramSamplingInfo, mid, scale);
             return blackBoxProbe;
