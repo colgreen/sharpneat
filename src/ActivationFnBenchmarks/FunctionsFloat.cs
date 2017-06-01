@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace ActivationFnBenchmarks
 {
@@ -10,6 +11,11 @@ namespace ActivationFnBenchmarks
         public static float LogisticFunctionSteep(float x)
         {
             return 1.0f/(1.0f + (float)Math.Exp(-4.9f*x));
+        }
+
+        public static double LogisticApproximantSteep(float x)
+        {
+            return 1f / (1f + Exp(-4.9f * x));
         }
 
         public static float SoftSign(float x)
@@ -102,6 +108,16 @@ namespace ActivationFnBenchmarks
             }
 
             return y;
+        }
+
+        // Fast exp approximation, from:
+        // https://stackoverflow.com/a/412988/15703
+        // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static float Exp(float val)
+        {
+            long tmp = (long)(1512775 * (double)val + (1072693248 - 60801));
+            return (float)BitConverter.Int64BitsToDouble(tmp << 32);
         }
     }
 }

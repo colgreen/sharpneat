@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace ActivationFnBenchmarks
 {
@@ -7,6 +8,11 @@ namespace ActivationFnBenchmarks
         public static double LogisticFunctionSteep(double x)
         {
             return 1.0/(1.0 + Math.Exp(-4.9*x));
+        }
+
+        public static double LogisticApproximantSteep(double x)
+        {
+            return 1.0 / (1.0 + Exp(-4.9 * x));
         }
 
         public static double SoftSign(double x)
@@ -99,6 +105,30 @@ namespace ActivationFnBenchmarks
             }
 
             return y;
+        }
+
+        public static double ArcTan(double x)
+        {
+            return (Math.Atan(x) + 1) * 0.5;
+
+        }
+
+        public static double TanH(double x)
+        {
+            const double halfpi = Math.PI / 2.0;
+            const double piinv = 1.0 / Math.PI;
+            return (Math.Tanh(x) + halfpi) * piinv;
+        }
+
+
+        // Fast exp approximation, from:
+        // https://stackoverflow.com/a/412988/15703
+        // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static double Exp(double val)
+        {
+            long tmp = (long)(1512775 * val + (1072693248 - 60801));
+            return BitConverter.Int64BitsToDouble(tmp << 32);
         }
     }
 }

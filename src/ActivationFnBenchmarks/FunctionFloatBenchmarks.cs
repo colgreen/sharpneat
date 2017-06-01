@@ -26,6 +26,15 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
+        public void LogisticApproximantSteep1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.LogisticApproximantSteep(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
         public void SoftSign1M()
         {
             for (int i = 0; i < __loops; i++)

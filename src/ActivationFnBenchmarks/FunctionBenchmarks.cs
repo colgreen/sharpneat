@@ -26,6 +26,15 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
+        public void LogisticApproximantSteep1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                Functions.LogisticApproximantSteep(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
         public void SoftSign1M()
         {
             for (int i = 0; i < __loops; i++)
@@ -63,6 +72,24 @@ namespace ActivationFnBenchmarks
         {
             for(int i=0; i<__loops; i++) {
                 Functions.SReLUShifted(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void ArcTan1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                Functions.ArcTan(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void TanH1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                Functions.TanH(_x[i % _x.Length]);
             }
         }
     }
