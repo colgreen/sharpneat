@@ -194,6 +194,11 @@ namespace SharpNeat.Phenomes.NeuralNets
                     _activationArr[_connectionArr[conIdx]._tgtNeuronIdx] += _activationArr[_connectionArr[conIdx]._srcNeuronIdx] * _connectionArr[conIdx]._weight;
                 }
 
+                // TODO: Performance tune the activation function method call.
+                // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
+                // The obvious/simplest performance improvement would be to pass an array of values to Calculate(), but the auxargs parameter
+                // currently thwarts the performance boost of that approach.
+                // 
                 // Activate current layer's nodes.
                 layerInfo = _layerInfoArr[layerIdx];
                 for(; nodeIdx < layerInfo._endNodeIdx; nodeIdx++) {

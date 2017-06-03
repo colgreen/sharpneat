@@ -94,6 +94,11 @@ namespace SharpNeat.Phenomes.NeuralNets
                     connection.TargetNeuron.InputValue += connection.OutputValue;
                 }
 
+                // TODO: Performance tune the activation function method call.
+                // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
+                // The obvious/simplest performance improvement would be to pass an array of values to Calculate(), but the auxargs parameter
+                // currently thwarts the performance boost of that approach.
+
                 // Loop over all output and hidden neurons, passing their input signal through their activation
                 // function to produce an output value. Note we skip bias and input neurons because they have a 
                 // fixed output value.

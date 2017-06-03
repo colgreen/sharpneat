@@ -168,11 +168,16 @@ namespace SharpNeat.Phenomes.NeuralNets
                     _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;
                 }
 
+                // TODO: Performance tune the activation function method call.
+                // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
+                // The obvious/simplest performance improvement would be to pass an array of values to Calculate(), but the auxargs parameter
+                // currently thwarts the performance boost of that approach.
+
                 // Loop the neurons. Pass each neuron's pre-activation signals through its activation function
                 // and store the resulting post-activation signal.
                 // Skip over bias and input neurons as these have no incoming connections and therefore have fixed
                 // post-activation values and are never activated. 
-                for(int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
+                for (int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
                 {
                     _postActivationArray[j] = _neuronActivationFnArray[j].Calculate(_preActivationArray[j], _neuronAuxArgsArray[j]);
                     
