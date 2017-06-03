@@ -60,6 +60,24 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
+        public void LeakyReLU1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                Functions.LeakyReLU(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void LeakyReLUShifted1M()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                Functions.LeakyReLUShifted(_x[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
         public void SReLU1M()
         {
             for(int i=0; i<__loops; i++) {

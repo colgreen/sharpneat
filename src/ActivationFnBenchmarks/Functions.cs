@@ -5,16 +5,19 @@ namespace ActivationFnBenchmarks
 {
     public static class Functions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double LogisticFunctionSteep(double x)
         {
             return 1.0/(1.0 + Math.Exp(-4.9*x));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double LogisticApproximantSteep(double x)
         {
             return 1.0 / (1.0 + Exp(-4.9 * x));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double SoftSign(double x)
         {
             return 0.5 + (x / (2.0*(0.2+Math.Abs(x))));
@@ -26,6 +29,7 @@ namespace ActivationFnBenchmarks
         //
         // Or perhaps the maple minimax approximation:
         //   http://www.maplesoft.com/support/helpJP/Maple/view.aspx?path=numapprox/minimax
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double PolynomialApproximant(double x)
         {
             // Very close approximation to LogisticFunctionSteep that avoids exp.
@@ -37,6 +41,7 @@ namespace ActivationFnBenchmarks
             return 1.0 / (1.0 + f);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double QuadraticSigmoid(double x)
         {
             const double t = 0.999;
@@ -58,6 +63,49 @@ namespace ActivationFnBenchmarks
         }
 
         /// <summary>
+        /// Leaky rectified linear activation unit (ReLU).
+        /// From:
+        ///    https://en.wikipedia.org/wiki/Activation_function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double LeakyReLU(double x)
+        {
+            const double a = 0.001;
+
+            double y;
+            if (x > 0.0) {
+                y = x;
+            } else {
+                y = x * a;
+            }
+            return y;
+        }
+
+        /// <summary>
+        /// Leaky rectified linear activation unit (ReLU).
+        /// From:
+        ///    https://en.wikipedia.org/wiki/Activation_function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double LeakyReLUShifted(double x)
+        {
+            const double a = 0.001;
+            const double offset = 0.5;
+
+            double y;
+            if (x+offset > 0.0) {
+                y = x;
+            } else {
+                y = (x+offset) * a;
+            }
+            return y;
+        }
+
+        /// <summary>
         /// S-shaped rectified linear activation unit (SReLU).
         /// From:
         ///    https://en.wikipedia.org/wiki/Activation_function
@@ -65,6 +113,7 @@ namespace ActivationFnBenchmarks
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double SReLU(double x)
         {
             const double tl = 0.001; // threshold (left).
@@ -85,41 +134,42 @@ namespace ActivationFnBenchmarks
             return y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double SReLUShifted(double x)
         {
             const double tl = 0.001; // threshold (left).
             const double tr = 0.999; // threshold (right).
             const double a = 0.00001;
-
-            x += 0.5;
+            const double offset = 0.5;
 
             double y;
-            if(x > tl && x < tr) {
+            if(x+offset > tl && x+offset < tr) {
                 y = x;
             }
-            else if(x <= tl) {
-                y = tl + (x - tl) * a;
+            else if(x+offset <= tl) {
+                y = tl + ((x+offset) - tl) * a;
             }
             else {
-                y = tr + (x - tr) * a;
+                y = tr + ((x+offset) - tr) * a;
             }
 
             return y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double ArcTan(double x)
         {
-            return (Math.Atan(x) + 1) * 0.5;
+            return (Math.Atan(x) + 1.0) * 0.5;
 
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double TanH(double x)
         {
             const double halfpi = Math.PI / 2.0;
             const double piinv = 1.0 / Math.PI;
             return (Math.Tanh(x) + halfpi) * piinv;
         }
-
 
         // Fast exp approximation, from:
         // https://stackoverflow.com/a/412988/15703
