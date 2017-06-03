@@ -48,7 +48,7 @@ namespace SharpNeat.Network
         {
             const float a = 0.001f;
 
-            double y;
+            float y;
             if (x > 0.0) {
                 y = x;
             } else {
