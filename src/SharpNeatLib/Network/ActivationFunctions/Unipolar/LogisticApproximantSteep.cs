@@ -18,6 +18,9 @@ namespace SharpNeat.Network
 {
     /// <summary>
     /// The logistic function implemented using a fast to compute approximation of exp().
+    /// See:
+    ///   https://stackoverflow.com/a/412988/15703
+    ///   https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
     /// </summary>
     public class LogisticApproximantSteep : IActivationFunction
     {
