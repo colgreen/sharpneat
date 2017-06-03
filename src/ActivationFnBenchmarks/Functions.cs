@@ -159,16 +159,16 @@ namespace ActivationFnBenchmarks
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double ArcTan(double x)
         {
-            return (Math.Atan(x) + 1.0) * 0.5;
+            const double halfpi = Math.PI / 2.0;
+            const double piinv = 1.0 / Math.PI;
+            return (Math.Atan(x) + halfpi) * piinv;
 
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double TanH(double x)
         {
-            const double halfpi = Math.PI / 2.0;
-            const double piinv = 1.0 / Math.PI;
-            return (Math.Tanh(x) + halfpi) * piinv;
+            return (Math.Tanh(x) + 1.0) * 0.5;
         }
 
         // Fast exp approximation, from:
