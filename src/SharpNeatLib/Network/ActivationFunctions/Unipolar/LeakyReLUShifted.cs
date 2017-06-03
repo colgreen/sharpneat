@@ -14,66 +14,49 @@ using Redzen.Numerics;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// S-shaped rectified linear activation unit (SReLU). Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
-    /// From:
-    ///    https://en.wikipedia.org/wiki/Activation_function
-    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
-    ///    
+    /// Leaky rectified linear activation unit (ReLU).
+    /// Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
     /// </summary>
-    public class SReLUShifted : IActivationFunction
+    public class LeakyReLUShifted : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SReLUShifted();
+        public static readonly IActivationFunction __DefaultInstance = new SReLU();
 
         public string FunctionId => this.GetType().Name;
 
         public string FunctionString => "";
 
-        public string FunctionDescription => "S-Shaped Rectified Linear Unit (ReLU) with X-axis translation.";
+        public string FunctionDescription => "Leaky Rectified Linear Unit (ReLU) with X-axis translation.";
 
         public bool AcceptsAuxArgs => false;
 
         public double Calculate(double x, double[] auxArgs)
         {
-            const double tl = 0.001; // threshold (left).
-            const double tr = 0.999; // threshold (right).
-            const double a = 0.00001;
+            const double a = 0.001;
             const double offset = 0.5;
 
             double y;
-            if(x+offset > tl && x+offset < tr) {
+            if (x+offset > 0.0) {
                 y = x;
+            } else {
+                y = (x+offset) * a;
             }
-            else if(x+offset <= tl) {
-                y = tl + ((x+offset) - tl) * a;
-            }
-            else {
-                y = tr + ((x+offset) - tr) * a;
-            }
-
             return y;
         }
 
         public float Calculate(float x, float[] auxArgs)
         {
-            const float tl = 0.001f; // threshold (left).
-            const float tr = 0.999f; // threshold (right).
-            const float a = 0.00001f;
+            const float a = 0.001f;
             const float offset = 0.5f;
 
-            float y;
-            if (x + offset > tl && x + offset < tr) {
+            double y;
+            if (x+offset > 0f) {
                 y = x;
+            } else {
+                y = (x+offset) * a;
             }
-            else if (x + offset <= tl) {
-                y = tl + ((x + offset) - tl) * a;
-            } 
-            else {
-                y = tr + ((x + offset) - tr) * a;
-            }
-
             return y;
         }
 
