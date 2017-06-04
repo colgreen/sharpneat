@@ -39,7 +39,7 @@ namespace SharpNeat.Network
 
             double y;
             if (x+offset > 0.0) {
-                y = x;
+                y = x+offset;
             } else {
                 y = (x+offset) * a;
             }
@@ -53,7 +53,7 @@ namespace SharpNeat.Network
 
             float y;
             if (x+offset > 0f) {
-                y = x;
+                y = x+offset;
             } else {
                 y = (x+offset) * a;
             }
