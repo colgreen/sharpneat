@@ -44,7 +44,7 @@ namespace SharpNeat.Network
 
             double y;
             if(x+offset > tl && x+offset < tr) {
-                y = x;
+                y = x+offset;
             }
             else if(x+offset <= tl) {
                 y = tl + ((x+offset) - tl) * a;
@@ -64,14 +64,14 @@ namespace SharpNeat.Network
             const float offset = 0.5f;
 
             float y;
-            if (x + offset > tl && x + offset < tr) {
+            if (x+offset > tl && x+offset < tr) {
                 y = x+offset;
             }
-            else if (x + offset <= tl) {
-                y = tl + ((x + offset) - tl) * a;
+            else if (x+offset <= tl) {
+                y = tl + ((x+offset) - tl) * a;
             } 
             else {
-                y = tr + ((x + offset) - tr) * a;
+                y = tr + ((x+offset) - tr) * a;
             }
 
             return y;
