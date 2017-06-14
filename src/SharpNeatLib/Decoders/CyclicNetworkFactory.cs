@@ -26,7 +26,8 @@ namespace SharpNeat.Decoders
         /// Creates a CyclicNetwork from an INetworkDefinition.
         /// </summary>
         public static CyclicNetwork CreateCyclicNetwork(INetworkDefinition networkDef,
-                                                           NetworkActivationScheme activationScheme)
+                                                        NetworkActivationScheme activationScheme,
+                                                        bool boundedOutput)
         {
             List<Neuron> neuronList;
             List<Connection> connectionList;
@@ -39,14 +40,16 @@ namespace SharpNeat.Decoders
                                                  networkDef.InputNodeCount,
                                                  networkDef.OutputNodeCount,
                                                  activationScheme.MaxTimesteps,
-                                                 activationScheme.SignalDeltaThreshold);
+                                                 activationScheme.SignalDeltaThreshold,
+                                                 boundedOutput);
             }
 
             return new CyclicNetwork(neuronList,
                                      connectionList,
                                      networkDef.InputNodeCount,
                                      networkDef.OutputNodeCount,
-                                     activationScheme.TimestepsPerActivation);
+                                     activationScheme.TimestepsPerActivation,
+                                     boundedOutput);
         }
 
         #endregion

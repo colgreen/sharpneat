@@ -38,8 +38,9 @@ namespace SharpNeat.Phenomes.NeuralNets
                                      int inputNeuronCount,
                                      int outputNeuronCount,
                                      int maxTimesteps,
-                                     double signalDeltaThreshold)
-            : base(neuronList, connectionList, inputNeuronCount, outputNeuronCount, maxTimesteps)
+                                     double signalDeltaThreshold,
+                                     bool boundedOutput)
+            : base(neuronList, connectionList, inputNeuronCount, outputNeuronCount, maxTimesteps, boundedOutput)
         {
             _signalDeltaThreshold = signalDeltaThreshold;
         }

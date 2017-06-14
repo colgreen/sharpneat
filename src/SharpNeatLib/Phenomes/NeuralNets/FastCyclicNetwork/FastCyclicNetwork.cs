@@ -81,7 +81,8 @@ namespace SharpNeat.Phenomes.NeuralNets
                                  int neuronCount,
                                  int inputNeuronCount,
                                  int outputNeuronCount,
-                                 int timestepsPerActivation)
+                                 int timestepsPerActivation,
+                                 bool boundedOutput)
         {
             _connectionArray = connectionArray;
             _neuronActivationFnArray = neuronActivationFnArray;
@@ -96,7 +97,11 @@ namespace SharpNeat.Phenomes.NeuralNets
             _inputSignalArrayWrapper = new SignalArray(_postActivationArray, 1, inputNeuronCount);
 
             // Offset to skip bias and input neurons. Output neurons follow input neurons in the arrays.
-            _outputSignalArrayWrapper = new OutputSignalArray(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
+            if(boundedOutput) {
+                _outputSignalArrayWrapper = new OutputSignalArray(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
+            } else {
+                _outputSignalArrayWrapper = new SignalArray(_postActivationArray, inputNeuronCount + 1, outputNeuronCount);
+            }
 
             // Store counts for use during activation.
             _inputNeuronCount = inputNeuronCount;

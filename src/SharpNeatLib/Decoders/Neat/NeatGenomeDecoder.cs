@@ -68,17 +68,17 @@ namespace SharpNeat.Decoders.Neat
 
         private FastAcyclicNetwork DecodeToFastAcyclicNetwork(NeatGenome genome)
         {
-            return FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(genome);
+            return FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(genome, true);
         }
 
         private CyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
         {
-            return CyclicNetworkFactory.CreateCyclicNetwork(genome, _activationScheme);
+            return CyclicNetworkFactory.CreateCyclicNetwork(genome, _activationScheme, true);
         }
 
         private FastCyclicNetwork DecodeToFastCyclicNetwork(NeatGenome genome)
         {
-            return FastCyclicNetworkFactory.CreateFastCyclicNetwork(genome, _activationScheme);
+            return FastCyclicNetworkFactory.CreateFastCyclicNetwork(genome, _activationScheme, true);
         }
 
         #endregion

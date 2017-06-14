@@ -58,7 +58,8 @@ namespace SharpNeat.Phenomes.NeuralNets
                                 List<Connection> connectionList,
                                 int inputNeuronCount,
                                 int outputNeuronCount,
-                                int timestepsPerActivation)
+                                int timestepsPerActivation,
+                                bool boundedOutput)
         {
             _neuronList = neuronList;
             _connectionList = connectionList;
@@ -71,7 +72,12 @@ namespace SharpNeat.Phenomes.NeuralNets
             _outputSignalArray = new double[_outputNeuronCount];
 
             _inputSignalArrayWrapper = new SignalArray(_inputSignalArray, 0, _inputNeuronCount);
-            _outputSignalArrayWrapper = new OutputSignalArray(_outputSignalArray, 0, outputNeuronCount);
+
+            if(boundedOutput) {
+                _outputSignalArrayWrapper = new OutputSignalArray(_outputSignalArray, 0, outputNeuronCount);
+            } else {
+                _outputSignalArrayWrapper = new SignalArray(_outputSignalArray, 0, outputNeuronCount);
+            }
         }
 
         #endregion

@@ -27,7 +27,7 @@ namespace SharpNeat.Decoders
         /// <summary>
         /// Creates a AcyclicNetwork from an INetworkDefinition.
         /// </summary>
-        public static FastAcyclicNetwork CreateFastAcyclicNetwork(INetworkDefinition networkDef)
+        public static FastAcyclicNetwork CreateFastAcyclicNetwork(INetworkDefinition networkDef, bool boundedOutput)
         {
             Debug.Assert(!CyclicNetworkTest.IsNetworkCyclic(networkDef), "Attempt to decode a cyclic network into a FastAcyclicNetwork.");
 
@@ -158,7 +158,7 @@ namespace SharpNeat.Decoders
             }
 
             return new FastAcyclicNetwork(nodeActivationFnArr, nodeAuxArgsArray, fastConnectionArray, layerInfoArr, outputNeuronIdxArr,
-                                          nodeCount, networkDef.InputNodeCount, networkDef.OutputNodeCount);
+                                          nodeCount, networkDef.InputNodeCount, networkDef.OutputNodeCount, boundedOutput);
         }
 
         #endregion

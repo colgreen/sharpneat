@@ -91,6 +91,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <param name="nodeCount">Number of nodes in the network.</param>
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
+        /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public FastAcyclicNetwork(IActivationFunction[] nodeActivationFnArr,
                                   double[][] nodeAuxArgsArr,
                                   FastConnection[] connectionArr,
@@ -98,7 +99,8 @@ namespace SharpNeat.Phenomes.NeuralNets
                                   int[] outputNodeIdxArr,
                                   int nodeCount,
                                   int inputNodeCount,
-                                  int outputNodeCount)
+                                  int outputNodeCount,
+                                  bool boundedOutput)
         {
             // Store refs to network structure data.
             _nodeActivationFnArr = nodeActivationFnArr;
@@ -117,7 +119,11 @@ namespace SharpNeat.Phenomes.NeuralNets
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the level of indirection described by outputNodeIdxArr.
-            _outputSignalArrayWrapper = new OutputMappingSignalArray(_activationArr, outputNodeIdxArr);
+            if(boundedOutput) {
+                _outputSignalArrayWrapper = new OutputMappingSignalArray(_activationArr, outputNodeIdxArr);
+            } else {
+                _outputSignalArrayWrapper = new MappingSignalArray(_activationArr, outputNodeIdxArr);
+            }
 
             // Store counts for use during activation.
             _inputNodeCount = inputNodeCount;
