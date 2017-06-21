@@ -50,34 +50,34 @@ namespace ActivationFunctionViewer
             zed.AxisChange();
         }
 
-        //private static void WriteToCsv(Func<double, double> fn)
-        //{
-        //    const double xmin = -2.0;
-        //    const double xmax = 2.0;
-        //    const int resolution = 2000;
+        private static void WriteToCsv(Func<double, double> fn)
+        {
+            const double xmin = -2.0;
+            const double xmax = 2.0;
+            const int resolution = 2000;
 
-        //    double[] xarr = new double[resolution];
-        //    double[] yarr = new double[resolution];
+            double[] xarr = new double[resolution];
+            double[] yarr = new double[resolution];
 
-        //    double incr = (xmax - xmin) / resolution;
-        //    double x = xmin;
+            double incr = (xmax - xmin) / resolution;
+            double x = xmin;
 
-        //    for (int i = 0; i < resolution; i++, x += incr)
-        //    {
-        //        xarr[i] = x;
-        //        yarr[i] = fn(x);
-        //    }
+            for (int i = 0; i < resolution; i++, x += incr)
+            {
+                xarr[i] = x;
+                yarr[i] = fn(x);
+            }
 
-        //    using (var sw = new StreamWriter("fn.csv"))
-        //    using (var csvWriter = new CsvWriter(sw))
-        //    {
-        //        // Header row.
-        //        csvWriter.WriteRecord("x", "y");
+            using (var sw = new StreamWriter("fn.csv"))
+            using (var csvWriter = new CsvWriter(sw))
+            {
+                // Header row.
+                csvWriter.WriteRecord("x", "y");
 
-        //        for(int i=0; i< xarr.Length; i++) {
-        //            csvWriter.WriteRecord(xarr[i].ToString(), yarr[i].ToString());
-        //        }
-        //    }
-        //}
+                for(int i=0; i< xarr.Length; i++) {
+                    csvWriter.WriteRecord(xarr[i].ToString(), yarr[i].ToString());
+                }
+            }
+        }
     }
 }
