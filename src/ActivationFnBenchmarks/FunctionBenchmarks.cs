@@ -18,97 +18,123 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void LogisticFunctionSteep1M()
+        public double LogisticFunctionSteep1M()
         {
+            double a = 0.0;
             for(int i=0; i<__loops; i++) {
-                Functions.LogisticFunctionSteep(_x[i % _x.Length]);
+                a += Functions.LogisticFunctionSteep(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void LogisticApproximantSteep1M()
+        public double LogisticApproximantSteep1M()
         {
-            for (int i = 0; i < __loops; i++)
-            {
-                Functions.LogisticApproximantSteep(_x[i % _x.Length]);
+            double a = 0.0;
+            for (int i = 0; i < __loops; i++) {
+                a += Functions.LogisticApproximantSteep(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void SoftSign1M()
+        public double SoftSign1M()
         {
-            for (int i = 0; i < __loops; i++)
-            {
-                Functions.SoftSign(_x[i % _x.Length]);
+            double a = 0.0;
+            for (int i = 0; i < __loops; i++) {
+                a += Functions.SoftSign(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void PolynomialApproximant1M()
+        public double PolynomialApproximant1M()
         {
+            double a = 0.0;
+            for (int i=0; i<__loops; i++) {
+                a += Functions.PolynomialApproximant(_x[i % _x.Length]);
+            }
+            return a;
+        }
+
+        [Benchmark]
+        public double QuadraticSigmoid1M()
+        {
+            double a = 0.0;
+            for (int i=0; i<__loops; i++) {
+                a += Functions.QuadraticSigmoid(_x[i % _x.Length]);
+            }
+            return a;
+        }
+
+        [Benchmark]
+        public double LeakyReLU1M()
+        {
+            double a = 0.0;
+            for (int i=0; i < __loops; i++) {
+                a += Functions.LeakyReLU(_x[i % _x.Length]);
+            }
+            return a;
+        }
+
+        [Benchmark]
+        public double LeakyReLUShifted1M()
+        {
+            double a = 0.0;
+            for (int i=0; i < __loops; i++) {
+                a += Functions.LeakyReLUShifted(_x[i % _x.Length]);
+            }
+            return a;
+        }
+
+        [Benchmark]
+        public double SReLU1M()
+        {
+            double a = 0.0;
             for(int i=0; i<__loops; i++) {
-                Functions.PolynomialApproximant(_x[i % _x.Length]);
+                a += Functions.SReLU(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void QuadraticSigmoid1M()
+        public double SReLUShifted1M()
         {
-            for(int i=0; i<__loops; i++) {
-                Functions.QuadraticSigmoid(_x[i % _x.Length]);
+            double a = 0.0;
+            for (int i=0; i<__loops; i++) {
+                a += Functions.SReLUShifted(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void LeakyReLU1M()
+        public double ArcTan1M()
         {
-            for (int i = 0; i < __loops; i++)
-            {
-                Functions.LeakyReLU(_x[i % _x.Length]);
+            double a = 0.0;
+            for (int i=0; i < __loops; i++) {
+                a += Functions.ArcTan(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void LeakyReLUShifted1M()
+        public double TanH1M()
         {
-            for (int i = 0; i < __loops; i++)
-            {
-                Functions.LeakyReLUShifted(_x[i % _x.Length]);
+            double a = 0.0;
+            for (int i=0; i < __loops; i++) {
+                a += Functions.TanH(_x[i % _x.Length]);
             }
+            return a;
         }
 
         [Benchmark]
-        public void SReLU1M()
+        public double ScaledELU()
         {
-            for(int i=0; i<__loops; i++) {
-                Functions.SReLU(_x[i % _x.Length]);
+            double a = 0.0;
+            for (int i=0; i < __loops; i++) {
+                a += Functions.ScaledELU(_x[i % _x.Length]);
             }
-        }
-
-        [Benchmark]
-        public void SReLUShifted1M()
-        {
-            for(int i=0; i<__loops; i++) {
-                Functions.SReLUShifted(_x[i % _x.Length]);
-            }
-        }
-
-        [Benchmark]
-        public void ArcTan1M()
-        {
-            for (int i = 0; i < __loops; i++)
-            {
-                Functions.ArcTan(_x[i % _x.Length]);
-            }
-        }
-
-        [Benchmark]
-        public void TanH1M()
-        {
-            for (int i = 0; i < __loops; i++)
-            {
-                Functions.TanH(_x[i % _x.Length]);
-            }
+            return a;
         }
     }
 }

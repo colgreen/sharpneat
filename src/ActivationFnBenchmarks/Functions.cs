@@ -180,5 +180,33 @@ namespace ActivationFnBenchmarks
             long tmp = (long)(1512775 * val + (1072693248 - 60801));
             return BitConverter.Int64BitsToDouble(tmp << 32);
         }
+
+        /// <summary>
+        /// Scaled Exponential Linear Unit (SELU).
+        /// 
+        /// From:
+        ///     Self-Normalizing Neural Networks
+        ///     https://arxiv.org/abs/1706.02515
+        /// 
+        /// Original source code (including parameter values):
+        ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
+        ///    
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ScaledELU(double x)
+        {
+            double alpha = 1.6732632423543772848170429916717;
+            double scale = 1.0507009873554804934193349852946;
+
+            double y;
+            if(x > 0) {
+                y = scale*x;
+            } 
+            else {
+                y = scale*((alpha*Math.Exp(x)) - alpha);
+            }
+
+            return y;
+        }
     }
 }
