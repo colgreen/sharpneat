@@ -30,7 +30,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Default instance provided as a public static field.
         /// </summary>
-        public static readonly IActivationFunction __DefaultInstance = new SReLU();
+        public static readonly IActivationFunction __DefaultInstance = new ScaledELU();
 
         public string FunctionId => this.GetType().Name;
 
