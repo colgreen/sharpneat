@@ -63,6 +63,26 @@ namespace ActivationFnBenchmarks
         }
 
         /// <summary>
+        /// Rrectified linear activation unit (ReLU).
+        /// From:
+        ///    https://en.wikipedia.org/wiki/Activation_function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReLU(double x)
+        {
+            double y;
+            if (x > 0.0) {
+                y = x;
+            } else {
+                y = 0.0;
+            }
+            return y;
+        }
+
+
+        /// <summary>
         /// Leaky rectified linear activation unit (ReLU).
         /// From:
         ///    https://en.wikipedia.org/wiki/Activation_function
@@ -171,6 +191,16 @@ namespace ActivationFnBenchmarks
             return (Math.Tanh(x) + 1.0) * 0.5;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ArcSinH(double x)
+        {
+            // Scaling factor from:
+            // https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/diwq7rb/
+
+            return 1.2567348023993685 * ((Asinh(x) + 1.0) * 0.5);
+        }
+
+
         // Fast exp approximation, from:
         // https://stackoverflow.com/a/412988/15703
         // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
@@ -208,5 +238,22 @@ namespace ActivationFnBenchmarks
 
             return y;
         }
+
+
+
+        #region Private Static Methods
+
+        /// <summary>
+        /// Hyperbolic Area Sine
+        /// </summary>
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static double Asinh(double value)
+        {
+            return Math.Log(value + Math.Sqrt((value * value) + 1), Math.E);
+        }
+
+        #endregion
     }
 }
