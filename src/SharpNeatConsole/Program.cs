@@ -126,7 +126,7 @@ namespace SharpNeatConsole
                             }
 
                             int populationSize;
-                            if(!int.TryParse(cmdArgs[1], out populationSize)) {
+                            if(!int.TryParse(cmdArgs[2], out populationSize)) {
                                 Console.WriteLine($"Error. Invalid [size] argument [{cmdArgs[1]}].");
                                 break;
                             }
