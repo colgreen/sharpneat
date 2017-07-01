@@ -94,7 +94,6 @@
     <Compile Include="Core\UpdateMode.cs" />
     <Compile Include="Core\UpdateScheme.cs" />
     <Compile Include="Decoders\FastAcyclicNetworkFactory.cs" />
-    <Compile Include="Decoders\CyclicNetworkFactory.cs" />
     <Compile Include="Decoders\FastCyclicNetworkFactory.cs" />
     <Compile Include="Decoders\HyperNeat\DefaultNodeSetMappingFunction.cs" />
     <Compile Include="Decoders\HyperNeat\HyperNeatDecoder.cs" />
@@ -184,10 +183,6 @@
     <Compile Include="Phenomes\MappingSignalArray.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\FastAcyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNetwork\LayerInfo.cs" />
-    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Connection.cs" />
-    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\CyclicNetwork.cs" />
-    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\Neuron.cs" />
-    <Compile Include="Phenomes\NeuralNets\CyclicNetwork\RelaxingCyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastConnection.cs" />
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastCyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\FastCyclicNetwork\FastRelaxingCyclicNetwork.cs" />
