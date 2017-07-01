@@ -30,6 +30,10 @@ namespace SharpNeat.Decoders
         double _signalDeltaThreshold;
         int _maxTimesteps;
 
+        // Fast flag. Strictly speaking not part of the activation scheme, but this is currently a
+        // convenient place for this flag.
+        bool _fastFlag;
+
         #region Constructors
 
         /// <summary>
@@ -87,6 +91,14 @@ namespace SharpNeat.Decoders
             get { return _maxTimesteps; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether a fast version of the network should be created when decoding.
+        /// </summary>
+        public bool FastFlag
+        {
+            get { return _fastFlag; }
+        }
+
         #endregion
 
         #region Static Factory Methods
@@ -110,6 +122,21 @@ namespace SharpNeat.Decoders
             scheme._acyclicNetwork = false;
             scheme._timestepsPerActivation = timestepsPerActivation;
             scheme._relaxingActivation = false;
+            scheme._fastFlag = true;
+            return scheme;
+        }
+
+        /// <summary>
+        /// Create an activation scheme with a fixed number of activation timesteps (suitable for cyclic networks only).
+        /// 'fastFlag' indicates if a fast network implementation should be used.
+        /// </summary>
+        public static NetworkActivationScheme CreateCyclicFixedTimestepsScheme(int timestepsPerActivation, bool fastFlag)
+        {
+            NetworkActivationScheme scheme = new NetworkActivationScheme();
+            scheme._acyclicNetwork = false;
+            scheme._timestepsPerActivation = timestepsPerActivation;
+            scheme._relaxingActivation = false;
+            scheme._fastFlag = fastFlag;
             return scheme;
         }
 
@@ -123,6 +150,22 @@ namespace SharpNeat.Decoders
             scheme._signalDeltaThreshold = signalDeltaThreshold;
             scheme._maxTimesteps = maxTimesteps;
             scheme._relaxingActivation = true;
+            scheme._fastFlag = true;
+            return scheme;
+        }
+
+        /// <summary>
+        /// Create a relaxing activation scheme (suitable for cyclic networks only).
+        /// 'fastFlag' indicates if a fast network implementation should be used.
+        /// </summary>
+        public static NetworkActivationScheme CreateCyclicRelaxingActivationScheme(double signalDeltaThreshold, int maxTimesteps, bool fastFlag)
+        {
+            NetworkActivationScheme scheme = new NetworkActivationScheme();
+            scheme._acyclicNetwork = false;
+            scheme._signalDeltaThreshold = signalDeltaThreshold;
+            scheme._maxTimesteps = maxTimesteps;
+            scheme._relaxingActivation = true;
+            scheme._fastFlag = fastFlag;
             return scheme;
         }
 

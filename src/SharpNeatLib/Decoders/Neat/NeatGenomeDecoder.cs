@@ -59,12 +59,21 @@ namespace SharpNeat.Decoders.Neat
             if(activationScheme.AcyclicNetwork) {
                 return DecodeToFastAcyclicNetwork;
             }
-            return DecodeToFastCyclicNetwork;
+
+            if(activationScheme.FastFlag) {
+                return DecodeToFastCyclicNetwork;
+            }
+            return DecodeToCyclicNetwork;
         }
 
         private FastAcyclicNetwork DecodeToFastAcyclicNetwork(NeatGenome genome)
         {
             return FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(genome, true);
+        }
+
+        private CyclicNetwork DecodeToCyclicNetwork(NeatGenome genome)
+        {
+            return CyclicNetworkFactory.CreateCyclicNetwork(genome, _activationScheme, true);
         }
 
         private FastCyclicNetwork DecodeToFastCyclicNetwork(NeatGenome genome)
