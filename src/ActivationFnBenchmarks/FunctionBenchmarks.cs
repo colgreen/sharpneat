@@ -148,11 +148,21 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double ScaledELU()
+        public double ScaledELU1M()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
                 a = Functions.ScaledELU(_x[i % _x.Length]);
+            }
+            return a;
+        }
+
+        [Benchmark]
+        public double MaxMinusOnne1M()
+        {
+            double a = 0.0;
+            for (int i=0; i < __loops; i++) {
+                a = Functions.MaxMinusOne(_x[i % _x.Length]);
             }
             return a;
         }

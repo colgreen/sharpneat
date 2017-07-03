@@ -239,6 +239,17 @@ namespace ActivationFnBenchmarks
             return y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double MaxMinusOne(double x)
+        {
+            double y;
+            if (x > -1) {
+                y = x;
+            } else {
+                y = -1;
+            }
+            return y;
+        }
 
 
         #region Private Static Methods

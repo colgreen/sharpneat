@@ -122,6 +122,10 @@
     <Compile Include="Genomes\RbfNeat\RbfGenomeFactory.cs" />
     <Compile Include="Network\ActivationFunctions\ActivationFunctionInfo.cs" />
     <Compile Include="Genomes\HyperNeat\CppnGenomeFactory.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\TanH.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\ArcTan.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\MaxMinusOne.cs" />
+    <Compile Include="Network\ActivationFunctions\Unipolar\ArcSinH.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\ReLU.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LeakyReLUShifted.cs" />
     <Compile Include="Network\ActivationFunctions\Unipolar\LogisticApproximantSteep.cs" />
