@@ -9,31 +9,23 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
+using SharpNeat.Network;
 
 // Disable missing comment warnings for non-private variables.
 #pragma warning disable 1591
 
-using System;
-using System.Collections.Generic;
-
 namespace SharpNeat.Phenomes.NeuralNets
 {
-    // TODO: Create a version of this class that uses single precision signals for extra performance. 
-    // TODO: Reconsider algorithm. Even better/faster way?
-
     /// <summary>
     /// A neural network class that represents a network with recurrent (cyclic) connections. 
     /// 
-    /// This is a much faster implementation of CyclicNetwork. The speedup is approximately 5x depending on 
-    /// hardware and CLR platform, see http://sharpneat.sourceforge.net/network_optimization.html for detailed info.
+    /// This class contains performance improvements described in the following report/post:
     /// 
-    /// The speedup is achieved by compactly storing all required data in arrays and in a way that maximizes
-    /// in-order memory accesses; This allows us to maximize use of CPU caches. In contrast the CyclicNetwork
-    /// class represents the network directly, that is, as a network of neuron/node objects; This has additional
-    /// overhead such as the standard data associated with each object in dotNet which results in less efficient
-    /// packing of the true neural net data in memory, which in turns results in less efficient use of CPU memory 
-    /// caches. Finally, representing the network directly as a graph of connected nodes is not conducive to 
-    /// writing code with in-order memory accesses.
+    ///     http://sharpneat.sourceforge.net/research/network-optimisations.html
+    /// 
+    /// A speedup over a previous 'naive' implementation was achieved by compactly storing all required data in arrays
+    /// and in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches. 
     /// 
     /// Algorithm Overview.
     /// 1) Loop connections. Each connection gets its input signal from its source neuron, applies its weight and
@@ -50,10 +42,10 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class FastCyclicNetwork : IBlackBox<double>
+    public class HeterogeneousCyclicNetwork : IBlackBox<double>
     {
-        protected readonly FastConnection[] _connectionArray;
-        protected readonly Func<double,double>[] _neuronActivationFnArray;
+        protected readonly ConnectionInfo[] _connectionArray;
+        protected readonly Func<double,double>[] _activationFnArr;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -67,45 +59,43 @@ namespace SharpNeat.Phenomes.NeuralNets
         // Convenient counts.
         readonly int _inputNeuronCount;
         readonly int _outputNeuronCount;
-        protected readonly int _inputAndBiasNeuronCount;
         protected readonly int _timestepsPerActivation;
 
         #region Constructor
 
         /// <summary>
-        /// Constructs a FastCyclicNetwork with the provided pre-built FastConnection array and 
+        /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public FastCyclicNetwork(FastConnection[] connectionArray,
-                                 Func<double,double>[] neuronActivationFnArray,
-                                 double[][] neuronAuxArgsArray,
-                                 int neuronCount,
-                                 int inputNeuronCount,
-                                 int outputNeuronCount,
-                                 int timestepsPerActivation)
+        public HeterogeneousCyclicNetwork(ConnectionInfo[] connInfoArr,
+                             Func<double,double>[] neuronActivationFnArray,
+                             int neuronCount,
+                             int inputNeuronCount,
+                             int outputNeuronCount,
+                             int timestepsPerActivation,
+                             bool boundedOutput)
         {
-            _connectionArray = connectionArray;
-            _neuronActivationFnArray = neuronActivationFnArray;
+            _connectionArray = connInfoArr;
+            _activationFnArr = neuronActivationFnArray;
 
             // Create neuron pre- and post-activation signal arrays.
             _preActivationArray = new double[neuronCount];
             _postActivationArray = new double[neuronCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
-            // Offset is 1 to skip bias neuron (The value at index 1 is the first black box input).
-            _inputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, 1, inputNeuronCount);
+            _inputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, 0, inputNeuronCount);
 
-            // Offset to skip bias and input neurons. Output neurons follow input neurons in the arrays.
-            _outputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, inputNeuronCount+1, outputNeuronCount);
+            // Note. Output neurons follow input neurons in the arrays.
+            if(boundedOutput) {
+                _outputSignalArrayWrapper = new BoundedSignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
+            } else {
+                _outputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, inputNeuronCount, outputNeuronCount);
+            }
 
             // Store counts for use during activation.
             _inputNeuronCount = inputNeuronCount;
-            _inputAndBiasNeuronCount = inputNeuronCount+1;
             _outputNeuronCount = outputNeuronCount;
             _timestepsPerActivation = timestepsPerActivation;
-
-            // Initialise the bias neuron's fixed output value.
-            _postActivationArray[0] = 1.0;
         }
 
         #endregion
@@ -160,13 +150,17 @@ namespace SharpNeat.Phenomes.NeuralNets
                     _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;
                 }
 
+                // TODO: Performance tune the activation function method call.
+                // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
+                // The obvious/simplest performance improvement would be to pass an array of values to Calculate().
+
                 // Loop the neurons. Pass each neuron's pre-activation signals through its activation function
                 // and store the resulting post-activation signal.
-                // Skip over bias and input neurons as these have no incoming connections and therefore have fixed
+                // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
                 // post-activation values and are never activated. 
-                for(int j=_inputAndBiasNeuronCount; j<_preActivationArray.Length; j++)
+                for (int j=_inputNeuronCount; j<_preActivationArray.Length; j++)
                 {
-                    _postActivationArray[j] = _neuronActivationFnArray[j](_preActivationArray[j]);
+                    _postActivationArray[j] = _activationFnArr[j](_preActivationArray[j]);
                     
                     // Take the opportunity to reset the pre-activation signal array in preparation for the next 
                     // activation loop.
@@ -184,7 +178,7 @@ namespace SharpNeat.Phenomes.NeuralNets
 
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputAndBiasNeuronCount; i<_postActivationArray.Length; i++) {
+            for(int i=_inputNeuronCount; i<_postActivationArray.Length; i++) {
                 _preActivationArray[i] = 0.0;
                 _postActivationArray[i] = 0.0;
             }

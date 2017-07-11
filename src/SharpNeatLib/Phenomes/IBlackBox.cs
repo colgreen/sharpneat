@@ -1,4 +1,14 @@
-﻿
+/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
 namespace SharpNeat.Phenomes
 {
     /// <summary>
@@ -8,7 +18,7 @@ namespace SharpNeat.Phenomes
     /// pattern, that is:
     /// 
     ///  - inputs are fed to a network.
-    ///  - The network is activated (e.g. some fixed number of timesteps or to relaxation).
+    ///  - The network is activated (e.g. for some fixed number of timesteps).
     ///  - The network outputs are read and fed into the evaluation/scoring/fitness scheme.
     /// 
     /// From wikipedia:
@@ -28,7 +38,6 @@ namespace SharpNeat.Phenomes
         /// </summary>
         int OutputCount { get; }
 
-        // TODO: Consider use of ArraySegment<T> (new framework class).
         /// <summary>
         /// Gets an array of input values that feed into the black box. 
         /// </summary>
@@ -46,7 +55,7 @@ namespace SharpNeat.Phenomes
         void Activate();
 
         /// <summary>
-        /// Reset any internal state to allow for re-use from a default state.
+        /// Reset any internal state.
         /// </summary>
         void ResetState();
     }

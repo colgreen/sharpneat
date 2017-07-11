@@ -46,7 +46,7 @@ namespace SharpNeat.Phenomes
         /// an exception would be more correct but the check would affect performance of problem
         /// domains with large I/O throughput.
         /// </summary>
-        public T this[int index]
+        public virtual T this[int index]
         {
             get 
             {
@@ -66,22 +66,6 @@ namespace SharpNeat.Phenomes
         public int Length
         {
             get { return _map.Length; }
-        }
-
-        public int Count
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsReadOnly
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
         }
 
         #endregion

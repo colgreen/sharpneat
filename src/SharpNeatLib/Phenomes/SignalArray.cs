@@ -1,4 +1,15 @@
-﻿using System;
+/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
+using System;
 using System.Diagnostics;
 
 namespace SharpNeat.Phenomes
@@ -8,7 +19,7 @@ namespace SharpNeat.Phenomes
     /// provides offset indexed access to the underlying native array.
     /// 
     /// SignalArray minimizes the amount of value copying required when setting input signal values to, and
-    /// reading output values from an IBlackBox. E.g. FastCyclicNetwork requires all input, output and 
+    /// reading output values from an IBlackBox. E.g. CyclicNetwork requires all input, output and 
     /// hidden node activation values to be stored in a single array. This class allows us to handle direct 
     /// access to the input and output values through their own SignalArray, thus we can set individual values
     /// in the underlying native array directly without having knowledge of that array's structure. An alternative
@@ -19,8 +30,8 @@ namespace SharpNeat.Phenomes
     /// C++ you might do something like:
     /// <code>
     /// double[] allSignals = new double[100];
-    /// double[] inputSignals = &amp;allSignals + 1;    // Skip bias neuron.
-    /// double[] outputSignals = &amp;allSignals + 10;  // Skip bias and input neurons.
+    /// double[] inputSignals = &amp;allSignals; 
+    /// double[] outputSignals = &amp;allSignals + 10;  // Skip input neurons.
     /// </code>
     /// In the above example access to the real items outside of the bounds of the sub-ranges is
     /// possible (e.g. inputSignals[10] yields the first output signal). SignalArray also does not check for
@@ -60,7 +71,7 @@ namespace SharpNeat.Phenomes
         /// an exception would be more correct but the check would affect performance of problem
         /// domains with large I/O throughput.
         /// </summary>
-        public T this[int index]
+        public virtual T this[int index]
         {
             get 
             {
