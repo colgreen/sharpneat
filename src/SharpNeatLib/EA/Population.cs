@@ -5,14 +5,14 @@ namespace SharpNeat.EA
 {
     public class Population<TGenome>    
     {
-        readonly Uint32Sequence _genomeIdSeq;
-        readonly Uint32Sequence _innovationIdSeq;
+        readonly UInt32Sequence _genomeIdSeq;
+        readonly UInt32Sequence _innovationIdSeq;
         readonly List<TGenome> _genomeList;
         uint _currentGenerationAge;
 
         #region Constructor
 
-        public Population(Uint32Sequence genomeIdSeq, Uint32Sequence innovationIdSeq,
+        public Population(UInt32Sequence genomeIdSeq, UInt32Sequence innovationIdSeq,
                           List<TGenome> genomeList)
         {
             _genomeIdSeq = genomeIdSeq;
@@ -24,8 +24,8 @@ namespace SharpNeat.EA
 
         #region Properties
 
-        public Uint32Sequence GenomeIdSeq => _genomeIdSeq;
-        public Uint32Sequence InnovationIdSeq => _innovationIdSeq;
+        public UInt32Sequence GenomeIdSeq => _genomeIdSeq;
+        public UInt32Sequence InnovationIdSeq => _innovationIdSeq;
         public List<TGenome> GenomeList => _genomeList;
         public uint CurrentGenerationAge => _currentGenerationAge; 
         

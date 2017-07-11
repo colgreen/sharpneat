@@ -84,7 +84,7 @@ namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
             desc.SelectionProportion = selectionProportion;
 
             var rng = RandomFactory.Create();
-            ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng, 0.0, stdDev);
+            ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng);
             desc.WeightDeltaFunc = gaussianSampler.NextDouble;
             return desc;
         }
@@ -97,7 +97,7 @@ namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
             desc.SelectionCount = selectionCount;
 
             var rng = RandomFactory.Create();
-            ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng, 0.0, stdDev);
+            ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng);
             desc.WeightDeltaFunc = gaussianSampler.NextDouble;
             return desc;
         }

@@ -7,12 +7,13 @@ namespace SharpNeat.Core
         /// Evaluate the provided phenome and return its fitness score.
         /// </summary>
         /// <returns>A fitness score or scores for the phenome.</returns>/returns>
-        FitnessInfo Evaluate(TPhenome phenome);
+        double Evaluate(TPhenome phenome);
 
         /// <summary>
-        /// Gets the fitness of a perfect/optimal phenome. This can be used to test when to stop the evolution algorithm.
-        /// Return FitnessInfo.Empty if this is not required or useful for a given IPhenomeEvaluator.
+        /// Gets a value indicating whether some goal fitness has been achieved and that
+        /// the evolutionary algorithm search should stop. This property's value can remain false
+        /// to allow the algorithm to run indefinitely.
         /// </summary>
-        FitnessInfo OptimalFitness { get; }
+        bool StopConditionSatisfied { get; }
     }
 }

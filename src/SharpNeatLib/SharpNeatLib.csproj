@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Redzen, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Redzen\Redzen\bin\Debug\Redzen.dll</HintPath>
@@ -46,14 +49,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\FitnessInfo.cs" />
-    <Compile Include="Core\Genome.cs" />
     <Compile Include="Core\IGenome.cs" />
     <Compile Include="Core\IGenomeDecoder.cs" />
     <Compile Include="Core\IGenomeFactory.cs" />
     <Compile Include="Core\IGenomeListEvaluator.cs" />
     <Compile Include="Core\IPhenomeEvaluator.cs" />
+    <Compile Include="Core\SerialGenomeListEvaluator.cs" />
+    <Compile Include="EA\ComplexityRegulationMode.cs" />
+    <Compile Include="EA\Controllers\RunState.cs" />
+    <Compile Include="EA\Controllers\UpdateMode.cs" />
+    <Compile Include="EA\Controllers\UpdateScheme.cs" />
     <Compile Include="EA\EAParameters.cs" />
     <Compile Include="EA\EAStatistics.cs" />
+    <Compile Include="EA\Controllers\EvolutionAlgorithmController.cs" />
     <Compile Include="EA\EvolutionAlgorithmSettings.cs" />
     <Compile Include="EA\IEvolutionAlgorithm.cs" />
     <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
@@ -66,7 +74,7 @@
     <Compile Include="Neat\Genome\NeatGenome.cs" />
     <Compile Include="Neat\Genome\NetworkConnectivityInfo.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
-    <None Include="Neat\Reproduction\Asexual\AddCyclicConnectionMutation.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\AddCyclicConnectionMutation.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationDescriptor.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ConnectionSelectionType.cs" />
@@ -78,7 +86,7 @@
     <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
     <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexualSettings.cs" />
-    <Compile Include="Network\ConnectionEndpointsInfo.cs" />
+    <Compile Include="Network\ConnectionEndpoints.cs" />
     <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Phenomes\IBlackBox.cs" />
@@ -91,9 +99,12 @@
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\RandomFactory.cs" />
-    <Compile Include="Utils\Uint32Sequence.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Utils\UInt32Sequence.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

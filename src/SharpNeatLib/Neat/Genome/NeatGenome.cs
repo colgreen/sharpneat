@@ -16,9 +16,10 @@ namespace SharpNeat.Neat.Genome
         readonly uint _id;
         // TODO: Consider whether birthGeneration belongs here.
         readonly uint _birthGeneration;
+        // TODO: Order genes by sourceID then targetID, and use a separate structure to track the order of innovation IDs.
         readonly ConnectionGeneList _connectionGeneList;
 
-        NetworkConnectivityInfo _connectivityInfo;
+        double _fitness;
 
         #endregion
 
@@ -42,32 +43,23 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Gets the genome's list of connection genes.
         /// </summary>
-        public ConnectionGeneList ConnectionGeneList
-        {
+        public ConnectionGeneList ConnectionGeneList {
             get { return _connectionGeneList; }
         }
+
+        /// <summary>
+        /// Connectivity info related to the current genome.
+        /// Do not use this property directly as it may be null; instead get connectivity info via NeatPopulation.GetNetworkConnectivityInfo()
+        /// </summary>
+        public NetworkConnectivityInfo ConnectivityInfo { get; set; }
 
         #endregion
 
         #region IGenome
 
-        public uint Id { get { return _id; } }
-        public FitnessInfo FitnessInfo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public uint BirthGeneration => throw new NotImplementedException();
-
-        public object[] AuxObjects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public NetworkConnectivityInfo ConnectivityInfo
-        {
-            get
-            {   // Lazy getter pattern.
-                if(null == _connectivityInfo) {
-                    _connectivityInfo = new NetworkConnectivityInfo(_connectionGeneList);
-                }
-                return _connectivityInfo;
-            }
-        }
+        public uint Id => _id;
+        public uint BirthGeneration => _birthGeneration;
+        public double Fitness { get => _fitness; set => _fitness = value; }
 
         #endregion
 

@@ -13,8 +13,8 @@ namespace SharpNeat.Neat
 
         readonly ConnectionDefinition[] _connectionDefArr;
         readonly IRandomSource _rng;
-        readonly Uint32Sequence _genomeIdSeq;
-        readonly Uint32Sequence _innovationIdSeq;
+        readonly UInt32Sequence _genomeIdSeq;
+        readonly UInt32Sequence _innovationIdSeq;
 
         #region Constructor
 
@@ -44,8 +44,8 @@ namespace SharpNeat.Neat
             }
 
             _rng = RandomFactory.Create();
-            _genomeIdSeq = new Uint32Sequence();
-            _innovationIdSeq = new Uint32Sequence(nextConnectionId);
+            _genomeIdSeq = new UInt32Sequence();
+            _innovationIdSeq = new UInt32Sequence(nextConnectionId);
         }
 
         #endregion
@@ -69,8 +69,10 @@ namespace SharpNeat.Neat
         private List<NeatGenome> CreateGenomeList(int count)
         {
             List<NeatGenome> genomeList = new List<NeatGenome>(count);
-            for(int i=0; i < count; i++) {
-                genomeList[i] = CreateGenome();
+            for(int i=0; i < count; i++) 
+            {
+                NeatGenome genome = CreateGenome();
+                genomeList.Add(genome);
             }
             return genomeList;
         }
@@ -102,7 +104,7 @@ namespace SharpNeat.Neat
             for(int i=0; i < sampleArr.Length; i++)
             {
                 ConnectionDefinition cdef = _connectionDefArr[sampleArr[i]];
-                double weight = SampleConnectionWeight();
+                double weight = RandomUtils.SampleConnectionWeight(_metaNeatGenome.ConnectionWeightRange, _rng);
                 ConnectionGene cgene = new ConnectionGene(cdef._connectionId, cdef._srcNodeId, cdef._tgtNodeId, weight);
                 connectionGeneList.Add(cgene);
             }
@@ -110,18 +112,6 @@ namespace SharpNeat.Neat
             // Get create a new genome genome with a new ID, birth generaion of zero.
             uint id = _genomeIdSeq.Next();
             return new NeatGenome(id, 0, connectionGeneList);
-        }
-
-        #endregion
-
-        #region Private Methods [Utility Methods]
-
-        /// <summary>
-        /// Sample a new random connection weight.
-        /// </summary>
-        private double SampleConnectionWeight()
-        {
-            return ((_rng.NextDouble()*2.0) - 1.0) * _metaNeatGenome.ConnectionWeightRange;
         }
 
         #endregion
@@ -154,7 +144,7 @@ namespace SharpNeat.Neat
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
         /// <param name="popSize">Popultion size. The number of new genomes to create.</param>
         /// <returns>A new NeatPopulation.</returns>
-        public NeatPopulation CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
+        public static NeatPopulation CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
         {
             var factory = new NeatPopulationFactory(metaNeatGenome, connectionsProportion);
             return factory.CreatePopulation(popSize);

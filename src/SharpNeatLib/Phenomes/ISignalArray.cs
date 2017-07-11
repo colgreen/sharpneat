@@ -22,12 +22,14 @@ namespace SharpNeat.Phenomes
         #region Indexer / Properties
         
         /// <summary>
+        /// Gets or sets the signal value at the specified index.
+        /// </summary>
+        T this[int index] { get; set; }
+
+        /// <summary>
         /// Gets the length of the signal array.
         /// </summary>
-        int Length
-        {
-            get;
-        }
+        int Length { get; }
 
         #endregion
 

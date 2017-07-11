@@ -39,76 +39,76 @@ namespace SharpNeat.Neat.Genome
         {
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Copy constructor. The newly allocated list has a capacity 2 larger than copyFrom
-        /// allowing addition mutations to occur without reallocation of memory.
-        /// Note that a single add node mutation adds two connections and a single
-        /// add connection mutation adds one.
+        /// Get the innovation ID of the last connection gene.
         /// </summary>
-        public ConnectionGeneList(ICollection<ConnectionGene> copyFrom) : base(copyFrom.Count + 2)
+        /// <remarks>he genes are sorted by innovation ID, therefore the last ID is also has the highest value.</remarks>
+        public uint LastInnovationId
         {
-            // ENHANCEMENT: List.Foreach() is potentially faster then a foreach loop. 
-            // http://diditwith.net/2006/10/05/PerformanceOfForeachVsListForEach.aspx
-            foreach(ConnectionGene srcGene in copyFrom) {
-                Add(srcGene.CreateCopy());
-            }
+            get { return this[this.Count-1].Id; }
         }
 
         #endregion
 
         #region Public Methods
 
-        /// <summary>
-        /// Inserts a ConnectionGene into its correct (sorted) location within the gene list.
-        /// Normally connection genes can safely be assumed to have a new Innovation ID higher
-        /// than all existing IDs, and so we can just call Add().
-        /// This routine handles genes with older IDs that need placing correctly.
-        /// </summary>
-        public void InsertIntoPosition(ConnectionGene connectionGene)
-        {
-            // Determine the insert idx with a linear search, starting from the end 
-            // since mostly we expect to be adding genes that belong only 1 or 2 genes
-            // from the end at most.
-            int idx=Count-1;
-            for(; idx > -1; idx--)
-            {
-                if(this[idx].InnovationId < connectionGene.InnovationId)
-                {   // Insert idx found.
-                    break;
-                }
-            }
-            Insert(idx+1, connectionGene);
-        }
+        // TODO: Clean up.
 
-        /// <summary>
-        /// Remove the connection gene with the specified innovation ID.
-        /// </summary>
-        public void Remove(uint innovationId)
-        {
-            int idx = BinarySearch(innovationId);
-            if(idx<0) {
-                throw new ApplicationException("Attempt to remove connection with an unknown innovationId");
-            } 
-            RemoveAt(idx);
-        }
+        ///// <summary>
+        ///// Inserts a ConnectionGene into its correct (sorted) location within the gene list.
+        ///// Normally connection genes can safely be assumed to have a new Innovation ID higher
+        ///// than all existing IDs, and so we can just call Add().
+        ///// This routine handles genes with older IDs that need placing correctly.
+        ///// </summary>
+        //public void InsertIntoPosition(ConnectionGene connectionGene)
+        //{
+        //    // Determine the insert idx with a linear search, starting from the end 
+        //    // since mostly we expect to be adding genes that belong only 1 or 2 genes
+        //    // from the end at most.
+        //    int idx=Count-1;
+        //    for(; idx > -1; idx--)
+        //    {
+        //        if(this[idx].InnovationId < connectionGene.InnovationId)
+        //        {   // Insert idx found.
+        //            break;
+        //        }
+        //    }
+        //    Insert(idx+1, connectionGene);
+        //}
 
-        /// <summary>
-        /// Sort connection genes into ascending order by their innovation IDs.
-        /// </summary>
-        public void SortByInnovationId()
-        {
-            Sort(delegate(ConnectionGene x, ConnectionGene y)
-                {
-                    // Test the most likely cases first.
-                    if (x.InnovationId < y.InnovationId) {
-                        return -1;
-                    } 
-                    if (x.InnovationId > y.InnovationId) {
-                        return 1;
-                    } 
-                    return 0;
-                });
-        }
+        ///// <summary>
+        ///// Remove the connection gene with the specified innovation ID.
+        ///// </summary>
+        //public void Remove(uint innovationId)
+        //{
+        //    int idx = BinarySearch(innovationId);
+        //    if(idx<0) {
+        //        throw new ApplicationException("Attempt to remove connection with an unknown innovationId");
+        //    } 
+        //    RemoveAt(idx);
+        //}
+
+        ///// <summary>
+        ///// Sort connection genes into ascending order by their innovation IDs.
+        ///// </summary>
+        //public void SortByInnovationId()
+        //{
+        //    Sort(delegate(ConnectionGene x, ConnectionGene y)
+        //        {
+        //            // Test the most likely cases first.
+        //            if (x.InnovationId < y.InnovationId) {
+        //                return -1;
+        //            } 
+        //            if (x.InnovationId > y.InnovationId) {
+        //                return 1;
+        //            } 
+        //            return 0;
+        //        });
+        //}
 
         /// <summary>
         /// Returns true of the given innovation ID exists within the connection gene list.
@@ -135,9 +135,9 @@ namespace SharpNeat.Neat.Genome
 
                 // Note. we don't calculate this[i].InnovationId-innovationId because we are dealing with uint.
                 // ENHANCEMENT: List<T>[i] invokes a bounds check on each call. Can we avoid this?
-                if(this[i].InnovationId < innovationId) {
+                if(this[i].Id < innovationId) {
                     lo = i + 1;
-                } else if(this[i].InnovationId > innovationId) {
+                } else if(this[i].Id > innovationId) {
                     hi = i - 1;
                 } else {
                     return i;
@@ -158,10 +158,10 @@ namespace SharpNeat.Neat.Genome
                 return true;
             }
 
-            uint prev = this[0].InnovationId;
+            uint prev = this[0].Id;
             for(int i=1; i<count; i++)
             {
-                if(this[i].InnovationId <= prev) {
+                if(this[i].Id <= prev) {
                     return false;
                 }
             }

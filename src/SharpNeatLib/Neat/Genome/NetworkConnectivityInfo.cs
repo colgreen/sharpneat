@@ -1,58 +1,101 @@
-﻿using Redzen;
+﻿using SharpNeat.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpNeat.Neat.Genome
 {
     public class NetworkConnectivityInfo
     {
-        readonly static Comparison<Connection> __comparisonFn;
-        readonly Connection[] _connectionList;
-        readonly HashSet<uint> _nodeIdSet;
+        #region Static Fields
+        readonly static Comparison<ConnectionEndpoints> __comparisonFn;
+        readonly static IComparer<ConnectionEndpoints> __comparer;
+        #endregion
+
+        #region Instance Fields
+
+        readonly int _inputNodeCount;
+        readonly int _outputNodeCount;
+        readonly int _inputOutputNodeCount;
+        readonly ConnectionEndpoints[] _connectionList;
+        readonly uint[] _hiddenNodeIdArr;
+
+        #endregion
 
         #region Static Initialiser
 
         static NetworkConnectivityInfo()
         {
-            __comparisonFn = delegate(Connection x, Connection y) {
+            __comparisonFn = delegate(ConnectionEndpoints x, ConnectionEndpoints y) {
                 // Primary compare on source ID.
-                int cmp = x.SrcId.CompareTo(y.SrcId);
+                int cmp = x.SourceId.CompareTo(y.SourceId);
                 if(0 != cmp) {
                     return cmp;
                 }
                 // Secondary compare on target ID.
-                return x.TgtId.CompareTo(y.TgtId);
+                return x.TargetId.CompareTo(y.TargetId);
             };
+
+            __comparer = Comparer<ConnectionEndpoints>.Create(__comparisonFn);
         }
 
         #endregion
 
         #region Constructor
 
-        public NetworkConnectivityInfo(ConnectionGeneList connGeneList) 
+        public NetworkConnectivityInfo(int inputNodeCount, int outputNodeCount,
+                                       ConnectionGeneList connGeneList) 
         {
+            _inputNodeCount = inputNodeCount;
+            _outputNodeCount = outputNodeCount;
+            _inputOutputNodeCount = inputNodeCount + outputNodeCount;
+
             // Create a list of Connection(s).
             // Note. the Connection struct is essentially ConnectionGene without a weight property. The weight is not necessary to describe the 
             // network connetivity graph, thus it is dropped to reduce storage.
             //
             // Also create a hashset of all the node IDs.
-            _nodeIdSet = new HashSet<uint>();
+            var hiddenNodeIdSet = new HashSet<uint>();
 
             int count = connGeneList.Count;
-            _connectionList = new Connection[count];
+            _connectionList = new ConnectionEndpoints[count];
             for(int i=0; i < count; i++) 
             {
+                // Add connection gene to the list.
                 var cGene = connGeneList[i];
-                _connectionList[i] = new Connection(cGene);
-                _nodeIdSet.Add(cGene.SourceNodeId);
-                _nodeIdSet.Add(cGene.TargetNodeId);
+                _connectionList[i] = new ConnectionEndpoints(cGene.SourceNodeId, cGene.TargetNodeId);
+
+                // Register the source and target nodes IDs of hidden nodes only.
+                // Note. input and ouput nodes are defined as always existing, and are allocated predefined IDs.
+                if(cGene.SourceNodeId >= _inputOutputNodeCount) {
+                    hiddenNodeIdSet.Add(cGene.SourceNodeId);
+                }
+
+                if(cGene.TargetNodeId >= _inputOutputNodeCount) {
+                    hiddenNodeIdSet.Add(cGene.TargetNodeId);
+                }
             }
 
             // Sort the connections (by source ID, secondary sort by target id).
             Array.Sort(_connectionList, __comparisonFn);
+
+            // Copy the set of hidden nodes IDs into an an array and sort them.
+            _hiddenNodeIdArr = hiddenNodeIdSet.ToArray();
+            Array.Sort(_hiddenNodeIdArr);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public int NodeCount
+        {
+            get { return _inputOutputNodeCount + _hiddenNodeIdArr.Length; }
+        }
+
+        public int HiddenNodeCount
+        {
+            get { return _hiddenNodeIdArr.Length; }
         }
 
         #endregion
@@ -60,28 +103,42 @@ namespace SharpNeat.Neat.Genome
         #region Public Methods
 
         /// <summary>
-        /// Tests if the given node ID has any connections connected to it.
+        /// Tests if the given hidden node ID exists in the genome.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>True if the node with the given ID has connections.</returns>
-        public bool ContainsNodeId(uint id) {
-            return _nodeIdSet.Contains(id);
+        /// <param name="id">node ID.</param>
+        /// <returns>True if the node ID exists.</returns>
+        public bool ContainsHiddenNodeId(uint id) 
+        {
+            int idx = Array.BinarySearch(_hiddenNodeIdArr, id);
+            return idx >= 0;
         }
 
-        #endregion
-
-        #region Inner Classes
-
-        struct Connection
+        /// <summary>
+        /// Tests if the given connection exists in the connectivity graph.
+        /// </summary>
+        /// <param name="srcId">Source node ID.</param>
+        /// <param name="tgtId">Target node ID.</param>
+        /// <returns></returns>
+        public bool ContainsConnection(uint srcId, uint tgtId)
         {
-            public readonly uint SrcId;
-            public readonly uint TgtId;
+            int idx = Array.BinarySearch(_connectionList, new ConnectionEndpoints(srcId, tgtId), __comparer);
+            return idx >= 0;
+        }
 
-            public Connection(ConnectionGene cGene)
-            {
-                this.SrcId = cGene.SourceNodeId;
-                this.TgtId = cGene.TargetNodeId;
+        /// <summary>
+        /// Get the ID of the node with the given index.
+        /// </summary>
+        /// <param name="idx">Index.</param>
+        /// <returns>Node ID.</returns>
+        public uint GetNodeId(int idx) 
+        {
+            if(idx < _inputOutputNodeCount)
+            {   // There are a fixed number of input nodes, and these are defined as having contiguous IDs starting at zero.
+                return (uint)idx;
             }
+
+            // The index is in the range occupied by hidden nodes.
+            return _hiddenNodeIdArr[idx - _inputOutputNodeCount];
         }
 
         #endregion

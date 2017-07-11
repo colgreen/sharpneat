@@ -1,12 +1,13 @@
 ﻿using Redzen.Numerics;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Network;
+using SharpNeat.Utils;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
-
 
     internal class AddCyclicConnectionMutation
     {
@@ -23,8 +24,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #endregion
 
-        
-
         #region Public Methods
 
         public NeatGenome CreateChild(NeatGenome parent)
@@ -32,60 +31,97 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Notes.
             // Two nodes are selected at random, a source node and a target node. If no connection exists from the source to 
             // the target then a new connection is made between those two nodes.
-            //
+            var parentConnectivityInfo = parent.ConnectivityInfo;
+            ConnectionEndpoints conn;
+            if(!TryGetConnection(parentConnectivityInfo, out conn))
+            {   // Failed to find a connection that could be added the parent genome.
+                return null;
+            }
+
+            // If a connection between these two node IDs has been made previously then re-use the innovation ID.
+            uint connectionId;
+            if(!_pop.AddedConnectionBuffer.TryGetValue(conn, out connectionId))
+            {   // No previous ID found; get a new ID.
+                connectionId = _pop.InnovationIdSeq.Next();
+            }
+
+            // Get a random connection weight.
+            double weight = RandomUtils.SampleConnectionWeight(_pop.MetaNeatGenome.ConnectionWeightRange, _rng);
+
+            // Create a new connection gene.
+            var cGene = new ConnectionGene(connectionId, conn, weight);
 
 
 
-            // We attempt to find a pair of neurons with no connection between them in one or both directions. We disallow multiple
-            // connections between the same two neurons going in the same direction, but we *do* allow connections going 
-            // in opposite directions (one connection each way). We also allow a neuron to have a single recurrent connection, 
-            // that is, a connection that has the same neuron as its source and target neuron.
 
-            // ENHANCEMENT: Test connection 'density' and use alternative connection selection method if above some threshold.
 
-            // Because input/output neurons are fixed (cannot be added to or deleted) and always present (any domain that 
-            // doesn't require input/outputs is a bit nonsensical) we always have candidate pairs of neurons to consider
-            // adding connections to, but if all neurons are already fully interconnected then we should handle this case
-            // where there are no possible neuron pairs to add a connection to. To handle this we use a simple strategy
-            // of testing the suitability of randomly selected pairs and after some number of failed tests we bail out
-            // of the routine and perform weight mutation as a last resort - so that we did at least some form of mutation on 
-            // the genome.
+            //var parentGeneList = parent.ConnectionGeneList;
+            //if(connectionId > parentGeneList.LastInnovationId)
+            //{
 
-            // TODO: Try to improve chance of finding a candidate connection to make.
+            //}
+
+            
 
 
 
-            HashSet<uint> nodeIdSet = parent.NodeIdSet;
-            int nodeCount = nodeIdSet.Count;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            return null;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private bool TryGetConnection(NetworkConnectivityInfo parentConnectivityInfo, out ConnectionEndpoints conn)
+        {
+            int nodeCount = parentConnectivityInfo.NodeCount;
+            int hiddenNodeCount = parentConnectivityInfo.HiddenNodeCount;
 
             var metaNeatGenome = _pop.MetaNeatGenome;
-
             int inputCount = metaNeatGenome.InputNodeCount;
-            int hiddenOutputCount = nodeCount - _pop.MetaNeatGenome.InputNodeCount;
-            int inputHiddenCount = nodeCount - _pop.MetaNeatGenome.OutputNodeCount;
+            int outputHiddenCount = metaNeatGenome.OutputNodeCount + hiddenNodeCount;
 
-
+            // TODO: Consider possible ways this might be improved upon.
+            // Make a fixed number of attempts, and give up if none succeed.
             for(int attempts=0; attempts<5; attempts++)
             {
                 // Select candidate source and target nodes.
                 // Source node can by any node. Target node is any node except input nodes.
                 int srcNodeIdx = _rng.Next(nodeCount);
-                int tgtNeuronIdx = inputCount + _rng.Next(hiddenOutputCount);
+                int tgtNodeIdx = inputCount + _rng.Next(outputHiddenCount);
 
-                // Test if this connection already exists.
-                NeuronGene sourceNeuron = _neuronGeneList[srcNodeIdx];            
-                NeuronGene targetNeuron = _neuronGeneList[tgtNeuronIdx];
-                if(sourceNeuron.TargetNeurons.Contains(targetNeuron.Id)) 
-                {   // Try again.
-                    continue;
+                // Get/lookup node IDs.
+                uint srcNodeId = parentConnectivityInfo.GetNodeId(srcNodeIdx);
+                uint tgtNodeId = parentConnectivityInfo.GetNodeId(tgtNodeIdx);
+
+                // Test if the proposed connection already exists.
+                if(!parentConnectivityInfo.ContainsConnection(srcNodeId, tgtNodeId))
+                {
+                    conn = new ConnectionEndpoints(srcNodeId, tgtNodeId);
+                    return true;
                 }
-                return Mutate_AddConnection_CreateConnection(sourceNeuron, targetNeuron);
             }
-            
 
             // No valid connection to create was found. 
             // Indicate failure.
-            return null;
+            conn = default(ConnectionEndpoints);
+            return false;
         }
 
         #endregion

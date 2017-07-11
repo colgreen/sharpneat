@@ -1,4 +1,5 @@
-﻿
+﻿using SharpNeat.Network;
+
 namespace SharpNeat.Neat.Genome
 {
     // TODO: Consider if this could/should be a struct; or maybe wrap with a struct ConnectionGeneRef class, so we get to use whichever is most appropriate in each subroutine.
@@ -9,7 +10,7 @@ namespace SharpNeat.Neat.Genome
     {
         #region Auto Properties
 
-        public uint InnovationId { get; }
+        public uint Id { get; }
         public uint SourceNodeId { get; }
         public uint TargetNodeId { get; }
         public double Weight { get; set; }
@@ -23,7 +24,7 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public ConnectionGene(ConnectionGene copyFrom)
         {
-            this.InnovationId = copyFrom.InnovationId;
+            this.Id = copyFrom.Id;
             this.SourceNodeId = copyFrom.SourceNodeId;
             this.TargetNodeId = copyFrom.TargetNodeId;
             this.Weight = copyFrom.Weight;
@@ -32,11 +33,22 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
         /// </summary>
-        public ConnectionGene(uint innovationId, uint sourceNodeId, uint targetNodeId, double weight)
+        public ConnectionGene(uint id, uint sourceNodeId, uint targetNodeId, double weight)
         {
-            this.InnovationId = innovationId;
+            this.Id = id;
             this.SourceNodeId = sourceNodeId;
             this.TargetNodeId = targetNodeId;
+            this.Weight = weight;
+        }
+
+        /// <summary>
+        /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
+        /// </summary>
+        public ConnectionGene(uint id, ConnectionEndpoints connection, double weight)
+        {
+            this.Id = id;
+            this.SourceNodeId = connection.SourceId;
+            this.TargetNodeId = connection.TargetId;
             this.Weight = weight;
         }
 

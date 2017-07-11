@@ -1,7 +1,7 @@
-﻿using Redzen.Numerics;
-using SharpNeat.Neat.Genome;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Redzen.Numerics;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
@@ -25,8 +25,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         public NeatGenome CreateChild(NeatGenome parent)
         {
             // Notes.
-            // Adding a node is achieved by selecting a connection at random, and replaing it with
-            // a link made up of two connections with a node in between. I.e. the original connection 
+            // Adding a node is achieved by selecting a connection at random and replaing it with
+            // a link made up of two connections and one node. I.e. the original connection 
             // is 'split' by a new node.
             // Genomes are guaranteed to always have at least one connection, therefore this type of mutation 
             // will always succeed.
@@ -38,7 +38,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
             // Get IDs for the two new connections and single new node. This call will check the history 
             // buffer (AddedNodeBuffer) for matching structures from previously added nodes.
-            AddedNodeInfo addedNodeInfo = CreateChild_AddNodeMutation_GetIDs(parent, connectionToReplace.InnovationId);
+            AddedNodeInfo addedNodeInfo = CreateChild_AddNodeMutation_GetIDs(parent, connectionToReplace.Id);
 
             // TODO: Review this. The connection weight allocation scheme here is adopted from SharpNEAT v2.x, but may 
             // not be optimal, or even good.
@@ -67,7 +67,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             actionIdList.Add(Tuple.Create(cGeneNew1, true));
             actionIdList.Add(Tuple.Create(cGeneNew2, true));
             actionIdList.Sort(delegate(Tuple<ConnectionGene,bool> x, Tuple<ConnectionGene,bool> y) { 
-                                return x.Item1.InnovationId.CompareTo(y.Item1.InnovationId);
+                                return x.Item1.Id.CompareTo(y.Item1.Id);
                             });
 
             // Copy the parent genes to a new gene list.
@@ -80,10 +80,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             for(int i=0; i < 3; i++)
             {
                 var tuple = actionIdList[i];
-                uint actionableId = tuple.Item1.InnovationId;
+                uint actionableId = tuple.Item1.Id;
 
                 // Copy connection genes until we reach the current/next actionable innovation ID.
-                for(; parentGeneList[parentIdx].InnovationId < actionableId && parentIdx < parentGeneList.Count; parentIdx++) {
+                for(; parentGeneList[parentIdx].Id < actionableId && parentIdx < parentGeneList.Count; parentIdx++) {
                     newGeneList.Add(new ConnectionGene(parentGeneList[parentIdx]));
                 }
 
@@ -124,7 +124,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             if(connectionExists
                 && !parent.ConnectionGeneList.ContainsInnovationId(addedNodeInfo.AddedInputConnectionId)
                 && !parent.ConnectionGeneList.ContainsInnovationId(addedNodeInfo.AddedOutputConnectionId)
-                && !parent.ConnectivityInfo.ContainsNodeId(addedNodeInfo.AddedNodeId)) 
+                && !parent.ConnectivityInfo.ContainsHiddenNodeId(addedNodeInfo.AddedNodeId)) 
             {
                 return addedNodeInfo;
             }
