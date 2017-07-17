@@ -11,6 +11,7 @@
  */
 using System;
 using SharpNeat.Network;
+using SharpNeat.Network2;
 
 // Disable missing comment warnings for non-private variables.
 #pragma warning disable 1591
@@ -44,12 +45,16 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
     /// </summary>
     public class HeterogeneousCyclicNetwork : IBlackBox<double>
     {
-        protected readonly ConnectionInfo[] _connectionArray;
-        protected readonly Func<double,double>[] _activationFnArr;
+        // Connection arrays.
+        readonly DirectedConnection[] _connArr;
+        readonly double[] _weightArr;
+
+        // Activation function.
+        readonly Func<double,double>[] _activationFnArr;
 
         // Neuron pre- and post-activation signal arrays.
-        protected readonly double[] _preActivationArray;
-        protected readonly double[] _postActivationArray;
+        readonly double[] _preActivationArray;
+        readonly double[] _postActivationArray;
 
         // Wrappers over _postActivationArray that map between black box inputs/outputs to the
         // corresponding underlying network state variables.
@@ -59,7 +64,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         // Convenient counts.
         readonly int _inputNeuronCount;
         readonly int _outputNeuronCount;
-        protected readonly int _timestepsPerActivation;
+        readonly int _timestepsPerActivation;
 
         #region Constructor
 
@@ -67,15 +72,18 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public HeterogeneousCyclicNetwork(ConnectionInfo[] connInfoArr,
-                             Func<double,double>[] neuronActivationFnArray,
-                             int neuronCount,
-                             int inputNeuronCount,
-                             int outputNeuronCount,
-                             int timestepsPerActivation,
-                             bool boundedOutput)
+        public HeterogeneousCyclicNetwork(
+            DirectedConnection[] connArr,
+            double[] weightArr,
+            Func<double,double>[] neuronActivationFnArray,
+            int neuronCount,
+            int inputNeuronCount,
+            int outputNeuronCount,
+            int timestepsPerActivation,
+            bool boundedOutput)
         {
-            _connectionArray = connInfoArr;
+            _connArr = connArr;
+            _weightArr = weightArr;
             _activationFnArr = neuronActivationFnArray;
 
             // Create neuron pre- and post-activation signal arrays.
@@ -146,8 +154,8 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
-                for(int j=0; j<_connectionArray.Length; j++) {
-                    _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;
+                for(int j=0; j<_connArr.Length; j++) {
+                    _preActivationArray[_connArr[j].TargetId] += _postActivationArray[_connArr[j].SourceId] * _weightArr[j];
                 }
 
                 // TODO: Performance tune the activation function method call.

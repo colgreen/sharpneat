@@ -80,6 +80,35 @@ namespace SharpNeatLib.Tests
             Assert.AreEqual(15, digraph.NodeCount);
         }
 
+        [TestMethod]
+        [TestCategory("DirectedGraph")]
+        public void SimpleAcyclic_DefinedNodes_NodeIdGap_Reorder()
+        {
+            // Simple acyclic graph.
+            var connList = new List<IDirectedConnection>();
+            connList.Add(new DirectedConnection(102, 104));
+            connList.Add(new DirectedConnection(102, 103));
+            connList.Add(new DirectedConnection(101, 103));
+            connList.Add(new DirectedConnection(100, 103));
+
+            // Create graph.
+            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+
+            // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
+            // The connections should have been sorted by source ID and target ID.
+            var connListExpected = new List<IDirectedConnection>();
+            connListExpected.Add(new DirectedConnection(10, 13));
+            connListExpected.Add(new DirectedConnection(11, 13));
+            connListExpected.Add(new DirectedConnection(12, 13));
+            connListExpected.Add(new DirectedConnection(12, 14));
+
+            CompareConnectionLists(connListExpected, digraph.ConnectionArray);
+
+            // Check the node count.
+            Assert.AreEqual(15, digraph.NodeCount);
+        }
+
+
         #endregion
 
         #region Private Static Methods
@@ -97,7 +126,6 @@ namespace SharpNeatLib.Tests
         {
             Assert.AreEqual(x.SourceId, y.SourceId);
             Assert.AreEqual(x.TargetId, y.TargetId);
-
         }
         
         #endregion

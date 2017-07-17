@@ -51,6 +51,7 @@
     <Compile Include="CyclicGraphTests.cs" />
     <Compile Include="DirectedGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeightedDirectedGraphTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

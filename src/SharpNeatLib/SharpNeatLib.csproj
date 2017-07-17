@@ -90,10 +90,14 @@
     <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
     <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexualSettings.cs" />
+    <Compile Include="Network2\WeightedDirectedConnection.cs" />
     <Compile Include="Network2\DirectedConnection.cs" />
     <Compile Include="Network2\DirectedGraphFactory.cs" />
+    <Compile Include="Network2\IWeightedDirectedConnection.cs" />
     <Compile Include="Network2\IDirectedConnection.cs" />
     <Compile Include="Network2\DirectedGraph.cs" />
+    <Compile Include="Network2\WeightedDirectedGraph.cs" />
+    <Compile Include="Network2\WeightedDirectedGraphFactory.cs" />
     <Compile Include="Network\Analysis\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\Analysis\CyclicNetworkTest.cs" />
     <Compile Include="Network\ConnectionEndpoints.cs" />
@@ -118,7 +122,7 @@
     <Compile Include="Phenomes\NeuralNets\Acyclic\LayerInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\ConnectionInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\Cyclic\CyclicNetwork.cs" />
-    <Compile Include="Phenomes\NeuralNets\Cyclic\CyclicNetworkFactory.cs" />
+    <None Include="Phenomes\NeuralNets\Cyclic\CyclicNetworkFactory.cs" />
     <Compile Include="Phenomes\NeuralNets\Cyclic\HeterogeneousCyclicNetwork.cs" />
     <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />

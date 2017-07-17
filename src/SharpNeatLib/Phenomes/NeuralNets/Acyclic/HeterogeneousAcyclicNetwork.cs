@@ -11,6 +11,7 @@
  */
 using System;
 using SharpNeat.Network;
+using SharpNeat.Network2;
 
 namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 {
@@ -25,8 +26,9 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         // Array of node activation functions.
         readonly Func<double,double>[] _activationFnArr;
         
-        // Array of connection info.
-        readonly ConnectionInfo[] _connInfoArr;
+        // Connection arrays.
+        readonly DirectedConnection[] _connArr;
+        readonly double[] _weightArr;
 
         // Array of layer information. Feed-forward-only network activation can be performed most 
         // efficiently by propagating signals through the network one layer at a time.
@@ -64,7 +66,8 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public HeterogeneousAcyclicNetwork(Func<double,double>[] activationFnArr,
-                                  ConnectionInfo[] connInfoArr,
+                                  DirectedConnection[] connArr,
+                                  double[] weightArr,
                                   LayerInfo[] layerInfoArr,
                                   int[] outputNodeIdxArr,
                                   int nodeCount,
@@ -74,7 +77,8 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         {
             // Store refs to network structure data.
             _activationFnArr = activationFnArr;
-            _connInfoArr = connInfoArr;
+            _connArr = connArr;
+            _weightArr = weightArr;
             _layerInfoArr = layerInfoArr;
 
             // Create working array for node activation signals.
@@ -153,7 +157,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
                 for(; conIdx < layerInfo._endConnectionIdx; conIdx++) {
-                    _activationArr[_connInfoArr[conIdx]._tgtNeuronIdx] += _activationArr[_connInfoArr[conIdx]._srcNeuronIdx] * _connInfoArr[conIdx]._weight;
+                    _activationArr[_connArr[conIdx].TargetId] += _activationArr[_connArr[conIdx].SourceId] * _weightArr[conIdx];
                 }
 
                 // TODO: Performance tune the activation function method call.
