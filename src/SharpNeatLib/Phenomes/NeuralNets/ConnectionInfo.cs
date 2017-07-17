@@ -10,9 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-// Disable missing comment warnings.
-#pragma warning disable 1591
-
 namespace SharpNeat.Phenomes.NeuralNets
 {
     /// <summary>

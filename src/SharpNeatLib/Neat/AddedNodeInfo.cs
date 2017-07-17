@@ -21,7 +21,8 @@ namespace SharpNeat.Neat
         /// </summary>
         public AddedNodeInfo(UInt32Sequence idSeq)
         {
-            this.AddedNodeId = idSeq.Next();
+            // FIXME: Remove cast.
+            this.AddedNodeId = (int)idSeq.Next();
             this.AddedInputConnectionId = idSeq.Next();
             this.AddedOutputConnectionId = idSeq.Next();
         }
@@ -33,7 +34,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// The added node's ID.
         /// </summary>
-        public uint AddedNodeId { get; }
+        public int AddedNodeId { get; }
 
         /// <summary>
         /// The added input connection's ID.

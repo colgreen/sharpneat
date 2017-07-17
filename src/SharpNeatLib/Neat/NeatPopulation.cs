@@ -53,17 +53,5 @@ namespace SharpNeat.Neat
         public KeyedCircularBuffer<uint,AddedNodeInfo> AddedNodeBuffer { get; }
 
         #endregion
-
-        #region Public Methods
-
-        public NetworkConnectivityInfo GetNetworkConnectivityInfo(NeatGenome genome)
-        {
-            if(null == genome.ConnectivityInfo) {
-                genome.ConnectivityInfo = new NetworkConnectivityInfo(MetaNeatGenome.InputNodeCount, MetaNeatGenome.OutputNodeCount, genome.ConnectionGeneList);
-            }
-            return genome.ConnectivityInfo;
-        }
-
-        #endregion
     }
 }

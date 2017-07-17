@@ -63,16 +63,16 @@ namespace SharpNeat.Neat.Genome
             {
                 // Add connection gene to the list.
                 var cGene = connGeneList[i];
-                _connectionList[i] = new ConnectionEndpoints(cGene.SourceNodeId, cGene.TargetNodeId);
+                _connectionList[i] = new ConnectionEndpoints(cGene.SourceId, cGene.TargetId);
 
                 // Register the source and target nodes IDs of hidden nodes only.
                 // Note. input and ouput nodes are defined as always existing, and are allocated predefined IDs.
-                if(cGene.SourceNodeId >= _inputOutputNodeCount) {
-                    hiddenNodeIdSet.Add(cGene.SourceNodeId);
+                if(cGene.SourceId >= _inputOutputNodeCount) {
+                    hiddenNodeIdSet.Add(cGene.SourceId);
                 }
 
-                if(cGene.TargetNodeId >= _inputOutputNodeCount) {
-                    hiddenNodeIdSet.Add(cGene.TargetNodeId);
+                if(cGene.TargetId >= _inputOutputNodeCount) {
+                    hiddenNodeIdSet.Add(cGene.TargetId);
                 }
             }
 

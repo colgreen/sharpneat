@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpNeat.Network2;
 
 namespace SharpNeat.Neat.Genome
 {
@@ -21,7 +22,7 @@ namespace SharpNeat.Neat.Genome
     /// 
     /// Sort order is with respect to connection gene innovation ID.
     /// </summary>
-    public class ConnectionGeneList : List<ConnectionGene>
+    public class ConnectionGeneList : List<ConnectionGene>, IList<IDirectedConnection>
     {
         #region Constructors
 
@@ -50,6 +51,18 @@ namespace SharpNeat.Neat.Genome
         public uint LastInnovationId
         {
             get { return this[this.Count-1].Id; }
+        }
+
+        #endregion
+
+        #region IList<IDirectedConnection>
+
+        public bool IsReadOnly => true;
+
+        IDirectedConnection IList<IDirectedConnection>.this[int index] 
+        { 
+            get => this[index];
+            set { throw new NotImplementedException(); }
         }
 
         #endregion
@@ -166,6 +179,41 @@ namespace SharpNeat.Neat.Genome
                 }
             }
             return true;
+        }
+
+        public int IndexOf(IDirectedConnection item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(int index, IDirectedConnection item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(IDirectedConnection item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(IDirectedConnection item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(IDirectedConnection[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(IDirectedConnection item)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<IDirectedConnection> IEnumerable<IDirectedConnection>.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

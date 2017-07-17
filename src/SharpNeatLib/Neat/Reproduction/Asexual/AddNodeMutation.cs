@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         public NeatGenome CreateChild(NeatGenome parent)
         {
             // Notes.
-            // Adding a node is achieved by selecting a connection at random and replaing it with
+            // Adding a node is achieved by selecting a connection at random and replacing it with
             // a link made up of two connections and one node. I.e. the original connection 
             // is 'split' by a new node.
             // Genomes are guaranteed to always have at least one connection, therefore this type of mutation 
@@ -47,13 +47,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             
             // Create two new connection genes.
             var cGeneNew1 = new ConnectionGene(addedNodeInfo.AddedInputConnectionId, 
-                                               connectionToReplace.SourceNodeId,
+                                               connectionToReplace.SourceId,
                                                addedNodeInfo.AddedNodeId,
                                                connectionToReplace.Weight);
 
             var cGeneNew2 = new ConnectionGene(addedNodeInfo.AddedInputConnectionId, 
                                                addedNodeInfo.AddedNodeId,
-                                               connectionToReplace.TargetNodeId,
+                                               connectionToReplace.TargetId,
                                                _pop.MetaNeatGenome.ConnectionWeightRange);
 
             // We have yet to either clone the parent's connection genes, or do the actual connection replacement;
@@ -103,7 +103,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             }
 
             uint genomeId = _pop.GenomeIdSeq.Next();
-            return new NeatGenome(genomeId, _pop.CurrentGenerationAge, newGeneList);            
+            return new NeatGenome(_pop.MetaNeatGenome, genomeId, _pop.CurrentGenerationAge, newGeneList);            
         }
 
         #endregion
@@ -129,7 +129,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 return addedNodeInfo;
             }
 
-            // There is either no pre-existing matching structure, or if there some of its genes (identified by 
+            // There is either no pre-existing matching structure, or some of its genes (identified by 
             // innovation IDs) are already present in the parent genome.
             // As such the new structures (one node and two connections) are allocated new IDs.
             addedNodeInfo = new AddedNodeInfo(_pop.InnovationIdSeq);

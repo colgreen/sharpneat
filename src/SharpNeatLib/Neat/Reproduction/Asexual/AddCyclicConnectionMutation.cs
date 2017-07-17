@@ -53,7 +53,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
 
 
-
+            // TODO: Complete!
 
             //var parentGeneList = parent.ConnectionGeneList;
             //if(connectionId > parentGeneList.LastInnovationId)

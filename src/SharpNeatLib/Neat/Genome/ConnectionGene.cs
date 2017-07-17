@@ -1,4 +1,5 @@
 ﻿using SharpNeat.Network;
+using SharpNeat.Network2;
 
 namespace SharpNeat.Neat.Genome
 {
@@ -6,13 +7,13 @@ namespace SharpNeat.Neat.Genome
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.
     /// </summary>
-    public class ConnectionGene
+    public class ConnectionGene : IDirectedConnection
     {
         #region Auto Properties
 
         public uint Id { get; }
-        public uint SourceNodeId { get; }
-        public uint TargetNodeId { get; }
+        public int SourceId { get; }
+        public int TargetId { get; }
         public double Weight { get; set; }
 
         #endregion
@@ -25,32 +26,32 @@ namespace SharpNeat.Neat.Genome
         public ConnectionGene(ConnectionGene copyFrom)
         {
             this.Id = copyFrom.Id;
-            this.SourceNodeId = copyFrom.SourceNodeId;
-            this.TargetNodeId = copyFrom.TargetNodeId;
+            this.SourceId = copyFrom.SourceId;
+            this.TargetId = copyFrom.TargetId;
             this.Weight = copyFrom.Weight;
         }
 
         /// <summary>
         /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
         /// </summary>
-        public ConnectionGene(uint id, uint sourceNodeId, uint targetNodeId, double weight)
+        public ConnectionGene(uint id, int sourceId, int targetId, double weight)
         {
             this.Id = id;
-            this.SourceNodeId = sourceNodeId;
-            this.TargetNodeId = targetNodeId;
+            this.SourceId = sourceId;
+            this.TargetId = targetId;
             this.Weight = weight;
         }
 
-        /// <summary>
-        /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
-        /// </summary>
-        public ConnectionGene(uint id, ConnectionEndpoints connection, double weight)
-        {
-            this.Id = id;
-            this.SourceNodeId = connection.SourceId;
-            this.TargetNodeId = connection.TargetId;
-            this.Weight = weight;
-        }
+        ///// <summary>
+        ///// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
+        ///// </summary>
+        //public ConnectionGene(uint id, ConnectionEndpoints connection, double weight)
+        //{
+        //    this.Id = id;
+        //    this.SourceId = connection.SourceId;
+        //    this.TargetId = connection.TargetId;
+        //    this.Weight = weight;
+        //}
 
         #endregion
 

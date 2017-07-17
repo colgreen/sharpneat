@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         NeatPopulation _pop;
         IRandomSource _rng;
 
-        AddNodeMutation _addNodeMutation;
+        //AddNodeMutation _addNodeMutation;
 
         #region Constructor
 
@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _settings = settings;
             _pop = pop;
             _rng = RandomFactory.Create();
-            _addNodeMutation = new AddNodeMutation(pop, _rng);
+            //_addNodeMutation = new AddNodeMutation(pop, _rng);
         }
 
         #endregion
@@ -69,7 +69,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                     childGenome = CreateChild_WeightMutation(parent);
                     break;
                 case 1: 
-                    childGenome = _addNodeMutation.CreateChild(parent);
+                    // FIXME: Reinstate.
+                    //childGenome = _addNodeMutation.CreateChild(parent);
                     break;
                 case 2:
                     childGenome = CreateChild_AddConnectionMutation(parent);

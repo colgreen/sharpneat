@@ -9,10 +9,9 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using SharpNeat.Network;
 
-namespace SharpNeat.Phenomes.NeuralNets
+namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 {
     /// <summary>
     /// A neural network implementation for acyclic networks.

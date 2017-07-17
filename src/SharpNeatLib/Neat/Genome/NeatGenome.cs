@@ -13,6 +13,11 @@ namespace SharpNeat.Neat.Genome
     {
         #region Instance Fields
 
+        /// <summary>
+        /// Genome metadata.
+        /// </summary>
+        readonly MetaNeatGenome _metaNeatGenome;
+
         readonly uint _id;
         // TODO: Consider whether birthGeneration belongs here.
         readonly uint _birthGeneration;
@@ -21,6 +26,8 @@ namespace SharpNeat.Neat.Genome
 
         double _fitness;
 
+        //NetworkConnectivityInfo _connectivityInfo;
+
         #endregion
 
         #region Constructors
@@ -28,9 +35,11 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Constructs with the provided ID, birth generation and gene lists.
         /// </summary>
-        public NeatGenome(uint id, uint birthGeneration,
+        public NeatGenome(MetaNeatGenome metaNeatGenome,
+                          uint id, uint birthGeneration,
                           ConnectionGeneList connectionGeneList)
         {
+            _metaNeatGenome = metaNeatGenome;
             _id = id;
             _birthGeneration = birthGeneration;
             _connectionGeneList = connectionGeneList;
@@ -40,6 +49,10 @@ namespace SharpNeat.Neat.Genome
 
         #region Properties [NEAT Genome Specific]
 
+        public MetaNeatGenome MetaNeatGenome {
+            get { return _metaNeatGenome; }
+        }
+
         /// <summary>
         /// Gets the genome's list of connection genes.
         /// </summary>
@@ -47,11 +60,20 @@ namespace SharpNeat.Neat.Genome
             get { return _connectionGeneList; }
         }
 
-        /// <summary>
-        /// Connectivity info related to the current genome.
-        /// Do not use this property directly as it may be null; instead get connectivity info via NeatPopulation.GetNetworkConnectivityInfo()
-        /// </summary>
-        public NetworkConnectivityInfo ConnectivityInfo { get; set; }
+        ///// <summary>
+        ///// Connectivity info related to the current genome.
+        ///// Built in a just-in-time manner, and cached for re-use.
+        ///// </summary>
+        //public NetworkConnectivityInfo ConnectivityInfo 
+        //{ 
+        //    get
+        //    {
+        //        if(null == _connectivityInfo) {
+        //            _connectivityInfo = new NetworkConnectivityInfo(_metaNeatGenome.InputNodeCount, _metaNeatGenome.OutputNodeCount, _connectionGeneList);
+        //        }
+        //        return _connectivityInfo;
+        //    }
+        //}
 
         #endregion
 
@@ -63,20 +85,20 @@ namespace SharpNeat.Neat.Genome
 
         #endregion
 
-        #region Private Methods
+        //#region Private Methods
 
-        private HashSet<uint> BuildNodeIdSet()
-        {
-            // Loop connection genes and build a set of all observed node IDs.
-            HashSet<uint> nodeIdSet = new HashSet<uint>();
-            foreach(ConnectionGene cGene in _connectionGeneList)
-            {
-                nodeIdSet.Add(cGene.SourceNodeId);
-                nodeIdSet.Add(cGene.TargetNodeId);
-            }
-            return nodeIdSet;
-        }
+        //private HashSet<uint> BuildNodeIdSet()
+        //{
+        //    // Loop connection genes and build a set of all observed node IDs.
+        //    HashSet<uint> nodeIdSet = new HashSet<uint>();
+        //    foreach(ConnectionGene cGene in _connectionGeneList)
+        //    {
+        //        nodeIdSet.Add(cGene.SourceNodeId);
+        //        nodeIdSet.Add(cGene.TargetNodeId);
+        //    }
+        //    return nodeIdSet;
+        //}
 
-        #endregion
+        //#endregion
     }
 }

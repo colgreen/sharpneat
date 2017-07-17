@@ -12,7 +12,7 @@
 using System;
 using SharpNeat.Network;
 
-namespace SharpNeat.Phenomes.NeuralNets
+namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 {
     /// <summary>
     /// An AcyclicNetwork that allows for a differetn activation function at each node; this

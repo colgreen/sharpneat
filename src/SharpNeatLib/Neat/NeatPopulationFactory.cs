@@ -32,13 +32,13 @@ namespace SharpNeat.Neat
             // Connections and nodes are assigned innovation IDs from the same ID space (from the same 'pool' of numbers).
             // By convention the input nodes are assigned IDs first starting at zero, then the output nodes. Thus, because all 
             // of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are fixed by convention.
-            // Here we also allocate ID to connections, and these start at the first ID after the last output node. From there evolvution
-            // will create connections and nodes, and IDs are allocated in whatever order the nodes and conenctions are created in.
-            uint firstOutputNodeId = (uint)inCount;
+            // Here we also allocate ID to connections, and these start at the first ID after the last output node. From there evolution
+            // will create connections and nodes, and IDs are allocated in whatever order the nodes and connections are created in.
+            int firstOutputNodeId = inCount;
             uint nextConnectionId = (uint)(inCount + outCount);
 
-            for(uint srcId=0, i=0; srcId < inCount; srcId++) {
-                for(uint tgtIdx=0; tgtIdx < outCount; tgtIdx++) {
+            for(int srcId=0, i=0; srcId < inCount; srcId++) {
+                for(int tgtIdx=0; tgtIdx < outCount; tgtIdx++) {
                     _connectionDefArr[i++] = new ConnectionDefinition(nextConnectionId++, srcId, firstOutputNodeId + tgtIdx);
                 }
             }
@@ -111,7 +111,7 @@ namespace SharpNeat.Neat
 
             // Get create a new genome genome with a new ID, birth generaion of zero.
             uint id = _genomeIdSeq.Next();
-            return new NeatGenome(id, 0, connectionGeneList);
+            return new NeatGenome(_metaNeatGenome, id, 0, connectionGeneList);
         }
 
         #endregion
@@ -121,10 +121,10 @@ namespace SharpNeat.Neat
         struct ConnectionDefinition
         {
             public readonly uint _connectionId;
-            public readonly uint _srcNodeId;
-            public readonly uint _tgtNodeId;
+            public readonly int _srcNodeId;
+            public readonly int _tgtNodeId;
 
-            public ConnectionDefinition(uint innovationId, uint srcNodeId, uint tgtNodeId)
+            public ConnectionDefinition(uint innovationId, int srcNodeId, int tgtNodeId)
             {
                 _connectionId = innovationId;
                 _srcNodeId = srcNodeId;

@@ -15,7 +15,7 @@ using SharpNeat.Network;
 // Disable missing comment warnings for non-private variables.
 #pragma warning disable 1591
 
-namespace SharpNeat.Phenomes.NeuralNets
+namespace SharpNeat.Phenomes.NeuralNets.Cyclic
 {
     /// <summary>
     /// A neural network class that represents a network with recurrent (cyclic) connections. 
@@ -42,10 +42,10 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class HeterogeneousCyclicNetwork : IBlackBox<double>
+    public class CyclicNetwork : IBlackBox<double>
     {
         protected readonly ConnectionInfo[] _connectionArray;
-        protected readonly Func<double,double>[] _activationFnArr;
+        protected readonly VecFnSegment2<double> _activationFn;
 
         // Neuron pre- and post-activation signal arrays.
         protected readonly double[] _preActivationArray;
@@ -67,8 +67,8 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public HeterogeneousCyclicNetwork(ConnectionInfo[] connInfoArr,
-                             Func<double,double>[] neuronActivationFnArray,
+        public CyclicNetwork(ConnectionInfo[] connInfoArr,
+                             VecFnSegment2<double> activationFn,
                              int neuronCount,
                              int inputNeuronCount,
                              int outputNeuronCount,
@@ -76,7 +76,7 @@ namespace SharpNeat.Phenomes.NeuralNets
                              bool boundedOutput)
         {
             _connectionArray = connInfoArr;
-            _activationFnArr = neuronActivationFnArray;
+            _activationFn = activationFn;
 
             // Create neuron pre- and post-activation signal arrays.
             _preActivationArray = new double[neuronCount];
@@ -150,22 +150,14 @@ namespace SharpNeat.Phenomes.NeuralNets
                     _preActivationArray[_connectionArray[j]._tgtNeuronIdx] += _postActivationArray[_connectionArray[j]._srcNeuronIdx] * _connectionArray[j]._weight;
                 }
 
-                // TODO: Performance tune the activation function method call.
-                // The call to Calculate() cannot be inlined because it is via an interface and therefore requires a virtual table lookup.
-                // The obvious/simplest performance improvement would be to pass an array of values to Calculate().
-
-                // Loop the neurons. Pass each neuron's pre-activation signals through its activation function
-                // and store the resulting post-activation signal.
+                // Pass the pre-activation levels through the activation function.
+                // Note. the post-activation levels are stored in _postActivationArray.
                 // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
                 // post-activation values and are never activated. 
-                for (int j=_inputNeuronCount; j<_preActivationArray.Length; j++)
-                {
-                    _postActivationArray[j] = _activationFnArr[j](_preActivationArray[j]);
-                    
-                    // Take the opportunity to reset the pre-activation signal array in preparation for the next 
-                    // activation loop.
-                    _preActivationArray[j] = 0.0;
-                }
+                _activationFn(_preActivationArray, _postActivationArray, _inputNeuronCount, _preActivationArray.Length);
+
+                // Reset the elements of _preActivationArray
+                Array.Clear(_preActivationArray, _inputNeuronCount, _preActivationArray.Length-_inputNeuronCount);
             }
         }
 
