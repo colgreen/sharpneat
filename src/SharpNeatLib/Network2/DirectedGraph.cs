@@ -19,6 +19,10 @@ namespace SharpNeat.Network2
     /// based node indexes to be represented by this class. Such node ID mapping is outside the scope
     /// of this class.
     /// 
+    /// This class can represent both cyclic or acyclic graphs, however, SharpNEAT uses it in the 
+    /// conversion of cyclic NeatGenomes only; a specialized class is used for acyclic graphs that 
+    /// gives improves runtime performance of the acyclic networks.
+    /// 
     /// Specifics
     /// ---------
     /// The connection array is sorted by sourceID and secondary sorted by targetID. This means that all
