@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Genome
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.
     /// </summary>
-    public class ConnectionGene : IDirectedConnection
+    public class ConnectionGene : IWeightedDirectedConnection<double>
     {
         #region Auto Properties
 

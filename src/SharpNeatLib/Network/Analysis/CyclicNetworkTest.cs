@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SharpNeat.Network.Analysis
 {
@@ -22,6 +23,7 @@ namespace SharpNeat.Network.Analysis
     /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
     /// traversed into.
     /// </summary>
+    [Obsolete("Superceded by CyclicGraphTest")]
     public class CyclicNetworkTest
     {
         #region Instance Fields

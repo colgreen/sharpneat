@@ -20,7 +20,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
     /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by 
     /// propagating a signal 'wave' from the input nodes through each layer to the output nodes, thus each node
     /// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and 
-    /// (b) have a scheme that defnes when to stop activating the network.
+    /// (b) have a scheme that defines when to stop activating the network.
     /// 
     /// Algorithm Overview.
     /// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple 
@@ -38,7 +38,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public class AcyclicNetwork : IBlackBox<double>
+    public class AcyclicNeuralNet : IBlackBox<double>
     {
     //=== Fixed data. Network structure and activation functions/data.
         
@@ -83,7 +83,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNetwork(VecFnSegment<double> activationFn,
+        public AcyclicNeuralNet(VecFnSegment<double> activationFn,
                               DirectedConnection[] connArr,
                               double[] weightArr,
                               LayerInfo[] layerInfoArr,
@@ -168,7 +168,9 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
             }
 
             // Process all layers in turn.
-            int conIdx=0, nodeIdx=_inputNodeCount;
+            int conIdx = 0;
+            int nodeIdx = _inputNodeCount;
+
             for(int layerIdx=1; layerIdx < _layerInfoArr.Length; layerIdx++)
             {
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
@@ -184,6 +186,9 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx];
                 _activationFn(_activationArr, nodeIdx, layerInfo._endNodeIdx);
+
+                // Update nodeIdx to point at first node in the next layer.
+                nodeIdx = layerInfo._endNodeIdx;
             }
         }
 

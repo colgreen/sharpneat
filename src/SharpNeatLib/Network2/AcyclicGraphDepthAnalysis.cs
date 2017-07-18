@@ -53,9 +53,9 @@ namespace SharpNeat.Network2
         /// <summary>
         /// Calculate node depths in an acyclic network.
         /// </summary>
-        public static NetworkDepthInfo CalculateNodeDepths(DirectedGraph directedGraph, int[] inputNodeIdArr)
+        public static NetworkDepthInfo CalculateNodeDepths(DirectedGraph directedGraph, IEnumerable<int> inputNodeIds)
         {
-            return new AcyclicGraphDepthAnalysis(directedGraph).CalculateNodeDepthsInner(inputNodeIdArr);
+            return new AcyclicGraphDepthAnalysis(directedGraph).CalculateNodeDepthsInner(inputNodeIds);
         }
 
         #endregion
@@ -65,22 +65,23 @@ namespace SharpNeat.Network2
         /// <summary>
         /// Calculate node depths in an acyclic network.
         /// </summary>
-        public NetworkDepthInfo CalculateNodeDepthsInner(int[] inputNodeIdArr)
+        public NetworkDepthInfo CalculateNodeDepthsInner(IEnumerable<int> inputNodeIds)
         {
             // Clear any existing state (allow reuse of this class).
             _nodeDepthById.Clear();
 
             // Loop over all input nodes; Perform a depth first traversal of each in turn.
-            for(int i=0; i<inputNodeIdArr.Length; i++) {
-                TraverseNode(inputNodeIdArr[i], 0);
+            int inputCount = 0;
+            foreach(int nodeId in inputNodeIds) 
+            {
+                TraverseNode(nodeId, 0);
+                inputCount++;
             }
 
             // Extract node depths from _nodeDepthById into an array of depths (node depth by node index).
             // Note. Any node not in the dictionary is in an isolated sub-network and will be assigned to 
             // layer 0 by default.
             int nodeCount = _directedGraph.NodeCount;
-            int inputCount = inputNodeIdArr.Length;
-
             int[] nodeDepthArr = new int[nodeCount];
             int maxDepth = 0;
 

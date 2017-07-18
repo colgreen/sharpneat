@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Genome
     /// 
     /// Sort order is with respect to connection gene innovation ID.
     /// </summary>
-    public class ConnectionGeneList : List<ConnectionGene>, IList<IDirectedConnection>
+    public class ConnectionGeneList : List<ConnectionGene>, IList<IWeightedDirectedConnection<double>>
     {
         #region Constructors
 
@@ -53,17 +53,7 @@ namespace SharpNeat.Neat.Genome
             get { return this[this.Count-1].Id; }
         }
 
-        #endregion
 
-        #region IList<IDirectedConnection>
-
-        public bool IsReadOnly => true;
-
-        IDirectedConnection IList<IDirectedConnection>.this[int index] 
-        { 
-            get => this[index];
-            set { throw new NotImplementedException(); }
-        }
 
         #endregion
 
@@ -181,39 +171,53 @@ namespace SharpNeat.Neat.Genome
             return true;
         }
 
-        public int IndexOf(IDirectedConnection item)
+        #endregion
+
+        #region IList<IWeightedDirectedConnection>
+
+        public bool IsReadOnly => true;
+
+        IWeightedDirectedConnection<double> IList<IWeightedDirectedConnection<double>>.this[int index] 
+        { 
+            get => this[index];
+            set => throw new NotImplementedException(); 
+        }
+
+        public int IndexOf(IWeightedDirectedConnection<double> item)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(int index, IDirectedConnection item)
+        public void Insert(int index, IWeightedDirectedConnection<double> item)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(IDirectedConnection item)
+        public void Add(IWeightedDirectedConnection<double> item)
         {
             throw new NotImplementedException();
         }
 
-        public bool Contains(IDirectedConnection item)
+        public bool Contains(IWeightedDirectedConnection<double> item)
         {
             throw new NotImplementedException();
         }
 
-        public void CopyTo(IDirectedConnection[] array, int arrayIndex)
+        public void CopyTo(IWeightedDirectedConnection<double>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(IDirectedConnection item)
+        public bool Remove(IWeightedDirectedConnection<double> item)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerator<IDirectedConnection> IEnumerable<IDirectedConnection>.GetEnumerator()
+        IEnumerator<IWeightedDirectedConnection<double>> IEnumerable<IWeightedDirectedConnection<double>>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            for(int i=0; i<this.Count; i++) {
+                yield return this[i];
+            }
         }
 
         #endregion

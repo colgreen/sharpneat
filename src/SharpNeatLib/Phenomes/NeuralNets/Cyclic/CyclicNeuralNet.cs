@@ -43,7 +43,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class CyclicNetwork : IBlackBox<double>
+    public class CyclicNeuralNet : IBlackBox<double>
     {
         // Connection arrays.
         readonly DirectedConnection[] _connArr;
@@ -62,8 +62,8 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         readonly SignalArray<double> _outputSignalArrayWrapper;
 
         // Convenient counts.
-        readonly int _inputNeuronCount;
-        readonly int _outputNeuronCount;
+        readonly int _inputNodeCount;
+        readonly int _outputNodeCount;
         readonly int _timestepsPerActivation;
 
         #region Constructor
@@ -72,13 +72,13 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public CyclicNetwork(
+        public CyclicNeuralNet(
             DirectedConnection[] connArr,
             double[] weightArr,
             VecFnSegment2<double> activationFn,
-            int neuronCount,
-            int inputNeuronCount,
-            int outputNeuronCount,
+            int nodeCount,
+            int inputNodeCount,
+            int outputNodeCount,
             int timestepsPerActivation,
             bool boundedOutput)
         {
@@ -87,22 +87,22 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
             _activationFn = activationFn;
 
             // Create neuron pre- and post-activation signal arrays.
-            _preActivationArray = new double[neuronCount];
-            _postActivationArray = new double[neuronCount];
+            _preActivationArray = new double[nodeCount];
+            _postActivationArray = new double[nodeCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
-            _inputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, 0, inputNeuronCount);
+            _inputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, 0, inputNodeCount);
 
             // Note. Output neurons follow input neurons in the arrays.
             if(boundedOutput) {
-                _outputSignalArrayWrapper = new BoundedSignalArray(_postActivationArray, inputNeuronCount, outputNeuronCount);
+                _outputSignalArrayWrapper = new BoundedSignalArray(_postActivationArray, inputNodeCount, outputNodeCount);
             } else {
-                _outputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, inputNeuronCount, outputNeuronCount);
+                _outputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, inputNodeCount, outputNodeCount);
             }
 
             // Store counts for use during activation.
-            _inputNeuronCount = inputNeuronCount;
-            _outputNeuronCount = outputNeuronCount;
+            _inputNodeCount = inputNodeCount;
+            _outputNodeCount = outputNodeCount;
             _timestepsPerActivation = timestepsPerActivation;
         }
 
@@ -115,7 +115,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// </summary>
         public int InputCount
         {
-            get { return _inputNeuronCount; }
+            get { return _inputNodeCount; }
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// </summary>
         public int OutputCount
         {
-            get { return _outputNeuronCount; }
+            get { return _outputNodeCount; }
         }
 
         /// <summary>
@@ -162,10 +162,10 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
                 // Note. the post-activation levels are stored in _postActivationArray.
                 // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
                 // post-activation values and are never activated. 
-                _activationFn(_preActivationArray, _postActivationArray, _inputNeuronCount, _preActivationArray.Length);
+                _activationFn(_preActivationArray, _postActivationArray, _inputNodeCount, _preActivationArray.Length);
 
                 // Reset the elements of _preActivationArray
-                Array.Clear(_preActivationArray, _inputNeuronCount, _preActivationArray.Length-_inputNeuronCount);
+                Array.Clear(_preActivationArray, _inputNodeCount, _preActivationArray.Length-_inputNodeCount);
             }
         }
 
@@ -178,7 +178,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
 
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputNeuronCount; i<_postActivationArray.Length; i++) {
+            for(int i=_inputNodeCount; i<_postActivationArray.Length; i++) {
                 _preActivationArray[i] = 0.0;
                 _postActivationArray[i] = 0.0;
             }

@@ -12,6 +12,7 @@ namespace SharpNeat.Network.Analysis
     /// the maximum number of hops from the depth 0 nodes, so where multiple paths exist to a node (potentially
     /// with different numbers of hops) we take the maximum number of hops as that node's depth. 
     /// </summary>
+    [Obsolete("Superceded by AcyclicGraphDepthAnalysis")]
     public class AcyclicNetworkDepthAnalysis
     {
         /// <summary>

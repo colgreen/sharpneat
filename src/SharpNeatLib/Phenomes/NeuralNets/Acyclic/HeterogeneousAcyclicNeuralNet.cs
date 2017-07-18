@@ -16,10 +16,10 @@ using SharpNeat.Network2;
 namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 {
     /// <summary>
-    /// An AcyclicNetwork that allows for a differetn activation function at each node; this
+    /// An AcyclicNetwork that allows for a different activation function at each node; this
     /// quality is required for CPPN networks.
     /// </summary>
-    public class HeterogeneousAcyclicNetwork : IBlackBox<double>
+    public class HeterogeneousAcyclicNeuralNet : IBlackBox<double>
     {
     //=== Fixed data. Network structure and activation functions/data.
 
@@ -65,7 +65,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         /// <param name="inputNodeCount">Number of input nodes in the network.</param>
         /// <param name="outputNodeCount">Number of output nodes in the network.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public HeterogeneousAcyclicNetwork(Func<double,double>[] activationFnArr,
+        public HeterogeneousAcyclicNeuralNet(Func<double,double>[] activationFnArr,
                                   DirectedConnection[] connArr,
                                   double[] weightArr,
                                   LayerInfo[] layerInfoArr,

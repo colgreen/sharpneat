@@ -43,7 +43,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class HeterogeneousCyclicNetwork : IBlackBox<double>
+    public class HeterogeneousCyclicNeuralNet : IBlackBox<double>
     {
         // Connection arrays.
         readonly DirectedConnection[] _connArr;
@@ -72,7 +72,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
         /// associated data.
         /// </summary>
-        public HeterogeneousCyclicNetwork(
+        public HeterogeneousCyclicNeuralNet(
             DirectedConnection[] connArr,
             double[] weightArr,
             Func<double,double>[] neuronActivationFnArray,
