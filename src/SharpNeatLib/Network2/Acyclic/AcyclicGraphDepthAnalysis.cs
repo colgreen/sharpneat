@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Collections.Generic;
+using System.Diagnostics;
 using SharpNeat.Network.Analysis;
 
 namespace SharpNeat.Network2.Acyclic
@@ -30,12 +31,12 @@ namespace SharpNeat.Network2.Acyclic
         /// <summary>
         /// The directed graph being analysed.
         /// </summary>
-        DirectedGraph _directedGraph;
+        DirectedGraph _digraph;
 
         /// <summary>
-        /// Dictionary of node depths keyed by node ID. Working data.
+        /// Working array of node depths.
         /// </summary>
-        Dictionary<int,int> _nodeDepthById = new Dictionary<int,int>();
+        int[] _nodeDepthById;
 
         #endregion
 
@@ -44,9 +45,10 @@ namespace SharpNeat.Network2.Acyclic
         /// <summary>
         /// Private constructor. Prevents construction from outside of this class.
         /// </summary>
-        private AcyclicGraphDepthAnalysis(DirectedGraph directedGraph)
+        private AcyclicGraphDepthAnalysis(DirectedGraph digraph)
         {
-            _directedGraph = directedGraph;
+            _digraph = digraph;
+            _nodeDepthById = new int[digraph.TotalNodeCount];
         }
 
         #endregion
@@ -56,56 +58,47 @@ namespace SharpNeat.Network2.Acyclic
         /// <summary>
         /// Calculate node depths in an acyclic network.
         /// </summary>
-        public static NetworkDepthInfo CalculateNodeDepths(DirectedGraph directedGraph, IEnumerable<int> inputNodeIds)
+        public static GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
-            return new AcyclicGraphDepthAnalysis(directedGraph).CalculateNodeDepthsInner(inputNodeIds);
+            // Debug assert the graph is acyclic. 
+            // Note. In a release build this test is not performed; in that case the depth analysis will throw a stack overflow exception for cyclic graphs.
+            Debug.Assert(!CyclicGraphAnalysis.IsCyclic(digraph));
+
+            return new AcyclicGraphDepthAnalysis(digraph).CalculateNodeDepthsInner();
         }
 
         #endregion
 
-        #region Public Methods
+        #region Private Methods
 
         /// <summary>
         /// Calculate node depths in an acyclic network.
         /// </summary>
-        public NetworkDepthInfo CalculateNodeDepthsInner(IEnumerable<int> inputNodeIds)
+        private GraphDepthInfo CalculateNodeDepthsInner()
         {
-            // Clear any existing state (allow reuse of this class).
-            _nodeDepthById.Clear();
-
             // Loop over all input nodes; Perform a depth first traversal of each in turn.
-            int inputCount = 0;
-            foreach(int nodeId in inputNodeIds) 
+            int inputCount = _digraph.InputNodeCount;
+            for(int id=0; id < inputCount; id++) 
             {
-                TraverseNode(nodeId, 0);
-                inputCount++;
+                // Traverse into the input node's target nodes.
+                IList<DirectedConnection> connArr = _digraph.GetConnections(id);
+                for(int i=0; i<connArr.Count; i++) {
+                    TraverseNode(connArr[i].TargetId, 1);
+                }
             }
 
-            // Extract node depths from _nodeDepthById into an array of depths (node depth by node index).
-            // Note. Any node not in the dictionary is in an isolated sub-network and will be assigned to 
-            // layer 0 by default.
-            int nodeCount = _directedGraph.TotalNodeCount;
-            int[] nodeDepthArr = new int[nodeCount];
+            // Determine the maximum depth of the graph.
             int maxDepth = 0;
-
-            // Loop over nodes and set the node depth. Skip over input nodes, they are defined as 
-            // being in layer zero.
-            for(int nodeId=inputCount; nodeId < nodeCount; nodeId++)
+            int nodeCount = _digraph.TotalNodeCount;
+            for(int i=0; i < nodeCount; i++) 
             {
-                // Lookup the node's depth. If not found depth remains set to zero.
-                int depth;
-                if(_nodeDepthById.TryGetValue(nodeId, out depth)) 
-                {
-                    nodeDepthArr[nodeId] = depth;
-                    // Also determine maximum depth, that is, total depth of the network.
-                    if(depth > maxDepth) {
-                        maxDepth = depth;
-                    }
+                if(_nodeDepthById[i] > maxDepth) {
+                    maxDepth = _nodeDepthById[i];
                 }
             }
 
             // Return depth analysis info.
-            return new NetworkDepthInfo(maxDepth+1, nodeDepthArr);
+            return new GraphDepthInfo(maxDepth+1, _nodeDepthById);
         }
 
         #endregion
@@ -115,8 +108,7 @@ namespace SharpNeat.Network2.Acyclic
         private void TraverseNode(int nodeId, int depth)
         {
             // Check if the node has been visited before.
-            int assignedDepth;
-            if(_nodeDepthById.TryGetValue(nodeId, out assignedDepth) && assignedDepth >= depth)
+            if(_nodeDepthById[nodeId] >= depth)
             {   // The node already has already been visited via a path that assigned it a greater depth than the 
                 // current path. Stop traversing this path.
                 return;
@@ -126,7 +118,8 @@ namespace SharpNeat.Network2.Acyclic
             // Either way we assign it the current depth value and traverse into its targets to update/set their depth.
             _nodeDepthById[nodeId] = depth;
 
-            IList<DirectedConnection> connArr = _directedGraph.GetConnections(nodeId);
+            // Traverse into the current node's target nodes.
+            IList<DirectedConnection> connArr = _digraph.GetConnections(nodeId);
             for(int i=0; i<connArr.Count; i++) {
                 TraverseNode(connArr[i].TargetId, depth + 1);
             }

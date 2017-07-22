@@ -30,7 +30,7 @@ namespace SharpNeat.Network.Analysis
         /// <summary>
         /// Calculate node depths in an acyclic network.
         /// </summary>
-        public NetworkDepthInfo CalculateNodeDepths(INetworkDefinition networkDef)
+        public GraphDepthInfo CalculateNodeDepths(INetworkDefinition networkDef)
         {
             // Clear any existing state (allow reuse of this class).
             _nodeDepthById.Clear();
@@ -70,7 +70,7 @@ namespace SharpNeat.Network.Analysis
             }
 
             // Return depth analysis info.
-            return new NetworkDepthInfo(maxDepth+1, nodeDepthArr);
+            return new GraphDepthInfo(maxDepth+1, nodeDepthArr);
         }
 
         #endregion

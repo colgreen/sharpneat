@@ -4,7 +4,7 @@ namespace SharpNeat.Network.Analysis
     /// <summary>
     /// Conveys summary information from a network depth analysis .
     /// </summary>
-    public struct NetworkDepthInfo
+    public struct GraphDepthInfo
     {
         /// <summary>
         /// Indicates the total depth of the network.
@@ -20,7 +20,7 @@ namespace SharpNeat.Network.Analysis
         /// <summary>
         /// Construct with the provided info.
         /// </summary>
-        public NetworkDepthInfo(int networkDepth, int[] nodeDepthArr)
+        public GraphDepthInfo(int networkDepth, int[] nodeDepthArr)
         {
             _networkDepth = networkDepth;
             _nodeDepthArr = nodeDepthArr;

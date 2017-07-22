@@ -116,7 +116,7 @@
     <Compile Include="Network\INetworkNode.cs" />
     <Compile Include="Network\INodeList.cs" />
     <Compile Include="Network\NetworkConnectivityData.cs" />
-    <Compile Include="Network\NetworkDepthInfo.cs" />
+    <Compile Include="Network\GraphDepthInfo.cs" />
     <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Phenomes\BoundedMappingSignalArray.cs" />
     <Compile Include="Phenomes\BoundedSignalArray.cs" />
