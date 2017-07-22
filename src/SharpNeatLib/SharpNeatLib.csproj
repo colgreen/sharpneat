@@ -69,9 +69,10 @@
     <Compile Include="EA\Population.cs" />
     <Compile Include="Neat\AddedNodeInfo.cs" />
     <None Include="Neat\Decoding\AcyclicNetworkFactory2.cs" />
-    <Compile Include="Network2\AcyclicGraphDepthAnalysis.cs" />
+    <Compile Include="Network2\Acyclic\AcyclicGraphDepthAnalysis.cs" />
+    <Compile Include="Network2\Acyclic\LayerInfo.cs" />
+    <Compile Include="Network2\Acyclic\WeightedAcyclicDirectedGraph.cs" />
     <Compile Include="Network2\CyclicGraphTest.cs" />
-    <Compile Include="Neat\Decoding\NeatGenomeDirectedGraphFactory.cs" />
     <Compile Include="Neat\Genome\ConnectionGene.cs" />
     <Compile Include="Neat\Genome\ConnectionGeneList.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Phenomes\IBlackBox.cs" />
     <Compile Include="Phenomes\ISignalArray.cs" />
     <Compile Include="Phenomes\MappingSignalArray.cs" />
+    <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />
     <Compile Include="Phenomes\NeuralNets\Acyclic\AcyclicNeuralNet.cs" />
     <None Include="Neat\Decoding\AcyclicNetworkFactory.cs" />
     <Compile Include="Phenomes\NeuralNets\Acyclic\HeterogeneousAcyclicNeuralNet.cs" />

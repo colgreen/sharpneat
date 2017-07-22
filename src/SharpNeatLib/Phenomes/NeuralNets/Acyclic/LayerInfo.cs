@@ -10,12 +10,15 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
+using System;
+
 namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 {
     /// <summary>
     /// Stores a node and connection index that represent a layer within the network 
     /// (the nodes and connections at a given depth in a network).
     /// </summary>
+    [Obsolete("Superseded by SharpNeat.Network2.Acyclic.LayerInfo")]
     public struct LayerInfo
     {
         /// <summary>

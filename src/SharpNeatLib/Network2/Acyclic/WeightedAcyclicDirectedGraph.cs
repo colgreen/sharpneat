@@ -4,20 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network2.Acyclic
 {
-    public class WeightedDirectedGraph<T> : DirectedGraph 
+    public class WeightedAcyclicDirectedGraph<T> : AcyclicDirectedGraph
         where T : struct
     {
         readonly T[] _weightArr;
 
         #region Constructor
 
-        internal WeightedDirectedGraph(
-            DirectedConnection[] connArr,
-            int nodeCount,
-            T[] weightArr) 
-        : base(connArr, nodeCount)
+        internal WeightedAcyclicDirectedGraph(
+                DirectedConnection[] connArr,
+                int nodeCount,
+                LayerInfo[] layerArr,
+                T[] weightArr) 
+            : base(connArr, nodeCount, layerArr)
         {
             _weightArr = weightArr;
         }

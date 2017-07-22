@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using SharpNeat.Network.Analysis;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network2.Acyclic
 {
     /// <summary>
     /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.
@@ -87,7 +87,7 @@ namespace SharpNeat.Network2
 
             // Loop over nodes and set the node depth. Skip over input nodes, they are defined as 
             // being in layer zero.
-            for(int nodeId=inputCount; nodeId<nodeCount; nodeId++)
+            for(int nodeId=inputCount; nodeId < nodeCount; nodeId++)
             {
                 // Lookup the node's depth. If not found depth remains set to zero.
                 int depth;
