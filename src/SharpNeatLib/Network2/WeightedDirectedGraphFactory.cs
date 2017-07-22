@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SharpNeat.Network2
 {
@@ -17,6 +18,10 @@ namespace SharpNeat.Network2
         /// </summary>
         public static WeightedDirectedGraph<T> Create(IList<IWeightedDirectedConnection<T>> connectionList, int inputCount, int outputCount)
         {
+            // Debug assert that the connections are sorted.
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
+
+            // Build map from old IDs to new IDs (i.e. removing gaps in the ID space).
             int inputOutputCount = inputCount + outputCount;
             int totalNodeCount;
             Func<int,int> nodeIdMapFn = CompileNodeInfo(connectionList, inputOutputCount, out totalNodeCount);
@@ -29,11 +34,6 @@ namespace SharpNeat.Network2
             DirectedConnection[] connArr;
             T[] weightArr;
             CopyAndMapIds(connectionList, nodeIdMapFn, out connArr, out weightArr);
-
-            // Sort the connections by source then target ID (i.e. secondary sort on target).
-            // Note. This overload of Aray.Sort will also sort a second array (i.e. weightArr), i.e. keep the 
-            // items in both arrays aligned.
-            Array.Sort(connArr, weightArr, DirectedConnectionComparer.__Instance);
 
             // Construct and return a new WeightedDirectedGraph.
             return new WeightedDirectedGraph<T>(connArr, inputCount, outputCount, totalNodeCount, weightArr);

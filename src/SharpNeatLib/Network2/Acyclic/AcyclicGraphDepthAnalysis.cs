@@ -16,9 +16,12 @@ namespace SharpNeat.Network2.Acyclic
 {
     /// <summary>
     /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.
+    /// 
     /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
-    /// the maximum number of hops from the depth 0 nodes, so where multiple paths exist to a node (potentially
-    /// with different numbers of hops) we take the maximum number of hops as that node's depth. 
+    /// the maximum number of hops from the depth 0 nodes.
+    /// 
+    /// Where multiple paths exist to a node (potentially each with a different numbers of hops) the node's 
+    /// depth is defined by the path with the most number of hops.
     /// </summary>
     public class AcyclicGraphDepthAnalysis
     {

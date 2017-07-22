@@ -22,7 +22,7 @@ namespace SharpNeat.Network2
     /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
     /// traversed into.
     /// </summary>
-    public class CyclicGraphTest
+    public class CyclicGraphAnalysis
     {
         #region Instance Fields
 
@@ -46,7 +46,7 @@ namespace SharpNeat.Network2
         /// <summary>
         /// Private constructor. Prevents construction from outside of this class.
         /// </summary>
-        private CyclicGraphTest(DirectedGraph digraph)
+        private CyclicGraphAnalysis(DirectedGraph digraph)
         {
             _digraph = digraph;
         }
@@ -60,7 +60,7 @@ namespace SharpNeat.Network2
         /// </summary>
         public static bool IsCyclic(DirectedGraph digraph)
         {
-            return new CyclicGraphTest(digraph).IsCyclicInternal();
+            return new CyclicGraphAnalysis(digraph).IsCyclicInternal();
         }
 
         #endregion

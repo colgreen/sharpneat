@@ -74,7 +74,8 @@
     <Compile Include="Network2\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network2\Acyclic\LayerInfo.cs" />
     <Compile Include="Network2\Acyclic\WeightedAcyclicDirectedGraph.cs" />
-    <Compile Include="Network2\CyclicGraphTest.cs" />
+    <Compile Include="Network2\Acyclic\WeightedAcyclicDirectedGraphFactory.cs" />
+    <Compile Include="Network2\CyclicGraphAnalysis.cs" />
     <Compile Include="Neat\Genome\ConnectionGene.cs" />
     <Compile Include="Neat\Genome\ConnectionGeneList.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexualSettings.cs" />
     <Compile Include="Network2\DirectedConnectionComparer.cs" />
+    <Compile Include="Network2\DirectedConnectionUtils.cs" />
     <Compile Include="Network2\WeightedDirectedConnection.cs" />
     <Compile Include="Network2\DirectedConnection.cs" />
     <Compile Include="Network2\DirectedGraphFactory.cs" />

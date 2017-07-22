@@ -6,12 +6,12 @@ using SharpNeat.Network2;
 namespace SharpNeatLib.Tests
 {
     [TestClass]
-    public class CyclicGraphTests
+    public class CyclicGraphAnalysisTests
     {
         #region Test Methods [Acyclic]
 
         [TestMethod]
-        [TestCategory("CyclicGraph")]
+        [TestCategory("CyclicGraphAnalysis")]
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
@@ -23,15 +23,16 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(4, 1));
 
             // Create graph.
+            connList.Sort(DirectedConnectionComparer.__Instance);
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
             Assert.IsFalse(isCyclic);
         }
 
         [TestMethod]
-        [TestCategory("CyclicGraph")]
+        [TestCategory("CyclicGraphAnalysis")]
         public void SimpleAcyclic_DefinedNodes()
         {
             // Simple acyclic graph.
@@ -43,15 +44,16 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(14, 11));
 
             // Create graph.
+            connList.Sort(DirectedConnectionComparer.__Instance);
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
             Assert.IsFalse(isCyclic);
         }
 
         [TestMethod]
-        [TestCategory("CyclicGraph")]
+        [TestCategory("CyclicGraphAnalysis")]
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
@@ -63,10 +65,11 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(104, 101));
 
             // Create graph.
+            connList.Sort(DirectedConnectionComparer.__Instance);
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
             Assert.IsFalse(isCyclic);
         }
 
@@ -75,7 +78,7 @@ namespace SharpNeatLib.Tests
         #region Test Methods [Acyclic]
 
         [TestMethod]
-        [TestCategory("CyclicGraph")]
+        [TestCategory("CyclicGraphAnalysis")]
         public void SimpleCyclic()
         {
             // Simple acyclic graph.
@@ -88,15 +91,16 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(1, 2));
 
             // Create graph.
+            connList.Sort(DirectedConnectionComparer.__Instance);
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
             Assert.IsTrue(isCyclic);
         }
 
         [TestMethod]
-        [TestCategory("CyclicGraph")]
+        [TestCategory("CyclicGraphAnalysis")]
         public void SimpleCyclic_DefinedNodes()
         {
             // Simple acyclic graph.
@@ -109,15 +113,16 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(11, 12));
 
             // Create graph.
+            connList.Sort(DirectedConnectionComparer.__Instance);
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
             Assert.IsTrue(isCyclic);
         }
 
         [TestMethod]
-        [TestCategory("CyclicGraph")]
+        [TestCategory("CyclicGraphAnalysis")]
         public void SimpleCyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
@@ -130,10 +135,11 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(101, 102));
 
             // Create graph.
+            connList.Sort(DirectedConnectionComparer.__Instance);
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
             Assert.IsTrue(isCyclic);
         }
 

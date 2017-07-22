@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SharpNeat.Network2
 {
@@ -8,14 +9,18 @@ namespace SharpNeat.Network2
         #region Public Static Methods
 
         /// <summary>
-        /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of node IDs.
-        /// Clearly the set of nodeIDs could be discovered by iterating over the connections. This overload exists to allow
-        /// for additional fixed node IDs to be allocated regardless of whether they are connected to or not, this is primarily
-        /// to allow for the allocation of NeatGenome input and output nodes, which are defined with fixed IDs but aren't
-        /// necessarily connected to.
+        /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of input/output 
+        /// node IDs defined as being in a contiguous sequence starting at ID zero.
         /// </summary>
+        /// <remarks>
+        /// connectionList is assumed to be sorted by sourceID, TargetID.
+        /// </remarks>
         public static DirectedGraph Create(IList<IDirectedConnection> connectionList, int inputCount, int outputCount)
         {
+            // Debug assert that the connections are sorted.
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
+
+            // Build map from old IDs to new IDs (i.e. removing gaps in the ID space).
             int inputOutputCount = inputCount + outputCount;
             int totalNodeCount;
             Func<int,int> nodeIdMapFn = CompileNodeInfo(connectionList, inputOutputCount, out totalNodeCount);
@@ -26,9 +31,6 @@ namespace SharpNeat.Network2
             // connection gene list.
             // The IDs are substituted for node indexes here.
             DirectedConnection[] connArr = CopyAndMapIds(connectionList, nodeIdMapFn);
-
-            // Sort the connections by source then target node ID/index (i.e. secondary sort on target).
-            Array.Sort(connArr, DirectedConnectionComparer.__Instance);
 
             // Construct and return a new DirectedGraph.
             return new DirectedGraph(connArr, inputCount, outputCount, totalNodeCount);

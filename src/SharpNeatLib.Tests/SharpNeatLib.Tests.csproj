@@ -48,7 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CyclicGraphTests.cs" />
+    <Compile Include="CyclicGraphAnalysisTests.cs" />
     <Compile Include="DirectedGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeightedDirectedGraphTests.cs" />
