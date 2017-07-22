@@ -69,6 +69,8 @@
     <Compile Include="EA\Population.cs" />
     <Compile Include="Neat\AddedNodeInfo.cs" />
     <None Include="Neat\Decoding\AcyclicNetworkFactory2.cs" />
+    <Compile Include="Neat\Genome\NeatGenomeAcyclicDecoder.cs" />
+    <Compile Include="Neat\Genome\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Network2\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network2\Acyclic\LayerInfo.cs" />
     <Compile Include="Network2\Acyclic\WeightedAcyclicDirectedGraph.cs" />
@@ -121,12 +123,12 @@
     <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />
     <Compile Include="Phenomes\NeuralNets\Acyclic\AcyclicNeuralNet.cs" />
     <None Include="Neat\Decoding\AcyclicNetworkFactory.cs" />
-    <Compile Include="Phenomes\NeuralNets\Acyclic\HeterogeneousAcyclicNeuralNet.cs" />
-    <Compile Include="Phenomes\NeuralNets\Acyclic\LayerInfo.cs" />
+    <None Include="Phenomes\NeuralNets\Acyclic\HeterogeneousAcyclicNeuralNet.cs" />
+    <None Include="Phenomes\NeuralNets\Acyclic\LayerInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\ConnectionInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\Cyclic\CyclicNeuralNet.cs" />
     <None Include="Phenomes\NeuralNets\Cyclic\CyclicNetworkFactory.cs" />
-    <Compile Include="Phenomes\NeuralNets\Cyclic\HeterogeneousCyclicNeuralNet.cs" />
+    <None Include="Phenomes\NeuralNets\Cyclic\HeterogeneousCyclicNeuralNet.cs" />
     <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
 {
@@ -12,7 +12,7 @@ namespace SharpNeat.Neat.Genome
         public int InputNodeCount { get; set; }
 
         /// <summary>
-        /// Outut node count.
+        /// Output node count.
         /// </summary>
         public int OutputNodeCount { get; set; }
 
@@ -24,15 +24,15 @@ namespace SharpNeat.Neat.Genome
         public double ConnectionWeightRange { get; set; } = 5.0;
 
         /// <summary>
-        /// Indicates if NEAT should produce feed-forward only networks (no recurrent/cyclic connection paths).
+        /// Indicates if the genomes that are evolved are acyclic, i.e. they should have no recurrent/cyclic connection paths.
         /// </summary>
-        public bool FeedforwardOnly { get; set; }
+        public bool IsAcyclic { get; set; }
 
         /// <summary>
         /// The neuron activation function to use in evolved networks. NEAT uses the same activation
         /// function at each node.
         /// </summary>
-        public Func<double,double> ActivationFn { get; set; }
+        public IActivationFunction<double> ActivationFn { get; set; }
 
         #endregion
     }

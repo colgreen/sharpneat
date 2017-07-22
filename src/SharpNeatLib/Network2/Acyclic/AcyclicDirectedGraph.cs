@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace SharpNeat.Network2.Acyclic
 {
     public class AcyclicDirectedGraph : DirectedGraph
     {
-        readonly LayerInfo[] _layerArr;
+        public LayerInfo[] LayerArray { get; }
 
         #region Constructor
 
@@ -18,14 +14,8 @@ namespace SharpNeat.Network2.Acyclic
                 LayerInfo[] layerArr)
             : base(connArr, nodeCount)
         {
-            _layerArr = layerArr;
+            this.LayerArray = layerArr;
         }
-
-        #endregion
-
-        #region Properties
-
-        public LayerInfo[] LayerArray => _layerArr;
 
         #endregion
     }

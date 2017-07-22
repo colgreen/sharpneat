@@ -45,7 +45,7 @@ namespace TestApp1
             MetaNeatGenome metaNeatGenome = new MetaNeatGenome();
             metaNeatGenome.InputNodeCount = 3;
             metaNeatGenome.OutputNodeCount = 1;
-            metaNeatGenome.FeedforwardOnly = true;
+            metaNeatGenome.IsAcyclic = true;
 
             NeatPopulation neatPop = NeatPopulationFactory.CreatePopulation(metaNeatGenome, 1.0, size);
             return neatPop;

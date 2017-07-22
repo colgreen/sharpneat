@@ -13,9 +13,6 @@ using System;
 using SharpNeat.Network;
 using SharpNeat.Network2;
 
-// Disable missing comment warnings for non-private variables.
-#pragma warning disable 1591
-
 namespace SharpNeat.Phenomes.NeuralNets.Cyclic
 {
     /// <summary>
@@ -29,22 +26,20 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
     /// and in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches. 
     /// 
     /// Algorithm Overview.
-    /// 1) Loop connections. Each connection gets its input signal from its source neuron, applies its weight and
-    /// stores its output value./ Connections are ordered by source neuron index, thus all memory accesses here are
-    /// sequential/in-order.
+    /// 1) Loop connections. Each connection gets its input signal from its source node, multiplies this signal by its
+    /// weight, and adds the result to its target node's pre-activation variable. Connections are ordered by source node 
+    /// index, thus all memory reads here are sequential, but the memory writes to node pre-activation variables are 
+    /// non-sequential.
     /// 
-    /// 2) Loop connections (again). Each connection adds its output value to its target neuron, thus each neuron  
-    /// accumulates or 'collects' its input signal in its pre-activation variable. Because connections are sorted by
-    /// source neuron index and not target index, this loop generates out-of order memory accesses, but is the only 
-    /// loop to do so.
-    /// 
-    /// 3) Loop neurons. Pass each neuron's pre-activation signal through the activation function and set its 
+    /// 2) Loop nodes. Pass each node's pre-activation signal through the activation function and set its 
     /// post-activation signal value. 
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
     public class CyclicNeuralNet : IBlackBox<double>
     {
+        #region Instance Fields
+
         // Connection arrays.
         readonly DirectedConnection[] _connArr;
         readonly double[] _weightArr;
@@ -52,120 +47,111 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         // Activation function.
         readonly VecFnSegment2<double> _activationFn;
 
-        // Neuron pre- and post-activation signal arrays.
-        readonly double[] _preActivationArray;
-        readonly double[] _postActivationArray;
+        // Node pre- and post-activation signal arrays.
+        readonly double[] _preActivationArr;
+        readonly double[] _postActivationArr;
 
-        // Wrappers over _postActivationArray that map between black box inputs/outputs to the
-        // corresponding underlying network state variables.
-        readonly SignalArray<double> _inputSignalArrayWrapper;
-        readonly SignalArray<double> _outputSignalArrayWrapper;
+        // Wrappers over _postActivationArr that map between black box inputs/outputs and the
+        // corresponding underlying network nodes.
+        readonly SignalArray<double> _inputSignalArrWrapper;
+        readonly SignalArray<double> _outputSignalArrWrapper;
 
         // Convenient counts.
-        readonly int _inputNodeCount;
-        readonly int _outputNodeCount;
-        readonly int _timestepsPerActivation;
+        readonly int _inputCount;
+        readonly int _outputCount;
+        readonly int _activationCount;
+
+        #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Constructs a CyclicNetwork with the provided pre-built ConnectionInfo array and 
-        /// associated data.
+        /// Constructs a CyclicNetwork with the provided neural net definition parameters.
         /// </summary>
-        public CyclicNeuralNet(
-            DirectedConnection[] connArr,
-            double[] weightArr,
+        public CyclicNeuralNet (
+            WeightedDirectedGraph<double> diGraph,
+            int inputCount,
+            int outputCount,
             VecFnSegment2<double> activationFn,
-            int nodeCount,
-            int inputNodeCount,
-            int outputNodeCount,
-            int timestepsPerActivation,
+            int activationCount,
             bool boundedOutput)
         {
-            _connArr = connArr;
-            _weightArr = weightArr;
+            // Store refs to network structure data.
+            _connArr = diGraph.ConnectionArray;
+            _weightArr = diGraph.WeightArray;
+
+            // Store network activation function and parameters.
             _activationFn = activationFn;
+            _activationCount = activationCount;
+
+            // Store input/output node counts.
+            _inputCount = inputCount;
+            _outputCount = outputCount;
 
             // Create neuron pre- and post-activation signal arrays.
-            _preActivationArray = new double[nodeCount];
-            _postActivationArray = new double[nodeCount];
+            int nodeCount = diGraph.NodeCount;
+            _preActivationArr = new double[nodeCount];
+            _postActivationArr = new double[nodeCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
-            _inputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, 0, inputNodeCount);
+            _inputSignalArrWrapper = new SignalArray<double>(_postActivationArr, 0, inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
             if(boundedOutput) {
-                _outputSignalArrayWrapper = new BoundedSignalArray(_postActivationArray, inputNodeCount, outputNodeCount);
+                _outputSignalArrWrapper = new BoundedSignalArray(_postActivationArr, inputCount, outputCount);
             } else {
-                _outputSignalArrayWrapper = new SignalArray<double>(_postActivationArray, inputNodeCount, outputNodeCount);
+                _outputSignalArrWrapper = new SignalArray<double>(_postActivationArr, inputCount, outputCount);
             }
-
-            // Store counts for use during activation.
-            _inputNodeCount = inputNodeCount;
-            _outputNodeCount = outputNodeCount;
-            _timestepsPerActivation = timestepsPerActivation;
         }
 
         #endregion
 
-        #region IBlackBox Members
+        #region IBlackBox
 
         /// <summary>
-        /// Gets the number of inputs.
+        /// Gets the number of input nodes.
         /// </summary>
-        public int InputCount
-        {
-            get { return _inputNodeCount; }
-        }
+        public int InputCount => _inputCount;
 
         /// <summary>
-        /// Gets the number of outputs.
+        /// Gets the number of output nodes.
         /// </summary>
-        public int OutputCount
-        {
-            get { return _outputNodeCount; }
-        }
+        public int OutputCount => _outputCount;
 
         /// <summary>
-        /// Gets an array for feeding input signals to the network.
+        /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public ISignalArray<double> InputSignalArray
-        {
-            get { return _inputSignalArrayWrapper; }
-        }
+        public ISignalArray<double> InputSignalArray => _inputSignalArrWrapper;
 
         /// <summary>
-        /// Gets an array of output signals from the network.
+        /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public ISignalArray<double> OutputSignalArray
-        {
-            get { return _outputSignalArrayWrapper; }
-        }
+        public ISignalArray<double> OutputSignalArray => _outputSignalArrWrapper;
 
         /// <summary>
         /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter
         /// at construction time. Activation reads input signals from InputSignalArray and writes output signals
         /// to OutputSignalArray.
         /// </summary>
-        public virtual void Activate()
+        public void Activate()
         {
             // Activate the network for a fixed number of timesteps.
-            for(int i=0; i<_timestepsPerActivation; i++)
+            for(int i=0; i<_activationCount; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
                 for(int j=0; j<_connArr.Length; j++) {
-                    _preActivationArray[_connArr[j].TargetId] += _postActivationArray[_connArr[j].SourceId] * _weightArr[j];
+                    _preActivationArr[_connArr[j].TargetId] += _postActivationArr[_connArr[j].SourceId] * _weightArr[j];
                 }
 
                 // Pass the pre-activation levels through the activation function.
                 // Note. the post-activation levels are stored in _postActivationArray.
                 // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
                 // post-activation values and are never activated. 
-                _activationFn(_preActivationArray, _postActivationArray, _inputNodeCount, _preActivationArray.Length);
+                _activationFn(_preActivationArr, _postActivationArr, _inputCount, _preActivationArr.Length);
 
                 // Reset the elements of _preActivationArray
-                Array.Clear(_preActivationArray, _inputNodeCount, _preActivationArray.Length-_inputNodeCount);
+                Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length-_inputCount);
             }
         }
 
@@ -178,9 +164,9 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
 
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputNodeCount; i<_postActivationArray.Length; i++) {
-                _preActivationArray[i] = 0.0;
-                _postActivationArray[i] = 0.0;
+            for(int i=_inputCount; i<_postActivationArr.Length; i++) {
+                _preActivationArr[i] = 0.0;
+                _postActivationArr[i] = 0.0;
             }
         }
 

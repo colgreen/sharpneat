@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SharpNeat.Network2.Acyclic
 {
     public class WeightedAcyclicDirectedGraph<T> : AcyclicDirectedGraph
         where T : struct
     {
-        readonly T[] _weightArr;
+        public T[] WeightArray { get; }
 
         #region Constructor
 
@@ -20,14 +15,8 @@ namespace SharpNeat.Network2.Acyclic
                 T[] weightArr) 
             : base(connArr, nodeCount, layerArr)
         {
-            _weightArr = weightArr;
+            this.WeightArray = weightArr;
         }
-
-        #endregion
-
-        #region Properties
-
-        public T[] WeightArray => _weightArr;
 
         #endregion
     }

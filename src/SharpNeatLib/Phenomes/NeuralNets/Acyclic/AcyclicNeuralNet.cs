@@ -11,6 +11,7 @@
  */
 using SharpNeat.Network;
 using SharpNeat.Network2;
+using SharpNeat.Network2.Acyclic;
 
 namespace SharpNeat.Phenomes.NeuralNets.Acyclic
 {
@@ -40,84 +41,85 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
     /// </summary>
     public class AcyclicNeuralNet : IBlackBox<double>
     {
-    //=== Fixed data. Network structure and activation functions/data.
-        
-        // Node activation function.
-        readonly VecFnSegment<double> _activationFn;
+        #region Instance Fields
 
         // Connection arrays.
         readonly DirectedConnection[] _connArr;
         readonly double[] _weightArr;
-        
-        // Array of layer information. Feed-forward-only network activation can be performed most 
-        // efficiently by propagating signals through the network one layer at a time.
-        readonly LayerInfo[] _layerInfoArr;
 
-    //=== Working data.
-        /// Array of node activation signals.
+        // Array of layer information.
+        readonly LayerInfo[] _layerInfoArr;        
+
+        // Node activation function.
+        readonly VecFnSegment<double> _activationFn;
+
+        /// Node activation level array (used for both pre and post activation levels).
         readonly double[] _activationArr;
 
-    //=== Misc.
         // Wrappers over _activationArr that map between black box inputs/outputs to the
         // corresponding underlying node activation levels.
-        readonly SignalArray<double> _inputSignalArrayWrapper;
-        readonly MappingSignalArray<double> _outputSignalArrayWrapper;
+        readonly SignalArray<double> _inputSignalArrWrapper;
+        readonly MappingSignalArray<double> _outputSignalArrWrapper;
 
         // Convenient counts.
-        readonly int _inputNodeCount;
-        readonly int _outputNodeCount;
+        readonly int _inputCount;
+        readonly int _outputCount;
+
+        #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Construct an AcyclicNetwork with provided network definition data structures.
+        /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
         /// </summary>
+        /// <param name="diGraph">Network structure definition</param>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output nodes count.</param>
         /// <param name="activationFn">Node activation function.</param>
-        /// <param name="connInfoArr">Array of connections.</param>
-        /// <param name="layerInfoArr">Array of layer information.</param>
-        /// <param name="outputNodeIdxArr">An array that specifies the index of each output neuron within _activationArr.
-        /// This is necessary because the neurons have been sorted by their depth in the network structure and are therefore
-        /// no longer in their original positions. Note however that the input neurons *are* in their original 
-        /// positions as they are defined as being at depth zero.</param>
-        /// <param name="nodeCount">Number of nodes in the network.</param>
-        /// <param name="inputNodeCount">Number of input nodes in the network.</param>
-        /// <param name="outputNodeCount">Number of output nodes in the network.</param>
+        /// <param name="outputNodeIdxArr">Gives the node index of each output index. In acyclic networks the output and hidden nodes
+        /// are re-ordered by network depth. This array describes the location of each output signal in the node activation signal array.
+        /// Note however that the input neurons *are* in their original positions as they are defined as being at depth zero and therefore
+        /// are not moved by the depth based sort.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNeuralNet(VecFnSegment<double> activationFn,
-                              DirectedConnection[] connArr,
-                              double[] weightArr,
-                              LayerInfo[] layerInfoArr,
-                              int[] outputNodeIdxArr,
-                              int nodeCount,
-                              int inputNodeCount,
-                              int outputNodeCount,
-                              bool boundedOutput)
+        public AcyclicNeuralNet(
+            WeightedAcyclicDirectedGraph<double> diGraph,
+            int inputCount,
+            int outputCount,
+            VecFnSegment<double> activationFn,
+            int[] outputNodeIdxArr,
+            bool boundedOutput)
         {
             // Store refs to network structure data.
+            _connArr = diGraph.ConnectionArray;
+            _weightArr = diGraph.WeightArray;
+            _layerInfoArr = diGraph.LayerArray;
+
+            // Store network activation function.
             _activationFn = activationFn;
-            _connArr = connArr;
-            _weightArr = weightArr;
-            _layerInfoArr = layerInfoArr;
+
+            // Store input/output node counts.
+            _inputCount = inputCount;
+            _outputCount = outputCount;
 
             // Create working array for node activation signals.
-            _activationArr = new double[nodeCount];
+            _activationArr = new double[diGraph.NodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            _inputSignalArrayWrapper = new SignalArray<double>(_activationArr, 0, inputNodeCount);
+            _inputSignalArrWrapper = new SignalArray<double>(_activationArr, 0, inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
-            // array to abstract away the level of indirection described by outputNodeIdxArr.
+            // array to abstract away the indirection described by outputNodeIdxArr.
             if(boundedOutput) {
-                _outputSignalArrayWrapper = new BoundedMappingSignalArray(_activationArr, outputNodeIdxArr);
+                _outputSignalArrWrapper = new BoundedMappingSignalArray(_activationArr, outputNodeIdxArr);
             } else {
-                _outputSignalArrayWrapper = new MappingSignalArray<double>(_activationArr, outputNodeIdxArr);
+                _outputSignalArrWrapper = new MappingSignalArray<double>(_activationArr, outputNodeIdxArr);
             }
 
             // Store counts for use during activation.
-            _inputNodeCount = inputNodeCount;
-            _outputNodeCount = outputNodeCount;
+            _inputCount = inputCount;
+            _outputCount = outputCount;
         }
 
         #endregion
@@ -125,58 +127,46 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         #region IBlackBox Members
 
         /// <summary>
-        /// Gets the number of inputs.
+        /// Gets the number of input nodes.
         /// </summary>
-        public int InputCount
-        {
-            get { return _inputNodeCount; }
-        }
+        public int InputCount => _inputCount;
 
         /// <summary>
-        /// Gets the number of outputs.
+        /// Gets the number of output nodes.
         /// </summary>
-        public int OutputCount
-        {
-            get { return _outputNodeCount; }
-        }
+        public int OutputCount => _outputCount;
 
         /// <summary>
-        /// Gets an array for feeding input signals to the network.
+        /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public ISignalArray<double> InputSignalArray
-        {
-            get { return _inputSignalArrayWrapper; }
-        }
+        public ISignalArray<double> InputSignalArray => _inputSignalArrWrapper;
 
         /// <summary>
-        /// Gets an array of output signals from the network.
+        /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public ISignalArray<double> OutputSignalArray
-        {
-            get { return _outputSignalArrayWrapper; }
-        }
+        public ISignalArray<double> OutputSignalArray => _outputSignalArrWrapper;
 
         /// <summary>
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals
         /// to OutputSignalArray.
         /// </summary>
-        public virtual void Activate()
+        public void Activate()
         {   
             // Reset any state from a previous activation.
-            for(int i=_inputNodeCount; i<_activationArr.Length; i++) {
+            for(int i=_inputCount; i<_activationArr.Length; i++) {
                 _activationArr[i] = 0.0;
             }
 
             // Process all layers in turn.
             int conIdx = 0;
-            int nodeIdx = _inputNodeCount;
+            int nodeIdx = _inputCount;
 
             for(int layerIdx=1; layerIdx < _layerInfoArr.Length; layerIdx++)
             {
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx < layerInfo._endConnectionIdx; conIdx++) {
+                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
                     _activationArr[_connArr[conIdx].TargetId] += _activationArr[_connArr[conIdx].SourceId] * _weightArr[conIdx];
                 }
 
@@ -185,10 +175,10 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx];
-                _activationFn(_activationArr, nodeIdx, layerInfo._endNodeIdx);
+                _activationFn(_activationArr, nodeIdx, layerInfo.EndNodeIdx);
 
                 // Update nodeIdx to point at first node in the next layer.
-                nodeIdx = layerInfo._endNodeIdx;
+                nodeIdx = layerInfo.EndNodeIdx;
             }
         }
 

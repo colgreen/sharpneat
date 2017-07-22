@@ -2,7 +2,7 @@
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Vectorised activation function.
+    /// Vectorized activation function.
     /// </summary>
     /// <param name="v">A vector of pre-activation levels to pass through the function.
     /// The resulting post-activation levels are written back to this array/vector.</param>
@@ -10,7 +10,7 @@ namespace SharpNeat.Network
         where T : struct;
 
     /// <summary>
-    /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector.
+    /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector.
     /// </summary>
     /// <param name="v">A vector of pre-activation levels to pass through the function.
     /// The resulting post-activation levels are written back to this array/vector.</param>
@@ -20,7 +20,7 @@ namespace SharpNeat.Network
         where T : struct;
 
     /// <summary>
-    /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector, 
+    /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector, 
     /// and post-activation levels stored in a separate supplied vector.
     /// </summary>
     /// <param name="v">A vector of pre-activation levels to pass through the function.
@@ -48,14 +48,14 @@ namespace SharpNeat.Network
         double Fn(T x);
 
         /// <summary>
-        /// Vectorised activation function.
+        /// Vectorized activation function.
         /// </summary>
         /// <param name="v">A vector of pre-activation levels to pass through the function.
         /// The resulting post-activation levels are written back to this array/vector.</param>
         void Fn(T[] v);
 
         /// <summary>
-        /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector.
+        /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector.
         /// </summary>
         /// <param name="v">A vector of pre-activation levels to pass through the function.
         /// The resulting post-activation levels are written back to this array/vector.</param>
@@ -64,7 +64,7 @@ namespace SharpNeat.Network
         void Fn(T[] v, int startIdx, int endIdx);
 
         /// <summary>
-        /// Vectorised activation function with activity limited to a defined sub-range/segment of the vector, 
+        /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector, 
         /// and post-activation levels stored in a separate supplied vector.
         /// </summary>
         /// <param name="v">A vector of pre-activation levels to pass through the function.
