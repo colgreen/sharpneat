@@ -70,8 +70,6 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// </summary>
         public CyclicNeuralNet (
             WeightedDirectedGraph<double> diGraph,
-            int inputCount,
-            int outputCount,
             VecFnSegment2<double> activationFn,
             int activationCount,
             bool boundedOutput)
@@ -85,22 +83,22 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
             _activationCount = activationCount;
 
             // Store input/output node counts.
-            _inputCount = inputCount;
-            _outputCount = outputCount;
+            _inputCount = diGraph.InputNodeCount;
+            _outputCount = diGraph.OutputNodeCount;
 
             // Create neuron pre- and post-activation signal arrays.
-            int nodeCount = diGraph.NodeCount;
+            int nodeCount = diGraph.TotalNodeCount;
             _preActivationArr = new double[nodeCount];
             _postActivationArr = new double[nodeCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
-            _inputSignalArrWrapper = new SignalArray<double>(_postActivationArr, 0, inputCount);
+            _inputSignalArrWrapper = new SignalArray<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
             if(boundedOutput) {
-                _outputSignalArrWrapper = new BoundedSignalArray(_postActivationArr, inputCount, outputCount);
+                _outputSignalArrWrapper = new BoundedSignalArray(_postActivationArr, _inputCount, _outputCount);
             } else {
-                _outputSignalArrWrapper = new SignalArray<double>(_postActivationArr, inputCount, outputCount);
+                _outputSignalArrWrapper = new SignalArray<double>(_postActivationArr, _inputCount, _outputCount);
             }
         }
 

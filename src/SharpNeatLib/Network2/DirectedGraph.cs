@@ -37,8 +37,14 @@ namespace SharpNeat.Network2
 
         DirectedConnection[] _connArr;
 
-        // The number of nodes in the graph.
-        int _nodeCount;
+        // The number of input nodes; these are required to be assigned contiguous IDs starting at zero.
+        int _inputCount;
+
+        // The number of output nodes; these are required to be assigned contiguous IDs starting immediately after the last input node ID.
+        int _outputCount;
+
+        // The total number of nodes in the graph, i.e. input, output and hidden nodes.
+        int _totalNodeCount;
 
         // An array of indexes into _connArr. 
         // For a given node index, gives the index of the first connection with that node as its source.
@@ -50,10 +56,14 @@ namespace SharpNeat.Network2
 
         internal DirectedGraph(
             DirectedConnection[] connArr,
-            int nodeCount)
+            int inputCount,
+            int outputCount,
+            int totalNodeCount)
         {
             _connArr = connArr;
-            _nodeCount = nodeCount;
+            _inputCount = inputCount;
+            _outputCount = outputCount;
+            _totalNodeCount = totalNodeCount;
 
             // Determine the connection index that each source node's connections start at.
             CompileSourceNodeConnectionIndexes();
@@ -64,10 +74,19 @@ namespace SharpNeat.Network2
         #region Properties
 
         /// <summary>
-        /// Get the graph node count.
-        /// Note. if additional node IDs were defined at construction time then this may give a higher number of nodes than described by the connections.
+        /// Get the input node count.
         /// </summary>
-        public int NodeCount => _nodeCount;
+        public int InputNodeCount => _inputCount;
+
+        /// <summary>
+        /// Get the output node count.
+        /// </summary>
+        public int OutputNodeCount => _outputCount;
+
+        /// <summary>
+        /// Gets the total node count.
+        /// </summary>
+        public int TotalNodeCount => _totalNodeCount;
 
         /// <summary>
         /// The internal array of connections. Exposed in this for high performance scenarios.
@@ -105,12 +124,12 @@ namespace SharpNeat.Network2
         private void CompileSourceNodeConnectionIndexes()
         {
             // Alloc an array of indexes; one index per node, and init with -1 (indicates that a node has no exit connections).
-            // Note. _nodeCount may be higher than the number of unique nodes described by the connections, this is to handle
+            // Note. _totalNodeCount may be higher than the number of unique nodes described by the connections, this is to handle
             // input and output nodes in NEAT which are allocated fixed node indexes, but may not have any connections.
             // As such this loop is needed, i.e. don't skip this loop just because _connArr.Length is zero; there may still be a
             // non-zero number of nodes defined.
-            _connIdxBySrcNodeIdx = new int[_nodeCount];
-            for(int i=0; i<_nodeCount; i++) {
+            _connIdxBySrcNodeIdx = new int[_totalNodeCount];
+            for(int i=0; i<_totalNodeCount; i++) {
                 _connIdxBySrcNodeIdx[i] = -1;
             }
 

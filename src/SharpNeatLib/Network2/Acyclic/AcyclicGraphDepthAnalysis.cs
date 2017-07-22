@@ -81,7 +81,7 @@ namespace SharpNeat.Network2.Acyclic
             // Extract node depths from _nodeDepthById into an array of depths (node depth by node index).
             // Note. Any node not in the dictionary is in an isolated sub-network and will be assigned to 
             // layer 0 by default.
-            int nodeCount = _directedGraph.NodeCount;
+            int nodeCount = _directedGraph.TotalNodeCount;
             int[] nodeDepthArr = new int[nodeCount];
             int maxDepth = 0;
 

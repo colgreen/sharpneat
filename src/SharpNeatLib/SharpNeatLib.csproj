@@ -94,6 +94,7 @@
     <Compile Include="Neat\Reproduction\NeatReproductionSexual.cs" />
     <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexual.cs" />
     <Compile Include="Neat\Reproduction\NeatReproductionSexualSettings.cs" />
+    <Compile Include="Network2\DirectedConnectionComparer.cs" />
     <Compile Include="Network2\WeightedDirectedConnection.cs" />
     <Compile Include="Network2\DirectedConnection.cs" />
     <Compile Include="Network2\DirectedGraphFactory.cs" />

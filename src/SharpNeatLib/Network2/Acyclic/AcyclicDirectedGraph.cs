@@ -9,10 +9,12 @@ namespace SharpNeat.Network2.Acyclic
         #region Constructor
 
         internal AcyclicDirectedGraph(
-                DirectedConnection[] connArr,
-                int nodeCount,
-                LayerInfo[] layerArr)
-            : base(connArr, nodeCount)
+            DirectedConnection[] connArr,
+            int inputCount,
+            int outputCount,
+            int nodeCount,
+            LayerInfo[] layerArr)
+        : base(connArr, inputCount, outputCount, nodeCount)
         {
             this.LayerArray = layerArr;
         }

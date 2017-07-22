@@ -23,7 +23,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(4, 1));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, null);
+            var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
@@ -43,7 +43,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(14, 11));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
@@ -63,7 +63,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(104, 101));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
@@ -88,7 +88,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(1, 2));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, null);
+            var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
@@ -109,7 +109,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(11, 12));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphTest.IsCyclic(digraph);
@@ -130,7 +130,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(101, 102));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphTest.IsCyclic(digraph);

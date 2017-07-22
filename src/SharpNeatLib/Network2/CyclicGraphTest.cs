@@ -73,7 +73,7 @@ namespace SharpNeat.Network2
         private bool IsCyclicInternal()
         {
             // Loop over all nodes. Take each one in turn as a traversal root node.
-            int nodeCount = _digraph.NodeCount;
+            int nodeCount = _digraph.TotalNodeCount;
             for(int nodeId=0; nodeId < nodeCount; nodeId++)
             {
                 // Determine if the node has already been visited.

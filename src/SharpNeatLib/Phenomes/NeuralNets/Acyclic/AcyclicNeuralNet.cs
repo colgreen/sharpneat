@@ -102,7 +102,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
             _outputCount = outputCount;
 
             // Create working array for node activation signals.
-            _activationArr = new double[diGraph.NodeCount];
+            _activationArr = new double[diGraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
             _inputSignalArrWrapper = new SignalArray<double>(_activationArr, 0, inputCount);

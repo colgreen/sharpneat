@@ -22,13 +22,13 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(2, 4));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, null);
+            var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connList, digraph.ConnectionArray);
 
             // Check the node count.
-            Assert.AreEqual(5, digraph.NodeCount);
+            Assert.AreEqual(5, digraph.TotalNodeCount);
 
         }
 
@@ -44,13 +44,13 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(12, 14));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connList, digraph.ConnectionArray);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.NodeCount);
+            Assert.AreEqual(15, digraph.TotalNodeCount);
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(102, 104));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
             var connListExpected = new List<IDirectedConnection>();
@@ -77,7 +77,7 @@ namespace SharpNeatLib.Tests
             CompareConnectionLists(connListExpected, digraph.ConnectionArray);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.NodeCount);
+            Assert.AreEqual(15, digraph.TotalNodeCount);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace SharpNeatLib.Tests
             connList.Add(new DirectedConnection(100, 103));
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, Enumerable.Range(0, 10));
+            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
             // The connections should have been sorted by source ID and target ID.
@@ -105,7 +105,7 @@ namespace SharpNeatLib.Tests
             CompareConnectionLists(connListExpected, digraph.ConnectionArray);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.NodeCount);
+            Assert.AreEqual(15, digraph.TotalNodeCount);
         }
 
 

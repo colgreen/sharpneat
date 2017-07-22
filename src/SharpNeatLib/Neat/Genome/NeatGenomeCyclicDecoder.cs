@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using SharpNeat.Network2;
 using SharpNeat.Phenomes;
 using SharpNeat.Phenomes.NeuralNets.Cyclic;
@@ -26,20 +24,16 @@ namespace SharpNeat.Neat.Genome
                 throw new ArgumentException("Attempt to decode an acyclic neat genome into a cyclic neural network", "neatGenome");
             }
 
-            // Define an IEnumerable for the fixed node IDs, i.e. all of the input and output nodes.
-            MetaNeatGenome meta = neatGenome.MetaNeatGenome;
-            int inputOutputCount = meta.InputNodeCount + meta.OutputNodeCount;
-            IEnumerable<int> fixedNodeIds =  Enumerable.Range(0, inputOutputCount);
-
             // Create a WeightedDirectedGraph representation of the neural net.
+            MetaNeatGenome meta = neatGenome.MetaNeatGenome;
             WeightedDirectedGraph<double> digraph = WeightedDirectedGraphFactory<double>.Create(
                                                         neatGenome.ConnectionGeneList,
-                                                        fixedNodeIds);
+                                                        meta.InputNodeCount,
+                                                        meta.OutputNodeCount);
 
             // Create a working neural net.
             CyclicNeuralNet neuralNet = new CyclicNeuralNet(
                                         digraph,
-                                        meta.InputNodeCount, meta.OutputNodeCount,
                                         meta.ActivationFn.Fn,
                                         activationCount, boundedOutput);
             return neuralNet;

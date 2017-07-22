@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SharpNeat.Network2
 {
     public class WeightedDirectedGraph<T> : DirectedGraph 
@@ -15,9 +10,11 @@ namespace SharpNeat.Network2
 
         internal WeightedDirectedGraph(
             DirectedConnection[] connArr,
+            int inputCount,
+            int outputCount,
             int nodeCount,
             T[] weightArr) 
-        : base(connArr, nodeCount)
+        : base(connArr, inputCount, outputCount, nodeCount)
         {
             _weightArr = weightArr;
         }
