@@ -86,7 +86,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
             _inputCount = diGraph.InputNodeCount;
             _outputCount = diGraph.OutputNodeCount;
 
-            // Create neuron pre- and post-activation signal arrays.
+            // Create node pre- and post-activation signal arrays.
             int nodeCount = diGraph.TotalNodeCount;
             _preActivationArr = new double[nodeCount];
             _postActivationArr = new double[nodeCount];
@@ -158,13 +158,10 @@ namespace SharpNeat.Phenomes.NeuralNets.Cyclic
         /// </summary>
         public void ResetState()
         {
-            // TODO: Avoid resetting if network state hasn't changed since construction or previous reset.
-
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
             for(int i=_inputCount; i<_postActivationArr.Length; i++) {
                 _preActivationArr[i] = 0.0;
-                _postActivationArr[i] = 0.0;
             }
         }
 

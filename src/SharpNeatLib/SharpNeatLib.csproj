@@ -131,7 +131,7 @@
     <Compile Include="Phenomes\NeuralNets\ConnectionInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\Cyclic\CyclicNeuralNet.cs" />
     <None Include="Phenomes\NeuralNets\Cyclic\CyclicNetworkFactory.cs" />
-    <None Include="Phenomes\NeuralNets\Cyclic\HeterogeneousCyclicNeuralNet.cs" />
+    <Compile Include="Phenomes\NeuralNets\Cyclic\HeterogeneousCyclicNeuralNet.cs" />
     <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
