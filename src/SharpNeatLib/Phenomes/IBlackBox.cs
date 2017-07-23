@@ -19,7 +19,7 @@ namespace SharpNeat.Phenomes
     /// 
     ///  - inputs are fed to a network.
     ///  - The network is activated (e.g. for some fixed number of timesteps).
-    ///  - The network outputs are read and fed into the evaluation/scoring/fitness scheme.
+    ///  - The network outputs are read and used by an evaluation/scoring/fitness scheme.
     /// 
     /// From wikipedia:
     /// Black box is a technical term for a device or system or object when it is viewed primarily in terms 

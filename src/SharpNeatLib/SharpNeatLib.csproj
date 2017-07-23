@@ -68,7 +68,6 @@
     <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
     <Compile Include="EA\Population.cs" />
     <Compile Include="Neat\AddedNodeInfo.cs" />
-    <None Include="Neat\Decoding\AcyclicNetworkFactory2.cs" />
     <Compile Include="Neat\Genome\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Network2\Acyclic\AcyclicGraphDepthAnalysis.cs" />
@@ -125,7 +124,6 @@
     <Compile Include="Phenomes\MappingVector.cs" />
     <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />
     <Compile Include="Phenomes\NeuralNets\AcyclicNeuralNet.cs" />
-    <None Include="Neat\Decoding\AcyclicNetworkFactory.cs" />
     <Compile Include="Phenomes\NeuralNets\CyclicNeuralNet.cs" />
     <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\VectorSegment.cs" />
