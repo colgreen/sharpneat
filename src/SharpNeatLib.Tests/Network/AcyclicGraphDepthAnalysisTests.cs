@@ -4,7 +4,7 @@ using SharpNeat.Network.Analysis;
 using SharpNeat.Network2;
 using SharpNeat.Network2.Acyclic;
 
-namespace SharpNeatLib.Tests
+namespace SharpNeatLib.Tests.Network
 {
     [TestClass]
     public class AcyclicGraphDepthAnalysisTests

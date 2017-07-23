@@ -48,11 +48,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcyclicGraphDepthAnalysisTests.cs" />
-    <Compile Include="CyclicGraphAnalysisTests.cs" />
-    <Compile Include="DirectedGraphTests.cs" />
+    <Compile Include="Network\AcyclicGraphDepthAnalysisTests.cs" />
+    <Compile Include="Network\CyclicGraphAnalysisTests.cs" />
+    <Compile Include="Network\DirectedGraphTests.cs" />
+    <Compile Include="Network\NetworkUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeightedDirectedGraphTests.cs" />
+    <Compile Include="Network\WeightedAcyclicDirectedGraphTests.cs" />
+    <Compile Include="Network\WeightedDirectedGraphTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

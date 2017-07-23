@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network2;
+using static SharpNeatLib.Tests.Network.NetworkUtils;
 
 namespace SharpNeatLib.Tests
 {
-
     [TestClass]
     public class WeightedDirectedGraphTests
     {
@@ -84,28 +80,6 @@ namespace SharpNeatLib.Tests
             Assert.AreEqual(15, digraph.TotalNodeCount);
         }
 
-        #endregion
-
-        #region Private Static Methods
-
-        private static void CompareConnectionLists(IList<IWeightedDirectedConnection<double>> x,
-                                                   IList<DirectedConnection> y, double[] yWeightArr)
-        {
-            Assert.AreEqual(x.Count, y.Count);
-
-            for(int i=0; i<x.Count; i++) {
-                CompareConnections(x[i], y[i], yWeightArr[i]);
-            }
-        }
-
-        private static void CompareConnections(IWeightedDirectedConnection<double> x,
-                                               DirectedConnection y, double yWeight)
-        {
-            Assert.AreEqual(x.SourceId, y.SourceId);
-            Assert.AreEqual(x.TargetId, y.TargetId);
-            Assert.AreEqual(x.Weight, yWeight);
-        }
-        
         #endregion
     }
 }
