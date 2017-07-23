@@ -1,7 +1,7 @@
 ﻿using System;
 using SharpNeat.Network2;
 using SharpNeat.Phenomes;
-using SharpNeat.Phenomes.NeuralNets.Cyclic;
+using SharpNeat.Phenomes.NeuralNets;
 
 namespace SharpNeat.Neat.Genome
 {

@@ -13,7 +13,7 @@ using SharpNeat.Network;
 using SharpNeat.Network2;
 using SharpNeat.Network2.Acyclic;
 
-namespace SharpNeat.Phenomes.NeuralNets.Acyclic
+namespace SharpNeat.Phenomes.NeuralNets
 {
     /// <summary>
     /// A neural network implementation for acyclic networks.

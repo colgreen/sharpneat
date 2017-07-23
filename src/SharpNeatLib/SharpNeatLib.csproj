@@ -124,12 +124,9 @@
     <Compile Include="Phenomes\ISignalArray.cs" />
     <Compile Include="Phenomes\MappingSignalArray.cs" />
     <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />
-    <Compile Include="Phenomes\NeuralNets\Acyclic\AcyclicNeuralNet.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNeuralNet.cs" />
     <None Include="Neat\Decoding\AcyclicNetworkFactory.cs" />
-    <None Include="Phenomes\NeuralNets\Acyclic\LayerInfo.cs" />
-    <Compile Include="Phenomes\NeuralNets\ConnectionInfo.cs" />
-    <Compile Include="Phenomes\NeuralNets\Cyclic\CyclicNeuralNet.cs" />
-    <None Include="Phenomes\NeuralNets\Cyclic\CyclicNetworkFactory.cs" />
+    <Compile Include="Phenomes\NeuralNets\CyclicNeuralNet.cs" />
     <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,6 +137,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

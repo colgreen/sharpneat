@@ -13,7 +13,7 @@ using System;
 using SharpNeat.Network;
 using SharpNeat.Network2;
 
-namespace SharpNeat.Phenomes.NeuralNets.Cyclic
+namespace SharpNeat.Phenomes.NeuralNets
 {
     /// <summary>
     /// A neural network class that represents a network with recurrent (cyclic) connections. 
