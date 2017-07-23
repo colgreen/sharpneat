@@ -58,8 +58,8 @@ namespace SharpNeat.Phenomes.NeuralNets
 
         // Wrappers over _activationArr that map between black box inputs/outputs to the
         // corresponding underlying node activation levels.
-        readonly SignalArray<double> _inputSignalArrWrapper;
-        readonly MappingSignalArray<double> _outputSignalArrWrapper;
+        readonly VectorSegment<double> _inputSignalVector;
+        readonly MappingVector<double> _outputSignalVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -96,16 +96,16 @@ namespace SharpNeat.Phenomes.NeuralNets
             _activationArr = new double[diGraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            _inputSignalArrWrapper = new SignalArray<double>(_activationArr, 0, _inputCount);
+            _inputSignalVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
             if(boundedOutput) {
-                _outputSignalArrWrapper = new BoundedMappingSignalArray(_activationArr, diGraph.OutputNodeIdxArr);
+                _outputSignalVector = new BoundedMappingVector(_activationArr, diGraph.OutputNodeIdxArr);
             } else {
-                _outputSignalArrWrapper = new MappingSignalArray<double>(_activationArr, diGraph.OutputNodeIdxArr);
+                _outputSignalVector = new MappingVector<double>(_activationArr, diGraph.OutputNodeIdxArr);
             }
         }
 
@@ -126,12 +126,12 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public ISignalArray<double> InputSignalArray => _inputSignalArrWrapper;
+        public IVector<double> InputSignalVector => _inputSignalVector;
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public ISignalArray<double> OutputSignalArray => _outputSignalArrWrapper;
+        public IVector<double> OutputSignalVector => _outputSignalVector;
 
         /// <summary>
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals

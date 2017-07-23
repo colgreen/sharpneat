@@ -37,8 +37,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
             double fitness = 0.0;
             bool success = true;
             double output;
-            ISignalArray<double> inputArr = box.InputSignalArray;
-            ISignalArray<double> outputArr = box.OutputSignalArray;
+            IVector<double> inputArr = box.InputSignalVector;
+            IVector<double> outputArr = box.OutputSignalVector;
             
             // 2048 test cases.
             for(int i=0; i<2048; i++)

@@ -53,8 +53,8 @@ namespace SharpNeat.Phenomes.NeuralNets
 
         // Wrappers over _postActivationArr that map between black box inputs/outputs and the
         // corresponding underlying network nodes.
-        readonly SignalArray<double> _inputSignalArrWrapper;
-        readonly SignalArray<double> _outputSignalArrWrapper;
+        readonly VectorSegment<double> _inputSignalVector;
+        readonly VectorSegment<double> _outputSignalVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -92,13 +92,13 @@ namespace SharpNeat.Phenomes.NeuralNets
             _postActivationArr = new double[nodeCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output arrays for IBlackBox.
-            _inputSignalArrWrapper = new SignalArray<double>(_postActivationArr, 0, _inputCount);
+            _inputSignalVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
             if(boundedOutput) {
-                _outputSignalArrWrapper = new BoundedSignalArray(_postActivationArr, _inputCount, _outputCount);
+                _outputSignalVector = new BoundedVectorSegment(_postActivationArr, _inputCount, _outputCount);
             } else {
-                _outputSignalArrWrapper = new SignalArray<double>(_postActivationArr, _inputCount, _outputCount);
+                _outputSignalVector = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
             }
         }
 
@@ -119,12 +119,12 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public ISignalArray<double> InputSignalArray => _inputSignalArrWrapper;
+        public IVector<double> InputSignalVector => _inputSignalVector;
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public ISignalArray<double> OutputSignalArray => _outputSignalArrWrapper;
+        public IVector<double> OutputSignalVector => _outputSignalVector;
 
         /// <summary>
         /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter

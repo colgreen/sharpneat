@@ -12,10 +12,9 @@
 namespace SharpNeat.Phenomes
 {
     /// <summary>
-    /// An abstraction of the SignalArray class. Provided to allow custom implementations of a signal array
-    /// if required.
+    /// A vector of element of type T.
     /// </summary>
-    public interface ISignalArray<T> where T : struct
+    public interface IVector<T> where T : struct
     {
         #region Indexer / Properties
         
@@ -89,7 +88,7 @@ namespace SharpNeat.Phenomes
         void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length);
 
         /// <summary>
-        /// Reset all array elements to zero.
+        /// Reset all array elements to some default value (typically zero).
         /// </summary>
         void Reset();
 

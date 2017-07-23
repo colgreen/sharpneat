@@ -41,12 +41,12 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Gets an array of input values that feed into the black box. 
         /// </summary>
-        ISignalArray<T> InputSignalArray { get; }
+        IVector<T> InputSignalVector { get; }
 
         /// <summary>
         /// Gets an array of output values that feed out from the black box. 
         /// </summary>
-        ISignalArray<T> OutputSignalArray { get; }
+        IVector<T> OutputSignalVector { get; }
 
         /// <summary>
         /// Activate the black box. This is a request for the box to accept its inputs and produce output signals

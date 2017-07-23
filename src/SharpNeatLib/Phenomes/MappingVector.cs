@@ -15,12 +15,11 @@ using System.Diagnostics;
 namespace SharpNeat.Phenomes
 {
     /// <summary>
-    /// MappingSignalArray wraps a native array along with an indirection/mapping array.
-    /// See SignalArray for more info.
+    /// Wraps a native array along with an indirection/mapping array.
     /// </summary>
-    public class MappingSignalArray<T> : ISignalArray<T> where T : struct
+    public class MappingVector<T> : IVector<T> where T : struct
     {
-        readonly T[] _wrappedArray;
+        readonly T[] _innerArr;
         readonly int[] _map;
 
         #region Constructor
@@ -28,11 +27,12 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Construct a SignalArray that wraps the provided wrappedArray.
         /// </summary>
-        public MappingSignalArray(T[] wrappedArray, int[] map)
+        public MappingVector(T[] innerArray, int[] map)
         {
-            _wrappedArray = wrappedArray;
+            Debug.Assert(ValidateMapIndexes(innerArray, map));
+
+            _innerArr = innerArray;
             _map = map;
-            Debug.Assert(ValidateMapIndexes());
         }
 
         #endregion
@@ -42,7 +42,7 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Gets or sets the single value at the specified index.
         /// 
-        /// We assert that the index is within the defined range of the signal array. Throwing
+        /// We debug assert that the index is within the defined range of the signal array. Throwing
         /// an exception would be more correct but the check would affect performance of problem
         /// domains with large I/O throughput.
         /// </summary>
@@ -51,22 +51,19 @@ namespace SharpNeat.Phenomes
             get 
             {
                 Debug.Assert(index > -1 && index < _map.Length, "Out of bounds MappingSignalArray access.");
-                return _wrappedArray[_map[index]]; 
+                return _innerArr[_map[index]]; 
             }
             set
             {
                 Debug.Assert(index > -1 && index < _map.Length, "Out of bounds MappingSignalArray access.");
-                _wrappedArray[_map[index]] = value; 
+                _innerArr[_map[index]] = value; 
             }
         }
 
         /// <summary>
         /// Gets the length of the signal array.
         /// </summary>
-        public int Length
-        {
-            get { return _map.Length; }
-        }
+        public int Length => _map.Length;
 
         #endregion
 
@@ -81,7 +78,7 @@ namespace SharpNeat.Phenomes
         public void CopyTo(T[] targetArray, int targetIndex)
         {
             for(int i=0, tgtIdx=targetIndex; i<_map.Length; i++, tgtIdx++) {
-                targetArray[tgtIdx] = _wrappedArray[_map[i]];
+                targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
 
@@ -96,7 +93,7 @@ namespace SharpNeat.Phenomes
         {
             Debug.Assert(length <= _map.Length);
             for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++) {
-                targetArray[tgtIdx] = _wrappedArray[_map[i]];
+                targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
 
@@ -113,7 +110,7 @@ namespace SharpNeat.Phenomes
         {
             Debug.Assert(sourceIndex + length < _map.Length);
             for(int i=sourceIndex, tgtIdx=targetIndex; i<sourceIndex+length; i++, tgtIdx++) {
-                targetArray[tgtIdx] = _wrappedArray[_map[i]];
+                targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
 
@@ -127,7 +124,7 @@ namespace SharpNeat.Phenomes
         {
             Debug.Assert(sourceArray.Length <= (_map.Length - targetIndex));
             for(int i=0, tgtIdx=targetIndex; i<sourceArray.Length; i++, tgtIdx++){
-                _wrappedArray[_map[tgtIdx]] = sourceArray[i];
+                _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
 
@@ -142,7 +139,7 @@ namespace SharpNeat.Phenomes
         {
             Debug.Assert(length <= (_map.Length - targetIndex));
             for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++){
-                _wrappedArray[_map[tgtIdx]] = sourceArray[i];
+                _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
 
@@ -158,7 +155,7 @@ namespace SharpNeat.Phenomes
         {
             Debug.Assert((sourceIndex + length <= sourceArray.Length) && (targetIndex + length <= _map.Length));
             for(int i=sourceIndex, tgtIdx=targetIndex; i < sourceIndex + length; i++, tgtIdx++) {
-                _wrappedArray[_map[tgtIdx]] = sourceArray[i];
+                _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
 
@@ -168,24 +165,24 @@ namespace SharpNeat.Phenomes
         public void Reset()
         {
             for(int i=0; i<_map.Length; i++) {
-                _wrappedArray[_map[i]] = default(T);
+                _innerArr[_map[i]] = default(T);
             }
         }
 
         #endregion
 
-        #region Private Methods [Debug Assert Helper Methods]
+        #region Private Static Methods
 
         /// <summary>
         /// Validate the indexes within _map.
         /// Returns true if they are all valid (within the indexable range of _wrappedArray)
         /// </summary>
         /// <returns></returns>
-        private bool ValidateMapIndexes()
+        private static bool ValidateMapIndexes(T[] wrappedArray, int[] map)
         {
-            for(int i=0; i < _map.Length; i++)
+            for(int i=0; i < map.Length; i++)
             {
-                if(_map[i] < 0 || _map[i] >= _wrappedArray.Length) {
+                if(map[i] < 0 || map[i] >= wrappedArray.Length) {
                     return false;
                 }
             }

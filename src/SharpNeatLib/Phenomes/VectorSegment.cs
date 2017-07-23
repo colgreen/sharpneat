@@ -15,13 +15,13 @@ using System.Diagnostics;
 namespace SharpNeat.Phenomes
 {
     /// <summary>
-    /// SignalArray wraps a native array along with an offset into that array. The resulting SignalArray
+    /// Wraps a native array along with an offset into that array. The resulting VectorSegment
     /// provides offset indexed access to the underlying native array.
     /// 
-    /// SignalArray minimizes the amount of value copying required when setting input signal values to, and
-    /// reading output values from an IBlackBox. E.g. CyclicNetwork requires all input, output and 
+    /// VectorSegment minimizes the amount of value copying required when setting input signal values to, and
+    /// reading output values from an IBlackBox. E.g. CyclicNeuralNet requires all input, output and 
     /// hidden node activation values to be stored in a single array. This class allows us to handle direct 
-    /// access to the input and output values through their own SignalArray, thus we can set individual values
+    /// access to the input and output values through their own VectorSegment, thus we can set individual values
     /// in the underlying native array directly without having knowledge of that array's structure. An alternative
     /// would be to pass arrays to SetInputs() and SetOutput() methods, requiring us to copy the complete contents
     /// of the arrays into the IBlackBox's working array on each call.
@@ -34,13 +34,13 @@ namespace SharpNeat.Phenomes
     /// double[] outputSignals = &amp;allSignals + 10;  // Skip input neurons.
     /// </code>
     /// In the above example access to the real items outside of the bounds of the sub-ranges is
-    /// possible (e.g. inputSignals[10] yields the first output signal). SignalArray also does not check for
+    /// possible (e.g. inputSignals[10] yields the first output signal). VectorSegment also does not check for
     /// such out-of-bounds accesses, accept when running with a debugger attached in which case assertions will
     /// make these tests.
     /// </summary>
-    public class SignalArray<T> : ISignalArray<T> where T : struct
+    public class VectorSegment<T> : IVector<T> where T : struct
     {
-        readonly T[] _wrappedArray;
+        readonly T[] _innerArr;
         readonly int _offset;
         readonly int _length;
 
@@ -49,13 +49,13 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Construct a SignalArray that wraps the provided wrappedArray.
         /// </summary>
-        public SignalArray(T[] wrappedArray, int offset, int length)
+        public VectorSegment(T[] innerArray, int offset, int length)
         {
-            if(offset + length > wrappedArray.Length) {
+            if(offset + length > innerArray.Length) {
                 throw new Exception("wrappedArray is not long enough to represent the requested SignalArray.");
             }
 
-            _wrappedArray = wrappedArray;
+            _innerArr = innerArray;
             _offset = offset;
             _length = length;
         }
@@ -67,7 +67,7 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Gets or sets the single value at the specified index.
         /// 
-        /// We assert that the index is within the defined range of the signal array. Throwing
+        /// We debug assert that the index is within the defined range of the signal array. Throwing
         /// an exception would be more correct but the check would affect performance of problem
         /// domains with large I/O throughput.
         /// </summary>
@@ -76,22 +76,19 @@ namespace SharpNeat.Phenomes
             get 
             {
                 Debug.Assert(index > -1 && index < _length, "Out of bounds SignalArray access.");
-                return _wrappedArray[_offset + index]; 
+                return _innerArr[_offset + index]; 
             }
             set
             {
                 Debug.Assert(index > -1 && index < _length, "Out of bounds SignalArray access.");
-                _wrappedArray[_offset + index] = value; 
+                _innerArr[_offset + index] = value; 
             }
         }
 
         /// <summary>
         /// Gets the length of the signal array.
         /// </summary>
-        public int Length
-        {
-            get { return _length; }
-        }
+        public int Length => _length;
 
         #endregion
 
@@ -105,7 +102,7 @@ namespace SharpNeat.Phenomes
         /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
         public void CopyTo(T[] targetArray, int targetIndex)
         {
-            Array.Copy(_wrappedArray, _offset, targetArray, targetIndex, _length);
+            Array.Copy(_innerArr, _offset, targetArray, targetIndex, _length);
         }
         
         /// <summary>
@@ -118,7 +115,7 @@ namespace SharpNeat.Phenomes
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
             Debug.Assert(length <= _length);
-            Array.Copy(_wrappedArray, _offset, targetArray, targetIndex, length);
+            Array.Copy(_innerArr, _offset, targetArray, targetIndex, length);
         }
 
         /// <summary>
@@ -133,7 +130,7 @@ namespace SharpNeat.Phenomes
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
             Debug.Assert(sourceIndex + length < _length);
-            Array.Copy(_wrappedArray, _offset + sourceIndex, targetArray, targetIndex, length);
+            Array.Copy(_innerArr, _offset + sourceIndex, targetArray, targetIndex, length);
         }
 
         /// <summary>
@@ -144,7 +141,7 @@ namespace SharpNeat.Phenomes
         /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            Array.Copy(sourceArray, 0, _wrappedArray, _offset + targetIndex, sourceArray.Length);
+            Array.Copy(sourceArray, 0, _innerArr, _offset + targetIndex, sourceArray.Length);
         }
 
         /// <summary>
@@ -157,7 +154,7 @@ namespace SharpNeat.Phenomes
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
             Debug.Assert(targetIndex + length < _length);
-            Array.Copy(sourceArray, 0, _wrappedArray, _offset + targetIndex, length);
+            Array.Copy(sourceArray, 0, _innerArr, _offset + targetIndex, length);
         }
 
         /// <summary>
@@ -171,7 +168,7 @@ namespace SharpNeat.Phenomes
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
             Debug.Assert(targetIndex + length < _length);
-            Array.Copy(sourceArray, sourceIndex, _wrappedArray, _offset + targetIndex, length);
+            Array.Copy(sourceArray, sourceIndex, _innerArr, _offset + targetIndex, length);
         }
 
         /// <summary>
@@ -180,7 +177,7 @@ namespace SharpNeat.Phenomes
         public void Reset()
         {
             for(int i=_offset; i < _offset + _length; i++) {
-                _wrappedArray[i] = default(T);
+                _innerArr[i] = default(T);
             }
         }
 

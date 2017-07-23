@@ -4,14 +4,14 @@ namespace SharpNeat.Phenomes
     /// <summary>
     /// A MappingSignalArray that applies the bounds interval [0,1] to returned values.
     /// </summary>
-    public class BoundedMappingSignalArray : MappingSignalArray<double>
+    public class BoundedMappingVector : MappingVector<double>
     {
         #region Constructor
 
         /// <summary>
         /// Construct an OutputMappingSignalArray that wraps the provided wrappedArray.
         /// </summary>
-        public BoundedMappingSignalArray(double[] wrappedArray, int[] map) : base(wrappedArray, map)
+        public BoundedMappingVector(double[] wrappedArray, int[] map) : base(wrappedArray, map)
         {
         }
 
