@@ -21,10 +21,10 @@ namespace SharpNeat.Network2
             // Debug assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
 
-            // Build map from old IDs to new IDs (i.e. removing gaps in the ID space).
+            // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
             int inputOutputCount = inputCount + outputCount;
             int totalNodeCount;
-            Func<int,int> nodeIdMapFn = CompileNodeInfo(connectionList, inputOutputCount, out totalNodeCount);
+            Func<int,int> nodeIdMapFn = CompileNodeIdMap(connectionList, inputOutputCount, out totalNodeCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
@@ -47,7 +47,7 @@ namespace SharpNeat.Network2
         /// Determine the set of node IDs, order them (thus assigning each node ID an index),
         /// and build a dictionary of indexes keyed by ID.
         /// </summary>
-        private static Func<int,int> CompileNodeInfo(
+        private static Func<int,int> CompileNodeIdMap(
             IList<IWeightedDirectedConnection<T>> connList,
             int inputOutputCount,
             out int totalNodeCount)
@@ -128,14 +128,6 @@ namespace SharpNeat.Network2
 
                 weightArr[i] = connectionList[i].Weight;
             }
-        }
-
-        private static void Sort(DirectedConnection[] connArr, T[] weightArr)
-        {
-            // Sort the connections by source then target ID (i.e. secondary sort on target).
-            // Note. This overload of Aray.Sort will also sort a second array, i.e. keep the 
-            // items in both arrays aligned.
-            Array.Sort(connArr, weightArr, DirectedConnectionComparer.__Instance);
         }
 
         #endregion

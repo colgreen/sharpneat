@@ -19,5 +19,15 @@ namespace SharpNeat.Network2.Acyclic
         /// Specifically, this is the index+1 of the last connection in the current layer.
         /// </summary>     
         public int EndConnectionIdx { get; }
+
+        #region Constructor
+
+        public LayerInfo(int endNodeIdx, int endConnectionIdx)
+        {
+            this.EndNodeIdx = endNodeIdx;
+            this.EndConnectionIdx = endConnectionIdx;
+        }
+
+        #endregion
     }
 }
