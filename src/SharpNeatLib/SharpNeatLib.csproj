@@ -126,12 +126,10 @@
     <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />
     <Compile Include="Phenomes\NeuralNets\Acyclic\AcyclicNeuralNet.cs" />
     <None Include="Neat\Decoding\AcyclicNetworkFactory.cs" />
-    <None Include="Phenomes\NeuralNets\Acyclic\HeterogeneousAcyclicNeuralNet.cs" />
     <None Include="Phenomes\NeuralNets\Acyclic\LayerInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\ConnectionInfo.cs" />
     <Compile Include="Phenomes\NeuralNets\Cyclic\CyclicNeuralNet.cs" />
     <None Include="Phenomes\NeuralNets\Cyclic\CyclicNetworkFactory.cs" />
-    <Compile Include="Phenomes\NeuralNets\Cyclic\HeterogeneousCyclicNeuralNet.cs" />
     <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\SignalArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

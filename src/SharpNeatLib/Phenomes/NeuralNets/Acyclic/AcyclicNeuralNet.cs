@@ -53,7 +53,7 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         // Node activation function.
         readonly VecFnSegment<double> _activationFn;
 
-        /// Node activation level array (used for both pre and post activation levels).
+        // Node activation level array (used for both pre and post activation levels).
         readonly double[] _activationArr;
 
         // Wrappers over _activationArr that map between black box inputs/outputs to the
