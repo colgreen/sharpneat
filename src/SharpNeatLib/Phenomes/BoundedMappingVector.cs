@@ -11,7 +11,8 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Construct an OutputMappingSignalArray that wraps the provided wrappedArray.
         /// </summary>
-        public BoundedMappingVector(double[] wrappedArray, int[] map) : base(wrappedArray, map)
+        public BoundedMappingVector(double[] innerArray, int[] map) 
+            : base(innerArray, map)
         {
         }
 

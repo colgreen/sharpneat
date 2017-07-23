@@ -11,7 +11,8 @@ namespace SharpNeat.Phenomes
         /// <summary>
         /// Construct an OutputSignalArray that wraps the provided wrappedArray.
         /// </summary>
-        public BoundedVectorSegment(double[] wrappedArray, int offset, int length) : base(wrappedArray, offset, length)
+        public BoundedVectorSegment(double[] innerArray, int offset, int length) 
+            : base(innerArray, offset, length)
         {
         }
 
