@@ -14,7 +14,6 @@ namespace SharpNeat.Neat.Genome
         /// <param name="activationCount">The number of activations of the cyclic network to perform per 
         /// invocation of the neural net as a whole.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        /// <returns></returns>
         public static IBlackBox<double> Decode(NeatGenome neatGenome, int activationCount, bool boundedOutput)
         {
             // Basic validation test.

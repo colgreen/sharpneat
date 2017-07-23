@@ -73,20 +73,11 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
         /// </summary>
         /// <param name="diGraph">Network structure definition</param>
-        /// <param name="inputCount">Input node count.</param>
-        /// <param name="outputCount">Output nodes count.</param>
         /// <param name="activationFn">Node activation function.</param>
-        /// <param name="outputNodeIdxArr">Gives the node index of each output index. In acyclic networks the output and hidden nodes
-        /// are re-ordered by network depth. This array describes the location of each output signal in the node activation signal array.
-        /// Note however that the input neurons *are* in their original positions as they are defined as being at depth zero and therefore
-        /// are not moved by the depth based sort.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public AcyclicNeuralNet(
             WeightedAcyclicDirectedGraph<double> diGraph,
-            int inputCount,
-            int outputCount,
             VecFnSegment<double> activationFn,
-            int[] outputNodeIdxArr,
             bool boundedOutput)
         {
             // Store refs to network structure data.
@@ -98,28 +89,24 @@ namespace SharpNeat.Phenomes.NeuralNets.Acyclic
             _activationFn = activationFn;
 
             // Store input/output node counts.
-            _inputCount = inputCount;
-            _outputCount = outputCount;
+            _inputCount = diGraph.InputNodeCount;
+            _outputCount = diGraph.OutputNodeCount;
 
             // Create working array for node activation signals.
             _activationArr = new double[diGraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            _inputSignalArrWrapper = new SignalArray<double>(_activationArr, 0, inputCount);
+            _inputSignalArrWrapper = new SignalArray<double>(_activationArr, 0, _inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
             if(boundedOutput) {
-                _outputSignalArrWrapper = new BoundedMappingSignalArray(_activationArr, outputNodeIdxArr);
+                _outputSignalArrWrapper = new BoundedMappingSignalArray(_activationArr, diGraph.OutputNodeIdxArr);
             } else {
-                _outputSignalArrWrapper = new MappingSignalArray<double>(_activationArr, outputNodeIdxArr);
+                _outputSignalArrWrapper = new MappingSignalArray<double>(_activationArr, diGraph.OutputNodeIdxArr);
             }
-
-            // Store counts for use during activation.
-            _inputCount = inputCount;
-            _outputCount = outputCount;
         }
 
         #endregion

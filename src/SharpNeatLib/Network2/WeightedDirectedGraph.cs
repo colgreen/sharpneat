@@ -4,7 +4,10 @@ namespace SharpNeat.Network2
     public class WeightedDirectedGraph<T> : DirectedGraph 
         where T : struct
     {
-        readonly T[] _weightArr;
+        /// <summary>
+        /// Connection weight array.
+        /// </summary>
+        public T[] WeightArray { get; }
 
         #region Constructor
 
@@ -16,14 +19,8 @@ namespace SharpNeat.Network2
             T[] weightArr) 
         : base(connArr, inputCount, outputCount, nodeCount)
         {
-            _weightArr = weightArr;
+            this.WeightArray = weightArr;
         }
-
-        #endregion
-
-        #region Properties
-
-        public T[] WeightArray => _weightArr;
 
         #endregion
     }
