@@ -1,4 +1,4 @@
-﻿using SharpNeat.Network;
+﻿using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Neat.Genome
 {

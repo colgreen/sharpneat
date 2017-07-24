@@ -107,7 +107,7 @@
     <Compile Include="Network\Analysis\AcyclicNetworkDepthAnalysis.cs" />
     <Compile Include="Network\Analysis\CyclicNetworkTest.cs" />
     <Compile Include="Network\ConnectionEndpoints.cs" />
-    <Compile Include="Network\IActivationFunction.cs" />
+    <Compile Include="NeuralNets\IActivationFunction.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
     <Compile Include="Network\IConnectionList.cs" />
     <Compile Include="Network\INetworkConnection.cs" />

@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Redzen.Numerics;
+using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Network
 {

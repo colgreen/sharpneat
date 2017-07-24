@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Network
+namespace SharpNeat.NeuralNets
 {
     /// <summary>
     /// Vectorized activation function.
