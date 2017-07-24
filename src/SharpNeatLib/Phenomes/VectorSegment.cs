@@ -70,27 +70,22 @@ namespace SharpNeat.Phenomes
 
         /// <summary>
         /// Gets or sets the single value at the specified index.
-        /// 
-        /// We debug assert that the index is within the defined range of the signal array. Throwing
-        /// an exception would be more correct but the check would affect performance of problem
-        /// domains with large I/O throughput.
         /// </summary>
         /// <remarks>
+        /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance, 
+        /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of 
+        /// the test in release builds was deemed a reasonable choice here.
         /// </remarks>
         public virtual T this[int index]
         {
             get 
             {
-                if(index < 0 || index >= _length) {
-                    throw new ArgumentOutOfRangeException("index");
-                }
+                Debug.Assert(index > -1 && index < _length);
                 return _innerArr[_offset + index]; 
             }
             set
             {
-                if(index < 0 || index >= _length) {
-                    throw new ArgumentOutOfRangeException("index");
-                }
+                Debug.Assert(index > -1 && index < _length);
                 _innerArr[_offset + index] = value; 
             }
         }
@@ -125,7 +120,7 @@ namespace SharpNeat.Phenomes
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
             if(length > _length) {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentException("Invalid copy operation.");
             }
             Array.Copy(_innerArr, _offset, targetArray, targetIndex, length);
         }
@@ -141,8 +136,9 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
-            if(sourceIndex < 0 || sourceIndex + length > _length) {
-                throw new ArgumentOutOfRangeException("sourceIndex, length");
+            if(    sourceIndex < 0
+                || sourceIndex + length > _length) {
+                throw new ArgumentException("Invalid copy operation.");
             }
             Array.Copy(_innerArr, _offset + sourceIndex, targetArray, targetIndex, length);
         }
@@ -159,8 +155,9 @@ namespace SharpNeat.Phenomes
         /// <param name="targetIndex">The index into the current VectorSegment at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            if(targetIndex < 0 || targetIndex + sourceArray.Length > _length) {
-                throw new ArgumentOutOfRangeException("targetIndex");
+            if(    targetIndex < 0 
+                || targetIndex + sourceArray.Length > _length) {
+                throw new ArgumentException("Invalid copy operation.");
             }
             Array.Copy(sourceArray, 0, _innerArr, _offset + targetIndex, sourceArray.Length);
         }
@@ -174,8 +171,9 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            if(targetIndex < 0 || targetIndex + length > _length) {
-                throw new ArgumentOutOfRangeException("targetIndex");
+            if(    targetIndex < 0 
+                || targetIndex + length > _length) {
+                throw new ArgumentException("Invalid copy operation.");
             }
             Array.Copy(sourceArray, 0, _innerArr, _offset + targetIndex, length);
         }
@@ -190,8 +188,9 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
-            if(targetIndex < 0 || targetIndex + length > _length) {
-                throw new ArgumentOutOfRangeException("targetIndex");
+            if(    targetIndex < 0 
+                || targetIndex + length > _length) {
+                throw new ArgumentException("Invalid copy operation.");
             }
             Array.Copy(sourceArray, sourceIndex, _innerArr, _offset + targetIndex, length);
         }

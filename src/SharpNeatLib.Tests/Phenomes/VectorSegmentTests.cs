@@ -116,7 +116,7 @@ namespace SharpNeatLib.Tests.Phenomes
 
          //--- Three param tests.
             // Copy length longer then vecSeg length.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, 0, 4));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 0, 4));
 
             // Invalid target index.
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, -1, 1));
@@ -130,7 +130,7 @@ namespace SharpNeatLib.Tests.Phenomes
 
          //--- Four param tests.         
             // Copy beyond end of vecSeg.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, 0, 1, 3));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 0, 1, 3));
 
             // Copy beyond end of tgtArr.
             Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 11, 1, 2));
@@ -138,7 +138,7 @@ namespace SharpNeatLib.Tests.Phenomes
 
             // Invalid source and target indexes.
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, -1, 0, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, 0, -1, 1));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 0, -1, 1));
 
             // Invalid length.
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, 0, 1, -1));
@@ -219,10 +219,10 @@ namespace SharpNeatLib.Tests.Phenomes
 
          //--- Two param tests.
             // Copy beyond end of vecSeg.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 2));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 2));
 
             // Invalid target index.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, -1));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, -1));
             
          //--- Three param tests.
 
@@ -230,15 +230,15 @@ namespace SharpNeatLib.Tests.Phenomes
             Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 4));
 
             // Invalid source index.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, -1, 1));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, -1, 1));
 
             // Invalid length.
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 0, -1));
 
             // Copy beyond the end of vecSeg.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 2, 3));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 3, 2));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 4, 1));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 2, 3));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 3, 2));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 4, 1));
 
          // Four param tests.
             
@@ -249,12 +249,12 @@ namespace SharpNeatLib.Tests.Phenomes
             Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 3, 0, 1));
 
             // Copy beyond the end of vecSeg.
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 0, 3, 2));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 0, 2, 3));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 3, 2));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 2, 3));
             
             // Invalid source and target indexes.
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, -1, 0, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 0, -1, 1));
+            Assert.ThrowsException<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, -1, 1));
 
             // Invalid length.
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, 0, 0, -1));

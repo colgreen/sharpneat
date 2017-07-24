@@ -25,10 +25,12 @@ namespace SharpNeat.Phenomes
         #region Constructor
 
         /// <summary>
-        /// Construct a SignalArray that wraps the provided wrappedArray.
+        /// Construct a MappingVector that wraps the provided wrappedArray.
         /// </summary>
         public MappingVector(T[] innerArray, int[] map)
         {
+            // Note. This test is a debug assert to allow for checking of code validity in debug builds,
+            // and avoiding the cost of the test in release builds. 
             Debug.Assert(ValidateMapIndexes(innerArray, map));
 
             _innerArr = innerArray;
@@ -41,21 +43,22 @@ namespace SharpNeat.Phenomes
 
         /// <summary>
         /// Gets or sets the single value at the specified index.
-        /// 
-        /// We debug assert that the index is within the defined range of the signal array. Throwing
-        /// an exception would be more correct but the check would affect performance of problem
-        /// domains with large I/O throughput.
         /// </summary>
+        /// <remarks>
+        /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance, 
+        /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of 
+        /// the test in release builds was deemed a reasonable choice here.
+        /// </remarks>
         public virtual T this[int index]
         {
             get 
             {
-                Debug.Assert(index > -1 && index < _map.Length, "Out of bounds MappingSignalArray access.");
+                Debug.Assert(index > -1 && index < _map.Length);
                 return _innerArr[_map[index]]; 
             }
             set
             {
-                Debug.Assert(index > -1 && index < _map.Length, "Out of bounds MappingSignalArray access.");
+                Debug.Assert(index > -1 && index < _map.Length);
                 _innerArr[_map[index]] = value; 
             }
         }
@@ -70,20 +73,25 @@ namespace SharpNeat.Phenomes
         #region Public Methods
 
         /// <summary>
-        /// Copies all elements from the current MappingSignalArray to the specified target array starting 
+        /// Copies all elements from the current MappingVector to the specified target array starting 
         /// at the specified target Array index. 
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
         public void CopyTo(T[] targetArray, int targetIndex)
         {
+            if(    targetIndex < 0 
+                || targetIndex + _map.Length > targetArray.Length) {
+                throw new ArgumentException("Invalid copy operation.");
+            }
+
             for(int i=0, tgtIdx=targetIndex; i<_map.Length; i++, tgtIdx++) {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current MappingSignalArray to the specified target
+        /// Copies <paramref name="length"/> elements from the current MappingVector to the specified target
         /// array starting at the specified target Array index. 
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
@@ -91,53 +99,76 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
-            Debug.Assert(length <= _map.Length);
+            if(    targetIndex < 0 
+                || length < 0
+                || length > _map.Length 
+                || targetIndex + length > targetArray.Length) {
+                throw new ArgumentException("Invalid copy operation.");
+            }
+
             for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++) {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current MappingSignalArray to the specified target
+        /// Copies <paramref name="length"/> elements from the current MappingVector to the specified target array
         /// starting from <paramref name="targetIndex"/> on the target array and <paramref name="sourceIndex"/>
-        /// on the current source SignalArray.
+        /// on the current source MappingVector.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying begins.</param>
-        /// <param name="sourceIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="sourceIndex">The index into the current MappingVector at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
-            Debug.Assert(sourceIndex + length < _map.Length);
+            if(    targetIndex < 0 
+                || sourceIndex < 0 
+                || length < 0
+                || targetIndex + length > targetArray.Length
+                || sourceIndex + length > _map.Length) {
+                throw new ArgumentException("Invalid copy operation.");
+            }
+
             for(int i=sourceIndex, tgtIdx=targetIndex; i<sourceIndex+length; i++, tgtIdx++) {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
 
         /// <summary>
-        /// Copies all elements from the source array writing them into the current MappingSignalArray starting
+        /// Copies all elements from the source array writing them into the current MappingVector starting
         /// at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
-        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            Debug.Assert(sourceArray.Length <= (_map.Length - targetIndex));
+            if(    targetIndex < 0 
+                || targetIndex + sourceArray.Length > _map.Length) {
+                throw new ArgumentException("Invalid copy operation.");
+            }
+
             for(int i=0, tgtIdx=targetIndex; i<sourceArray.Length; i++, tgtIdx++){
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current MappingSignalArray 
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current MappingVector 
         /// starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
-        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            Debug.Assert(length <= (_map.Length - targetIndex));
+            if(    targetIndex < 0 
+                || length < 0
+                || length > sourceArray.Length
+                || targetIndex + length > _map.Length) {
+                throw new ArgumentException("Invalid copy operation.");
+            }
+
             for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++){
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
@@ -145,15 +176,22 @@ namespace SharpNeat.Phenomes
 
         /// <summary>
         /// Copies <paramref name="length"/> elements starting from sourceIndex on sourceArray to the current
-        /// MappingSignalArray starting at the specified targetIndex.
+        /// MappingVector starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="sourceIndex">The sourceArray index at which copying begins.</param>
-        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
-            Debug.Assert((sourceIndex + length <= sourceArray.Length) && (targetIndex + length <= _map.Length));
+            if(    sourceIndex < 0
+                || targetIndex < 0 
+                || length < 0
+                || sourceIndex + length > sourceArray.Length
+                || targetIndex + length > _map.Length) {
+                throw new ArgumentException("Invalid copy operation.");
+            }
+
             for(int i=sourceIndex, tgtIdx=targetIndex; i < sourceIndex + length; i++, tgtIdx++) {
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
