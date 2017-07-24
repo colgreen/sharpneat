@@ -12,7 +12,7 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         /// <param name="neatGenome">The genome to decode.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public static IBlackBox<double> Decode(NeatGenome neatGenome, bool boundedOutput)
+        public static IPhenome<double> Decode(NeatGenome neatGenome, bool boundedOutput)
         {
             // Basic validation test.
             if(!neatGenome.MetaNeatGenome.IsAcyclic) {

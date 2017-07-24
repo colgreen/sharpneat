@@ -119,7 +119,7 @@
     <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Phenomes\BoundedMappingVector.cs" />
     <Compile Include="Phenomes\BoundedVectorSegment.cs" />
-    <Compile Include="Phenomes\IBlackBox.cs" />
+    <Compile Include="Phenomes\IPhenome.cs" />
     <Compile Include="Phenomes\IVector.cs" />
     <Compile Include="Phenomes\MappingVector.cs" />
     <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />

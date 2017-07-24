@@ -12,21 +12,13 @@
 namespace SharpNeat.Phenomes
 {
     /// <summary>
-    /// IBlackBox represents an abstract device, system or function which has inputs and outputs. The internal
-    /// workings and state of the box are not relevant to any method or class that accepts an IBlackBox - only that it
-    /// has inputs and outputs and a means of activation. In NEAT the neural network implementations generally fit this
-    /// pattern, that is:
+    /// Represents an abstract phenome, with input and output vectors, and an activation method.
     /// 
-    ///  - inputs are fed to a network.
-    ///  - The network is activated (e.g. for some fixed number of timesteps).
-    ///  - The network outputs are read and used by an evaluation/scoring/fitness scheme.
-    /// 
-    /// From wikipedia:
-    /// Black box is a technical term for a device or system or object when it is viewed primarily in terms 
-    /// of its input and output characteristics. Almost anything might occasionally be referred to as a black box -
-    /// a transistor, an algorithm, humans, the Internet.
+    /// Typically a phenome will be a neural network, whereby we set the input vector, activate the network, and
+    /// read its output vector. However in principle a phenome could be any kind of information processing system
+    /// such as a C# program or a genetic programming tree.
     /// </summary>
-    public interface IBlackBox<T> where T : struct
+    public interface IPhenome<T> where T : struct
     {
         /// <summary>
         /// Gets the number of inputs to the blackbox. This is assumed to be fixed for the lifetime of the IBlackBox.

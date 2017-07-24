@@ -61,8 +61,8 @@ namespace TestApp1
 
 
 
-            IPhenomeEvaluator<IBlackBox<double>> phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            IGenomeListEvaluator<NeatGenome> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome,IBlackBox<double>>(null, phenomeEvaluator);
+            IPhenomeEvaluator<IPhenome<double>> phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
+            IGenomeListEvaluator<NeatGenome> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome,IPhenome<double>>(null, phenomeEvaluator);
             return genomeListEvaluator;
         }
 

@@ -11,7 +11,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
     /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
     /// input signal (0 or 1).
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IPhenome<double>>
     {
         #region instance Fields
 
@@ -32,7 +32,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
         /// Evaluate the provided IBlackBox against the Binary 6-Multiplexer problem domain and return
         /// its fitness score.
         /// </summary>
-        public double Evaluate(IBlackBox<double> box)
+        public double Evaluate(IPhenome<double> box)
         {
             double fitness = 0.0;
             bool success = true;

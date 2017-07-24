@@ -37,7 +37,7 @@ namespace SharpNeat.NeuralNets
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class CyclicNeuralNet : IBlackBox<double>
+    public class CyclicNeuralNet : IPhenome<double>
     {
         #region Instance Fields
 
