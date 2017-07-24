@@ -21,28 +21,28 @@ namespace SharpNeat.Phenomes
     public interface IPhenome<T> where T : struct
     {
         /// <summary>
-        /// Gets the number of inputs to the blackbox. This is assumed to be fixed for the lifetime of the IBlackBox.
+        /// Gets the number of inputs to the phenome.
         /// </summary>
         int InputCount { get; }
 
         /// <summary>
-        /// Gets the number of outputs from the blackbox. This is assumed to be fixed for the lifetime of the IBlackBox.
+        /// Gets the number of outputs from the phenome.
         /// </summary>
         int OutputCount { get; }
 
         /// <summary>
-        /// Gets an array of input values that feed into the black box. 
+        /// Gets an array of input values that feed into the phenome. 
         /// </summary>
         IVector<T> InputVector { get; }
 
         /// <summary>
-        /// Gets an array of output values that feed out from the black box. 
+        /// Gets an array of output values that feed out from the phenome. 
         /// </summary>
         IVector<T> OutputVector { get; }
 
         /// <summary>
-        /// Activate the black box. This is a request for the box to accept its inputs and produce output signals
-        /// ready for reading from OutputSignalArray.
+        /// Activate the phenome. This is a request for the phenome to accept its inputs and produce output signals
+        /// ready for reading from OutputVector.
         /// </summary>
         void Activate();
 

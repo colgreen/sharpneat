@@ -57,10 +57,10 @@ namespace SharpNeat.NeuralNets
         // Node activation level array (used for both pre and post activation levels).
         readonly double[] _activationArr;
 
-        // Wrappers over _activationArr that map between black box inputs/outputs to the
+        // Wrappers over _activationArr that map between input/output vectors to the
         // corresponding underlying node activation levels.
-        readonly VectorSegment<double> _inputSignalVector;
-        readonly MappingVector<double> _outputSignalVector;
+        readonly VectorSegment<double> _inputVector;
+        readonly MappingVector<double> _outputVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -97,22 +97,22 @@ namespace SharpNeat.NeuralNets
             _activationArr = new double[diGraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            _inputSignalVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
+            _inputVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
             if(boundedOutput) {
-                _outputSignalVector = new BoundedMappingVector(_activationArr, diGraph.OutputNodeIdxArr);
+                _outputVector = new BoundedMappingVector(_activationArr, diGraph.OutputNodeIdxArr);
             } else {
-                _outputSignalVector = new MappingVector<double>(_activationArr, diGraph.OutputNodeIdxArr);
+                _outputVector = new MappingVector<double>(_activationArr, diGraph.OutputNodeIdxArr);
             }
         }
 
         #endregion
 
-        #region IBlackBox Members
+        #region IPhenome Members
 
         /// <summary>
         /// Gets the number of input nodes.
@@ -127,12 +127,12 @@ namespace SharpNeat.NeuralNets
         /// <summary>
         /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public IVector<double> InputVector => _inputSignalVector;
+        public IVector<double> InputVector => _inputVector;
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public IVector<double> OutputVector => _outputSignalVector;
+        public IVector<double> OutputVector => _outputVector;
 
         /// <summary>
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals

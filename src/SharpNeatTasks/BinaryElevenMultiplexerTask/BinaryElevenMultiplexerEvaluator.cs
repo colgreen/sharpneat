@@ -29,16 +29,16 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
         #region Public Methods
 
         /// <summary>
-        /// Evaluate the provided IBlackBox against the Binary 6-Multiplexer problem domain and return
+        /// Evaluate the provided IPhenome against the Binary 6-Multiplexer problem domain and return
         /// its fitness score.
         /// </summary>
-        public double Evaluate(IPhenome<double> box)
+        public double Evaluate(IPhenome<double> phenome)
         {
             double fitness = 0.0;
             bool success = true;
             double output;
-            IVector<double> inputArr = box.InputVector;
-            IVector<double> outputArr = box.OutputVector;
+            IVector<double> inputArr = phenome.InputVector;
+            IVector<double> outputArr = phenome.OutputVector;
             
             // 2048 test cases.
             for(int i=0; i<2048; i++)
@@ -57,8 +57,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
                     tmp >>= 1;
                 }
                                 
-                // Activate the black box.
-                box.Activate();
+                // Activate the phenome.
+                phenome.Activate();
 
                 // Read output signal.
                 output = outputArr[0];
@@ -87,8 +87,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
                     }
                 }
 
-                // Reset black box state ready for next test case.
-                box.ResetState();
+                // Reset phenome state ready for next test case.
+                phenome.ResetState();
             }
 
             // If the correct answer was given in each case then add a bonus value to the fitness.
