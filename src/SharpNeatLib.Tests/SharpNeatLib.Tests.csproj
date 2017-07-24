@@ -53,6 +53,7 @@
     <Compile Include="Network\DirectedGraphTests.cs" />
     <Compile Include="Network\NetworkUtils.cs" />
     <Compile Include="Phenomes\MappingVectorTests.cs" />
+    <Compile Include="Phenomes\NeuralNets\AcyclicNeuralNetTests.cs" />
     <Compile Include="Phenomes\VectorSegmentTests.cs" />
     <Compile Include="Phenomes\VectorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
