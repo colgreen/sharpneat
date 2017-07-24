@@ -120,12 +120,12 @@ namespace SharpNeat.NeuralNets
         /// <summary>
         /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public IVector<double> InputSignalVector => _inputSignalVector;
+        public IVector<double> InputVector => _inputSignalVector;
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public IVector<double> OutputSignalVector => _outputSignalVector;
+        public IVector<double> OutputVector => _outputSignalVector;
 
         /// <summary>
         /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter
