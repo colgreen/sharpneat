@@ -47,12 +47,16 @@ namespace SharpNeat.Phenomes
         #region Constructor
 
         /// <summary>
-        /// Construct a SignalArray that wraps the provided wrappedArray.
+        /// Construct a VectorSegment that wraps the provided innerArray.
         /// </summary>
         public VectorSegment(T[] innerArray, int offset, int length)
         {
+            if(offset < 0 || offset >= innerArray.Length) {
+                throw new ArgumentOutOfRangeException("Invalid offset.", "offset");
+            }
+
             if(offset + length > innerArray.Length) {
-                throw new Exception("wrappedArray is not long enough to represent the requested SignalArray.");
+                throw new ArgumentOutOfRangeException("Invalid length.", "length");
             }
 
             _innerArr = innerArray;
@@ -71,16 +75,22 @@ namespace SharpNeat.Phenomes
         /// an exception would be more correct but the check would affect performance of problem
         /// domains with large I/O throughput.
         /// </summary>
+        /// <remarks>
+        /// </remarks>
         public virtual T this[int index]
         {
             get 
             {
-                Debug.Assert(index > -1 && index < _length, "Out of bounds SignalArray access.");
+                if(index < 0 || index >= _length) {
+                    throw new ArgumentOutOfRangeException("index");
+                }
                 return _innerArr[_offset + index]; 
             }
             set
             {
-                Debug.Assert(index > -1 && index < _length, "Out of bounds SignalArray access.");
+                if(index < 0 || index >= _length) {
+                    throw new ArgumentOutOfRangeException("index");
+                }
                 _innerArr[_offset + index] = value; 
             }
         }
@@ -92,10 +102,10 @@ namespace SharpNeat.Phenomes
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods [CopyTo*]
 
         /// <summary>
-        /// Copies all elements from the current SignalArray to the specified target array starting 
+        /// Copies all elements from the current VectorSegment to the specified target array starting 
         /// at the specified target Array index. 
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
@@ -106,7 +116,7 @@ namespace SharpNeat.Phenomes
         }
         
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
+        /// Copies <paramref name="length"/> elements from the current VectorSegment to the specified target
         /// array starting at the specified target Array index. 
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
@@ -114,60 +124,75 @@ namespace SharpNeat.Phenomes
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
-            Debug.Assert(length <= _length);
+            if(length > _length) {
+                throw new ArgumentOutOfRangeException("length");
+            }
             Array.Copy(_innerArr, _offset, targetArray, targetIndex, length);
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
+        /// Copies <paramref name="length"/> elements from the current VectorSegment to the specified target
         /// starting from <paramref name="targetIndex"/> on the target array and <paramref name="sourceIndex"/>
-        /// on the current source SignalArray.
+        /// on the current source VectorSegment.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying begins.</param>
-        /// <param name="sourceIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="sourceIndex">The index into the current VectorSegment at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
-            Debug.Assert(sourceIndex + length < _length);
+            if(sourceIndex < 0 || sourceIndex + length > _length) {
+                throw new ArgumentOutOfRangeException("sourceIndex, length");
+            }
             Array.Copy(_innerArr, _offset + sourceIndex, targetArray, targetIndex, length);
         }
 
+        #endregion
+
+        #region Public Methods [CopyFrom*]
+
         /// <summary>
-        /// Copies all elements from the source array writing them into the current SignalArray starting
+        /// Copies all elements from the source array writing them into the current VectorSegment starting
         /// at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
-        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current VectorSegment at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
+            if(targetIndex < 0 || targetIndex + sourceArray.Length > _length) {
+                throw new ArgumentOutOfRangeException("targetIndex");
+            }
             Array.Copy(sourceArray, 0, _innerArr, _offset + targetIndex, sourceArray.Length);
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current SignalArray 
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current VectorSegment 
         /// starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
-        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current VectorSegment at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            Debug.Assert(targetIndex + length < _length);
+            if(targetIndex < 0 || targetIndex + length > _length) {
+                throw new ArgumentOutOfRangeException("targetIndex");
+            }
             Array.Copy(sourceArray, 0, _innerArr, _offset + targetIndex, length);
         }
 
         /// <summary>
         /// Copies <paramref name="length"/> elements starting from sourceIndex on sourceArray to the current
-        /// SignalArray starting at the specified targetIndex.
+        /// VectorSegment starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="sourceIndex">The sourceArray index at which copying begins.</param>
-        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current VectorSegment at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
-            Debug.Assert(targetIndex + length < _length);
+            if(targetIndex < 0 || targetIndex + length > _length) {
+                throw new ArgumentOutOfRangeException("targetIndex");
+            }
             Array.Copy(sourceArray, sourceIndex, _innerArr, _offset + targetIndex, length);
         }
 

@@ -52,7 +52,9 @@
     <Compile Include="Network\CyclicGraphAnalysisTests.cs" />
     <Compile Include="Network\DirectedGraphTests.cs" />
     <Compile Include="Network\NetworkUtils.cs" />
-    <Compile Include="Phenomes\MappingSignalArrayTests.cs" />
+    <Compile Include="Phenomes\MappingVectorTests.cs" />
+    <Compile Include="Phenomes\VectorSegmentTests.cs" />
+    <Compile Include="Phenomes\VectorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Network\WeightedAcyclicDirectedGraphTests.cs" />
     <Compile Include="Network\WeightedDirectedGraphTests.cs" />
