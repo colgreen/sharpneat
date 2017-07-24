@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Phenomes.NeuralNets
+namespace SharpNeat.NeuralNets
 {
     /// <summary>
     /// Represents network activation schemes.

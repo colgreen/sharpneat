@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network2;
 using SharpNeat.Network2.Acyclic;
-using SharpNeat.Phenomes.NeuralNets;
+using SharpNeat.NeuralNets;
 
 namespace SharpNeatLib.Tests.Phenomes.NeuralNets
 {

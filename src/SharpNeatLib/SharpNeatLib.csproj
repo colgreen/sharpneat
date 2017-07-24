@@ -123,9 +123,9 @@
     <Compile Include="Phenomes\IVector.cs" />
     <Compile Include="Phenomes\MappingVector.cs" />
     <Compile Include="Network2\Acyclic\AcyclicDirectedGraph.cs" />
-    <Compile Include="Phenomes\NeuralNets\AcyclicNeuralNet.cs" />
-    <Compile Include="Phenomes\NeuralNets\CyclicNeuralNet.cs" />
-    <Compile Include="Phenomes\NeuralNets\NetworkActivationScheme.cs" />
+    <Compile Include="NeuralNets\AcyclicNeuralNet.cs" />
+    <Compile Include="NeuralNets\CyclicNeuralNet.cs" />
+    <Compile Include="NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\VectorSegment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\RandomFactory.cs" />
