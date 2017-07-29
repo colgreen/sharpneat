@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpNeat.Network2;
 
 namespace SharpNeat.Neat
 {
@@ -28,7 +29,7 @@ namespace SharpNeat.Neat
             : base(genomeIdSeq, innovationIdSeq, genomeList)
         {
             this.MetaNeatGenome = metaNeatGenome;
-            this.AddedConnectionBuffer = new KeyedCircularBuffer<ConnectionEndpoints,uint>(innovationHistoryBufferSize);
+            this.AddedConnectionBuffer = new KeyedCircularBuffer<DirectedConnection,uint>(innovationHistoryBufferSize);
             this.AddedNodeBuffer = new KeyedCircularBuffer<uint,AddedNodeInfo>(innovationHistoryBufferSize);
         }
 
@@ -43,7 +44,7 @@ namespace SharpNeat.Neat
         /// Used when adding new connections to check if an identical connection has been added to a genome elsewhere 
         /// in the population. This allows re-use of the same innovation ID for like connections.
         /// </summary>
-        public KeyedCircularBuffer<ConnectionEndpoints,uint> AddedConnectionBuffer { get; }
+        public KeyedCircularBuffer<DirectedConnection,uint> AddedConnectionBuffer { get; }
 
         /// <summary>
         /// A history buffer of added neurons.

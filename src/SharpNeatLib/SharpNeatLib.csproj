@@ -104,7 +104,6 @@
     <Compile Include="Network2\DirectedGraph.cs" />
     <Compile Include="Network2\WeightedDirectedGraph.cs" />
     <Compile Include="Network2\WeightedDirectedGraphFactory.cs" />
-    <Compile Include="Network\ConnectionEndpoints.cs" />
     <Compile Include="NeuralNets\ActivationFunctions\ArcSinH.cs" />
     <Compile Include="NeuralNets\ActivationFunctions\ArcTan.cs" />
     <Compile Include="NeuralNets\ActivationFunctions\Cppn\BipolarGaussian.cs" />
