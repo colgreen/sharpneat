@@ -104,8 +104,6 @@
     <Compile Include="Network2\DirectedGraph.cs" />
     <Compile Include="Network2\WeightedDirectedGraph.cs" />
     <Compile Include="Network2\WeightedDirectedGraphFactory.cs" />
-    <Compile Include="Network\Analysis\AcyclicNetworkDepthAnalysis.cs" />
-    <Compile Include="Network\Analysis\CyclicNetworkTest.cs" />
     <Compile Include="Network\ConnectionEndpoints.cs" />
     <Compile Include="NeuralNets\ActivationFunctions\ArcSinH.cs" />
     <Compile Include="NeuralNets\ActivationFunctions\ArcTan.cs" />
@@ -131,14 +129,7 @@
     <Compile Include="NeuralNets\ActivationFunctions\TanH.cs" />
     <Compile Include="NeuralNets\IActivationFunction.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
-    <Compile Include="Network\IConnectionList.cs" />
-    <Compile Include="Network\INetworkConnection.cs" />
-    <Compile Include="Network\INetworkDefinition.cs" />
-    <Compile Include="Network\INetworkNode.cs" />
-    <Compile Include="Network\INodeList.cs" />
-    <Compile Include="Network\NetworkConnectivityData.cs" />
     <Compile Include="Network\GraphDepthInfo.cs" />
-    <Compile Include="Network\NodeConnectivityData.cs" />
     <Compile Include="Phenomes\BoundedMappingVector.cs" />
     <Compile Include="Phenomes\BoundedVectorSegment.cs" />
     <Compile Include="Phenomes\IPhenome.cs" />
