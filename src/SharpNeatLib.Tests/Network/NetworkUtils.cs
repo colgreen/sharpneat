@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Network2;
-using SharpNeat.Network2.Acyclic;
+using SharpNeat.Network;
+using SharpNeat.Network.Acyclic;
 
 namespace SharpNeatLib.Tests.Network
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     public static class DirectedConnectionUtils
     {

@@ -10,8 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using SharpNeat.Network;
-using SharpNeat.Network2;
-using SharpNeat.Network2.Acyclic;
+using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
 
 namespace SharpNeat.NeuralNets

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Network2;
+using SharpNeat.Network;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeatLib.Tests.Phenomes.NeuralNets

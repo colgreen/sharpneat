@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     /// <summary>
     /// An algorithm for testing for the presence of at least one connectivity cycle within a network.

@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpNeat.Network2.Acyclic;
+using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
 using SharpNeat.NeuralNets;
 

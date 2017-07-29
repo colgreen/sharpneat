@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Network2.Acyclic
+namespace SharpNeat.Network.Acyclic
 {
     public class WeightedAcyclicDirectedGraph<T> : AcyclicDirectedGraph
         where T : struct

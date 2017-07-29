@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Network2.Acyclic
+namespace SharpNeat.Network.Acyclic
 {
     /// <summary>
     /// Represents a node and connection index that represent the last node and connection in a given layer

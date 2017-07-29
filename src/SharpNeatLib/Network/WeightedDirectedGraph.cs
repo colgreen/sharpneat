@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     public class WeightedDirectedGraph<T> : DirectedGraph 
         where T : struct

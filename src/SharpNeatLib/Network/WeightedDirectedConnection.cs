@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     /// <summary>
     /// Represents a connection between two nodes, combined with a connection weight.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Network2;
+using SharpNeat.Network;
 using static SharpNeatLib.Tests.Network.NetworkUtils;
 
 namespace SharpNeatLib.Tests

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     public class DirectedConnectionComparer : IComparer<DirectedConnection>, IComparer<IDirectedConnection>
     {

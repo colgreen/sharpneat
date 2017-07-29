@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Network.Analysis
+namespace SharpNeat.Network
 {
     /// <summary>
     /// Conveys summary information from a network depth analysis .

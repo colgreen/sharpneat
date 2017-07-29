@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Network2;
-using SharpNeat.Network2.Acyclic;
+using SharpNeat.Network;
+using SharpNeat.Network.Acyclic;
 using static SharpNeatLib.Tests.Network.NetworkUtils;
 
 namespace SharpNeatLib.Tests.Network

@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     public interface IWeightedDirectedConnection<T> : IDirectedConnection
         where T : struct

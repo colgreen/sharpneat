@@ -1,14 +1,9 @@
-﻿using Redzen.Structures;
+﻿using System.Collections.Generic;
+using Redzen.Structures;
 using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpNeat.Network2;
 
 namespace SharpNeat.Neat
 {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using SharpNeat.Network.Analysis;
 
-namespace SharpNeat.Network2.Acyclic
+namespace SharpNeat.Network.Acyclic
 {
     public static class WeightedAcyclicDirectedGraphFactory<T>
         where T : struct

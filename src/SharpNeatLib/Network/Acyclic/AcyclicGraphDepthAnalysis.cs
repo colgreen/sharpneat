@@ -11,9 +11,8 @@
  */
 using System.Collections.Generic;
 using System.Diagnostics;
-using SharpNeat.Network.Analysis;
 
-namespace SharpNeat.Network2.Acyclic
+namespace SharpNeat.Network.Acyclic
 {
     /// <summary>
     /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.

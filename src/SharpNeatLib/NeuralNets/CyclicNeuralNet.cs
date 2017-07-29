@@ -11,7 +11,6 @@
  */
 using System;
 using SharpNeat.Network;
-using SharpNeat.Network2;
 using SharpNeat.Phenomes;
 
 namespace SharpNeat.NeuralNets

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     public static class DirectedGraphFactory
     {

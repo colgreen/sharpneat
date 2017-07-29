@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpNeat.Network2
+namespace SharpNeat.Network
 {
     /// <summary>
     /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that 

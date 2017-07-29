@@ -1,5 +1,4 @@
 ﻿using SharpNeat.Network;
-using SharpNeat.Network2;
 
 namespace SharpNeat.Neat.Genome
 {
