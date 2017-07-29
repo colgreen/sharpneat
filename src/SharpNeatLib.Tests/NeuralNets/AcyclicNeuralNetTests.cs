@@ -167,6 +167,32 @@ namespace SharpNeatLib.Tests.Phenomes.NeuralNets
             Assert.AreEqual(output0, net.OutputVector[0]);
         }
 
+        [TestMethod]
+        [TestCategory("AcyclicNeuralNet")]
+        public void MultipleInputsOutputs()
+        {
+            var connList = new List<IWeightedDirectedConnection<double>>();
+            connList.Add(new WeightedDirectedConnection<double>(0, 5, 1.0));
+            connList.Add(new WeightedDirectedConnection<double>(1, 3, 1.0));
+            connList.Add(new WeightedDirectedConnection<double>(2, 4, 1.0));
+
+            // Create graph.
+            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 3, 3);
+
+            // Create neural net
+            var actFn = new LogisticFunction();
+            var net = new AcyclicNeuralNet(digraph, actFn.Fn, false);
+
+            // Activate and test.
+            net.InputVector[0] = 1.0;
+            net.InputVector[1] = 2.0;
+            net.InputVector[2] = 3.0;
+            net.Activate();
+            Assert.AreEqual(actFn.Fn(2.0), net.OutputVector[0]);
+            Assert.AreEqual(actFn.Fn(3.0), net.OutputVector[1]);
+            Assert.AreEqual(actFn.Fn(1.0), net.OutputVector[2]);
+        }
+
         #endregion
     }
 }
