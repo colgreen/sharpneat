@@ -1,10 +1,10 @@
 ﻿using System;
-using SharpNeat.Network.Acyclic;
-using SharpNeat.Phenomes;
-using SharpNeat.NeuralNets;
 using SharpNeat.Core;
+using SharpNeat.Network.Acyclic;
+using SharpNeat.NeuralNets.Double;
+using SharpNeat.Phenomes;
 
-namespace SharpNeat.Neat.Genome
+namespace SharpNeat.Neat.Genome.Double
 {
     public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome,IPhenome<double>>
     {

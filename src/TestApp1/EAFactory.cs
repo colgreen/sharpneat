@@ -7,6 +7,7 @@ using SharpNeat.Core;
 using SharpNeat.EA;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Phenomes;
 using SharpNeatTasks.BinaryElevenMultiplexerTask;
 

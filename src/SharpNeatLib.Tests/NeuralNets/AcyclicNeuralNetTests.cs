@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNets.Double;
 
 namespace SharpNeatLib.Tests.Phenomes.NeuralNets
 {

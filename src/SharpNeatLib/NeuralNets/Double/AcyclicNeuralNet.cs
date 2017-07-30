@@ -14,7 +14,7 @@ using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
 using SharpNeat.Phenomes.Double;
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double
 {
     /// <summary>
     /// A neural network implementation for acyclic networks.

@@ -1,9 +1,9 @@
 ﻿using System;
 using SharpNeat.Network;
+using SharpNeat.NeuralNets.Double;
 using SharpNeat.Phenomes;
-using SharpNeat.NeuralNets;
 
-namespace SharpNeat.Neat.Genome
+namespace SharpNeat.Neat.Genome.Double
 {
     public static class NeatGenomeCyclicDecoder
     {
