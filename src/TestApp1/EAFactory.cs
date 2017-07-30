@@ -18,7 +18,7 @@ namespace TestApp1
         MetaNeatGenome _metaNeatGenome;
         NeatPopulation _neatPop;
 
-        #region Public Mthods
+        #region Public Methods
 
         public DefaultEvolutionAlgorithm<NeatGenome> CreateDefaultEvolutionAlgorithm()
         {
@@ -54,18 +54,11 @@ namespace TestApp1
 
         private IGenomeListEvaluator<NeatGenome> CreateGenomeListEvaluator()
         {
-
-            // TODO: Create genome decoder!
-
-
-
-
-
+            var genomeDecoder = new NeatGenomeAcyclicDecoder(false);
             IPhenomeEvaluator<IPhenome<double>> phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            IGenomeListEvaluator<NeatGenome> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome,IPhenome<double>>(null, phenomeEvaluator);
+            IGenomeListEvaluator<NeatGenome> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome,IPhenome<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
         }
-
 
         #endregion
 

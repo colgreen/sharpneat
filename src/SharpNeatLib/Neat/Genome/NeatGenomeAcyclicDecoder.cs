@@ -2,17 +2,32 @@
 using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
 using SharpNeat.NeuralNets;
+using SharpNeat.Core;
 
 namespace SharpNeat.Neat.Genome
 {
-    public static class NeatGenomeAcyclicDecoder
+    public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome,IPhenome<double>>
     {
+
+        bool _boundedOutput;
+
+        #region Constructor
+
+        public NeatGenomeAcyclicDecoder(bool boundedOutput)
+        {
+            _boundedOutput = boundedOutput;
+        }
+
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Decode a genome into a working neural network.
         /// </summary>
         /// <param name="neatGenome">The genome to decode.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public static IPhenome<double> Decode(NeatGenome neatGenome, bool boundedOutput)
+        public IPhenome<double> Decode(NeatGenome neatGenome)
         {
             // Basic validation test.
             if(!neatGenome.MetaNeatGenome.IsAcyclic) {
@@ -27,8 +42,10 @@ namespace SharpNeat.Neat.Genome
                                                         meta.OutputNodeCount);
 
             // Create a working neural net.
-            AcyclicNeuralNet neuralNet = new AcyclicNeuralNet(digraph, meta.ActivationFn.Fn, boundedOutput);
+            AcyclicNeuralNet neuralNet = new AcyclicNeuralNet(digraph, meta.ActivationFn.Fn, _boundedOutput);
             return neuralNet;
         }
+
+        #endregion
     }
 }

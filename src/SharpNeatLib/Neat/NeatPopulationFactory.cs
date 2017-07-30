@@ -82,7 +82,7 @@ namespace SharpNeat.Neat
         /// </summary>
         private NeatGenome CreateGenome()
         {
-            // Determine how many connections to create in the new genome, as a proportion os all possible connections
+            // Determine how many connections to create in the new genome, as a proportion of all possible connections
             // between the input and output nodes.
             int requiredConnectionCount = (int)NumericsUtils.ProbabilisticRound(_connectionDefArr.Length * _connectionsProportion, _rng);
 
@@ -109,7 +109,7 @@ namespace SharpNeat.Neat
                 connectionGeneList.Add(cgene);
             }
 
-            // Get create a new genome genome with a new ID, birth generaion of zero.
+            // Get create a new genome with a new ID, birth generation of zero.
             uint id = _genomeIdSeq.Next();
             return new NeatGenome(_metaNeatGenome, id, 0, connectionGeneList);
         }
@@ -142,7 +142,7 @@ namespace SharpNeat.Neat
         /// </summary>
         /// <param name="metaNeatGenome">Genome metadata, e.g. the number of input and output nodes that each genome should have.</param>
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
-        /// <param name="popSize">Popultion size. The number of new genomes to create.</param>
+        /// <param name="popSize">Population size. The number of new genomes to create.</param>
         /// <returns>A new NeatPopulation.</returns>
         public static NeatPopulation CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
         {

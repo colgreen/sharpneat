@@ -129,8 +129,7 @@
     <Compile Include="NeuralNets\IActivationFunction.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
     <Compile Include="Network\GraphDepthInfo.cs" />
-    <Compile Include="Phenomes\BoundedMappingVector.cs" />
-    <Compile Include="Phenomes\BoundedVectorSegment.cs" />
+    <Compile Include="Phenomes\Double\BoundedVector.cs" />
     <Compile Include="Phenomes\IPhenome.cs" />
     <Compile Include="Phenomes\IVector.cs" />
     <Compile Include="Phenomes\MappingVector.cs" />

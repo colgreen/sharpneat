@@ -12,6 +12,7 @@
 using System;
 using SharpNeat.Network;
 using SharpNeat.Phenomes;
+using SharpNeat.Phenomes.Double;
 
 namespace SharpNeat.NeuralNets
 {
@@ -54,7 +55,7 @@ namespace SharpNeat.NeuralNets
         // Wrappers over _postActivationArr that map between input/output vectors and the
         // corresponding underlying network nodes.
         readonly VectorSegment<double> _inputVector;
-        readonly VectorSegment<double> _outputVector;
+        readonly IVector<double> _outputVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -95,10 +96,12 @@ namespace SharpNeat.NeuralNets
             _inputVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
+            var outputVec = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
+
             if(boundedOutput) {
-                _outputVector = new BoundedVectorSegment(_postActivationArr, _inputCount, _outputCount);
+                _outputVector = new BoundedVector(outputVec);
             } else {
-                _outputVector = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
+                _outputVector = outputVec;
             }
         }
 

@@ -12,6 +12,7 @@
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
+using SharpNeat.Phenomes.Double;
 
 namespace SharpNeat.NeuralNets
 {
@@ -59,7 +60,7 @@ namespace SharpNeat.NeuralNets
         // Wrappers over _activationArr that map between input/output vectors to the
         // corresponding underlying node activation levels.
         readonly VectorSegment<double> _inputVector;
-        readonly MappingVector<double> _outputVector;
+        readonly IVector<double> _outputVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -102,10 +103,12 @@ namespace SharpNeat.NeuralNets
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
+            var outputVec = new MappingVector<double>(_activationArr, diGraph.OutputNodeIdxArr);
+
             if(boundedOutput) {
-                _outputVector = new BoundedMappingVector(_activationArr, diGraph.OutputNodeIdxArr);
+                _outputVector = new BoundedVector(outputVec);
             } else {
-                _outputVector = new MappingVector<double>(_activationArr, diGraph.OutputNodeIdxArr);
+                _outputVector = outputVec;
             }
         }
 
