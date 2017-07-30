@@ -17,11 +17,11 @@ namespace TestApp1
     {
         EAParameters _eaParams;
         MetaNeatGenome _metaNeatGenome;
-        NeatPopulation _neatPop;
+        NeatPopulation<double> _neatPop;
 
         #region Public Methods
 
-        public DefaultEvolutionAlgorithm<NeatGenome> CreateDefaultEvolutionAlgorithm()
+        public DefaultEvolutionAlgorithm<NeatGenome<double>> CreateDefaultEvolutionAlgorithm()
         {
             _eaParams = new EAParameters();
             _eaParams.PopulationSize = 100;
@@ -30,10 +30,10 @@ namespace TestApp1
             _neatPop = CreatePopulation(_eaParams.PopulationSize);
 
 
-            IGenomeListEvaluator<NeatGenome> genomeListEvaluator = CreateGenomeListEvaluator();
+            IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = CreateGenomeListEvaluator();
 
 
-            var ea = new DefaultEvolutionAlgorithm<NeatGenome>(_eaParams, null, null, _neatPop);
+            var ea = new DefaultEvolutionAlgorithm<NeatGenome<double>>(_eaParams, null, null, _neatPop);
             return ea;
         }
 
@@ -41,23 +41,23 @@ namespace TestApp1
 
         #region Private Methods
 
-        private NeatPopulation CreatePopulation(int size)
+        private NeatPopulation<double> CreatePopulation(int size)
         {
             MetaNeatGenome metaNeatGenome = new MetaNeatGenome();
             metaNeatGenome.InputNodeCount = 3;
             metaNeatGenome.OutputNodeCount = 1;
             metaNeatGenome.IsAcyclic = true;
 
-            NeatPopulation neatPop = NeatPopulationFactory.CreatePopulation(metaNeatGenome, 1.0, size);
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, size);
             return neatPop;
         }
 
 
-        private IGenomeListEvaluator<NeatGenome> CreateGenomeListEvaluator()
+        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(false);
             IPhenomeEvaluator<IPhenome<double>> phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            IGenomeListEvaluator<NeatGenome> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome,IPhenome<double>>(genomeDecoder, phenomeEvaluator);
+            IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>,IPhenome<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
         }
 

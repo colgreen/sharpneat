@@ -6,7 +6,7 @@ using SharpNeat.Phenomes;
 
 namespace SharpNeat.Neat.Genome.Double
 {
-    public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome,IPhenome<double>>
+    public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
     {
 
         bool _boundedOutput;
@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// </summary>
         /// <param name="neatGenome">The genome to decode.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public IPhenome<double> Decode(NeatGenome neatGenome)
+        public IPhenome<double> Decode(NeatGenome<double> neatGenome)
         {
             // Basic validation test.
             if(!neatGenome.MetaNeatGenome.IsAcyclic) {
@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.Genome.Double
             // Create a WeightedDirectedGraph representation of the neural net.
             MetaNeatGenome meta = neatGenome.MetaNeatGenome;
             WeightedAcyclicDirectedGraph<double> digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(
-                                                        neatGenome.ConnectionGeneList,
+                                                        neatGenome.ConnectionGeneArray,
                                                         meta.InputNodeCount,
                                                         meta.OutputNodeCount);
 

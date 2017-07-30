@@ -2,18 +2,18 @@
 
 namespace SharpNeat.Neat.Genome
 {
-    // TODO: Consider if this could/should be a struct; or maybe wrap with a struct ConnectionGeneRef class, so we get to use whichever is most appropriate in each subroutine.
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.
     /// </summary>
-    public class ConnectionGene : IWeightedDirectedConnection<double>
+    public class ConnectionGene<T> : IWeightedDirectedConnection<T>
+        where T : struct
     {
         #region Auto Properties
 
         public uint Id { get; }
         public int SourceId { get; }
         public int TargetId { get; }
-        public double Weight { get; set; }
+        public T Weight { get; set; }
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Copy constructor.
         /// </summary>
-        public ConnectionGene(ConnectionGene copyFrom)
+        public ConnectionGene(ConnectionGene<T> copyFrom)
         {
             this.Id = copyFrom.Id;
             this.SourceId = copyFrom.SourceId;
@@ -33,35 +33,12 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
         /// </summary>
-        public ConnectionGene(uint id, int sourceId, int targetId, double weight)
+        public ConnectionGene(uint id, int sourceId, int targetId, T weight)
         {
             this.Id = id;
             this.SourceId = sourceId;
             this.TargetId = targetId;
             this.Weight = weight;
-        }
-
-        ///// <summary>
-        ///// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
-        ///// </summary>
-        //public ConnectionGene(uint id, ConnectionEndpoints connection, double weight)
-        //{
-        //    this.Id = id;
-        //    this.SourceId = connection.SourceId;
-        //    this.TargetId = connection.TargetId;
-        //    this.Weight = weight;
-        //}
-
-        #endregion
-
-        #region Public Methods
-
-        /// <summary>
-        /// Creates a copy of the current gene. Virtual method that can be overridden by sub-types.
-        /// </summary>
-        public virtual ConnectionGene CreateCopy()
-        {
-            return new ConnectionGene(this);
         }
 
         #endregion

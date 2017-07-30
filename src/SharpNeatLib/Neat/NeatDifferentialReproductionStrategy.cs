@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace SharpNeat.Neat
 {
-    public class NeatDifferentialReproductionStrategy : IDifferentialReproductionStrategy<NeatGenome>
+    public class NeatDifferentialReproductionStrategy : IDifferentialReproductionStrategy<NeatGenome<double>>
     {
-        public void Invoke(Population<NeatGenome> population)
+        public void Invoke(Population<NeatGenome<double>> population)
         {
-            var neatPop = population as NeatPopulation;
+            var neatPop = population as NeatPopulation<double>;
             
 
             throw new NotImplementedException();

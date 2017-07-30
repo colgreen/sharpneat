@@ -70,16 +70,15 @@
     <Compile Include="Neat\AddedNodeInfo.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
+    <Compile Include="Neat\IRandomWeightSource.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraphFactory.cs" />
     <Compile Include="Network\CyclicGraphAnalysis.cs" />
     <Compile Include="Neat\Genome\ConnectionGene.cs" />
-    <Compile Include="Neat\Genome\ConnectionGeneList.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
     <Compile Include="Neat\Genome\NeatGenome.cs" />
-    <None Include="Neat\Genome\NetworkConnectivityInfo.cs" />
     <None Include="Neat\Decoding\NeatGenomeDecoder.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
     <None Include="Neat\Reproduction\Asexual\AddCyclicConnectionMutation.cs" />

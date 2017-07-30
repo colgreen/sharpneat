@@ -9,7 +9,8 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
 {
-    public class NeatGenome : IGenome
+    public class NeatGenome<T> : IGenome
+        where T : struct
     {
         #region Instance Fields
 
@@ -22,7 +23,7 @@ namespace SharpNeat.Neat.Genome
         // TODO: Consider whether birthGeneration belongs here.
         readonly uint _birthGeneration;
         // TODO: Order genes by sourceID then targetID, and use a separate structure to track the order of innovation IDs.
-        readonly ConnectionGeneList _connectionGeneList;
+        readonly ConnectionGene<T>[] _connectionGeneArr;
 
         double _fitness;
 
@@ -37,12 +38,12 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public NeatGenome(MetaNeatGenome metaNeatGenome,
                           uint id, uint birthGeneration,
-                          ConnectionGeneList connectionGeneList)
+                          ConnectionGene<T>[] connectionGeneArr)
         {
             _metaNeatGenome = metaNeatGenome;
             _id = id;
             _birthGeneration = birthGeneration;
-            _connectionGeneList = connectionGeneList;
+            _connectionGeneArr = connectionGeneArr;
         }
 
         #endregion
@@ -56,8 +57,8 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Gets the genome's list of connection genes.
         /// </summary>
-        public ConnectionGeneList ConnectionGeneList {
-            get { return _connectionGeneList; }
+        public ConnectionGene<T>[] ConnectionGeneArray {
+            get { return _connectionGeneArr; }
         }
 
         ///// <summary>

@@ -11,14 +11,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     public class NeatReproductionAsexual
     {
         NeatReproductionAsexualSettings _settings;
-        NeatPopulation _pop;
+        NeatPopulation<double> _pop;
         IRandomSource _rng;
 
         //AddNodeMutation _addNodeMutation;
 
         #region Constructor
 
-        public NeatReproductionAsexual(NeatReproductionAsexualSettings settings, NeatPopulation pop)
+        public NeatReproductionAsexual(NeatReproductionAsexualSettings settings, NeatPopulation<double> pop)
         {
             _settings = settings;
             _pop = pop;
@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Asexual reproduction.
         /// </summary>
         /// <param name="parent1">Parent genome.</param>
-        public NeatGenome CreateChild(NeatGenome parent)
+        public NeatGenome<double> CreateChild(NeatGenome<double> parent)
         {
             // Get a discrete distribution over the set of possible mutation types.
             DiscreteDistribution mutationTypeDist = GetMutationTypeDistribution(parent);
@@ -42,7 +42,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Keep trying until a child genome is created.
             for(;;)
             {
-                NeatGenome childGenome = CreateChildInner(parent, ref mutationTypeDist);
+                NeatGenome<double> childGenome = CreateChildInner(parent, ref mutationTypeDist);
                 if(null != childGenome) {
                     return childGenome;
                 }
@@ -53,13 +53,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild Subroutines]
 
-        public NeatGenome CreateChildInner(NeatGenome parent, ref DiscreteDistribution mutationTypeDist)
+        public NeatGenome<double> CreateChildInner(NeatGenome<double> parent, ref DiscreteDistribution mutationTypeDist)
         {
             // Determine the type of mutation to attempt.
             int mutationTypeId = mutationTypeDist.Sample(_rng);
 
             // Attempt to create a child genome using the selected mutation type.
-            NeatGenome childGenome = null;
+            NeatGenome<double> childGenome = null;
 
             switch(mutationTypeId)
             {
@@ -102,7 +102,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_WeightMutation]
 
-        private NeatGenome CreateChild_WeightMutation(NeatGenome parent)
+        private NeatGenome<double> CreateChild_WeightMutation(NeatGenome<double> parent)
         {
             // TODO:
             return null;
@@ -112,7 +112,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_AddConnectionMutation]
 
-        private NeatGenome CreateChild_AddConnectionMutation(NeatGenome parent)
+        private NeatGenome<double> CreateChild_AddConnectionMutation(NeatGenome<double> parent)
         {
             // TODO:
             return null;
@@ -122,7 +122,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_DeleteConnectionMutation]
 
-        private NeatGenome CreateChild_DeleteConnectionMutation(NeatGenome parent)
+        private NeatGenome<double> CreateChild_DeleteConnectionMutation(NeatGenome<double> parent)
         {
             // TODO:
             return null;
@@ -132,11 +132,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods 
 
-        private DiscreteDistribution GetMutationTypeDistribution(NeatGenome parent)
+        private DiscreteDistribution GetMutationTypeDistribution(NeatGenome<double> parent)
         {
             // If there is only one connection then avoid destructive mutations to avoid the 
             // creation of genomes with no connections.
-            DiscreteDistribution dist = (parent.ConnectionGeneList.Count < 2) ?
+            DiscreteDistribution dist = (parent.ConnectionGeneArray.Length < 2) ?
                   _settings.MutationTypeDistributionNonDestructive
                 : _settings.MutationTypeDistribution;
 

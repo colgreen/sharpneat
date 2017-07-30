@@ -7,21 +7,28 @@ using SharpNeat.Utils;
 
 namespace SharpNeat.Neat
 {
-    public class NeatPopulation : Population<NeatGenome>
+    public class NeatPopulation<T> : Population<NeatGenome<T>>
+        where T : struct
     {
         const int __defaultInnovationHistoryBufferSize = 0x20000; // = 131,072.
 
         #region Constructor
 
-        public NeatPopulation(UInt32Sequence genomeIdSeq, UInt32Sequence innovationIdSeq,
-                              List<NeatGenome> genomeList, MetaNeatGenome metaNeatGenome)
-            : this(genomeIdSeq, innovationIdSeq, genomeList, metaNeatGenome, __defaultInnovationHistoryBufferSize)
+        public NeatPopulation(
+            UInt32Sequence genomeIdSeq,
+            UInt32Sequence innovationIdSeq,
+            List<NeatGenome<T>> genomeList,
+            MetaNeatGenome metaNeatGenome)
+        : this(genomeIdSeq, innovationIdSeq, genomeList, metaNeatGenome, __defaultInnovationHistoryBufferSize)
         {}
 
-        public NeatPopulation(UInt32Sequence genomeIdSeq, UInt32Sequence innovationIdSeq,
-                              List<NeatGenome> genomeList, MetaNeatGenome metaNeatGenome,
-                              int innovationHistoryBufferSize)
-            : base(genomeIdSeq, innovationIdSeq, genomeList)
+        public NeatPopulation(
+            UInt32Sequence genomeIdSeq,
+            UInt32Sequence innovationIdSeq,
+            List<NeatGenome<T>> genomeList,
+            MetaNeatGenome metaNeatGenome,
+            int innovationHistoryBufferSize)
+        : base(genomeIdSeq, innovationIdSeq, genomeList)
         {
             this.MetaNeatGenome = metaNeatGenome;
             this.AddedConnectionBuffer = new KeyedCircularBuffer<DirectedConnection,uint>(innovationHistoryBufferSize);

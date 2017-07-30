@@ -6,13 +6,15 @@ using System.Collections.Generic;
 
 namespace SharpNeat.Neat
 {
-    public class NeatPopulationFactory
+    public class NeatPopulationFactory<T> where T : struct
     {
         readonly MetaNeatGenome _metaNeatGenome;
         readonly double _connectionsProportion;
 
         readonly ConnectionDefinition[] _connectionDefArr;
+        readonly IRandomWeightSource<T> _weightRng;
         readonly IRandomSource _rng;
+
         readonly UInt32Sequence _genomeIdSeq;
         readonly UInt32Sequence _innovationIdSeq;
 
@@ -52,10 +54,10 @@ namespace SharpNeat.Neat
 
         #region Public Methods
 
-        public NeatPopulation CreatePopulation(int size)
+        public NeatPopulation<T> CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
-            return new NeatPopulation(_genomeIdSeq, _innovationIdSeq, genomeList, _metaNeatGenome);
+            return new NeatPopulation<T>(_genomeIdSeq, _innovationIdSeq, genomeList, _metaNeatGenome);
         }
 
         #endregion
@@ -66,12 +68,12 @@ namespace SharpNeat.Neat
         /// Creates a list of randomly initialised genomes.
         /// </summary>
         /// <param name="length">The number of genomes to create.</param>
-        private List<NeatGenome> CreateGenomeList(int count)
+        private List<NeatGenome<T>> CreateGenomeList(int count)
         {
-            List<NeatGenome> genomeList = new List<NeatGenome>(count);
+            List<NeatGenome<T>> genomeList = new List<NeatGenome<T>>(count);
             for(int i=0; i < count; i++) 
             {
-                NeatGenome genome = CreateGenome();
+                NeatGenome<T> genome = CreateGenome();
                 genomeList.Add(genome);
             }
             return genomeList;
@@ -80,7 +82,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// Creates a single randomly initialised genome.
         /// </summary>
-        private NeatGenome CreateGenome()
+        private NeatGenome<T> CreateGenome()
         {
             // Determine how many connections to create in the new genome, as a proportion of all possible connections
             // between the input and output nodes.
@@ -99,19 +101,24 @@ namespace SharpNeat.Neat
             Array.Sort(sampleArr);
 
             // Create the connection gene list and populate it.
-            ConnectionGeneList connectionGeneList = new ConnectionGeneList(requiredConnectionCount);
+            var connectionGeneArr = new ConnectionGene<T>[requiredConnectionCount];
 
             for(int i=0; i < sampleArr.Length; i++)
             {
                 ConnectionDefinition cdef = _connectionDefArr[sampleArr[i]];
-                double weight = RandomUtils.SampleConnectionWeight(_metaNeatGenome.ConnectionWeightRange, _rng);
-                ConnectionGene cgene = new ConnectionGene(cdef._connectionId, cdef._srcNodeId, cdef._tgtNodeId, weight);
-                connectionGeneList.Add(cgene);
+
+                ConnectionGene<T> cgene = new ConnectionGene<T>(
+                    cdef._connectionId,
+                    cdef._srcNodeId,
+                    cdef._tgtNodeId,
+                    _weightRng.Sample());
+
+                connectionGeneArr[i] = cgene;
             }
 
             // Get create a new genome with a new ID, birth generation of zero.
             uint id = _genomeIdSeq.Next();
-            return new NeatGenome(_metaNeatGenome, id, 0, connectionGeneList);
+            return new NeatGenome<T>(_metaNeatGenome, id, 0, connectionGeneArr);
         }
 
         #endregion
@@ -144,9 +151,9 @@ namespace SharpNeat.Neat
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
         /// <param name="popSize">Population size. The number of new genomes to create.</param>
         /// <returns>A new NeatPopulation.</returns>
-        public static NeatPopulation CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
+        public static NeatPopulation<T> CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
         {
-            var factory = new NeatPopulationFactory(metaNeatGenome, connectionsProportion);
+            var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion);
             return factory.CreatePopulation(popSize);
         }
 

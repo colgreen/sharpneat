@@ -31,7 +31,7 @@ namespace SharpNeat.Neat.Reproduction
         /// <param name="parent1">Parent genome 1.</param>
         /// <param name="parent2">Parent genome 2.</param>
         /// <param name="birthGeneration">The birth generation of the new genome.</param>
-        public NeatGenome CreateGenome(NeatGenome parent1, NeatGenome parent2, uint birthGeneration)
+        public NeatGenome<double> CreateGenome(NeatGenome<double> parent1, NeatGenome<double> parent2, uint birthGeneration)
         {
             // TODO: Implement.
             throw new NotImplementedException();

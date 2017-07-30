@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// <param name="activationCount">The number of activations of the cyclic network to perform per 
         /// invocation of the neural net as a whole.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public static IPhenome<double> Decode(NeatGenome neatGenome, int activationCount, bool boundedOutput)
+        public static IPhenome<double> Decode(NeatGenome<double> neatGenome, int activationCount, bool boundedOutput)
         {
             // Basic validation test.
             // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but that's almost certainly 
@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.Genome.Double
             // Create a WeightedDirectedGraph representation of the neural net.
             MetaNeatGenome meta = neatGenome.MetaNeatGenome;
             WeightedDirectedGraph<double> digraph = WeightedDirectedGraphFactory<double>.Create(
-                                                        neatGenome.ConnectionGeneList,
+                                                        neatGenome.ConnectionGeneArray,
                                                         meta.InputNodeCount,
                                                         meta.OutputNodeCount);
 

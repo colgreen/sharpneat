@@ -17,7 +17,7 @@ namespace TestApp1
             EAFactory factory = new EAFactory();
             
 
-            DefaultEvolutionAlgorithm<NeatGenome> ea = factory.CreateDefaultEvolutionAlgorithm();
+            DefaultEvolutionAlgorithm<NeatGenome<double>> ea = factory.CreateDefaultEvolutionAlgorithm();
             EvolutionAlgorithmController eaController = new EvolutionAlgorithmController(ea);
 
 
