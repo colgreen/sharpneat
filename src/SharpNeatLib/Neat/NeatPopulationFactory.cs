@@ -8,15 +8,19 @@ namespace SharpNeat.Neat
 {
     public class NeatPopulationFactory<T> where T : struct
     {
+        #region Instance Fields
+
         readonly MetaNeatGenome _metaNeatGenome;
         readonly double _connectionsProportion;
 
         readonly ConnectionDefinition[] _connectionDefArr;
-        readonly IRandomWeightSource<T> _weightRng;
+        
         readonly IRandomSource _rng;
-
         readonly UInt32Sequence _genomeIdSeq;
         readonly UInt32Sequence _innovationIdSeq;
+        readonly Func<T> _rngWeightFn;
+
+        #endregion
 
         #region Constructor
 
@@ -48,21 +52,28 @@ namespace SharpNeat.Neat
             _rng = RandomFactory.Create();
             _genomeIdSeq = new UInt32Sequence();
             _innovationIdSeq = new UInt32Sequence(nextConnectionId);
+
+            // Init random connection weight source.
+            if(typeof(T) == typeof(double)) {
+                _rngWeightFn = (Func<T>)(object)RandomWeightSourceFactory.Create_Double(_metaNeatGenome.ConnectionWeightRange, _rng);
+            }
+            else if(typeof(T) == typeof(double)) {
+                _rngWeightFn = (Func<T>)(object)RandomWeightSourceFactory.Create_Single((float)_metaNeatGenome.ConnectionWeightRange, _rng);
+            }
+            else {
+                throw new ArgumentException("Unsupported type argument");
+            }
         }
 
         #endregion
 
-        #region Public Methods
+        #region Private Methods
 
         public NeatPopulation<T> CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
             return new NeatPopulation<T>(_genomeIdSeq, _innovationIdSeq, genomeList, _metaNeatGenome);
         }
-
-        #endregion
-
-        #region Private Methods
 
         /// <summary>
         /// Creates a list of randomly initialised genomes.
@@ -111,7 +122,7 @@ namespace SharpNeat.Neat
                     cdef._connectionId,
                     cdef._srcNodeId,
                     cdef._tgtNodeId,
-                    _weightRng.Sample());
+                    _rngWeightFn());
 
                 connectionGeneArr[i] = cgene;
             }
@@ -119,24 +130,6 @@ namespace SharpNeat.Neat
             // Get create a new genome with a new ID, birth generation of zero.
             uint id = _genomeIdSeq.Next();
             return new NeatGenome<T>(_metaNeatGenome, id, 0, connectionGeneArr);
-        }
-
-        #endregion
-
-        #region Inner Class [ConnectionDefinition]
-
-        struct ConnectionDefinition
-        {
-            public readonly uint _connectionId;
-            public readonly int _srcNodeId;
-            public readonly int _tgtNodeId;
-
-            public ConnectionDefinition(uint innovationId, int srcNodeId, int tgtNodeId)
-            {
-                _connectionId = innovationId;
-                _srcNodeId = srcNodeId;
-                _tgtNodeId = tgtNodeId;
-            }
         }
 
         #endregion
@@ -155,6 +148,24 @@ namespace SharpNeat.Neat
         {
             var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion);
             return factory.CreatePopulation(popSize);
+        }
+
+        #endregion
+
+        #region Inner Class [ConnectionDefinition]
+
+        struct ConnectionDefinition
+        {
+            public readonly uint _connectionId;
+            public readonly int _srcNodeId;
+            public readonly int _tgtNodeId;
+
+            public ConnectionDefinition(uint innovationId, int srcNodeId, int tgtNodeId)
+            {
+                _connectionId = innovationId;
+                _srcNodeId = srcNodeId;
+                _tgtNodeId = tgtNodeId;
+            }
         }
 
         #endregion

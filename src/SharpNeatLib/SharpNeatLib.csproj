@@ -70,7 +70,6 @@
     <Compile Include="Neat\AddedNodeInfo.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
-    <Compile Include="Neat\IRandomWeightSource.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
@@ -140,6 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\RandomFactory.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Utils\RandomWeightSourceFactory.cs" />
     <Compile Include="Utils\UInt32Sequence.cs" />
   </ItemGroup>
   <ItemGroup>
