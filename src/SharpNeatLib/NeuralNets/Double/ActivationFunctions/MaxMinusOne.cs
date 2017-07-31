@@ -1,4 +1,4 @@
-﻿/* ***************************************************************************
+/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -10,37 +10,20 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
-    /// <summary>
-    /// S-shaped rectified linear activation unit (SReLU). Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
-    /// From:
-    ///    https://en.wikipedia.org/wiki/Activation_function
-    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
-    ///    
-    /// </summary>
-    public class SReLUShifted : IActivationFunction<double>
+    public class MaxMinusOne : IActivationFunction<double>
     {
-        public string Id => "SReLUShifted";
+        public string Id => "MaxMinusOne";
 
         public double Fn(double x)
         {
-            const double tl = 0.001; // threshold (left).
-            const double tr = 0.999; // threshold (right).
-            const double a = 0.00001;
-            const double offset = 0.5;
-
             double y;
-            if(x+offset > tl && x+offset < tr) {
-                y = x+offset;
+            if (x > -1) {
+                y = x;
+            } else {
+                y = -1;
             }
-            else if(x+offset <= tl) {
-                y = tl + ((x+offset) - tl) * a;
-            }
-            else {
-                y = tr + ((x+offset) - tr) * a;
-            }
-
             return y;
         }
 

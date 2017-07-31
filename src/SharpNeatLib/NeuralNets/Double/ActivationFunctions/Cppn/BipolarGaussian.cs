@@ -11,19 +11,20 @@
  */
 
 using System;
-using System.Runtime.CompilerServices;
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
 {
-    public class ArcSinH : IActivationFunction<double>
+    /// <summary>
+    /// Bipolar Gaussian activation function. Output range is -1 to 1, that is, the tails of the Gaussian
+    /// distribution curve tend towards -1 as abs(x) -> Infinity and the Gaussian peak is at y = 1.
+    /// </summary>
+    public class BipolarGaussian : IActivationFunction<double>
     {
-        public string Id => "ArcSinH";
+        public string Id => "BipolarGaussian";
 
         public double Fn(double x)
         {
-            // Scaling factor from:
-            // https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/diwq7rb/
-            return 1.2567348023993685 * ((Asinh(x) + 1.0) * 0.5);
+            return (2.0 * Math.Exp(-Math.Pow(x * 2.5, 2.0))) - 1.0;
         }
 
         public void Fn(double[] v)
@@ -49,20 +50,5 @@ namespace SharpNeat.NeuralNets
                 w[i]= Fn(v[i]);
             }
         }
-
-        #region Private Static Methods
-
-        /// <summary>
-        /// Hyperbolic Area Sine
-        /// </summary>
-        /// <param name="value">The real value.</param>
-        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static double Asinh(double value)
-        {
-            return Math.Log(value + Math.Sqrt((value * value) + 1), Math.E);
-        }
-
-        #endregion
     }
 }

@@ -10,34 +10,36 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+using System;
+
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// S-shaped rectified linear activation unit (SReLU).
+    /// Scaled Exponential Linear Unit (SELU).
+    /// 
     /// From:
-    ///    https://en.wikipedia.org/wiki/Activation_function
-    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
+    ///     Self-Normalizing Neural Networks
+    ///     https://arxiv.org/abs/1706.02515
+    /// 
+    /// Original source code (including parameter values):
+    ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
     ///    
     /// </summary>
-    public class SReLU : IActivationFunction<double>
+    public class ScaledELU : IActivationFunction<double>
     {
-        public string Id => "SReLU";
+        public string Id => "ScaledELU";
 
         public double Fn(double x)
         {
-            const double tl = 0.001; // threshold (left).
-            const double tr = 0.999; // threshold (right).
-            const double a = 0.00001;
+            double alpha = 1.6732632423543772848170429916717;
+            double scale = 1.0507009873554804934193349852946;
 
             double y;
-            if(x > tl && x < tr) {
-                y = x;
-            }
-            else if(x <= tl) {
-                y = tl + (x - tl) * a;
-            }
+            if(x >= 0) {
+                y = scale*x;
+            } 
             else {
-                y = tr + (x - tr) * a;
+                y = scale*(alpha*Math.Exp(x)) - alpha;
             }
 
             return y;

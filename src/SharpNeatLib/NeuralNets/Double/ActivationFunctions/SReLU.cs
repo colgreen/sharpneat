@@ -1,4 +1,4 @@
-/* ***************************************************************************
+﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -10,21 +10,37 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using System;
-
-namespace SharpNeat.NeuralNets.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian
-    /// distribution curve tend towards 0 as abs(x) -> Infinity and the Gaussian peak is at x = 0.
+    /// S-shaped rectified linear activation unit (SReLU).
+    /// From:
+    ///    https://en.wikipedia.org/wiki/Activation_function
+    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
+    ///    
     /// </summary>
-    public class Gaussian : IActivationFunction<double>
+    public class SReLU : IActivationFunction<double>
     {
-        public string Id => "Gaussian";
+        public string Id => "SReLU";
 
         public double Fn(double x)
         {
-            return Math.Exp(-Math.Pow(x * 2.5, 2.0));
+            const double tl = 0.001; // threshold (left).
+            const double tr = 0.999; // threshold (right).
+            const double a = 0.00001;
+
+            double y;
+            if(x > tl && x < tr) {
+                y = x;
+            }
+            else if(x <= tl) {
+                y = tl + (x - tl) * a;
+            }
+            else {
+                y = tr + (x - tr) * a;
+            }
+
+            return y;
         }
 
         public void Fn(double[] v)

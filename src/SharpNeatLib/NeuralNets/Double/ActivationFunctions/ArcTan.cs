@@ -1,4 +1,4 @@
-﻿/* ***************************************************************************
+/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -10,28 +10,17 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+using System;
+
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
-    /// <summary>
-    /// Leaky rectified linear activation unit (ReLU).
-    /// Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
-    /// </summary>
-    public class LeakyReLUShifted : IActivationFunction<double>
+    public class ArcTan : IActivationFunction<double>
     {
-        public string Id => "LeakyReLUShifted";
+        public string Id => "ArcTan";
 
         public double Fn(double x)
         {
-            const double a = 0.001;
-            const double offset = 0.5;
-
-            double y;
-            if (x+offset > 0.0) {
-                y = x+offset;
-            } else {
-                y = (x+offset) * a;
-            }
-            return y;
+            return Math.Atan(x);
         }
 
         public void Fn(double[] v)

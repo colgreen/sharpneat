@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
-using SharpNeat.NeuralNets;
 using SharpNeat.NeuralNets.Double;
+using SharpNeat.NeuralNets.Double.ActivationFunctions;
 
 namespace SharpNeatLib.Tests.Phenomes.NeuralNets
 {

@@ -10,20 +10,18 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using System;
-
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// The logistic function.
+    /// Null activation function. Returns zero regardless of input.
     /// </summary>
-    public class LogisticFunction : IActivationFunction<double>
+    public class NullFn : IActivationFunction<double>
     {
-        public string Id => "LogisticFunction";
+        public string Id => "NullFn";
 
         public double Fn(double x)
         {
-            return 1.0 / (1.0 + Math.Exp(-x));
+            return 0.0;
         }
 
         public void Fn(double[] v)

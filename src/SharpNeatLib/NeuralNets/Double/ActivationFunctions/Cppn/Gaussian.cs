@@ -12,18 +12,19 @@
 
 using System;
 
-namespace SharpNeat.NeuralNets.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
 {
     /// <summary>
-    /// Bipolar sigmoid activation function. Output range is -1 to 1 instead of the more normal 0 to 1.
+    /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian
+    /// distribution curve tend towards 0 as abs(x) -> Infinity and the Gaussian peak is at x = 0.
     /// </summary>
-    public class BipolarSigmoid : IActivationFunction<double>
+    public class Gaussian : IActivationFunction<double>
     {
-        public string Id => "BipolarSigmoid";
+        public string Id => "Gaussian";
 
         public double Fn(double x)
         {
-            return (2.0 / (1.0 + Math.Exp(-4.9 * x))) - 1.0;
+            return Math.Exp(-Math.Pow(x * 2.5, 2.0));
         }
 
         public void Fn(double[] v)

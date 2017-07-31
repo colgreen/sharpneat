@@ -10,18 +10,20 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+using System;
+
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
 {
     /// <summary>
-    /// Null activation function. Returns zero regardless of input.
+    /// Bipolar sigmoid activation function. Output range is -1 to 1 instead of the more normal 0 to 1.
     /// </summary>
-    public class NullFn : IActivationFunction<double>
+    public class BipolarSigmoid : IActivationFunction<double>
     {
-        public string Id => "NullFn";
+        public string Id => "BipolarSigmoid";
 
         public double Fn(double x)
         {
-            return 0.0;
+            return (2.0 / (1.0 + Math.Exp(-4.9 * x))) - 1.0;
         }
 
         public void Fn(double[] v)

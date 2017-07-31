@@ -1,4 +1,4 @@
-﻿/* ***************************************************************************
+/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -10,26 +10,25 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+using System;
+
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// Leaky rectified linear activation unit (ReLU).
+    /// The softsign sigmoid.
+    /// This is a variant of softsign that has a steeper slope at and around the origin that 
+    /// is intended to be a similar slope to that of LogisticFunctionSteep.
     /// </summary>
-    public class LeakyReLU : IActivationFunction<double>
+    public class SoftSignSteep : IActivationFunction<double>
     {
-        public string Id => "LeakyReLU";
+        public string Id => "ScaledELU";
 
+        /// <summary>
+        /// Calculates the output value for the specified input value.
+        /// </summary>
         public double Fn(double x)
         {
-            const double a = 0.001;
-
-            double y;
-            if (x > 0.0) {
-                y = x;
-            } else {
-                y = x * a;
-            }
-            return y;
+            return 0.5 + (x / (2.0 * ( 0.2 + Math.Abs(x))));
         }
 
         public void Fn(double[] v)

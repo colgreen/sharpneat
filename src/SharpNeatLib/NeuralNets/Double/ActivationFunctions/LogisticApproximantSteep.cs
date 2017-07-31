@@ -11,19 +11,23 @@
  */
 
 using System;
+using System.Runtime.CompilerServices;
 
-namespace SharpNeat.NeuralNets.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// Sine activation function with doubled period.
+    /// The logistic function implemented using a fast to compute approximation of exp().
+    /// See:
+    ///   https://stackoverflow.com/a/412988/15703
+    ///   https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
     /// </summary>
-    public class Sine : IActivationFunction<double>
+    public class LogisticApproximantSteep : IActivationFunction<double>
     {
-        public string Id => "Sine";
+        public string Id => "LogisticApproximantSteep";
 
         public double Fn(double x)
         {
-            return Math.Sin(2.0 * x);
+            return 1.0/(1.0 + ExpApprox(-4.9*x));
         }
 
         public void Fn(double[] v)
@@ -48,6 +52,16 @@ namespace SharpNeat.NeuralNets.Cppn
             for(int i=startIdx; i<endIdx; i++) {
                 w[i]= Fn(v[i]);
             }
+        }
+
+        // Fast exp approximation, from:
+        // https://stackoverflow.com/a/412988/15703
+        // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static double ExpApprox(double val)
+        {
+            long tmp = (long)(1512775 * val + (1072693248 - 60801));
+            return BitConverter.Int64BitsToDouble(tmp << 32);
         }
     }
 }

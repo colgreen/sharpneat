@@ -10,21 +10,25 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using System;
-
-namespace SharpNeat.NeuralNets.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
 {
     /// <summary>
-    /// Bipolar Gaussian activation function. Output range is -1 to 1, that is, the tails of the Gaussian
-    /// distribution curve tend towards -1 as abs(x) -> Infinity and the Gaussian peak is at y = 1.
+    /// Linear activation function with clipping. By 'clipping' we mean the output value is linear between
+    /// x = -1 and x = 1. Below -1 and above +1 the output is clipped at -1 and +1 respectively.
     /// </summary>
-    public class BipolarGaussian : IActivationFunction<double>
+    public class Linear : IActivationFunction<double>
     {
-        public string Id => "BipolarGaussian";
+        public string Id => "Linear";
 
         public double Fn(double x)
         {
-            return (2.0 * Math.Exp(-Math.Pow(x * 2.5, 2.0))) - 1.0;
+            if(x < -1.0) {
+                return -1.0;
+            }
+            if (x > 1.0) {
+                return 1.0;
+            }
+            return x;
         }
 
         public void Fn(double[] v)

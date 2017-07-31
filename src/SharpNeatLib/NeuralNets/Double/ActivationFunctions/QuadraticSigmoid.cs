@@ -12,15 +12,36 @@
 
 using System;
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
-    public class TanH : IActivationFunction<double>
+    /// <summary>
+    /// A sigmoid formed by two sub-sections of the y=x^2 curve.
+    /// 
+    /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to 
+    /// ensure there is at least a gradient to follow at the extremes.
+    /// </summary>
+    public class QuadraticSigmoid : IActivationFunction<double>
     {
-        public string Id => "TanH";
+        public string Id => "QuadraticSigmoid";
 
         public double Fn(double x)
         {
-            return Math.Tanh(x);
+            const double t = 0.999;
+            const double a = 0.00001;
+
+            double sign = Math.Sign(x);
+            x = Math.Abs(x);
+
+            double y = 0;
+            if(x >= 0 && x < t) {
+                y = t - ((x - t) * (x - t));
+            }
+            else //if (x >= t) 
+            {
+                y = t + (x - t) * a;
+            }
+
+            return (y * sign * 0.5) + 0.5;
         }
 
         public void Fn(double[] v)

@@ -1,4 +1,4 @@
-/* ***************************************************************************
+﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -10,19 +10,24 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
-    public class MaxMinusOne : IActivationFunction<double>
+    /// <summary>
+    /// Leaky rectified linear activation unit (ReLU).
+    /// </summary>
+    public class LeakyReLU : IActivationFunction<double>
     {
-        public string Id => "MaxMinusOne";
+        public string Id => "LeakyReLU";
 
         public double Fn(double x)
         {
+            const double a = 0.001;
+
             double y;
-            if (x > -1) {
+            if (x > 0.0) {
                 y = x;
             } else {
-                y = -1;
+                y = x * a;
             }
             return y;
         }

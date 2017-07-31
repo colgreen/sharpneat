@@ -1,4 +1,4 @@
-/* ***************************************************************************
+﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -10,25 +10,38 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// Linear activation function with clipping. By 'clipping' we mean the output value is linear between
-    /// x = -1 and x = 1. Below -1 and above +1 the output is clipped at -1 and +1 respectively.
+    /// S-shaped rectified linear activation unit (SReLU). Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
+    /// From:
+    ///    https://en.wikipedia.org/wiki/Activation_function
+    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
+    ///    
     /// </summary>
-    public class Linear : IActivationFunction<double>
+    public class SReLUShifted : IActivationFunction<double>
     {
-        public string Id => "Linear";
+        public string Id => "SReLUShifted";
 
         public double Fn(double x)
         {
-            if(x < -1.0) {
-                return -1.0;
+            const double tl = 0.001; // threshold (left).
+            const double tr = 0.999; // threshold (right).
+            const double a = 0.00001;
+            const double offset = 0.5;
+
+            double y;
+            if(x+offset > tl && x+offset < tr) {
+                y = x+offset;
             }
-            if (x > 1.0) {
-                return 1.0;
+            else if(x+offset <= tl) {
+                y = tl + ((x+offset) - tl) * a;
             }
-            return x;
+            else {
+                y = tr + ((x+offset) - tr) * a;
+            }
+
+            return y;
         }
 
         public void Fn(double[] v)

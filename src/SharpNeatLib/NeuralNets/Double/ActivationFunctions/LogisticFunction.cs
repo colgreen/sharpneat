@@ -1,4 +1,4 @@
-﻿/* ***************************************************************************
+/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
  * Copyright 2004-2016 Colin Green (sharpneat@gmail.com)
@@ -12,37 +12,18 @@
 
 using System;
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
-    /// Scaled Exponential Linear Unit (SELU).
-    /// 
-    /// From:
-    ///     Self-Normalizing Neural Networks
-    ///     https://arxiv.org/abs/1706.02515
-    /// 
-    /// Original source code (including parameter values):
-    ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
-    ///    
+    /// The logistic function.
     /// </summary>
-    public class ScaledELU : IActivationFunction<double>
+    public class LogisticFunction : IActivationFunction<double>
     {
-        public string Id => "ScaledELU";
+        public string Id => "LogisticFunction";
 
         public double Fn(double x)
         {
-            double alpha = 1.6732632423543772848170429916717;
-            double scale = 1.0507009873554804934193349852946;
-
-            double y;
-            if(x >= 0) {
-                y = scale*x;
-            } 
-            else {
-                y = scale*(alpha*Math.Exp(x)) - alpha;
-            }
-
-            return y;
+            return 1.0 / (1.0 + Math.Exp(-x));
         }
 
         public void Fn(double[] v)
