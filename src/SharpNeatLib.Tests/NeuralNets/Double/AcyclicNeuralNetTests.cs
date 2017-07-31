@@ -5,9 +5,8 @@ using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNets.Double;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 
-namespace SharpNeatLib.Tests.Phenomes.NeuralNets
+namespace SharpNeatLib.Tests.NeuralNets.Double
 {
-
     [TestClass]
     public class AcyclicNeuralNetTests
     {

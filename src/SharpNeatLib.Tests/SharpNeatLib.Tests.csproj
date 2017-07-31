@@ -52,9 +52,9 @@
     <Compile Include="Network\CyclicGraphAnalysisTests.cs" />
     <Compile Include="Network\DirectedGraphTests.cs" />
     <Compile Include="Network\NetworkUtils.cs" />
-    <Compile Include="NeuralNets\CyclicNeuralNetTests.cs" />
+    <Compile Include="NeuralNets\Double\CyclicNeuralNetTests.cs" />
     <Compile Include="Phenomes\MappingVectorTests.cs" />
-    <Compile Include="NeuralNets\AcyclicNeuralNetTests.cs" />
+    <Compile Include="NeuralNets\Double\AcyclicNeuralNetTests.cs" />
     <Compile Include="Phenomes\VectorSegmentTests.cs" />
     <Compile Include="Phenomes\VectorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
