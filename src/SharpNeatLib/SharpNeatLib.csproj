@@ -128,6 +128,11 @@
     <Compile Include="NeuralNets\Double\ActivationFunctions\SReLU.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\SReLUShifted.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\TanH.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\LeakyReLUShifted.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\LeakyReLU.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\MaxMinusOne.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\ReLU.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SoftSignSteep.cs" />
     <Compile Include="NeuralNets\IActivationFunction.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />
     <Compile Include="Network\GraphDepthInfo.cs" />
