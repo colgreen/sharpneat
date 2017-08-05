@@ -34,58 +34,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 
         public void Fn(double[] v)
         {
-            // Init constants.
-            var vecTwo = new Vector<double>(2.0);
-            var vecFifth = new Vector<double>(0.2);
-            var vecHalf = new Vector<double>(0.5);
-
-            int width = Vector<double>.Count;
-
-            int i=0;
-            for(; i <= v.Length-width; i += width)
-            {
-                // Load values into a vector.
-                var vec = new Vector<double>(v, i);
-
-                // Calc the softsign sigmoid.
-                vec = vecHalf + (vec / (vecTwo * (vecFifth + Vector.Abs(vec))));
-
-                // Copy the final result back into v.
-                vec.CopyTo(v, i);
-            }
-
-            // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < v.Length; i++) {
-                v[i]= Fn(v[i]);
-            }
+            Fn(v, v, 0, v.Length);
         }
 
         public void Fn(double[] v, int startIdx, int endIdx)
         {
-            // Init constants.
-            var vecTwo = new Vector<double>(2.0);
-            var vecFifth = new Vector<double>(0.2);
-            var vecHalf = new Vector<double>(0.5);
-
-            int width = Vector<double>.Count;
-
-            int i=startIdx;
-            for(; i <= endIdx-width; i += width)
-            {
-                // Load values into a vector.
-                var vec = new Vector<double>(v, i);
-
-                // Calc the softsign sigmoid.
-                vec = vecHalf + (vec / (vecTwo * (vecFifth + Vector.Abs(vec))));
-
-                // Copy the final result back into v.
-                vec.CopyTo(v, i);
-            }
-
-            // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < endIdx; i++) {
-                v[i]= Fn(v[i]);
-            }
+            Fn(v, v, startIdx, endIdx);
         }
 
         public void Fn(double[] v, double[] w, int startIdx, int endIdx)
