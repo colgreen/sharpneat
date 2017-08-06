@@ -50,7 +50,7 @@ namespace SharpNeat.Network
                 y = scale*x;
             } 
             else {
-                y = scale*(alpha*Math.Exp(x)) - alpha;
+                y = scale*(alpha*Math.Exp(x) - alpha);
             }
 
             return y;
@@ -66,7 +66,7 @@ namespace SharpNeat.Network
                 y = scale * x;
             }
             else {
-                y = scale * (alpha * (float)Math.Exp(x)) - alpha;
+                y = scale * (alpha * (float)Math.Exp(x) - alpha);
             }
 
             return y;
