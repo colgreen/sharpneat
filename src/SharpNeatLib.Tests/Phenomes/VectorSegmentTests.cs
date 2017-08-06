@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Phenomes;
-using static SharpNeatLib.Tests.Phenomes.VectorUtils;
+using static SharpNeatLib.Tests.TestUtils;
 
 namespace SharpNeatLib.Tests.Phenomes
 {
