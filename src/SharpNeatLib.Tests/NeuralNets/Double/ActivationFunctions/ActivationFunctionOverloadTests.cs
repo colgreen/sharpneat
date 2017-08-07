@@ -37,7 +37,7 @@ namespace SharpNeatLib.Tests.NeuralNets.Double.ActivationFunctions
         private static void TestOverloads(IActivationFunction<double> actFn, Random rng)
         {
             // Init an array of random values.
-            double[] v = GetRandomArray(1000, rng);
+            double[] v = GetRandomArray(1001, rng);
 
             // Init empty target arrays.
             double[] v_scalar = new double[v.Length];

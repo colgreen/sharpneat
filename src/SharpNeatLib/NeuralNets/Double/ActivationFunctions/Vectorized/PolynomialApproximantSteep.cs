@@ -11,8 +11,9 @@
  */
 
 using System;
+using System.Numerics;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
     /// <summary>
     /// A very close approximation of the logistic function that avoids use of exp() and is therefore
@@ -49,24 +50,42 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 
         public void Fn(double[] v)
         {
-            // Naive implementation.
-            for(int i=0; i<v.Length; i++) {
-                v[i]= Fn(v[i]);
-            }
+            Fn(v, v, 0, v.Length);
         }
 
         public void Fn(double[] v, int startIdx, int endIdx)
         {
-            // Naive implementation.
-            for(int i=startIdx; i<endIdx; i++) {
-                v[i]= Fn(v[i]);
-            }
+            Fn(v, v, startIdx, endIdx);
         }
 
         public void Fn(double[] v, double[] w, int startIdx, int endIdx)
         {
-            // Naive implementation.
-            for(int i=startIdx; i<endIdx; i++) {
+            // Constants.
+            Vector<double> vec_4_9 = new Vector<double>(4.9);
+            Vector<double> vec_0_555 = new Vector<double>(0.555);
+            Vector<double> vec_0_143 = new Vector<double>(0.143);
+            int width = Vector<double>.Count;
+
+            int i=startIdx;
+            for(; i <= endIdx-width; i += width)
+            {
+                // Load values into a vector.
+                var vec = new Vector<double>(v, i);
+
+                vec *= vec_4_9;
+                var vec_x2 = vec * vec;
+                var vec_e = Vector<double>.One + Vector.Abs(vec) + (vec_x2 * vec_0_555) + (vec_x2 * vec_x2 * vec_0_143);
+                var vec_e_recip = Vector<double>.One / vec_e;
+                var vec_f_select = Vector.GreaterThan(vec, Vector<double>.Zero);
+                var vec_f = Vector.ConditionalSelect(vec_f_select, vec_e_recip, vec_e);
+                var vec_result = Vector<double>.One / (Vector<double>.One + vec_f);
+
+                // Copy the result back into arr.
+                vec_result.CopyTo(w, i);
+            }
+
+            // Handle vectors with lengths not an exact multiple of vector width.
+            for(; i < endIdx; i++) {
                 w[i]= Fn(v[i]);
             }
         }
