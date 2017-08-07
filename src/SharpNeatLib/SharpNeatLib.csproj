@@ -131,8 +131,10 @@
     <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\LeakyReLUShifted.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\LeakyReLU.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\MaxMinusOne.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\QuadraticSigmoid.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\ReLU.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SoftSignSteep.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SReLUShifted.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SReLU.cs" />
     <Compile Include="NeuralNets\IActivationFunction.cs" />
     <Compile Include="Network\IActivationFunctionLibrary.cs" />

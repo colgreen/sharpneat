@@ -29,11 +29,17 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             const double t = 0.999;
             const double a = 0.00001;
 
-            double sign = Math.Sign(x);
-            x = Math.Abs(x);
+            // Calc abs(x) and sign(x) with just a single conditional branch 
+            // (calling those functions individually results in two conditional branches).
+            double sign = 1;
+            if(x < 0)
+            {
+                x = x * -1;  
+                sign = -1;
+            }
 
             double y = 0;
-            if(x >= 0 && x < t) {
+            if(x < t) {
                 y = t - ((x - t) * (x - t));
             }
             else //if (x >= t) 

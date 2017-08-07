@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.NeuralNets;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using Vectorized = SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeatLib.Tests.NeuralNets.Double.ActivationFunctions
 {
@@ -29,6 +30,23 @@ namespace SharpNeatLib.Tests.NeuralNets.Double.ActivationFunctions
             AssertMonotonic(new SReLU(), true);
             AssertMonotonic(new SReLUShifted(), true);
             AssertMonotonic(new TanH(), true);
+
+            //AssertMonotonic(new Vectorized.ArcSinH(), true);
+            //AssertMonotonic(new Vectorized.ArcTan(), true);
+            AssertMonotonic(new Vectorized.LeakyReLU(), true);
+            AssertMonotonic(new Vectorized.LeakyReLUShifted(), true);
+            //AssertMonotonic(new Vectorized.LogisticApproximantSteep(), false);
+            //AssertMonotonic(new Vectorized.LogisticFunction(), true);
+            //AssertMonotonic(new Vectorized.LogisticFunctionSteep(), true);
+            AssertMonotonic(new Vectorized.MaxMinusOne(), false);
+            //AssertMonotonic(new Vectorized.PolynomialApproximantSteep(), true);
+            //AssertMonotonic(new Vectorized.QuadraticSigmoid(), false);
+            AssertMonotonic(new Vectorized.ReLU(), false);
+            //AssertMonotonic(new Vectorized.ScaledELU(), true);
+            AssertMonotonic(new Vectorized.SoftSignSteep(), true);
+            AssertMonotonic(new Vectorized.SReLU(), true);
+            AssertMonotonic(new Vectorized.SReLUShifted(), true);
+            //AssertMonotonic(new Vectorized.TanH(), true);
         }
 
         #endregion
