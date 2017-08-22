@@ -174,9 +174,6 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SharpNeatLib\SharpNeatLib.csproj">
       <Project>{29425503-9a5d-4c86-bb9b-ca17a7742e6a}</Project>
       <Name>SharpNeatLib</Name>
