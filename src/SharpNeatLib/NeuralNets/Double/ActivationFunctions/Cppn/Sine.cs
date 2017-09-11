@@ -19,8 +19,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
     /// </summary>
     public class Sine : IActivationFunction<double>
     {
-        public string Id => "Sine";
-
         public double Fn(double x)
         {
             return Math.Sin(2.0 * x);

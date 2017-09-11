@@ -19,8 +19,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
     /// </summary>
     public class BipolarSigmoid : IActivationFunction<double>
     {
-        public string Id => "BipolarSigmoid";
-
         public double Fn(double x)
         {
             return (2.0 / (1.0 + Math.Exp(-4.9 * x))) - 1.0;

@@ -23,8 +23,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class LogisticApproximantSteep : IActivationFunction<double>
     {
-        public string Id => "LogisticApproximantSteep";
-
         public double Fn(double x)
         {
             return 1.0/(1.0 + ExpApprox(-4.9*x));

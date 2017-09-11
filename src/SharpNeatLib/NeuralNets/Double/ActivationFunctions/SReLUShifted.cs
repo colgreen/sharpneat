@@ -21,8 +21,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class SReLUShifted : IActivationFunction<double>
     {
-        public string Id => "SReLUShifted";
-
         public double Fn(double x)
         {
             const double tl = 0.001; // threshold (left).

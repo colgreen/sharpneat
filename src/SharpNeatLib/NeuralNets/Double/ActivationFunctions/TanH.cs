@@ -16,8 +16,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     public class TanH : IActivationFunction<double>
     {
-        public string Id => "TanH";
-
         public double Fn(double x)
         {
             return Math.Tanh(x);

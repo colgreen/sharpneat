@@ -20,8 +20,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// </summary>
     public class ReLU : IActivationFunction<double>
     {
-        public string Id => "ReLU";
-
         public double Fn(double x)
         {
             return Math.Max(x, 0.0);

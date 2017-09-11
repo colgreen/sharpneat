@@ -20,8 +20,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
     /// </summary>
     public class Gaussian : IActivationFunction<double>
     {
-        public string Id => "Gaussian";
-
         public double Fn(double x)
         {
             return Math.Exp(-Math.Pow(x * 2.5, 2.0));

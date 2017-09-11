@@ -21,8 +21,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class SoftSignSteep : IActivationFunction<double>
     {
-        public string Id => "ScaledELU";
-
         /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>

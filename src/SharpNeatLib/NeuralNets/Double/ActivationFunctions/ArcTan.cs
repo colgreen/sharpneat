@@ -16,8 +16,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     public class ArcTan : IActivationFunction<double>
     {
-        public string Id => "ArcTan";
-
         public double Fn(double x)
         {
             return Math.Atan(x);

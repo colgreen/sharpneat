@@ -19,8 +19,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class NullFn : IActivationFunction<double>
     {
-        public string Id => "NullFn";
-
         public double Fn(double x)
         {
             return 0.0;

@@ -17,8 +17,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     public class ArcSinH : IActivationFunction<double>
     {
-        public string Id => "ArcSinH";
-
         public double Fn(double x)
         {
             // Scaling factor from:

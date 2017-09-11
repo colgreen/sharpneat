@@ -19,8 +19,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class LogisticFunctionSteep : IActivationFunction<double>
     {
-        public string Id => "LogisticFunctionSteep";
-
         public double Fn(double x)
         {
             return 1.0 / (1.0 + Math.Exp(-4.9 * x));

@@ -27,8 +27,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class ScaledELU : IActivationFunction<double>
     {
-        public string Id => "ScaledELU";
-
         public double Fn(double x)
         {
             double alpha = 1.6732632423543772848170429916717;

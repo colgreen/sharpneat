@@ -16,8 +16,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
     public class MaxMinusOne : IActivationFunction<double>
     {
-        public string Id => "MaxMinusOne";
-
         public double Fn(double x)
         {
             double y;

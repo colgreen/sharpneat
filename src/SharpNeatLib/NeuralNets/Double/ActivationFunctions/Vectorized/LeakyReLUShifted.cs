@@ -19,8 +19,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// </summary>
     public class LeakyReLUShifted : IActivationFunction<double>
     {
-        public string Id => "LeakyReLUShifted";
-
         public double Fn(double x)
         {
             const double a = 0.001;

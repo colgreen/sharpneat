@@ -22,8 +22,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// </summary>
     public class SoftSignSteep : IActivationFunction<double>
     {
-        public string Id => "SoftSignSteep";
-
         /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>

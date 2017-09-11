@@ -37,11 +37,6 @@ namespace SharpNeat.NeuralNets
     public interface IActivationFunction<T> where T : struct
     {
         /// <summary>
-        /// A unique identifier string for the function.
-        /// </summary>
-        string Id { get; }
-
-        /// <summary>
         /// The activation function.
         /// </summary>
         /// <param name="x">The single pre-activation level to pass through the function.</param>

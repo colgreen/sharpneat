@@ -20,8 +20,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
     /// </summary>
     public class BipolarGaussian : IActivationFunction<double>
     {
-        public string Id => "BipolarGaussian";
-
         public double Fn(double x)
         {
             return (2.0 * Math.Exp(-Math.Pow(x * 2.5, 2.0))) - 1.0;

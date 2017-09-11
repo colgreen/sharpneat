@@ -23,8 +23,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// </summary>
     public class QuadraticSigmoid : IActivationFunction<double>
     {
-        public string Id => "QuadraticSigmoid";
-
         public double Fn(double x)
         {
             const double t = 0.999;

@@ -35,8 +35,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public class PolynomialApproximantSteep : IActivationFunction<double>
     {
-        public string Id => "PolynomialApproximantSteep";
-
         public double Fn(double x)
         {
             x = x * 4.9;

@@ -23,8 +23,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// </summary>
     public class SReLU : IActivationFunction<double>
     {
-        public string Id => "SReLU";
-
         public double Fn(double x)
         {
             const double tl = 0.001; // threshold (left).

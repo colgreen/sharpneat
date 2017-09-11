@@ -18,8 +18,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
     /// </summary>
     public class Linear : IActivationFunction<double>
     {
-        public string Id => "Linear";
-
         public double Fn(double x)
         {
             if(x < -1.0) {
