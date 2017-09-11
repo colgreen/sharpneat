@@ -10,36 +10,17 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Numerics;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
 using SharpNeat.Phenomes.Double;
 
-namespace SharpNeat.NeuralNets.Double
+namespace SharpNeat.NeuralNets.Double.Vectorized
 {
     /// <summary>
-    /// A neural network implementation for acyclic networks.
-    /// 
-    /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by 
-    /// propagating a signal 'wave' from the input nodes through each layer to the output nodes, thus each node
-    /// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and 
-    /// (b) have a scheme that defines when to stop activating the network.
-    /// 
-    /// Algorithm Overview.
-    /// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple 
-    /// paths to a node exist the longest path determines the node's depth.
-    /// 
-    /// 2) Connections are similarly assigned a depth value which is defined as the depth of a connection's source node.
-    /// 
-    /// Note. Steps 1 and 2 are actually performed by AcyclicNetworkFactory.
-    /// 
-    /// 3) Reset all node activation values to zero. This resets any state from a previous activation.
-    /// 
-    /// 4) Each layer of the network can now be activated in turn to propagate the signals on the input nodes through the network.
-    /// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0), 
-    /// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest 
-    /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
-    /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
+    /// A version of SharpNeat.NeuralNets.Double.AcyclicNeuralNet that utilises some Vector operations
+    /// for improved performance on hardware platforms that support them.
     /// </summary>
     public class AcyclicNeuralNet : IPhenome<double>
     {
@@ -48,6 +29,9 @@ namespace SharpNeat.NeuralNets.Double
         // Connection arrays.
         readonly DirectedConnection[] _connArr;
         readonly double[] _weightArr;
+
+        // The signal at the output of each connection, i.e. the connection input signal multiplied by its weight.
+        readonly double[] _connectionOutputArr;
 
         // Array of layer information.
         readonly LayerInfo[] _layerInfoArr;        
@@ -85,6 +69,8 @@ namespace SharpNeat.NeuralNets.Double
             // Store refs to network structure data.
             _connArr = diGraph.ConnectionArray;
             _weightArr = diGraph.WeightArray;
+            _connectionOutputArr = new double[_connArr.Length];
+
             _layerInfoArr = diGraph.LayerArray;
 
             // Store network activation function.
@@ -143,6 +129,10 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         public void Activate()
         {   
+            // Init vector related variables.
+            int width = Vector<double>.Count;
+            double[] conInputArr = new double[width];
+
             // Process all layers in turn.
             int conIdx = 0;
             int nodeIdx = _inputCount;
@@ -153,7 +143,29 @@ namespace SharpNeat.NeuralNets.Double
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
+                for(; conIdx < layerInfo.EndConnectionIdx - width; conIdx += width) 
+                {
+
+                    // Load source node output values into a vector.
+                    for(int k=0; k<width; k++) {
+                        conInputArr[k] = _activationArr[_connArr[conIdx+k].SourceId];
+                    }
+                    var conInputVec = new Vector<double>(conInputArr);
+
+                    // Load connection weights into a vector.
+                    var weightVec = new Vector<double>(_weightArr, conIdx);
+
+                    // Multiply connection source inputs and connection weights.
+                    var conOutputVec = conInputVec * weightVec;
+                    
+                    // Save/accumulate connection output values onto the connection target nodes.
+                    for(int k=0; k<width; k++) {
+                        _activationArr[_connArr[conIdx+k].TargetId] += conOutputVec[k];
+                    }
+                }
+
+                // Loop remaining connections
+                for(; conIdx<_connArr.Length; conIdx++) {
                     _activationArr[_connArr[conIdx].TargetId] += _activationArr[_connArr[conIdx].SourceId] * _weightArr[conIdx];
                 }
 
