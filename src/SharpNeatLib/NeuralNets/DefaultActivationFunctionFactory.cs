@@ -5,7 +5,9 @@ using System.Numerics;
 namespace SharpNeat.NeuralNets
 {
     /// <summary>
-    /// For obtaining instances of IActivationFunction<typeparamref name="T"/>.
+    /// Default implementation of IActivationFunctionFactory.
+    /// 
+    /// A factory class for obtaining instances of IActivationFunction<typeparamref name="T"/>.
     /// </summary>
     public class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
         where T : struct
