@@ -5,8 +5,8 @@ namespace SharpNeat.Network
     /// <summary>
     /// Overview
     /// --------
-    /// Represents a weighted directed graph. The graph is described by an array of connections,
-    /// each with a source and target node ID and a weight.
+    /// Represents a directed graph. The graph is described by an array of connections,
+    /// each with a source and target node ID.
     /// 
     /// The node IDs are actually node indexes, i.e. if there are N unique IDs referred to in the
     /// connection array then the indexes run from 0 to N-1. An exception to this is when representing
@@ -21,7 +21,7 @@ namespace SharpNeat.Network
     /// 
     /// This class can represent both cyclic or acyclic graphs, however, SharpNEAT uses it in the 
     /// conversion of cyclic NeatGenomes only; a specialized class is used for acyclic graphs that 
-    /// gives improves runtime performance of the acyclic networks.
+    /// gives improved runtime performance for acyclic networks.
     /// 
     /// Specifics
     /// ---------
@@ -29,7 +29,6 @@ namespace SharpNeat.Network
     /// connections from a given node are located in a contiguous segment, the start of which can be efficiently
     /// located using a binary search. However to improve efficiency further an array of lookup indexes is compiled
     /// which gives the starting index of a connection span/segment for a given source node index.
-    /// 
     /// </summary>
     public class DirectedGraph
     {
