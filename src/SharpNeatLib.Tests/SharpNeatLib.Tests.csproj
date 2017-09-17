@@ -47,12 +47,17 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\AcyclicGraphDepthAnalysisTests.cs" />
     <Compile Include="Network\CyclicGraphAnalysisTests.cs" />
     <Compile Include="Network\DirectedGraphTests.cs" />
     <Compile Include="Network\NetworkUtils.cs" />
+    <Compile Include="NeuralNets\Double\ActivationFunctionFactoryTests.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\ActivationFunctionOverloadTests.cs" />
     <Compile Include="NeuralNets\Double\ActivationFunctions\ActivationFunctionMonotonicityTests.cs" />
     <Compile Include="NeuralNets\Double\CyclicNeuralNetTests.cs" />
