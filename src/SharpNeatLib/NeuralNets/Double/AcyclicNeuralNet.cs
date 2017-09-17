@@ -143,6 +143,12 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         public void Activate()
         {   
+            // Reset hidden and output node activation levels, ready for next activation.
+            // Note. this reset is performed here instead of after the below loop because this resets the output
+            // node values, which are the outputs of the network as a whole following activation; hence
+            // they need to be remain unchanged until they have been read by the caller of Activate().
+            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);
+
             // Process all layers in turn.
             int conIdx = 0;
             int nodeIdx = _inputCount;
@@ -167,9 +173,6 @@ namespace SharpNeat.NeuralNets.Double
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;
             }
-
-            // Reset hidden and output node activation levels, ready for next activation.
-            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);
         }
 
         /// <summary>
