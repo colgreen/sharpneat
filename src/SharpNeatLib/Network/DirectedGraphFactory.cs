@@ -30,10 +30,10 @@ namespace SharpNeat.Network
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            DirectedConnection[] connArr = CopyAndMapIds(connectionList, nodeIdMapFn);
+            ConnectionIdArrays connIdArrays = CopyAndMapIds(connectionList, nodeIdMapFn);
 
             // Construct and return a new DirectedGraph.
-            return new DirectedGraph(connArr, inputCount, outputCount, totalNodeCount);
+            return new DirectedGraph(connIdArrays, inputCount, outputCount, totalNodeCount);
         }
 
         #endregion
@@ -99,17 +99,21 @@ namespace SharpNeat.Network
             return nodeIdxByIdFn;
         }
 
-        private static DirectedConnection[] CopyAndMapIds(
+        private static ConnectionIdArrays CopyAndMapIds(
             IList<IDirectedConnection> connectionList,
             Func<int,int> nodeIdMap)
         {
-            var arr = new DirectedConnection[connectionList.Count];
-            for(int i=0; i<connectionList.Count; i++) {
-                arr[i] = new DirectedConnection(
-                                nodeIdMap(connectionList[i].SourceId),
-                                nodeIdMap(connectionList[i].TargetId));
-            }
-            return arr;
+            int count = connectionList.Count;
+            int [] srcIdArr = new int[count];
+            int [] tgtIdArr = new int[count];
+
+            for(int i=0; i<connectionList.Count; i++) 
+            {
+                srcIdArr[i] = nodeIdMap(connectionList[i].SourceId);
+                tgtIdArr[i] = nodeIdMap(connectionList[i].TargetId);    
+            }            
+
+            return new ConnectionIdArrays(srcIdArr, tgtIdArr);
         }
 
         #endregion

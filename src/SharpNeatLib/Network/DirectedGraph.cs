@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
@@ -34,7 +35,7 @@ namespace SharpNeat.Network
     {
         #region Instance Fields
 
-        DirectedConnection[] _connArr;
+        ConnectionIdArrays _connIdArrays;
 
         // The number of input nodes; these are required to be assigned contiguous IDs starting at zero.
         int _inputCount;
@@ -54,12 +55,12 @@ namespace SharpNeat.Network
         #region Constructor
 
         internal DirectedGraph(
-            DirectedConnection[] connArr,
+            ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
             int totalNodeCount)
         {
-            _connArr = connArr;
+            _connIdArrays = connIdArrays;
             _inputCount = inputCount;
             _outputCount = outputCount;
             _totalNodeCount = totalNodeCount;
@@ -88,29 +89,35 @@ namespace SharpNeat.Network
         public int TotalNodeCount => _totalNodeCount;
 
         /// <summary>
-        /// The internal array of connections. Exposed in this for high performance scenarios.
+        /// The internal arrays of connection source and target IDs. Exposed publicly for high performance scenarios.
         /// </summary>
-        public DirectedConnection[] ConnectionArray => _connArr;
+        public ConnectionIdArrays ConnectionIdArrays => _connIdArrays;
 
         #endregion
 
         #region Public Methods
 
-        public ArraySegment<DirectedConnection> GetConnections(int srcNodeIdx)
+        public void GetConnections(int srcNodeIdx, out IList<int> srcIdArr, out IList<int> tgtIdArr)
         {
             int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
             if(-1 == startIdx)
             {   // The specified node has no connections with it as the source.
                 // Return an empty array segment.
-                return new ArraySegment<DirectedConnection>();
+                srcIdArr = new ArraySegment<int>();
+                tgtIdArr = new ArraySegment<int>();
+                return;
             }
 
             // Scan for the last connection with the specified source node.
+            int[] connSrcIdArr = _connIdArrays._sourceIdArr;
+            int[] connTgtIdArr = _connIdArrays._targetIdArr;
+
             int endIdx = startIdx+1;
-            for(; endIdx < _connArr.Length && _connArr[endIdx].SourceId == srcNodeIdx; endIdx++);
+            for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
             // Return a array segment over the sub-range of the connection array.
-            return new ArraySegment<DirectedConnection>(_connArr, startIdx, endIdx - startIdx);
+            srcIdArr = new ArraySegment<int>(connSrcIdArr, startIdx, endIdx - startIdx);
+            tgtIdArr = new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
         }
 
         #endregion
@@ -133,25 +140,26 @@ namespace SharpNeat.Network
             }
 
             // If no connections then nothing to do.
-            if(0 == _connArr.Length) {
+            int[] srcIdArr = _connIdArrays._sourceIdArr;
+            if(0 == srcIdArr.Length) {
                 return;
             }
 
             // Initialise.
-            int currentSrcNodeId = _connArr[0].SourceId;
+            int currentSrcNodeId = srcIdArr[0];
             _connIdxBySrcNodeIdx[currentSrcNodeId] = 0;
 
             // Loop connections.
-            for(int i=1; i<_connArr.Length; i++)
+            for(int i=1; i < srcIdArr.Length; i++)
             {
-                if (_connArr[i].SourceId == currentSrcNodeId)
+                if (srcIdArr[i] == currentSrcNodeId)
                 {   // Skip.
                     continue;
                 }
 
                 // We have arrived at the next source node's connections.
-                currentSrcNodeId = _connArr[i].SourceId;
-                _connIdxBySrcNodeIdx[_connArr[i].SourceId] = i;
+                currentSrcNodeId = srcIdArr[i];
+                _connIdxBySrcNodeIdx[srcIdArr[i]] = i;
             }
         }
 

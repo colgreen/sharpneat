@@ -25,7 +25,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList, digraph.ConnectionArray);
+            CompareConnectionLists(connList, digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.AreEqual(5, digraph.TotalNodeCount);
@@ -47,7 +47,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList, digraph.ConnectionArray);
+            CompareConnectionLists(connList, digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);
@@ -74,7 +74,7 @@ namespace SharpNeatLib.Tests.Network
             connListExpected.Add(new DirectedConnection(12, 13));
             connListExpected.Add(new DirectedConnection(12, 14));
 
-            CompareConnectionLists(connListExpected, digraph.ConnectionArray);
+            CompareConnectionLists(connListExpected, digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);
@@ -84,21 +84,21 @@ namespace SharpNeatLib.Tests.Network
 
         #region Private Static Methods
 
-        private static void CompareConnectionLists(IList<IDirectedConnection> x, IList<DirectedConnection> y)
+        private static void CompareConnectionLists(IList<IDirectedConnection> x, ConnectionIdArrays connIdArrays)
         {
-            Assert.AreEqual(x.Count, y.Count);
+            int[] srcIdArr = connIdArrays._sourceIdArr;
+            int[] tgtIdArr = connIdArrays._targetIdArr;
 
-            for(int i=0; i<x.Count; i++) {
-                CompareConnections(x[i], y[i]);
+            Assert.AreEqual(x.Count, srcIdArr.Length);
+            Assert.AreEqual(x.Count, tgtIdArr.Length);
+
+            for(int i=0; i<x.Count; i++) 
+            {
+                Assert.AreEqual(x[i].SourceId, srcIdArr[i]);
+                Assert.AreEqual(x[i].TargetId, tgtIdArr[i]);
             }
         }
 
-        private static void CompareConnections(IDirectedConnection x, DirectedConnection y)
-        {
-            Assert.AreEqual(x.SourceId, y.SourceId);
-            Assert.AreEqual(x.TargetId, y.TargetId);
-        }
-        
         #endregion
     }
 }

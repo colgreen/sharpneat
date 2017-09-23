@@ -31,12 +31,12 @@ namespace SharpNeat.Network
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            DirectedConnection[] connArr;
+            ConnectionIdArrays connIdArrays;
             T[] weightArr;
-            CopyAndMapIds(connectionList, nodeIdMapFn, out connArr, out weightArr);
+            CopyAndMapIds(connectionList, nodeIdMapFn, out connIdArrays, out weightArr);
 
             // Construct and return a new WeightedDirectedGraph.
-            return new WeightedDirectedGraph<T>(connArr, inputCount, outputCount, totalNodeCount, weightArr);
+            return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, weightArr);
         }
 
         #endregion
@@ -113,21 +113,22 @@ namespace SharpNeat.Network
         private static void CopyAndMapIds(
             IList<IWeightedDirectedConnection<T>> connectionList,
             Func<int,int> nodeIdMap,
-            out DirectedConnection[] connArr,
+            out ConnectionIdArrays connIdArrays,
             out T[] weightArr)
         {
             int count = connectionList.Count;
-            connArr = new DirectedConnection[connectionList.Count];
+            int[] srcIdArr = new int[count];
+            int[] tgtIdArr = new int[count];
             weightArr = new T[count];
 
-            for(int i=0; i<connectionList.Count; i++) 
+            for(int i=0; i < count; i++) 
             {
-                connArr[i] = new DirectedConnection(
-                                    nodeIdMap(connectionList[i].SourceId),
-                                    nodeIdMap(connectionList[i].TargetId));
-
+                srcIdArr[i] = nodeIdMap(connectionList[i].SourceId);
+                tgtIdArr[i] = nodeIdMap(connectionList[i].TargetId);
                 weightArr[i] = connectionList[i].Weight;
             }
+
+            connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
         }
 
         #endregion

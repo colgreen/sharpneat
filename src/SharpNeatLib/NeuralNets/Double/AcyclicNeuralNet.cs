@@ -46,7 +46,8 @@ namespace SharpNeat.NeuralNets.Double
         #region Instance Fields
 
         // Connection arrays.
-        readonly DirectedConnection[] _connArr;
+        readonly int[] _srcIdArr;
+        readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
 
         // Array of layer information.
@@ -83,7 +84,8 @@ namespace SharpNeat.NeuralNets.Double
             bool boundedOutput)
         {
             // Store refs to network structure data.
-            _connArr = diGraph.ConnectionArray;
+            _srcIdArr = diGraph.ConnectionIdArrays._sourceIdArr;
+            _tgtIdArr = diGraph.ConnectionIdArrays._targetIdArr;
             _weightArr = diGraph.WeightArray;
             _layerInfoArr = diGraph.LayerArray;
 
@@ -160,7 +162,7 @@ namespace SharpNeat.NeuralNets.Double
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
                 for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
-                    _activationArr[_connArr[conIdx].TargetId] += _activationArr[_connArr[conIdx].SourceId] * _weightArr[conIdx];
+                    _activationArr[_tgtIdArr[conIdx]] += _activationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
                 }
 
                 // Activate current layer's nodes.

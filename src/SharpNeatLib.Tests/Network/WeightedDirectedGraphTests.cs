@@ -25,7 +25,7 @@ namespace SharpNeatLib.Tests
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 0, 0);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList, digraph.ConnectionArray, digraph.WeightArray);
+            CompareConnectionLists(connList, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Check the node count.
             Assert.AreEqual(5, digraph.TotalNodeCount);
@@ -46,7 +46,7 @@ namespace SharpNeatLib.Tests
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 0, 10);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList, digraph.ConnectionArray, digraph.WeightArray);
+            CompareConnectionLists(connList, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);
@@ -74,7 +74,7 @@ namespace SharpNeatLib.Tests
             connListExpected.Add(new WeightedDirectedConnection<double>(12, 14, 3.0));
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connListExpected, digraph.ConnectionArray, digraph.WeightArray);
+            CompareConnectionLists(connListExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);

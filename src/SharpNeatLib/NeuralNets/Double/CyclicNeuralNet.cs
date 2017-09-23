@@ -42,7 +42,8 @@ namespace SharpNeat.NeuralNets.Double
         #region Instance Fields
 
         // Connection arrays.
-        readonly DirectedConnection[] _connArr;
+        readonly int[] _srcIdArr;
+        readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
         
         // Activation function.
@@ -76,7 +77,8 @@ namespace SharpNeat.NeuralNets.Double
             bool boundedOutput)
         {
             // Store refs to network structure data.
-            _connArr = diGraph.ConnectionArray;
+            _srcIdArr = diGraph.ConnectionIdArrays._sourceIdArr;
+            _tgtIdArr = diGraph.ConnectionIdArrays._targetIdArr;
             _weightArr = diGraph.WeightArray;
 
             // Store network activation function and parameters.
@@ -141,8 +143,8 @@ namespace SharpNeat.NeuralNets.Double
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
-                for(int j=0; j<_connArr.Length; j++) {
-                    _preActivationArr[_connArr[j].TargetId] += _postActivationArr[_connArr[j].SourceId] * _weightArr[j];
+                for(int j=0; j<_srcIdArr.Length; j++) {
+                    _preActivationArr[_tgtIdArr[j]] += _postActivationArr[_srcIdArr[j]] * _weightArr[j];
                 }
 
                 // Pass the pre-activation levels through the activation function.

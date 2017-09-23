@@ -27,7 +27,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         #region Instance Fields
 
         // Connection arrays.
-        readonly DirectedConnection[] _connArr;
+        readonly int[] _srcIdArr;
+        readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
 
         // The signal at the output of each connection, i.e. the connection input signal multiplied by its weight.
@@ -67,9 +68,10 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             bool boundedOutput)
         {
             // Store refs to network structure data.
-            _connArr = diGraph.ConnectionArray;
+            _srcIdArr = diGraph.ConnectionIdArrays._sourceIdArr;
+            _tgtIdArr = diGraph.ConnectionIdArrays._targetIdArr;
             _weightArr = diGraph.WeightArray;
-            _connectionOutputArr = new double[_connArr.Length];
+            _connectionOutputArr = new double[_srcIdArr.Length];
 
             _layerInfoArr = diGraph.LayerArray;
 
@@ -148,7 +150,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
 
                     // Load source node output values into a vector.
                     for(int k=0; k<width; k++) {
-                        conInputArr[k] = _activationArr[_connArr[conIdx+k].SourceId];
+                        conInputArr[k] = _activationArr[_srcIdArr[conIdx+k]];
                     }
                     var conInputVec = new Vector<double>(conInputArr);
 
@@ -160,13 +162,13 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                     
                     // Save/accumulate connection output values onto the connection target nodes.
                     for(int k=0; k<width; k++) {
-                        _activationArr[_connArr[conIdx+k].TargetId] += conOutputVec[k];
+                        _activationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];
                     }
                 }
 
                 // Loop remaining connections
-                for(; conIdx<_connArr.Length; conIdx++) {
-                    _activationArr[_connArr[conIdx].TargetId] += _activationArr[_connArr[conIdx].SourceId] * _weightArr[conIdx];
+                for(; conIdx < _srcIdArr.Length; conIdx++) {
+                    _activationArr[_tgtIdArr[conIdx]] += _activationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
                 }
 
                 // Activate current layer's nodes.

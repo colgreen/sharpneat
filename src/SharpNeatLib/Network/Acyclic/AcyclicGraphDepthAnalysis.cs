@@ -80,9 +80,10 @@ namespace SharpNeat.Network.Acyclic
             for(int id=0; id < inputCount; id++) 
             {
                 // Traverse into the input node's target nodes.
-                IList<DirectedConnection> connArr = _digraph.GetConnections(id);
-                for(int i=0; i<connArr.Count; i++) {
-                    TraverseNode(connArr[i].TargetId, 1);
+                IList<int> srcIdArr, tgtIdArr;
+                _digraph.GetConnections(id, out srcIdArr, out tgtIdArr);
+                for(int i=0; i<tgtIdArr.Count; i++) {
+                    TraverseNode(tgtIdArr[i], 1);
                 }
             }
 
@@ -118,9 +119,10 @@ namespace SharpNeat.Network.Acyclic
             _nodeDepthById[nodeId] = depth;
 
             // Traverse into the current node's target nodes.
-            IList<DirectedConnection> connArr = _digraph.GetConnections(nodeId);
-            for(int i=0; i<connArr.Count; i++) {
-                TraverseNode(connArr[i].TargetId, depth + 1);
+            IList<int> srcIdArr, tgtIdArr;
+            _digraph.GetConnections(nodeId, out srcIdArr, out tgtIdArr);
+            for(int i=0; i<tgtIdArr.Count; i++) {
+                TraverseNode(tgtIdArr[i], depth + 1);
             }
         }
 

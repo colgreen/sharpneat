@@ -14,7 +14,21 @@ namespace SharpNeatLib.Tests.Network
         #region Public Static Methods
 
         public static void CompareConnectionLists(IList<IWeightedDirectedConnection<double>> x,
-                                                   IList<DirectedConnection> y, double[] yWeightArr)
+                                                  ConnectionIdArrays connIdArrays, double[] yWeightArr)
+        {
+            int[] srcIdArr = connIdArrays._sourceIdArr;
+            int[] tgtIdArr = connIdArrays._targetIdArr;
+
+            Assert.AreEqual(x.Count, srcIdArr.Length);
+            Assert.AreEqual(x.Count, tgtIdArr.Length);
+
+            for(int i=0; i<x.Count; i++) {
+                CompareConnections(x[i], srcIdArr[i], tgtIdArr[i], yWeightArr[i]);
+            }
+        }
+
+        public static void CompareConnectionLists(IList<IWeightedDirectedConnection<double>> x,
+                                                  IList<DirectedConnection> y, double[] yWeightArr)
         {
             Assert.AreEqual(x.Count, y.Count);
             for(int i=0; i<x.Count; i++) {
@@ -23,10 +37,18 @@ namespace SharpNeatLib.Tests.Network
         }
 
         public static void CompareConnections(IWeightedDirectedConnection<double> x,
-                                               DirectedConnection y, double yWeight)
+                                              DirectedConnection y, double yWeight)
         {
             Assert.AreEqual(x.SourceId, y.SourceId);
             Assert.AreEqual(x.TargetId, y.TargetId);
+            Assert.AreEqual(x.Weight, yWeight);
+        }
+
+        public static void CompareConnections(IWeightedDirectedConnection<double> x,
+                                              int ySrcId, int yTgtId, double yWeight)
+        {
+            Assert.AreEqual(x.SourceId, ySrcId);
+            Assert.AreEqual(x.TargetId, yTgtId);
             Assert.AreEqual(x.Weight, yWeight);
         }
 

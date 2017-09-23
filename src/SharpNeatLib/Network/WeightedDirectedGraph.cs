@@ -40,12 +40,12 @@ namespace SharpNeat.Network
         #region Constructor
 
         internal WeightedDirectedGraph(
-            DirectedConnection[] connArr,
+            ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
             int nodeCount,
             T[] weightArr) 
-        : base(connArr, inputCount, outputCount, nodeCount)
+        : base(connIdArrays, inputCount, outputCount, nodeCount)
         {
             this.WeightArray = weightArr;
         }

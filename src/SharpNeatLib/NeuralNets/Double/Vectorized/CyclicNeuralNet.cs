@@ -26,7 +26,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         #region Instance Fields
 
         // Connection arrays.
-        readonly DirectedConnection[] _connArr;
+        readonly int[] _srcIdArr;
+        readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
         
         // Activation function.
@@ -60,7 +61,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             bool boundedOutput)
         {
             // Store refs to network structure data.
-            _connArr = diGraph.ConnectionArray;
+            _srcIdArr = diGraph.ConnectionIdArrays._sourceIdArr;
+            _tgtIdArr = diGraph.ConnectionIdArrays._targetIdArr;
             _weightArr = diGraph.WeightArray;
 
             // Store network activation function and parameters.
@@ -130,11 +132,11 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
                 int conIdx=0;
-                for(; conIdx <= _connArr.Length-width; conIdx += width) 
+                for(; conIdx <= _srcIdArr.Length-width; conIdx += width) 
                 {
                     // Load source node output values into a vector.
                     for(int k=0; k<width; k++) {
-                        conInputArr[k] = _postActivationArr[_connArr[conIdx+k].SourceId];
+                        conInputArr[k] = _postActivationArr[_srcIdArr[conIdx+k]];
                     }
                     var conInputVec = new Vector<double>(conInputArr);
 
@@ -146,13 +148,13 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
 
                     // Save/accumulate connection output values onto the connection target nodes.
                     for(int k=0; k<width; k++) {
-                        _preActivationArr[_connArr[conIdx+k].TargetId] += conOutputVec[k];
+                        _preActivationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];
                     }
                 }
 
                 // Loop remaining connections
-                for(; conIdx<_connArr.Length; conIdx++) {
-                    _preActivationArr[_connArr[conIdx].TargetId] += _postActivationArr[_connArr[conIdx].SourceId] * _weightArr[conIdx];
+                for(; conIdx<_srcIdArr.Length; conIdx++) {
+                    _preActivationArr[_tgtIdArr[conIdx]] += _postActivationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
                 }
 
                 // Pass the pre-activation levels through the activation function.
