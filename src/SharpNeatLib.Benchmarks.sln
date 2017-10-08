@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivationFnBenchmarks", "ActivationFnBenchmarks\ActivationFnBenchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib.Benchmarks", "SharpNeatLib.Benchmarks\SharpNeatLib.Benchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib", "SharpNeatLib\SharpNeatLib.csproj", "{29425503-9A5D-4C86-BB9B-CA17A7742E6A}"
 EndProject
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6547346C-E0E7-4755-B8FE-772B2FA55568}
 	EndGlobalSection
 EndGlobal

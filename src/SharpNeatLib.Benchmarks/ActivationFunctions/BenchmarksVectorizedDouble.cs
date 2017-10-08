@@ -2,7 +2,7 @@
 using Redzen.Numerics;
 using SharpNeat.NeuralNets;
 
-namespace ActivationFnBenchmarks
+namespace SharpNeatLib.Benchmarks
 {
     /// <summary>
     /// Double precision vectorized activation function benchmarks.
