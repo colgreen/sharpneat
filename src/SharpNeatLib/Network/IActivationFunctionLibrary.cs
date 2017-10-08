@@ -10,42 +10,24 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using System;
-using System.Collections.Generic;
-using Redzen.Numerics;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Represents a library of activation functions. Primarily for use in HyperNEAT.
+    /// Represents a library of activation functions. Primarily for use in HyperNEAT CPPNs which define
+    /// a activation function per CPPN node.
     /// </summary>
     public interface IActivationFunctionLibrary
     {
         /// <summary>
-        /// Gets the function with the specified index in the library.
+        /// Gets an instance of an activation function with the specified index in the library.
         /// </summary>
-        IActivationFunction<double> GetFunction(int idx);
+        IActivationFunction<T> GetActivationFunction<T>(int idx) where T : struct;
 
         /// <summary>
-        /// Gets the function with the specified ID string.
+        /// Gets an instance of an activation function with the specified index in the library.
         /// </summary>
-        IActivationFunction<double> GetFunction(string id);
-
-        /// <summary>
-        /// Randomly select a function based on each function's selection probability.
-        /// </summary>
-        IActivationFunction<double> GetRandomFunction(IRandomSource rng);
-
-        /// <summary>
-        /// Randomly select a function based on each function's selection probability.
-        /// Returns the index of the function in the function library.
-        /// </summary>
-        int GetRandomFunctionIndex(IRandomSource rng);
-
-        /// <summary>
-        /// Gets a list of all functions in the library.
-        /// </summary>
-        IList<IActivationFunction<double>> GetFunctionList();
+        IActivationFunction<T> GetActivationFunction<T>(string id) where T : struct;
     }
 }
