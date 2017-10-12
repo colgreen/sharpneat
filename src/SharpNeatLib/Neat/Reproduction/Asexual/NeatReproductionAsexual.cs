@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         public NeatGenome<double> CreateChildInner(NeatGenome<double> parent, ref DiscreteDistribution mutationTypeDist)
         {
             // Determine the type of mutation to attempt.
-            int mutationTypeId = mutationTypeDist.Sample(_rng);
+            MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample(_rng);
 
             // Attempt to create a child genome using the selected mutation type.
             NeatGenome<double> childGenome = null;
@@ -65,17 +65,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             {
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
-                case 0: 
+                case MutationType.ConnectionWeight: 
                     childGenome = CreateChild_WeightMutation(parent);
                     break;
-                case 1: 
+                case MutationType.AddNode: 
                     // FIXME: Reinstate.
                     //childGenome = _addNodeMutation.CreateChild(parent);
                     break;
-                case 2:
+                case MutationType.AddConnection:
                     childGenome = CreateChild_AddConnectionMutation(parent);
                     break;
-                case 3:
+                case MutationType.DeleteConnection:
                     childGenome = CreateChild_DeleteConnectionMutation(parent);
                     break;
                 default: 
@@ -85,7 +85,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             if(null == childGenome)
             {
                 // The chosen mutation type was not possible; remove that type from the set of possible types.
-                mutationTypeDist = mutationTypeDist.RemoveOutcome(mutationTypeId);
+                mutationTypeDist = mutationTypeDist.RemoveOutcome((int)mutationTypeId);
 
                 // Sanity test.
                 if(0 == mutationTypeDist.Probabilities.Length)

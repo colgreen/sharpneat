@@ -8,7 +8,6 @@ namespace SharpNeat.Neat.Genome.Double
 {
     public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
     {
-
         bool _boundedOutput;
 
         #region Constructor

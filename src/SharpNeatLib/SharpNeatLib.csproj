@@ -74,6 +74,7 @@
     <Compile Include="Neat\AddedNodeInfo.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\MutationType.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
