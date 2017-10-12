@@ -1,5 +1,5 @@
-﻿using SharpNeat.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SharpNeat.Utils;
 
 namespace SharpNeat.EA
 {

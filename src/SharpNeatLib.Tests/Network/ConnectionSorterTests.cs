@@ -49,6 +49,9 @@ namespace SharpNeatLib.Tests.Network
             {
                 Assert.IsTrue(Compare(srcIdPrev, tgtIdPrev, srcIdArr[i], tgtIdArr[i]) <= 0);
                 Assert.AreEqual(weightArr[i], (double)(srcIdArr[i] + tgtIdArr[i]));
+
+                srcIdPrev = srcIdArr[i];
+                tgtIdPrev = tgtIdArr[i];
             }
         }
 

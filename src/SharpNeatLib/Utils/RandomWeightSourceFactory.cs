@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Redzen.Numerics;
-using SharpNeat.Neat;
 
 namespace SharpNeat.Utils
 {
-
     /// <summary>
     /// A factory for creating a source of random connection weights, primarily for creating weights in new random genomes,
     /// and also for 'add connection' mutations.

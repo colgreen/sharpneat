@@ -1,8 +1,8 @@
-﻿using Redzen.Numerics;
+﻿using System;
+using System.Collections.Generic;
+using Redzen.Numerics;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
-using System;
-using System.Collections.Generic;
 
 namespace SharpNeat.Neat
 {
@@ -38,7 +38,7 @@ namespace SharpNeat.Neat
             // Connections and nodes are assigned innovation IDs from the same ID space (from the same 'pool' of numbers).
             // By convention the input nodes are assigned IDs first starting at zero, then the output nodes. Thus, because all 
             // of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are fixed by convention.
-            // Here we also allocate ID to connections, and these start at the first ID after the last output node. From there evolution
+            // Here we also allocate IDs to connections, and these start at the first ID after the last output node. From there evolution
             // will create connections and nodes, and IDs are allocated in whatever order the nodes and connections are created in.
             int firstOutputNodeId = inCount;
             uint nextConnectionId = (uint)(inCount + outCount);
@@ -97,14 +97,14 @@ namespace SharpNeat.Neat
         {
             // Determine how many connections to create in the new genome, as a proportion of all possible connections
             // between the input and output nodes.
-            int requiredConnectionCount = (int)NumericsUtils.ProbabilisticRound(_connectionDefArr.Length * _connectionsProportion, _rng);
+            int connectionCount = (int)NumericsUtils.ProbabilisticRound(_connectionDefArr.Length * _connectionsProportion, _rng);
 
             // Ensure there is at least one connection.
-            requiredConnectionCount = Math.Max(1, requiredConnectionCount);
+            connectionCount = Math.Max(1, connectionCount);
 
             // Select a random subset of all possible connections between the input and output nodes.
             int totalConnectionCount = _connectionDefArr.Length;
-            int[] sampleArr = new int[requiredConnectionCount];
+            int[] sampleArr = new int[connectionCount];
             DiscreteDistributionUtils.SampleUniformWithoutReplacement(totalConnectionCount, sampleArr, _rng);
 
             // Sort the samples.
@@ -112,7 +112,7 @@ namespace SharpNeat.Neat
             Array.Sort(sampleArr);
 
             // Create the connection gene list and populate it.
-            var connectionGeneArr = new ConnectionGene<T>[requiredConnectionCount];
+            var connectionGeneArr = new ConnectionGene<T>[connectionCount];
 
             for(int i=0; i < sampleArr.Length; i++)
             {

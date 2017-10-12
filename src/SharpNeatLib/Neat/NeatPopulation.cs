@@ -18,16 +18,8 @@ namespace SharpNeat.Neat
             UInt32Sequence genomeIdSeq,
             UInt32Sequence innovationIdSeq,
             List<NeatGenome<T>> genomeList,
-            MetaNeatGenome metaNeatGenome)
-        : this(genomeIdSeq, innovationIdSeq, genomeList, metaNeatGenome, __defaultInnovationHistoryBufferSize)
-        {}
-
-        public NeatPopulation(
-            UInt32Sequence genomeIdSeq,
-            UInt32Sequence innovationIdSeq,
-            List<NeatGenome<T>> genomeList,
             MetaNeatGenome metaNeatGenome,
-            int innovationHistoryBufferSize)
+            int innovationHistoryBufferSize = __defaultInnovationHistoryBufferSize)
         : base(genomeIdSeq, innovationIdSeq, genomeList)
         {
             this.MetaNeatGenome = metaNeatGenome;

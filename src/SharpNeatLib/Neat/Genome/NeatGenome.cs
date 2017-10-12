@@ -22,7 +22,6 @@ namespace SharpNeat.Neat.Genome
         readonly uint _id;
         // TODO: Consider whether birthGeneration belongs here.
         readonly uint _birthGeneration;
-        // TODO: Order genes by sourceID then targetID, and use a separate structure to track the order of innovation IDs.
         readonly ConnectionGene<T>[] _connectionGeneArr;
 
         double _fitness;
@@ -40,6 +39,8 @@ namespace SharpNeat.Neat.Genome
                           uint id, uint birthGeneration,
                           ConnectionGene<T>[] connectionGeneArr)
         {
+            Debug.Assert(DirectedConnectionUtils.IsSorted<T>(connectionGeneArr));
+
             _metaNeatGenome = metaNeatGenome;
             _id = id;
             _birthGeneration = birthGeneration;
