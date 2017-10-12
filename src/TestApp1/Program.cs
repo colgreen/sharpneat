@@ -42,8 +42,8 @@ namespace TestApp1
             double[] weightArr2 = (double[])weightArr.Clone();
             ConnectionIdArrays connIdArrays2 = new ConnectionIdArrays(srcIdArr2, tgtIdArr2);
             
-            ConnectionSorter.Sort(connIdArrays, weightArr);
-            ConnectionSorter2.Sort(connIdArrays2, weightArr2);
+            //ConnectionSorter.Sort(connIdArrays, weightArr);
+            //ConnectionSorter2.Sort(connIdArrays2, weightArr2);
 
             Compare(srcIdArr, srcIdArr2);
             Compare(tgtIdArr, tgtIdArr2);
