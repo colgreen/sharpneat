@@ -100,7 +100,7 @@ namespace SharpNeat.NeuralNets
                 return actFn;
             }
 
-            // Attempt again in the Cppn sub-namespace.
+            // Attempt again in the CPPN sub-namespace.
             fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Cppn.{name}";
             return TryCreateFromFullName(fullName);
         }
@@ -119,7 +119,7 @@ namespace SharpNeat.NeuralNets
                 return actFn;
             }
 
-            // Attempt again in the Cppn sub-namespace.
+            // Attempt again in the CPPN sub-namespace.
             fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Cppn.Vectorized.{name}";
             return TryCreateFromFullName(fullName);
         }
