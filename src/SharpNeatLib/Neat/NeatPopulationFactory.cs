@@ -30,9 +30,9 @@ namespace SharpNeat.Neat
             _connectionsProportion = connectionsProportion;
 
             // Define the set of all possible connections between the input and output nodes (fully interconnected).
-            int inCount = metaNeatGenome.InputNodeCount;
-            int outCount = metaNeatGenome.OutputNodeCount;
-            _connectionDefArr = new ConnectionDefinition[inCount * outCount];
+            int inputCount = metaNeatGenome.InputNodeCount;
+            int outputCount = metaNeatGenome.OutputNodeCount;
+            _connectionDefArr = new ConnectionDefinition[inputCount * outputCount];
 
             // Notes.
             // Connections and nodes are assigned innovation IDs from the same ID space (from the same 'pool' of numbers).
@@ -40,18 +40,19 @@ namespace SharpNeat.Neat
             // of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are fixed by convention.
             // Here we also allocate IDs to connections, and these start at the first ID after the last output node. From there evolution
             // will create connections and nodes, and IDs are allocated in whatever order the nodes and connections are created in.
-            int firstOutputNodeId = inCount;
-            uint nextConnectionId = (uint)(inCount + outCount);
+            int firstOutputNodeId = inputCount;
+            uint nextInnovationId = (uint)(inputCount + outputCount);
 
-            for(int srcId=0, i=0; srcId < inCount; srcId++) {
-                for(int tgtIdx=0; tgtIdx < outCount; tgtIdx++) {
-                    _connectionDefArr[i++] = new ConnectionDefinition(nextConnectionId++, srcId, firstOutputNodeId + tgtIdx);
+            for(int srcId=0, i=0; srcId < inputCount; srcId++) {
+                for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++, nextInnovationId++) {
+                    _connectionDefArr[i++] = new ConnectionDefinition(nextInnovationId, srcId, firstOutputNodeId + tgtIdx);
                 }
             }
 
+            // Init RNG and ID sequences.
             _rng = RandomFactory.Create();
             _genomeIdSeq = new UInt32Sequence();
-            _innovationIdSeq = new UInt32Sequence(nextConnectionId);
+            _innovationIdSeq = new UInt32Sequence(nextInnovationId);
 
             // Init random connection weight source.
             if(typeof(T) == typeof(double)) {

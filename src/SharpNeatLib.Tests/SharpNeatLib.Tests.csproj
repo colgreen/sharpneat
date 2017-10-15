@@ -57,6 +57,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Neat\AddedConnectionBufferTests.cs" />
+    <None Include="Neat\NeatPopulationTests.cs" />
     <Compile Include="Network\AcyclicGraphDepthAnalysisTests.cs" />
     <Compile Include="Network\ConnectionSorterTests.cs" />
     <Compile Include="Network\CyclicGraphAnalysisTests.cs" />

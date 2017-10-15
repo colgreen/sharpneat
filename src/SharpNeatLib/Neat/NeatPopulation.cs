@@ -10,6 +10,7 @@ namespace SharpNeat.Neat
     public class NeatPopulation<T> : Population<NeatGenome<T>>
         where T : struct
     {
+        // TODO: Consider increasing buffer capacity.
         const int __defaultInnovationHistoryBufferSize = 0x20000; // = 131,072.
 
         #region Constructor

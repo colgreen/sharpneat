@@ -71,6 +71,8 @@
     <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
     <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
     <Compile Include="EA\Population.cs" />
+    <Compile Include="Neat\AddedNodeBuffer.cs" />
+    <Compile Include="Neat\AddedConnectionBuffer.cs" />
     <Compile Include="Neat\AddedNodeInfo.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
