@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Genome
     {
         #region Auto Properties
 
-        public uint Id { get; }
+        public int Id { get; }
         public int SourceId { get; }
         public int TargetId { get; }
         public T Weight { get; set; }
@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Construct a new ConnectionGene with the specified source and target neurons and connection weight.
         /// </summary>
-        public ConnectionGene(uint id, int sourceId, int targetId, T weight)
+        public ConnectionGene(int id, int sourceId, int targetId, T weight)
         {
             this.Id = id;
             this.SourceId = sourceId;

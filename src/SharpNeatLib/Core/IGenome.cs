@@ -7,7 +7,7 @@ namespace SharpNeat.Core
         /// Gets the genome's unique ID. IDs are unique across all genomes created from a single 
         /// IGenomeFactory.
         /// </summary>
-        uint Id { get; }
+        int Id { get; }
 
         /// <summary>
         /// The generation that a genome was born/created in. Used to track genome age.

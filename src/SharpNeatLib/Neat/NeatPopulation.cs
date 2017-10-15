@@ -16,8 +16,8 @@ namespace SharpNeat.Neat
         #region Constructor
 
         public NeatPopulation(
-            UInt32Sequence genomeIdSeq,
-            UInt32Sequence innovationIdSeq,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence innovationIdSeq,
             List<NeatGenome<T>> genomeList,
             MetaNeatGenome metaNeatGenome,
             int innovationHistoryBufferSize = __defaultInnovationHistoryBufferSize)

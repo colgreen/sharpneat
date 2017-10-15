@@ -1,19 +1,21 @@
 ﻿
+using System;
+
 namespace SharpNeat.Utils
 {
     /// <summary>
-    /// Conveniently encapsulates a single UInt32, which is incremented to produce new IDs.
+    /// Conveniently encapsulates a single Int32, which is incremented to produce new IDs.
     /// </summary>
-    public class UInt32Sequence
+    public class Int32Sequence
     {
-        uint _next;
+        int _next;
 
         #region Constructors
 
         /// <summary>
         /// Construct, setting the initial ID to zero.
         /// </summary>
-        public UInt32Sequence()
+        public Int32Sequence()
         {
             _next = 0;
         }
@@ -21,7 +23,7 @@ namespace SharpNeat.Utils
         /// <summary>
         /// Construct, setting the initial ID to the value provided.
         /// </summary>
-        public UInt32Sequence(uint nextId)
+        public Int32Sequence(int nextId)
         {
             _next = nextId;
         }
@@ -33,7 +35,7 @@ namespace SharpNeat.Utils
         /// <summary>
         /// Get the next ID without incrementing (peek the ID).
         /// </summary>
-        public uint Peek
+        public int Peek
         {
             get { return _next; }
         }
@@ -43,12 +45,14 @@ namespace SharpNeat.Utils
         #region Public Methods
 
         /// <summary>
-        /// Gets the next ID. IDs wrap around to zero when uint.MaxValue is reached. 
+        /// Gets the next ID. IDs wrap around to zero when int.MaxValue is reached. 
         /// </summary>
-        public uint Next()
+        public int Next()
         {
-            if (_next == uint.MaxValue) {
-                _next = 0;
+            if (_next == int.MaxValue) 
+            {   // TODO/FIXME: Compact all innovation IDs in the genome population to free up more innovation IDs.
+                // Note this relates to connection IDs, node IDs and genome IDs.
+                throw new InvalidOperationException("Last innovation ID has been reached.");
             }
             return _next++;   
         }
@@ -64,7 +68,7 @@ namespace SharpNeat.Utils
         /// <summary>
         /// Resets the next ID to a specific value.
         /// </summary>
-        public void Reset(uint nextId)
+        public void Reset(int nextId)
         {
             _next = nextId;
         }

@@ -166,7 +166,7 @@
     <Compile Include="Utils\RandomFactory.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Utils\RandomWeightSourceFactory.cs" />
-    <Compile Include="Utils\UInt32Sequence.cs" />
+    <Compile Include="Utils\Int32Sequence.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

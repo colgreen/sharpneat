@@ -16,8 +16,8 @@ namespace SharpNeat.Neat
         readonly ConnectionDefinition[] _connectionDefArr;
         
         readonly IRandomSource _rng;
-        readonly UInt32Sequence _genomeIdSeq;
-        readonly UInt32Sequence _innovationIdSeq;
+        readonly Int32Sequence _genomeIdSeq;
+        readonly Int32Sequence _innovationIdSeq;
         readonly Func<T> _rngWeightFn;
 
         #endregion
@@ -41,7 +41,7 @@ namespace SharpNeat.Neat
             // Here we also allocate IDs to connections, and these start at the first ID after the last output node. From there evolution
             // will create connections and nodes, and IDs are allocated in whatever order the nodes and connections are created in.
             int firstOutputNodeId = inputCount;
-            uint nextInnovationId = (uint)(inputCount + outputCount);
+            int nextInnovationId = inputCount + outputCount;
 
             for(int srcId=0, i=0; srcId < inputCount; srcId++) {
                 for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++, nextInnovationId++) {
@@ -51,8 +51,8 @@ namespace SharpNeat.Neat
 
             // Init RNG and ID sequences.
             _rng = RandomFactory.Create();
-            _genomeIdSeq = new UInt32Sequence();
-            _innovationIdSeq = new UInt32Sequence(nextInnovationId);
+            _genomeIdSeq = new Int32Sequence();
+            _innovationIdSeq = new Int32Sequence(nextInnovationId);
 
             // Init random connection weight source.
             if(typeof(T) == typeof(double)) {
@@ -129,7 +129,7 @@ namespace SharpNeat.Neat
             }
 
             // Get create a new genome with a new ID, birth generation of zero.
-            uint id = _genomeIdSeq.Next();
+            int id = _genomeIdSeq.Next();
             return new NeatGenome<T>(_metaNeatGenome, id, 0, connectionGeneArr);
         }
 
@@ -157,11 +157,11 @@ namespace SharpNeat.Neat
 
         struct ConnectionDefinition
         {
-            public readonly uint _connectionId;
+            public readonly int _connectionId;
             public readonly int _srcNodeId;
             public readonly int _tgtNodeId;
 
-            public ConnectionDefinition(uint innovationId, int srcNodeId, int tgtNodeId)
+            public ConnectionDefinition(int innovationId, int srcNodeId, int tgtNodeId)
             {
                 _connectionId = innovationId;
                 _srcNodeId = srcNodeId;
