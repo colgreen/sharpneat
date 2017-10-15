@@ -5,7 +5,6 @@ using SharpNeat.Network;
 namespace SharpNeatLib.Tests.Neat
 {
     [TestClass]
-    
     public class AddedConnectionBufferTests
     {
         #region Test Methods
@@ -59,16 +58,16 @@ namespace SharpNeatLib.Tests.Neat
 
         #region Private Static Methods
 
-        private static void TestLookupSuccess(AddedConnectionBuffer buff, int srcId, int tgtId, uint expectedConnectionId)
+        private static void TestLookupSuccess(AddedConnectionBuffer buff, int srcId, int tgtId, int expectedConnectionId)
         {
-            uint connectionId;
+            int connectionId;
             Assert.AreEqual(true, buff.TryLookup(new DirectedConnection(srcId, tgtId), out connectionId));
             Assert.AreEqual(expectedConnectionId, connectionId);
         }
 
         private static void TestLookupFail(AddedConnectionBuffer buff, int srcId, int tgtId)
         {
-            uint connectionId;
+            int connectionId;
             Assert.AreEqual(false, buff.TryLookup(new DirectedConnection(srcId, tgtId), out connectionId));
         }
 

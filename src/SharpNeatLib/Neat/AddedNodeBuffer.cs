@@ -2,6 +2,7 @@
 
 namespace SharpNeat.Neat
 {
+    // TODO: Consider moving the most recently used structure to the head of the buffer to increase its lifespan.
     /// <summary>
     /// Stores a history of previously added nodes, keyed by the ID of the connection that was split to create he node.
     ///
@@ -10,20 +11,20 @@ namespace SharpNeat.Neat
     /// </summary>
     public class AddedNodeBuffer
     {
-        KeyedCircularBuffer<uint,AddedNodeInfo> _buffer;
+        KeyedCircularBuffer<int,AddedNodeInfo> _buffer;
         
         #region Constructor
 
         public AddedNodeBuffer(int capacity)
         {
-            _buffer = new KeyedCircularBuffer<uint, AddedNodeInfo>(capacity);
+            _buffer = new KeyedCircularBuffer<int,AddedNodeInfo>(capacity);
         }
 
         #endregion
 
         #region Public Methods
 
-        public void Register(uint connectionId, AddedNodeInfo addedNodeInfo)
+        public void Register(int connectionId, AddedNodeInfo addedNodeInfo)
         {
             _buffer.Enqueue(connectionId, addedNodeInfo);
         }
@@ -34,7 +35,7 @@ namespace SharpNeat.Neat
         /// <remarks>
         /// <param name="connectionId">The connection ID to look-up.</param>
         /// <returns>True if a node was found, otherwise false</returns>
-        public bool TryGetNodeId(uint connectionId, out AddedNodeInfo addedNodeInfo)
+        public bool TryLookup(int connectionId, out AddedNodeInfo addedNodeInfo)
         {
             return _buffer.TryGetValue(connectionId, out addedNodeInfo);
         }

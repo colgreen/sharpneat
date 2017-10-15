@@ -3,6 +3,7 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat
 {
+    // TODO: Consider moving the most recently used structure to the head of the buffer to increase its lifespan.
     /// <summary>
     /// Stores a history of previously added connections, keyed by their source and target node ID.
     ///
@@ -13,7 +14,7 @@ namespace SharpNeat.Neat
     {
         #region Instance Fields
 
-        KeyedCircularBuffer<DirectedConnection,uint> _buffer;
+        KeyedCircularBuffer<DirectedConnection,int> _buffer;
         int _inputNodeCount;
         int _outputNodeCount;
         int _ioNodeCount;
@@ -24,7 +25,7 @@ namespace SharpNeat.Neat
 
         public AddedConnectionBuffer(int capacity, int inputNodeCount, int outputNodeCount)
         {
-            _buffer = new KeyedCircularBuffer<DirectedConnection, uint>(capacity);
+            _buffer = new KeyedCircularBuffer<DirectedConnection,int>(capacity);
             _inputNodeCount = inputNodeCount;
             _outputNodeCount = outputNodeCount;
             _ioNodeCount = inputNodeCount + _outputNodeCount;
@@ -34,14 +35,14 @@ namespace SharpNeat.Neat
 
         #region Public Methods
 
-        public void Register(DirectedConnection key, uint connectionId)
+        public void Register(DirectedConnection key, int connectionId)
         {
             if(!IsInputOutputConnection(key)) {   
                 _buffer.Enqueue(key, connectionId);
             }
         }
 
-        public bool TryLookup(DirectedConnection key, out uint connectionId)
+        public bool TryLookup(DirectedConnection key, out int connectionId)
         {
             // Handle special case.
             // Connections directly from an input node to an output node are assigned a predetermined innovation ID.
@@ -57,18 +58,18 @@ namespace SharpNeat.Neat
 
         #region Private Methods
 
-        private bool TryGetInputOutputConnectionId(DirectedConnection key, out uint connectionId)
+        private bool TryGetInputOutputConnectionId(DirectedConnection key, out int connectionId)
         {
             // Test for a source node that is one of the input nodes, and a target node that is one of the output nodes.
             if(IsInputOutputConnection(key))
             {
                 // Adjust for the fact that the output node IDs start where the input node IDs finish.
                 int outputIdx = key.TargetId - _inputNodeCount;
-                connectionId = (uint)((key.SourceId * _outputNodeCount) + outputIdx + _ioNodeCount);
+                connectionId = (key.SourceId * _outputNodeCount) + outputIdx + _ioNodeCount;
                 return true;
             }
 
-            connectionId = default(uint);
+            connectionId = default(int);
             return false;
         }
 
