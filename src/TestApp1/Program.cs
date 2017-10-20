@@ -28,10 +28,10 @@ namespace TestApp1
             //EvolutionAlgorithmController eaController = new EvolutionAlgorithmController()
 
 
-            MetaNeatGenome metaNeatGenome = new MetaNeatGenome();
-            metaNeatGenome.InputNodeCount = 3;
-            metaNeatGenome.OutputNodeCount = 1;
-            metaNeatGenome.IsAcyclic = true;
+            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+                inputNodeCount:3, outputNodeCount:1, isAcyclic:true,
+                activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
+            
 
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, 10);
 

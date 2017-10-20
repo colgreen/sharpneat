@@ -10,7 +10,7 @@ namespace SharpNeat.Neat
     {
         #region Instance Fields
 
-        readonly MetaNeatGenome _metaNeatGenome;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly double _connectionsProportion;
 
         readonly ConnectionDefinition[] _connectionDefArr;
@@ -24,7 +24,7 @@ namespace SharpNeat.Neat
 
         #region Constructor
 
-        private NeatPopulationFactory(MetaNeatGenome metaNeatGenome, double connectionsProportion)
+        private NeatPopulationFactory(MetaNeatGenome<T> metaNeatGenome, double connectionsProportion)
         {
             _metaNeatGenome = metaNeatGenome;
             _connectionsProportion = connectionsProportion;
@@ -145,7 +145,7 @@ namespace SharpNeat.Neat
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
         /// <param name="popSize">Population size. The number of new genomes to create.</param>
         /// <returns>A new NeatPopulation.</returns>
-        public static NeatPopulation<T> CreatePopulation(MetaNeatGenome metaNeatGenome, double connectionsProportion, int popSize)
+        public static NeatPopulation<T> CreatePopulation(MetaNeatGenome<T> metaNeatGenome, double connectionsProportion, int popSize)
         {
             var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion);
             return factory.CreatePopulation(popSize);

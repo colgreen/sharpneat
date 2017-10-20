@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Genome metadata.
         /// </summary>
-        readonly MetaNeatGenome _metaNeatGenome;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
 
         readonly int _id;
         // TODO: Consider whether birthGeneration belongs here.
@@ -35,7 +35,7 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Constructs with the provided ID, birth generation and gene lists.
         /// </summary>
-        public NeatGenome(MetaNeatGenome metaNeatGenome,
+        public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, uint birthGeneration,
                           ConnectionGene<T>[] connectionGeneArr)
         {
@@ -51,7 +51,7 @@ namespace SharpNeat.Neat.Genome
 
         #region Properties [NEAT Genome Specific]
 
-        public MetaNeatGenome MetaNeatGenome {
+        public MetaNeatGenome<T> MetaNeatGenome {
             get { return _metaNeatGenome; }
         }
 
