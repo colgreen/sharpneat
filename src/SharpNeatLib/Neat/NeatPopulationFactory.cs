@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Redzen.Numerics;
+using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
 
@@ -17,8 +18,8 @@ namespace SharpNeat.Neat
         
         readonly IRandomSource _rng;
         readonly Int32Sequence _genomeIdSeq;
-        readonly Int32Sequence _innovationIdSeq;
-        readonly Func<T> _rngWeightFn;
+        readonly Int32Sequence _innovationIdSeq;        
+        readonly IUniformDistribution<T> _connWeightDist;
 
         #endregion
 
@@ -43,27 +44,20 @@ namespace SharpNeat.Neat
             int firstOutputNodeId = inputCount;
             int nextInnovationId = inputCount + outputCount;
 
-            for(int srcId=0, i=0; srcId < inputCount; srcId++) {
+            for(int srcId=0, i=0; srcId < inputCount; srcId++) {    
                 for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++, nextInnovationId++) {
                     _connectionDefArr[i++] = new ConnectionDefinition(nextInnovationId, srcId, firstOutputNodeId + tgtIdx);
                 }
             }
 
             // Init RNG and ID sequences.
-            _rng = RandomFactory.Create();
+            _rng = RandomSourceFactory.Create();
             _genomeIdSeq = new Int32Sequence();
             _innovationIdSeq = new Int32Sequence(nextInnovationId);
 
             // Init random connection weight source.
-            if(typeof(T) == typeof(double)) {
-                _rngWeightFn = (Func<T>)(object)RandomWeightSourceFactory.Create_Double(_metaNeatGenome.ConnectionWeightRange, _rng);
-            }
-            else if(typeof(T) == typeof(double)) {
-                _rngWeightFn = (Func<T>)(object)RandomWeightSourceFactory.Create_Single((float)_metaNeatGenome.ConnectionWeightRange, _rng);
-            }
-            else {
-                throw new ArgumentException("Unsupported type argument");
-            }
+            _connWeightDist = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
+
         }
 
         #endregion
@@ -123,7 +117,7 @@ namespace SharpNeat.Neat
                     cdef._connectionId,
                     cdef._srcNodeId,
                     cdef._tgtNodeId,
-                    _rngWeightFn());
+                    _connWeightDist.Sample(_metaNeatGenome.ConnectionWeightRange, true));
 
                 connectionGeneArr[i] = cgene;
             }

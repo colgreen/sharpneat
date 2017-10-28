@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen.Numerics;
-using Redzen.Sorting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Random;
 using SharpNeat.Network;
 
 namespace SharpNeatLib.Tests.Network

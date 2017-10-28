@@ -1,5 +1,6 @@
 ﻿using System;
 using Redzen.Numerics;
+using Redzen.Random;
 
 namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
 {
@@ -14,10 +15,10 @@ namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided descriptoes and associated set of probabilities; these define the relative probability of each type of
+        /// Construct with the provided descriptors and associated set of probabilities; these define the relative probability of each type of
         /// mutation defined by the descriptors array.
         /// </summary>
-        /// <param name="descriptors">An array of mutation desscriptors.</param>
+        /// <param name="descriptors">An array of mutation descriptors.</param>
         /// <param name="dist">A discrete distribution that defines the relative probability of each of the items in the descriptors array.</param>
         public WeightMutationScheme (WeightMutationDescriptor[] descriptors, DiscreteDistribution dist)
         {
@@ -51,7 +52,7 @@ namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
         #region Public Methods
 
         /// <summary>
-        /// Get a randmply chosen descriptor, based on the selection probabilities defined at construction time.
+        /// Get a randomly chosen descriptor, based on the selection probabilities defined at construction time.
         /// </summary>
         /// <param name="rng">Random source.</param>
         /// <returns>An <see cref="WeightMutationDescriptor"/>.</returns>

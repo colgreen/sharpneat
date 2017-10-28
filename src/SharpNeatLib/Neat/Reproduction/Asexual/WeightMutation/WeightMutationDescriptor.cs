@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Redzen.Numerics;
-using SharpNeat.Utils;
+using Redzen.Random;
+using Redzen.Random.Double;
 
 namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
 {
@@ -83,9 +83,9 @@ namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
             var desc = new WeightMutationDescriptor(ConnectionSelectionType.Proportion, WeightMutationType.Delta);
             desc.SelectionProportion = selectionProportion;
 
-            var rng = RandomFactory.Create();
-            ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng);
-            desc.WeightDeltaFunc = gaussianSampler.NextDouble;
+            var rng = RandomSourceFactory.Create();
+            var gaussianDist = new ZigguratGaussianDistribution(rng);
+            desc.WeightDeltaFunc = gaussianDist.Sample;
             return desc;
         }
 
@@ -96,9 +96,9 @@ namespace SharpNeat.Genomes.Neat.Reproduction.WeightMutation
             var desc = new WeightMutationDescriptor(ConnectionSelectionType.Count, WeightMutationType.Delta);
             desc.SelectionCount = selectionCount;
 
-            var rng = RandomFactory.Create();
-            ZigguratGaussianSampler gaussianSampler = new ZigguratGaussianSampler(rng);
-            desc.WeightDeltaFunc = gaussianSampler.NextDouble;
+            var rng = RandomSourceFactory.Create();
+            var gaussianSampler = new ZigguratGaussianDistribution(rng);
+            desc.WeightDeltaFunc = gaussianSampler.Sample;
             return desc;
         }
 

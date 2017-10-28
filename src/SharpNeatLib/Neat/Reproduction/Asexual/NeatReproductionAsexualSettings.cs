@@ -42,7 +42,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         public DiscreteDistribution MutationTypeDistribution { get; }
         /// <summary>
         /// A copy of MutationTypeDistribution but with all destructive mutations (i.e. delete connections)
-        /// removed.
+        /// removed. Useful when e.g. mutating a genome with just one connection.
         /// </summary>
         public DiscreteDistribution MutationTypeDistributionNonDestructive { get; }
 
@@ -82,8 +82,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 {
                     ConnectionWeightMutationProbability, 
                     AddNodeMutationProbability,
-                    AddConnectionMutationProbability,
-                    DeleteConnectionMutationProbability
+                    AddConnectionMutationProbability
                 };
             return new DiscreteDistribution(probabilities);
         }
