@@ -1,7 +1,7 @@
-﻿using Redzen.Numerics;
+﻿using System;
+using Redzen.Numerics;
+using Redzen.Random;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Utils;
-using System;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         {
             _settings = settings;
             _pop = pop;
-            _rng = RandomFactory.Create();
+            _rng = RandomSourceFactory.Create();
             //_addNodeMutation = new AddNodeMutation(pop, _rng);
         }
 
@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Asexual reproduction.
         /// </summary>
         /// <param name="parent1">Parent genome.</param>
-        public NeatGenome<double> CreateChild(NeatGenome<double> parent)
+        public NeatGenome<double> CreateChildGenome(NeatGenome<double> parent)
         {
             // Get a discrete distribution over the set of possible mutation types.
             DiscreteDistribution mutationTypeDist = GetMutationTypeDistribution(parent);
@@ -42,7 +42,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Keep trying until a child genome is created.
             for(;;)
             {
-                NeatGenome<double> childGenome = CreateChildInner(parent, ref mutationTypeDist);
+                NeatGenome<double> childGenome = Create(parent, ref mutationTypeDist);
                 if(null != childGenome) {
                     return childGenome;
                 }
@@ -51,12 +51,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         
         #endregion
 
-        #region Private Methods [CreateChild Subroutines]
+        #region Private Methods [Create Subroutines]
 
-        public NeatGenome<double> CreateChildInner(NeatGenome<double> parent, ref DiscreteDistribution mutationTypeDist)
+        public NeatGenome<double> Create(NeatGenome<double> parent, ref DiscreteDistribution mutationTypeDist)
         {
             // Determine the type of mutation to attempt.
-            MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample(_rng);
+            MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample();
 
             // Attempt to create a child genome using the selected mutation type.
             NeatGenome<double> childGenome = null;
@@ -66,17 +66,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
                 case MutationType.ConnectionWeight: 
-                    childGenome = CreateChild_WeightMutation(parent);
+                    childGenome = Create_WeightMutation(parent);
                     break;
                 case MutationType.AddNode: 
                     // FIXME: Reinstate.
                     //childGenome = _addNodeMutation.CreateChild(parent);
                     break;
                 case MutationType.AddConnection:
-                    childGenome = CreateChild_AddConnectionMutation(parent);
+                    childGenome = Create_AddConnectionMutation(parent);
                     break;
                 case MutationType.DeleteConnection:
-                    childGenome = CreateChild_DeleteConnectionMutation(parent);
+                    childGenome = Create_DeleteConnectionMutation(parent);
                     break;
                 default: 
                     throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}].");
@@ -102,8 +102,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_WeightMutation]
 
-        private NeatGenome<double> CreateChild_WeightMutation(NeatGenome<double> parent)
+        private NeatGenome<double> Create_WeightMutation(NeatGenome<double> parent)
         {
+            //WeightMutationDescriptor desc = _settings.WeightMutationScheme.GetDescriptor(_rng);
+
             // TODO:
             return null;
         }
@@ -112,7 +114,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_AddConnectionMutation]
 
-        private NeatGenome<double> CreateChild_AddConnectionMutation(NeatGenome<double> parent)
+        private NeatGenome<double> Create_AddConnectionMutation(NeatGenome<double> parent)
         {
             // TODO:
             return null;
@@ -122,7 +124,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_DeleteConnectionMutation]
 
-        private NeatGenome<double> CreateChild_DeleteConnectionMutation(NeatGenome<double> parent)
+        private NeatGenome<double> Create_DeleteConnectionMutation(NeatGenome<double> parent)
         {
             // TODO:
             return null;

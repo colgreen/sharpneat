@@ -1,5 +1,5 @@
 ﻿using SharpNeat.EA;
-using SharpNeat.Genomes.Neat;
+
 using SharpNeat.Neat.Genome;
 using System;
 using System.Collections.Generic;

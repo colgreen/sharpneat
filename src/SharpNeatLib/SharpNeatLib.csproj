@@ -77,6 +77,15 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\Reproduction\Asexual\MutationType.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IWeightMutationStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionalSubsetSelectionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\CardinalSubsetSelectionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ConnectionArrayMutationStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ISubsetSelectionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IConnectionArrayMutationStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
@@ -90,10 +99,6 @@
     <None Include="Neat\Decoding\NeatGenomeDecoder.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
     <None Include="Neat\Reproduction\Asexual\AddCyclicConnectionMutation.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationDescriptor.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ConnectionSelectionType.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationType.cs" />
     <Compile Include="Neat\NeatDifferentialReproductionStrategy.cs" />
     <Compile Include="Neat\NeatPopulationFactory.cs" />
     <None Include="Neat\Reproduction\Asexual\AddNodeMutation.cs" />
@@ -163,9 +168,6 @@
     <Compile Include="NeuralNets\NetworkActivationScheme.cs" />
     <Compile Include="Phenomes\VectorSegment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\RandomFactory.cs" />
-    <Compile Include="Utils\RandomUtils.cs" />
-    <Compile Include="Utils\RandomWeightSourceFactory.cs" />
     <Compile Include="Utils\Int32Sequence.cs" />
   </ItemGroup>
   <ItemGroup>
