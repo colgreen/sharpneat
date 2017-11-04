@@ -229,7 +229,7 @@ namespace ActivationFnBenchmarks
             double scale = 1.0507009873554804934193349852946;
 
             double y;
-            if(x > 0) {
+            if(x >= 0) {
                 y = scale*x;
             } 
             else {
