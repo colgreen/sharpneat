@@ -1,6 +1,5 @@
 ﻿using Redzen.Numerics;
 
-
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
     public class NeatReproductionAsexualSettings
@@ -27,11 +26,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// </summary>
         public double DeleteConnectionMutationProbability { get; set; } = 0.025;
 
-        ///// <summary>
-        ///// Connection weight mutation scheme.
-        ///// </summary>
-        //public WeightMutationScheme WeightMutationScheme { get; set; }
-
         #endregion
 
         #region Auto Properties [Readonly]
@@ -55,7 +49,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// </summary>
         public NeatReproductionAsexualSettings()
         {
-            //this.WeightMutationScheme =  WeightMutationScheme.CreateDefault();
             this.MutationTypeDistribution = CreateMutationTypeDiscreteDistribution();
             this.MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive();
         }
@@ -68,10 +61,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         {
             double[] probabilities = new double[] 
                 {
-                    ConnectionWeightMutationProbability, 
-                    AddNodeMutationProbability,
-                    AddConnectionMutationProbability,
-                    DeleteConnectionMutationProbability
+                    this.ConnectionWeightMutationProbability, 
+                    this.AddNodeMutationProbability,
+                    this.AddConnectionMutationProbability,
+                    this.DeleteConnectionMutationProbability
                 };
             return new DiscreteDistribution(probabilities);
         }
@@ -80,9 +73,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         {
             double[] probabilities = new double[] 
                 {
-                    ConnectionWeightMutationProbability, 
-                    AddNodeMutationProbability,
-                    AddConnectionMutationProbability
+                    this.ConnectionWeightMutationProbability, 
+                    this.AddNodeMutationProbability,
+                    this.AddConnectionMutationProbability
                 };
             return new DiscreteDistribution(probabilities);
         }

@@ -86,6 +86,7 @@
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IConnectionArrayMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationSchemeFactory.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />

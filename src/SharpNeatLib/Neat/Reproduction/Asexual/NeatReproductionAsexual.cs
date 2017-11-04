@@ -2,28 +2,33 @@
 using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
     /// <summary>
     /// Creation of offspring given a single parent (asexual reproduction).
     /// </summary>
-    public class NeatReproductionAsexual
+    public class NeatReproductionAsexual<T> where T : struct
     {
-        NeatReproductionAsexualSettings _settings;
-        NeatPopulation<double> _pop;
-        IRandomSource _rng;
+        #region Instance Fields
 
-        //AddNodeMutation _addNodeMutation;
+        NeatPopulation<T> _pop;
+        NeatReproductionAsexualSettings _settings;
+        WeightMutationScheme<T> _weightMutationScheme;
+
+        #endregion
 
         #region Constructor
 
-        public NeatReproductionAsexual(NeatReproductionAsexualSettings settings, NeatPopulation<double> pop)
+        public NeatReproductionAsexual(
+            NeatPopulation<T> pop,
+            NeatReproductionAsexualSettings settings,
+            WeightMutationScheme<T> weightMutationScheme)
         {
-            _settings = settings;
             _pop = pop;
-            _rng = RandomSourceFactory.Create();
-            //_addNodeMutation = new AddNodeMutation(pop, _rng);
+            _settings = settings;
+            _weightMutationScheme = weightMutationScheme;
         }
 
         #endregion
@@ -34,7 +39,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Asexual reproduction.
         /// </summary>
         /// <param name="parent1">Parent genome.</param>
-        public NeatGenome<double> CreateChildGenome(NeatGenome<double> parent)
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
         {
             // Get a discrete distribution over the set of possible mutation types.
             DiscreteDistribution mutationTypeDist = GetMutationTypeDistribution(parent);
@@ -42,7 +47,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Keep trying until a child genome is created.
             for(;;)
             {
-                NeatGenome<double> childGenome = Create(parent, ref mutationTypeDist);
+                NeatGenome<T> childGenome = Create(parent, ref mutationTypeDist);
                 if(null != childGenome) {
                     return childGenome;
                 }
@@ -53,13 +58,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [Create Subroutines]
 
-        public NeatGenome<double> Create(NeatGenome<double> parent, ref DiscreteDistribution mutationTypeDist)
+        public NeatGenome<T> Create(NeatGenome<T> parent, ref DiscreteDistribution mutationTypeDist)
         {
             // Determine the type of mutation to attempt.
             MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample();
 
             // Attempt to create a child genome using the selected mutation type.
-            NeatGenome<double> childGenome = null;
+            NeatGenome<T> childGenome = null;
 
             switch(mutationTypeId)
             {
@@ -82,39 +87,48 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                     throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}].");
             }
 
-            if(null == childGenome)
-            {
-                // The chosen mutation type was not possible; remove that type from the set of possible types.
-                mutationTypeDist = mutationTypeDist.RemoveOutcome((int)mutationTypeId);
-
-                // Sanity test.
-                if(0 == mutationTypeDist.Probabilities.Length)
-                {   // This shouldn't be possible, hence this is an exceptional circumstance.
-                    // Note. Connection weight and 'add node' mutations should always be possible, because there should 
-                    // always be at least one connection.
-                    throw new Exception("All types of genome mutation failed.");
-                }
+            if(null != childGenome) {
+                return childGenome;
             }
-            return childGenome;
+
+            // The chosen mutation type was not possible; remove that type from the set of possible types.
+            mutationTypeDist = mutationTypeDist.RemoveOutcome((int)mutationTypeId);
+
+            // Sanity test.
+            if(0 == mutationTypeDist.Probabilities.Length)
+            {   // This shouldn't be possible, hence this is an exceptional circumstance.
+                // Note. Connection weight and 'add node' mutations should always be possible, because there should 
+                // always be at least one connection.
+                throw new Exception("All types of genome mutation failed.");
+            }
+            return null;
         }
 
         #endregion
 
         #region Private Methods [CreateChild_WeightMutation]
 
-        private NeatGenome<double> Create_WeightMutation(NeatGenome<double> parent)
+        private NeatGenome<T> Create_WeightMutation(NeatGenome<T> parent)
         {
-            //WeightMutationDescriptor desc = _settings.WeightMutationScheme.GetDescriptor(_rng);
+            // Clone the parent's connection genes.
+            var connArr = ConnectionGene<T>.CloneArray(parent.ConnectionGeneArray);
 
-            // TODO:
-            return null;
+            // Apply mutation to the connection genes.
+            _weightMutationScheme.MutateWeights(connArr);
+
+            // Create and return a new genome.
+            return new NeatGenome<T>(
+                _pop.MetaNeatGenome,
+                _pop.GenomeIdSeq.Next(), 
+                _pop.CurrentGenerationAge,
+                connArr);
         }
 
         #endregion
 
         #region Private Methods [CreateChild_AddConnectionMutation]
 
-        private NeatGenome<double> Create_AddConnectionMutation(NeatGenome<double> parent)
+        private NeatGenome<T> Create_AddConnectionMutation(NeatGenome<T> parent)
         {
             // TODO:
             return null;
@@ -124,7 +138,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [CreateChild_DeleteConnectionMutation]
 
-        private NeatGenome<double> Create_DeleteConnectionMutation(NeatGenome<double> parent)
+        private NeatGenome<T> Create_DeleteConnectionMutation(NeatGenome<T> parent)
         {
             // TODO:
             return null;
@@ -134,7 +148,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods 
 
-        private DiscreteDistribution GetMutationTypeDistribution(NeatGenome<double> parent)
+        private DiscreteDistribution GetMutationTypeDistribution(NeatGenome<T> parent)
         {
             // If there is only one connection then avoid destructive mutations to avoid the 
             // creation of genomes with no connections.

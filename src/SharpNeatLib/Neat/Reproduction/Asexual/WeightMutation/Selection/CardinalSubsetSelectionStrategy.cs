@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
     /// </summary>
     public class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
     {
-        readonly int _selectionCount;
+        readonly int _selectCount;
         readonly IRandomSource _rng;
 
         #region Constructor
@@ -19,10 +19,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// <summary>
         /// Construct with the given selection count (selection cardinality).
         /// </summary>
-        /// <param name="selectionCount">The number of items to select.</param>
-        public CardinalSubsetSelectionStrategy(int selectionCount)
+        /// <param name="selectCount">The number of items to select.</param>
+        public CardinalSubsetSelectionStrategy(int selectCount)
         {
-            _selectionCount = selectionCount;
+            _selectCount = selectCount;
             _rng = RandomSourceFactory.Create();
         }
 
@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// <returns>An array of indexes that are the selected items.</returns>
         public int[] SelectSubset(int supersetCount)
         {
-            int selectionCount = Math.Min(_selectionCount, supersetCount);
+            int selectionCount = Math.Min(_selectCount, supersetCount);
             int[] idxArr = new int[selectionCount];
             DiscreteDistributionUtils.SampleUniformWithoutReplacement(supersetCount, idxArr, _rng);            
             return idxArr;

@@ -2,6 +2,7 @@
 
 namespace SharpNeat.Neat.Genome
 {
+    // TODO: Consider if we should make this a struct. Note. A List<T> of IWeightedDirectedConnection seems to be problematic when applied to a struct.
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.
     /// </summary>
@@ -39,6 +40,19 @@ namespace SharpNeat.Neat.Genome
             this.SourceId = sourceId;
             this.TargetId = targetId;
             this.Weight = weight;
+        }
+
+        #endregion
+
+        #region Public Static Methods
+
+        public static ConnectionGene<T>[] CloneArray(ConnectionGene<T>[] connArr)
+        {
+            var arr = new ConnectionGene<T>[connArr.Length];
+            for (int i = 0; i <connArr.Length; i++) {
+                arr[i] = new ConnectionGene<T>(connArr[i]);
+            }
+            return arr;
         }
 
         #endregion
