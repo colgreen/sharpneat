@@ -28,7 +28,7 @@ namespace SharpNeat.Network
 
         public string FunctionString => "";
 
-        public string FunctionDescription => "Leaky Rectified Linear Unit (ReLU)";
+        public string FunctionDescription => "Shifted Rectified Linear Unit (ReLU) variant";
 
         public bool AcceptsAuxArgs => false;
 
