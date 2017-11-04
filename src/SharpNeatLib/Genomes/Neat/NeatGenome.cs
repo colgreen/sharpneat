@@ -711,13 +711,13 @@ namespace SharpNeat.Genomes.Neat
                     }
 
                     // Valid target nodes are all hidden and output nodes.
-                    // ENHANCEMENT: Devise more efficient strategy. This can still select the same node as source and target (the cyclic connection is tested for below). 
-                    int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount-1);
+                    // ENHANCEMENT: Devise more efficient strategy. This can select the same node as source and target (the cyclic connection is tested for below).
+                    int tgtNeuronIdx = _inputAndBiasNeuronCount + _genomeFactory.Rng.Next(hiddenOutputNeuronCount);
                     if(srcNeuronIdx == tgtNeuronIdx)
-                    {
-                        // The source neuron was selected. To ensure selections are evenly distributed across all valid targets, this
-                        // selection is substituted with the last possible node in the list of possibilities (the last output node).
-                        tgtNeuronIdx = neuronCount-1;
+                    {   
+                        // The same node was selected as both source and target.
+                        // Try again.
+                        continue;
                     }
 
                     // Test if this connection already exists or is recurrent
