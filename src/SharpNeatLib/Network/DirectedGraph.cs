@@ -97,15 +97,16 @@ namespace SharpNeat.Network
 
         #region Public Methods
 
-        public void GetConnections(int srcNodeIdx, out IList<int> srcIdArr, out IList<int> tgtIdArr)
+        /// <summary>
+        /// Get an array of all connection target node IDs for the specified source node.
+        /// </summary>
+        public IList<int> GetConnections(int srcNodeIdx)
         {
             int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
             if(-1 == startIdx)
-            {   // The specified node has no connections with it as the source.
+            {   // There are no connections that have the specified node as their source.
                 // Return an empty array segment.
-                srcIdArr = new ArraySegment<int>();
-                tgtIdArr = new ArraySegment<int>();
-                return;
+                return new ArraySegment<int>();
             }
 
             // Scan for the last connection with the specified source node.
@@ -115,9 +116,8 @@ namespace SharpNeat.Network
             int endIdx = startIdx+1;
             for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
-            // Return a array segment over the sub-range of the connection array.
-            srcIdArr = new ArraySegment<int>(connSrcIdArr, startIdx, endIdx - startIdx);
-            tgtIdArr = new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
+            // Return an array segment over the sub-range of the connection array.
+            return new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
         }
 
         #endregion

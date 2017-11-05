@@ -108,10 +108,9 @@ namespace SharpNeat.Network
             }
 
             // Traverse into the node's targets / children (if it has any)
-            IList<int> srcIdArr, tgtIdArr;
-            _digraph.GetConnections(nodeId, out srcIdArr, out tgtIdArr);
+            IList<int> tgtIdArr = _digraph.GetConnections(nodeId);
 
-            if(0 == srcIdArr.Count) 
+            if(0 == tgtIdArr.Count) 
             {   // No cycles on this traversal path.
                 return false;
             }
