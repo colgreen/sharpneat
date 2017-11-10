@@ -115,7 +115,7 @@ namespace SharpNeatLib.Tests.Neat
 
             Assert.IsTrue(min < -genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
             Assert.IsTrue(max > genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
-            Assert.IsTrue(Math.Abs(mean) < 0.05);
+            Assert.IsTrue(Math.Abs(mean) < 0.1);
         }
 
         #endregion

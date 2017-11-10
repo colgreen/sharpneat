@@ -27,7 +27,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
             Assert.IsFalse(isCyclic);
         }
 
@@ -48,7 +48,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
             Assert.IsFalse(isCyclic);
         }
 
@@ -69,7 +69,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
             Assert.IsFalse(isCyclic);
         }
 
@@ -95,7 +95,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
             Assert.IsTrue(isCyclic);
         }
 
@@ -117,7 +117,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
             Assert.IsTrue(isCyclic);
         }
 
@@ -139,7 +139,7 @@ namespace SharpNeatLib.Tests.Network
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
-            bool isCyclic = CyclicGraphAnalysis.IsCyclic(digraph);
+            bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
             Assert.IsTrue(isCyclic);
         }
 

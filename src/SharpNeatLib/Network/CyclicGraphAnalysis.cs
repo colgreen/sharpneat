@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SharpNeat.Network
 {
@@ -30,9 +31,6 @@ namespace SharpNeat.Network
         /// The directed graph being tested.
         /// </summary>
         DirectedGraph _digraph;
-
-        // TODO: Re-use these hashsets to avoid the overhead of re-allocation and garbage collection. See CyclicConnectionTest class
-
         /// <summary>
         /// Set of traversal ancestors of current node. 
         /// </summary>
@@ -44,37 +42,18 @@ namespace SharpNeat.Network
 
         #endregion
 
-        #region Constructor
-
-        /// <summary>
-        /// Private constructor. Prevents construction from outside of this class.
-        /// </summary>
-        private CyclicGraphAnalysis(DirectedGraph digraph)
-        {
-            _digraph = digraph;
-        }
-
-        #endregion
-
-        #region Public Static Methods
+        #region Public Methods
 
         /// <summary>
         /// Returns true if there is at least one connectivity cycle within the provided DirectedGraph.
         /// </summary>
-        public static bool IsCyclic(DirectedGraph digraph)
+        public bool IsCyclic(DirectedGraph digraph)
         {
-            return new CyclicGraphAnalysis(digraph).IsCyclicInternal();
-        }
+            Debug.Assert(null == _digraph, "Re-entrant call on non re-entrant method.");
 
-        #endregion
+            Cleanup();
+            _digraph = digraph;
 
-        #region Private Methods
-
-        /// <summary>
-        /// Returns true if there is at least one connectivity cycle within the provided INetworkDefinition.
-        /// </summary>
-        private bool IsCyclicInternal()
-        {
             // Loop over all nodes. Take each one in turn as a traversal root node.
             int nodeCount = _digraph.TotalNodeCount;
             for(int nodeId=0; nodeId < nodeCount; nodeId++)
@@ -88,11 +67,13 @@ namespace SharpNeat.Network
                 // Traverse into the node. 
                 if(TraverseNode(nodeId))
                 {   // Cycle detected.
+                    Cleanup();
                     return true;
                 }
             }
 
             // No cycles detected.
+            Cleanup();
             return false;
         }
 
@@ -138,6 +119,31 @@ namespace SharpNeat.Network
 
             // No cycles were detected in the traversal paths from this node.
             return false;
+        }
+
+        private void Cleanup()
+        {
+            _digraph = null;
+            _ancestorNodeSet.Clear();
+            _visitedNodeSet.Clear();
+        }
+
+        #endregion
+
+        #region Public Static Methods
+
+        /// <summary>
+        /// Returns true if there is at least one connectivity cycle within the provided DirectedGraph.
+        /// </summary>
+        /// <remarks>
+        /// A static version of IsCyclic() that will create and cleanup its own memory allocations for the 
+        /// analysis algorithm instead of re-using pre-allocated memory. I.e. this method is a slower version
+        /// but is provided for scenarios where the convenience is preferable to speed.
+        /// </remarks>
+        public static bool IsCyclicStatic(DirectedGraph digraph)
+        {
+            var cyclicAnalysis = new CyclicGraphAnalysis();
+            return cyclicAnalysis.IsCyclic(digraph);
         }
 
         #endregion

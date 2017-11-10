@@ -61,7 +61,7 @@ namespace SharpNeat.Network.Acyclic
         {
             // Debug assert the graph is acyclic. 
             // Note. In a release build this test is not performed; in that case the depth analysis will throw a stack overflow exception for cyclic graphs.
-            Debug.Assert(!CyclicGraphAnalysis.IsCyclic(digraph));
+            Debug.Assert(!CyclicGraphAnalysis.IsCyclicStatic(digraph));
 
             return new AcyclicGraphDepthAnalysis(digraph).CalculateNodeDepthsInner();
         }
