@@ -74,9 +74,16 @@
     <Compile Include="Neat\AddedNodeBuffer.cs" />
     <Compile Include="Neat\AddedConnectionBuffer.cs" />
     <Compile Include="Neat\AddedNodeInfo.cs" />
+    <Compile Include="Neat\Genome\ConnectionGeneUtils.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionReproductionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTest.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionReproductionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\IAsexualReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\MutationType.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionReproductionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\MutateWeightsReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IWeightMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionalSubsetSelectionStrategy.cs" />
@@ -99,7 +106,6 @@
     <Compile Include="Neat\Genome\NeatGenome.cs" />
     <None Include="Neat\Decoding\NeatGenomeDecoder.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
-    <None Include="Neat\Reproduction\Asexual\AddCyclicConnectionMutation.cs" />
     <Compile Include="Neat\NeatDifferentialReproductionStrategy.cs" />
     <Compile Include="Neat\NeatPopulationFactory.cs" />
     <None Include="Neat\Reproduction\Asexual\AddNodeMutation.cs" />

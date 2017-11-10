@@ -13,19 +13,34 @@ namespace SharpNeat.Neat
         // TODO: Consider increasing buffer capacity, and different capacities for the two different buffers.
         const int __defaultInnovationHistoryBufferSize = 0x20000; // = 131,072.
 
-        #region Constructor
+        #region Constructors
 
         public NeatPopulation(
+            MetaNeatGenome<T> metaNeatGenome,
+            List<NeatGenome<T>> genomeList)
+        : this(metaNeatGenome, genomeList, new Int32Sequence(), new Int32Sequence(), __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
+        {}
+
+        public NeatPopulation(
+            MetaNeatGenome<T> metaNeatGenome,
+            List<NeatGenome<T>> genomeList,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence innovationIdSeq)
+        : this(metaNeatGenome, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
+        {}
+
+        public NeatPopulation(
+            MetaNeatGenome<T> metaNeatGenome,
+            List<NeatGenome<T>> genomeList,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            List<NeatGenome<T>> genomeList,
-            MetaNeatGenome<T> metaNeatGenome,
-            int innovationHistoryBufferSize = __defaultInnovationHistoryBufferSize)
-        : base(genomeIdSeq, innovationIdSeq, genomeList)
+            int addedConnectionHistoryBufferSize,
+            int addedNodeHistoryBufferSize)
+        : base(genomeList, genomeIdSeq, innovationIdSeq)
         {
             this.MetaNeatGenome = metaNeatGenome;
-            this.AddedConnectionBuffer = new AddedConnectionBuffer(__defaultInnovationHistoryBufferSize, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount);
-            this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);
+            this.AddedConnectionBuffer = new AddedConnectionBuffer(addedConnectionHistoryBufferSize, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount);
+            this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
         }
 
         #endregion

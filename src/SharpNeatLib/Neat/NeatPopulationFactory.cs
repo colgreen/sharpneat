@@ -13,7 +13,6 @@ namespace SharpNeat.Neat
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly double _connectionsProportion;
-
         readonly ConnectionDefinition[] _connectionDefArr;
         
         readonly IRandomSource _rng;
@@ -67,7 +66,7 @@ namespace SharpNeat.Neat
         public NeatPopulation<T> CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
-            return new NeatPopulation<T>(_genomeIdSeq, _innovationIdSeq, genomeList, _metaNeatGenome);
+            return new NeatPopulation<T>(_metaNeatGenome, genomeList, _genomeIdSeq, _innovationIdSeq);
         }
 
         /// <summary>

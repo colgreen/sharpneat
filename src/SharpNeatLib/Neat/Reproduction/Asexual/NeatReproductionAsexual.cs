@@ -2,6 +2,7 @@
 using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
@@ -16,6 +17,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         NeatPopulation<T> _pop;
         NeatReproductionAsexualSettings _settings;
         WeightMutationScheme<T> _weightMutationScheme;
+        IRandomSource _rng;
+
+        // Asexual reproduction strategies..
+        IAsexualReproductionStrategy<T> _mutateWeightsReproStrategy;
+        IAsexualReproductionStrategy<T> _deleteConnectionReproStrategy;
+        IAsexualReproductionStrategy<T> _addConnectionReproStrategy;
 
         #endregion
 
@@ -29,6 +36,20 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _pop = pop;
             _settings = settings;
             _weightMutationScheme = weightMutationScheme;
+            _rng = RandomSourceFactory.Create();
+
+            // Instantiate reproduction strategies.
+            _mutateWeightsReproStrategy = new MutateWeightsReproductionStrategy<T>(pop, weightMutationScheme);
+            _deleteConnectionReproStrategy = new DeleteConnectionReproductionStrategy<T>(pop);
+
+            if(_pop.MetaNeatGenome.IsAcyclic)
+            {
+                // TODO:
+
+            }
+            else {
+                _addConnectionReproStrategy = new AddCyclicConnectionReproductionStrategy<T>(pop);
+            }            
         }
 
         #endregion
@@ -71,17 +92,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
                 case MutationType.ConnectionWeight: 
-                    childGenome = Create_WeightMutation(parent);
+                    childGenome = _mutateWeightsReproStrategy.CreateChildGenome(parent);
                     break;
                 case MutationType.AddNode: 
                     // FIXME: Reinstate.
                     //childGenome = _addNodeMutation.CreateChild(parent);
                     break;
                 case MutationType.AddConnection:
-                    childGenome = Create_AddConnectionMutation(parent);
+                    childGenome = _addConnectionReproStrategy.CreateChildGenome(parent);
                     break;
                 case MutationType.DeleteConnection:
-                    childGenome = Create_DeleteConnectionMutation(parent);
+                    childGenome = _deleteConnectionReproStrategy.CreateChildGenome(parent);
                     break;
                 default: 
                     throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}].");
@@ -101,46 +122,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 // always be at least one connection.
                 throw new Exception("All types of genome mutation failed.");
             }
-            return null;
-        }
-
-        #endregion
-
-        #region Private Methods [CreateChild_WeightMutation]
-
-        private NeatGenome<T> Create_WeightMutation(NeatGenome<T> parent)
-        {
-            // Clone the parent's connection genes.
-            var connArr = ConnectionGene<T>.CloneArray(parent.ConnectionGeneArray);
-
-            // Apply mutation to the connection genes.
-            _weightMutationScheme.MutateWeights(connArr);
-
-            // Create and return a new genome.
-            return new NeatGenome<T>(
-                _pop.MetaNeatGenome,
-                _pop.GenomeIdSeq.Next(), 
-                _pop.CurrentGenerationAge,
-                connArr);
-        }
-
-        #endregion
-
-        #region Private Methods [CreateChild_AddConnectionMutation]
-
-        private NeatGenome<T> Create_AddConnectionMutation(NeatGenome<T> parent)
-        {
-            // TODO:
-            return null;
-        }
-
-        #endregion
-
-        #region Private Methods [CreateChild_DeleteConnectionMutation]
-
-        private NeatGenome<T> Create_DeleteConnectionMutation(NeatGenome<T> parent)
-        {
-            // TODO:
             return null;
         }
 

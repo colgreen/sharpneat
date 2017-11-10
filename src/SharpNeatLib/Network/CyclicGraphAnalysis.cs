@@ -30,6 +30,9 @@ namespace SharpNeat.Network
         /// The directed graph being tested.
         /// </summary>
         DirectedGraph _digraph;
+
+        // TODO: Re-use these hashsets to avoid the overhead of re-allocation and garbage collection. See CyclicConnectionTest class
+
         /// <summary>
         /// Set of traversal ancestors of current node. 
         /// </summary>
