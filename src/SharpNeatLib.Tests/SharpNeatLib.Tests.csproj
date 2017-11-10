@@ -65,6 +65,7 @@
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionReproductionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionReproductionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTestTest.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionReproductionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionSubsetSelectionStrategyTests.cs" />
