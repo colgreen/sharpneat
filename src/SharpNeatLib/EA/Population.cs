@@ -5,15 +5,13 @@ namespace SharpNeat.EA
 {
     public class Population<TGenome>    
     {
-        #region Instance Fields
+        #region Auto Properties
 
-        readonly List<TGenome> _genomeList;
-
-        // TODO: Consider extracting these into their own class
-        readonly Int32Sequence _genomeIdSeq;
-        readonly Int32Sequence _innovationIdSeq;
-        uint _currentGenerationAge;
-
+        public List<TGenome> GenomeList { get; }
+        public Int32Sequence GenomeIdSeq { get; }
+        public Int32Sequence InnovationIdSeq { get; }
+        public Int32Sequence GenerationSeq { get; }
+        
         #endregion
 
         #region Constructor
@@ -21,9 +19,10 @@ namespace SharpNeat.EA
         public Population(
             List<TGenome> genomeList)
         {
-            _genomeList = genomeList;
-            _genomeIdSeq = new Int32Sequence();
-            _innovationIdSeq = new Int32Sequence();
+            this.GenomeList = genomeList;
+            this.GenomeIdSeq = new Int32Sequence();
+            this.InnovationIdSeq = new Int32Sequence();
+            this.GenerationSeq = new Int32Sequence();
         }
 
         public Population(
@@ -31,26 +30,10 @@ namespace SharpNeat.EA
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq)
         {
-            _genomeList = genomeList;
-            _genomeIdSeq = genomeIdSeq;
-            _innovationIdSeq = innovationIdSeq;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public List<TGenome> GenomeList => _genomeList;
-        public Int32Sequence GenomeIdSeq => _genomeIdSeq;
-        public Int32Sequence InnovationIdSeq => _innovationIdSeq;
-        public uint CurrentGenerationAge => _currentGenerationAge; 
-        
-        #endregion
-
-        #region Public Methods
-
-        public void IncrementCurrentGenerationAge() {
-            _currentGenerationAge++;
+            this.GenomeList = genomeList;
+            this.GenomeIdSeq = genomeIdSeq;
+            this.InnovationIdSeq = innovationIdSeq;
+            this.GenerationSeq = new Int32Sequence();
         }
 
         #endregion

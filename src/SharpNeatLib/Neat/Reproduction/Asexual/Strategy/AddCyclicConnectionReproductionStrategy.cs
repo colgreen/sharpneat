@@ -4,6 +4,7 @@ using System.Linq;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
@@ -12,20 +13,32 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     {
         #region Instance Fields
 
-        NeatPopulation<T> _pop;
-        IContinuousDistribution<T> _weightDistA;
-        IContinuousDistribution<T> _weightDistB;
-        IRandomSource _rng;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly Int32Sequence _genomeIdSeq;
+        readonly Int32Sequence _innovationIdSeq;
+        readonly Int32Sequence _generationSeq;
+
+        readonly IContinuousDistribution<T> _weightDistA;
+        readonly IContinuousDistribution<T> _weightDistB;
+        readonly IRandomSource _rng;
 
         #endregion
 
         #region Constructor
 
-        public AddCyclicConnectionReproductionStrategy(NeatPopulation<T> pop)
+        public AddCyclicConnectionReproductionStrategy(
+            MetaNeatGenome<T> metaNeatGenome,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence innovationIdSeq,
+            Int32Sequence generationSeq)
         {
-            _pop = pop;
-            _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_pop.MetaNeatGenome.ConnectionWeightRange, true);
-            _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_pop.MetaNeatGenome.ConnectionWeightRange * 0.01, true);
+            _metaNeatGenome = metaNeatGenome;
+            _genomeIdSeq = genomeIdSeq;
+            _innovationIdSeq = innovationIdSeq;
+            _generationSeq = generationSeq;
+
+            _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
+            _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
             _rng = RandomSourceFactory.Create();
         }
 
@@ -50,7 +63,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create a new connection gene.
             var connGene = new ConnectionGene<T>(
-                _pop.InnovationIdSeq.Next(),
+                _innovationIdSeq.Next(),
                 directedConn.SourceId,
                 directedConn.TargetId,
                 weight
@@ -80,9 +93,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             return new NeatGenome<T>(
-                _pop.MetaNeatGenome,
-                _pop.GenomeIdSeq.Next(), 
-                _pop.CurrentGenerationAge,
+                _metaNeatGenome,
+                _genomeIdSeq.Next(), 
+                _generationSeq.Peek,
                 connArr);
         }
 
@@ -116,7 +129,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Select a target node at random.
             // Note. This cannot be an input node (so must be a hidden or output node).
-            int inputCount = _pop.MetaNeatGenome.InputNodeCount;
+            int inputCount = _metaNeatGenome.InputNodeCount;
             int tgtId = idArr[inputCount + _rng.Next(idArr.Length - inputCount)];
 
             // Test if the chosen connection already exists.
@@ -146,7 +159,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Include invariant nodes (input and output nodes).
             // Note. These nodes have fixed predetermined IDs.
-            int ioCount = _pop.MetaNeatGenome.InputNodeCount + _pop.MetaNeatGenome.OutputNodeCount;
+            int ioCount = _metaNeatGenome.InputNodeCount + _metaNeatGenome.OutputNodeCount;
             for(int i=0; i<ioCount; i++) {
                 idSet.Add(i);
             }

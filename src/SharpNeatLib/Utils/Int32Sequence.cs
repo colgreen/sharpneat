@@ -49,10 +49,8 @@ namespace SharpNeat.Utils
         /// </summary>
         public int Next()
         {
-            if (_next == int.MaxValue) 
-            {   // TODO/FIXME: Compact all innovation IDs in the genome population to free up more innovation IDs.
-                // Note this relates to connection IDs, node IDs and genome IDs.
-                throw new InvalidOperationException("Last innovation ID has been reached.");
+            if (_next == int.MaxValue) {   
+                throw new InvalidOperationException("Last ID has been reached.");
             }
             return _next++;   
         }

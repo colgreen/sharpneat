@@ -4,6 +4,7 @@ using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
@@ -14,41 +15,48 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     {
         #region Instance Fields
 
-        NeatPopulation<T> _pop;
-        NeatReproductionAsexualSettings _settings;
-        WeightMutationScheme<T> _weightMutationScheme;
-        IRandomSource _rng;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly Int32Sequence _genomeIdSeq;
+        readonly Int32Sequence _innovationIdSeq;
+        readonly Int32Sequence _generationSeq;
+        readonly NeatReproductionAsexualSettings _settings;
+        readonly WeightMutationScheme<T> _weightMutationScheme;
+        readonly IRandomSource _rng;
 
         // Asexual reproduction strategies..
-        IAsexualReproductionStrategy<T> _mutateWeightsReproStrategy;
-        IAsexualReproductionStrategy<T> _deleteConnectionReproStrategy;
-        IAsexualReproductionStrategy<T> _addConnectionReproStrategy;
+        readonly IAsexualReproductionStrategy<T> _mutateWeightsReproStrategy;
+        readonly IAsexualReproductionStrategy<T> _deleteConnectionReproStrategy;
+        readonly IAsexualReproductionStrategy<T> _addConnectionReproStrategy;
 
         #endregion
 
         #region Constructor
 
         public NeatReproductionAsexual(
-            NeatPopulation<T> pop,
+            MetaNeatGenome<T> metaNeatGenome,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence innovationIdSeq,
+            Int32Sequence generationSeq,
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
         {
-            _pop = pop;
+            _metaNeatGenome = metaNeatGenome;
+            _genomeIdSeq = genomeIdSeq;
+            _innovationIdSeq = innovationIdSeq;
+            _generationSeq = generationSeq;
             _settings = settings;
             _weightMutationScheme = weightMutationScheme;
             _rng = RandomSourceFactory.Create();
 
             // Instantiate reproduction strategies.
-            _mutateWeightsReproStrategy = new MutateWeightsReproductionStrategy<T>(pop, weightMutationScheme);
-            _deleteConnectionReproStrategy = new DeleteConnectionReproductionStrategy<T>(pop);
+            _mutateWeightsReproStrategy = new MutateWeightsReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq, weightMutationScheme);
+            _deleteConnectionReproStrategy = new DeleteConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq);
 
-            if(_pop.MetaNeatGenome.IsAcyclic)
-            {
-                // TODO:
-
-            }
-            else {
-                _addConnectionReproStrategy = new AddCyclicConnectionReproductionStrategy<T>(pop);
+            // Add connection mutation; select acyclic/cyclic strategy as appropriate.
+            if(_metaNeatGenome.IsAcyclic) {
+                _addConnectionReproStrategy = new AddAcyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq);
+            } else {
+                _addConnectionReproStrategy = new AddCyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq);
             }            
         }
 

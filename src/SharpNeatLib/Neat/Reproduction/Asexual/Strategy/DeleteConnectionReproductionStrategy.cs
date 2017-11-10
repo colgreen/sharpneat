@@ -1,19 +1,27 @@
 ﻿using Redzen.Random;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     public class DeleteConnectionReproductionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
-        NeatPopulation<T> _pop;
-        IRandomSource _rng;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly Int32Sequence _genomeIdSeq;
+        readonly Int32Sequence _generationSeq;
+        readonly IRandomSource _rng;
 
         #region Constructor
 
-        public DeleteConnectionReproductionStrategy(NeatPopulation<T> pop)
+        public DeleteConnectionReproductionStrategy(
+            MetaNeatGenome<T> metaNeatGenome,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence generationSeq)
         {
-            _pop = pop;
+            _metaNeatGenome = metaNeatGenome;
+            _genomeIdSeq = genomeIdSeq;
+            _generationSeq = generationSeq;
             _rng = RandomSourceFactory.Create();
         }
 
@@ -50,9 +58,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             return new NeatGenome<T>(
-                _pop.MetaNeatGenome,
-                _pop.GenomeIdSeq.Next(), 
-                _pop.CurrentGenerationAge,
+                _metaNeatGenome,
+                _genomeIdSeq.Next(), 
+                _generationSeq.Peek,
                 connArr);
         }
 

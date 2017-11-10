@@ -12,7 +12,7 @@ namespace SharpNeat.Core
         /// <summary>
         /// The generation that a genome was born/created in. Used to track genome age.
         /// </summary>
-        uint BirthGeneration { get; }
+        int BirthGeneration { get; }
 
         /// <summary>
         /// The genome's fitness score.

@@ -73,7 +73,7 @@ namespace SharpNeatLib.Tests.Neat
             {
                 var genome = neatPop.GenomeList[i];
                 Assert.AreEqual(i, genome.Id);
-                Assert.AreEqual(0u, genome.BirthGeneration);
+                Assert.AreEqual(0, genome.BirthGeneration);
 
                 TestGenome(genome);
             }

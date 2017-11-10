@@ -1,23 +1,29 @@
 ﻿using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
+using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     public class MutateWeightsReproductionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
-        NeatPopulation<T> _pop;
-        WeightMutationScheme<T> _weightMutationScheme;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly Int32Sequence _genomeIdSeq;
+        readonly Int32Sequence _generationSeq;
+        readonly WeightMutationScheme<T> _weightMutationScheme;
 
         #region Constructor
 
         public MutateWeightsReproductionStrategy(
-            NeatPopulation<T> pop,
+            MetaNeatGenome<T> metaNeatGenome,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence generationSeq,
             WeightMutationScheme<T> weightMutationScheme)
         {
-            _pop = pop;
+            _metaNeatGenome = metaNeatGenome;
+            _genomeIdSeq = genomeIdSeq;
+            _generationSeq = generationSeq;
             _weightMutationScheme = weightMutationScheme;
-
         }
 
         #endregion
@@ -34,9 +40,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             return new NeatGenome<T>(
-                _pop.MetaNeatGenome,
-                _pop.GenomeIdSeq.Next(), 
-                _pop.CurrentGenerationAge,
+                _metaNeatGenome,
+                _genomeIdSeq.Next(), 
+                _generationSeq.Peek,
                 connArr);
         }
 

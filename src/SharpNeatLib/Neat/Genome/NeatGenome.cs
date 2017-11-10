@@ -21,7 +21,7 @@ namespace SharpNeat.Neat.Genome
 
         readonly int _id;
         // TODO: Consider whether birthGeneration belongs here.
-        readonly uint _birthGeneration;
+        readonly int _birthGeneration;
         readonly ConnectionGene<T>[] _connectionGeneArr;
 
         double _fitness;
@@ -36,7 +36,7 @@ namespace SharpNeat.Neat.Genome
         /// Constructs with the provided ID, birth generation and gene lists.
         /// </summary>
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
-                          int id, uint birthGeneration,
+                          int id, int birthGeneration,
                           ConnectionGene<T>[] connectionGeneArr)
         {
             Debug.Assert(DirectedConnectionUtils.IsSorted<T>(connectionGeneArr));
@@ -82,7 +82,7 @@ namespace SharpNeat.Neat.Genome
         #region IGenome
 
         public int Id => _id;
-        public uint BirthGeneration => _birthGeneration;
+        public int BirthGeneration => _birthGeneration;
         public double Fitness { get => _fitness; set => _fitness = value; }
 
         #endregion
