@@ -18,7 +18,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         {
             var pop = CreateNeatPopulation();
             var genome = pop.GenomeList[0];
-            var strategy = new AddCyclicConnectionReproductionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+            var strategy = new AddCyclicConnectionReproductionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq, pop.AddedConnectionBuffer);
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 

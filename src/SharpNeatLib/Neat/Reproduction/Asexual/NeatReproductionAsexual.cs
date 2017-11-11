@@ -15,12 +15,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     {
         #region Instance Fields
 
-        readonly MetaNeatGenome<T> _metaNeatGenome;
-        readonly Int32Sequence _genomeIdSeq;
-        readonly Int32Sequence _innovationIdSeq;
-        readonly Int32Sequence _generationSeq;
         readonly NeatReproductionAsexualSettings _settings;
-        readonly WeightMutationScheme<T> _weightMutationScheme;
         readonly IRandomSource _rng;
 
         // Asexual reproduction strategies..
@@ -37,15 +32,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
+            AddedConnectionBuffer addedConnectionBuffer,
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
         {
-            _metaNeatGenome = metaNeatGenome;
-            _genomeIdSeq = genomeIdSeq;
-            _innovationIdSeq = innovationIdSeq;
-            _generationSeq = generationSeq;
             _settings = settings;
-            _weightMutationScheme = weightMutationScheme;
             _rng = RandomSourceFactory.Create();
 
             // Instantiate reproduction strategies.
@@ -53,10 +44,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _deleteConnectionReproStrategy = new DeleteConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
-            if(_metaNeatGenome.IsAcyclic) {
-                _addConnectionReproStrategy = new AddAcyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq);
+            if(metaNeatGenome.IsAcyclic) {
+                _addConnectionReproStrategy = new AddAcyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
             } else {
-                _addConnectionReproStrategy = new AddCyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq);
+                _addConnectionReproStrategy = new AddCyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
             }            
         }
 

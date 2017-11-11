@@ -17,6 +17,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
+        readonly AddedConnectionBuffer _addedConnectionBuffer;
 
         readonly IContinuousDistribution<T> _weightDistA;
         readonly IContinuousDistribution<T> _weightDistB;
@@ -30,12 +31,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             MetaNeatGenome<T> metaNeatGenome,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            Int32Sequence generationSeq)
+            Int32Sequence generationSeq,
+            AddedConnectionBuffer addedConnectionBuffer)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeIdSeq = genomeIdSeq;
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
+            _addedConnectionBuffer = addedConnectionBuffer;
 
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
@@ -54,8 +57,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 return null;
             }
 
-            // Determine the connection weight.
+            // Determine the new gene's innovation ID.
+            if(!_addedConnectionBuffer.TryLookup(directedConn, out int connectionId))
+            {   
+                // No matching connection found in the innovation ID buffer.
+                // Get a new innovation ID and register the new connection with the innovation buffer.
+                connectionId = _innovationIdSeq.Next();
+                _addedConnectionBuffer.Register(directedConn, connectionId);
+            }
 
+            // Determine the connection weight.
             // 50% of the time use weights very close to zero.
             // Note. this recreates the strategy used in SharpNEAT 2.x.
             // TODO: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
@@ -63,7 +74,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create a new connection gene.
             var connGene = new ConnectionGene<T>(
-                _innovationIdSeq.Next(),
+                connectionId,
                 directedConn.SourceId,
                 directedConn.TargetId,
                 weight
