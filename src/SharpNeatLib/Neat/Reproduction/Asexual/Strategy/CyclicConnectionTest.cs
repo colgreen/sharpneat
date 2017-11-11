@@ -6,7 +6,7 @@ using SharpNeat.Network;
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     /// <summary>
-    /// For testing if a proposed new connection on a directed acyclic graph would form a cycle.
+    /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
     /// </summary>
     /// <remarks>
     /// Each instance of this class allocates a stack and a hashset for use by the traversal algorithm, and these
@@ -16,9 +16,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// and GC overhead associated with each call to it.
     /// 
     /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene 
-    /// array data structure, and is perhaps not as easy to read/understand as a traditional depth first traversal 
-    /// using function recursion. However this is essentially a depth first algorithm but with its own stack instead 
-    /// of using the call stack, and a each stack frame is just an index into the connection array.
+    /// array data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal 
+    /// algorithm using function recursion. However this is essentially a depth first algorithm but with its own stack 
+    /// instead of using the call stack, and each stack frame is just an index into the connection array.
     /// 
     /// The idea is that an entry on the stack represent both a node that is being traversed (given by the connection's
     /// source node) and an iterator over that node's target nodes (given by the connection index, which works because 
@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// The main optimizations then are:
     /// 1) No method call overhead from recursive method calls.
     /// 2) Each stack frame is a single int32, which keeps the max size of the stack for any given traversal at a minimum.
-    /// 3) The stack and a visitedNodes hashmap are allocated for each class instance and are cleared and re-used for each 
+    /// 3) The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
     /// call to IsConnectionCyclic(), therefore avoiding memory allocation and garbage collection overhead.
     /// 
     /// Using our own stack also avoids any potential for a stack overflow on very deep graphs, which could occur if using 
@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         /// <summary>
         /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
-        /// acyclic graph connArr.
+        /// acyclic graph described by connArr.
         /// </summary>
         /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
@@ -78,19 +78,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-
-        /// <summary>
-        /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
-        /// acyclic graph connArr.
-        /// </summary>
-        /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
-        /// <param name="newConn">A proposed new connection to add to the graph.</param>
-        /// <remarks>
-        /// This search uses an explicitly created stack instead of using function recursion, the reasons for this are:
-        /// 1) Avoids the possibility of a call stack overflow when handling very deep graphs.
-        /// 2) Avoids method call overhead.
-        /// 3) Allows for an optimal/compact stack frame (a single integer i.e. 4 bytes).
-        /// </remarks>
         private bool IsConnectionCyclicInner(ConnectionGene<T>[] connArr, DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
@@ -102,19 +89,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Notes. 
             // We traverse forwards starting at the new connection's target node. If the new connection's source node is encountered
             // during traversal then the new connection would form a cycle in the graph as a whole.
-            //
-            // However, we already asserted that newConn.SourceId != newConn.TargetId (above), therefore we add newConn.TargetId to
-            // visitedNodes to indicate that it has already been visited, and place its target nodes into the stack of nodes to traverse
-            // (traversalStack). Essentially we're starting the traversal one level on to avoid a redundant test (i.e. for slightly 
-            // improved performance).
 
             // The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.
             int terminalNodeId = newConn.SourceId;
 
-            // Init the current traversal node, starting at the newConn.TargetId.
+            // Init the current traversal node, i.e. we start at newConn.TargetId.
             int currNodeId = newConn.TargetId;
             
-            // Search outgoing connections from currNodeId.
+            // Search for outgoing connections from the current node.
             int connStartIdx = ConnectionGeneUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
             if(connStartIdx < 0)
             {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
@@ -131,6 +113,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             while(0 != _traversalStack.Count)
             {
                 // Get the connection at the top of the stack.
+                // This determines the current traversal node and the iteration position through its outgoing connections.
                 int connIdx = _traversalStack.Peek();
                 currNodeId = connArr[connIdx].SourceId;
 
@@ -139,8 +122,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 for(int i = connIdx+1; i < connArr.Length && connArr[i].SourceId == currNodeId; i++)
                 {
                     if(!_visitedNodes.Contains(connArr[i].TargetId))
-                    {
-                        // We have found the next connection to traverse.
+                    {   // We have found the next connection to traverse.
                         nextConnIdx = i;
                         break;
                     }
