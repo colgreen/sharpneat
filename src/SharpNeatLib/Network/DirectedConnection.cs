@@ -75,6 +75,18 @@ namespace SharpNeat.Network
             }
         }
 
+        public static bool operator ==(DirectedConnection x, DirectedConnection y)
+        {
+            return (x.SourceId == y.SourceId) 
+                && (x.TargetId == y.TargetId);
+        }
+
+        public static bool operator !=(DirectedConnection x, DirectedConnection y)
+        {
+            return (x.SourceId != y.SourceId) 
+                || (x.TargetId != y.TargetId);
+        }
+
         #endregion
     }
 }
