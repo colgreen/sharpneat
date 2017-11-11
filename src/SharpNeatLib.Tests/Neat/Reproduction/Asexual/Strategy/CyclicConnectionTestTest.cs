@@ -62,10 +62,15 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 2)));
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 0)));
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 4)));
+            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 0)));
 
             // False tests (no cycle).
             Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 5)));
             Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 3)));
+            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 1)));
+            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 2)));
+            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 4)));
+            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 4)));
         }
     }
 }
