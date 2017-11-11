@@ -1,139 +1,187 @@
 ﻿using System.Collections.Generic;
+using Redzen.Collections;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
+    /// <summary>
+    /// For testing if a proposed new connection on a directed acyclic graph would form a cycle.
+    /// </summary>
+    /// <remarks>
+    /// Each instance of this class allocates a stack and a hashset for use by the traversal algorithm, and these
+    /// are cleared and re-used for each call to IsConnectionCyclic(). This avoids memory re-allocation and garbage
+    /// collection overhead, but the side effect is that IsConnectionCyclic() is not thread safe. However, A thread 
+    /// safe static method IsCyclicStatic() is provided for convenience, but this will have the additional memory
+    /// and GC overhead associated with each call to it.
+    /// 
+    /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene 
+    /// array data structure, and is perhaps not as easy to read/understand as a traditional depth first traversal 
+    /// using function recursion. However this is essentially a depth first algorithm but with its own stack instead 
+    /// of using the call stack, and a each stack frame is just an index into the connection array.
+    /// 
+    /// The idea is that an entry on the stack represent both a node that is being traversed (given by the connection's
+    /// source node) and an iterator over that node's target nodes (given by the connection index, which works because 
+    /// connections are sorted by sourceId).
+    /// 
+    /// The main optimizations then are:
+    /// 1) No method call overhead from recursive method calls.
+    /// 2) Each stack frame is a single int32, which keeps the max size of the stack for any given traversal at a minimum.
+    /// 3) The stack and a visitedNodes hashmap are allocated for each class instance and are cleared and re-used for each 
+    /// call to IsConnectionCyclic(), therefore avoiding memory allocation and garbage collection overhead.
+    /// 
+    /// Using our own stack also avoids any potential for a stack overflow on very deep graphs, which could occur if using 
+    /// method call recursion.
+    /// </remarks>
+    /// <typeparam name="T">Connection weight type.</typeparam>
     public class CyclicConnectionTest<T> where T : struct
     {
         #region Instance Fields
 
-        // Allocated at the class level so that the storage they allocate can be re-used, i.e. this is an attempt
-        // to reduce memory allocation and garbage collection overhead on the cycle test code that is heavily used.
-        // The capacity of these objects will grow to fit the maximum size required of them, and once that capacity 
-        // is achieved no further memory allocation overhead is required.
-
+        /// <summary>
+        /// The graph traversal stack, as required by a depth first graph traversal algorithm.
+        /// Each stack entry is an index into a connection array, representing iteration over the connections 
+        /// for one source node.
+        /// </summary>
+        IntStack _traversalStack = new IntStack(16);    
         /// <summary>
         /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
         /// re-traversal of nodes.
         /// </summary>
         HashSet<int> _visitedNodes = new HashSet<int>();
 
-        /// <summary>
-        /// A stack of nodes to be visited.
-        /// </summary>
-        Stack<int> _traversalStack = new Stack<int>(100);
-
         #endregion
 
         #region Public Methods
 
         /// <summary>
-        /// Tests if the graph described by connArr and newConn contains a cycle. 
-        /// connArr describes an acyclic graph, and we are testing if newConn would create a cycle
-        /// if it were added connArr.
+        /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
+        /// acyclic graph connArr.
         /// </summary>
-        /// <param name="connArr">A set of connections that describe an acyclic graph.</param>
+        /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
-        /// <remarks>
-        /// This search uses an explicitly created stack instead of using function recursion, the main reason for doing this is to avoid
-        /// any limit on the depth of stack we can use, i.e. in a graph with thousands of nodes to traverse we may run out of space on the 
-        /// function call stack (stack overflow), so this is a more robust approach.
-        /// </remarks>
         public bool IsConnectionCyclic(ConnectionGene<T>[] connArr, DirectedConnection newConn)
         {
-            // Test if the new connection is pointing to itself.
-            if(newConn.SourceId == newConn.TargetId) {
-                return true;
+            // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
+            // re-use on the next call.
+            try {
+                return IsConnectionCyclicInner(connArr, newConn);
             }
-
-            // Traverse forwards starting at the new connection's target node.
-            // If the new connection's source node is encountered then the new connection would
-            // form a cycle in the graph as a whole.
-            Cleanup();
-
-            // Initialise traversal.
-            // Notes. 
-            // The starting point for traversal is newConn.TargetId, and a cycle is detected if traversal reaches newConn.SourceId.
-            // However we already asserted that newConn.SourceId != newConn.TargetId (above), therefore we add newConn.TargetId to
-            // visitedNodes to indicate that it has already been visited, and place its target nodes into the stack of nodes to traverse
-            // (traversalStack). Essentially we're starting the traversal one level on to avoid a redundant test (i.e. for slightly 
-            // improved performance).
-            foreach(int targetId in GetTargetNodeIds(connArr, newConn.TargetId)) {
-                _traversalStack.Push(targetId);
-            }
-
-            // While there are nodes to check/traverse.
-            while(0 != _traversalStack.Count)
+            finally 
             {
-                // Pop a node from the top of the stack.
-                int currNodeId = _traversalStack.Pop();
-
-                // Test if this node has already been traversed.
-                if(_visitedNodes.Contains(currNodeId)) {
-                    // Already visited (via a different route).
-                    continue;
-                }
-
-                // Test if traversal has arrived at the new connection's source node, if so then a cycle has been detected.
-                if(currNodeId == newConn.SourceId) 
-                {
-                    Cleanup();
-                    return true;
-                }
-
-                // Register the visit of this node.
-                _visitedNodes.Add(currNodeId);                
-
-                // Push the current nodes's target nodes onto the traversal stack.
-                foreach(int targetId in GetTargetNodeIds(connArr, currNodeId))
-                {
-                    // Avoid pushing already visited nodes.
-                    if(!_visitedNodes.Contains(targetId)) {
-                        _traversalStack.Push(targetId);
-                    }
-
-                    _traversalStack.Push(targetId);
-                }
+                _traversalStack.Clear();
+                _visitedNodes.Clear();
             }
-            
-            // Traversal has completed without visiting the new connection's source node, therefore the new connection
-            // does not form a cycle in the graph.
-            Cleanup();
-            return false;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void Cleanup()
-        {
-            _visitedNodes.Clear();
-            _traversalStack.Clear();
-        }
-
-        #endregion
-
-        #region Private Static Methods
 
         /// <summary>
-        /// Get an array of all target node IDs for the given source node ID.
+        /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
+        /// acyclic graph connArr.
         /// </summary>
-        private static IEnumerable<int> GetTargetNodeIds(ConnectionGene<T>[] connArr, int srcNodeId)
+        /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
+        /// <param name="newConn">A proposed new connection to add to the graph.</param>
+        /// <remarks>
+        /// This search uses an explicitly created stack instead of using function recursion, the reasons for this are:
+        /// 1) Avoids the possibility of a call stack overflow when handling very deep graphs.
+        /// 2) Avoids method call overhead.
+        /// 3) Allows for an optimal/compact stack frame (a single integer i.e. 4 bytes).
+        /// </remarks>
+        private bool IsConnectionCyclicInner(ConnectionGene<T>[] connArr, DirectedConnection newConn)
         {
-            // Search for a connection with the given source node ID.
-            int connIdx = ConnectionGeneUtils.GetConnectionIndexBySourceNodeId(connArr, srcNodeId);
-
-            // Test for no match, i.e. no connections with the given source node ID.
-            if(connIdx < 0) {   
-                yield break;
+            // Test if the new connection is pointing to itself.
+            if(newConn.SourceId == newConn.TargetId) {
+                return true;
             }
 
-            // Yield the index of each connection with the given source node ID.
-            for(; connIdx < connArr.Length && connArr[connIdx].SourceId == srcNodeId; connIdx++) {
-                yield return connArr[connIdx].TargetId;
+            // Initialise traversal.
+            // Notes. 
+            // We traverse forwards starting at the new connection's target node. If the new connection's source node is encountered
+            // during traversal then the new connection would form a cycle in the graph as a whole.
+            //
+            // However, we already asserted that newConn.SourceId != newConn.TargetId (above), therefore we add newConn.TargetId to
+            // visitedNodes to indicate that it has already been visited, and place its target nodes into the stack of nodes to traverse
+            // (traversalStack). Essentially we're starting the traversal one level on to avoid a redundant test (i.e. for slightly 
+            // improved performance).
+
+            // The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.
+            int terminalNodeId = newConn.SourceId;
+
+            // Init the current traversal node, starting at the newConn.TargetId.
+            int currNodeId = newConn.TargetId;
+            
+            // Search outgoing connections from currNodeId.
+            int connStartIdx = ConnectionGeneUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
+            if(connStartIdx < 0)
+            {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
+                return false;
             }
+
+            // Push connIdx onto the stack.
+            _traversalStack.Push(connStartIdx);
+
+            // Add the current node to the set of visited nodes.
+            _visitedNodes.Add(currNodeId);
+
+            // While there are entries on the stack.
+            while(0 != _traversalStack.Count)
+            {
+                // Get the connection at the top of the stack.
+                int connIdx = _traversalStack.Peek();
+                currNodeId = connArr[connIdx].SourceId;
+
+                // Find the next connection from the current node that we can traverse down, if any.
+                int nextConnIdx = -1;
+                for(int i = connIdx+1; i < connArr.Length && connArr[i].SourceId == currNodeId; i++)
+                {
+                    if(!_visitedNodes.Contains(connArr[i].TargetId))
+                    {
+                        // We have found the next connection to traverse.
+                        nextConnIdx = i;
+                        break;
+                    }
+                }
+
+                // Move/iterate to the next connection for the current node, if any.
+                if(-1 != nextConnIdx) 
+                {   // We have the next connection to traverse down for the current node; update the current node's
+                    // entry on the top of the stack to point to it.
+                    _traversalStack.Poke(nextConnIdx);
+                }
+                else
+                {   // No more connections for the current node; remove its entry from the top of the stack.
+                    _traversalStack.Pop();
+                }
+
+                // Test if the next traversal child node has already been visited.
+                int childNodeId = connArr[connIdx].TargetId;
+                if(_visitedNodes.Contains(childNodeId)) {
+                    continue;
+                }
+
+                // Test if the connection target is the terminal node.
+                if(childNodeId == terminalNodeId) {
+                    return true;
+                }
+
+                // We're about to traverse into childNodeId, so mark it as visited to prevent re-traversal.
+                _visitedNodes.Add(childNodeId);
+
+                // Search for outgoing connections from childNodeId.
+                connStartIdx = ConnectionGeneUtils.GetConnectionIndexBySourceNodeId(connArr, childNodeId);
+                if(connStartIdx >= 0)
+                {   // childNodeId has outgoing connections from it. Push the first connection onto the stack.
+                    _traversalStack.Push(connStartIdx);    
+                }                
+            }
+
+            // Traversal has completed without visiting the terminal node, therefore the new connection
+            // does not form a cycle in the graph.
+            return false;
         }
 
         #endregion
