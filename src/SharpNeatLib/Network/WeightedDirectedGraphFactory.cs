@@ -31,9 +31,9 @@ namespace SharpNeat.Network
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            ConnectionIdArrays connIdArrays;
-            T[] weightArr;
-            CopyAndMapIds(connectionList, nodeIdMapFn, out connIdArrays, out weightArr);
+            CopyAndMapIds(connectionList, nodeIdMapFn,
+                out ConnectionIdArrays connIdArrays,
+                out T[] weightArr);
 
             // Construct and return a new WeightedDirectedGraph.
             return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, weightArr);
