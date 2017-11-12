@@ -23,8 +23,7 @@ namespace SharpNeat.Network
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
             int inputOutputCount = inputCount + outputCount;
-            int totalNodeCount;
-            Func<int,int> nodeIdMapFn = CompileNodeIdMap(connectionList, inputOutputCount, out totalNodeCount);
+            Func<int,int> nodeIdMapFn = CompileNodeIdMap(connectionList, inputOutputCount, out int totalNodeCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
