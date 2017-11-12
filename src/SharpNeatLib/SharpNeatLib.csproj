@@ -78,6 +78,7 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionReproductionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTest.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\IAsexualReproductionStrategy.cs" />

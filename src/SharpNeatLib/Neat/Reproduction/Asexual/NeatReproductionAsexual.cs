@@ -19,9 +19,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         readonly IRandomSource _rng;
 
         // Asexual reproduction strategies..
-        readonly IAsexualReproductionStrategy<T> _mutateWeightsReproStrategy;
-        readonly IAsexualReproductionStrategy<T> _deleteConnectionReproStrategy;
-        readonly IAsexualReproductionStrategy<T> _addConnectionReproStrategy;
+        readonly IAsexualReproductionStrategy<T> _mutateWeightsStrategy;
+        readonly IAsexualReproductionStrategy<T> _deleteConnectionStrategy;
+        readonly IAsexualReproductionStrategy<T> _addConnectionStrategy;
+        readonly IAsexualReproductionStrategy<T> _addNodeStrategy;
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
             AddedConnectionBuffer addedConnectionBuffer,
+            AddedNodeBuffer addedNodeBuffer,
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
         {
@@ -40,15 +42,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _rng = RandomSourceFactory.Create();
 
             // Instantiate reproduction strategies.
-            _mutateWeightsReproStrategy = new MutateWeightsReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq, weightMutationScheme);
-            _deleteConnectionReproStrategy = new DeleteConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq);
+            _mutateWeightsStrategy = new MutateWeightsReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq, weightMutationScheme);
+            _deleteConnectionStrategy = new DeleteConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
             if(metaNeatGenome.IsAcyclic) {
-                _addConnectionReproStrategy = new AddAcyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
+                _addConnectionStrategy = new AddAcyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
             } else {
-                _addConnectionReproStrategy = new AddCyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
-            }            
+                _addConnectionStrategy = new AddCyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
+            }      
+            
+            _addNodeStrategy = new AddNodeReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
         }
 
         #endregion
@@ -91,17 +95,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
                 case MutationType.ConnectionWeight: 
-                    childGenome = _mutateWeightsReproStrategy.CreateChildGenome(parent);
+                    childGenome = _mutateWeightsStrategy.CreateChildGenome(parent);
                     break;
                 case MutationType.AddNode: 
                     // FIXME: Reinstate.
-                    //childGenome = _addNodeMutation.CreateChild(parent);
+                    childGenome = _addNodeStrategy.CreateChildGenome(parent);
                     break;
                 case MutationType.AddConnection:
-                    childGenome = _addConnectionReproStrategy.CreateChildGenome(parent);
+                    childGenome = _addConnectionStrategy.CreateChildGenome(parent);
                     break;
                 case MutationType.DeleteConnection:
-                    childGenome = _deleteConnectionReproStrategy.CreateChildGenome(parent);
+                    childGenome = _deleteConnectionStrategy.CreateChildGenome(parent);
                     break;
                 default: 
                     throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}].");
