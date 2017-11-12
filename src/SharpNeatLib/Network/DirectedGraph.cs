@@ -38,13 +38,13 @@ namespace SharpNeat.Network
         ConnectionIdArrays _connIdArrays;
 
         // The number of input nodes; these are required to be assigned contiguous IDs starting at zero.
-        int _inputCount;
+        readonly int _inputCount;
 
         // The number of output nodes; these are required to be assigned contiguous IDs starting immediately after the last input node ID.
-        int _outputCount;
+        readonly int _outputCount;
 
         // The total number of nodes in the graph, i.e. input, output and hidden nodes.
-        int _totalNodeCount;
+        readonly int _totalNodeCount;
 
         // An array of indexes into _connArr. 
         // For a given node index, gives the index of the first connection with that node as its source.
