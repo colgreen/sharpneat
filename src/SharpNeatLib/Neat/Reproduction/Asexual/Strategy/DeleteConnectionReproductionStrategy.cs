@@ -1,4 +1,5 @@
-﻿using Redzen.Random;
+﻿using System;
+using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
 
@@ -47,14 +48,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var connArr = new ConnectionGene<T>[childLen];
 
             // Copy genes up to deleteIdx.
-            for(int i=0; i < deleteIdx; i++) {
-                connArr[i] = new ConnectionGene<T>(parentConnArr[i]);
-            }            
+            Array.Copy(parentConnArr, connArr, deleteIdx);
 
             // Copy remaining genes (if any).
-            for(int i = deleteIdx; i < childLen; i++) {
-                connArr[i] = new ConnectionGene<T>(parentConnArr[i+1]);
-            }
+            Array.Copy(parentConnArr, deleteIdx+1, connArr, deleteIdx, childLen-deleteIdx);
 
             // Create and return a new genome.
             return new NeatGenome<T>(

@@ -90,17 +90,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var connArr = new ConnectionGene<T>[childLen];
 
             // Copy genes up to insertIdx.
-            for(int i=0; i < insertIdx; i++) {
-                connArr[i] = new ConnectionGene<T>(parentConnArr[i]);
-            }
+            Array.Copy(parentConnArr, connArr, insertIdx);
 
             // Copy the new genome into its insertion point.
             connArr[insertIdx] = connGene;
 
             // Copy remaining genes (if any).
-            for(int i=insertIdx+1; i < childLen; i++) {
-                connArr[i] = new ConnectionGene<T>(parentConnArr[i-1]);
-            }
+            Array.Copy(parentConnArr, insertIdx, connArr, insertIdx+1, parentLen-insertIdx);
 
             // Create and return a new genome.
             return new NeatGenome<T>(
