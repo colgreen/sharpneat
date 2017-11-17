@@ -40,7 +40,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
             // Loop over the connection genes to be mutated, and mutate them.
             for(int i=0; i<selectedIdxArr.Length; i++) {
-                _weightMutationStrategy.Invoke(connArr[selectedIdxArr[i]]);
+                connArr[selectedIdxArr[i]].Weight = _weightMutationStrategy.Invoke(connArr[selectedIdxArr[i]].Weight);
             }
         }
 

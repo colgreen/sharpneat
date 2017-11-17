@@ -12,6 +12,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// Invoke the strategy.
         /// </summary>
         /// <param name="connArr">Connection gene.</param>
-        void Invoke(ConnectionGene<T> connGene);
+        T Invoke(T weight);
     }
 }

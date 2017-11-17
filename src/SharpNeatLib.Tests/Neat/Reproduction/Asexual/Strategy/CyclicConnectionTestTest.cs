@@ -54,7 +54,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
             connArr[5] = new ConnectionGene<double>(5, 2, 5, 1.0);
             connArr[6] = new ConnectionGene<double>(6, 3, 6, 1.0);
             connArr[7] = new ConnectionGene<double>(7, 3, 2, 1.0);
-            Array.Sort(connArr, DirectedConnectionComparer.__Instance);
+            ConnectionGeneUtils.Sort(connArr);
 
             // True tests (cycle).
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 1)));

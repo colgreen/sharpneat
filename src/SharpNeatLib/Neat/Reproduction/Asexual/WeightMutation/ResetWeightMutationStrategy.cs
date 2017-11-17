@@ -1,5 +1,4 @@
 ﻿using Redzen.Random;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 {
@@ -24,9 +23,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         #region Public Methods
 
-        public void Invoke(ConnectionGene<T> connGene)
+        public T Invoke(T weight)
         {
-            connGene.Weight = _dist.Sample();
+            return _dist.Sample();
         }
 
         #endregion

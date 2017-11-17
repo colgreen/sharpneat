@@ -22,9 +22,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 
         #region Public Methods
 
-        public void Invoke(ConnectionGene<double> connGene)
+        public double Invoke(double weight)
         {
-            connGene.Weight += _dist.Sample();
+            return weight + _dist.Sample();
         }
 
         #endregion

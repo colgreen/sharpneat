@@ -22,15 +22,8 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation
             int iters = 10000;
             double[] weightArr = new double[iters];
 
-            for(int i=0; i<iters; i++)
-            {
-                var conn = new ConnectionGene<double>(0, 1, 2, 123.0);
-                strategy.Invoke(conn);
-
-                Assert.AreEqual(0, conn.Id);
-                Assert.AreEqual(1, conn.SourceId);
-                Assert.AreEqual(2, conn.TargetId);
-                weightArr[i] = conn.Weight;
+            for(int i=0; i<iters; i++) {
+                weightArr[i] = strategy.Invoke(123.0);;
             }
             
             // Construct a histogram on the array of weights.
@@ -61,15 +54,8 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation
             int iters = 100000;
             double[] weightArr = new double[iters];
 
-            for(int i=0; i<iters; i++)
-            {
-                var conn = new ConnectionGene<double>(0, 1, 2, 123.0);
-                strategy.Invoke(conn);
-
-                Assert.AreEqual(0, conn.Id);
-                Assert.AreEqual(1, conn.SourceId);
-                Assert.AreEqual(2, conn.TargetId);
-                weightArr[i] = conn.Weight;
+            for(int i=0; i<iters; i++) {
+                weightArr[i] = strategy.Invoke(123.0);
             }
             
             // Construct a histogram on the array of weights.

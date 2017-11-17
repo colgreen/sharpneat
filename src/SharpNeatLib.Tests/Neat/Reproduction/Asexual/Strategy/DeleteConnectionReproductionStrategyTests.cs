@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
 using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
@@ -33,7 +34,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 Assert.IsTrue(childConnSet.IsProperSubsetOf(connSet));
 
                 // The connection genes should be sorted.
-                DirectedConnectionUtils.IsSorted((IList<IDirectedConnection>)childGenome.ConnectionGeneArray);
+                ConnectionGeneUtils.IsSorted(childGenome.ConnectionGeneArray);
             }
         }
 

@@ -195,7 +195,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // find an existing connection in O(log(n)) time.
             conn = new DirectedConnection(srcId, tgtId);
 
-            if((insertIdx = Array.BinarySearch(parent.ConnectionGeneArray, (IDirectedConnection)conn, DirectedConnectionComparer.__Instance)) >= 0)
+            if((insertIdx = ConnectionGeneUtils.BinarySearch(parent.ConnectionGeneArray, conn)) >= 0)
             {   
                 // The proposed new connection already exists.
                 conn = default(DirectedConnection);

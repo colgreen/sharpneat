@@ -90,7 +90,7 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
             Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
             Assert.AreEqual(6, genome.ConnectionGeneArray.Length);
-            Assert.IsTrue(DirectedConnectionUtils.IsSorted<double>(genome.ConnectionGeneArray));
+            Assert.IsTrue(ConnectionGeneUtils.IsSorted<double>(genome.ConnectionGeneArray));
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace SharpNeatLib.Tests.Neat
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
             Assert.AreEqual(10000, genome.ConnectionGeneArray.Length);
-            Assert.IsTrue(DirectedConnectionUtils.IsSorted<double>(genome.ConnectionGeneArray));
+            Assert.IsTrue(ConnectionGeneUtils.IsSorted<double>(genome.ConnectionGeneArray));
 
             double min, max, mean;
             CalcWeightMinMaxMean(genome.ConnectionGeneArray, out min, out max, out mean);

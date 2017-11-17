@@ -7,16 +7,16 @@ using static SharpNeatLib.Tests.Network.NetworkUtils;
 namespace SharpNeatLib.Tests.Network
 {
     [TestClass]
-    public class WeightedAcyclicDirectedGraphTests
+    public class WeightedAcyclicDirectedGraphFactoryTests
     {
         #region Test Methods
 
         [TestMethod]
-        [TestCategory("WeightedAcyclicDirectedGraph")]
+        [TestCategory("WeightedAcyclicDirectedGraphFactory")]
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
-            var connList = new List<IWeightedDirectedConnection<double>>();
+            var connList = new List<WeightedDirectedConnection<double>>();
             connList.Add(new WeightedDirectedConnection<double>(0, 3, 0.0));
             connList.Add(new WeightedDirectedConnection<double>(1, 3, 1.0));
             connList.Add(new WeightedDirectedConnection<double>(2, 3, 2.0));
@@ -33,11 +33,11 @@ namespace SharpNeatLib.Tests.Network
         }
 
         [TestMethod]
-        [TestCategory("WeightedAcyclicDirectedGraph")]
+        [TestCategory("WeightedAcyclicDirectedGraphFactory")]
         public void DepthNodeReorderTest()
         {
             // Define graph connections.
-            var connList = new List<IWeightedDirectedConnection<double>>();
+            var connList = new List<WeightedDirectedConnection<double>>();
             connList.Add(new WeightedDirectedConnection<double>(0, 4, 0.0));
             connList.Add(new WeightedDirectedConnection<double>(4, 5, 1.0));
             connList.Add(new WeightedDirectedConnection<double>(5, 2, 2.0));
@@ -45,12 +45,12 @@ namespace SharpNeatLib.Tests.Network
             connList.Add(new WeightedDirectedConnection<double>(2, 3, 4.0));
 
             // Create graph.
-            connList.Sort(DirectedConnectionComparer.__Instance);
+            connList.Sort(ConnectionCompareFunctions.Compare);
             var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 2, 2);
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.
             // And connections should be ordered by source node ID.
-            var connListExpected = new List<IWeightedDirectedConnection<double>>();
+            var connListExpected = new List<WeightedDirectedConnection<double>>();
             connListExpected.Add(new WeightedDirectedConnection<double>(0, 2, 0.0));
             connListExpected.Add(new WeightedDirectedConnection<double>(1, 4, 3.0));
             connListExpected.Add(new WeightedDirectedConnection<double>(2, 3, 1.0));

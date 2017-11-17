@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Numerics;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
@@ -22,15 +21,8 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
             int iters = 10000;
             double[] weightArr = new double[iters];
 
-            for (int i = 0; i < iters; i++)
-            {
-                var conn = new ConnectionGene<double>(0, 1, 2, 1000.0);
-                strategy.Invoke(conn);
-
-                Assert.AreEqual(0, conn.Id);
-                Assert.AreEqual(1, conn.SourceId);
-                Assert.AreEqual(2, conn.TargetId);
-                weightArr[i] = conn.Weight;
+            for (int i = 0; i < iters; i++) {
+                weightArr[i] = strategy.Invoke(1000.0);
             }
 
             // Construct a histogram on the array of weights.
@@ -55,15 +47,8 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
             int iters = 100000;
             double[] weightArr = new double[iters];
 
-            for (int i=0; i < iters; i++)
-            {
-                var conn = new ConnectionGene<double>(0, 1, 2, 1000.0);
-                strategy.Invoke(conn);
-
-                Assert.AreEqual(0, conn.Id);
-                Assert.AreEqual(1, conn.SourceId);
-                Assert.AreEqual(2, conn.TargetId);
-                weightArr[i] = conn.Weight;
+            for (int i=0; i < iters; i++) {
+                weightArr[i] = strategy.Invoke(1000.0);
             }
 
             // Construct a histogram on the array of weights.

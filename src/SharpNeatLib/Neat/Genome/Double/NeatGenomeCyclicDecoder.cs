@@ -1,4 +1,5 @@
 ﻿using System;
+using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.NeuralNets.Double;
 using SharpNeat.Phenomes;
@@ -25,7 +26,7 @@ namespace SharpNeat.Neat.Genome.Double
 
             // Create a WeightedDirectedGraph representation of the neural net.
             MetaNeatGenome<double> meta = neatGenome.MetaNeatGenome;
-            WeightedDirectedGraph<double> digraph = WeightedDirectedGraphFactory<double>.Create(
+            WeightedDirectedGraph<double> digraph = NeatDirectedGraphFactory<double>.Create(
                                                         neatGenome.ConnectionGeneArray,
                                                         meta.InputNodeCount,
                                                         meta.OutputNodeCount);

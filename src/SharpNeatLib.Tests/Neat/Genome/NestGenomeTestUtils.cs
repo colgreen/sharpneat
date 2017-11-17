@@ -40,7 +40,7 @@ namespace SharpNeatLib.Tests.Neat.Genome
             connArr[10] = new ConnectionGene<double>(11, 9, 1, 1.0);
             connArr[11] = new ConnectionGene<double>(12, 10, 1, 1.0);
 
-            Array.Sort(connArr, DirectedConnectionComparer.__Instance);
+            ConnectionGeneUtils.Sort(connArr);
 
             var genome = new NeatGenome<double>(metaNeatGenome, 0, 0, connArr);
             return genome;
@@ -61,7 +61,7 @@ namespace SharpNeatLib.Tests.Neat.Genome
         {
             var idSet = new HashSet<DirectedConnection>();
             foreach(var connGene in genome.ConnectionGeneArray) {
-                idSet.Add(new DirectedConnection(connGene));
+                idSet.Add(new DirectedConnection(connGene.SourceId, connGene.TargetId));
             }
             return idSet;
         }

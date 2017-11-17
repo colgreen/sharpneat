@@ -2,11 +2,10 @@
 
 namespace SharpNeat.Neat.Genome
 {
-    // TODO: Consider if we should make this a struct. Note. A List<T> of IWeightedDirectedConnection seems to be problematic when applied to a struct.
     /// <summary>
     /// A gene that represents a single connection between two neurons in NEAT.
     /// </summary>
-    public class ConnectionGene<T> : IWeightedDirectedConnection<T>
+    public struct ConnectionGene<T>
         where T : struct
     {
         #region Auto Properties

@@ -39,7 +39,7 @@ namespace SharpNeat.Neat.Genome
                           int id, int birthGeneration,
                           ConnectionGene<T>[] connectionGeneArr)
         {
-            Debug.Assert(DirectedConnectionUtils.IsSorted<T>(connectionGeneArr));
+            Debug.Assert(ConnectionGeneUtils.IsSorted<T>(connectionGeneArr));
 
             _metaNeatGenome = metaNeatGenome;
             _id = id;

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Network;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
 using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
@@ -41,7 +43,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 Assert.AreEqual(1, newConnList.Count);
 
                 // The connection genes should be sorted.
-                DirectedConnectionUtils.IsSorted((IList<IDirectedConnection>)childGenome.ConnectionGeneArray);
+                ConnectionGeneUtils.IsSorted(childGenome.ConnectionGeneArray);
 
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
@@ -49,7 +51,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
-                var digraph = DirectedGraphFactory.Create(childGenome.ConnectionGeneArray, 0, 0);
+                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome.ConnectionGeneArray, 0, 0);
                 Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
 
                 // Increment for successful tests only.

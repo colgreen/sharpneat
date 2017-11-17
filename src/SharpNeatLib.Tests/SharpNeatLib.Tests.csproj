@@ -62,6 +62,9 @@
     <Compile Include="Neat\Genome\NestGenomeTestUtils.cs" />
     <Compile Include="Neat\NeatPopulationTests.cs" />
     <Compile Include="Neat\AddedNodeBufferTests.cs" />
+    <Compile Include="Neat\Network\ConnectionGeneCompareUtils.cs" />
+    <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactoryTests.cs" />
+    <Compile Include="Neat\Network\NeatDirectedGraphFactoryTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionReproductionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionReproductionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTestTest.cs" />
@@ -83,8 +86,8 @@
     <Compile Include="NeuralNets\Double\AcyclicNeuralNetTests.cs" />
     <Compile Include="Phenomes\VectorSegmentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Network\WeightedAcyclicDirectedGraphTests.cs" />
-    <Compile Include="Network\WeightedDirectedGraphTests.cs" />
+    <Compile Include="Network\WeightedAcyclicDirectedGraphFactoryTests.cs" />
+    <Compile Include="Network\WeightedDirectedGraphFactoryTests.cs" />
     <Compile Include="TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>

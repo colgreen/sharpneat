@@ -15,15 +15,17 @@ namespace SharpNeat.Network
         /// <remarks>
         /// connectionList is assumed to be sorted by sourceID, TargetID.
         /// </remarks>
-        public static DirectedGraph Create(IList<IDirectedConnection> connectionList, int inputCount, int outputCount)
+        public static DirectedGraph Create(IList<DirectedConnection> connectionList, int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
 
-            // Build map from old IDs to new IDs (i.e. removing gaps in the ID space).
+            // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;
-            int totalNodeCount;
-            Func<int,int> nodeIdMapFn = CompileNodeInfo(connectionList, inputOutputCount, out totalNodeCount);
+            var hiddenNodeIdSet = GetHiddenNodeIdSet(connectionList, inputOutputCount);
+
+            // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
+            Func<int,int> nodeIdMapFn = DirectedGraphFactoryUtils.CompileNodeIdMap(hiddenNodeIdSet, inputOutputCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
@@ -33,6 +35,7 @@ namespace SharpNeat.Network
             ConnectionIdArrays connIdArrays = CopyAndMapIds(connectionList, nodeIdMapFn);
 
             // Construct and return a new DirectedGraph.
+            int totalNodeCount =  inputOutputCount + hiddenNodeIdSet.Count;
             return new DirectedGraph(connIdArrays, inputCount, outputCount, totalNodeCount);
         }
 
@@ -40,67 +43,27 @@ namespace SharpNeat.Network
 
         #region Private Static Methods
 
-        /// <summary>
-        /// Determine the set of node IDs, order them (thus assigning each node ID an index),
-        /// and build a dictionary of indexes keyed by ID.
-        /// </summary>
-        private static Func<int,int> CompileNodeInfo(
-            IList<IDirectedConnection> connList,
-            int inputOutputCount,
-            out int totalNodeCount)
+        private static HashSet<int> GetHiddenNodeIdSet(IList<DirectedConnection> connectionList, int inputOutputCount)
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
+            // TODO: Re-use this hashset to avoid memory alloc and GC overhead.
             var hiddenNodeIdSet = new HashSet<int>();
             
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
-            for(int i=0; i<connList.Count; i++)
+            for(int i=0; i<connectionList.Count; i++)
             {
-                if(connList[i].SourceId >= inputOutputCount) { 
-                    hiddenNodeIdSet.Add(connList[i].SourceId); 
+                if(connectionList[i].SourceId >= inputOutputCount) { 
+                    hiddenNodeIdSet.Add(connectionList[i].SourceId); 
                 }
-                if(connList[i].TargetId >= inputOutputCount) { 
-                    hiddenNodeIdSet.Add(connList[i].TargetId); 
+                if(connectionList[i].TargetId >= inputOutputCount) { 
+                    hiddenNodeIdSet.Add(connectionList[i].TargetId); 
                 }
             }
-
-            // Set total node count output parameter.
-            totalNodeCount = inputOutputCount + hiddenNodeIdSet.Count;
-
-            // Extract hidden node IDs into an array.
-            int hiddenNodeCount = hiddenNodeIdSet.Count;
-            var hiddenNodeIdArr = new int[hiddenNodeCount];
-
-            int idx = 0;
-            foreach(int nodeId in hiddenNodeIdSet) {
-                hiddenNodeIdArr[idx++] = nodeId;
-            }
-
-            // Sort the hidden node ID array.
-            Array.Sort(hiddenNodeIdArr);
-
-            // Build dictionary of hidden node new ID/index keyed by old ID.
-            // Note. the new IDs start immediately after the last input/output node ID (defined by inputOutputCount).
-            var hiddenNodeIdxById = new Dictionary<int,int>(hiddenNodeCount);
-            for(int i=0, newId=inputOutputCount; i<hiddenNodeCount; i++, newId++) {
-                hiddenNodeIdxById.Add(hiddenNodeIdArr[i], newId);
-            }
-
-            // Return a mapping function.
-            // Note. this captures hiddenNodeIdxById in a closure. 
-            Func<int,int> nodeIdxByIdFn = (int id) => {     
-                    // Input/output node IDs are fixed.
-                    if(id < inputOutputCount) {
-                        return id;
-                    }
-                    // Hidden nodes have mappings stored in a dictionary.
-                    return hiddenNodeIdxById[id]; 
-                };
-
-            return nodeIdxByIdFn;
+            return hiddenNodeIdSet;
         }
 
         private static ConnectionIdArrays CopyAndMapIds(
-            IList<IDirectedConnection> connectionList,
+            IList<DirectedConnection> connectionList,
             Func<int,int> nodeIdMap)
         {
             int count = connectionList.Count;

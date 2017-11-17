@@ -9,11 +9,17 @@ namespace SharpNeat.Network.Acyclic
     {
         #region Public Static Methods
 
-        public static WeightedAcyclicDirectedGraph<T> Create(IList<IWeightedDirectedConnection<T>> connectionList, int inputCount, int outputCount)
+        public static WeightedAcyclicDirectedGraph<T> Create(IList<WeightedDirectedConnection<T>> connectionList, int inputCount, int outputCount)
         {
-            // Invoke the standard graph factory.
+            // Convert the set of connections to a standardised graph representation.
             WeightedDirectedGraph<T> digraph = WeightedDirectedGraphFactory<T>.Create(connectionList, inputCount, outputCount);
 
+            // Invoke factory logic specific to acyclic graphs.
+            return Create(digraph, inputCount, outputCount);
+        }
+
+        public static WeightedAcyclicDirectedGraph<T> Create(WeightedDirectedGraph<T> digraph, int inputCount, int outputCount)
+        {
             // Calc the depth of each node in the digraph.
             GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
 

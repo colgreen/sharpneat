@@ -4,17 +4,17 @@ namespace SharpNeat.Network
 {
     public static class DirectedConnectionUtils
     {
-        public static bool IsSorted(IList<IDirectedConnection> connList)
+        public static bool IsSorted(IList<DirectedConnection> connList)
         {
             if(connList.Count == 0) {
                 return true;
             }
 
-            IDirectedConnection prev = connList[0];
+            DirectedConnection prev = connList[0];
             for(int i=1; i < connList.Count; i++)
             {
-                IDirectedConnection curr = connList[i];
-                if(DirectedConnectionComparer.__Instance.Compare(prev, curr) > 0) {
+                DirectedConnection curr = connList[i];
+                if(ConnectionCompareFunctions.Compare(prev, curr) > 0) {
                     return false;
                 }
                 prev = curr;
@@ -22,18 +22,18 @@ namespace SharpNeat.Network
             return true;
         }
 
-        public static bool IsSorted<T>(IList<IWeightedDirectedConnection<T>> connList)
+        public static bool IsSorted<T>(IList<WeightedDirectedConnection<T>> connList)
             where T : struct
         {
             if(connList.Count == 0) {
                 return true;
             }
 
-            IDirectedConnection prev = connList[0];
+            var prev = connList[0];
             for(int i=1; i < connList.Count; i++)
             {
-                IDirectedConnection curr = connList[i];
-                if(DirectedConnectionComparer.__Instance.Compare(prev, curr) > 0) {
+                var curr = connList[i];
+                if(ConnectionCompareFunctions.Compare(prev, curr) > 0) {
                     return false;
                 }
                 prev = curr;
