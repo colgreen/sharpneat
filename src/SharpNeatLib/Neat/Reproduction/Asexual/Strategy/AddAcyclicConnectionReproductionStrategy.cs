@@ -174,11 +174,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // for acyclic nets, because that can prevent future connections from targeting the output if it would
             // create a cycle.
             int inputCount = _metaNeatGenome.InputNodeCount;
-            int ouputCount = _metaNeatGenome.OutputNodeCount;
-            int srcId = idArr[_rng.Next(idArr.Length - ouputCount)];
-            if(srcId >= inputCount) {
-                srcId += ouputCount;
+            int outputCount = _metaNeatGenome.OutputNodeCount;
+
+            int srcIdx = _rng.Next(idArr.Length - outputCount);
+            if(srcIdx >= inputCount) {
+                srcIdx += outputCount;
             }
+            int srcId = idArr[srcIdx];
 
             // Select a target node at random.
             // Note. Valid target nodes are all hidden and output nodes (cannot be an input node).

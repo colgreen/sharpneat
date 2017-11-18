@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Redzen;
 using SharpNeat.Network;
 
@@ -85,6 +87,22 @@ namespace SharpNeat.Neat.Genome
         }
 
         /// <summary>
+        /// Search for the index of a connection gene with the given innovation ID.
+        /// </summary>
+        /// <typeparam name="T">Connection weight type.</typeparam>
+        /// <param name="connArr"></param>
+        /// <param name="connIdxArr">An array of indexes into _connectionGeneArr, sorted by connection gene innovation ID.</param>
+        /// <param name="id">The innovation ID to search for.</param>
+        /// <returns>An array index if the item is found; otherwise, a negative number that is the bitwise complement
+        /// of the index of the next element that is larger than id or, if there is no larger element, the bitwise
+        /// complement of connArr.Length.</returns>
+        public static int BinarySearchId<T>(int[] connIdxArr, ConnectionGene<T>[] connArr, int id)
+            where T : struct
+        {
+            return SearchUtils.BinarySearch(connIdxArr, id, (int x, int _id) => connArr[x].Id.CompareTo(_id));
+        }
+
+        /// <summary>
         /// Get the index of the first connection with the given source node ID.
         /// </summary>
         /// <param name="connArr">The array of connections to search; these must be sorted by source node ID.</param>
@@ -132,20 +150,56 @@ namespace SharpNeat.Neat.Genome
             return connIdxArr;
         }
 
-        /// <summary>
-        /// Search for the index of a connection gene with the given innovation ID.
-        /// </summary>
-        /// <typeparam name="T">Connection weight type.</typeparam>
-        /// <param name="connArr"></param>
-        /// <param name="connIdxArr">An array of indexes into _connectionGeneArr, sorted by connection gene innovation ID.</param>
-        /// <param name="id">The innovation ID to search for.</param>
-        /// <returns>An array index if the item is found; otherwise, a negative number that is the bitwise complement
-        /// of the index of the next element that is larger than id or, if there is no larger element, the bitwise
-        /// complement of connArr.Length.</returns>
-        public static int BinarySearchId<T>(int[] connIdxArr, ConnectionGene<T>[] connArr, int id)
+        public static bool ValidateInnovationIds<T>(ConnectionGene<T>[] connArr, int inputCount, int outputCount)
             where T : struct
         {
-            return SearchUtils.BinarySearch(connIdxArr, id, (int x, int _id) => connArr[x].Id.CompareTo(_id));
+            // Test for duplicate IDs.
+            HashSet<int> connIdSet = new HashSet<int>();
+            HashSet<int> nodeIdSet = new HashSet<int>();
+
+            for(int i=0; i < connArr.Length; i++)
+            {
+                if(connIdSet.Contains(connArr[i].Id)) {
+                    return false;
+                }
+                connIdSet.Add(connArr[i].Id);
+
+                // Build the set of all node IDs.
+                nodeIdSet.Add(connArr[i].SourceId);
+                nodeIdSet.Add(connArr[i].TargetId);
+
+
+                // Test for input-output connections with invalid innovation IDs, and/or
+                // non-input-output connections with an input-output innovation ID.
+                // Notes. Innovation IDs for IO connections are defined by a fixed scheme; failure to adhere to this scheme
+                // will result in errors in logic such as add/delete connection mutations, sexual reproduction and decoding to
+                // a functional neural network.
+
+                var dc = new DirectedConnection(connArr[i].SourceId, connArr[i].TargetId);
+
+                if(IOConnectionUtils.TryGetInputOutputConnectionId(dc, inputCount, outputCount, out int expectedId))
+                {
+                    // We have an IO connection; confirm that the actual innovation ID matches the expected ID.
+                    if(connArr[i].Id != expectedId) {
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Not an IO connection; confirm that the innovation ID isn't one reserved for IO connections.
+                    if(IOConnectionUtils.IsInputOutputInnovationId(connArr[i].Id, inputCount, outputCount)) {
+                        return false;
+                    }
+                }
+            }
+
+            // Test for innovation ID overlap between connections a nodes.
+            if(connIdSet.Intersect(nodeIdSet).Count() != 0) {
+                return false;
+            }
+
+            // All tests passed OK.
+            return true;
         }
 
         #endregion

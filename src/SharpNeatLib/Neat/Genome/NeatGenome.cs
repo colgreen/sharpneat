@@ -61,6 +61,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(connectionGeneArr.Length == connIdxArr.Length);
             Debug.Assert(ConnectionGeneUtils.IsSorted(connectionGeneArr));
             Debug.Assert(ConnectionGeneUtils.IsSorted(connIdxArr, connectionGeneArr));
+            Debug.Assert(ConnectionGeneUtils.ValidateInnovationIds(connectionGeneArr, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount));
 
             _metaNeatGenome = metaNeatGenome;
             _id = id;
