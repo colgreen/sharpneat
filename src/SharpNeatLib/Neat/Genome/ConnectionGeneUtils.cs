@@ -27,27 +27,47 @@ namespace SharpNeat.Neat.Genome
                 return true;
             }
 
-            var prev = connArr[0];
             for(int i=1; i < connArr.Length; i++)
             {
-                var curr = connArr[i];
-                if(CompareBySourceThenTarget(prev, curr) > 0) {
+                if(CompareBySourceThenTarget(connArr[i-1], connArr[i]) > 0) {
                     return false;
                 }
-                prev = curr;
             }
             return true;
         }
 
         /// <summary>
-        /// Searches an entire one-dimensional sorted list for a specific item, using the provided comparison function.
+        /// Tests if he array of connection gene indexes is describes the connection genes in innovation ID sort order.
+        /// </summary>
+        /// <typeparam name="T">Connection weight type.</typeparam>
+        /// <param name="connIdxArr">The array of connection gene indexes to test.</param>
+        /// <param name="connArr">The connection gene array.</param>
+        /// <returns>True if the array is sorted, otherwise false.</returns>
+        public static bool IsSorted<T>(int[] connIdxArr, ConnectionGene<T>[] connArr)
+            where T : struct
+        {
+            if(connIdxArr.Length == 0) {
+                return true;
+            }
+
+            for(int i=1; i < connIdxArr.Length; i++)
+            {
+                if(connArr[connIdxArr[i-1]].Id > connArr[connIdxArr[i]].Id) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Search a list of connection genes sorted by sourceId,targetId, for a given directed connection.
         /// </summary>
         /// <typeparam name="T">Connection weight type.</typeparam>
         /// <param name="connArr">The sorted array of connection genes to search.</param>
         /// <param name="conn">The connection to search for, i.e. combination of source and target node IDs.</param>
-        /// <returns>The zero-based index of an item in the list, if item is found; otherwise, a negative number that is the 
-        /// bitwise complement of the index of the next element that is larger than item or, if there is no larger element,
-        /// the bitwise complement of list.Count.</returns>
+        /// <returns>An array index if the item is found; otherwise, a negative number that is the bitwise complement
+        /// of the index of the next element that is larger than conn or, if there is no larger element, the bitwise
+        /// complement of connArr.Length.</returns>
         public static int BinarySearch<T>(ConnectionGene<T>[] connArr, DirectedConnection conn)
             where T : struct
         {
@@ -96,7 +116,37 @@ namespace SharpNeat.Neat.Genome
             return connIdx;
         }
 
+        /// <summary>
+        /// Create an array of indexes into a connection gene array, sorted by connection gene innovation IDs.
+        /// </summary>
+        /// <param name="connArr"></param>
+        /// <returns></returns>
+        public static int[] CreateConnectionIndexArray<T>(ConnectionGene<T>[] connArr)
+            where T : struct
+        {
+            int[] connIdxArr = new int[connArr.Length];
+            for(int i=0; i < connArr.Length; i++) {
+                connIdxArr[i] = i;
+            }
+            Array.Sort(connIdxArr, (int x, int y) => connArr[x].Id.CompareTo(connArr[y].Id));
+            return connIdxArr;
+        }
 
+        /// <summary>
+        /// Search for the index of a connection gene with the given innovation ID.
+        /// </summary>
+        /// <typeparam name="T">Connection weight type.</typeparam>
+        /// <param name="connArr"></param>
+        /// <param name="connIdxArr">An array of indexes into _connectionGeneArr, sorted by connection gene innovation ID.</param>
+        /// <param name="id">The innovation ID to search for.</param>
+        /// <returns>An array index if the item is found; otherwise, a negative number that is the bitwise complement
+        /// of the index of the next element that is larger than id or, if there is no larger element, the bitwise
+        /// complement of connArr.Length.</returns>
+        public static int BinarySearchId<T>(int[] connIdxArr, ConnectionGene<T>[] connArr, int id)
+            where T : struct
+        {
+            return SearchUtils.BinarySearch(connIdxArr, id, (int x, int _id) => connArr[x].Id.CompareTo(_id));
+        }
 
         #endregion
 

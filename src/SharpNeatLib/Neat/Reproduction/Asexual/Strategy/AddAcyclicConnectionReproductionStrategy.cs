@@ -64,12 +64,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
 
             // Determine the new gene's innovation ID.
+            bool highInnovationId = false;
             if(!_addedConnectionBuffer.TryLookup(directedConn, out int connectionId))
             {   
                 // No matching connection found in the innovation ID buffer.
                 // Get a new innovation ID and register the new connection with the innovation buffer.
                 connectionId = _innovationIdSeq.Next();
                 _addedConnectionBuffer.Register(directedConn, connectionId);
+                highInnovationId = true;
             }
 
             // Determine the connection weight.
@@ -103,6 +105,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Copy remaining genes (if any).
             Array.Copy(parentConnArr, insertIdx, connArr, insertIdx+1, parentLen-insertIdx);
+
+            // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
+            // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
+            // way is more efficient.
+            int[] connIdxArr = AddConnectionUtils.CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
 
             // Create and return a new genome.
             return new NeatGenome<T>(

@@ -39,11 +39,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _weightMutationScheme.MutateWeights(connArr);
 
             // Create and return a new genome.
+            // Note. The parent's ConnectionIndexArray can be re-used here because the new genome has the same set of connections 
+            // (same neural net structure, it just has different weights).
             return new NeatGenome<T>(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
-                connArr);
+                connArr,
+                parent.ConnectionIndexArray);
         }
 
         #endregion

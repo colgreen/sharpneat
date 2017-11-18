@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Redzen.Structures;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
 using SharpNeat.Utils;
 
 namespace SharpNeat.Neat
@@ -20,6 +20,10 @@ namespace SharpNeat.Neat
         #region Auto Properties
 
         public MetaNeatGenome<T> MetaNeatGenome { get; }
+
+        public Int32Sequence GenomeIdSeq { get; }
+
+        public Int32Sequence InnovationIdSeq { get; }
 
         /// <summary>
         /// A history buffer of added connections. 
@@ -41,9 +45,17 @@ namespace SharpNeat.Neat
 
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
-            List<NeatGenome<T>> genomeList)
-        : this(metaNeatGenome, genomeList, new Int32Sequence(), new Int32Sequence(), __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
-        {}
+            List<NeatGenome<T>> genomeList) 
+            : base(genomeList)
+        {
+            GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
+
+            this.MetaNeatGenome = metaNeatGenome;
+            this.GenomeIdSeq = new Int32Sequence(maxGenomeId + 1);
+            this.InnovationIdSeq = new Int32Sequence(maxInnovationId + 1);
+            this.AddedConnectionBuffer = new AddedConnectionBuffer(__defaultInnovationHistoryBufferSize, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount);
+            this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);            
+        }
 
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
@@ -60,11 +72,56 @@ namespace SharpNeat.Neat
             Int32Sequence innovationIdSeq,
             int addedConnectionHistoryBufferSize,
             int addedNodeHistoryBufferSize)
-        : base(genomeList, genomeIdSeq, innovationIdSeq)
+        : base(genomeList)
         {
             this.MetaNeatGenome = metaNeatGenome;
+            this.GenomeIdSeq = genomeIdSeq;
+            this.InnovationIdSeq = innovationIdSeq;
             this.AddedConnectionBuffer = new AddedConnectionBuffer(addedConnectionHistoryBufferSize, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount);
             this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
+
+            // Assert that the ID sequences have a current IDs higher than any existing ID.
+            Debug.Assert(ValidateIdSequences(genomeList, genomeIdSeq, innovationIdSeq));
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static bool ValidateIdSequences(
+            List<NeatGenome<T>> genomeList,
+            Int32Sequence genomeIdSeq,
+            Int32Sequence innovationIdSeq)
+        {
+            GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
+
+            if(maxGenomeId >= genomeIdSeq.Peek) {
+                return false;
+            }
+
+            if(maxInnovationId >= innovationIdSeq.Peek) {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void GetMaxObservedIds(List<NeatGenome<T>> genomeList, out int maxGenomeId, out int maxInnovationId)
+        {
+            maxGenomeId = 0;
+            maxInnovationId = 0;
+            
+            foreach(var genome in genomeList)
+            {
+                maxGenomeId = Math.Max(maxGenomeId, genome.Id);
+
+                for(int i=0; i<genome.ConnectionGeneArray.Length; i++)
+                {
+                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGeneArray[i].Id);
+                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGeneArray[i].SourceId);
+                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGeneArray[i].TargetId);
+                }
+            }
         }
 
         #endregion
