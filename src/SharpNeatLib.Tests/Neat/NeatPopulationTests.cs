@@ -90,7 +90,9 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
             Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
             Assert.AreEqual(6, genome.ConnectionGeneArray.Length);
-            Assert.IsTrue(ConnectionGeneUtils.IsSorted<double>(genome.ConnectionGeneArray));
+            Assert.IsTrue(ConnectionGeneUtils.IsSorted(genome.ConnectionGeneArray));
+            Assert.IsTrue(ConnectionGeneUtils.IsSorted(genome.ConnectionIndexArray, genome.ConnectionGeneArray));
+            Assert.IsTrue(ConnectionGeneUtils.ValidateInnovationIds(genome.ConnectionGeneArray, genome.MetaNeatGenome.InputNodeCount, genome.MetaNeatGenome.OutputNodeCount));
         }
 
         [TestMethod]
