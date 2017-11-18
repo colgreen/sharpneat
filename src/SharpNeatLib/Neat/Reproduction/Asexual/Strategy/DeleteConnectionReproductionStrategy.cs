@@ -53,12 +53,47 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Copy remaining genes (if any).
             Array.Copy(parentConnArr, deleteIdx+1, connArr, deleteIdx, childLen-deleteIdx);
 
+            // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
+            // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
+            // way is more efficient.
+            var connIdxArr = CreateConnectionIndexArray(parent, deleteIdx);
+
             // Create and return a new genome.
             return new NeatGenome<T>(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
-                connArr);
+                connArr,
+                connIdxArr);
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static int[] CreateConnectionIndexArray<T>(NeatGenome<T> parent, int deleteIdx)
+            where T : struct
+        {
+            int parentLen = parent.ConnectionGeneArray.Length;
+            int childLen = parentLen - 1;
+
+            var connIdxArr = new int[childLen];
+
+            // Lookup the deletion index in parent.ConnectionIndexArray.
+            int connectionId = parent.ConnectionGeneArray[deleteIdx].Id;
+            int deleteIdxB = ConnectionGeneUtils.BinarySearchId(parent.ConnectionIndexArray, parent.ConnectionGeneArray, connectionId);
+
+            // Copy indexes from the parent to the child array, skipping the element to be deleted.
+            Array.Copy(parent.ConnectionIndexArray, connIdxArr, deleteIdxB);
+            Array.Copy(parent.ConnectionIndexArray, deleteIdxB+1, connIdxArr, deleteIdxB, childLen - deleteIdxB);
+
+            // All connections after the deleted connection will have been shifted by one element left, therefore
+            // indexes to these genes will need decrementing by one.
+            for(int i=0; i < connIdxArr.Length; i++) {
+                if(connIdxArr[i] >= deleteIdx) { connIdxArr[i]--; }
+            }
+
+            return connIdxArr;
         }
 
         #endregion

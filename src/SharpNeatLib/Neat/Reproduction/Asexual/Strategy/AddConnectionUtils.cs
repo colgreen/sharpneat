@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 // Copy indexes from the parent to the child array; with the new index inserted in its sorted position.
                 Array.Copy(parent.ConnectionIndexArray, connIdxArr, insertIdxB);
                 connIdxArr[insertIdxB] = insertIdx;
-                Array.Copy(parent.ConnectionIndexArray, insertIdxB, connIdxArr, insertIdxB + 1, parentLen-insertIdxB);
+                Array.Copy(parent.ConnectionIndexArray, insertIdxB, connIdxArr, insertIdxB + 1, parentLen - insertIdxB);
             }
 
             // All connections after the inserted connection will have been shifted by one element to make space, therefore

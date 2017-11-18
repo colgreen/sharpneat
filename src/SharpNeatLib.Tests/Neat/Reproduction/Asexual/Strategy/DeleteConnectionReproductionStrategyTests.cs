@@ -20,7 +20,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
-            for(int i=0; i<100; i++)
+            for(int i=0; i<1000; i++)
             {
                 var childGenome = strategy.CreateChildGenome(genome);
                 
@@ -33,6 +33,9 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
 
                 // The connection genes should be sorted.
                 ConnectionGeneUtils.IsSorted(childGenome.ConnectionGeneArray);
+
+                // ConnectionIndexArray should describe the genes in innovation ID sort order.
+                Assert.IsTrue(ConnectionGeneUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGeneArray));
             }
         }
 

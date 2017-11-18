@@ -80,6 +80,7 @@
     <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactory.cs" />
     <Compile Include="Neat\Network\NeatDirectedGraphFactory.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionReproductionStrategy.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddConnectionUtils.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTest.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionReproductionStrategy.cs" />
