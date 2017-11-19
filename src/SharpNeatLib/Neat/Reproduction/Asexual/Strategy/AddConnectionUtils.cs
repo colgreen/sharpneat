@@ -38,13 +38,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // All connections after the inserted connection will have been shifted by one element to make space, therefore
             // indexes to these genes will need incrementing by one.
-            for(int i=0; i < insertIdxB; i++) {
+            for(int i=0; i < connIdxArr.Length; i++) {
                 if(connIdxArr[i] >= insertIdx) { connIdxArr[i]++; }
             }
 
-            for(int i=insertIdxB+1; i < connIdxArr.Length; i++) {
-                if(connIdxArr[i] >= insertIdx) { connIdxArr[i]++; }
-            }
+            // Revert the increment on the inserted element.
+            connIdxArr[insertIdxB]--;
 
             return connIdxArr;
         }
