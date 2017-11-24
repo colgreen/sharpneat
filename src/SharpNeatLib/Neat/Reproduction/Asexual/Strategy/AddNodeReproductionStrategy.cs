@@ -9,6 +9,9 @@ using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
+    // TODO: Implement!
+
+
     public class AddNodeReproductionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -53,10 +56,50 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Select a connection at random.
             int connectionToSplitIdx = _rng.Next(parent.ConnectionGeneArray.Length);
+            var connGene = parent.ConnectionGeneArray[connectionToSplitIdx];
+
+            // The selected connection will be replaced with a new node and two new connections; 
+            // get innovation IDs for these.
+            AddedNodeInfo addedNodeInfo = GetInnovationIDs(connGene.Id);
+
+
+
+
+
+
+
+
+
+
+
 
 
             // TODO: implement!
             return null;
+        }
+
+        #endregion
+
+
+        
+
+        #region Private Methods
+
+        private AddedNodeInfo GetInnovationIDs(int connectionToSplitId)
+        {
+            // Test if the selected connection has a previous split recorded in the innovation ID buffer.
+            if(_addedNodeBuffer.TryLookup(connectionToSplitId, out AddedNodeInfo addedNodeInfo))
+            {
+                // Found existing matching structure.
+                // However we can only re-use the IDs from that structure if they aren't already present in the current genome;
+                // this is possible because genes can be acquired from other genomes via sexual reproduction.
+                // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
+                // structures throughout the population, which is the reason for ID re-use.
+
+
+            }
+            return new AddedNodeInfo();
+
         }
 
         #endregion
