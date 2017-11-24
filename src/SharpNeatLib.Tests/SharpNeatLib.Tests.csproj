@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Neat\AddedConnectionBufferTests.cs" />
-    <Compile Include="Neat\Genome\ConnectionGeneUtilsTests.cs" />
+    <Compile Include="Network\DirectedConnectionUtilsTests.cs" />
     <Compile Include="Neat\Genome\NestGenomeTestUtils.cs" />
     <Compile Include="Neat\NeatPopulationTests.cs" />
     <Compile Include="Neat\AddedNodeBufferTests.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionSubsetSelectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\CardinalSubsetSelectionStrategyTests.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\SelectAllStrategy.cs" />
     <Compile Include="Network\AcyclicGraphDepthAnalysisTests.cs" />
     <Compile Include="Network\ConnectionSorterTests.cs" />
     <Compile Include="Network\CyclicGraphAnalysisTests.cs" />

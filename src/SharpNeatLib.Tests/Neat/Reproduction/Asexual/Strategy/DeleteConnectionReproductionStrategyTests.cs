@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
+using SharpNeat.Network;
 using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
@@ -25,17 +26,17 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 var childGenome = strategy.CreateChildGenome(genome);
                 
                 // The child genome should have one less connection than the parent.
-                Assert.AreEqual(genome.ConnectionGeneArray.Length - 1, childGenome.ConnectionGeneArray.Length);
+                Assert.AreEqual(genome.ConnectionGenes.Length - 1, childGenome.ConnectionGenes.Length);
 
                 // The child genome's connections should be a proper subset of the parent genome's.
                 var childConnSet = GetDirectedConnectionSet(childGenome);
                 Assert.IsTrue(childConnSet.IsProperSubsetOf(connSet));
 
                 // The connection genes should be sorted.
-                ConnectionGeneUtils.IsSorted(childGenome.ConnectionGeneArray);
+                Assert.IsTrue(DirectedConnectionUtils.IsSorted(childGenome.ConnectionGenes._connArr));
 
                 // ConnectionIndexArray should describe the genes in innovation ID sort order.
-                Assert.IsTrue(ConnectionGeneUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGeneArray));
+                Assert.IsTrue(ConnectionGenesUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGenes._idArr));
             }
         }
 

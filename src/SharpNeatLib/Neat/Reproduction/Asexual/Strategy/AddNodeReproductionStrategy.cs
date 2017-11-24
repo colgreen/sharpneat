@@ -49,18 +49,18 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
         {
-            if(0 == parent.ConnectionGeneArray.Length) 
+            if(0 == parent.ConnectionGenes.Length) 
             {   // No connections to split.
                 return null;
             }
 
             // Select a connection at random.
-            int connectionToSplitIdx = _rng.Next(parent.ConnectionGeneArray.Length);
-            var connGene = parent.ConnectionGeneArray[connectionToSplitIdx];
+            int connectionToSplitIdx = _rng.Next(parent.ConnectionGenes.Length);
+            //var connGene = parent.ConnectionGeneArray[connectionToSplitIdx];
 
-            // The selected connection will be replaced with a new node and two new connections; 
-            // get innovation IDs for these.
-            AddedNodeInfo addedNodeInfo = GetInnovationIDs(connGene.Id);
+            //// The selected connection will be replaced with a new node and two new connections; 
+            //// get innovation IDs for these.
+            //AddedNodeInfo addedNodeInfo = GetInnovationIDs(connGene.Id);
 
 
 

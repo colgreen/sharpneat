@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         public static WeightMutationScheme<double> CreateDefaultScheme(double weightScale)
         {
             var probabilityArr = new double[6];
-            var strategyArr = new IConnectionArrayMutationStrategy<double>[6];
+            var strategyArr = new IWeightMutationStrategy<double>[6];
 
             // Gaussian delta with sigma=0.01 (most values between +-0.02)
             // Mutate 1, 2 and 3 connections respectively.
@@ -51,18 +51,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         #region Private Static Methods
 
-        private static ConnectionArrayMutationStrategy<double> CreateCardinalGaussianDeltaStrategy(int selectCount, double stdDev)
+        private static IWeightMutationStrategy<double> CreateCardinalGaussianDeltaStrategy(int selectCount, double stdDev)
         {
             var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
-            var mutationStrategy = DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(stdDev);
-            return new ConnectionArrayMutationStrategy<double>(selectStrategy, mutationStrategy);
+            return DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(selectStrategy, stdDev);
         }
 
-        private static ConnectionArrayMutationStrategy<double> CreateCardinalUniformResetStrategy(int selectCount, double weightScale)
+        private static IWeightMutationStrategy<double> CreateCardinalUniformResetStrategy(int selectCount, double weightScale)
         {
             var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
-            var mutationStrategy = ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(weightScale);
-            return new ConnectionArrayMutationStrategy<double>(selectStrategy, mutationStrategy);
+            return ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(selectStrategy, weightScale);
         }
 
         #endregion

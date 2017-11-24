@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
@@ -11,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             where T : struct
         {
             // Alloc connection index array.
-            int parentLen = parent.ConnectionGeneArray.Length;
+            int parentLen = parent.ConnectionGenes.Length;
             var connIdxArr = new int[parentLen+1];
 
             int insertIdxB;
@@ -28,7 +31,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             else
             {
                 // Lookup the insertion index in parent.ConnectionIndexArray.
-                insertIdxB = ~ConnectionGeneUtils.BinarySearchId(parent.ConnectionIndexArray, parent.ConnectionGeneArray, connectionId);
+                insertIdxB = ~ConnectionGenesUtils.BinarySearchId(parent.ConnectionIndexArray, parent.ConnectionGenes._idArr, connectionId);
 
                 // Copy indexes from the parent to the child array; with the new index inserted in its sorted position.
                 Array.Copy(parent.ConnectionIndexArray, connIdxArr, insertIdxB);
@@ -48,5 +51,27 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return connIdxArr;
         }
 
+
+        public static int[] CreateNodeIdArray(DirectedConnection[] connArr, int inputOutputCount)
+        {
+            // Determine the set of node IDs in the parent genome.
+            var idSet = new HashSet<int>();
+
+            // Include invariant nodes (input and output nodes).
+            // Note. These nodes have fixed predetermined IDs.
+            for(int i=0; i < inputOutputCount; i++) {
+                idSet.Add(i);
+            }
+
+            // Ensure all other (hidden) nodes are included.
+            for(int i=0; i<connArr.Length; i++) 
+            {
+                idSet.Add(connArr[i].SourceId);
+                idSet.Add(connArr[i].TargetId);
+            }
+            int[] idArr = idSet.ToArray();
+            Array.Sort(idArr);
+            return idArr;
+        }
     }
 }

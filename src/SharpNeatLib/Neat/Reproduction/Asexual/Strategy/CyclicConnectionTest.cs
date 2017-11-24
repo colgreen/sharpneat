@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Redzen.Collections;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
@@ -60,7 +59,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// </summary>
         /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
-        public bool IsConnectionCyclic(ConnectionGene<T>[] connArr, DirectedConnection newConn)
+        public bool IsConnectionCyclic(DirectedConnection[] connArr, DirectedConnection newConn)
         {
             // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
             // re-use on the next call.
@@ -78,7 +77,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(ConnectionGene<T>[] connArr, DirectedConnection newConn)
+        private bool IsConnectionCyclicInner(DirectedConnection[] connArr, DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {
@@ -97,7 +96,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int currNodeId = newConn.TargetId;
             
             // Search for outgoing connections from the current node.
-            int connStartIdx = ConnectionGeneUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
+            int connStartIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
             if(connStartIdx < 0)
             {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
                 return false;
@@ -154,7 +153,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _visitedNodes.Add(childNodeId);
 
                 // Search for outgoing connections from childNodeId.
-                connStartIdx = ConnectionGeneUtils.GetConnectionIndexBySourceNodeId(connArr, childNodeId);
+                connStartIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, childNodeId);
                 if(connStartIdx >= 0)
                 {   // childNodeId has outgoing connections from it. Push the first connection onto the stack.
                     _traversalStack.Push(connStartIdx);    

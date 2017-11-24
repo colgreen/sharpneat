@@ -1,6 +1,5 @@
 ﻿using Redzen.Numerics;
 using Redzen.Random;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 {
@@ -10,7 +9,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         #region Instance Fields
 
         DiscreteDistribution _strategySelectionDist;
-        IConnectionArrayMutationStrategy<T>[] _mutationStrategyArr;
+        IWeightMutationStrategy<T>[] _mutationStrategyArr;
         IRandomSource _rng;
 
         #endregion
@@ -19,7 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         public WeightMutationScheme(
             double[] strategyProbabilityArr,
-            IConnectionArrayMutationStrategy<T>[] mutationStrategyArr)
+            IWeightMutationStrategy<T>[] mutationStrategyArr)
         {
             _strategySelectionDist = new DiscreteDistribution(strategyProbabilityArr);
             _mutationStrategyArr = mutationStrategyArr;
@@ -31,15 +30,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         #region Public Methods
 
         /// <summary>
-        /// Mutate the connection gene array weights based on a stochastically chosen IConnectionArrayMutationStrategy.
+        /// Mutate the connection weights based on a stochastically chosen IWeightMutationStrategy.
         /// </summary>
-        /// <param name="connArr">The connection gene array to apply weight mutation to.</param>
-        public void MutateWeights(ConnectionGene<T>[] connArr)
+        /// <param name="weightArr">The connection weight array to apply mutations to.</param>
+        public void MutateWeights(T[] weightArr)
         {
             // Select a mutation strategy, and apply it to the array of connection genes.
             int strategyIdx = _strategySelectionDist.Sample();
             var strategy = _mutationStrategyArr[strategyIdx];
-            strategy.Invoke(connArr);
+            strategy.Invoke(weightArr);
         }
 
         #endregion

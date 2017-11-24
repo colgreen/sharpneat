@@ -89,10 +89,10 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(5.0, genome.MetaNeatGenome.ConnectionWeightRange);
             Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
             Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
-            Assert.AreEqual(6, genome.ConnectionGeneArray.Length);
-            Assert.IsTrue(ConnectionGeneUtils.IsSorted(genome.ConnectionGeneArray));
-            Assert.IsTrue(ConnectionGeneUtils.IsSorted(genome.ConnectionIndexArray, genome.ConnectionGeneArray));
-            Assert.IsTrue(ConnectionGeneUtils.ValidateInnovationIds(genome.ConnectionGeneArray, genome.MetaNeatGenome.InputNodeCount, genome.MetaNeatGenome.OutputNodeCount));
+            Assert.AreEqual(6, genome.ConnectionGenes.Length);
+            Assert.IsTrue(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
+            Assert.IsTrue(ConnectionGenesUtils.IsSorted(genome.ConnectionIndexArray, genome.ConnectionGenes._idArr));
+            Assert.IsTrue(ConnectionGenesUtils.ValidateInnovationIds(genome.ConnectionGenes, genome.MetaNeatGenome.InputNodeCount, genome.MetaNeatGenome.OutputNodeCount));
         }
 
         [TestMethod]
@@ -109,11 +109,11 @@ namespace SharpNeatLib.Tests.Neat
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1);
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
-            Assert.AreEqual(10000, genome.ConnectionGeneArray.Length);
-            Assert.IsTrue(ConnectionGeneUtils.IsSorted<double>(genome.ConnectionGeneArray));
+            Assert.AreEqual(10000, genome.ConnectionGenes.Length);
+            Assert.IsTrue(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
 
             double min, max, mean;
-            CalcWeightMinMaxMean(genome.ConnectionGeneArray, out min, out max, out mean);
+            CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out min, out max, out mean);
 
             Assert.IsTrue(min < -genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
             Assert.IsTrue(max > genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
@@ -137,25 +137,23 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(false, buff.TryLookup(new DirectedConnection(srcId, tgtId), out connectionId));
         }
 
-        private void CalcWeightMinMaxMean(ConnectionGene<double>[] connGeneArr, out double min, out double max, out double mean)
+        private void CalcWeightMinMaxMean(double[] weightArr, out double min, out double max, out double mean)
         {
-            double total = connGeneArr[0].Weight;
+            double total = weightArr[0];
             min = total;
             max = total;
             
-            for(int i=1; i<connGeneArr.Length; i++)
+            for(int i=1; i<weightArr.Length; i++)
             {
-                double weight = connGeneArr[i].Weight;
+                double weight = weightArr[i];
                 total += weight;
                 min = Math.Min(min, weight);
                 max = Math.Max(max, weight);
             }
 
-            mean = total / connGeneArr.Length;
+            mean = total / weightArr.Length;
         }
 
         #endregion
-
-
     }
 }

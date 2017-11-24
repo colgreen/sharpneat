@@ -8,26 +8,28 @@ namespace SharpNeatLib.Tests.Neat.Network
     {
         #region Public Static Methods
 
-        public static void CompareConnectionLists(ConnectionGene<double>[] x,
-                                                  ConnectionIdArrays connIdArrays, double[] yWeightArr)
+        public static void CompareConnectionLists<T>(ConnectionGenes<T> x,
+                                                     ConnectionIdArrays yIdArrays,
+                                                     T[] yWeightArr)
+            where T : struct
         {
-            int[] srcIdArr = connIdArrays._sourceIdArr;
-            int[] tgtIdArr = connIdArrays._targetIdArr;
+            Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
+            Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.AreEqual(x.Length, yWeightArr.Length);
 
-            Assert.AreEqual(x.Length, srcIdArr.Length);
-            Assert.AreEqual(x.Length, tgtIdArr.Length);
-
-            for(int i=0; i<x.Length; i++) {
-                CompareConnections(x[i], srcIdArr[i], tgtIdArr[i], yWeightArr[i]);
+            for(int i=0; i<x.Length; i++)  {
+                Assert.IsTrue(AreEqual(x, yIdArrays, yWeightArr, i));
             }
         }
 
-        public static void CompareConnections(ConnectionGene<double> x,
-                                              int ySrcId, int yTgtId, double yWeight)
+        public static bool AreEqual<T>(ConnectionGenes<T> x,
+                                       ConnectionIdArrays yIdArrays,
+                                       T[] yWeightArr, int idx)
+            where T : struct
         {
-            Assert.AreEqual(x.SourceId, ySrcId);
-            Assert.AreEqual(x.TargetId, yTgtId);
-            Assert.AreEqual(x.Weight, yWeight);
+            return x._connArr[idx].SourceId == yIdArrays._sourceIdArr[idx] 
+                &&  x._connArr[idx].TargetId == yIdArrays._targetIdArr[idx] 
+                &&  x._weightArr[idx].Equals(yWeightArr[idx]);
         }
 
         #endregion

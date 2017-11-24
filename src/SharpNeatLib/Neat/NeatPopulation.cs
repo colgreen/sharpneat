@@ -115,11 +115,11 @@ namespace SharpNeat.Neat
             {
                 maxGenomeId = Math.Max(maxGenomeId, genome.Id);
 
-                for(int i=0; i<genome.ConnectionGeneArray.Length; i++)
+                for(int i=0; i<genome.ConnectionGenes.Length; i++)
                 {
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGeneArray[i].Id);
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGeneArray[i].SourceId);
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGeneArray[i].TargetId);
+                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._idArr[i]);
+                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].SourceId);
+                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].TargetId);
                 }
             }
         }

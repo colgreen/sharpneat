@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
@@ -9,6 +7,10 @@ using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
+    /// <summary>
+    /// Add acyclic connection, asexual reproduction strategy.
+    /// </summary>
+    /// <typeparam name="T">Connection weight type.</typeparam>
     public class AddAcyclicConnectionReproductionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -52,6 +54,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Public Methods
 
+        /// <summary>
+        /// Create a new child genome from a given parent genome.
+        /// </summary>
+        /// <param name="parent">The parent genome.</param>
+        /// <returns>A new child genome.</returns>
         public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
         {
             Debug.Assert(_metaNeatGenome == parent.MetaNeatGenome, "Parent genome has unexpected MetaNeatGenome.");
@@ -80,31 +87,37 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // TODO: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
             T weight = _rng.NextBool() ? _weightDistB.Sample() : _weightDistA.Sample();
 
-            // Create a new connection gene.
-            var connGene = new ConnectionGene<T>(
-                connectionId,
-                directedConn.SourceId,
-                directedConn.TargetId,
-                weight
-            );
-
             // Create a new connection gene array that consists of the parent connection genes plus the new gene
             // inserted at the correct (sorted) position.
-            var parentConnArr = parent.ConnectionGeneArray;
+            var parentConnArr = parent.ConnectionGenes._connArr;
+            var parentWeightArr = parent.ConnectionGenes._weightArr;
+            var parentIdArr = parent.ConnectionGenes._idArr;
             int parentLen = parentConnArr.Length;
 
-            // Alloc child gene array.
+            // Create the child genome's ConnectionGenes object.
             int childLen = parentLen + 1;
-            var connArr = new ConnectionGene<T>[childLen];
+            var connGenes = new ConnectionGenes<T>(childLen);
+            var connArr = connGenes._connArr;
+            var weightArr = connGenes._weightArr;
+            var idArr = connGenes._idArr;
 
             // Copy genes up to insertIdx.
             Array.Copy(parentConnArr, connArr, insertIdx);
+            Array.Copy(parentWeightArr, weightArr, insertIdx);
+            Array.Copy(parentIdArr, idArr, insertIdx);
 
             // Copy the new genome into its insertion point.
-            connArr[insertIdx] = connGene;
+            connArr[insertIdx] = new DirectedConnection(
+                directedConn.SourceId,
+                directedConn.TargetId);
+
+            weightArr[insertIdx] = weight;
+            idArr[insertIdx] = connectionId;
 
             // Copy remaining genes (if any).
             Array.Copy(parentConnArr, insertIdx, connArr, insertIdx+1, parentLen-insertIdx);
+            Array.Copy(parentWeightArr, insertIdx, weightArr, insertIdx+1, parentLen-insertIdx);
+            Array.Copy(parentIdArr, insertIdx, idArr, insertIdx+1, parentLen-insertIdx);
 
             // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
             // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
@@ -116,42 +129,20 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
-                connArr);
+                connGenes,
+                connIdxArr);
         }
 
         #endregion
 
         #region Private Methods
 
-        private int[] CreateNodeIdArray(NeatGenome<T> parent)
-        {
-            // Determine the set of node IDs in the parent genome.
-            var parentConnArr = parent.ConnectionGeneArray;
-            int parentLen = parentConnArr.Length;
-            var idSet = new HashSet<int>();
-
-            // Include invariant nodes (input and output nodes).
-            // Note. These nodes have fixed predetermined IDs.
-            int ioCount = _metaNeatGenome.InputNodeCount + _metaNeatGenome.OutputNodeCount;
-            for(int i=0; i<ioCount; i++) {
-                idSet.Add(i);
-            }
-
-            // Ensure all other (hidden) nodes are included.
-            for(int i=0; i<parentLen; i++) 
-            {
-                idSet.Add(parentConnArr[i].SourceId);
-                idSet.Add(parentConnArr[i].TargetId);
-            }
-            int[] idArr = idSet.ToArray();
-            Array.Sort(idArr);
-            return idArr;
-        }
-
         private bool TryGetConnection(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
         {
             // Get a sorted array of all node IDs in the parent genome (includes input, output and hidden nodes).
-            int[] idArr = CreateNodeIdArray(parent);
+            int[] idArr = AddConnectionUtils.CreateNodeIdArray(
+                parent.ConnectionGenes._connArr,
+                _metaNeatGenome.InputNodeCount + _metaNeatGenome.OutputNodeCount);
 
             // Make several attempts at find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
@@ -199,7 +190,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // find an existing connection in O(log(n)) time.
             conn = new DirectedConnection(srcId, tgtId);
 
-            if((insertIdx = ConnectionGeneUtils.BinarySearch(parent.ConnectionGeneArray, conn)) >= 0)
+            if((insertIdx = Array.BinarySearch(parent.ConnectionGenes._connArr, conn)) >= 0)
             {   
                 // The proposed new connection already exists.
                 conn = default(DirectedConnection);
@@ -208,7 +199,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
 
             // Test if the connection will form a cycle in the wider network.
-            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGeneArray, conn))
+            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, conn))
             {
                 conn = default(DirectedConnection);
                 insertIdx = default(int);

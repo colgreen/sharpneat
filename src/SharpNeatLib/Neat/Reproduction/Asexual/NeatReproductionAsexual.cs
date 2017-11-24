@@ -136,7 +136,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         {
             // If there is only one connection then avoid destructive mutations to avoid the 
             // creation of genomes with no connections.
-            DiscreteDistribution dist = (parent.ConnectionGeneArray.Length < 2) ?
+            DiscreteDistribution dist = (parent.ConnectionGenes.Length < 2) ?
                   _settings.MutationTypeDistributionNonDestructive
                 : _settings.MutationTypeDistribution;
 

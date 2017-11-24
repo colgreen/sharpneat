@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Numerics;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
+using SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation
 {
@@ -17,15 +17,18 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation
         public void TestUniformReset()
         {
             double weightScale = 5.0;
-            var strategy = ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(weightScale);
+            var strategy = ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(
+                new SelectAllStrategy(),
+                weightScale);
 
             int iters = 10000;
             double[] weightArr = new double[iters];
-
             for(int i=0; i<iters; i++) {
-                weightArr[i] = strategy.Invoke(123.0);;
+                weightArr[i] = 123.0;
             }
             
+            strategy.Invoke(weightArr);
+
             // Construct a histogram on the array of weights.
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
 
@@ -49,15 +52,18 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation
         [TestCategory("ResetWeightMutationStrategy")]
         public void TestGaussianReset()
         {
-            var strategy = ResetWeightMutationStrategy<double>.CreateGaussianResetStrategy(1.0);
+            var strategy = ResetWeightMutationStrategy<double>.CreateGaussianResetStrategy(
+                new SelectAllStrategy(),
+                1.0);
 
             int iters = 100000;
             double[] weightArr = new double[iters];
-
             for(int i=0; i<iters; i++) {
-                weightArr[i] = strategy.Invoke(123.0);
+                weightArr[i] = 123.0;
             }
             
+            strategy.Invoke(weightArr);
+
             // Construct a histogram on the array of weights.
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
 

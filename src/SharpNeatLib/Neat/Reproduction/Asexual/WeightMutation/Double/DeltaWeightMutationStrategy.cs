@@ -1,20 +1,23 @@
 ﻿using Redzen.Random;
-using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 {
     /// <summary>
-    /// A connection weight mutation strategy that applies a delta to the existing weight.
-    /// The delta can be from either a uniform or gaussian distribution.
+    /// A connection weight mutation strategy that applies deltas to existing weights.
     /// </summary>
     public class DeltaWeightMutationStrategy: IWeightMutationStrategy<double>
     {
-        IContinuousDistribution<double> _dist;
+        readonly ISubsetSelectionStrategy _selectionStrategy;
+        readonly IContinuousDistribution<double> _dist;
 
         #region Constructor
 
-        public DeltaWeightMutationStrategy(IContinuousDistribution<double> weightDeltaDistribution)
+        public DeltaWeightMutationStrategy(
+            ISubsetSelectionStrategy selectionStrategy,
+            IContinuousDistribution<double> weightDeltaDistribution)
         {
+            _selectionStrategy = selectionStrategy;
             _dist = weightDeltaDistribution;
         }
 
@@ -22,25 +25,35 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 
         #region Public Methods
 
-        public double Invoke(double weight)
+        public void Invoke(double[] weightArr)
         {
-            return weight + _dist.Sample();
+            // Select a subset of connection genes to mutate.
+            int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length);
+
+            // Loop over the connection genes to be mutated, and mutate them.
+            for(int i=0; i<selectedIdxArr.Length; i++) {
+                weightArr[selectedIdxArr[i]] += _dist.Sample();
+            }
         }
 
         #endregion
 
         #region Public Static Methods
 
-        public static DeltaWeightMutationStrategy CreateUniformDeltaStrategy(double weightScale)
+        public static DeltaWeightMutationStrategy CreateUniformDeltaStrategy(
+            ISubsetSelectionStrategy selectionStrategy,
+            double weightScale)
         {
             var dist = ContinuousDistributionFactory.CreateUniformDistribution<double>(weightScale, true);
-            return new DeltaWeightMutationStrategy(dist);
+            return new DeltaWeightMutationStrategy(selectionStrategy, dist);
         }
 
-        public static DeltaWeightMutationStrategy CreateGaussianDeltaStrategy(double stdDev)
+        public static DeltaWeightMutationStrategy CreateGaussianDeltaStrategy(
+            ISubsetSelectionStrategy selectionStrategy,
+            double stdDev)
         {
             var dist = ContinuousDistributionFactory.CreateGaussianDistribution<double>(0, stdDev);
-            return new DeltaWeightMutationStrategy(dist);
+            return new DeltaWeightMutationStrategy(selectionStrategy, dist);
         }
 
         #endregion

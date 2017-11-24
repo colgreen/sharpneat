@@ -15,10 +15,10 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         {
             var cyclicTest= new CyclicConnectionTest<double>();
 
-            var connArr = new ConnectionGene<double>[3];
-            connArr[0] = new ConnectionGene<double>(0, 0, 1, 1.0);
-            connArr[1] = new ConnectionGene<double>(1, 1, 2, 1.0);
-            connArr[2] = new ConnectionGene<double>(2, 2, 3, 1.0);
+            var connArr = new DirectedConnection[3];
+            connArr[0] = new DirectedConnection(0, 1);
+            connArr[1] = new DirectedConnection(1, 2);
+            connArr[2] = new DirectedConnection(2, 3);
 
             // True tests (cycle).
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 0)));
@@ -45,16 +45,16 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         {
             var cyclicTest= new CyclicConnectionTest<double>();
 
-            var connArr = new ConnectionGene<double>[8];
-            connArr[0] = new ConnectionGene<double>(0, 0, 1, 1.0);
-            connArr[1] = new ConnectionGene<double>(1, 0, 2, 1.0);
-            connArr[2] = new ConnectionGene<double>(2, 0, 3, 1.0);
-            connArr[3] = new ConnectionGene<double>(3, 1, 4, 1.0);
-            connArr[4] = new ConnectionGene<double>(4, 4, 2, 1.0);
-            connArr[5] = new ConnectionGene<double>(5, 2, 5, 1.0);
-            connArr[6] = new ConnectionGene<double>(6, 3, 6, 1.0);
-            connArr[7] = new ConnectionGene<double>(7, 3, 2, 1.0);
-            ConnectionGeneUtils.Sort(connArr);
+            var connArr = new DirectedConnection[8];
+            connArr[0] = new DirectedConnection(0, 1);
+            connArr[1] = new DirectedConnection(0, 2);
+            connArr[2] = new DirectedConnection(0, 3);
+            connArr[3] = new DirectedConnection(1, 4);
+            connArr[4] = new DirectedConnection(4, 2);
+            connArr[5] = new DirectedConnection(2, 5);
+            connArr[6] = new DirectedConnection(3, 6);
+            connArr[7] = new DirectedConnection(3, 2);
+            Array.Sort(connArr);
 
             // True tests (cycle).
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 1)));

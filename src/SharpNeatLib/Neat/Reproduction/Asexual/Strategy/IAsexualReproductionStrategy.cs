@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <summary>
         /// Create a new child genome from a given parent genome.
         /// </summary>
-        /// <param name="parent">The parent genome to create a child genome from.</param>
+        /// <param name="parent">The parent genome.</param>
         /// <returns>A new child genome.</returns>
         NeatGenome<T> CreateChildGenome(NeatGenome<T> parent);
     }

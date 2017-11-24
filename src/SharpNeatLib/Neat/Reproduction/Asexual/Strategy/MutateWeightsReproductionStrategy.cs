@@ -32,20 +32,28 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
         {
-            // Clone the parent's connection genes.
-            var connArr = ConnectionGene<T>.CloneArray(parent.ConnectionGeneArray);
+            // Clone the parent's connection weight array.
+            var weightArr = (T[])parent.ConnectionGenes._weightArr.Clone();
 
-            // Apply mutation to the connection genes.
-            _weightMutationScheme.MutateWeights(connArr);
+            // Apply mutation to the connection weights.
+            _weightMutationScheme.MutateWeights(weightArr);
+
+            // Create the child genome's ConnectionGenes object.
+            // Note. The parent genome's connection ID and ID arrays are re-used; these remain unchanged
+            // because we are mutating only connection *weights*, so we can avoid the cost of cloning these arrays.
+            var connGenes = new ConnectionGenes<T>(
+                parent.ConnectionGenes._connArr,
+                weightArr,
+                parent.ConnectionGenes._idArr);
 
             // Create and return a new genome.
             // Note. The parent's ConnectionIndexArray can be re-used here because the new genome has the same set of connections 
-            // (same neural net structure, it just has different weights).
+            // (same neural net structure).
             return new NeatGenome<T>(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
-                connArr,
+                connGenes,
                 parent.ConnectionIndexArray);
         }
 

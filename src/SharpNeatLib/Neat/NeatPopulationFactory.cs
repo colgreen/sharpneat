@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Network;
 using SharpNeat.Utils;
 
 namespace SharpNeat.Neat
@@ -102,28 +103,31 @@ namespace SharpNeat.Neat
             DiscreteDistributionUtils.SampleUniformWithoutReplacement(totalConnectionCount, sampleArr, _rng);
 
             // Sort the samples.
-            // Note. This helps keep the neural net connections (and thus memory accesses) in-order.
+            // Note. This results in the neural net connections being sorted by sourceID then targetID.
             Array.Sort(sampleArr);
 
-            // Create the connection gene list and populate it.
-            var connectionGeneArr = new ConnectionGene<T>[connectionCount];
+            // Create the connection gene arrays and populate them.
+            var connGenes = new ConnectionGenes<T>(connectionCount);
+
+            var connArr = connGenes._connArr;
+            var weightArr = connGenes._weightArr;
+            var idArr = connGenes._idArr;
 
             for(int i=0; i < sampleArr.Length; i++)
             {
                 ConnectionDefinition cdef = _connectionDefArr[sampleArr[i]];
 
-                ConnectionGene<T> cgene = new ConnectionGene<T>(
-                    cdef._connectionId,
+                connArr[i] = new DirectedConnection(
                     cdef._srcNodeId,
-                    cdef._tgtNodeId,
-                    _connWeightDist.Sample(_metaNeatGenome.ConnectionWeightRange, true));
+                    cdef._tgtNodeId);
 
-                connectionGeneArr[i] = cgene;
+                weightArr[i] = _connWeightDist.Sample(_metaNeatGenome.ConnectionWeightRange, true);
+                idArr[i] = cdef._connectionId;
             }
 
             // Get create a new genome with a new ID, birth generation of zero.
             int id = _genomeIdSeq.Next();
-            return new NeatGenome<T>(_metaNeatGenome, id, 0, connectionGeneArr);
+            return new NeatGenome<T>(_metaNeatGenome, id, 0, connGenes);
         }
 
         #endregion

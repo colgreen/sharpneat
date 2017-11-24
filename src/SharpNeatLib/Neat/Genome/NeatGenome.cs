@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using SharpNeat.Core;
 using SharpNeat.Network;
 
@@ -24,15 +19,12 @@ namespace SharpNeat.Neat.Genome
         // The generation that the genome was created in.
         readonly int _birthGeneration;
         
-        // TODO / ENHANCEMENT: Split connection weights into a separate array, this would allow us to re-use the directed connection ID arrays
-        // when spawning a child genome with the same neural net structure, i.e. during weight mutation based asexual reproduction, which is the 
-        // most common form of reproduction (90%+ of reproductions).
-        // An array of connection genes. These define both the neural network structure/topology and the 
-        // connection weights.
-        readonly ConnectionGene<T>[] _connectionGeneArr;
+        // Connection genes data structure.
+        // These define both the neural network structure/topology and the connection weights.
+        readonly ConnectionGenes<T> _connGenes;
 
         // An array of indexes into _connectionGeneArr, sorted by connection gene innovation ID.
-        // This allows us to efficiently find connection genes using a binary search.
+        // This allows us to efficiently find connection genes by innovation ID using a binary search.
         readonly int[] _connIdxArr;
 
         double _fitness;
@@ -46,8 +38,8 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
-                          ConnectionGene<T>[] connectionGeneArr)
-            : this(metaNeatGenome, id, birthGeneration, connectionGeneArr, ConnectionGeneUtils.CreateConnectionIndexArray(connectionGeneArr))
+                          ConnectionGenes<T> connGenes)
+            : this(metaNeatGenome, id, birthGeneration, connGenes, ConnectionGenesUtils.CreateConnectionIndexArray(connGenes))
         {}
 
         /// <summary>
@@ -55,18 +47,18 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
-                          ConnectionGene<T>[] connectionGeneArr,
+                          ConnectionGenes<T> connGenes,
                           int[] connIdxArr)
         {
-            Debug.Assert(connectionGeneArr.Length == connIdxArr.Length);
-            Debug.Assert(ConnectionGeneUtils.IsSorted(connectionGeneArr));
-            Debug.Assert(ConnectionGeneUtils.IsSorted(connIdxArr, connectionGeneArr));
-            Debug.Assert(ConnectionGeneUtils.ValidateInnovationIds(connectionGeneArr, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount));
+            Debug.Assert(connGenes.Length == connIdxArr.Length);
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(ConnectionGenesUtils.IsSorted(connIdxArr, connGenes._idArr));
+            Debug.Assert(ConnectionGenesUtils.ValidateInnovationIds(connGenes, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount));
 
             _metaNeatGenome = metaNeatGenome;
             _id = id;
             _birthGeneration = birthGeneration;
-            _connectionGeneArr = connectionGeneArr;
+            _connGenes = connGenes;
             _connIdxArr = connIdxArr;
         }
 
@@ -74,18 +66,21 @@ namespace SharpNeat.Neat.Genome
 
         #region Properties [NEAT Genome Specific]
 
+        /// <summary>
+        /// Genome metadata.
+        /// </summary>
         public MetaNeatGenome<T> MetaNeatGenome {
             get { return _metaNeatGenome; }
         }
 
         /// <summary>
-        /// An array of connection genes. These define both the neural network structure/topology and the 
-        /// connection weights.
+        /// Connection genes data structure.
+        /// These define both the neural network structure/topology and the connection weights.
         /// </summary>
-        public ConnectionGene<T>[] ConnectionGeneArray => _connectionGeneArr;
-        
+        public ConnectionGenes<T> ConnectionGenes => _connGenes;
+
         /// <summary>
-        /// An array of indexes into _connectionGeneArr, sorted by connection gene innovation ID.
+        /// An array of connection gene indexes, sorted by connection gene innovation ID.
         /// This allows us to efficiently find connection genes using a binary search.
         /// </summary>
         public int[] ConnectionIndexArray => _connIdxArr;
@@ -94,8 +89,17 @@ namespace SharpNeat.Neat.Genome
 
         #region IGenome
 
+        /// <summary>
+        /// Genome ID.
+        /// </summary>
         public int Id => _id;
+        /// <summary>
+        /// Genome birth generation.
+        /// </summary>
         public int BirthGeneration => _birthGeneration;
+        /// <summary>
+        /// Genome fitness score.
+        /// </summary>
         public double Fitness { get => _fitness; set => _fitness = value; }
 
         #endregion

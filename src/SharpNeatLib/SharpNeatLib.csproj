@@ -74,7 +74,8 @@
     <Compile Include="Neat\AddedNodeBuffer.cs" />
     <Compile Include="Neat\AddedConnectionBuffer.cs" />
     <Compile Include="Neat\AddedNodeInfo.cs" />
-    <Compile Include="Neat\Genome\ConnectionGeneUtils.cs" />
+    <Compile Include="Neat\Genome\ConnectionGenes.cs" />
+    <Compile Include="Neat\Genome\ConnectionGenesUtils.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
@@ -93,9 +94,7 @@
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IWeightMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionalSubsetSelectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\CardinalSubsetSelectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ConnectionArrayMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ISubsetSelectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IConnectionArrayMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationSchemeFactory.cs" />
@@ -103,11 +102,10 @@
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraphFactory.cs" />
-    <Compile Include="Network\ConnectionArrays.cs" />
+    <Compile Include="Network\ConnectionIdArrays.cs" />
     <Compile Include="Network\ConnectionCompareFunctions.cs" />
     <Compile Include="Network\ConnectionSorter.cs" />
     <Compile Include="Network\CyclicGraphAnalysis.cs" />
-    <Compile Include="Neat\Genome\ConnectionGene.cs" />
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
     <Compile Include="Neat\Genome\NeatGenome.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />

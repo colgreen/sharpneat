@@ -1,6 +1,7 @@
 ﻿using System;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Network;
 using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
@@ -34,24 +35,33 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         {
             // We require at least two connections in the parent, i.e. we avoid creating genomes with
             // no connections, which would be pointless.
-            if(parent.ConnectionGeneArray.Length < 2) {
+            if(parent.ConnectionGenes.Length < 2) {
                 return null;
             }
 
             // Select a gene at random to delete.
-            var parentConnArr = parent.ConnectionGeneArray;
+            var parentConnArr = parent.ConnectionGenes._connArr;
+            var parentWeightArr = parent.ConnectionGenes._weightArr;
+            var parentIdArr = parent.ConnectionGenes._idArr;
             int parentLen = parentConnArr.Length;
             int deleteIdx = _rng.Next(parentLen);
 
-            // Alloc child gene array.
+            // Create the child genome's ConnectionGenes object.
             int childLen = parentLen - 1;
-            var connArr = new ConnectionGene<T>[childLen];
+            var connGenes = new ConnectionGenes<T>(childLen);
+            var connArr = connGenes._connArr;
+            var weightArr = connGenes._weightArr;
+            var idArr = connGenes._idArr;
 
             // Copy genes up to deleteIdx.
             Array.Copy(parentConnArr, connArr, deleteIdx);
+            Array.Copy(parentWeightArr, weightArr, deleteIdx);
+            Array.Copy(parentIdArr, idArr, deleteIdx);
 
             // Copy remaining genes (if any).
             Array.Copy(parentConnArr, deleteIdx+1, connArr, deleteIdx, childLen-deleteIdx);
+            Array.Copy(parentWeightArr, deleteIdx+1, weightArr, deleteIdx, childLen-deleteIdx);
+            Array.Copy(parentIdArr, deleteIdx+1, idArr, deleteIdx, childLen-deleteIdx);
 
             // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
             // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
@@ -63,7 +73,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
-                connArr,
+                connGenes,
                 connIdxArr);
         }
 
@@ -71,17 +81,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Static Methods
 
-        private static int[] CreateConnectionIndexArray<T>(NeatGenome<T> parent, int deleteIdx)
-            where T : struct
+        private static int[] CreateConnectionIndexArray(NeatGenome<T> parent, int deleteIdx)
         {
-            int parentLen = parent.ConnectionGeneArray.Length;
+            int parentLen = parent.ConnectionGenes.Length;
             int childLen = parentLen - 1;
 
             var connIdxArr = new int[childLen];
 
             // Lookup the deletion index in parent.ConnectionIndexArray.
-            int connectionId = parent.ConnectionGeneArray[deleteIdx].Id;
-            int deleteIdxB = ConnectionGeneUtils.BinarySearchId(parent.ConnectionIndexArray, parent.ConnectionGeneArray, connectionId);
+            int connectionId = parent.ConnectionGenes._idArr[deleteIdx];
+            int deleteIdxB = ConnectionGenesUtils.BinarySearchId(
+                parent.ConnectionIndexArray,
+                parent.ConnectionGenes._idArr,
+                connectionId);
 
             // Copy indexes from the parent to the child array, skipping the element to be deleted.
             Array.Copy(parent.ConnectionIndexArray, connIdxArr, deleteIdxB);

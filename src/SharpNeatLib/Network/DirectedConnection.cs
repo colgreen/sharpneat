@@ -6,7 +6,7 @@ namespace SharpNeat.Network
     /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that 
     /// uniquely identifies connections by their end points.
     /// </summary>
-    public struct DirectedConnection : IEquatable<DirectedConnection>
+    public struct DirectedConnection : IEquatable<DirectedConnection>, IComparable<DirectedConnection>
     {
         #region Auto Properties
 
@@ -43,12 +43,24 @@ namespace SharpNeat.Network
 
         #endregion
 
-        #region IEquatable
+        #region IEquatable / IComparable
 
         public bool Equals(DirectedConnection other)
         {
             return (this.SourceId == other.SourceId) 
                 && (this.TargetId == other.TargetId);
+        }
+
+        public int CompareTo(DirectedConnection other)
+        {
+            // Compare source IDs.
+            if (this.SourceId < other.SourceId) { return -1; }
+            if (this.SourceId > other.SourceId) { return 1; }
+
+            // Source IDs are equal; compare target IDs.
+            if (this.TargetId < other.TargetId) { return -1; }
+            if (this.TargetId > other.TargetId) { return 1; }
+            return 0;
         }
 
         #endregion

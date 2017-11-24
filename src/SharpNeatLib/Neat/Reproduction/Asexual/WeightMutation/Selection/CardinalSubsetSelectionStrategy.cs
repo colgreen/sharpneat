@@ -37,6 +37,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// <returns>An array of indexes that are the selected items.</returns>
         public int[] SelectSubset(int supersetCount)
         {
+            // TODO: Ideally we'd return a sorted list of indexes to improve performance of the code that consumes them.
             int selectionCount = Math.Min(_selectCount, supersetCount);
             int[] idxArr = new int[selectionCount];
             DiscreteDistributionUtils.SampleUniformWithoutReplacement(supersetCount, idxArr, _rng);            

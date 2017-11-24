@@ -35,7 +35,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 }
 
                 // The child genome should have one more connection than parent.
-                Assert.AreEqual(genome.ConnectionGeneArray.Length + 1, childGenome.ConnectionGeneArray.Length);
+                Assert.AreEqual(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
                 // The child genome's new connection should not be a duplicate of any of the existing/parent connections.
                 var childConnSet = GetDirectedConnectionSet(childGenome);
@@ -43,18 +43,18 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 Assert.AreEqual(1, newConnList.Count);
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(ConnectionGeneUtils.IsSorted(childGenome.ConnectionGeneArray));
+                Assert.IsTrue(DirectedConnectionUtils.IsSorted(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
                 Assert.IsTrue(nodeIdSet.SetEquals(childNodeIdSet));
 
                 // ConnectionIndexArray should describe the genes in innovation ID sort order.
-                Assert.IsTrue(ConnectionGeneUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGeneArray));
+                Assert.IsTrue(ConnectionGenesUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGenes._idArr));
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
-                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome.ConnectionGeneArray, 0, 0);
+                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome.ConnectionGenes, 0, 0);
                 Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
 
                 // Increment for successful tests only.

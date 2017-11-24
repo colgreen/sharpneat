@@ -1,9 +1,8 @@
-﻿using SharpNeat.Neat.Genome;
-
+﻿
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 {
     /// <summary>
-    /// A strategy for mutating single connection weighs.
+    /// A connection weight mutation strategy.
     /// </summary>
     /// <typeparam name="T">Connection weight type.</typeparam>
     public interface IWeightMutationStrategy<T> where T : struct
@@ -11,7 +10,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// <summary>
         /// Invoke the strategy.
         /// </summary>
-        /// <param name="connArr">Connection gene.</param>
-        T Invoke(T weight);
+        /// <param name="weightArr">The connection weight array to apply mutations to.</param>
+        void Invoke(T[] weightArr);
     }
 }

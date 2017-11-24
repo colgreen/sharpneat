@@ -12,6 +12,6 @@ namespace SharpNeat.Network
             Debug.Assert(srcIdArr.Length == tgtIdArr.Length);
             _sourceIdArr = srcIdArr;
             _targetIdArr = tgtIdArr;
-        }        
+        }
     }
 }

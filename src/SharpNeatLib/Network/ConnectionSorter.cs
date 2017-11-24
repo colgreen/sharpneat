@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
 
 namespace SharpNeat.Network
 {
@@ -59,7 +57,6 @@ namespace SharpNeat.Network
 
         private static void IntroSortInner(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int lo, int hi, int depthLimit)
         {
-            Debug.Assert(srcIdArr != null);
             Debug.Assert(lo >= 0);
             Debug.Assert(hi < srcIdArr.Length);
 
@@ -107,7 +104,6 @@ namespace SharpNeat.Network
             Debug.Assert(lo >= 0);
             Debug.Assert(hi > lo);
             Debug.Assert(hi < srcIdArr.Length);
-            Contract.Ensures(Contract.Result<int>() >= lo && Contract.Result<int>() <= hi);
 
             // Compute median-of-three.  But also partition them, since we've done the comparison.
             int middle = lo + ((hi - lo) / 2);
@@ -138,6 +134,8 @@ namespace SharpNeat.Network
 
             // Put pivot in the right location.
             Swap(srcIdArr, tgtIdArr, weightArr, left, (hi - 1));
+
+            Debug.Assert(left >= lo && left <= hi);
             return left;
         }
 
