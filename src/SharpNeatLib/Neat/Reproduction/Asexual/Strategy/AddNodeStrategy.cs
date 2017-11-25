@@ -12,7 +12,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     // TODO: Implement!
 
 
-    public class AddNodeReproductionStrategy<T> : IAsexualReproductionStrategy<T>
+    public class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         #region Instance Fields
@@ -28,7 +28,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
-        public AddNodeReproductionStrategy(
+        public AddNodeStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,

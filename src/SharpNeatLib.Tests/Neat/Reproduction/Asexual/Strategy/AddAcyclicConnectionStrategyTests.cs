@@ -10,7 +10,7 @@ using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
 {
     [TestClass]
-    public class AddAcyclicConnectionReproductionStrategyTests
+    public class AddAcyclicConnectionStrategyTests
     {
         #region Test Methods
 
@@ -20,7 +20,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         {
             var pop = CreateNeatPopulation();
             var genome = pop.GenomeList[0];
-            var strategy = new AddAcyclicConnectionReproductionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq, pop.AddedConnectionBuffer);
+            var strategy = new AddAcyclicConnectionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq, pop.AddedConnectionBuffer);
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
@@ -8,10 +7,10 @@ using SharpNeat.Utils;
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     /// <summary>
-    /// Add acyclic connection, asexual reproduction strategy.
+    /// Add cyclic connection, asexual reproduction strategy.
     /// </summary>
     /// <typeparam name="T">Connection weight type.</typeparam>
-    public class AddAcyclicConnectionReproductionStrategy<T> : IAsexualReproductionStrategy<T>
+    public class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         #region Instance Fields
@@ -25,13 +24,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly IContinuousDistribution<T> _weightDistA;
         readonly IContinuousDistribution<T> _weightDistB;
         readonly IRandomSource _rng;
-        readonly CyclicConnectionTest<T> _cyclicTest;
 
         #endregion
 
         #region Constructor
 
-        public AddAcyclicConnectionReproductionStrategy(
+        public AddCyclicConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
@@ -44,10 +42,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _generationSeq = generationSeq;
             _addedConnectionBuffer = addedConnectionBuffer;
 
-            _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange, true);
-            _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
+            _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
+            _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
             _rng = RandomSourceFactory.Create();
-            _cyclicTest = new CyclicConnectionTest<T>();
         }
 
         #endregion
@@ -61,11 +58,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <returns>A new child genome.</returns>
         public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
         {
-            Debug.Assert(_metaNeatGenome == parent.MetaNeatGenome, "Parent genome has unexpected MetaNeatGenome.");
-
             // Attempt to find a new connection that we can add to the genome.
-            DirectedConnection directedConn;
-            if(!TryGetConnection(parent, out directedConn, out int insertIdx))
+            if(!TryGetConnection(parent, out DirectedConnection directedConn, out int insertIdx))
             {   // Failed to find a new connection.
                 return null;
             }
@@ -123,7 +117,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
             // way is more efficient.
             int[] connIdxArr = AddConnectionUtils.CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
-
+            
             // Create and return a new genome.
             return new NeatGenome<T>(
                 _metaNeatGenome,
@@ -160,55 +154,30 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         private bool TryGetConnectionInner(NeatGenome<T> parent, int[] idArr, out DirectedConnection conn, out int insertIdx)
         {
             // Select a source node at random.
-            
-            // Note. Valid source nodes are input and hidden nodes. Output nodes are not source node candidates
-            // for acyclic nets, because that can prevent future connections from targeting the output if it would
-            // create a cycle.
-            int inputCount = _metaNeatGenome.InputNodeCount;
-            int outputCount = _metaNeatGenome.OutputNodeCount;
-
-            int srcIdx = _rng.Next(idArr.Length - outputCount);
-            if(srcIdx >= inputCount) {
-                srcIdx += outputCount;
-            }
-            int srcId = idArr[srcIdx];
+            // Note. this can be any node (input, output or hidden).
+            int srcId = idArr[_rng.Next(idArr.Length)];
 
             // Select a target node at random.
-            // Note. Valid target nodes are all hidden and output nodes (cannot be an input node).
+            // Note. This cannot be an input node (so must be a hidden or output node).
+            int inputCount = _metaNeatGenome.InputNodeCount;
             int tgtId = idArr[inputCount + _rng.Next(idArr.Length - inputCount)];
-
-            // Test for simplest cyclic connectivity - node connects to itself.
-            if(srcId == tgtId)
-            {   
-                conn = default(DirectedConnection);
-                insertIdx = default(int);
-                return false;
-            }
 
             // Test if the chosen connection already exists.
             // Note. Connection genes are always sorted by sourceId then targetId, so we can use a binary search to 
             // find an existing connection in O(log(n)) time.
             conn = new DirectedConnection(srcId, tgtId);
 
-            if((insertIdx = Array.BinarySearch(parent.ConnectionGenes._connArr, conn)) >= 0)
+            if((insertIdx = Array.BinarySearch(parent.ConnectionGenes._connArr, conn)) < 0)
             {   
-                // The proposed new connection already exists.
-                conn = default(DirectedConnection);
-                insertIdx = default(int);
-                return false;
+                // The proposed new connection does not already exist, therefore we can use it.
+                // Get the position in parent.ConnectionGeneArray that the new connection should be inserted at (to maintain sort order).
+                insertIdx = ~insertIdx;
+                return true;
             }
 
-            // Test if the connection will form a cycle in the wider network.
-            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, conn))
-            {
-                conn = default(DirectedConnection);
-                insertIdx = default(int);
-                return false;
-            }
-
-            // Get the position in parent.ConnectionGeneArray that the new connection should be inserted at (to maintain sort order).
-            insertIdx = ~insertIdx;
-            return true;
+            conn = default(DirectedConnection);
+            insertIdx = default(int);
+            return false;
         }
 
         #endregion

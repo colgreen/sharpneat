@@ -4,7 +4,7 @@ using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
-    public class MutateWeightsReproductionStrategy<T> : IAsexualReproductionStrategy<T>
+    public class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
-        public MutateWeightsReproductionStrategy(
+        public MutateWeightsStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq,

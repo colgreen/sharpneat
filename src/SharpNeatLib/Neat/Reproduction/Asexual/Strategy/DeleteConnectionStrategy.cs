@@ -1,12 +1,11 @@
 ﻿using System;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
 using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
-    public class DeleteConnectionReproductionStrategy<T> : IAsexualReproductionStrategy<T>
+    public class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
@@ -16,7 +15,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
-        public DeleteConnectionReproductionStrategy(
+        public DeleteConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq)

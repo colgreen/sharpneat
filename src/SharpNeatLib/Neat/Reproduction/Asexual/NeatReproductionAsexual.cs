@@ -42,17 +42,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _rng = RandomSourceFactory.Create();
 
             // Instantiate reproduction strategies.
-            _mutateWeightsStrategy = new MutateWeightsReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq, weightMutationScheme);
-            _deleteConnectionStrategy = new DeleteConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq);
+            _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq, weightMutationScheme);
+            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
             if(metaNeatGenome.IsAcyclic) {
-                _addConnectionStrategy = new AddAcyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
+                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
             } else {
-                _addConnectionStrategy = new AddCyclicConnectionReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
+                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
             }      
             
-            _addNodeStrategy = new AddNodeReproductionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
+            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
         }
 
         #endregion
