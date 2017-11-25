@@ -50,26 +50,18 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
         {
             if(0 == parent.ConnectionGenes.Length) 
-            {   // No connections to split.
+            {   // No connections to split (nodes are added by splitting an existing connection).
                 return null;
             }
 
             // Select a connection at random.
-            int connectionToSplitIdx = _rng.Next(parent.ConnectionGenes.Length);
-            //var connGene = parent.ConnectionGeneArray[connectionToSplitIdx];
+            int splitConnIdx = _rng.Next(parent.ConnectionGenes.Length);
+            int splitConnId = parent.ConnectionGenes._idArr[splitConnIdx];
+            
 
-            //// The selected connection will be replaced with a new node and two new connections; 
-            //// get innovation IDs for these.
-            //AddedNodeInfo addedNodeInfo = GetInnovationIDs(connGene.Id);
-
-
-
-
-
-
-
-
-
+            // The selected connection will be replaced with a new node and two new connections; 
+            // get innovation IDs for these.
+            AddedNodeInfo addedNodeInfo = GetInnovationIDs(splitConnId, parent);
 
 
 
@@ -80,26 +72,45 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #endregion
 
-
-        
-
         #region Private Methods
 
-        private AddedNodeInfo GetInnovationIDs(int connectionToSplitId)
+        private AddedNodeInfo GetInnovationIDs(int splitConnId, NeatGenome<T> parent)
         {
             // Test if the selected connection has a previous split recorded in the innovation ID buffer.
-            if(_addedNodeBuffer.TryLookup(connectionToSplitId, out AddedNodeInfo addedNodeInfo))
+            AddedNodeInfo addedNodeInfo;
+            if(_addedNodeBuffer.TryLookup(splitConnId, out addedNodeInfo))
             {
                 // Found existing matching structure.
                 // However we can only re-use the IDs from that structure if they aren't already present in the current genome;
-                // this is possible because genes can be acquired from other genomes via sexual reproduction.
+                // this can happen e.g. if a previous split between the two chosen nodes has been had one of its connections deleted
+                // and another new connection was made, and we are now splitting that connection. Sexual reproduction could also 
+                // result in the same or similar situation.
+                // 
                 // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
                 // structures throughout the population, which is the reason for ID re-use.
 
+                // FIXME: AddedNodeId is a node ID being tested against connection IDs.
 
+                if(    parent.GetConnectionIndexById(addedNodeInfo.AddedNodeId) < 0
+                    && parent.GetConnectionIndexById(addedNodeInfo.AddedInputConnectionId) < 0
+                    && parent.GetConnectionIndexById(addedNodeInfo.AddedOutputConnectionId) < 0)
+                {
+                    // None of the ID are present on the parent genome, therefore we can re-use them.
+                    return addedNodeInfo;
+                }
+
+                // We can't re-use the IDs from the buffer, so allocate new IDs.
+                // Note. these aren't added to the buffer; instead we leave the existing buffer entry for splitConnId.
+                return new AddedNodeInfo(_innovationIdSeq);
             }
-            return new AddedNodeInfo();
 
+            // No buffer entry found, therefore we allocate new IDs.
+            addedNodeInfo = new AddedNodeInfo(_innovationIdSeq);
+
+            // Register the new IDs with the buffer.
+            _addedNodeBuffer.Register(splitConnId, addedNodeInfo);
+
+            return addedNodeInfo;
         }
 
         #endregion

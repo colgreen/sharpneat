@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Redzen;
 using Redzen.Sorting;
 using SharpNeat.Network;
 

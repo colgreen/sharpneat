@@ -103,5 +103,21 @@ namespace SharpNeat.Neat.Genome
         public double Fitness { get => _fitness; set => _fitness = value; }
 
         #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Get the index of a connection gene with the given innovation ID.
+        /// </summary>
+        /// <param name="id">The innovation ID to search for.</param>
+        /// <returns>An array index if the item is found; otherwise, a negative number that is the bitwise complement
+        /// of the index of the next element that is larger than id or, if there is no larger element, the bitwise
+        /// complement of ConnectionGenes.Length.</returns>
+        public int GetConnectionIndexById(int id)
+        {
+            return ConnectionGenesUtils.BinarySearchId(_connIdxArr, _connGenes._idArr, id);
+        }
+
+        #endregion
     }
 }
