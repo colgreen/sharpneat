@@ -62,7 +62,7 @@
     <Compile Include="Neat\Genome\NestGenomeTestUtils.cs" />
     <Compile Include="Neat\NeatPopulationTests.cs" />
     <Compile Include="Neat\AddedNodeBufferTests.cs" />
-    <Compile Include="Neat\Network\ConnectionGeneCompareUtils.cs" />
+    <Compile Include="Neat\Network\ConnectionCompareUtils.cs" />
     <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactoryTests.cs" />
     <Compile Include="Neat\Network\NeatDirectedGraphFactoryTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionReproductionStrategyTests.cs" />

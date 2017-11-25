@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
-using static SharpNeatLib.Tests.Neat.Network.ConnectionGeneCompareUtils;
+using SharpNeat.Network;
+using static SharpNeatLib.Tests.Neat.Network.ConnectionCompareUtils;
 
 namespace SharpNeatLib.Tests.Neat.Network
 {
@@ -67,15 +68,16 @@ namespace SharpNeatLib.Tests.Neat.Network
             var digraph = NeatDirectedGraphFactory<double>.Create(connGenes, 0, 10);
 
             // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
-            var connGenesExpected = new ConnectionGenes<double>(4);
-            connGenesExpected[0] = (10, 13, 0.0, 0);
-            connGenesExpected[1] = (11, 13, 1.0, 1);
-            connGenesExpected[2] = (12, 13, 2.0, 2);
-            connGenesExpected[3] = (12, 14, 3.0, 3);
+            var connArrExpected = new DirectedConnection[4];
+            var weightArrExpected = new double[4];
+            connArrExpected[0] = new DirectedConnection(10, 13); weightArrExpected[0] = 0.0;
+            connArrExpected[1] = new DirectedConnection(11, 13); weightArrExpected[1] = 1.0;
+            connArrExpected[2] = new DirectedConnection(12, 13); weightArrExpected[2] = 2.0;
+            connArrExpected[3] = new DirectedConnection(12, 14); weightArrExpected[3] = 3.0;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenesExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
-
+            CompareConnectionLists(connArrExpected, weightArrExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
+            
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);
         }

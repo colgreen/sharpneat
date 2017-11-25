@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
+using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using static SharpNeatLib.Tests.Neat.Network.ConnectionGeneCompareUtils;
+using static SharpNeatLib.Tests.Neat.Network.ConnectionCompareUtils;
 
 namespace SharpNeatLib.Tests.Neat.Network
 {
@@ -50,16 +51,16 @@ namespace SharpNeatLib.Tests.Neat.Network
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.
             // And connections should be ordered by source node ID.
-            // TODO: Use DirectedConnection[] for expected results instead of ConnectionGenes<>.
-            var connGenesExpected = new ConnectionGenes<double>(5);
-            connGenesExpected[0] = (0, 2, 0.0, 0);
-            connGenesExpected[1] = (1, 4, 3.0, 1);
-            connGenesExpected[2] = (2, 3, 1.0, 2);
-            connGenesExpected[3] = (3, 4, 2.0, 3);
-            connGenesExpected[4] = (4, 5, 4.0, 4);
+            var connArrExpected = new DirectedConnection[5];
+            var weightArrExpected = new double[5];
+            connArrExpected[0] = new DirectedConnection(0, 2); weightArrExpected[0] = 0.0;
+            connArrExpected[1] = new DirectedConnection(1, 4); weightArrExpected[1] = 3.0;
+            connArrExpected[2] = new DirectedConnection(2, 3); weightArrExpected[2] = 1.0;
+            connArrExpected[3] = new DirectedConnection(3, 4); weightArrExpected[3] = 2.0;
+            connArrExpected[4] = new DirectedConnection(4, 5); weightArrExpected[4] = 4.0;
 
             // Compare actual and expected connections.
-            CompareConnectionLists(connGenesExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connArrExpected, weightArrExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Test layer info.
             LayerInfo[] layerArrExpected = new LayerInfo[5];
