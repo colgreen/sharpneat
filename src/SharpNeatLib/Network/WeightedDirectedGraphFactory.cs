@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SharpNeat.Network
 {
@@ -23,10 +24,10 @@ namespace SharpNeat.Network
 
             // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;
-            var hiddenNodeIdSet = GetHiddenNodeIdSet(connectionList, inputOutputCount);
+            var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            Func<int,int> nodeIdMapFn = DirectedGraphFactoryUtils.CompileNodeIdMap(hiddenNodeIdSet, inputOutputCount);
+            Func<int,int> nodeIdMapFn = DirectedGraphFactoryUtils.CompileNodeIdMap(hiddenNodeIdArr, inputOutputCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
@@ -38,7 +39,7 @@ namespace SharpNeat.Network
                 out T[] weightArr);
 
             // Construct and return a new WeightedDirectedGraph.
-            int totalNodeCount =  inputOutputCount + hiddenNodeIdSet.Count;
+            int totalNodeCount =  inputOutputCount + hiddenNodeIdArr.Length;
             return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, weightArr);
         }
 
@@ -46,10 +47,9 @@ namespace SharpNeat.Network
 
         #region Private Static Methods 
 
-        private static HashSet<int> GetHiddenNodeIdSet(IList<WeightedDirectedConnection<T>> connList, int inputOutputCount)
+        private static int[] GetHiddenNodeIdArray(IList<WeightedDirectedConnection<T>> connList, int inputOutputCount)
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
-            // TODO: Re-use this hashset to avoid memory alloc and GC overhead.
             var hiddenNodeIdSet = new HashSet<int>();
             
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
@@ -62,7 +62,10 @@ namespace SharpNeat.Network
                     hiddenNodeIdSet.Add(connList[i].TargetId); 
                 }
             }
-            return hiddenNodeIdSet;
+
+            int[] hiddenNodeIdArr = hiddenNodeIdSet.ToArray();
+            Array.Sort(hiddenNodeIdArr);
+            return hiddenNodeIdArr;
         }
 
         /// <summary>

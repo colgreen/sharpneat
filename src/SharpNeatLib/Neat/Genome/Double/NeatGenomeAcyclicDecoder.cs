@@ -36,10 +36,7 @@ namespace SharpNeat.Neat.Genome.Double
 
             // Create a WeightedDirectedGraph representation of the neural net.
             MetaNeatGenome<double> meta = neatGenome.MetaNeatGenome;
-            WeightedAcyclicDirectedGraph<double> digraph = NeatAcyclicDirectedGraphFactory<double>.Create(
-                                                        neatGenome.ConnectionGenes,
-                                                        meta.InputNodeCount,
-                                                        meta.OutputNodeCount);
+            WeightedAcyclicDirectedGraph<double> digraph = NeatAcyclicDirectedGraphFactory<double>.Create(neatGenome);
 
             // Create a working neural net.
             var neuralNet = new AcyclicNeuralNet(digraph, meta.ActivationFn.Fn, _boundedOutput);

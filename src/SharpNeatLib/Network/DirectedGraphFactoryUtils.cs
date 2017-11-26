@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SharpNeat.Network
 {
@@ -10,14 +9,8 @@ namespace SharpNeat.Network
         /// Determine the set of node IDs, order them (thus assigning each node ID an index),
         /// and build a dictionary of indexes keyed by ID.
         /// </summary>
-        public static Func<int,int> CompileNodeIdMap(
-            HashSet<int> hiddenNodeIdSet,
-            int inputOutputCount)
+        public static Func<int,int> CompileNodeIdMap(int[] hiddenNodeIdArr, int inputOutputCount)
         {
-            // Extract hidden node IDs into an array, sorted by ID.
-            int[] hiddenNodeIdArr = hiddenNodeIdSet.ToArray();
-            Array.Sort(hiddenNodeIdArr);
-
             // Build dictionary of hidden node new ID/index keyed by old ID.
             // Note. the new IDs start immediately after the last input/output node ID (defined by inputOutputCount).
             var hiddenNodeIdxById = new Dictionary<int,int>(hiddenNodeIdArr.Length);

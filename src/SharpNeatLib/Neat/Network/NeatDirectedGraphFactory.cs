@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
@@ -22,53 +21,37 @@ namespace SharpNeat.Neat.Network
         /// connected to or not; this is primarily to allow for the allocation of NeatGenome input and output nodes which
         /// are defined with fixed IDs but aren't necessarily connected to in any given genome.
         /// </summary>
-        public static WeightedDirectedGraph<T> Create(ConnectionGenes<T> connGenes, int inputCount, int outputCount)
+        public static WeightedDirectedGraph<T> Create(NeatGenome<T> genome)
         {
             // Assert that the connections are sorted.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
 
             // Determine the full set of hidden node IDs.
+            int inputCount = genome.MetaNeatGenome.InputNodeCount;
+            int outputCount = genome.MetaNeatGenome.OutputNodeCount;
             int inputOutputCount = inputCount + outputCount;
-            var hiddenNodeIdSet = GetHiddenNodeIdSet(connGenes._connArr, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            Func<int,int> nodeIdMapFn = DirectedGraphFactoryUtils.CompileNodeIdMap(hiddenNodeIdSet, inputOutputCount);
+            Func<int,int> nodeIdMapFn = DirectedGraphFactoryUtils.CompileNodeIdMap(genome.HiddenNodeIdArray, inputOutputCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            CopyAndMapIds(connGenes._connArr, nodeIdMapFn,
+            CopyAndMapIds(
+                genome.ConnectionGenes._connArr,
+                nodeIdMapFn,
                 out ConnectionIdArrays connIdArrays);
 
             // Construct and return a new WeightedDirectedGraph.
-            int totalNodeCount =  inputOutputCount + hiddenNodeIdSet.Count;
-            return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, connGenes._weightArr);
+            int totalNodeCount =  inputOutputCount + genome.HiddenNodeIdArray.Length;
+            return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, genome.ConnectionGenes._weightArr);
         }
 
         #endregion
 
         #region Private Static Methods 
-
-        private static HashSet<int> GetHiddenNodeIdSet(DirectedConnection[] connArr, int inputOutputCount)
-        {
-            // Build a hash set of all hidden nodes IDs referred to by the connections.
-            // TODO: Re-use this hashset to avoid memory alloc and GC overhead.
-            var hiddenNodeIdSet = new HashSet<int>();
-            
-            // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
-            for(int i=0; i<connArr.Length; i++)
-            {
-                if(connArr[i].SourceId >= inputOutputCount) { 
-                    hiddenNodeIdSet.Add(connArr[i].SourceId); 
-                }
-                if(connArr[i].TargetId >= inputOutputCount) { 
-                    hiddenNodeIdSet.Add(connArr[i].TargetId); 
-                }
-            }
-            return hiddenNodeIdSet;
-        }
 
         private static void CopyAndMapIds(
             DirectedConnection[] connArr,

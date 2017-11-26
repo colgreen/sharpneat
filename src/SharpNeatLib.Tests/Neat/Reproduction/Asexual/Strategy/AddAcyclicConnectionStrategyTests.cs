@@ -54,7 +54,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
-                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome.ConnectionGenes, 0, 0);
+                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome);
                 Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
 
                 // Increment for successful tests only.

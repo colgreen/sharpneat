@@ -13,13 +13,16 @@ namespace SharpNeat.Neat.Network
     {
         #region Public Static Methods
 
-        public static WeightedAcyclicDirectedGraph<T> Create(ConnectionGenes<T> connGenes, int inputCount, int outputCount)
+        public static WeightedAcyclicDirectedGraph<T> Create(NeatGenome<T> genome)
         {
             // Convert the set of connections to a standardised graph representation.
-            WeightedDirectedGraph<T> digraph = NeatDirectedGraphFactory<T>.Create(connGenes, inputCount, outputCount);
+            WeightedDirectedGraph<T> digraph = NeatDirectedGraphFactory<T>.Create(genome);
 
             // Invoke factory logic specific to acyclic graphs.
-            return WeightedAcyclicDirectedGraphFactory<T>.Create(digraph, inputCount, outputCount);
+            return WeightedAcyclicDirectedGraphFactory<T>.Create(
+                digraph,
+                genome.MetaNeatGenome.InputNodeCount,
+                genome.MetaNeatGenome.OutputNodeCount);
         }
 
         #endregion
