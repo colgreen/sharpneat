@@ -9,9 +9,6 @@ using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
-    // TODO: Implement!
-
-
     public class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -88,12 +85,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 // 
                 // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
                 // structures throughout the population, which is the reason for ID re-use.
-
-                // FIXME: AddedNodeId is a node ID being tested against connection IDs.
-
-                if(    parent.GetConnectionIndexById(addedNodeInfo.AddedNodeId) < 0
-                    && parent.GetConnectionIndexById(addedNodeInfo.AddedInputConnectionId) < 0
-                    && parent.GetConnectionIndexById(addedNodeInfo.AddedOutputConnectionId) < 0)
+                if(    parent.ContainsHiddenNode(addedNodeInfo.AddedNodeId)
+                    && parent.ContainsConnection(addedNodeInfo.AddedInputConnectionId)
+                    && parent.ContainsConnection(addedNodeInfo.AddedOutputConnectionId))
                 {
                     // None of the ID are present on the parent genome, therefore we can re-use them.
                     return addedNodeInfo;

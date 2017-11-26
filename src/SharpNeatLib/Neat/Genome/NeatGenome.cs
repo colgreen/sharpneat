@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using SharpNeat.Core;
 using SharpNeat.Network;
 
@@ -124,15 +125,19 @@ namespace SharpNeat.Neat.Genome
         #region Public Methods
 
         /// <summary>
-        /// Get the index of a connection gene with the given innovation ID.
+        /// Tests if the genome contains a connection with the given innovation ID.
         /// </summary>
-        /// <param name="id">The innovation ID to search for.</param>
-        /// <returns>An array index if the item is found; otherwise, a negative number that is the bitwise complement
-        /// of the index of the next element that is larger than id or, if there is no larger element, the bitwise
-        /// complement of ConnectionGenes.Length.</returns>
-        public int GetConnectionIndexById(int id)
+        public bool ContainsConnection(int id)
         {
-            return ConnectionGenesUtils.BinarySearchId(_connIdxArr, _connGenes._idArr, id);
+            return ConnectionGenesUtils.BinarySearchId(_connIdxArr, _connGenes._idArr, id) >= 0;
+        }
+
+        /// <summary>
+        /// Tests if the genome contains a connection that refers to the given hidden node ID.
+        /// </summary>
+        public bool ContainsHiddenNode(int id)
+        {
+            return Array.BinarySearch(_hiddenNodeIdArr, id) >= 0;
         }
 
         #endregion
