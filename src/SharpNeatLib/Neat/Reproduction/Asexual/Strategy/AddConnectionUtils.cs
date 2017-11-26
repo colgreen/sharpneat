@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
@@ -51,26 +48,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return connIdxArr;
         }
 
-        public static int[] CreateNodeIdArray(DirectedConnection[] connArr, int inputOutputCount)
+        public static int GetNodeIdFromIndex<T>(NeatGenome<T> parent, int idx)
+            where T : struct
         {
-            // Determine the set of node IDs in the parent genome.
-            var idSet = new HashSet<int>();
-
-            // Include invariant nodes (input and output nodes).
-            // Note. These nodes have fixed predetermined IDs.
-            for(int i=0; i < inputOutputCount; i++) {
-                idSet.Add(i);
+            // For input/output nodes their index is their ID.
+            if(idx < parent.MetaNeatGenome.InputOutputNodeCount) {
+                return idx;
             }
 
-            // Ensure all other (hidden) nodes are included.
-            for(int i=0; i<connArr.Length; i++) 
-            {
-                idSet.Add(connArr[i].SourceId);
-                idSet.Add(connArr[i].TargetId);
-            }
-            int[] idArr = idSet.ToArray();
-            Array.Sort(idArr);
-            return idArr;
+            // All other nodes are hidden nodes; use a pre-built array of all hidden node IDs.
+            return parent.HiddenNodeIdArray[idx - parent.MetaNeatGenome.InputOutputNodeCount];
         }
     }
 }

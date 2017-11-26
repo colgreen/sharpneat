@@ -4,6 +4,7 @@ using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.Utils;
+using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
@@ -122,7 +123,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
             // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
             // way is more efficient.
-            int[] connIdxArr = AddConnectionUtils.CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
+            int[] connIdxArr = CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
 
             // Create and return a new genome.
             // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
@@ -141,15 +142,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         private bool TryGetConnection(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
         {
-            // Get a sorted array of all node IDs in the parent genome (includes input, output and hidden nodes).
-            int[] idArr = AddConnectionUtils.CreateNodeIdArray(
-                parent.ConnectionGenes._connArr,
-                _metaNeatGenome.InputNodeCount + _metaNeatGenome.OutputNodeCount);
-
             // Make several attempts at find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
             {
-                if(TryGetConnectionInner(parent, idArr, out conn, out insertIdx)) {
+                if(TryGetConnectionInner(parent, out conn, out insertIdx)) {
                     return true;
                 }
             }
@@ -159,25 +155,30 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return false;
         }
 
-        private bool TryGetConnectionInner(NeatGenome<T> parent, int[] idArr, out DirectedConnection conn, out int insertIdx)
+        private bool TryGetConnectionInner(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
         {
+            int inputCount = _metaNeatGenome.InputNodeCount;
+            int outputCount = _metaNeatGenome.OutputNodeCount;
+            int hiddenCount = parent.HiddenNodeIdArray.Length;
+
             // Select a source node at random.
             
             // Note. Valid source nodes are input and hidden nodes. Output nodes are not source node candidates
             // for acyclic nets, because that can prevent future connections from targeting the output if it would
             // create a cycle.
-            int inputCount = _metaNeatGenome.InputNodeCount;
-            int outputCount = _metaNeatGenome.OutputNodeCount;
+            int inputHiddenCount = inputCount + hiddenCount;
+            int srcIdx = _rng.Next(inputHiddenCount);
 
-            int srcIdx = _rng.Next(idArr.Length - outputCount);
             if(srcIdx >= inputCount) {
                 srcIdx += outputCount;
             }
-            int srcId = idArr[srcIdx];
+            int srcId = GetNodeIdFromIndex(parent, srcIdx);
+
 
             // Select a target node at random.
             // Note. Valid target nodes are all hidden and output nodes (cannot be an input node).
-            int tgtId = idArr[inputCount + _rng.Next(idArr.Length - inputCount)];
+            int outputHiddenCount = outputCount + hiddenCount;
+            int tgtId = GetNodeIdFromIndex(parent, inputCount + _rng.Next(outputHiddenCount));;
 
             // Test for simplest cyclic connectivity - node connects to itself.
             if(srcId == tgtId)
