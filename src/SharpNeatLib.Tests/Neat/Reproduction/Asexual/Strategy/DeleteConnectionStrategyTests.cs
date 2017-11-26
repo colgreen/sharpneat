@@ -37,6 +37,18 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
 
                 // ConnectionIndexArray should describe the genes in innovation ID sort order.
                 Assert.IsTrue(ConnectionGenesUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGenes._idArr));
+
+                // Various innovation ID tests, e.g. no re-use between node IDs and connections IDs.
+                Assert.IsTrue(ConnectionGenesUtils.ValidateInnovationIds(
+                    childGenome.ConnectionGenes,
+                    childGenome.MetaNeatGenome.InputNodeCount,
+                    childGenome.MetaNeatGenome.OutputNodeCount));
+
+                // Test that the array of hidden node IDs is correct, i.e. corresponds with the hidden node IDs described by the connections.
+                Assert.IsTrue(ConnectionGenesUtils.ValidateHiddenNodeIds(
+                    childGenome.HiddenNodeIdArray,
+                    childGenome.ConnectionGenes._connArr,
+                    childGenome.MetaNeatGenome.InputOutputNodeCount));
             }
         }
 

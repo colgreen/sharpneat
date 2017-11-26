@@ -47,14 +47,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 parent.ConnectionGenes._idArr);
 
             // Create and return a new genome.
-            // Note. The parent's ConnectionIndexArray can be re-used here because the new genome has the same set of connections 
-            // (same neural net structure).
+            // Note. The parent's ConnectionIndexArray and HiddenNodeIdArray can be re-used here because the new genome
+            // has the same set of connections (same neural net structure).
             return new NeatGenome<T>(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                parent.ConnectionIndexArray);
+                parent.ConnectionIndexArray,
+                parent.HiddenNodeIdArray);
         }
 
         #endregion

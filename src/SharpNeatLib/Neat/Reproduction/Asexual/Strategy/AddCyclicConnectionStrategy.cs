@@ -117,14 +117,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
             // way is more efficient.
             int[] connIdxArr = AddConnectionUtils.CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
-            
+
             // Create and return a new genome.
+            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
             return new NeatGenome<T>(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                connIdxArr);
+                connIdxArr,
+                parent.HiddenNodeIdArray);
         }
 
         #endregion
@@ -133,6 +135,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         private bool TryGetConnection(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
         {
+            // TODO / ENHANCEMENT: We can avoid calling CreateNodeIdArray(); instead we can use parent.HiddenNodeIdArray.
+
             // Get a sorted array of all node IDs in the parent genome (includes input, output and hidden nodes).
             int[] idArr = AddConnectionUtils.CreateNodeIdArray(
                 parent.ConnectionGenes._connArr,

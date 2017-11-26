@@ -36,6 +36,17 @@ namespace SharpNeat.Neat.Genome
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// The total number of input and output nodes.
+        /// </summary>
+        public int InputOutputNodeCount {
+            get { return this.InputNodeCount + this.OutputNodeCount; }
+        }
+
+        #endregion
+
         #region Constructor
 
         public MetaNeatGenome(int inputNodeCount, int outputNodeCount, bool isAcyclic, IActivationFunction<T> activationFn)

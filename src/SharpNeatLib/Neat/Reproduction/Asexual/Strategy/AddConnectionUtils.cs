@@ -51,7 +51,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return connIdxArr;
         }
 
-
         public static int[] CreateNodeIdArray(DirectedConnection[] connArr, int inputOutputCount)
         {
             // Determine the set of node IDs in the parent genome.

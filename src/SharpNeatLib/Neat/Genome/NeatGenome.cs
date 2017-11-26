@@ -27,6 +27,11 @@ namespace SharpNeat.Neat.Genome
         // This allows us to efficiently find connection genes by innovation ID using a binary search.
         readonly int[] _connIdxArr;
 
+        // An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
+        // Input and output node IDs are not included because these are allocated fixed IDs starting from zero
+        // and are therefore always known.
+        readonly int[] _hiddenNodeIdArr;
+
         double _fitness;
 
         #endregion
@@ -39,7 +44,9 @@ namespace SharpNeat.Neat.Genome
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes)
-            : this(metaNeatGenome, id, birthGeneration, connGenes, ConnectionGenesUtils.CreateConnectionIndexArray(connGenes))
+            : this(metaNeatGenome, id, birthGeneration, connGenes,
+                  ConnectionGenesUtils.CreateConnectionIndexArray(connGenes),
+                  ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount))
         {}
 
         /// <summary>
@@ -48,18 +55,21 @@ namespace SharpNeat.Neat.Genome
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes,
-                          int[] connIdxArr)
+                          int[] connIdxArr,
+                          int[] hiddenNodeIdArr)
         {
             Debug.Assert(connGenes.Length == connIdxArr.Length);
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.IsSorted(connIdxArr, connGenes._idArr));
             Debug.Assert(ConnectionGenesUtils.ValidateInnovationIds(connGenes, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount));
+            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
 
             _metaNeatGenome = metaNeatGenome;
             _id = id;
             _birthGeneration = birthGeneration;
             _connGenes = connGenes;
             _connIdxArr = connIdxArr;
+            _hiddenNodeIdArr = hiddenNodeIdArr;
         }
 
         #endregion
@@ -85,6 +95,13 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public int[] ConnectionIndexArray => _connIdxArr;
         
+        /// <summary>
+        /// An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
+        /// Input and output node IDs are not included because these are allocated fixed IDs starting from zero
+        /// and are therefore always known.
+        /// </summary>
+        public int[] HiddenNodeIdArray => _hiddenNodeIdArr;
+
         #endregion
 
         #region IGenome

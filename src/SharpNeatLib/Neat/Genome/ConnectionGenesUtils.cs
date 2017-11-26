@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Redzen;
+using Redzen.Sorting;
 using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
@@ -55,7 +56,6 @@ namespace SharpNeat.Neat.Genome
         {
             var connArr = connGenes._connArr;
             var idArr = connGenes._idArr;
-
 
             int[] connIdxArr = new int[connArr.Length];
             for(int i=0; i < connArr.Length; i++) {
@@ -123,6 +123,62 @@ namespace SharpNeat.Neat.Genome
             }
 
             // All tests passed OK.
+            return true;
+        }
+
+        /// <summary>
+        /// Create a sorted array of hidden node IDs.
+        /// </summary>
+        public static int[] CreateHiddenNodeIdArray(DirectedConnection[] connArr, int inputOutputCount)
+        {
+            var idSet = new HashSet<int>();
+            foreach(var conn in connArr)
+            {
+                // Skip input and output node IDs (these start from zero and go up to inputOutputCount-1).
+                if(conn.SourceId >= inputOutputCount) {
+                    idSet.Add(conn.SourceId);
+                }
+                if(conn.TargetId >= inputOutputCount) {
+                    idSet.Add(conn.TargetId);
+                }
+            }
+
+            int[] idArr = idSet.ToArray();
+            Array.Sort(idArr);
+            return idArr;
+        }
+
+        public static bool ValidateHiddenNodeIds(int[] hiddenNodeIdArr, DirectedConnection[] connArr, int inputOutputCount)
+        {
+            // Test that the IDs are sorted (required to allow for efficient searching of IDs using a binary search).
+            if(!SortUtils.IsSorted(hiddenNodeIdArr)) {
+                return false;
+            }
+
+            // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
+            int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount);
+            if(!AreEqual(idArr, hiddenNodeIdArr)) { 
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static bool AreEqual(int[] x, int[] y)
+        {
+            if(x.Length != y.Length) {
+                return false;
+            }
+
+            for(int i=0; i < x.Length; i++)
+            {
+                if(x[i] != y[i]) {
+                    return false;
+                }
+            }
             return true;
         }
 

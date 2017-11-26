@@ -125,12 +125,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int[] connIdxArr = AddConnectionUtils.CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
 
             // Create and return a new genome.
+            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
             return new NeatGenome<T>(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                connIdxArr);
+                connIdxArr,
+                parent.HiddenNodeIdArray);
         }
 
         #endregion
