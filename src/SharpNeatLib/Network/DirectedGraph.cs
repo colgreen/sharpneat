@@ -129,7 +129,7 @@ namespace SharpNeat.Network
         /// </summary>
         private void CompileSourceNodeConnectionIndexes()
         {
-            // Alloc an array of indexes; one index per node, and init with -1 (indicates that a node has no exit connections).
+            // Alloc an array of indexes; one index per node, and init with -1 (indicates that a node has no connections exiting from it).
             // Note. _totalNodeCount may be higher than the number of unique nodes described by the connections, this is to handle
             // input and output nodes in NEAT which are allocated fixed node indexes, but may not have any connections.
             // As such this loop is needed, i.e. don't skip this loop just because _connArr.Length is zero; there may still be a
