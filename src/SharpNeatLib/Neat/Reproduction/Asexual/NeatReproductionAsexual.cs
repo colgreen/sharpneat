@@ -52,7 +52,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
             }      
             
-            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
+            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer, addedConnectionBuffer);
         }
 
         #endregion

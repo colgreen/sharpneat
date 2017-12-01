@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
-        readonly AddedConnectionBuffer _addedConnectionBuffer;
+        readonly AddedConnectionBuffer _addedConnBuffer;
 
         readonly IContinuousDistribution<T> _weightDistA;
         readonly IContinuousDistribution<T> _weightDistB;
@@ -41,7 +41,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _genomeIdSeq = genomeIdSeq;
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
-            _addedConnectionBuffer = addedConnectionBuffer;
+            _addedConnBuffer = addedConnectionBuffer;
 
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
@@ -67,12 +67,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Determine the new gene's innovation ID.
             bool highInnovationId = false;
-            if(!_addedConnectionBuffer.TryLookup(directedConn, out int connectionId))
+            if(!_addedConnBuffer.TryLookup(directedConn, out int connectionId))
             {   
                 // No matching connection found in the innovation ID buffer.
                 // Get a new innovation ID and register the new connection with the innovation buffer.
                 connectionId = _innovationIdSeq.Next();
-                _addedConnectionBuffer.Register(directedConn, connectionId);
+                _addedConnBuffer.Register(directedConn, connectionId);
                 highInnovationId = true;
             }
 

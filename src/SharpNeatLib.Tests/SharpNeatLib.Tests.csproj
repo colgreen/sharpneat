@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Neat\AddedConnectionBufferTests.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategyTests.cs" />
     <Compile Include="Network\DirectedConnectionUtilsTests.cs" />
     <Compile Include="Neat\Genome\NestGenomeTestUtils.cs" />
     <Compile Include="Neat\NeatPopulationTests.cs" />

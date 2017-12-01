@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Genome
         }
 
         /// <summary>
-        /// Search for the index of a connection gene with the given innovation ID.
+        /// Search for the index in connIdxArr that corresponds to the given connection innovation ID.
         /// </summary>
         /// <param name="connIdxArr">An array of indexes into the connection genes, sorted by connection gene innovation ID.</param>
         /// <param name="idArr">The connection gene ID array.</param>
