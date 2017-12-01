@@ -12,22 +12,23 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// are cleared and re-used for each call to IsConnectionCyclic(). This avoids memory re-allocation and garbage
     /// collection overhead, but the side effect is that IsConnectionCyclic() is not thread safe. However, A thread 
     /// safe static method IsCyclicStatic() is provided for convenience, but this will have the additional memory
-    /// and GC overhead associated with each call to it.
+    /// alloc and GC overhead associated with each call to it.
     /// 
     /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene 
     /// array data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal 
     /// algorithm using function recursion. However this is essentially a depth first algorithm but with its own stack 
     /// instead of using the call stack, and each stack frame is just an index into the connection array.
     /// 
-    /// The idea is that an entry on the stack represent both a node that is being traversed (given by the connection's
-    /// source node) and an iterator over that node's target nodes (given by the connection index, which works because 
-    /// connections are sorted by sourceId).
+    /// The idea is that an entry on the stack represents both a node that is being traversed (given by the current 
+    /// connection's source node) and an iterator over that node's target nodes (given by the connection index, which 
+    /// works because connections are sorted by sourceId).
     /// 
     /// The main optimizations then are:
-    /// 1) No method call overhead from recursive method calls.
-    /// 2) Each stack frame is a single int32, which keeps the max size of the stack for any given traversal at a minimum.
-    /// 3) The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
-    /// call to IsConnectionCyclic(), therefore avoiding memory allocation and garbage collection overhead.
+    /// 
+    ///    1) No method call overhead from recursive method calls.
+    ///    2) Each stack frame is a single int32, which keeps the max size of the stack for any given traversal at a minimum.
+    ///    3) The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
+    ///       call to IsConnectionCyclic(), therefore avoiding memory allocation and garbage collection overhead.
     /// 
     /// Using our own stack also avoids any potential for a stack overflow on very deep graphs, which could occur if using 
     /// method call recursion.
