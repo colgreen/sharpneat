@@ -62,13 +62,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
         public bool IsConnectionCyclic(DirectedConnection[] connArr, DirectedConnection newConn)
         {
-            // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
-            // re-use on the next call.
-            try {
+            try 
+            {
                 return IsConnectionCyclicInner(connArr, newConn);
             }
             finally 
-            {
+            {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
+                // re-use on the next call.
                 _traversalStack.Clear();
                 _visitedNodes.Clear();
             }
@@ -103,7 +103,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 return false;
             }
 
-            // Push connIdx onto the stack.
+            // Push connStartIdx onto the stack.
             _traversalStack.Push(connStartIdx);
 
             // Add the current node to the set of visited nodes.
