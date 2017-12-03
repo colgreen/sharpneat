@@ -82,7 +82,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
             var newWeightArr = new T[] { 
                 parent.ConnectionGenes._weightArr[splitConnIdx],
-                (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightRange, typeof(T), CultureInfo.InvariantCulture)
+                (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightRange, typeof(T))
             };
 
             // IDs for the new connections.
@@ -143,7 +143,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Record the insertion indexes into the child connection.
             var childInsertionArr = new (int connIdx, int id)[2];
             int childInsertionIdx = 0;
-            
 
             // Loop over stopIdxArr.
             int parentIdx = 0;
@@ -154,7 +153,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 int stopIdx = stopIdxArr[i].Item1;
                 int newConIdx = stopIdxArr[i].Item2;
 
-                // Copy all parent genomes up to the stop index.
+                // Copy all parent genes up to the stop index.
                 int copyLen = stopIdx - parentIdx;
                 if(copyLen > 0)
                 {
@@ -196,10 +195,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Note. We can construct a NeatGenome without passing the pre-built arrays connIdxArr and hiddenNodeIdArr;
             // however this way is more efficient. The downside is that the logic to pre-build these arrays is highly complex
-            // and therefore difficult to understand, modify, and is thus a possible source of defects. 
+            // and therefore difficult to understand, modify, and is thus a possible source of defects if modifications are attempted.
 
             // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
-            var connIdxArr = CreateConnectionIndexArray(parent, splitConnId, childInsertionArr, newInnovationIdsFlag);
+            var connIdxArr = CreateConnectionIndexArray(parent, splitConnId, splitConnIdx, childInsertionArr, insertIdx1, insertIdx2, newInnovationIdsFlag);
 
             // Create an array of hidden node IDs.
             var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, addedNodeInfo.AddedNodeId, newInnovationIdsFlag);
@@ -209,7 +208,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
-                connGenes);
+                connGenes,
+                connIdxArr,
+                hiddenNodeIdArr,
+                null);
         }
 
         #endregion
@@ -298,7 +300,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         private static int[] CreateConnectionIndexArray(
             NeatGenome<T> parent,
             int removedConnId,
+            int removedConnIdx,
             (int connIdx, int id)[] childInsertionArr,
+            int parentInsertIdx1,
+            int parentInsertIdx2,
             bool newInnovationIdsFlag)
         {
             // Ensure childInsertionArr is sorted by ID.
@@ -355,10 +360,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 int stopIdx = stopIdxArr[i].Item1;
                 int newEntryIdx = stopIdxArr[i].Item2;
 
-                // Copy all parent genomes up to the stop index.
+                // Copy all parent elements up to the stop index.
                 int copyLen = stopIdx - parentIdx;
                 if(copyLen > 0) {
-                    Array.Copy(parentConnIdxArr, parentIdx, connIdxArr, childIdx, copyLen);
+                    Copy(parentConnIdxArr, parentIdx, connIdxArr, childIdx, copyLen, removedConnIdx, parentInsertIdx1, parentInsertIdx2);
                 }
 
                 // Update parentIdx, childIdx.
@@ -380,10 +385,25 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Copy any remaining items.
             int len = parentConnIdxArr.Length - parentIdx;
             if (len > 0) {
-                Array.Copy(parentConnIdxArr, parentIdx, connIdxArr, childIdx, len);
+                Copy(parentConnIdxArr, parentIdx, connIdxArr, childIdx, len, removedConnIdx, parentInsertIdx1, parentInsertIdx2);
             }
 
             return connIdxArr;
+        }
+
+        private static void Copy(int[] srcArr, int srcIdx, int[] tgtArr, int tgtIdx, int length, int removedConnIdx, int insertIdx1, int insertIdx2)
+        {
+            for(int i=0; i<length; i++) 
+            {
+                int parentConnIdx = srcArr[srcIdx+i];
+                int connIdx = parentConnIdx;
+
+                if(parentConnIdx > removedConnIdx) connIdx--;
+                if(parentConnIdx >= insertIdx1) connIdx++;
+                if(parentConnIdx >= insertIdx2) connIdx++;
+
+                tgtArr[tgtIdx+i] = connIdx;
+            }
         }
 
         #endregion
