@@ -88,14 +88,7 @@ namespace SharpNeat.Network.Acyclic
             }
 
             // Determine the maximum depth of the graph.
-            int maxDepth = 0;
-            int nodeCount = _digraph.TotalNodeCount;
-            for(int i=0; i < nodeCount; i++) 
-            {
-                if(_nodeDepthById[i] > maxDepth) {
-                    maxDepth = _nodeDepthById[i];
-                }
-            }
+            int maxDepth = (0 == _nodeDepthById.Length) ? 0 : _nodeDepthById.Max();
 
             // Return depth analysis info.
             return new GraphDepthInfo(maxDepth+1, _nodeDepthById);

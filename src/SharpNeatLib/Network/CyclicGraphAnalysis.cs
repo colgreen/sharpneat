@@ -35,6 +35,8 @@ namespace SharpNeat.Network
         /// Set of traversal ancestors of current node. 
         /// </summary>
         HashSet<int> _ancestorNodeSet = new HashSet<int>();
+
+        // TODO: This can just be an array of boolean flags, because DirectedGraph node IDs are contiguous and start from zero. 
         /// <summary>
         /// Set of all visited nodes. This allows us to quickly determine if a path should be traversed or not. 
         /// </summary>
