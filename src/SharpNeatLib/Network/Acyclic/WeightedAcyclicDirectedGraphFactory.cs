@@ -23,6 +23,24 @@ namespace SharpNeat.Network.Acyclic
             // Calc the depth of each node in the digraph.
             GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
 
+            return CreateInner(digraph, inputCount, outputCount, depthInfo);
+        }
+
+        public static WeightedAcyclicDirectedGraph<T> Create(WeightedDirectedGraph<T> digraph, int inputCount, int outputCount, GraphDepthInfo depthInfo)
+        {
+            // Assert that the passed in depth info is correct.
+            // Note. This test is expensive because it invokes a graph traversal algorithm to determine node depths.
+            Debug.Assert(depthInfo.Equals(AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph)));
+
+            return CreateInner(digraph, inputCount, outputCount, depthInfo);
+        }
+
+        #endregion
+
+        #region Private Static Methods [High Level]
+
+        public static WeightedAcyclicDirectedGraph<T> CreateInner(WeightedDirectedGraph<T> digraph, int inputCount, int outputCount, GraphDepthInfo depthInfo)
+        {
             // Debug assert that all input nodes are at depth zero.
             // Any input node with a non-zero depth must have an input connection, and this is not supported.
             Debug.Assert(AreZero(depthInfo._nodeDepthArr, inputCount));
@@ -89,7 +107,7 @@ namespace SharpNeat.Network.Acyclic
 
         #endregion
 
-        #region Private Static Methods
+        #region Private Static Methods [Mid Level]
 
         private static int[] CompileNodeIdMap(GraphDepthInfo depthInfo, int nodeCount, int inputCount)
         {

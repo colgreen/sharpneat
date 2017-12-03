@@ -1,10 +1,13 @@
-﻿
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// Conveys summary information from a network depth analysis .
+    /// Conveys summary information from a network depth analysis.
     /// </summary>
-    public struct GraphDepthInfo
+    public class GraphDepthInfo : IEquatable<GraphDepthInfo>
     {
         /// <summary>
         /// Indicates the total depth of the network.
@@ -22,8 +25,21 @@ namespace SharpNeat.Network
         /// </summary>
         public GraphDepthInfo(int networkDepth, int[] nodeDepthArr)
         {
+            Debug.Assert(networkDepth >= 0);
+            Debug.Assert(null != nodeDepthArr);
+
             _networkDepth = networkDepth;
             _nodeDepthArr = nodeDepthArr;
         }
+
+        #region IEquatable
+
+        public bool Equals(GraphDepthInfo other)
+        {
+            return _networkDepth == other._networkDepth
+                && _nodeDepthArr.SequenceEqual(other._nodeDepthArr);
+        }
+
+        #endregion
     }
 }

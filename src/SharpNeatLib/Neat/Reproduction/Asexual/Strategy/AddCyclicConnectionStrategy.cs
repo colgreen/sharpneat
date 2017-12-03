@@ -127,7 +127,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _generationSeq.Peek,
                 connGenes,
                 connIdxArr,
-                parent.HiddenNodeIdArray);
+                parent.HiddenNodeIdArray,
+                null);
         }
 
         #endregion

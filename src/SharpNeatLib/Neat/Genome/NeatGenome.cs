@@ -33,6 +33,9 @@ namespace SharpNeat.Neat.Genome
         // and are therefore always known.
         readonly int[] _hiddenNodeIdArr;
 
+        // Graph depth information. For acyclic graphs only.
+        GraphDepthInfo _depthInfo;
+
         double _fitness;
 
         #endregion
@@ -47,7 +50,8 @@ namespace SharpNeat.Neat.Genome
                           ConnectionGenes<T> connGenes)
             : this(metaNeatGenome, id, birthGeneration, connGenes,
                   ConnectionGenesUtils.CreateConnectionIndexArray(connGenes),
-                  ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount))
+                  ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount),
+                  null)
         {}
 
         /// <summary>
@@ -57,13 +61,16 @@ namespace SharpNeat.Neat.Genome
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes,
                           int[] connIdxArr,
-                          int[] hiddenNodeIdArr)
+                          int[] hiddenNodeIdArr,
+                          GraphDepthInfo depthInfo)
         {
             Debug.Assert(connGenes.Length == connIdxArr.Length);
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.IsSorted(connIdxArr, connGenes._idArr));
             Debug.Assert(ConnectionGenesUtils.ValidateInnovationIds(connGenes, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
+            // We do not expect depthInfo for cyclic nets; and it is optional for acyclic nets.
+            Debug.Assert(metaNeatGenome.IsAcyclic || (!metaNeatGenome.IsAcyclic && null == depthInfo));
 
             _metaNeatGenome = metaNeatGenome;
             _id = id;
@@ -71,6 +78,7 @@ namespace SharpNeat.Neat.Genome
             _connGenes = connGenes;
             _connIdxArr = connIdxArr;
             _hiddenNodeIdArr = hiddenNodeIdArr;
+            _depthInfo = depthInfo;
         }
 
         #endregion
@@ -119,6 +127,13 @@ namespace SharpNeat.Neat.Genome
         /// Genome fitness score.
         /// </summary>
         public double Fitness { get => _fitness; set => _fitness = value; }
+        /// <summary>
+        /// Graph depth information. For acyclic graphs only.
+        /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
+        /// not NeatGenome, in particular it's based on contiguous node IDs used by DirectedGraph and not the non-contiguous 
+        /// node innovation IDs used by NeatGenome.
+        /// </summary>
+        public GraphDepthInfo DepthInfo { get => _depthInfo; set => _depthInfo = value; }
 
         #endregion
 

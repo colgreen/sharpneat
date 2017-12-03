@@ -18,11 +18,17 @@ namespace SharpNeat.Neat.Network
             // Convert the set of connections to a standardised graph representation.
             WeightedDirectedGraph<T> digraph = NeatDirectedGraphFactory<T>.Create(genome);
 
+            // Use pre-existing depth info if available, otherwise calculate it and cache it in the genome for reuse.
+            if(null == genome.DepthInfo) {
+                genome.DepthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
+            }
+
             // Invoke factory logic specific to acyclic graphs.
             return WeightedAcyclicDirectedGraphFactory<T>.Create(
                 digraph,
                 genome.MetaNeatGenome.InputNodeCount,
-                genome.MetaNeatGenome.OutputNodeCount);
+                genome.MetaNeatGenome.OutputNodeCount,
+                genome.DepthInfo);
         }
 
         #endregion
