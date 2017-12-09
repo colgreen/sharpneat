@@ -2,6 +2,8 @@
 
 namespace SharpNeat.Neat
 {
+    // TODO: Consider packing the struct (i.e. remove padding) to reduce memory footprint and thus improve CPU cache hit rate.
+
     /// <summary>
     /// Conveys innovation IDs related to an added node.
     /// 
