@@ -35,6 +35,7 @@
             // zed
             // 
             this.zed.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zed.IsAntiAlias = true;
             this.zed.Location = new System.Drawing.Point(0, 0);
             this.zed.Name = "zed";
             this.zed.ScrollGrace = 0D;
