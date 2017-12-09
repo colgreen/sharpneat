@@ -127,6 +127,10 @@ namespace SharpNeat.Neat.Genome
         /// Genome fitness score.
         /// </summary>
         public double Fitness { get => _fitness; set => _fitness = value; }
+
+        // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
+        // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
+        // that are the result of weight mutation; but the IPhenome can probably be re-used in those cases too.
         /// <summary>
         /// Graph depth information. For acyclic graphs only.
         /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
