@@ -1,7 +1,9 @@
-﻿using ActivationFnBenchmarks;
-using System;
+﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using ActivationFnBenchmarks;
+using KBCsv;
 using ZedGraph;
 
 namespace ActivationFunctionViewer
@@ -50,6 +52,7 @@ namespace ActivationFunctionViewer
             zed.AxisChange();
         }
 
+        
         private static void WriteToCsv(Func<double, double> fn)
         {
             const double xmin = -2.0;
