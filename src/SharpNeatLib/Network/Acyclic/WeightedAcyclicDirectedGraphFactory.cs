@@ -118,7 +118,7 @@ namespace SharpNeat.Network.Acyclic
             }
 
             // TODO: In principle we could cache the re-ordering that this Sort performs on a NeatGenome so that we can
-            // avoid doing a full sort on genomes with identical structure, i.e. child genomes that are teh result of weight mutations.
+            // avoid doing a full sort on genomes with identical structure, i.e. child genomes that are the result of weight mutations.
 
             // Sort nodeIdArr based on the depth of the nodes.
             // Note. We skip the input nodes because these all have depth zero, and we don't want a potentially 
