@@ -92,7 +92,7 @@ namespace SharpNeat.Genomes.Neat
             _inputNeuronCount = inputNeuronCount;
             _outputNeuronCount = outputNeuronCount;
 
-            // Precalculate some often used values.
+            // Pre-calculate some often used values.
             _inputAndBiasNeuronCount = inputNeuronCount+1;
             _inputBiasOutputNeuronCount = _inputAndBiasNeuronCount + outputNeuronCount;
 
@@ -221,7 +221,7 @@ namespace SharpNeat.Genomes.Neat
         /// Gets or sets a cached phenome obtained from decoding the genome.
         /// Genomes are typically decoded to Phenomes for evaluation. This property allows decoders to 
         /// cache the phenome in order to avoid decoding on each re-evaluation; However, this is optional.
-        /// The phenome in un-typed to prevent the class framework from becoming overly complex.
+        /// The phenome is untyped to prevent the class framework from becoming overly complex.
         /// </summary>
         public object CachedPhenome 
         { 
