@@ -18,7 +18,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void LogisticFunctionSteep1M()
+        public void LogisticFunctionSteep()
         {
             for(int i=0; i<__loops; i++) {
                 FunctionsFloat.LogisticFunctionSteep(_x[i % _x.Length]);
@@ -26,7 +26,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void LogisticApproximantSteep1M()
+        public void LogisticApproximantSteep()
         {
             for (int i = 0; i < __loops; i++)
             {
@@ -35,7 +35,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void SoftSign1M()
+        public void SoftSign()
         {
             for (int i = 0; i < __loops; i++)
             {
@@ -44,7 +44,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void PolynomialApproximant1M()
+        public void PolynomialApproximant()
         {
             for(int i=0; i<__loops; i++) {
                 FunctionsFloat.PolynomialApproximant(_x[i % _x.Length]);
@@ -52,7 +52,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void QuadraticSigmoid1M()
+        public void QuadraticSigmoid()
         {
             for(int i=0; i<__loops; i++) {
                 FunctionsFloat.QuadraticSigmoid(_x[i % _x.Length]);
@@ -60,7 +60,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void SReLU1M()
+        public void SReLU()
         {
             for(int i=0; i<__loops; i++) {
                 FunctionsFloat.SReLU(_x[i % _x.Length]);
@@ -68,7 +68,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public void SReLUShifted1M()
+        public void SReLUShifted()
         {
             for(int i=0; i<__loops; i++) {
                 FunctionsFloat.SReLUShifted(_x[i % _x.Length]);

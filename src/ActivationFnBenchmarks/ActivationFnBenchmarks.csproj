@@ -161,6 +161,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FastLog.cs" />
     <Compile Include="FunctionFloatBenchmarks.cs" />
     <Compile Include="FunctionBenchmarks.cs" />
     <Compile Include="FunctionsFloat.cs" />

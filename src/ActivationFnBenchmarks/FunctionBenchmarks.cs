@@ -7,18 +7,21 @@ namespace ActivationFnBenchmarks
     {
         const int __loops = 1000000;
         double[] _x = new double[1000];
+        float[] _f = new float[1000];
 
         public FunctionBenchmarks()
         {
             // Create some random Gaussian values as the inputs to the activation functions.
             ZigguratGaussianSampler gaussian = new ZigguratGaussianSampler(0);
-            for(int i=0; i<_x.Length; i++) {
+            for(int i=0; i<_x.Length; i++) 
+            {
                 _x[i] = gaussian.NextDouble(0, 2.0);
+                _f[i] = (float)gaussian.NextDouble(0, 2.0);
             }
         }
 
         [Benchmark]
-        public double LogisticFunctionSteep1M()
+        public double LogisticFunctionSteepDouble()
         {
             double a = 0.0;
             for(int i=0; i<__loops; i++) {
@@ -28,7 +31,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double LogisticApproximantSteep1M()
+        public double LogisticApproximantSteepDouble()
         {
             double a = 0.0;
             for (int i = 0; i < __loops; i++) {
@@ -38,7 +41,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double SoftSign1M()
+        public double SoftSignDouble()
         {
             double a = 0.0;
             for (int i = 0; i < __loops; i++) {
@@ -48,7 +51,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double PolynomialApproximant1M()
+        public double PolynomialApproximantDouble()
         {
             double a = 0.0;
             for (int i=0; i<__loops; i++) {
@@ -58,7 +61,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double QuadraticSigmoid1M()
+        public double QuadraticSigmoidDouble()
         {
             double a = 0.0;
             for (int i=0; i<__loops; i++) {
@@ -68,7 +71,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double ReLU1M()
+        public double ReLUDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -78,7 +81,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double LeakyReLU1M()
+        public double LeakyReLUDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -88,7 +91,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double LeakyReLUShifted1M()
+        public double LeakyReLUShiftedDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -98,7 +101,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double SReLU1M()
+        public double SReLUDouble()
         {
             double a = 0.0;
             for(int i=0; i<__loops; i++) {
@@ -108,7 +111,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double SReLUShifted1M()
+        public double SReLUShiftedDouble()
         {
             double a = 0.0;
             for (int i=0; i<__loops; i++) {
@@ -118,7 +121,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double ArcTan1M()
+        public double ArcTanDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -128,7 +131,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double TanH1M()
+        public double TanHDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -138,7 +141,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double ArcSinH1M()
+        public double ArcSinHDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -148,7 +151,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double ScaledELU1M()
+        public double ScaledELUDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -158,7 +161,7 @@ namespace ActivationFnBenchmarks
         }
 
         [Benchmark]
-        public double MaxMinusOnne1M()
+        public double MaxMinusOneDouble()
         {
             double a = 0.0;
             for (int i=0; i < __loops; i++) {
@@ -166,5 +169,145 @@ namespace ActivationFnBenchmarks
             }
             return a;
         }
+
+
+        [Benchmark]
+        public void LogisticFunctionSteepFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.LogisticFunctionSteep(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void LogisticApproximantSteepFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.LogisticApproximantSteep(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void SoftSignFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.SoftSign(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void PolynomialApproximantFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.PolynomialApproximant(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void QuadraticSigmoidFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.QuadraticSigmoid(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void SReLUFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.SReLU(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void SReLUShiftedFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.SReLUShifted(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void ReLUFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.ReLU(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void LeakyReLUFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.LeakyReLU(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void LeakyReLUShiftedFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.LeakyReLUShifted(_f[i % _x.Length]);
+            }
+        }
+
+
+        [Benchmark]
+        public void ArcTanFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.ArcTanF(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void TanHFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.TanHF(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void ArcSinHFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.ArcSinHF(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void ScaledELUFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.ScaledELUF(_f[i % _x.Length]);
+            }
+        }
+
+        [Benchmark]
+        public void MaxMinusOneFloat()
+        {
+            for (int i = 0; i < __loops; i++)
+            {
+                FunctionsFloat.MaxMinusOneF(_f[i % _x.Length]);
+            }
+        }
+
+
+
     }
 }

@@ -110,6 +110,150 @@ namespace ActivationFnBenchmarks
             return y;
         }
 
+        /// <summary>
+        /// Rectified linear activation unit (ReLU).
+        /// From:
+        ///    https://en.wikipedia.org/wiki/Activation_function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReLU(float x)
+        {
+            float y;
+            if (x > 0.0F) {
+                y = x;
+            }
+            else {
+                y = 0.0F;
+            }
+            return y;
+        }
+
+
+        /// <summary>
+        /// Leaky rectified linear activation unit (ReLU).
+        /// From:
+        ///    https://en.wikipedia.org/wiki/Activation_function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float LeakyReLU(float x)
+        {
+            const float a = 0.001F;
+
+            float y;
+            if (x > 0.0F) {
+                y = x;
+            }
+            else {
+                y = x * a;
+            }
+            return y;
+        }
+
+        /// <summary>
+        /// Leaky rectified linear activation unit (ReLU).
+        /// From:
+        ///    https://en.wikipedia.org/wiki/Activation_function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float LeakyReLUShifted(float x)
+        {
+            const float a = 0.001F;
+            const float offset = 0.5F;
+
+            float y;
+            if (x + offset > 0.0F) {
+                y = x + offset;
+            }
+            else {
+                y = (x + offset) * a;
+            }
+            return y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ArcTanF(float x)
+        {
+            const float halfpi = (float)Math.PI / 2.0F;
+            const float piinv = 1.0F / (float)Math.PI;
+            return ((float)Math.Atan(x) + halfpi) * piinv;
+
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float TanHF(float x)
+        {
+            return ((float)Math.Tanh(x) + 1.0F) * 0.5F;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ArcSinHF(float x)
+        {
+            // Scaling factor from:
+            // https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/diwq7rb/
+
+            return 1.2567348023993685F * ((AsinhF(x) + 1.0F) * 0.5F);
+        }
+
+        /// <summary>
+        /// Hyperbolic Area Sine
+        /// </summary>
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static float AsinhF(float value)
+        {
+            const float MathEF = 2.7182818284590451F;
+            return FastLog.Log(value + (float)Math.Sqrt((value * value) + 1F), MathEF);
+        }
+
+        /// <summary>
+        /// Scaled Exponential Linear Unit (SELU).
+        /// 
+        /// From:
+        ///     Self-Normalizing Neural Networks
+        ///     https://arxiv.org/abs/1706.02515
+        /// 
+        /// Original source code (including parameter values):
+        ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
+        ///    
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ScaledELUF(float x)
+        {
+            const float alpha = 1.6732632423543772848170429916717F;
+            const float scale = 1.0507009873554804934193349852946F;
+
+            float y;
+            if (x >= 0F) {
+                y = scale * x;
+            }
+            else {
+                y = scale * ((alpha * Exp(x)) - alpha);
+            }
+
+            return y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float MaxMinusOneF(float x)
+        {
+            float y;
+            if (x > -1F) {
+                y = x;
+            } 
+            else {
+                y = -1F;
+            }
+            return y;
+        }
+
+
         // Fast exp approximation, from:
         // https://stackoverflow.com/a/412988/15703
         // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
