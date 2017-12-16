@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.Neat.Reproduction
+namespace SharpNeat.Neat.Reproduction.Sexual
 {
     public class NeatReproductionSexualSettings
     {
