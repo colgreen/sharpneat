@@ -99,6 +99,16 @@ namespace SharpNeat.Network
                 || (x.TargetId != y.TargetId);
         }
 
+        public static bool operator <(DirectedConnection x, DirectedConnection y)
+        {
+            return x.CompareTo(y) < 0;
+        }
+
+        public static bool operator >(DirectedConnection x, DirectedConnection y)
+        {
+            return x.CompareTo(y) > 0;
+        }
+
         #endregion
     }
 }

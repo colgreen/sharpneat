@@ -10,6 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy
         /// <param name="parent1">Parent 1.</param>
         /// <param name="parent2">Parent 2.</param>
         /// <returns>A new child genome.</returns>
-        NeatGenome<T> CreateGenome(NeatGenome<double> parent1, NeatGenome<double> parent2);
+        NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2);
     }
 }

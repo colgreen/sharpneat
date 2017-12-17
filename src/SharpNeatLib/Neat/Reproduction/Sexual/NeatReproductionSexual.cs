@@ -1,12 +1,8 @@
 ﻿using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy;
+using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpNeat.Neat.Reproduction.Sexual
 {
@@ -32,6 +28,9 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         {
             _settings = settings;
             _rng = RandomSourceFactory.Create();
+
+            _strategy = new UniformCrossoverReproductionStrategy<T>(
+                                metaNeatGenome, genomeIdSeq, generationSeq);
         }
 
         #endregion
@@ -45,13 +44,37 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         /// <param name="parent2">Parent genome 2.</param>
         
         public NeatGenome<T> CreateGenome(
-            NeatGenome<double> parent1,
-            NeatGenome<double> parent2)
+            NeatGenome<T> parent1,
+            NeatGenome<T> parent2)
         {
-            // TODO: Implement.
-            throw new NotImplementedException();
+            // Ensure the fittest parent is parent1.
+            if(parent2.Fitness > parent1.Fitness)
+            {
+                Swap(ref parent1, ref parent2);
+            }
+            else if(parent2.Fitness == parent1.Fitness)
+            {
+                // For parents of equal fitness, choose the primary parent stochastically.
+                if(_rng.NextBool()) {
+                    Swap(ref parent1, ref parent2);
+                }
+            }
+
+            // Invoke the reproduction strategy.
+            return _strategy.CreateGenome(parent1, parent2);            
         }
-        
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static void Swap(ref NeatGenome<T> parent1, ref NeatGenome<T> parent2)
+        {
+            var tmp = parent1;
+            parent1 = parent2;
+            parent2 = tmp;
+        }
+
         #endregion
     }
 }
