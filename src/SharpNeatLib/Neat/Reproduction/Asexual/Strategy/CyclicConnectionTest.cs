@@ -60,7 +60,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// </summary>
         /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
-        public bool IsConnectionCyclic(DirectedConnection[] connArr, DirectedConnection newConn)
+        public bool IsConnectionCyclic(IList<DirectedConnection> connArr, DirectedConnection newConn)
         {
             try 
             {
@@ -78,7 +78,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(DirectedConnection[] connArr, DirectedConnection newConn)
+        private bool IsConnectionCyclicInner(IList<DirectedConnection> connArr, DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {
@@ -119,7 +119,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
                 // Find the next connection from the current node that we can traverse down, if any.
                 int nextConnIdx = -1;
-                for(int i = connIdx+1; i < connArr.Length && connArr[i].SourceId == currNodeId; i++)
+                for(int i = connIdx+1; i < connArr.Count && connArr[i].SourceId == currNodeId; i++)
                 {
                     if(!_visitedNodes.Contains(connArr[i].TargetId))
                     {   // We have found the next connection to traverse.
