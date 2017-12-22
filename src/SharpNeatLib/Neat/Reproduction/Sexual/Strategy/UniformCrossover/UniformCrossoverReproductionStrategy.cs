@@ -2,6 +2,7 @@
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
+using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverReproductionStrategyUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
@@ -11,7 +12,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// The genes of the two parent genomes are aligned by innovation ID. The new child genome
     /// takes genes from each of the parents with a given probability (e.g. 50%).
     /// </summary>
-    public partial class UniformCrossoverReproductionStrategy<T> : ISexualReproductionStrategy<T>
+    public class UniformCrossoverReproductionStrategy<T> : ISexualReproductionStrategy<T>
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
@@ -65,12 +66,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                                                     _rng);
 
             // Enumerate over the connection genes in both parents.
-            foreach(var geneIndexPair in Utils.EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
+            foreach(var geneIndexPair in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
             {
                 // Create a connection gene based on the current position in both parents.
                 ConnectionGene<T>? connGene = CreateConnectionGene(
                     parent1.ConnectionGenes, parent2.ConnectionGenes,
-                    geneIndexPair.Idx1, geneIndexPair.Idx2,
+                    geneIndexPair.Item1, geneIndexPair.Item2,
                     includeSecondaryParentGenes,
                     out bool isSecondaryGene);
 

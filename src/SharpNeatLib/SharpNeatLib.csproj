@@ -99,11 +99,10 @@
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationSchemeFactory.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\GeneIndexPair.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\ConnectionGeneListBuilder.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\ConnectionGene.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\ISexualReproductionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategy.Utils.cs" />
+    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyUtils.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategy.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
