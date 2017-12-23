@@ -8,7 +8,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// <summary>
     /// Static utility methods for the uniform crossover reproduction strategy.
     /// </summary>
-    internal class UniformCrossoverReproductionStrategyUtils
+    public class UniformCrossoverReproductionStrategyUtils
     {
         public static IEnumerable<ValueTuple<int,int>> EnumerateParentGenes<T>(ConnectionGenes<T> parent1, ConnectionGenes<T> parent2)
             where T : struct
@@ -43,20 +43,20 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             for(;;)
             {
-                DirectedConnection connGene1 = new DirectedConnection(parent1._connArr[idx1]);
-                DirectedConnection connGene2 = new DirectedConnection(parent2._connArr[idx2]);
+                DirectedConnection conn1 = parent1._connArr[idx1];
+                DirectedConnection conn2 = parent2._connArr[idx2];
 
-                if(connGene2 < connGene1)
+                if(conn2 < conn1)
                 {   
-                    // id2 is disjoint.
+                    // conn2 is disjoint.
                     yield return ValueTuple.Create(-1, idx2);
 
                     // Move to the next element in idArr2.
                     idx2++;
                 }
-                else if(connGene1 == connGene2)
+                else if(conn1 == conn2)
                 {
-                    // Matching IDs.
+                    // Matching connections.
                     yield return ValueTuple.Create(idx1, idx2);
 
                     // Move to the next elements in idArr1, idArr2.
