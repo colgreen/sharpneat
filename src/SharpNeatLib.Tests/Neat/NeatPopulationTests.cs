@@ -26,47 +26,12 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(count, neatPop.GenomeList.Count);
             Assert.AreEqual(count, neatPop.GenomeIdSeq.Peek);
 
-            // The factory assigns the same innovation IDs to matching structures in the genomes it creates.
-            // So in this cases there are only 5 nodes and 6 connections in each genome, and they are each identifiably
+            // The population factory assigns the same innovation IDs to matching structures in the genomes it creates.
+            // In this test there are 5 nodes and 6 connections in each genome, and they are each identifiably
             // the same structure in each of the genomes (e.g. input 0 or whatever) and so have the same innovation ID
             // across all of the genomes.
-            // Thus in total although we created N genomes there are only 11 innovation IDs allocated.
-            Assert.AreEqual(11, neatPop.InnovationIdSeq.Peek);
-
-            // The structures should all be recorded in the 'structure buffers'; these are used by the mutation logic 
-            // to identify where a mutation would create a structure that already exists elsewhere in the population 
-            // (e.g. a connection between nodes 0 and 3), and thus allows for re-use of the same innovation ID where possible.
-            //
-            // Note. Input and output nodes aren't recorded in the buffer because they are fixed/invariant, i.e. present on all 
-            // genomes all of the time, and not the result of an 'add node' mutation.
-            //
-            // Connections directly from inputs and outputs are also not recorded, but their innovations IDs are
-            // defined by convention and thus recognised by AddedConnectionBuffer.
-
-            // Test lookups.
-            var buff = neatPop.AddedConnectionBuffer;
-            TestLookupSuccess(buff, 0, 3, 5);
-            TestLookupSuccess(buff, 0, 4, 6);
-            TestLookupSuccess(buff, 1, 3, 7);
-            TestLookupSuccess(buff, 1, 4, 8);
-            TestLookupSuccess(buff, 2, 3, 9);
-            TestLookupSuccess(buff, 2, 4, 10);
-
-            // Test lookup failure.
-            TestLookupFail(buff, 3, 0);
-            TestLookupFail(buff, 4, 0);
-            TestLookupFail(buff, 3, 1);
-            TestLookupFail(buff, 4, 1);
-            TestLookupFail(buff, 3, 2);
-            TestLookupFail(buff, 4, 2);
-
-            TestLookupFail(buff, 0, 5);
-            TestLookupFail(buff, 1, 5);
-            TestLookupFail(buff, 2, 5);
-            TestLookupFail(buff, 2, 5);
-            
-            TestLookupFail(buff, 5, 3);
-            TestLookupFail(buff, 5, 6);
+            // Thus in total although we created N genomes there are only 5 innovation IDs allocated (5 nodes).
+            Assert.AreEqual(5, neatPop.InnovationIdSeq.Peek);
 
             // Loop the created genomes.
             for(int i=0; i<count; i++) 
@@ -91,8 +56,6 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
             Assert.AreEqual(6, genome.ConnectionGenes.Length);
             Assert.IsTrue(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
-            Assert.IsTrue(ConnectionGenesUtils.IsSorted(genome.ConnectionIndexArray, genome.ConnectionGenes._idArr));
-            Assert.IsTrue(ConnectionGenesUtils.ValidateInnovationIds(genome.ConnectionGenes, genome.MetaNeatGenome.InputNodeCount, genome.MetaNeatGenome.OutputNodeCount));
         }
 
         [TestMethod]
@@ -105,15 +68,13 @@ namespace SharpNeatLib.Tests.Neat
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1);
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
             Assert.AreEqual(10000, genome.ConnectionGenes.Length);
             Assert.IsTrue(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
 
-            double min, max, mean;
-            CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out min, out max, out mean);
+            CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out double min, out double max, out double mean);
 
             Assert.IsTrue(min < -genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
             Assert.IsTrue(max > genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
@@ -123,19 +84,6 @@ namespace SharpNeatLib.Tests.Neat
         #endregion
 
         #region Private Static Methods
-
-        private static void TestLookupSuccess(AddedConnectionBuffer buff, int srcId, int tgtId, int expectedConnectionId)
-        {
-            int connectionId;
-            Assert.AreEqual(true, buff.TryLookup(new DirectedConnection(srcId, tgtId), out connectionId));
-            Assert.AreEqual(expectedConnectionId, connectionId);
-        }
-
-        private static void TestLookupFail(AddedConnectionBuffer buff, int srcId, int tgtId)
-        {
-            int connectionId;
-            Assert.AreEqual(false, buff.TryLookup(new DirectedConnection(srcId, tgtId), out connectionId));
-        }
 
         private void CalcWeightMinMaxMean(double[] weightArr, out double min, out double max, out double mean)
         {

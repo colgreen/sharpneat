@@ -20,7 +20,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
-        readonly AddedConnectionBuffer _addedConnBuffer;
 
         readonly IContinuousDistribution<T> _weightDistA;
         readonly IContinuousDistribution<T> _weightDistB;
@@ -34,14 +33,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             MetaNeatGenome<T> metaNeatGenome,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            Int32Sequence generationSeq,
-            AddedConnectionBuffer addedConnectionBuffer)
+            Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeIdSeq = genomeIdSeq;
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
-            _addedConnBuffer = addedConnectionBuffer;
 
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
@@ -65,17 +62,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 return null;
             }
 
-            // Determine the new gene's innovation ID.
-            bool highInnovationId = false;
-            if(!_addedConnBuffer.TryLookup(directedConn, out int connectionId))
-            {   
-                // No matching connection found in the innovation ID buffer.
-                // Get a new innovation ID and register the new connection with the innovation buffer.
-                connectionId = _innovationIdSeq.Next();
-                _addedConnBuffer.Register(directedConn, connectionId);
-                highInnovationId = true;
-            }
-
             // Determine the connection weight.
             // 50% of the time use weights very close to zero.
             // Note. this recreates the strategy used in SharpNEAT 2.x.
@@ -86,7 +72,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // inserted at the correct (sorted) position.
             var parentConnArr = parent.ConnectionGenes._connArr;
             var parentWeightArr = parent.ConnectionGenes._weightArr;
-            var parentIdArr = parent.ConnectionGenes._idArr;
             int parentLen = parentConnArr.Length;
 
             // Create the child genome's ConnectionGenes object.
@@ -94,12 +79,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var connGenes = new ConnectionGenes<T>(childLen);
             var connArr = connGenes._connArr;
             var weightArr = connGenes._weightArr;
-            var idArr = connGenes._idArr;
 
             // Copy genes up to insertIdx.
             Array.Copy(parentConnArr, connArr, insertIdx);
             Array.Copy(parentWeightArr, weightArr, insertIdx);
-            Array.Copy(parentIdArr, idArr, insertIdx);
 
             // Copy the new genome into its insertion point.
             connArr[insertIdx] = new DirectedConnection(
@@ -107,17 +90,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 directedConn.TargetId);
 
             weightArr[insertIdx] = weight;
-            idArr[insertIdx] = connectionId;
 
             // Copy remaining genes (if any).
             Array.Copy(parentConnArr, insertIdx, connArr, insertIdx+1, parentLen-insertIdx);
             Array.Copy(parentWeightArr, insertIdx, weightArr, insertIdx+1, parentLen-insertIdx);
-            Array.Copy(parentIdArr, insertIdx, idArr, insertIdx+1, parentLen-insertIdx);
-
-            // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
-            // Note. We can construct a NeatGenome without passing connIdxArr and it will re-calc it; however this 
-            // way is more efficient.
-            int[] connIdxArr = CreateConnectionIndexArray(parent, insertIdx, connectionId, highInnovationId);
 
             // Create and return a new genome.
             // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
@@ -126,7 +102,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                connIdxArr,
                 parent.HiddenNodeIdArray,
                 null);
         }

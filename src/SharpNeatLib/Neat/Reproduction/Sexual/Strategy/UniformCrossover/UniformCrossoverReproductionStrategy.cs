@@ -140,7 +140,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         private ConnectionGene<T> CreateConnectionGene(ConnectionGenes<T> connGenes, int idx)
         {
             return new ConnectionGene<T>(
-                connGenes._idArr[idx],
                 connGenes._connArr[idx],
                 connGenes._weightArr[idx]);
         }

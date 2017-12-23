@@ -39,12 +39,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _weightMutationScheme.MutateWeights(weightArr);
 
             // Create the child genome's ConnectionGenes object.
-            // Note. The parent genome's connection ID and ID arrays are re-used; these remain unchanged
-            // because we are mutating only connection *weights*, so we can avoid the cost of cloning these arrays.
+            // Note. The parent genome's connection arrays are re-used; these remain unchanged because we are mutating 
+            // connection *weights* only, so we can avoid the cost of cloning these arrays.
             var connGenes = new ConnectionGenes<T>(
                 parent.ConnectionGenes._connArr,
-                weightArr,
-                parent.ConnectionGenes._idArr);
+                weightArr);
 
             // Create and return a new genome.
             // Note. The parent's ConnectionIndexArray and HiddenNodeIdArray can be re-used here because the new genome
@@ -54,7 +53,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                parent.ConnectionIndexArray,
                 parent.HiddenNodeIdArray,
                 parent.DepthInfo);
         }

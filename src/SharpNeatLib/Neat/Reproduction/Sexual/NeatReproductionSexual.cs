@@ -22,7 +22,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
-            AddedConnectionBuffer addedConnectionBuffer,
             AddedNodeBuffer addedNodeBuffer,
             NeatReproductionSexualSettings settings)
         {

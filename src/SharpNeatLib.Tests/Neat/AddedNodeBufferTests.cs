@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat;
+using SharpNeat.Network;
 
 namespace SharpNeatLib.Tests.Neat
 {
@@ -15,44 +16,33 @@ namespace SharpNeatLib.Tests.Neat
             AddedNodeBuffer buff = new AddedNodeBuffer(10);
 
             // Register some added nodes.
-            buff.Register(100, new AddedNodeInfo(101, 102, 103));
-            buff.Register(102, new AddedNodeInfo(104, 105, 106));
+            buff.Register(new DirectedConnection(100, 101), 102);
+            buff.Register(new DirectedConnection(103, 104), 105);
 
             // Test lookups.
-            TestLookupSuccess(buff, 100, new AddedNodeInfo(101, 102, 103));
-            TestLookupSuccess(buff, 102, new AddedNodeInfo(104, 105, 106));
+            TestLookupSuccess(buff, new DirectedConnection(100, 101), 102);
+            TestLookupSuccess(buff, new DirectedConnection(103, 104), 105);
 
             // Test lookup failure.
-            TestLookupFail(buff, 0);
-            TestLookupFail(buff, 101);
-            TestLookupFail(buff, 103);
-            TestLookupFail(buff, 104);
-            TestLookupFail(buff, 105);
-            TestLookupFail(buff, 106);
+            TestLookupFail(buff, new DirectedConnection(100, 102));
+            TestLookupFail(buff, new DirectedConnection(101, 100));
+            TestLookupFail(buff, new DirectedConnection(103, 102));
+            TestLookupFail(buff, new DirectedConnection(104, 103));
         }
 
         #endregion
 
         #region Private Static Methods
 
-        private static void TestLookupSuccess(AddedNodeBuffer buff, int connectionId, AddedNodeInfo expectedAddedNodeInfo)
+        private static void TestLookupSuccess(AddedNodeBuffer buff, DirectedConnection connection, int expectedAddedNodeId)
         {
-            AddedNodeInfo addedNodeInfo;
-            Assert.AreEqual(true, buff.TryLookup(connectionId, out addedNodeInfo));
-            Assert.IsTrue(AreEqual(expectedAddedNodeInfo, addedNodeInfo));
+            Assert.IsTrue(buff.TryLookup(connection, out int addedNodeId));
+            Assert.AreEqual(expectedAddedNodeId, addedNodeId);
         }
 
-        private static void TestLookupFail(AddedNodeBuffer buff, int connectionId)
+        private static void TestLookupFail(AddedNodeBuffer buff, DirectedConnection connection)
         {
-            AddedNodeInfo addedNodeInfo;
-            Assert.AreEqual(false, buff.TryLookup(connectionId, out addedNodeInfo));
-        }
-
-        private static bool AreEqual(AddedNodeInfo x, AddedNodeInfo y)
-        {
-            return x.AddedNodeId == y.AddedNodeId
-                && x.AddedInputConnectionId == y.AddedInputConnectionId
-                && x.AddedOutputConnectionId == y.AddedOutputConnectionId;
+            Assert.IsFalse(buff.TryLookup(connection, out int addedNodeId));
         }
 
         #endregion

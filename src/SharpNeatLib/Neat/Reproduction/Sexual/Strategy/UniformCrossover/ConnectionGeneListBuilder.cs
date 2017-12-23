@@ -15,7 +15,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         readonly CyclicConnectionTest<T> _cyclicTest;
 
         // Connection gene lists.
-        List<int> _idList;
         List<DirectedConnection> _connList;
         List<T> _weightList;
         
@@ -30,7 +29,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 _cyclicTest = new CyclicConnectionTest<T>();
             }
 
-            _idList = new List<int>(capacity);
             _connList = new List<DirectedConnection>(capacity);
             _weightList = new List<T>(capacity);
         }
@@ -63,13 +61,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         {
             return new ConnectionGenes<T>(
                 _connList.ToArray(),
-                _weightList.ToArray(),
-                _idList.ToArray());
+                _weightList.ToArray());
         }
 
         public void Clear()
         {
-            _idList.Clear();
             _connList.Clear();
             _weightList.Clear();
         }
@@ -80,7 +76,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         private void AddGene(ConnectionGene<T> gene)
         {
-            _idList.Add(gene.Id);
             _connList.Add(gene.Endpoints);
             _weightList.Add(gene.Weight);
         }

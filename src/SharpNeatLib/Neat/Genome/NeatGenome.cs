@@ -24,10 +24,6 @@ namespace SharpNeat.Neat.Genome
         // These define both the neural network structure/topology and the connection weights.
         readonly ConnectionGenes<T> _connGenes;
 
-        // An array of indexes into _connectionGeneArr, sorted by connection gene innovation ID.
-        // This allows us to efficiently find connection genes by innovation ID using a binary search.
-        readonly int[] _connIdxArr;
-
         // An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
         // Input and output node IDs are not included because these are allocated fixed IDs starting from zero
         // and are therefore always known.
@@ -43,31 +39,26 @@ namespace SharpNeat.Neat.Genome
         #region Constructors
 
         /// <summary>
-        /// Constructs with the provided ID, birth generation and gene lists.
+        /// Constructs with the provided ID, birth generation and gene arrays.
         /// </summary>
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes)
             : this(metaNeatGenome, id, birthGeneration, connGenes,
-                  ConnectionGenesUtils.CreateConnectionIndexArray(connGenes),
                   ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount),
                   null)
         {}
 
         /// <summary>
-        /// Constructs with the provided ID, birth generation and gene lists.
+        /// Constructs with the provided ID, birth generation and gene arrays.
         /// </summary>
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes,
-                          int[] connIdxArr,
                           int[] hiddenNodeIdArr,
                           GraphDepthInfo depthInfo)
         {
-            Debug.Assert(connGenes.Length == connIdxArr.Length);
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.IsSorted(connIdxArr, connGenes._idArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateInnovationIds(connGenes, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
             // We do not expect depthInfo for cyclic nets; and it is optional for acyclic nets.
             Debug.Assert(metaNeatGenome.IsAcyclic || (!metaNeatGenome.IsAcyclic && null == depthInfo));
@@ -76,7 +67,6 @@ namespace SharpNeat.Neat.Genome
             _id = id;
             _birthGeneration = birthGeneration;
             _connGenes = connGenes;
-            _connIdxArr = connIdxArr;
             _hiddenNodeIdArr = hiddenNodeIdArr;
             _depthInfo = depthInfo;
         }
@@ -97,12 +87,6 @@ namespace SharpNeat.Neat.Genome
         /// These define both the neural network structure/topology and the connection weights.
         /// </summary>
         public ConnectionGenes<T> ConnectionGenes => _connGenes;
-
-        /// <summary>
-        /// An array of connection gene indexes, sorted by connection gene innovation ID.
-        /// This allows us to efficiently find connection genes using a binary search.
-        /// </summary>
-        public int[] ConnectionIndexArray => _connIdxArr;
         
         /// <summary>
         /// An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
@@ -142,14 +126,6 @@ namespace SharpNeat.Neat.Genome
         #endregion
 
         #region Public Methods
-
-        /// <summary>
-        /// Tests if the genome contains a connection with the given innovation ID.
-        /// </summary>
-        public bool ContainsConnection(int id)
-        {
-            return ConnectionGenesUtils.BinarySearchId(_connIdxArr, _connGenes._idArr, id) >= 0;
-        }
 
         /// <summary>
         /// Tests if the genome contains a connection that refers to the given hidden node ID.

@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using Redzen;
-using Redzen.Sorting;
+﻿using System;
+using System.Diagnostics;
 using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
@@ -21,10 +20,6 @@ namespace SharpNeat.Neat.Genome
         /// Array of connection weights.
         /// </summary>
         public readonly T[] _weightArr;
-        /// <summary>
-        /// Array of connection innovation IDs.
-        /// </summary>
-        public readonly int[] _idArr;
 
         #region Constructors
 
@@ -36,7 +31,6 @@ namespace SharpNeat.Neat.Genome
         {
             _connArr = new DirectedConnection[length];
             _weightArr = new T[length];
-            _idArr = new int[length];
         }
 
         /// <summary>
@@ -47,18 +41,14 @@ namespace SharpNeat.Neat.Genome
         /// <param name="idArr">Array of connection innovation IDs.</param>
         public ConnectionGenes(
             DirectedConnection[] connArr,
-            T[] weightArr,
-            int[] idArr)
+            T[] weightArr)
         {
             Debug.Assert(null != connArr);
             Debug.Assert(null != weightArr);
-            Debug.Assert(null != idArr);
             Debug.Assert(connArr.Length == weightArr.Length);
-            Debug.Assert(connArr.Length == idArr.Length);
 
             _connArr = connArr;
             _weightArr = weightArr;
-            _idArr = idArr;
         }
 
         #endregion
@@ -74,17 +64,16 @@ namespace SharpNeat.Neat.Genome
         /// Connection gene indexer.
         /// </summary>
         /// <param name="idx">Index of the gene to get or set.</param>
-        public (int srcIdx, int tgtIdx, T weight, int id) this[int idx]
+        public (int srcIdx, int tgtIdx, T weight) this[int idx]
         {
             get
             {
-                return (_connArr[idx].SourceId, _connArr[idx].TargetId, _weightArr[idx], _idArr[idx]);
+                return (_connArr[idx].SourceId, _connArr[idx].TargetId, _weightArr[idx]);
             }
             set
             {
                 _connArr[idx] = new DirectedConnection(value.srcIdx, value.tgtIdx);
                 _weightArr[idx] = value.weight;
-                _idArr[idx] = value.id;
             }
         }
 
@@ -97,7 +86,7 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public void Sort()
         {
-            IntroSort<DirectedConnection,T,int>.Sort(_connArr, _weightArr, _idArr);
+            Array.Sort(_connArr, _weightArr);
         }
 
         #endregion

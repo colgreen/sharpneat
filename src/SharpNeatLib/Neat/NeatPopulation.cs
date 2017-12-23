@@ -26,16 +26,9 @@ namespace SharpNeat.Neat
         public Int32Sequence InnovationIdSeq { get; }
 
         /// <summary>
-        /// A history buffer of added connections. 
-        /// Used when adding new connections to check if an identical connection has been added to a genome elsewhere 
-        /// in the population. This allows re-use of the same innovation ID for like connections.
-        /// </summary>
-        public AddedConnectionBuffer AddedConnectionBuffer { get; }
-
-        /// <summary>
-        /// A history buffer of added neurons.
-        /// Used when adding new nodes to check if an identical nodes has been added to a genome elsewhere in the 
-        /// population. This allows re-use of the same innovation ID for like nodes.
+        /// A history buffer of added nodes.
+        /// Used when adding new nodes to check if an identical node has been added to a genome elsewhere in the population.
+        /// This allows re-use of the same innovation ID for like nodes.
         /// </summary>
         public AddedNodeBuffer AddedNodeBuffer { get; }
 
@@ -53,7 +46,6 @@ namespace SharpNeat.Neat
             this.MetaNeatGenome = metaNeatGenome;
             this.GenomeIdSeq = new Int32Sequence(maxGenomeId + 1);
             this.InnovationIdSeq = new Int32Sequence(maxInnovationId + 1);
-            this.AddedConnectionBuffer = new AddedConnectionBuffer(__defaultInnovationHistoryBufferSize, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount);
             this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);            
         }
 
@@ -77,7 +69,6 @@ namespace SharpNeat.Neat
             this.MetaNeatGenome = metaNeatGenome;
             this.GenomeIdSeq = genomeIdSeq;
             this.InnovationIdSeq = innovationIdSeq;
-            this.AddedConnectionBuffer = new AddedConnectionBuffer(addedConnectionHistoryBufferSize, metaNeatGenome.InputNodeCount, metaNeatGenome.OutputNodeCount);
             this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
 
             // Assert that the ID sequences have a current IDs higher than any existing ID.
@@ -117,7 +108,6 @@ namespace SharpNeat.Neat
 
                 for(int i=0; i<genome.ConnectionGenes.Length; i++)
                 {
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._idArr[i]);
                     maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].SourceId);
                     maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].TargetId);
                 }

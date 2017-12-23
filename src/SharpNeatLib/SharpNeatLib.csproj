@@ -72,8 +72,7 @@
     <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
     <Compile Include="EA\Population.cs" />
     <Compile Include="Neat\AddedNodeBuffer.cs" />
-    <Compile Include="Neat\AddedConnectionBuffer.cs" />
-    <Compile Include="Neat\AddedNodeInfo.cs" />
+    <None Include="Neat\AddedConnectionBuffer.cs" />
     <Compile Include="Neat\Genome\ConnectionGenes.cs" />
     <Compile Include="Neat\Genome\ConnectionGenesUtils.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddConnectionUtils.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategy.Utils.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTest.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\IAsexualReproductionStrategy.cs" />

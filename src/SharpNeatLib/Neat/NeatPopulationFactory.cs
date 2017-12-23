@@ -14,7 +14,7 @@ namespace SharpNeat.Neat
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly double _connectionsProportion;
-        readonly ConnectionDefinition[] _connectionDefArr;
+        readonly DirectedConnection[] _connectionDefArr;
         
         readonly IRandomSource _rng;
         readonly Int32Sequence _genomeIdSeq;
@@ -33,26 +33,23 @@ namespace SharpNeat.Neat
             // Define the set of all possible connections between the input and output nodes (fully interconnected).
             int inputCount = metaNeatGenome.InputNodeCount;
             int outputCount = metaNeatGenome.OutputNodeCount;
-            _connectionDefArr = new ConnectionDefinition[inputCount * outputCount];
+            _connectionDefArr = new DirectedConnection[inputCount * outputCount];
 
             // Notes.
-            // Connections and nodes are assigned innovation IDs from the same ID space (from the same 'pool' of numbers).
-            // By convention the input nodes are assigned IDs first starting at zero, then the output nodes. Thus, because all 
-            // of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are fixed by convention.
-            // Here we also allocate IDs to connections, and these start at the first ID after the last output node. From there evolution
-            // will create connections and nodes, and IDs are allocated in whatever order the nodes and connections are created in.
+            // Nodes are assigned innovation IDs. By convention the input nodes are assigned IDs first starting at zero, then the output nodes.
+            // Thus, because all of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are always fixed.
             int firstOutputNodeId = inputCount;
-            int nextInnovationId = inputCount + outputCount;
 
             for(int srcId=0, i=0; srcId < inputCount; srcId++) {    
-                for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++, nextInnovationId++) {
-                    _connectionDefArr[i++] = new ConnectionDefinition(nextInnovationId, srcId, firstOutputNodeId + tgtIdx);
+                for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++) {
+                    _connectionDefArr[i++] = new DirectedConnection(srcId, firstOutputNodeId + tgtIdx);
                 }
             }
 
             // Init RNG and ID sequences.
             _rng = RandomSourceFactory.Create();
             _genomeIdSeq = new Int32Sequence();
+            int nextInnovationId = inputCount + outputCount;
             _innovationIdSeq = new Int32Sequence(nextInnovationId);
 
             // Init random connection weight source.
@@ -108,21 +105,18 @@ namespace SharpNeat.Neat
 
             // Create the connection gene arrays and populate them.
             var connGenes = new ConnectionGenes<T>(connectionCount);
-
             var connArr = connGenes._connArr;
             var weightArr = connGenes._weightArr;
-            var idArr = connGenes._idArr;
 
             for(int i=0; i < sampleArr.Length; i++)
             {
-                ConnectionDefinition cdef = _connectionDefArr[sampleArr[i]];
+                DirectedConnection cdef = _connectionDefArr[sampleArr[i]];
 
                 connArr[i] = new DirectedConnection(
-                    cdef._srcNodeId,
-                    cdef._tgtNodeId);
+                    cdef.SourceId,
+                    cdef.TargetId);
 
                 weightArr[i] = _connWeightDist.Sample(_metaNeatGenome.ConnectionWeightRange, true);
-                idArr[i] = cdef._connectionId;
             }
 
             // Get create a new genome with a new ID, birth generation of zero.
@@ -146,24 +140,6 @@ namespace SharpNeat.Neat
         {
             var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion);
             return factory.CreatePopulation(popSize);
-        }
-
-        #endregion
-
-        #region Inner Class [ConnectionDefinition]
-
-        struct ConnectionDefinition
-        {
-            public readonly int _connectionId;
-            public readonly int _srcNodeId;
-            public readonly int _tgtNodeId;
-
-            public ConnectionDefinition(int innovationId, int srcNodeId, int tgtNodeId)
-            {
-                _connectionId = innovationId;
-                _srcNodeId = srcNodeId;
-                _tgtNodeId = tgtNodeId;
-            }
         }
 
         #endregion

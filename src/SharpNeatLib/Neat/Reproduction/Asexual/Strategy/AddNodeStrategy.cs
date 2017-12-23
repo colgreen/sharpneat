@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
@@ -7,7 +6,7 @@ using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
-    public partial class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
+    public class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         #region Instance Fields
@@ -17,7 +16,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly AddedNodeBuffer _addedNodeBuffer;
-        readonly AddedConnectionBuffer _addedConnBuffer;
         readonly IRandomSource _rng;
 
         #endregion
@@ -29,15 +27,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
-            AddedNodeBuffer addedNodeBuffer,
-            AddedConnectionBuffer addedConnBuffer)
+            AddedNodeBuffer addedNodeBuffer)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeIdSeq = genomeIdSeq;
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
             _addedNodeBuffer = addedNodeBuffer;
-            _addedConnBuffer = addedConnBuffer;
             _rng = RandomSourceFactory.Create();
         }
 
@@ -54,25 +50,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Select a connection at random.
             int splitConnIdx = _rng.Next(parent.ConnectionGenes.Length);
-            int splitConnId = parent.ConnectionGenes._idArr[splitConnIdx];
+            var splitConn = parent.ConnectionGenes._connArr[splitConnIdx];
 
             // The selected connection will be replaced with a new node and two new connections; 
-            // get innovation IDs for these.
-            AddedNodeInfo addedNodeInfo = GetInnovationIDs(splitConnId, parent, out bool newInnovationIdsFlag);
+            // get an innovation ID for the new node.
+            int addedNodeId = GetInnovationID(splitConn, parent, out bool newInnovationIdsFlag);
 
             // Create the two new connections.
-            var splitConn = parent.ConnectionGenes._connArr[splitConnIdx];
             var newConnArr = new DirectedConnection[] { 
-                new DirectedConnection(splitConn.SourceId, addedNodeInfo.AddedNodeId),
-                new DirectedConnection(addedNodeInfo.AddedNodeId, splitConn.TargetId)
+                new DirectedConnection(splitConn.SourceId, addedNodeId),
+                new DirectedConnection(addedNodeId, splitConn.TargetId)
             };
-
-            // Register new connection innovation IDs.
-            if(newInnovationIdsFlag)
-            {
-                _addedConnBuffer.Register(newConnArr[0], addedNodeInfo.AddedInputConnectionId);
-                _addedConnBuffer.Register(newConnArr[1], addedNodeInfo.AddedOutputConnectionId);
-            }
 
             // Get weights for the new connections.
             // Connection 1 gets the weight from the original connection; connection 2 gets a fixed
@@ -83,13 +71,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var newWeightArr = new T[] { 
                 parent.ConnectionGenes._weightArr[splitConnIdx],
                 (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightRange, typeof(T))
-            };
-
-            // IDs for the new connections.
-            var newIdArr = new int[]
-            {
-                addedNodeInfo.AddedInputConnectionId,
-                addedNodeInfo.AddedOutputConnectionId
             };
 
             // Ensure newConnArr is sorted.
@@ -104,10 +85,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 T tmpWeight = newWeightArr[0];
                 newWeightArr[0] = newWeightArr[1];
                 newWeightArr[1] = tmpWeight;
-
-                int tmpid = newIdArr[0];
-                newIdArr[0] = newIdArr[1];
-                newIdArr[1] = tmpid;
             }
 
             // Create a new connection gene array that consists of the parent connection genes, 
@@ -115,7 +92,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // replace it inserted at the correct (sorted) positions.
             var parentConnArr = parent.ConnectionGenes._connArr;
             var parentWeightArr = parent.ConnectionGenes._weightArr;
-            var parentIdArr = parent.ConnectionGenes._idArr;
             int parentLen = parentConnArr.Length;
 
             // Create the child genome's ConnectionGenes object.
@@ -123,7 +99,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var connGenes = new ConnectionGenes<T>(childLen);
             var connArr = connGenes._connArr;
             var weightArr = connGenes._weightArr;
-            var idArr = connGenes._idArr;
 
             // Build an array of parent indexes to stop at when copying from the parent to the child connection array.
             // Note. Each index is combined with a second value; an index into newConnArr for insertions,
@@ -140,10 +115,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Sort by the first index value.
             Array.Sort(stopIdxArr, ((int,int)x, (int,int)y) => x.Item1.CompareTo(y.Item1));
 
-            // Record the insertion indexes into the child connection.
-            var childInsertionArr = new (int connIdx, int id)[2];
-            int childInsertionIdx = 0;
-
             // Loop over stopIdxArr.
             int parentIdx = 0;
             int childIdx = 0;
@@ -159,7 +130,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 {
                     Array.Copy(parentConnArr, parentIdx, connArr, childIdx, copyLen);
                     Array.Copy(parentWeightArr, parentIdx, weightArr, childIdx, copyLen);
-                    Array.Copy(parentIdArr, parentIdx, idArr, childIdx, copyLen);
                 }
 
                 // Update parentIdx, childIdx.
@@ -176,10 +146,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 // We are at an insertion point in connArr.
                 connArr[childIdx] = newConnArr[newConIdx];
                 weightArr[childIdx] = newWeightArr[newConIdx];
-                idArr[childIdx] = newIdArr[newConIdx];
-
-                // Record insertions.
-                childInsertionArr[childInsertionIdx++] = (childIdx, newIdArr[newConIdx]);
 
                 childIdx++;
             }
@@ -190,18 +156,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             {
                 Array.Copy(parentConnArr, parentIdx, connArr, childIdx, len);
                 Array.Copy(parentWeightArr, parentIdx, weightArr, childIdx, len);
-                Array.Copy(parentIdArr, parentIdx, idArr, childIdx, len);
             }
 
             // Note. We can construct a NeatGenome without passing the pre-built arrays connIdxArr and hiddenNodeIdArr;
             // however this way is more efficient. The downside is that the logic to pre-build these arrays is highly complex
             // and therefore difficult to understand, modify, and is thus a possible source of defects if modifications are attempted.
 
-            // Create an array of indexes into the connection genes that gives the genes in order of innovation ID.
-            var connIdxArr = Utils.CreateConnectionIndexArray(parent, splitConnId, splitConnIdx, childInsertionArr, insertIdx1, insertIdx2, newInnovationIdsFlag);
-
             // Create an array of hidden node IDs.
-            var hiddenNodeIdArr = Utils.GetHiddenNodeIdArray(parent, addedNodeInfo.AddedNodeId, newInnovationIdsFlag);
+            var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, addedNodeId, newInnovationIdsFlag);
 
             // Create and return a new genome.
             return new NeatGenome<T>(
@@ -209,7 +171,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                connIdxArr,
                 hiddenNodeIdArr,
                 null);
         }
@@ -218,43 +179,76 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        private AddedNodeInfo GetInnovationIDs(int splitConnId, NeatGenome<T> parent, out bool newInnovationIdsFlag)
+        private int GetInnovationID(DirectedConnection splitConn, NeatGenome<T> parent, out bool newInnovationIdFlag)
         {
             // Test if the selected connection has a previous split recorded in the innovation ID buffer.
-            AddedNodeInfo addedNodeInfo;
-            if(_addedNodeBuffer.TryLookup(splitConnId, out addedNodeInfo))
+            if(_addedNodeBuffer.TryLookup(splitConn, out int addedNodeId))
             {
                 // Found existing matching structure.
-                // However we can only re-use the IDs from that structure if they aren't already present in the current genome;
-                // this can happen e.g. if a previous split between the two chosen nodes has had one of its connections deleted
-                // and another new connection was made, and we are now splitting that connection. Sexual reproduction could also 
-                // result in the same or similar situation.
-                // 
-                // Therefore we only re-use IDs if we can re-use all three together, otherwise we aren't assigning the IDs to matching
-                // structures throughout the population, which is the reason for ID re-use.
-                if(    !parent.ContainsHiddenNode(addedNodeInfo.AddedNodeId)
-                    && !parent.ContainsConnection(addedNodeInfo.AddedInputConnectionId)
-                    && !parent.ContainsConnection(addedNodeInfo.AddedOutputConnectionId))
+                // However we can only re-use the ID from that structure if it isn't already present in the current genome;
+                // this can happen if a connection was split previously, and now another connection between the same source 
+                // and target nodes exists and is also being split.
+                if(!parent.ContainsHiddenNode(addedNodeId))
                 {
-                    // None of the ID are present on the parent genome, therefore we can re-use them.
-                    newInnovationIdsFlag = false;
-                    return addedNodeInfo;
+                    // The node ID from the buffer is not present on the parent genome, therefore we can re-use it.
+                    newInnovationIdFlag = false;
+                    return addedNodeId;
                 }
 
-                // We can't re-use the IDs from the buffer, so allocate new IDs.
-                // Note. these aren't added to the buffer; instead we leave the existing buffer entry for splitConnId.
-                newInnovationIdsFlag = true;
-                return new AddedNodeInfo(_innovationIdSeq);
+                // We can't re-use the ID from the buffer, so allocate a new ID.
+                // Note. this new ID isn't added to the buffer; instead we leave the existing buffer entry for splitConnId in place.
+                newInnovationIdFlag = true;
+                return _innovationIdSeq.Next();
             }
 
-            // No buffer entry found, therefore we allocate new IDs.
-            newInnovationIdsFlag = true;
-            addedNodeInfo = new AddedNodeInfo(_innovationIdSeq);
+            // No buffer entry found, therefore we allocate a new ID.
+            newInnovationIdFlag = true;
+            addedNodeId = _innovationIdSeq.Next();
 
-            // Register the new IDs with the buffer.
-            _addedNodeBuffer.Register(splitConnId, addedNodeInfo);
+            // Register the new ID with the buffer.
+            _addedNodeBuffer.Register(splitConn, addedNodeId);
 
-            return addedNodeInfo;
+            return addedNodeId;
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        /// <summary>
+        /// Get an array of hidden node IDs in the child genome.
+        /// </summary>
+        public static int[] GetHiddenNodeIdArray(
+            NeatGenome<T> parent,
+            int addedNodeId,
+            bool newInnovationIdsFlag)
+        {
+            int[] parentIdArr = parent.HiddenNodeIdArray;
+            int childLen = parentIdArr.Length + 1;
+            int[] childIdArr = new int[childLen];
+
+            // New innovation IDs are always higher than any existing IDs, therefore adding
+            // the new node ID to the end of the list will maintain sorter order.
+            if(newInnovationIdsFlag)
+            {
+                Array.Copy(parentIdArr, childIdArr, parentIdArr.Length);
+                childIdArr[childIdArr.Length-1] = addedNodeId;
+                return childIdArr;
+            }
+            
+            // Determine the insertion index for the new node ID.
+            int insertIdx = ~Array.BinarySearch(parentIdArr, addedNodeId);
+
+            // Copy all IDs up to the insertion index.
+            Array.Copy(parentIdArr, 0, childIdArr, 0, insertIdx);
+
+            // Insert the added node ID.
+            childIdArr[insertIdx] = addedNodeId;
+
+            // Copy all remaining IDs after the index. 
+            Array.Copy(parentIdArr, insertIdx, childIdArr, insertIdx+1, parentIdArr.Length - insertIdx);
+
+            return childIdArr;
         }
 
         #endregion

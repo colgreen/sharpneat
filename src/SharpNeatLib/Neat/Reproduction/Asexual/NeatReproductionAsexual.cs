@@ -33,7 +33,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
-            AddedConnectionBuffer addedConnectionBuffer,
             AddedNodeBuffer addedNodeBuffer,
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
@@ -47,12 +46,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
             if(metaNeatGenome.IsAcyclic) {
-                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
+                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq);
             } else {
-                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedConnectionBuffer);
+                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq);
             }      
             
-            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer, addedConnectionBuffer);
+            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
         }
 
         #endregion

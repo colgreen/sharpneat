@@ -57,7 +57,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Neat\AddedConnectionBufferTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\EnumerateParentGenesTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossoverReproductionStrategyTestsUtils.cs" />

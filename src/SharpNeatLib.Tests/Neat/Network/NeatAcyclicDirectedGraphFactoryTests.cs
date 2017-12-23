@@ -19,10 +19,10 @@ namespace SharpNeatLib.Tests.Neat.Network
         {
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
-            connGenes[0] = (0, 3, 0.0, 5);
-            connGenes[1] = (1, 3, 1.0, 7);
-            connGenes[2] = (2, 3, 2.0, 9);
-            connGenes[3] = (2, 4, 3.0, 10);
+            connGenes[0] = (0, 3, 0.0);
+            connGenes[1] = (1, 3, 1.0);
+            connGenes[2] = (2, 3, 2.0);
+            connGenes[3] = (2, 4, 3.0);
 
             // Wrap in a genome.
             var genome = new NeatGenome<double>(
@@ -45,11 +45,11 @@ namespace SharpNeatLib.Tests.Neat.Network
         {
             // Define graph connections.
             var connGenes = new ConnectionGenes<double>(5);
-            connGenes[0] = (0, 4, 0.0, 8);
-            connGenes[1] = (4, 5, 1.0, 9);
-            connGenes[2] = (5, 2, 2.0, 10);
-            connGenes[3] = (1, 2, 3.0, 6);
-            connGenes[4] = (2, 3, 4.0, 11);
+            connGenes[0] = (0, 4, 0.0);
+            connGenes[1] = (4, 5, 1.0);
+            connGenes[2] = (5, 2, 2.0);
+            connGenes[3] = (1, 2, 3.0);
+            connGenes[4] = (2, 3, 4.0);
             connGenes.Sort();
 
             // Wrap in a genome.

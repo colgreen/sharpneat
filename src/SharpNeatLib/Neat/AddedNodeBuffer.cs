@@ -1,4 +1,5 @@
 ﻿using Redzen.Structures;
+using SharpNeat.Network;
 
 namespace SharpNeat.Neat
 {
@@ -11,22 +12,22 @@ namespace SharpNeat.Neat
     /// </summary>
     public class AddedNodeBuffer
     {
-        KeyedCircularBuffer<int,AddedNodeInfo> _buffer;
+        KeyedCircularBuffer<DirectedConnection,int> _buffer;
         
         #region Constructor
 
         public AddedNodeBuffer(int capacity)
         {
-            _buffer = new KeyedCircularBuffer<int,AddedNodeInfo>(capacity);
+            _buffer = new KeyedCircularBuffer<DirectedConnection,int>(capacity);
         }
 
         #endregion
 
         #region Public Methods
 
-        public void Register(int connectionId, AddedNodeInfo addedNodeInfo)
+        public void Register(DirectedConnection conn, int addedNodeId)
         {
-            _buffer.Enqueue(connectionId, addedNodeInfo);
+            _buffer.Enqueue(conn, addedNodeId);
         }
 
         /// <summary>
@@ -35,9 +36,9 @@ namespace SharpNeat.Neat
         /// <remarks>
         /// <param name="connectionId">The connection ID to look-up.</param>
         /// <returns>True if a node was found, otherwise false</returns>
-        public bool TryLookup(int connectionId, out AddedNodeInfo addedNodeInfo)
+        public bool TryLookup(DirectedConnection conn, out int addedNodeId)
         {
-            return _buffer.TryGetValue(connectionId, out addedNodeInfo);
+            return _buffer.TryGetValue(conn, out addedNodeId);
         }
 
         #endregion

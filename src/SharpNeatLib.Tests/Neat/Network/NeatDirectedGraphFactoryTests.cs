@@ -18,10 +18,10 @@ namespace SharpNeatLib.Tests.Neat.Network
         {
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
-            connGenes[0] = (0, 3, 0.0, 5);
-            connGenes[1] = (1, 3, 1.0, 6);
-            connGenes[2] = (2, 3, 2.0, 7);
-            connGenes[3] = (2, 4, 3.0, 8);
+            connGenes[0] = (0, 3, 0.0);
+            connGenes[1] = (1, 3, 1.0);
+            connGenes[2] = (2, 3, 2.0);
+            connGenes[3] = (2, 4, 3.0);
 
             // Wrap in a genome.
             var genome = new NeatGenome<double>(
@@ -44,10 +44,10 @@ namespace SharpNeatLib.Tests.Neat.Network
         {
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
-            connGenes[0] = (10, 13, 0.0, 15);
-            connGenes[1] = (11, 13, 1.0, 16);
-            connGenes[2] = (12, 13, 2.0, 17);
-            connGenes[3] = (12, 14, 3.0, 18);
+            connGenes[0] = (10, 13, 0.0);
+            connGenes[1] = (11, 13, 1.0);
+            connGenes[2] = (12, 13, 2.0);
+            connGenes[3] = (12, 14, 3.0);
 
             // Wrap in a genome.
             var genome = new NeatGenome<double>(
@@ -70,10 +70,10 @@ namespace SharpNeatLib.Tests.Neat.Network
         {
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
-            connGenes[0] = (100, 103, 0.0, 105);
-            connGenes[1] = (101, 103, 1.0, 106);
-            connGenes[2] = (102, 103, 2.0, 107);
-            connGenes[3] = (102, 104, 3.0, 108);
+            connGenes[0] = (100, 103, 0.0);
+            connGenes[1] = (101, 103, 1.0);
+            connGenes[2] = (102, 103, 2.0);
+            connGenes[3] = (102, 104, 3.0);
 
             // Wrap in a genome.
             var genome = new NeatGenome<double>(

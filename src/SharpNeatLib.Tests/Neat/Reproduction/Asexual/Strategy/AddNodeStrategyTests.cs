@@ -27,7 +27,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
             var genome = pop.GenomeList[0];
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq,
-                pop.GenerationSeq, pop.AddedNodeBuffer, pop.AddedConnectionBuffer);
+                pop.GenerationSeq, pop.AddedNodeBuffer);
 
             for(int i=0; i<10000; i++) {
                 NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy);
@@ -46,7 +46,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
             var genome = pop.GenomeList[0];
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq,
-                pop.GenerationSeq, pop.AddedNodeBuffer, pop.AddedConnectionBuffer);
+                pop.GenerationSeq, pop.AddedNodeBuffer);
 
             for(int i=0; i<2000; i++)
             {
@@ -70,7 +70,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
             var genome = pop.GenomeList[0];
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq,
-                pop.GenerationSeq, pop.AddedNodeBuffer, pop.AddedConnectionBuffer);
+                pop.GenerationSeq, pop.AddedNodeBuffer);
 
             CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);
             genomeRing.Enqueue(genome);
@@ -100,9 +100,6 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
 
             // The connection genes should be sorted.
             Assert.IsTrue(DirectedConnectionUtils.IsSorted(childGenome.ConnectionGenes._connArr));
-
-            // ConnectionIndexArray should describe the genes in innovation ID sort order.
-            Assert.IsTrue(ConnectionGenesUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGenes._idArr));
 
             // The child genome should have one more connection than parent.
             Assert.AreEqual(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);

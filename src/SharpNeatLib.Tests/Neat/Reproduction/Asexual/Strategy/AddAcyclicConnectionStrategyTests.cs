@@ -20,7 +20,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         {
             var pop = CreateNeatPopulation();
             var genome = pop.GenomeList[0];
-            var strategy = new AddAcyclicConnectionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq, pop.AddedConnectionBuffer);
+            var strategy = new AddAcyclicConnectionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
@@ -48,9 +48,6 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
                 Assert.IsTrue(nodeIdSet.SetEquals(childNodeIdSet));
-
-                // ConnectionIndexArray should describe the genes in innovation ID sort order.
-                Assert.IsTrue(ConnectionGenesUtils.IsSorted(childGenome.ConnectionIndexArray, childGenome.ConnectionGenes._idArr));
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
