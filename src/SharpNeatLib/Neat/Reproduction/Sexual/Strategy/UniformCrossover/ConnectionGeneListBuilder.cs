@@ -44,6 +44,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <param name="isSecondaryGene">Indicates if the gene is from the secondary parent.</param>
         public void TryAddGene(ConnectionGene<T> gene, bool isSecondaryGene)
         {
+            // Test for acyclic networks only...
             // Check if the connection gene would create a cycle in the new genome; if so then reject it.
             // Notes. 
             // Only genes from the secondary parent can create a cycle; the genes in both parents describe
