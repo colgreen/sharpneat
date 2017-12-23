@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using System;
@@ -12,9 +13,6 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy
     [TestClass]
     public class EnumerateParentGenesTests
     {
-        // TODO: More tests!
-
-
         [TestMethod]
         [TestCategory("SexualReproduction")]
         public void TestEnumerateParentGenes_CompareWithSelf()
@@ -30,31 +28,45 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy
                 (6,6), (7,7), (8,8),
                 (9,9), (10,10), (11,11) };
 
-            Assert.IsTrue(AreEqual(expectedArr, geneIndexPairArr));
+            Assert.IsTrue(ArrayUtils.Equals(expectedArr, geneIndexPairArr));
         }
 
-        #region Private Static Methods
-
-        private static bool AreEqual((int,int)[] expectedArr, (int,int)[] actualArr)
+        [TestMethod]
+        [TestCategory("SexualReproduction")]
+        public void TestEnumerateParentGenes_ExcessGeneInParent1()
         {
-            if(expectedArr.Length != actualArr.Length) {
-                return false;
-            }
+            NeatPopulation<double> pop = UniformCrossoverReproductionStrategyTestsUtils.CreateNeatPopulation(2);
+            var genome1 = pop.GenomeList[0];
+            var genome2 = pop.GenomeList[1];
 
-            for(int i=0; i < expectedArr.Length; i++) 
-            {
-                if(!AreEqual(expectedArr[i], actualArr[i])) {
-                    return false;
-                }
-            }
-            return true;
+            (int,int)[] geneIndexPairArr = UniformCrossoverReproductionStrategyUtils.EnumerateParentGenes(genome1.ConnectionGenes, genome2.ConnectionGenes).ToArray();
+
+            (int,int)[] expectedArr = {
+                (0,0), (1,1), (2,2),
+                (3,3), (4,4), (5,-1),
+                (6,5), (7,6), (8,7),
+                (9,8), (10,9), (11,10) };
+
+            Assert.IsTrue(ArrayUtils.Equals(expectedArr, geneIndexPairArr));
         }
 
-        private static bool AreEqual((int,int) expected, (int,int) actual)
+        [TestMethod]
+        [TestCategory("SexualReproduction")]
+        public void TestEnumerateParentGenes_ExcessGeneInParent2()
         {
-            return expected.Item1 == actual.Item1 && expected.Item2 == actual.Item2;
-        }
+            NeatPopulation<double> pop = UniformCrossoverReproductionStrategyTestsUtils.CreateNeatPopulation(2);
+            var genome1 = pop.GenomeList[1];
+            var genome2 = pop.GenomeList[0];
 
-        #endregion
+            (int,int)[] geneIndexPairArr = UniformCrossoverReproductionStrategyUtils.EnumerateParentGenes(genome1.ConnectionGenes, genome2.ConnectionGenes).ToArray();
+
+            (int,int)[] expectedArr = {
+                (0,0), (1,1), (2,2),
+                (3,3), (4,4), (-1,5),
+                (5,6), (6,7), (7,8),
+                (8,9), (9,10), (10,11) };
+
+            Assert.IsTrue(ArrayUtils.Equals(expectedArr, geneIndexPairArr));
+        }
     }
 }
