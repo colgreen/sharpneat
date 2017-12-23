@@ -60,11 +60,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         private NeatGenome<T> CreateGenomeInner(NeatGenome<T> parent1, NeatGenome<T> parent2)
         {
-            // Determine if the child genome will include unmatched genes from the secondary parent. 
-            bool includeSecondaryParentGenes = DiscreteDistributionUtils.SampleBinaryDistribution(
-                                                    _metaNeatGenome.SecondaryParentRecombinationProbability,
-                                                    _rng);
-
             // Enumerate over the connection genes in both parents.
             foreach(var geneIndexPair in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
             {
@@ -72,7 +67,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 ConnectionGene<T>? connGene = CreateConnectionGene(
                     parent1.ConnectionGenes, parent2.ConnectionGenes,
                     geneIndexPair.Item1, geneIndexPair.Item2,
-                    includeSecondaryParentGenes,
                     out bool isSecondaryGene);
 
                 if(connGene.HasValue)
@@ -101,7 +95,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             ConnectionGenes<T> connGenes1,
             ConnectionGenes<T> connGenes2,
             int idx1, int idx2,
-            bool includeSecondaryParentGenes,
             out bool isSecondaryGene)
         {
             // Select gene at random if it is present on both parents.
@@ -126,8 +119,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 return CreateConnectionGene(connGenes1, idx1);
             }
 
-            // Otherwise use the secondary parent's gene.
-            if(includeSecondaryParentGenes)
+            // Otherwise use the secondary parent's gene stochastically.
+            if(DiscreteDistributionUtils.SampleBinaryDistribution(_metaNeatGenome.SecondaryParentGeneProbability, _rng))
             {
                 isSecondaryGene = true;
                 return CreateConnectionGene(connGenes2, idx2);

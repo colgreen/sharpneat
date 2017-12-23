@@ -36,10 +36,9 @@ namespace SharpNeat.Neat.Genome
 
         /// <summary>
         /// Sexual reproduction.
-        /// The probability that genes that exist only on the secondary (least fit) parent, are copied into the child genomes.
-        /// Note. copying is all or nothing for each child genome, i.e. they get all of the unmatched secondary genes, or none.
+        /// The probability that a gene that exists only on the secondary parent is copied into the child genome.
         /// </summary>
-        public double SecondaryParentRecombinationProbability = 0.1;
+        public double SecondaryParentGeneProbability = 0.02;
 
         #endregion
 
