@@ -63,6 +63,7 @@ namespace SharpNeat.Core
                 if(coordElemArray[i].Key <= prevId) {
                     return false;
                 }
+                prevId = coordElemArray[i].Key;
             }
             return true;
         }
