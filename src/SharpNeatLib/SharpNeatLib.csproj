@@ -73,6 +73,10 @@
     <Compile Include="EA\Population.cs" />
     <Compile Include="Neat\AddedNodeBuffer.cs" />
     <None Include="Neat\AddedConnectionBuffer.cs" />
+    <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricUtils.cs" />
+    <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetric.cs" />
+    <Compile Include="Neat\DistanceMetrics\IDistanceMetric.cs" />
+    <Compile Include="Neat\DistanceMetrics\Double\ManhattanDistanceMetric.cs" />
     <Compile Include="Neat\Genome\ConnectionGenes.cs" />
     <Compile Include="Neat\Genome\ConnectionGenesUtils.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />

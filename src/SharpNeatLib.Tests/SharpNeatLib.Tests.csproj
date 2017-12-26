@@ -57,6 +57,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricsUtilsTests.cs" />
+    <Compile Include="Neat\DistanceMetrics\Double\ManhattanDistanceMetricTests.cs" />
+    <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetricTests.cs" />
     <Compile Include="Neat\Network\DirectedConnectionTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\EnumerateParentGenesTests.cs" />
