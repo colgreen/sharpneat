@@ -78,6 +78,7 @@ namespace SharpNeat.Phenomes
         /// </remarks>
         public T this[int index]
         {
+            // ENHANCEMENT: Consider adding ref keyword to make this return a variable rather than a value (this feature is new to C#7)
             get 
             {
                 Debug.Assert(index > -1 && index < _length);
