@@ -14,7 +14,7 @@ namespace SharpNeat.EA
 
         EAParameters _eaParams;
         IGenomeCollectionEvaluator<TGenome> _evaluator;
-        IDifferentialReproductionStrategy<TGenome> _diffReproductionStrategy;
+        ISelectionReproductionStrategy<TGenome> _diffReproductionStrategy;
         Population<TGenome> _population;
         EAStatistics _eaStats = new EAStatistics();
         ComplexityRegulationMode _complexityRegulationMode = ComplexityRegulationMode.Complexifying;
@@ -27,7 +27,7 @@ namespace SharpNeat.EA
         public DefaultEvolutionAlgorithm(
             EAParameters eaParams,
             IGenomeCollectionEvaluator<TGenome> evaluator,
-            IDifferentialReproductionStrategy<TGenome> diffReproductionStrategy,
+            ISelectionReproductionStrategy<TGenome> diffReproductionStrategy,
             Population<TGenome> population)
         {
             _eaParams = eaParams;
