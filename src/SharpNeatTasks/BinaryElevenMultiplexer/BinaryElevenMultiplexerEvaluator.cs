@@ -11,7 +11,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
     /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
     /// input signal (0 or 1).
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<double>
+    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IPhenome<double>>
     {
         
         #region Public Methods
@@ -86,6 +86,12 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
 
             return new FitnessInfo(fitness);
         }
+
+        /// <summary>
+        /// Gets a null fitness score, i.e. for genomes that cannot be assigned a fitness score for whatever reason, e.g.
+        /// if a genome failed to decode to a viable phenome that could be tested.
+        /// </summary>
+        public FitnessInfo NullFitness => FitnessInfo.DefaultFitnessInfo;
 
         /// <summary>
         /// Gets a fitness comparer. 

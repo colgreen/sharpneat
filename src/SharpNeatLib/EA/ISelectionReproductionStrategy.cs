@@ -17,8 +17,13 @@ namespace SharpNeat.EA
     /// allows for plugging-in of high level evolutionary algorithm strategies.
     /// </remarks>
     /// <typeparam name="TGenome"></typeparam>
-    public interface ISelectionReproductionStrategy<TGenome> //where TGenome : IGenome
+    public interface ISelectionReproductionStrategy<TGenome>
     {
+        /// <summary>
+        /// Initialise the strategy.
+        /// </summary>
+        void Initialise(Population<TGenome> population);
+
         /// <summary>
         /// Invoke the strategy.
         /// Accepts a population of genomes, and updates it into a new population.

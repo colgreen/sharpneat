@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Phenomes;
 
 namespace SharpNeat.Evaluation
 {
@@ -7,14 +6,20 @@ namespace SharpNeat.Evaluation
     /// Represents a type that evaluates a single phenome.
     /// </summary>
     /// <typeparam name="T">Phenome input/output signal data type.</typeparam>
-    public interface IPhenomeEvaluator<T> where T : struct
+    public interface IPhenomeEvaluator<TPhenome>
     {
         /// <summary>
         /// Evaluate a single phenome and return its fitness score or scores.
         /// </summary>
         /// <param name="phenome">The phenome to evaluate.</param>
         /// <returns></returns>
-        FitnessInfo Evaluate(IPhenome<T> phenome);
+        FitnessInfo Evaluate(TPhenome phenome);
+
+        /// <summary>
+        /// Gets a null fitness score, i.e. for genomes that cannot be assigned a fitness score for whatever reason, e.g.
+        /// if a genome failed to decode to a viable phenome that could be tested.
+        /// </summary>
+        FitnessInfo NullFitness { get; }
 
         /// <summary>
         /// Gets a fitness comparer. 

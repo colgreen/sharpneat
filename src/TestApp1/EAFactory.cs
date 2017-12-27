@@ -5,18 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpNeat.Core;
 using SharpNeat.EA;
+using SharpNeat.Evaluation;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Phenomes;
-using SharpNeatTasks.BinaryElevenMultiplexerTask;
+using SharpNeatTasks.BinaryElevenMultiplexer;
 
 namespace TestApp1
 {
     public class EAFactory
     {
         EAParameters _eaParams;
-        MetaNeatGenome _metaNeatGenome;
+        MetaNeatGenome<double> _metaNeatGenome;
         NeatPopulation<double> _neatPop;
 
         #region Public Methods
@@ -27,41 +28,57 @@ namespace TestApp1
             _eaParams.PopulationSize = 100;
 
 
-            _neatPop = CreatePopulation(_eaParams.PopulationSize);
+            var metaNeatGenome = CreateMetaNeatGenome();
+            _neatPop = CreatePopulation(metaNeatGenome, _eaParams.PopulationSize);
 
 
-            IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = CreateGenomeListEvaluator();
+            //IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = CreateGenomeListEvaluator();
 
 
-            var ea = new DefaultEvolutionAlgorithm<NeatGenome<double>>(_eaParams, null, null, _neatPop);
+            var ea = new DefaultEvolutionAlgorithm<NeatGenome<double>>(
+                _eaParams,
+                evaluator: null,
+                selectionReproStrategy: null,
+                population: _neatPop);
+
             return ea;
         }
 
         #endregion
 
-        #region Private Methods
+        #region Private Static Methods
 
-        private NeatPopulation<double> CreatePopulation(int size)
+        //private IGenomeCollectionEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
+        //{
+        //    var genomeDecoder = new NeatGenomeAcyclicDecoder(false);
+        //    var phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
+        //    var genomeCollectionEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IPhenome<double>>(genomeDecoder, phenomeEvaluator);
+        //    return genomeListEvaluator;
+        //}
+
+        private static NeatPopulation<double> CreatePopulation(
+            MetaNeatGenome<double> metaNeatGenome,
+            int popSize)
         {
-            MetaNeatGenome metaNeatGenome = new MetaNeatGenome();
-            metaNeatGenome.InputNodeCount = 3;
-            metaNeatGenome.OutputNodeCount = 1;
-            metaNeatGenome.IsAcyclic = true;
+            NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(
+                metaNeatGenome,
+                connectionsProportion: 1.0,
+                popSize: popSize);
 
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, size);
-            return neatPop;
+            return pop;
         }
 
-
-        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
+        private static MetaNeatGenome<double> CreateMetaNeatGenome()
         {
-            var genomeDecoder = new NeatGenomeAcyclicDecoder(false);
-            IPhenomeEvaluator<IPhenome<double>> phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>,IPhenome<double>>(genomeDecoder, phenomeEvaluator);
-            return genomeListEvaluator;
+            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+                inputNodeCount: 3, 
+                outputNodeCount: 1,
+                isAcyclic: true,
+                activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
+
+            return metaNeatGenome;
         }
 
         #endregion
-
     }
 }

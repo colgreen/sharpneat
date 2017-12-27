@@ -8,14 +8,16 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.EA
 {
-    public class DefaultEvolutionAlgorithm<TGenome> : IEvolutionAlgorithm where TGenome : class, IGenome
+    public class DefaultEvolutionAlgorithm<TGenome> : IEvolutionAlgorithm 
+        where TGenome : IGenome
     {
         #region Instance Fields
 
-        EAParameters _eaParams;
-        IGenomeCollectionEvaluator<TGenome> _evaluator;
-        ISelectionReproductionStrategy<TGenome> _diffReproductionStrategy;
-        Population<TGenome> _population;
+        readonly EAParameters _eaParams;
+        readonly IGenomeCollectionEvaluator<TGenome> _evaluator;
+        readonly ISelectionReproductionStrategy<TGenome> _selectionReproStrategy;
+        readonly Population<TGenome> _pop;
+
         EAStatistics _eaStats = new EAStatistics();
         ComplexityRegulationMode _complexityRegulationMode = ComplexityRegulationMode.Complexifying;
         TGenome _currentBestGenome;
@@ -27,28 +29,28 @@ namespace SharpNeat.EA
         public DefaultEvolutionAlgorithm(
             EAParameters eaParams,
             IGenomeCollectionEvaluator<TGenome> evaluator,
-            ISelectionReproductionStrategy<TGenome> diffReproductionStrategy,
+            ISelectionReproductionStrategy<TGenome> selectionReproStrategy,
             Population<TGenome> population)
         {
             _eaParams = eaParams;
             _evaluator = evaluator;
-            _diffReproductionStrategy = diffReproductionStrategy;
-            _population = population;
+            _selectionReproStrategy = selectionReproStrategy;
+            _pop = population;
         }
 
         #endregion
 
         #region Properties
 
-        public EAStatistics EAStats { get { return _eaStats; } }
+        public EAStatistics EAStats => _eaStats;
 
         /// <summary>
         /// Gets or sets the complexity regulation mode.
         /// </summary>
         public ComplexityRegulationMode ComplexityRegulationMode 
         { 
-            get { return _complexityRegulationMode; }
-            set { _complexityRegulationMode = value; } 
+            get => _complexityRegulationMode;
+            set => _complexityRegulationMode = value; 
         }
 
         #endregion
@@ -59,10 +61,10 @@ namespace SharpNeat.EA
         {
             // Evaluate each genome in the population; assigning fitness info to each (a single fitness score,
             // or perhaps a series of scores each measuring a different aspect of fitness).
-            _evaluator.Evaluate(_population.GenomeList);
+            _evaluator.Evaluate(_pop.GenomeList);
 
             // Invoke the reproduction strategy (select, cull, create offspring).
-            _diffReproductionStrategy.Invoke(_population);
+            _selectionReproStrategy.Invoke(_pop);
 
             // Update stats.
             UpdateBestGenome();
@@ -76,11 +78,11 @@ namespace SharpNeat.EA
         private void UpdateBestGenome()
         {
             // If all genomes have the same fitness (including zero) then we simply return the first genome.
-            TGenome bestGenome = _population.GenomeList[0];
-            FitnessInfo bestFitnessInfo = _population.GenomeList[0].FitnessInfo;
+            TGenome bestGenome = _pop.GenomeList[0];
+            FitnessInfo bestFitnessInfo = _pop.GenomeList[0].FitnessInfo;
             var comparer = _evaluator.FitnessComparer;
 
-            foreach(TGenome genome in _population.GenomeList)
+            foreach(TGenome genome in _pop.GenomeList)
             {
                 if(comparer.Compare(bestFitnessInfo, genome.FitnessInfo) < 0)
                 {

@@ -56,9 +56,8 @@
     <Compile Include="Evaluation\FitnessInfo.cs" />
     <Compile Include="Core\IGenome.cs" />
     <Compile Include="Core\IGenomeDecoder.cs" />
-    <Compile Include="Core\IGenomeFactory.cs" />
     <Compile Include="Evaluation\IGenomeCollectionEvaluator.cs" />
-    <None Include="Core\SerialGenomeListEvaluator.cs" />
+    <Compile Include="Evaluation\SerialGenomeCollectionEvaluator.cs" />
     <Compile Include="EA\ComplexityRegulationMode.cs" />
     <Compile Include="EA\Controllers\RunState.cs" />
     <Compile Include="EA\Controllers\UpdateMode.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
+    <Compile Include="Neat\ISpeciationStrategy.cs" />
     <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactory.cs" />
     <Compile Include="Neat\Network\NeatDirectedGraphFactory.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Neat\Reproduction\Sexual\Strategy\ISexualReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyUtils.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategy.cs" />
+    <Compile Include="Neat\Species.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />

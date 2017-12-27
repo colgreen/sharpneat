@@ -4,6 +4,8 @@ namespace SharpNeat.Evaluation
 {
     public struct FitnessInfo
     {
+        public static FitnessInfo DefaultFitnessInfo = new FitnessInfo(0.0);
+
         #region Instance Fields
 
         /// <summary>

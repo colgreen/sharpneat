@@ -13,32 +13,15 @@ namespace TestApp1
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            //EAFactory factory = new EAFactory();
-
-
-            //DefaultEvolutionAlgorithm<NeatGenome<double>> ea = factory.CreateDefaultEvolutionAlgorithm();
+            EAFactory factory = new EAFactory();
+            DefaultEvolutionAlgorithm<NeatGenome<double>> ea = factory.CreateDefaultEvolutionAlgorithm();
             //EvolutionAlgorithmController eaController = new EvolutionAlgorithmController(ea);
-
-
-
-            //ea.PerformOneGeneration();
-
-            //EvolutionAlgorithmController eaController = new EvolutionAlgorithmController()
-
-
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
-                inputNodeCount:3, outputNodeCount:1, isAcyclic:true,
-                activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
-            
-
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, 10);
-
-            
+            ea.PerformOneGeneration();
 
         }
-        
 
     }
 }
