@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpNeat.Neat
 {
-    public class NeatDifferentialReproductionStrategy : ISelectionReproductionStrategy<NeatGenome<double>>
+    public class NeatSelectionReproductionStrategy : ISelectionReproductionStrategy<NeatGenome<double>>
     {
         public void Invoke(Population<NeatGenome<double>> population)
         {
