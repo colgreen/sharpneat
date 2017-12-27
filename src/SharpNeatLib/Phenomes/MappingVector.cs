@@ -49,7 +49,7 @@ namespace SharpNeat.Phenomes
         /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of 
         /// the test in release builds was deemed a reasonable choice here.
         /// </remarks>
-        public virtual T this[int index]
+        public T this[int index]
         {
             get 
             {
