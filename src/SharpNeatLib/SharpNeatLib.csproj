@@ -68,7 +68,7 @@
     <Compile Include="EA\Controllers\EvolutionAlgorithmController.cs" />
     <Compile Include="EA\EvolutionAlgorithmSettings.cs" />
     <Compile Include="EA\IEvolutionAlgorithm.cs" />
-    <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
+    <Compile Include="EA\ISelectionReproductionStrategy.cs" />
     <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
     <Compile Include="EA\Population.cs" />
     <Compile Include="Evaluation\IPhenomeEvaluator.cs" />
