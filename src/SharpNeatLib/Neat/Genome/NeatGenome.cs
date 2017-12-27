@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using SharpNeat.Core;
+using SharpNeat.Evaluation;
 using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
@@ -32,7 +33,7 @@ namespace SharpNeat.Neat.Genome
         // Graph depth information. For acyclic graphs only.
         GraphDepthInfo _depthInfo;
 
-        double _fitness;
+        FitnessInfo _fitnessInfo;
 
         #endregion
 
@@ -108,9 +109,9 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public int BirthGeneration => _birthGeneration;
         /// <summary>
-        /// Genome fitness score.
+        /// Genome fitness info.
         /// </summary>
-        public double Fitness { get => _fitness; set => _fitness = value; }
+        public FitnessInfo FitnessInfo { get => _fitnessInfo; set => _fitnessInfo = value; }
 
         // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
         // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes

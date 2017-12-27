@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpNeat.Core;
+using SharpNeat.Evaluation;
 
 namespace SharpNeat.EA
 {
@@ -12,7 +13,7 @@ namespace SharpNeat.EA
         #region Instance Fields
 
         EAParameters _eaParams;
-        IGenomeListEvaluator<TGenome> _evaluator;
+        IGenomeCollectionEvaluator<TGenome> _evaluator;
         IDifferentialReproductionStrategy<TGenome> _diffReproductionStrategy;
         Population<TGenome> _population;
         EAStatistics _eaStats = new EAStatistics();
@@ -25,7 +26,7 @@ namespace SharpNeat.EA
 
         public DefaultEvolutionAlgorithm(
             EAParameters eaParams,
-            IGenomeListEvaluator<TGenome> evaluator,
+            IGenomeCollectionEvaluator<TGenome> evaluator,
             IDifferentialReproductionStrategy<TGenome> diffReproductionStrategy,
             Population<TGenome> population)
         {
@@ -65,7 +66,7 @@ namespace SharpNeat.EA
 
             // Update stats.
             UpdateBestGenome();
-            _eaStats.StopConditionSatisfied = _evaluator.StopConditionSatisfied;
+            //_eaStats.StopConditionSatisfied = _evaluator.StopConditionSatisfied;
         }
 
         #endregion
@@ -76,14 +77,15 @@ namespace SharpNeat.EA
         {
             // If all genomes have the same fitness (including zero) then we simply return the first genome.
             TGenome bestGenome = _population.GenomeList[0];
-            double bestFitness = _population.GenomeList[0].Fitness;
+            FitnessInfo bestFitnessInfo = _population.GenomeList[0].FitnessInfo;
+            var comparer = _evaluator.FitnessComparer;
 
             foreach(TGenome genome in _population.GenomeList)
             {
-                if(genome.Fitness > bestFitness)
+                if(comparer.Compare(bestFitnessInfo, genome.FitnessInfo) < 0)
                 {
                     bestGenome = genome;
-                    bestFitness = genome.Fitness;
+                    bestFitnessInfo = genome.FitnessInfo;
                 }
             }
             _currentBestGenome = bestGenome;

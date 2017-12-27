@@ -1,4 +1,6 @@
 ﻿
+using SharpNeat.Evaluation;
+
 namespace SharpNeat.Core
 {
     public interface IGenome
@@ -15,8 +17,8 @@ namespace SharpNeat.Core
         int BirthGeneration { get; }
 
         /// <summary>
-        /// The genome's fitness score.
+        /// The genome's fitness info.
         /// </summary>
-        double Fitness { get; set; }
+        FitnessInfo FitnessInfo { get; set; }
     }
 }

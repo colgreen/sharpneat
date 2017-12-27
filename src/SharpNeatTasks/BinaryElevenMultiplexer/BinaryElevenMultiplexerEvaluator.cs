@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using SharpNeat.Core;
+using SharpNeat.Evaluation;
 using SharpNeat.Phenomes;
 
-namespace SharpNeatTasks.BinaryElevenMultiplexerTask
+namespace SharpNeatTasks.BinaryElevenMultiplexer
 {
     /// <summary>
     /// Binary 11-Multiplexer task.
@@ -11,20 +11,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
     /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
     /// input signal (0 or 1).
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IPhenome<double>>
+    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<double>
     {
-        #region instance Fields
-
-        const double __stopFitness = 10000.0;
-        bool _stopConditionSatisfied;
-
-        #endregion
-
-        #region Properties
-
-        public bool StopConditionSatisfied => throw new NotImplementedException();
-
-        #endregion
         
         #region Public Methods
 
@@ -32,7 +20,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
         /// Evaluate the provided IPhenome against the Binary 6-Multiplexer problem domain and return
         /// its fitness score.
         /// </summary>
-        public double Evaluate(IPhenome<double> phenome)
+        public FitnessInfo Evaluate(IPhenome<double> phenome)
         {
             double fitness = 0.0;
             bool success = true;
@@ -96,12 +84,13 @@ namespace SharpNeatTasks.BinaryElevenMultiplexerTask
                 fitness += 10000.0;
             }
 
-            if(fitness >= __stopFitness) {
-                _stopConditionSatisfied = true;
-            }
-
-            return fitness;
+            return new FitnessInfo(fitness);
         }
+
+        /// <summary>
+        /// Gets a fitness comparer. 
+        /// </summary>
+        public IComparer<FitnessInfo> FitnessComparer => DefaultFitnessInfoComparer.Singleton;
 
         #endregion
     }

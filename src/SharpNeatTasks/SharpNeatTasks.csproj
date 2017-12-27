@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryElevenMultiplexerTask\BinaryElevenMultiplexerEvaluator.cs" />
+    <Compile Include="BinaryElevenMultiplexer\BinaryElevenMultiplexerEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

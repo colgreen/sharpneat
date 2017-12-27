@@ -1,4 +1,5 @@
 ﻿using SharpNeat.Core;
+using SharpNeat.Evaluation;
 
 namespace SharpNeat.EA
 {

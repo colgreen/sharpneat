@@ -52,13 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\FitnessInfo.cs" />
+    <Compile Include="Evaluation\DefaultFitnessInfoComparer.cs" />
+    <Compile Include="Evaluation\FitnessInfo.cs" />
     <Compile Include="Core\IGenome.cs" />
     <Compile Include="Core\IGenomeDecoder.cs" />
     <Compile Include="Core\IGenomeFactory.cs" />
-    <Compile Include="Core\IGenomeListEvaluator.cs" />
-    <Compile Include="Core\IPhenomeEvaluator.cs" />
-    <Compile Include="Core\SerialGenomeListEvaluator.cs" />
+    <Compile Include="Evaluation\IGenomeCollectionEvaluator.cs" />
+    <None Include="Core\SerialGenomeListEvaluator.cs" />
     <Compile Include="EA\ComplexityRegulationMode.cs" />
     <Compile Include="EA\Controllers\RunState.cs" />
     <Compile Include="EA\Controllers\UpdateMode.cs" />
@@ -71,6 +71,7 @@
     <Compile Include="EA\IDifferentialReproductionStrategy.cs" />
     <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
     <Compile Include="EA\Population.cs" />
+    <Compile Include="Evaluation\IPhenomeEvaluator.cs" />
     <Compile Include="Neat\AddedNodeBuffer.cs" />
     <None Include="Neat\AddedConnectionBuffer.cs" />
     <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricUtils.cs" />
