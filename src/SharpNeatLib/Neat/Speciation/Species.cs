@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeat.Neat
+namespace SharpNeat.Neat.Speciation
 {
     /// <summary>
     /// Represents a NEAT species.

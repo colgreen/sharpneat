@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SharpNeat.Neat
+namespace SharpNeat.Neat.Speciation
 {
     public interface ISpeciationStrategy<TGenome,TWeight>
         where TWeight : struct

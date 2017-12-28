@@ -1,5 +1,6 @@
 ﻿using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Speciation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -82,8 +82,8 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
-    <Compile Include="Neat\ISpeciationStrategy.cs" />
-    <Compile Include="Neat\GeneticKMeansSpeciationStrategy.cs" />
+    <Compile Include="Neat\Speciation\ISpeciationStrategy.cs" />
+    <Compile Include="Neat\Speciation\GeneticKMeansSpeciationStrategy.cs" />
     <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactory.cs" />
     <Compile Include="Neat\Network\NeatDirectedGraphFactory.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Neat\Reproduction\Sexual\Strategy\ISexualReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyUtils.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategy.cs" />
-    <Compile Include="Neat\Species.cs" />
+    <Compile Include="Neat\Speciation\Species.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />

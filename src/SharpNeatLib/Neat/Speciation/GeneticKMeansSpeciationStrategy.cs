@@ -7,7 +7,7 @@ using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeat.Neat
+namespace SharpNeat.Neat.Speciation
 {
     /// <summary>
     /// A speciation strategy that assigns genomes to species using k-means clustering on the genes of each genome.
