@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 
@@ -18,11 +19,13 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// distance between each of those points and the centroid. As such it can also be thought of as being an exemplar 
         /// for a set of points.
         /// </remarks>
-        public static ConnectionGenes<double> CalculateEuclideanCentroid(IList<ConnectionGenes<double>> coordList)
+        public static ConnectionGenes<double> CalculateEuclideanCentroid(IEnumerable<ConnectionGenes<double>> coordList)
         {
             // Special case. One item in list, therefore it is the centroid.
-            if(1 == coordList.Count) {
-                return coordList[0];
+            int count = coordList.Count();
+
+            if(1 == count) {
+                return coordList.First();
             }
 
             // Each coordinate element has an ID. Here we calculate the total for each ID across all CoordinateVectors,
@@ -64,7 +67,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             // Create and return the centroid.
-            return CreateCentroid(coordElemTotals, coordList.Count);
+            return CreateCentroid(coordElemTotals, count);
         }
 
         /// <summary>

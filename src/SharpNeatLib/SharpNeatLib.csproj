@@ -83,6 +83,7 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
     <Compile Include="Neat\ISpeciationStrategy.cs" />
+    <Compile Include="Neat\GeneticKMeansSpeciationStrategy.cs" />
     <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactory.cs" />
     <Compile Include="Neat\Network\NeatDirectedGraphFactory.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />

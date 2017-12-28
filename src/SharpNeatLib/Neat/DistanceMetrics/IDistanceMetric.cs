@@ -38,6 +38,6 @@ namespace SharpNeat.Neat.DistanceMetrics
         /// 
         /// A centroid is used in k-means clustering to define the centre of a cluster.
         /// </summary>
-        ConnectionGenes<T> CalculateCentroid(IList<ConnectionGenes<T>> coordList);
+        ConnectionGenes<T> CalculateCentroid(IEnumerable<ConnectionGenes<T>> coordList);
     }
 }

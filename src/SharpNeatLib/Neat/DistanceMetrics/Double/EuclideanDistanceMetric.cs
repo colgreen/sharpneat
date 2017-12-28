@@ -244,7 +244,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// <summary>
         /// Calculates the centroid for the given set of points.
         /// </summary>
-        public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> coordList)
+        public ConnectionGenes<double> CalculateCentroid(IEnumerable<ConnectionGenes<double>> coordList)
         {
             return DistanceMetricUtils.CalculateEuclideanCentroid(coordList);
         }

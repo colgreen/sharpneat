@@ -18,10 +18,6 @@ namespace SharpNeat.Neat
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly int _speciesCount;
         Species<T>[] _speciesArr;
-        
-
-
-
 
         #endregion
 
@@ -34,11 +30,7 @@ namespace SharpNeat.Neat
             _speciationStrategy = speciationStrategy;
             _speciesCount = speciesCount;
 
-            //_speciesArr = new Species<T>[speciesCount];
 
-            //for(int i=0; i < speciesCount; i++) {
-            //    _speciesArr[i] = new Species<T>(i);
-            //}
         }
 
         #endregion
@@ -51,7 +43,10 @@ namespace SharpNeat.Neat
         /// </summary>
         public void Initialise(Population<NeatGenome<T>> population)
         {
-
+            _speciesArr = _speciationStrategy.SpeciateAll(population.GenomeList, _speciesCount);
+            if(null == _speciesArr || _speciesArr.Length != _speciesCount) {
+                throw new Exception("Species array is null or has incorrect length.");
+            }
         }
 
         /// <summary>
