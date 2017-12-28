@@ -20,7 +20,7 @@ namespace SharpNeatLib.Tests.Neat.DistanceMetrics.Double
             connGenes2[0] =   (0, 3, 3.0);
             connGenes2[1] =   (0, 4, 4.0);
 
-            var distanceMetric = new ManhattanDistanceMetric();;
+            var distanceMetric = new ManhattanDistanceMetric();
 
             // GetDistance() tests.
             Assert.AreEqual(7.0, distanceMetric.GetDistance(connGenes1, connGenes2));

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
+using Redzen.Sorting;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
+using static SharpNeat.Neat.Speciation.GeneticKMeansSpeciationStrategyUtils;
 
 namespace SharpNeat.Neat.Speciation
 {
@@ -39,7 +41,6 @@ namespace SharpNeat.Neat.Speciation
 
         #endregion
 
-
         #region Public Methods
 
         /// <summary>
@@ -72,12 +73,21 @@ namespace SharpNeat.Neat.Speciation
         /// <param name="speciesArr">An array of pre-existing species</param>
         public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr)
         {
+            // Create a temporary working array of species modification bits.
+            var updateBits = new BitArray(speciesArr.Length);
+
             // Allocate the new genomes to the species centroid they are nearest too.
             foreach(var genome in genomeList)
             {
-                var nearestSpecies = GetNearestSpecies(genome, speciesArr, out int nearestSpeciesIdx);
+                var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
                 nearestSpecies.GenomeList.Add(genome);
+
+                // Set the modification bit for the species.
+                updateBits[nearestSpeciesIdx] = true;
             }
+
+            // Recalc the species centroids for species that have been modified.
+            RecalcCentroids_GenomeList(speciesArr, updateBits);
 
             // Run the k-means algorithm.
             RunKMeans(speciesArr);
@@ -123,9 +133,12 @@ namespace SharpNeat.Neat.Speciation
             // Allocate all other genomes to the species centroid they are nearest too.
             foreach(var genome in remainingGenomes)
             {
-                var nearestSpecies = GetNearestSpecies(genome, speciesArr, out int nearestSpeciesIdx);
+                var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
                 nearestSpecies.GenomeList.Add(genome);
             }
+
+            // Recalc species centroids.
+            Array.ForEach(speciesArr, x => x.Centroid = _distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)));
 
             return speciesArr;
         }
@@ -150,11 +163,18 @@ namespace SharpNeat.Neat.Speciation
 
         private double GetDistanceFromNearestSeed(List<NeatGenome<T>> seedGenomeList, NeatGenome<T> genome)
         {
-            double minDistance = _distanceMetric.GetDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
+            // This routine can become very CPU expensive, therefore to improve performance at the loss of some accuracy,
+            // we enumerate only a random sub-set of current seed genomes instead of all of them.
+            int[] seedIndexArr = Enumerable.Range(0, seedGenomeList.Count).ToArray();
+            SortUtils.Shuffle(seedIndexArr, _rng);
 
-            for(int i=1; i < seedGenomeList.Count; i++) 
+            double minDistance = _distanceMetric.GetDistance(seedGenomeList[seedIndexArr[0]].ConnectionGenes, genome.ConnectionGenes);
+
+            int count = Math.Min(9, seedGenomeList.Count);
+
+            for(int i=1; i < count; i++) 
             {
-                double distance = _distanceMetric.GetDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
+                double distance = _distanceMetric.GetDistance(seedGenomeList[seedIndexArr[i]].ConnectionGenes, genome.ConnectionGenes);
                 distance = Math.Min(minDistance, distance);
             }
 
@@ -172,11 +192,12 @@ namespace SharpNeat.Neat.Speciation
 
             // Create a temporary working array of species modification bits.
             var updateBits = new BitArray(speciesArr.Length);
+            var removeIdList = new List<int>(32);
 
             // The k-means iterations.
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
-                int reallocCount = KMeansIteration(speciesArr, updateBits);
+                int reallocCount = KMeansIteration(speciesArr, updateBits, removeIdList);
                 if(0 == reallocCount) 
                 {   
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
@@ -188,10 +209,12 @@ namespace SharpNeat.Neat.Speciation
             KMeansComplete(speciesArr);
         }
 
-        private int KMeansIteration(Species<T>[] speciesArr, BitArray updateBits)
+        private int KMeansIteration(Species<T>[] speciesArr, BitArray updateBits, List<int> removeIdList)
         {
             int reallocCount = 0;
             updateBits.SetAll(false);
+            removeIdList.Clear();
+             
 
             // Loop species.
             for(int speciesIdx=0; speciesIdx < speciesArr.Length; speciesIdx++)
@@ -199,16 +222,18 @@ namespace SharpNeat.Neat.Speciation
                 var species = speciesArr[speciesIdx];
 
                 // Loop genomes in the current species.
-                foreach(var genome in species.GenomeList)
+                foreach(var genome in species.GenomeById.Values)
                 {
                     // Determine the species centroid the genome is nearest to.
-                    var nearestSpecies = GetNearestSpecies(genome, speciesArr, out int nearestSpeciesIdx);
+                    var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
 
                     // If the nearest species is not the species the genome is currently in then move the genome.
                     if(nearestSpecies != species)
                     {
                         // Move genome.
-                        species.GenomeById.Remove(genome.Id);
+                        // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
+                        // of the genomes to be removed and remove them once we leave the enumeration loop.
+                        removeIdList.Add(genome.Id);
                         nearestSpecies.GenomeById.Add(genome.Id, genome);
 
                         // Set the modification bits for the two species.
@@ -219,10 +244,16 @@ namespace SharpNeat.Neat.Speciation
                         reallocCount++;
                     }
                 }
+
+                // Remove genomes.
+                foreach(int id in removeIdList) {
+                    species.GenomeById.Remove(id);
+                }
+                removeIdList.Clear();
             }
 
-            // Recalc the species centroids, but only for those species that have been modified.
-            RecalcCentroids(speciesArr, updateBits);
+            // Recalc the species centroids for species that have been modified.
+            RecalcCentroids_GenomeById(speciesArr, updateBits);
 
             return reallocCount;
         }
@@ -257,7 +288,7 @@ namespace SharpNeat.Neat.Speciation
             }
         }
 
-        private void RecalcCentroids(Species<T>[] speciesArr, BitArray updateBits)
+        private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, BitArray updateBits)
         {
             for(int i=0; i < speciesArr.Length; i++)
             {
@@ -269,23 +300,16 @@ namespace SharpNeat.Neat.Speciation
             }
         }
 
-        private Species<T> GetNearestSpecies(NeatGenome<T> genome, Species<T>[] speciesArr, out int nearestSpeciesIdx)
+        private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, BitArray updateBits)
         {
-            var nearestSpecies = speciesArr[0];
-            nearestSpeciesIdx = 0;
-            double nearestDistance = _distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
-
-            for(int i=1; i < speciesArr.Length; i++)
+            for(int i=0; i < speciesArr.Length; i++)
             {
-                double distance = _distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
-                if(distance < nearestDistance)
+                if(updateBits[i])
                 {
-                    nearestSpecies = speciesArr[i];
-                    nearestSpeciesIdx = i;
-                    nearestDistance = distance;
+                    var species = speciesArr[i];
+                    species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
                 }
             }
-            return nearestSpecies;
         }
 
         #endregion
@@ -301,6 +325,9 @@ namespace SharpNeat.Neat.Speciation
 
                 // Add the genome to the empty species.
                 emptySpecies.GenomeById.Add(genome.Id, genome);
+
+                // Update the centroid. There's only one genome so it is the centroid.
+                emptySpecies.Centroid = genome.ConnectionGenes;
             }
         }
 
@@ -312,20 +339,14 @@ namespace SharpNeat.Neat.Speciation
             // Get the genome furthest from the species centroid.
             var genome = species.GenomeById.Values.Aggregate((x, y) => _distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > _distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
 
-            // Remove the genome from its current species and return it.
+            // Remove the genome from its current species.
             species.GenomeById.Remove(genome.Id);
+
+            // Update the species centroid.
+            species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
+
+            // Return the selected genome.
             return genome;
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        private static U GetAndRemove<U>(List<U> list, int idx)
-        {
-            U tmp = list[idx];
-            list.RemoveAt(idx);
-            return tmp;
         }
 
         #endregion
