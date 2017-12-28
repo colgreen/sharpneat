@@ -167,10 +167,13 @@ namespace SharpNeat.Neat
 
         private void RunKMeans(Species<T>[] speciesArr)
         {
+            // Initialise.
             KMeansInit(speciesArr);
 
+            // Create a temporary working array of species modification bits.
             var updateBits = new BitArray(speciesArr.Length);
 
+            // The k-means iterations.
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits);
@@ -181,6 +184,7 @@ namespace SharpNeat.Neat
                 }
             }
 
+            // Complete.
             KMeansComplete(speciesArr);
         }
 
@@ -200,16 +204,19 @@ namespace SharpNeat.Neat
                     // Determine the species centroid the genome is nearest to.
                     var nearestSpecies = GetNearestSpecies(genome, speciesArr, out int nearestSpeciesIdx);
 
-                    // If the nearest species is not the species the genome is currently in, then move the genome.
+                    // If the nearest species is not the species the genome is currently in then move the genome.
                     if(nearestSpecies != species)
                     {
                         // Move genome.
                         species.GenomeById.Remove(genome.Id);
                         nearestSpecies.GenomeById.Add(genome.Id, genome);
 
-                        // Set the modification bit for the two species.
+                        // Set the modification bits for the two species.
                         updateBits[speciesIdx] = true;
                         updateBits[nearestSpeciesIdx] = true;
+
+                        // Track the number of re-allocations.
+                        reallocCount++;
                     }
                 }
             }
@@ -237,6 +244,14 @@ namespace SharpNeat.Neat
 
         private void KMeansComplete(Species<T>[] speciesArr)
         {
+            // Check for empty species (this can happen with k-means), and if there are any then 
+            // move genomes into those empty species.
+            var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
+            if(emptySpeciesArr.Length != 0) {
+                PopulateEmptySpecies(emptySpeciesArr, speciesArr);
+            }
+
+            // Transfer all genomes from GenomeById to GenomeList.
             foreach(var species in speciesArr) {
                 species.FlushWorkingDictionary();
             }
@@ -271,6 +286,35 @@ namespace SharpNeat.Neat
                 }
             }
             return nearestSpecies;
+        }
+
+        #endregion
+
+        #region Private Methods [Empty Species Handling]
+
+        private void PopulateEmptySpecies(Species<T>[] emptySpeciesArr, Species<T>[] speciesArr)
+        {
+            foreach(Species<T> emptySpecies in emptySpeciesArr)
+            {
+                // Get and remove a genome from a species with many genomes.
+                var genome = GetGenomeForEmptySpecies(speciesArr);
+
+                // Add the genome to the empty species.
+                emptySpecies.GenomeById.Add(genome.Id, genome);
+            }
+        }
+
+        private NeatGenome<T> GetGenomeForEmptySpecies(Species<T>[] speciesArr)
+        {
+            // Get the species with the highest number of genomes.
+            Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
+
+            // Get the genome furthest from the species centroid.
+            var genome = species.GenomeById.Values.Aggregate((x, y) => _distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > _distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
+
+            // Remove the genome from its current species and return it.
+            species.GenomeById.Remove(genome.Id);
+            return genome;
         }
 
         #endregion
