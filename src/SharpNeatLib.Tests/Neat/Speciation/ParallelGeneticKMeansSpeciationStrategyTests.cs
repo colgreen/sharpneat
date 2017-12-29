@@ -7,7 +7,7 @@ using static SharpNeatLib.Tests.Neat.Speciation.SpeciationStrategyTestUtils;
 namespace SharpNeatLib.Tests.Neat.Speciation
 {
     [TestClass]
-    public class GeneticKMeansSpeciationStrategyTests
+    public class ParallelGeneticKMeansSpeciationStrategyTests
     {
         #region Test Methods
 
@@ -17,7 +17,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
         {
             var rng = new XorShiftRandom();
             var distanceMetric = new ManhattanDistanceMetric();
-            var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
+            var speciationStrategy = new ParallelGeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
 
             TestSpeciateAll(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
             TestSpeciateAll(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng);
@@ -30,7 +30,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
         {
             var rng = new XorShiftRandom();
             var distanceMetric = new EuclideanDistanceMetric();
-            var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
+            var speciationStrategy = new ParallelGeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
 
             TestSpeciateAll(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
             TestSpeciateAll(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng);
@@ -43,7 +43,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
         {
             var rng = new XorShiftRandom();
             var distanceMetric = new ManhattanDistanceMetric();
-            var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
+            var speciationStrategy = new ParallelGeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
 
             TestSpeciateAdd(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
             TestSpeciateAdd(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng);
@@ -56,7 +56,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
         {
             var rng = new XorShiftRandom();
             var distanceMetric = new EuclideanDistanceMetric();
-            var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
+            var speciationStrategy = new ParallelGeneticKMeansSpeciationStrategy<double>(distanceMetric, 20);
 
             TestSpeciateAdd(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
             TestSpeciateAdd(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng);

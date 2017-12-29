@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Sorting;
@@ -16,9 +17,16 @@ namespace SharpNeat.Neat.Speciation
     /// </summary>
     /// <remarks>
     /// This is the speciation scheme used in SharpNEAT 2.x.
+    /// 
+    /// This is a multi-threaded equivalent of GeneticKMeansSpeciationStrategy, i.e. when calling the speciation methods 
+    /// SpeciateAll() and SpeciateAdd(), this class will distribute workload to multiple threads to allow utilisation
+    /// of multiple CPU cores if available.
+    /// 
+    /// Multi-threading is achieved using the .NET framework's Parallel classes, and thus by default will adjust to utilise
+    /// however many CPU cores are available.
     /// </remarks>
     /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
-    public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
+    public class ParallelGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
         where T : struct
     {
         #region Instance Fields
@@ -26,17 +34,29 @@ namespace SharpNeat.Neat.Speciation
         readonly IDistanceMetric<T> _distanceMetric;
         readonly int _maxKMeansIters;
         readonly IRandomSource _rng = RandomSourceFactory.Create();
+        readonly ParallelOptions _parallelOptions;
 
         #endregion
         
-        #region Constructor
+        #region Constructors
         
-        public GeneticKMeansSpeciationStrategy(
+        public ParallelGeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
+            _parallelOptions = new ParallelOptions();
+        }
+
+        public ParallelGeneticKMeansSpeciationStrategy(
+            IDistanceMetric<T> distanceMetric,
+            int maxKMeansIters,
+            ParallelOptions parallelOptions)
+        {
+            _distanceMetric = distanceMetric;
+            _maxKMeansIters = maxKMeansIters;
+            _parallelOptions = parallelOptions;
         }
 
         #endregion
@@ -77,14 +97,18 @@ namespace SharpNeat.Neat.Speciation
             var updateBits = new BitArray(speciesArr.Length);
 
             // Allocate the new genomes to the species centroid they are nearest too.
-            foreach(var genome in genomeList)
+            Parallel.ForEach(genomeList, _parallelOptions, (genome) =>
             {
                 var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
-                nearestSpecies.GenomeList.Add(genome);
+                lock(nearestSpecies.GenomeList) {
+                    nearestSpecies.GenomeList.Add(genome);
+                }
 
                 // Set the modification bit for the species.
-                updateBits[nearestSpeciesIdx] = true;
-            }
+                lock(updateBits) {
+                    updateBits[nearestSpeciesIdx] = true;
+                }
+            });
 
             // Recalc the species centroids for species that have been modified.
             RecalcCentroids_GenomeList(speciesArr, updateBits);
@@ -131,14 +155,21 @@ namespace SharpNeat.Neat.Speciation
             }
 
             // Allocate all other genomes to the species centroid they are nearest too.
-            foreach(var genome in remainingGenomes)
+            Parallel.ForEach(remainingGenomes, _parallelOptions, genome => 
             {
                 var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
-                nearestSpecies.GenomeList.Add(genome);
-            }
+                lock(nearestSpecies.GenomeList) 
+                {
+                    lock(nearestSpecies.GenomeList) {
+                        nearestSpecies.GenomeList.Add(genome);
+                    }
+                }
+            });
 
             // Recalc species centroids.
-            Array.ForEach(speciesArr, x => x.Centroid = _distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)));
+            Parallel.ForEach(speciesArr, _parallelOptions, species => {
+                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(genome => genome.ConnectionGenes));
+            });
 
             return speciesArr;
         }
@@ -149,12 +180,12 @@ namespace SharpNeat.Neat.Speciation
             int remainCount = remainingGenomes.Count;
             double[] pSelectionArr = new double[remainingGenomes.Count];
 
-            for(int i=0; i < remainCount; i++)
+            Parallel.For(0, remainCount, _parallelOptions, (i) =>
             {
                 // Note. k-means++ assigns a probability that is the squared distance to the nearest existing centroid.
                 double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[i]); 
                 pSelectionArr[i] = distance * distance; 
-            }
+            });
 
             // Select a remaining genome at random based on pSelectionArr; remove it from remainingGenomes and return it.
             int selectIdx = new DiscreteDistribution(pSelectionArr).Sample();
@@ -221,7 +252,7 @@ namespace SharpNeat.Neat.Speciation
                 var species = speciesArr[speciesIdx];
 
                 // Loop genomes in the current species.
-                foreach(var genome in species.GenomeById.Values)
+                Parallel.ForEach(species.GenomeById.Values, (genome) =>
                 {
                     // Determine the species centroid the genome is nearest to.
                     var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
@@ -233,16 +264,21 @@ namespace SharpNeat.Neat.Speciation
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
                         // of the genomes to be removed and remove them once we leave the enumeration loop.
                         removeIdList.Add(genome.Id);
-                        nearestSpecies.GenomeById.Add(genome.Id, genome);
+                        lock(nearestSpecies.GenomeById) {
+                            nearestSpecies.GenomeById.Add(genome.Id, genome);
+                        }
 
                         // Set the modification bits for the two species.
-                        updateBits[speciesIdx] = true;
-                        updateBits[nearestSpeciesIdx] = true;
+                        lock(updateBits)
+                        {
+                            updateBits[speciesIdx] = true;
+                            updateBits[nearestSpeciesIdx] = true;
+                        }
 
                         // Track the number of re-allocations.
                         reallocCount++;
                     }
-                }
+                });
 
                 // Remove genomes.
                 foreach(int id in removeIdList) {
@@ -289,26 +325,20 @@ namespace SharpNeat.Neat.Speciation
 
         private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, BitArray updateBits)
         {
-            for(int i=0; i < speciesArr.Length; i++)
+            Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
             {
-                if(updateBits[i])
-                {
-                    var species = speciesArr[i];
-                    species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
-                }
-            }
+                var species = speciesArr[i];
+                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes)); 
+            });
         }
 
         private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, BitArray updateBits)
         {
-            for(int i=0; i < speciesArr.Length; i++)
+            Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
             {
-                if(updateBits[i])
-                {
-                    var species = speciesArr[i];
-                    species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
-                }
-            }
+                var species = speciesArr[i];
+                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes)); 
+            });
         }
 
         #endregion
