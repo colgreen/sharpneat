@@ -237,7 +237,7 @@ namespace SharpNeat.Neat.Speciation
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
                         // of the genomes to be removed and remove them once we leave the enumeration loop.
                         species.PendingRemovesList.Add(genome.Id);
-                        speciesArr[nearestSpeciesIdx].GenomeById.Add(genome.Id, genome);
+                        speciesArr[nearestSpeciesIdx].PendingAddsList.Add(genome);
 
                         // Set the modification bits for the two species.
                         updateBits[speciesIdx] = true;
