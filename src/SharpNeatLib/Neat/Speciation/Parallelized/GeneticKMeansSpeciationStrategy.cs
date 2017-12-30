@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using static SharpNeat.Neat.Speciation.GeneticKMeansSpeciationStrategyUtils;
 
-namespace SharpNeat.Neat.Speciation
+namespace SharpNeat.Neat.Speciation.Parallelized
 {
     /// <summary>
     /// A speciation strategy that assigns genomes to species using k-means clustering on the genes of each genome.
@@ -27,7 +26,7 @@ namespace SharpNeat.Neat.Speciation
     /// however many CPU cores are available.
     /// </remarks>
     /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
-    public class ParallelGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
+    public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>,T>
         where T : struct
     {
         #region Instance Fields
@@ -41,7 +40,7 @@ namespace SharpNeat.Neat.Speciation
         
         #region Constructors
         
-        public ParallelGeneticKMeansSpeciationStrategy(
+        public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters)
         {
@@ -50,7 +49,7 @@ namespace SharpNeat.Neat.Speciation
             _parallelOptions = new ParallelOptions();
         }
 
-        public ParallelGeneticKMeansSpeciationStrategy(
+        public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
             ParallelOptions parallelOptions)
