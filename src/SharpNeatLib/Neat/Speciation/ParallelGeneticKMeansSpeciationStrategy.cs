@@ -157,11 +157,8 @@ namespace SharpNeat.Neat.Speciation
             Parallel.ForEach(remainingGenomes, _parallelOptions, genome => 
             {
                 var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
-                lock(nearestSpecies.GenomeList) 
-                {
-                    lock(nearestSpecies.GenomeList) {
-                        nearestSpecies.GenomeList.Add(genome);
-                    }
+                lock(nearestSpecies.GenomeList) {
+                    nearestSpecies.GenomeList.Add(genome);
                 }
             });
 
@@ -194,7 +191,6 @@ namespace SharpNeat.Neat.Speciation
             // Create an array of relative selection probabilities for the candidate genomes.
             double[] pArr = new double[subsetCount];
 
-            //for(int i=0; i < subsetCount; i++)
             Parallel.For(0, subsetCount, (i) =>
             {
                 // Note. k-means++ assigns a probability that is the squared distance to the nearest existing centroid.
@@ -306,12 +302,10 @@ namespace SharpNeat.Neat.Speciation
         private void KMeansInit(Species<T>[] speciesArr)
         {
             // Transfer all genomes from GenomeList to GenomeById.
-            // Notes. moving genomes between species is more efficient when using dictionaries, 
-            // because removal from a list can have O(N) complexity because removing an item from 
+            // Notes. moving genomes between species is more efficient when using dictionaries; 
+            // removal from a list can have O(N) complexity because removing an item from 
             // a list requires shuffling up of items to fill the gap.
-            foreach(var species in speciesArr) {
-                species.LoadWorkingDictionary();
-            }
+            Parallel.ForEach(speciesArr, _parallelOptions, species => species.LoadWorkingDictionary());
         }
 
         private void KMeansComplete(Species<T>[] speciesArr)
@@ -324,9 +318,7 @@ namespace SharpNeat.Neat.Speciation
             }
 
             // Transfer all genomes from GenomeById to GenomeList.
-            foreach(var species in speciesArr) {
-                species.FlushWorkingDictionary();
-            }
+            Parallel.ForEach(speciesArr, _parallelOptions, species => species.FlushWorkingDictionary());
         }
 
         private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, bool[] updateBits)

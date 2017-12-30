@@ -267,8 +267,8 @@ namespace SharpNeat.Neat.Speciation
         private void KMeansInit(Species<T>[] speciesArr)
         {
             // Transfer all genomes from GenomeList to GenomeById.
-            // Notes. moving genomes between species is more efficient when using dictionaries, 
-            // because removal from a list can have O(N) complexity because removing an item from 
+            // Notes. moving genomes between species is more efficient when using dictionaries;
+            // removal from a list can have O(N) complexity because removing an item from 
             // a list requires shuffling up of items to fill the gap.
             foreach(var species in speciesArr) {
                 species.LoadWorkingDictionary();
