@@ -13,8 +13,47 @@ namespace SharpNeat.Neat.Speciation
     /// <summary>
     /// A speciation strategy that assigns genomes to species using k-means clustering on the genes of each genome.
     /// </summary>
+    /// 
     /// <remarks>
-    /// This is the speciation scheme used in SharpNEAT 2.x.
+    /// This class applies a regularized k-means method as described in this paper:
+    ///    "REGULARISED k-MEANS CLUSTERING FOR DIMENSION REDUCTION APPLIED TO SUPERVISED CLASSIFICATION", 
+    ///    Vladimir Nikulin, Geoffrey J. McLachlan, Department of Mathematics, University of Queensland, Brisbane, Australia.
+    ///    https://people.smp.uq.edu.au/GeoffMcLachlan/cibb/nm_cibb09.pdf
+    /// 
+    /// The intent of regularization is to discourage formation of large dominating clusters (species), and instead to 
+    /// encourage more even distribution of genomes amongst clusters, and also the formation of more stable clusters.
+    /// 
+    /// Regularization works as follows. In standard k-means the genomes are allocated to species who's centroid they are
+    /// nearest to, the regularization method in use here adjusts the calculated genome-centroid distances to include an 
+    /// additional regularization term, like so:
+    /// 
+    ///     adjustedDistance = distance + regularitationTerm
+    ///     
+    /// The regularization term (r) is calculated as follows:
+    /// 
+    ///     r = (c/populationSize) * L * alpha
+    ///     
+    /// Where:
+    ///     c is a cluster size (species size).
+    ///     alpha is a constant scaling factor.
+    ///     L is the maximum distance between any two species centroid.
+    ///     
+    /// Thus, the term (c/populationSize) is a proportion ranging over the interval [0,1], where small clusters are
+    /// near to zero and large cluster are nearer 1. As such the regularization term will be higher for larger clusters
+    /// and therefore any genomes on he edges of a large cluster may be allocated to a nearby smaller cluster instead.
+    /// 
+    /// L is intended to represent the magnitudes of the distances being dealt with, i.e. it makes the regularization 
+    /// method as a whole 'scale free'. The calculation for L used in this class differs from that used in the paper
+    /// referred to above, but the intention is the same, i.e. to obtain some stable value that is representative of
+    /// the magnitude of the distances being dealt with.
+    /// 
+    /// In the referred to paper L is taken to be the maximum distance between any genome and any specie centroid. In 
+    /// this class we take the maximum distance between any two species centroids, this should result in a scale free
+    /// distance that serves the same purpose, but that is faster to compute. This version of L will tend to be smaller
+    /// that the version used in the paper, but we can adjust alpha (the constant scaling factor) accordingly.
+    /// 
+    /// At time of writing this class is experimental and has not been scientifically examined for suitability or 
+    /// efficacy in particular in comparison to the standard k-means method.
     /// </remarks>
     /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
     public class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
