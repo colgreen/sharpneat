@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
-using static SharpNeat.Neat.Speciation.GeneticKMeansSpeciationStrategyUtils;
 
 namespace SharpNeatLib.Tests.Neat.Speciation
 {
@@ -112,7 +109,8 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             Array.ForEach(speciesArr, x => Assert.AreEqual(0.0, distanceMetric.GetDistance(x.Centroid, distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)))));
 
             // Confirm all genomes are in the species with the nearest centroid.
-            Array.ForEach(speciesArr, x => x.GenomeList.ForEach(y => Assert.AreEqual(x, GetNearestSpecies(y, speciesArr, distanceMetric, out int nearestSpeciesIdx))));
+            // Note. If there are two or more species that are equally near then we test that a genome is in one of those.
+            Array.ForEach(speciesArr, species => species.GenomeList.ForEach(genome => Assert.IsTrue(GetNearestSpeciesList(genome, speciesArr, distanceMetric).Contains(species))));
         }
 
         #endregion
@@ -142,8 +140,37 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             return idSet;
         }
 
+        /// <summary>
+        /// Gets the species with a centroid closest to the given genome.
+        /// If multiple species are equally close then we return all of the those species.
+        /// </summary>
+        public static List<Species<T>> GetNearestSpeciesList<T>(
+            NeatGenome<T> genome,
+            Species<T>[] speciesArr,
+            IDistanceMetric<T> distanceMetric)
+        where T : struct
+        {
+            var nearestSpeciesList = new List<Species<T>>(4);
+            nearestSpeciesList.Add(speciesArr[0]);
+            double nearestDistance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
+
+            for(int i=1; i < speciesArr.Length; i++)
+            {
+                double distance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
+                if(distance < nearestDistance)
+                {
+                    nearestSpeciesList.Clear();
+                    nearestSpeciesList.Add(speciesArr[i]);
+                    nearestDistance = distance;
+                }
+                else if(distance == nearestDistance)
+                {
+                    nearestSpeciesList.Add(speciesArr[i]);
+                }
+            }
+            return nearestSpeciesList;
+        }
+
         #endregion
-
-
     }
 }

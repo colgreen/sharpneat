@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
-using Redzen.Sorting;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using static SharpNeat.Neat.Speciation.GeneticKMeansSpeciationStrategyUtils;
@@ -74,7 +73,7 @@ namespace SharpNeat.Neat.Speciation
         public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr)
         {
             // Create a temporary working array of species modification bits.
-            var updateBits = new BitArray(speciesArr.Length);
+            var updateBits = new bool[speciesArr.Length];
 
             // Allocate the new genomes to the species centroid they are nearest too.
             foreach(var genome in genomeList)
@@ -145,39 +144,46 @@ namespace SharpNeat.Neat.Speciation
 
         private NeatGenome<T> GetSeedGenome(List<NeatGenome<T>> seedGenomeList, List<NeatGenome<T>> remainingGenomes)
         {
-            // Create an array of relative selection probabilities for the remaining genomes.
-            int remainCount = remainingGenomes.Count;
-            double[] pSelectionArr = new double[remainingGenomes.Count];
+            // Select from a random subset of remainingGenomes rather than the full set, otherwise
+            // k-means will have something like O(n^2) scalability
+            int subsetCount;
+            
+            // For 10 or fewer genomes just select all of them.
+            if(remainingGenomes.Count <= 10) {
+                subsetCount = remainingGenomes.Count;
+            }
+            else 
+            {   // For more than ten remainingGenomes we choose a subset size proportional to log(count).
+                subsetCount = (int)(Math.Log10(remainingGenomes.Count) * 10.0);
+            }
+                        
+            // Get the indexes of a random subset of remainingGenomes.
+            int[] genomeIdxArr = EnumerableUtils.RangeRandomOrder(0, remainingGenomes.Count, _rng).Take(subsetCount).ToArray();
 
-            for(int i=0; i < remainCount; i++)
+            // Create an array of relative selection probabilities for the candidate genomes.
+            double[] pArr = new double[subsetCount];
+
+            for(int i=0; i < subsetCount; i++)
             {
                 // Note. k-means++ assigns a probability that is the squared distance to the nearest existing centroid.
-                double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[i]); 
-                pSelectionArr[i] = distance * distance; 
+                double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[genomeIdxArr[i]]); 
+                pArr[i] = distance * distance; 
             }
 
-            // Select a remaining genome at random based on pSelectionArr; remove it from remainingGenomes and return it.
-            int selectIdx = new DiscreteDistribution(pSelectionArr).Sample();
-            return GetAndRemove(remainingGenomes, selectIdx);
+            // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
+            int selectIdx = new DiscreteDistribution(_rng, pArr).Sample();
+            return GetAndRemove(remainingGenomes, genomeIdxArr[selectIdx]);
         }
 
         private double GetDistanceFromNearestSeed(List<NeatGenome<T>> seedGenomeList, NeatGenome<T> genome)
         {
-            // This routine can become very CPU expensive, therefore to improve performance at the loss of some accuracy,
-            // we enumerate only a random sub-set of current seed genomes instead of all of them.
-            int[] seedIndexArr = Enumerable.Range(0, seedGenomeList.Count).ToArray();
-            SortUtils.Shuffle(seedIndexArr, _rng);
+            double minDistance = _distanceMetric.GetDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
 
-            double minDistance = _distanceMetric.GetDistance(seedGenomeList[seedIndexArr[0]].ConnectionGenes, genome.ConnectionGenes);
-
-            int count = Math.Min(9, seedGenomeList.Count);
-
-            for(int i=1; i < count; i++) 
+            for(int i=1; i < seedGenomeList.Count; i++) 
             {
-                double distance = _distanceMetric.GetDistance(seedGenomeList[seedIndexArr[i]].ConnectionGenes, genome.ConnectionGenes);
+                double distance = _distanceMetric.GetDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
                 distance = Math.Min(minDistance, distance);
             }
-
             return minDistance;
         }
 
@@ -191,7 +197,7 @@ namespace SharpNeat.Neat.Speciation
             KMeansInit(speciesArr);
 
             // Create a temporary working array of species modification bits.
-            var updateBits = new BitArray(speciesArr.Length);
+            var updateBits = new bool[speciesArr.Length];
             var removeIdList = new List<int>(32);
 
             // The k-means iterations.
@@ -209,10 +215,10 @@ namespace SharpNeat.Neat.Speciation
             KMeansComplete(speciesArr);
         }
 
-        private int KMeansIteration(Species<T>[] speciesArr, BitArray updateBits, List<int> removeIdList)
+        private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits, List<int> removeIdList)
         {
             int reallocCount = 0;
-            updateBits.SetAll(false);
+            Array.Clear(updateBits, 0, updateBits.Length);
             removeIdList.Clear();
 
             // Loop species.
@@ -287,7 +293,7 @@ namespace SharpNeat.Neat.Speciation
             }
         }
 
-        private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, BitArray updateBits)
+        private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, bool[] updateBits)
         {
             for(int i=0; i < speciesArr.Length; i++)
             {
@@ -299,7 +305,7 @@ namespace SharpNeat.Neat.Speciation
             }
         }
 
-        private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, BitArray updateBits)
+        private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, bool[] updateBits)
         {
             for(int i=0; i < speciesArr.Length; i++)
             {
