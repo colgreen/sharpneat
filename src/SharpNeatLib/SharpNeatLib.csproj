@@ -82,6 +82,7 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
+    <Compile Include="Neat\Speciation\RegularizedGeneticKMeansSpeciationStrategy.cs" />
     <Compile Include="Neat\Speciation\Parallelized\GeneticKMeansSpeciationStrategy.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeansSpeciationStrategyUtils.cs" />
     <Compile Include="Neat\Speciation\ISpeciationStrategy.cs" />

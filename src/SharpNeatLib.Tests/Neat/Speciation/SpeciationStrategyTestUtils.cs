@@ -21,7 +21,8 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             double connectionsProportion,
             IDistanceMetric<double> distanceMetric,
             ISpeciationStrategy<NeatGenome<double>,double> speciationStrategy,
-            IRandomSource rng)
+            IRandomSource rng,
+            bool validateNearestSpecies = true)
         {
             // Create population.
             NeatPopulation<double> neatPop = CreateNeatPopulation(popSize, inputNodeCount, outputNodeCount, connectionsProportion);
@@ -34,7 +35,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
                 var speciesArr = speciationStrategy.SpeciateAll(neatPop.GenomeList, speciesCount);
 
                 // Perform tests.
-                ValidationTests(speciesArr, distanceMetric, speciesCount, neatPop.GenomeList);
+                ValidationTests(speciesArr, distanceMetric, speciesCount, neatPop.GenomeList, validateNearestSpecies);
             }
         }
 
@@ -45,7 +46,8 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             double connectionsProportion,
             IDistanceMetric<double> distanceMetric,
             ISpeciationStrategy<NeatGenome<double>,double> speciationStrategy,
-            IRandomSource rng)
+            IRandomSource rng,
+            bool validateNearestSpecies = true)
         {
             // Create population.
             NeatPopulation<double> neatPop = CreateNeatPopulation(popSize, inputNodeCount, outputNodeCount, connectionsProportion);
@@ -67,19 +69,19 @@ namespace SharpNeatLib.Tests.Neat.Speciation
 
                 // Invoke speciation strategy, and run tests
                 var speciesArr = speciationStrategy.SpeciateAll(genomeList1, speciesCount);
-                ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList);
+                ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList, validateNearestSpecies);
 
                 // Add second batch of genomes, and re-run tests.
                 speciationStrategy.SpeciateAdd(genomeList2, speciesArr);
 
                 fullGenomeList.AddRange(genomeList2);
-                ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList);
+                ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList, validateNearestSpecies);
 
                 // Add third batch of genomes, and re-run tests.
                 speciationStrategy.SpeciateAdd(genomeList3, speciesArr);
 
                 fullGenomeList.AddRange(genomeList3);
-                ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList);
+                ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList, validateNearestSpecies);
             }
         }
 
@@ -87,7 +89,8 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             Species<double>[] speciesArr, 
             IDistanceMetric<double> distanceMetric,
             int speciesCountExpected,
-            List<NeatGenome<double>> fullGenomeList)
+            List<NeatGenome<double>> fullGenomeList,
+            bool validateNearestSpecies)
         {
             // Confirm correct number of species.
             Assert.AreEqual(speciesCountExpected, speciesArr.Length);
@@ -108,9 +111,12 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             // Confirm all species centroids are correct.
             Array.ForEach(speciesArr, x => Assert.AreEqual(0.0, distanceMetric.GetDistance(x.Centroid, distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)))));
 
-            // Confirm all genomes are in the species with the nearest centroid.
-            // Note. If there are two or more species that are equally near then we test that a genome is in one of those.
-            Array.ForEach(speciesArr, species => species.GenomeList.ForEach(genome => Assert.IsTrue(GetNearestSpeciesList(genome, speciesArr, distanceMetric).Contains(species))));
+            if(validateNearestSpecies)
+            {
+                // Confirm all genomes are in the species with the nearest centroid.
+                // Note. If there are two or more species that are equally near then we test that a genome is in one of those.
+                Array.ForEach(speciesArr, species => species.GenomeList.ForEach(genome => Assert.IsTrue(GetNearestSpeciesList(genome, speciesArr, distanceMetric).Contains(species))));
+            }
         }
 
         #endregion
