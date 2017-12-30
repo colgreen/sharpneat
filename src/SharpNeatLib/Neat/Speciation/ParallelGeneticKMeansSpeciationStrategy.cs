@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Redzen.Linq;
 using Redzen.Numerics;
@@ -228,12 +230,11 @@ namespace SharpNeat.Neat.Speciation
 
             // Create a temporary working array of species modification bits.
             var updateBits = new bool[speciesArr.Length];
-            var removeIdList = new List<int>(32);
 
             // The k-means iterations.
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
-                int reallocCount = KMeansIteration(speciesArr, updateBits, removeIdList);
+                int reallocCount = KMeansIteration(speciesArr, updateBits);
                 if(0 == reallocCount) 
                 {   
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
@@ -245,14 +246,17 @@ namespace SharpNeat.Neat.Speciation
             KMeansComplete(speciesArr);
         }
 
-        private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits, List<int> removeIdList)
+        private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits)
         {
             int reallocCount = 0;
             Array.Clear(updateBits, 0, updateBits.Length);
-            removeIdList.Clear();
 
             // Loop species.
-            for(int speciesIdx=0; speciesIdx < speciesArr.Length; speciesIdx++)
+            // Note. The nested parallel loop here is intentional and should give good thread concurrency in the general case.
+            // For more info see: "Is it ok to use nested Parallel.For loops?" 
+            // https://blogs.msdn.microsoft.com/pfxteam/2012/03/14/is-it-ok-to-use-nested-parallel-for-loops/
+            //
+            Parallel.For(0, speciesArr.Length, _parallelOptions, (speciesIdx) => 
             {
                 var species = speciesArr[speciesIdx];
 
@@ -268,12 +272,12 @@ namespace SharpNeat.Neat.Speciation
                         // Move genome.
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
                         // of the genomes to be removed and remove them once we leave the enumeration loop.
-                        lock(removeIdList) {
-                            removeIdList.Add(genome.Id);
+                        lock(species.PendingRemovesList) {
+                            species.PendingRemovesList.Add(genome.Id);
                         }
 
-                        lock(nearestSpecies.GenomeById) {
-                            nearestSpecies.GenomeById.Add(genome.Id, genome);
+                        lock(nearestSpecies.PendingAddsList) {
+                            nearestSpecies.PendingAddsList.Add(genome);
                         }
 
                         // Set the modification bits for the two species.
@@ -281,16 +285,13 @@ namespace SharpNeat.Neat.Speciation
                         updateBits[nearestSpeciesIdx] = true;
 
                         // Track the number of re-allocations.
-                        reallocCount++;
+                        Interlocked.Increment(ref reallocCount);
                     }
                 });
+            });
 
-                // Remove genomes.
-                foreach(int id in removeIdList) {
-                    species.GenomeById.Remove(id);
-                }
-                removeIdList.Clear();
-            }
+            // Complete moving of genomes to their new species.
+            Parallel.ForEach(speciesArr, _parallelOptions, (species) => species.CompletePendingMoves());
 
             // Recalc the species centroids for species that have been modified.
             RecalcCentroids_GenomeById(speciesArr, updateBits);
@@ -371,7 +372,8 @@ namespace SharpNeat.Neat.Speciation
             Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
 
             // Get the genome furthest from the species centroid.
-            var genome = species.GenomeById.Values.Aggregate((x, y) => _distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > _distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
+            // Note. The use of AsParallel() here over dictionary values is perhaps unusual, but should be safe AFAIK.
+            var genome = species.GenomeById.Values.AsParallel().Aggregate((x, y) => _distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > _distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
 
             // Remove the genome from its current species.
             species.GenomeById.Remove(genome.Id);

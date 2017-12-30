@@ -21,6 +21,10 @@ namespace SharpNeat.Neat.Speciation
         readonly List<NeatGenome<T>> _genomeList;
         // Working dictionary of genomes keyed by genome ID.
         readonly Dictionary<int,NeatGenome<T>> _genomeById;
+        // Working list of genomes to be added to _genomeById at the end of a k-means iteration.
+        readonly List<NeatGenome<T>> _pendingGenomeList;
+        // Working list of genome IDs to remove from _genomeById at the end of a k-means iteration.
+        public List<int> _removeIdList;
 
         #endregion
 
@@ -30,8 +34,10 @@ namespace SharpNeat.Neat.Speciation
         {
             _id = id;
             _centroid = centroid;
-            _genomeList = new List<NeatGenome<T>>();
+            _genomeList = new List<NeatGenome<T>>(capacity);
             _genomeById = new Dictionary<int,NeatGenome<T>>(capacity);
+            _pendingGenomeList = new List<NeatGenome<T>>(capacity);
+            _removeIdList = new List<int>(capacity);
         }
 
         #endregion
@@ -58,6 +64,16 @@ namespace SharpNeat.Neat.Speciation
         /// </summary>
         public Dictionary<int,NeatGenome<T>> GenomeById => _genomeById;
 
+        /// <summary>
+        /// Working list of genomes to be added to GenomeById at the end of a k-means iteration.
+        /// </summary>
+        public List<NeatGenome<T>> PendingAddsList => _pendingGenomeList;
+
+        /// <summary>
+        /// Working list of genome IDs to remove from GenomeById at the end of a k-means iteration.
+        /// </summary>
+        public List<int> PendingRemovesList => _removeIdList;
+
         #endregion
 
         #region Public Methods
@@ -82,6 +98,25 @@ namespace SharpNeat.Neat.Speciation
             _genomeList.Clear();
             _genomeList.AddRange(_genomeById.Values);
             _genomeById.Clear();
+        }
+
+        /// <summary>
+        /// Complete all pending genome moves for this species.
+        /// </summary>
+        public void CompletePendingMoves()
+        {
+            // Remove genomes that are marked for removal.
+            foreach(int id in _removeIdList) {
+                _genomeById.Remove(id);
+            }
+
+            // Process pending additions.
+            foreach(var genome in _pendingGenomeList) {
+                _genomeById.Add(genome.Id, genome);
+            }
+
+            _removeIdList.Clear();
+            _pendingGenomeList.Clear();
         }
 
         #endregion

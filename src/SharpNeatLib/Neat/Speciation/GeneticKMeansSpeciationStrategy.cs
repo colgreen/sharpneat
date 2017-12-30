@@ -198,12 +198,11 @@ namespace SharpNeat.Neat.Speciation
 
             // Create a temporary working array of species modification bits.
             var updateBits = new bool[speciesArr.Length];
-            var removeIdList = new List<int>(32);
 
             // The k-means iterations.
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
-                int reallocCount = KMeansIteration(speciesArr, updateBits, removeIdList);
+                int reallocCount = KMeansIteration(speciesArr, updateBits);
                 if(0 == reallocCount) 
                 {   
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
@@ -215,11 +214,10 @@ namespace SharpNeat.Neat.Speciation
             KMeansComplete(speciesArr);
         }
 
-        private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits, List<int> removeIdList)
+        private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits)
         {
             int reallocCount = 0;
             Array.Clear(updateBits, 0, updateBits.Length);
-            removeIdList.Clear();
 
             // Loop species.
             for(int speciesIdx=0; speciesIdx < speciesArr.Length; speciesIdx++)
@@ -238,7 +236,7 @@ namespace SharpNeat.Neat.Speciation
                         // Move genome.
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
                         // of the genomes to be removed and remove them once we leave the enumeration loop.
-                        removeIdList.Add(genome.Id);
+                        species.PendingRemovesList.Add(genome.Id);
                         nearestSpecies.GenomeById.Add(genome.Id, genome);
 
                         // Set the modification bits for the two species.
@@ -249,12 +247,11 @@ namespace SharpNeat.Neat.Speciation
                         reallocCount++;
                     }
                 }
+            }
 
-                // Remove genomes.
-                foreach(int id in removeIdList) {
-                    species.GenomeById.Remove(id);
-                }
-                removeIdList.Clear();
+            // Complete moving of genomes to their new species.
+            foreach(var species in speciesArr) {
+                species.CompletePendingMoves();
             }
 
             // Recalc the species centroids for species that have been modified.

@@ -26,7 +26,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             // Create population.
             NeatPopulation<double> neatPop = CreateNeatPopulation(popSize, inputNodeCount, outputNodeCount, connectionsProportion);
 
-            for(int i=0; i < 6; i++)
+            for(int i=0; i < 60; i++)
             {
                 int speciesCount = rng.Next(1, (neatPop.GenomeList.Count/4)+1);
 
@@ -59,7 +59,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             var genomeList2 = neatPop.GenomeList.GetRange(popSize1, popSize2);
             var genomeList3 = neatPop.GenomeList.GetRange(popSize1 + popSize2, popSize3);
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 60; i++)
             {
                 int speciesCount = rng.Next(1, (neatPop.GenomeList.Count / 4) + 1);
 
