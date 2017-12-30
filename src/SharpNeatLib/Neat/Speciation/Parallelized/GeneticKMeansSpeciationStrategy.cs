@@ -99,7 +99,9 @@ namespace SharpNeat.Neat.Speciation.Parallelized
             // Allocate the new genomes to the species centroid they are nearest too.
             Parallel.ForEach(genomeList, _parallelOptions, (genome) =>
             {
-                var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
+                var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
+                var nearestSpecies = speciesArr[nearestSpeciesIdx];
+
                 lock(nearestSpecies.GenomeList) {
                     nearestSpecies.GenomeList.Add(genome);
                 }
@@ -155,7 +157,9 @@ namespace SharpNeat.Neat.Speciation.Parallelized
             // Allocate all other genomes to the species centroid they are nearest too.
             Parallel.ForEach(remainingGenomes, _parallelOptions, genome => 
             {
-                var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
+                var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
+                var nearestSpecies = speciesArr[nearestSpeciesIdx];
+
                 lock(nearestSpecies.GenomeList) {
                     nearestSpecies.GenomeList.Add(genome);
                 }
@@ -259,10 +263,10 @@ namespace SharpNeat.Neat.Speciation.Parallelized
                 Parallel.ForEach(species.GenomeById.Values, (genome) =>
                 {
                     // Determine the species centroid the genome is nearest to.
-                    var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
+                    var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
 
                     // If the nearest species is not the species the genome is currently in then move the genome.
-                    if(nearestSpecies != species)
+                    if(nearestSpeciesIdx != speciesIdx)
                     {
                         // Move genome.
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
@@ -271,6 +275,7 @@ namespace SharpNeat.Neat.Speciation.Parallelized
                             species.PendingRemovesList.Add(genome.Id);
                         }
 
+                        var nearestSpecies = speciesArr[nearestSpeciesIdx];
                         lock(nearestSpecies.PendingAddsList) {
                             nearestSpecies.PendingAddsList.Add(genome);
                         }

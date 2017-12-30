@@ -78,8 +78,8 @@ namespace SharpNeat.Neat.Speciation
             // Allocate the new genomes to the species centroid they are nearest too.
             foreach(var genome in genomeList)
             {
-                var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
-                nearestSpecies.GenomeList.Add(genome);
+                var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
+                speciesArr[nearestSpeciesIdx].GenomeList.Add(genome);
 
                 // Set the modification bit for the species.
                 updateBits[nearestSpeciesIdx] = true;
@@ -132,8 +132,8 @@ namespace SharpNeat.Neat.Speciation
             // Allocate all other genomes to the species centroid they are nearest too.
             foreach(var genome in remainingGenomes)
             {
-                var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
-                nearestSpecies.GenomeList.Add(genome);
+                var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
+                speciesArr[nearestSpeciesIdx].GenomeList.Add(genome);
             }
 
             // Recalc species centroids.
@@ -228,16 +228,16 @@ namespace SharpNeat.Neat.Speciation
                 foreach(var genome in species.GenomeById.Values)
                 {
                     // Determine the species centroid the genome is nearest to.
-                    var nearestSpecies = GetNearestSpecies(genome, speciesArr, _distanceMetric, out int nearestSpeciesIdx);
+                    var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
 
                     // If the nearest species is not the species the genome is currently in then move the genome.
-                    if(nearestSpecies != species)
+                    if(nearestSpeciesIdx != speciesIdx)
                     {
                         // Move genome.
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
                         // of the genomes to be removed and remove them once we leave the enumeration loop.
                         species.PendingRemovesList.Add(genome.Id);
-                        nearestSpecies.GenomeById.Add(genome.Id, genome);
+                        speciesArr[nearestSpeciesIdx].GenomeById.Add(genome.Id, genome);
 
                         // Set the modification bits for the two species.
                         updateBits[speciesIdx] = true;
