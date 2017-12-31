@@ -158,7 +158,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
                 var species = speciesArr[speciesIdx];
 
                 // Loop genomes in the current species.
-                Parallel.ForEach(species.GenomeById.Values, (genome) =>
+                Parallel.ForEach(species.GenomeById.Values, _parallelOptions, (genome) =>
                 {
                     // Determine the species centroid the genome is nearest to.
                     var nearestSpeciesIdx = SpeciationUtils.GetNearestSpecies(_distanceMetric, genome, speciesArr);
