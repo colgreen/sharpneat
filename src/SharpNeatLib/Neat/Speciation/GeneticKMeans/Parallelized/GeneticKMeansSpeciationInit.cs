@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
-using static SharpNeat.Neat.Speciation.GeneticKMeansSpeciationStrategyUtils;
+using static SharpNeat.Neat.Speciation.SpeciationUtils;
 
-namespace SharpNeat.Neat.Speciation
+namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 {
     /// <summary>
     /// GeneticKMeansSpeciationStrategy initialisation.
@@ -23,19 +24,27 @@ namespace SharpNeat.Neat.Speciation
     internal class GeneticKMeansSpeciationInit<T> where T : struct
     {
         IDistanceMetric<T> _distanceMetric;
+        readonly ParallelOptions _parallelOptions;
         IRandomSource _rng;
 
         #region Constructors
 
-        public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric)
+        public GeneticKMeansSpeciationInit(
+            IDistanceMetric<T> distanceMetric,
+            ParallelOptions parallelOptions)
         {
             _distanceMetric = distanceMetric;
+            _parallelOptions = parallelOptions;
             _rng = RandomSourceFactory.Create();
         }
 
-        public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric, IRandomSource rng)
+        public GeneticKMeansSpeciationInit(
+            IDistanceMetric<T> distanceMetric,
+            ParallelOptions parallelOptions,
+            IRandomSource rng)
         {
             _distanceMetric = distanceMetric;
+            _parallelOptions = parallelOptions;
             _rng = rng;
         }
 
@@ -77,14 +86,20 @@ namespace SharpNeat.Neat.Speciation
             }
 
             // Allocate all other genomes to the species centroid they are nearest too.
-            foreach(var genome in remainingGenomes)
+            Parallel.ForEach(remainingGenomes, _parallelOptions, genome => 
             {
                 var nearestSpeciesIdx = GetNearestSpecies(_distanceMetric, genome, speciesArr);
-                speciesArr[nearestSpeciesIdx].GenomeList.Add(genome);
-            }
+                var nearestSpecies = speciesArr[nearestSpeciesIdx];
+
+                lock(nearestSpecies.GenomeList) {
+                    nearestSpecies.GenomeList.Add(genome);
+                }
+            });
 
             // Recalc species centroids.
-            Array.ForEach(speciesArr, x => x.Centroid = _distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)));
+            Parallel.ForEach(speciesArr, _parallelOptions, species => {
+                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(genome => genome.ConnectionGenes));
+            });
 
             return speciesArr;
         }
@@ -114,12 +129,12 @@ namespace SharpNeat.Neat.Speciation
             // Create an array of relative selection probabilities for the candidate genomes.
             double[] pArr = new double[subsetCount];
 
-            for(int i=0; i < subsetCount; i++)
+            Parallel.For(0, subsetCount, (i) =>
             {
                 // Note. k-means++ assigns a probability that is the squared distance to the nearest existing centroid.
                 double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[genomeIdxArr[i]]); 
                 pArr[i] = distance * distance; 
-            }
+            });
 
             // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
             int selectIdx = new DiscreteDistribution(_rng, pArr).Sample();

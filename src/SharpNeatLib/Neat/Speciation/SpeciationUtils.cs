@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
-using SharpNeat.Neat.DistanceMetrics;
+﻿using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Speciation
 {
     /// <summary>
-    /// Static utility methods for GeneticKMeansSpeciationStrategy.
+    /// Static utility methods related to speciation..
     /// </summary>
-    public static class GeneticKMeansSpeciationStrategyUtils
+    public static class SpeciationUtils
     {
-
-
         #region Public Static Methods [IDistanceMetric Utility Methods]
 
         /// <summary>

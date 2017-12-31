@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics.Double;
-using SharpNeat.Neat.Speciation.Parallelized;
+using SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 using static SharpNeatLib.Tests.Neat.Speciation.SpeciationStrategyTestUtils;
 
-namespace SharpNeatLib.Tests.Neat.Speciation.Parallelized
+namespace SharpNeatLib.Tests.Neat.Speciation.Parallelized.GeneticKMeans
 {
     [TestClass]
     public class GeneticKMeansSpeciationStrategyTests
