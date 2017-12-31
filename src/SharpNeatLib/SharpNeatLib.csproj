@@ -84,8 +84,9 @@
     <Compile Include="Neat\IOConnectionUtils.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationInit.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationInit.cs" />
-    <None Include="Neat\Speciation\GeneticKMeans\RegularizedGeneticKMeansSpeciationStrategy.cs" />
+    <Compile Include="Neat\Speciation\GeneticKMeans\RegularizedGeneticKMeansSpeciationStrategy.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationStrategy.cs" />
+    <Compile Include="Neat\Speciation\SpeciationUtilsParallel.cs" />
     <Compile Include="Neat\Speciation\SpeciationUtils.cs" />
     <Compile Include="Neat\Speciation\ISpeciationStrategy.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationStrategy.cs" />

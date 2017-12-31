@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
-using static SharpNeat.Neat.Speciation.SpeciationUtils;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans
 {
@@ -76,7 +75,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             // Allocate the new genomes to the species centroid they are nearest too.
             foreach(var genome in genomeList)
             {
-                var nearestSpeciesIdx = GetNearestSpecies(_distanceMetric, genome, speciesArr);
+                var nearestSpeciesIdx = SpeciationUtils.GetNearestSpecies(_distanceMetric, genome, speciesArr);
                 speciesArr[nearestSpeciesIdx].GenomeList.Add(genome);
 
                 // Set the modification bit for the species.
@@ -131,7 +130,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
                 foreach(var genome in species.GenomeById.Values)
                 {
                     // Determine the species centroid the genome is nearest to.
-                    var nearestSpeciesIdx = GetNearestSpecies(_distanceMetric, genome, speciesArr);
+                    var nearestSpeciesIdx = SpeciationUtils.GetNearestSpecies(_distanceMetric, genome, speciesArr);
 
                     // If the nearest species is not the species the genome is currently in then move the genome.
                     if(nearestSpeciesIdx != speciesIdx)
@@ -184,7 +183,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
             if(emptySpeciesArr.Length != 0) {
-                PopulateEmptySpecies(emptySpeciesArr, speciesArr);
+                SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
             }
 
             // Transfer all genomes from GenomeById to GenomeList.
@@ -215,43 +214,6 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
                     species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
                 }
             }
-        }
-
-        #endregion
-
-        #region Private Methods [Empty Species Handling]
-
-        private void PopulateEmptySpecies(Species<T>[] emptySpeciesArr, Species<T>[] speciesArr)
-        {
-            foreach(Species<T> emptySpecies in emptySpeciesArr)
-            {
-                // Get and remove a genome from a species with many genomes.
-                var genome = GetGenomeForEmptySpecies(speciesArr);
-
-                // Add the genome to the empty species.
-                emptySpecies.GenomeById.Add(genome.Id, genome);
-
-                // Update the centroid. There's only one genome so it is the centroid.
-                emptySpecies.Centroid = genome.ConnectionGenes;
-            }
-        }
-
-        private NeatGenome<T> GetGenomeForEmptySpecies(Species<T>[] speciesArr)
-        {
-            // Get the species with the highest number of genomes.
-            Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
-
-            // Get the genome furthest from the species centroid.
-            var genome = species.GenomeById.Values.Aggregate((x, y) => _distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > _distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
-
-            // Remove the genome from its current species.
-            species.GenomeById.Remove(genome.Id);
-
-            // Update the species centroid.
-            species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
-
-            // Return the selected genome.
-            return genome;
         }
 
         #endregion

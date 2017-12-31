@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Redzen.Linq;
-using Redzen.Numerics;
-using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
-using static SharpNeat.Neat.Speciation.GeneticKMeansSpeciationStrategyUtils;
 
-namespace SharpNeat.Neat.Speciation
+namespace SharpNeat.Neat.Speciation.GeneticKMeans
 {
     /// <summary>
     /// A speciation strategy that assigns genomes to species using k-means clustering on the genes of each genome.
@@ -63,8 +59,8 @@ namespace SharpNeat.Neat.Speciation
 
         readonly IDistanceMetric<T> _distanceMetric;
         readonly int _maxKMeansIters;
-        readonly IRandomSource _rng = RandomSourceFactory.Create();
         readonly double _regularizationConstant;
+        readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
 
         #endregion
         
@@ -78,6 +74,7 @@ namespace SharpNeat.Neat.Speciation
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
             _regularizationConstant = regularizationConstant;
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric);
         }
 
         #endregion
@@ -98,7 +95,7 @@ namespace SharpNeat.Neat.Speciation
             }
 
             // Initialise using k-means++ initialisation method.
-            var speciesArr = InitialiseKMeansPlusPlus(genomeList, speciesCount);
+            var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount);
 
             // Run the k-means algorithm.
             RunKMeans(speciesArr);
@@ -134,101 +131,6 @@ namespace SharpNeat.Neat.Speciation
 
             // Run the k-means algorithm.
             RunKMeans(speciesArr, populationCount, maxIntraSpeciesDistance);
-        }
-
-        #endregion
-
-        #region Private Methods [Initialisation]
-
-        private Species<T>[] InitialiseKMeansPlusPlus(IList<NeatGenome<T>> genomeList, int speciesCount)
-        {
-            // Create an array of seed genomes, i.e. each of these genomes will become the initial 
-            // seed/centroid of one species.
-            var seedGenomeList = new List<NeatGenome<T>>(speciesCount);
-
-            // Create a list of genomes to select and remove seed genomes from.
-            var remainingGenomes = new List<NeatGenome<T>>(genomeList);
-
-            // Select first genome at random.
-            seedGenomeList.Add(GetAndRemove(remainingGenomes, _rng.Next(remainingGenomes.Count)));
-
-            // Select all other seed genomes using k-means++ method.
-            for(int i=1; i < speciesCount; i++)
-            {
-                var seedGenome = GetSeedGenome(seedGenomeList, remainingGenomes);
-                seedGenomeList.Add(seedGenome);
-            }
-
-            // Create an array of species initialised with the chosen seed genomes.
-
-            // Each species is created with an initial capacity that will reduce the need for memory
-            // reallocation but that isn't too wasteful of memory.
-            int initialCapacity = (genomeList.Count * 2) / speciesCount;
-
-            var speciesArr = new Species<T>[speciesCount];
-            for(int i=0; i < speciesCount; i++) 
-            {
-                var seedGenome = seedGenomeList[i];
-                speciesArr[i] = new Species<T>(i, seedGenome.ConnectionGenes, initialCapacity);
-                speciesArr[i].GenomeList.Add(seedGenome);
-            }
-
-            // Allocate all other genomes to the species centroid they are nearest too.
-            foreach(var genome in remainingGenomes)
-            {
-                var nearestSpeciesIdx = GetNearestSpecies(_distanceMetric, genome, speciesArr);
-                speciesArr[nearestSpeciesIdx].GenomeList.Add(genome);
-            }
-
-            // Recalc species centroids.
-            Array.ForEach(speciesArr, x => x.Centroid = _distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)));
-
-            return speciesArr;
-        }
-
-        private NeatGenome<T> GetSeedGenome(List<NeatGenome<T>> seedGenomeList, List<NeatGenome<T>> remainingGenomes)
-        {
-            // Select from a random subset of remainingGenomes rather than the full set, otherwise
-            // k-means will have something like O(n^2) scalability
-            int subsetCount;
-            
-            // For 10 or fewer genomes just select all of them.
-            if(remainingGenomes.Count <= 10) {
-                subsetCount = remainingGenomes.Count;
-            }
-            else 
-            {   // For more than ten remainingGenomes we choose a subset size proportional to log(count).
-                subsetCount = (int)(Math.Log10(remainingGenomes.Count) * 10.0);
-            }
-                        
-            // Get the indexes of a random subset of remainingGenomes.
-            int[] genomeIdxArr = EnumerableUtils.RangeRandomOrder(0, remainingGenomes.Count, _rng).Take(subsetCount).ToArray();
-
-            // Create an array of relative selection probabilities for the candidate genomes.
-            double[] pArr = new double[subsetCount];
-
-            for(int i=0; i < subsetCount; i++)
-            {
-                // Note. k-means++ assigns a probability that is the squared distance to the nearest existing centroid.
-                double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[genomeIdxArr[i]]); 
-                pArr[i] = distance * distance; 
-            }
-
-            // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
-            int selectIdx = new DiscreteDistribution(_rng, pArr).Sample();
-            return GetAndRemove(remainingGenomes, genomeIdxArr[selectIdx]);
-        }
-
-        private double GetDistanceFromNearestSeed(List<NeatGenome<T>> seedGenomeList, NeatGenome<T> genome)
-        {
-            double minDistance = _distanceMetric.GetDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
-
-            for(int i=1; i < seedGenomeList.Count; i++) 
-            {
-                double distance = _distanceMetric.GetDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
-                distance = Math.Min(minDistance, distance);
-            }
-            return minDistance;
         }
 
         #endregion
@@ -427,7 +329,7 @@ namespace SharpNeat.Neat.Speciation
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
             if(emptySpeciesArr.Length != 0) {
-                PopulateEmptySpecies(emptySpeciesArr, speciesArr);
+                SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
             }
 
             // Transfer all genomes from GenomeById to GenomeList.
@@ -461,44 +363,6 @@ namespace SharpNeat.Neat.Speciation
         }
 
         #endregion
-
-        #region Private Methods [Empty Species Handling]
-
-        private void PopulateEmptySpecies(Species<T>[] emptySpeciesArr, Species<T>[] speciesArr)
-        {
-            foreach(Species<T> emptySpecies in emptySpeciesArr)
-            {
-                // Get and remove a genome from a species with many genomes.
-                var genome = GetGenomeForEmptySpecies(speciesArr);
-
-                // Add the genome to the empty species.
-                emptySpecies.GenomeById.Add(genome.Id, genome);
-
-                // Update the centroid. There's only one genome so it is the centroid.
-                emptySpecies.Centroid = genome.ConnectionGenes;
-            }
-        }
-
-        private NeatGenome<T> GetGenomeForEmptySpecies(Species<T>[] speciesArr)
-        {
-            // Get the species with the highest number of genomes.
-            Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
-
-            // Get the genome furthest from the species centroid.
-            var genome = species.GenomeById.Values.Aggregate((x, y) => _distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > _distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
-
-            // Remove the genome from its current species.
-            species.GenomeById.Remove(genome.Id);
-
-            // Update the species centroid.
-            species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
-
-            // Return the selected genome.
-            return genome;
-        }
-
-        #endregion
-
 
         #region Private Methods [Regularization]
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 
@@ -7,37 +6,11 @@ namespace SharpNeat.Neat.Speciation
 {
     /// <summary>
     /// Static utility methods related to speciation.
+    /// 
+    /// Parallel execution versions of methods in SpeciationUtils class.
     /// </summary>
-    public static class SpeciationUtils
+    public static class SpeciationUtilsParallel
     {
-        #region Public Static Methods [IDistanceMetric Utility Methods]
-
-        /// <summary>
-        /// Get the index of the species with a centroid that is nearest to the provided genome.
-        /// </summary>
-        public static int GetNearestSpecies<T>(
-            IDistanceMetric<T> distanceMetric,
-            NeatGenome<T> genome,
-            Species<T>[] speciesArr)
-        where T : struct
-        {
-            int nearestSpeciesIdx = 0;
-            double nearestDistance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
-
-            for(int i=1; i < speciesArr.Length; i++)
-            {
-                double distance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
-                if(distance < nearestDistance)
-                {
-                    nearestSpeciesIdx = i;
-                    nearestDistance = distance;
-                }
-            }
-            return nearestSpeciesIdx;
-        }
-
-        #endregion
-
         #region Public Methods [Empty Species Handling]
 
         public static void PopulateEmptySpecies<T>(
@@ -68,7 +41,7 @@ namespace SharpNeat.Neat.Speciation
             Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
 
             // Get the genome furthest from the species centroid.
-            var genome = species.GenomeById.Values.Aggregate((x, y) => distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
+            var genome = species.GenomeById.Values.AsParallel().Aggregate((x, y) => distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
 
             // Remove the genome from its current species.
             species.GenomeById.Remove(genome.Id);
