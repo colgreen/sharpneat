@@ -176,7 +176,7 @@ namespace SharpNeat.Neat.Speciation
             // Allocate all other genomes to the species centroid they are nearest too.
             foreach(var genome in remainingGenomes)
             {
-                var nearestSpeciesIdx = GetNearestSpecies(genome, speciesArr, _distanceMetric);
+                var nearestSpeciesIdx = GetNearestSpecies(_distanceMetric, genome, speciesArr);
                 speciesArr[nearestSpeciesIdx].GenomeList.Add(genome);
             }
 
@@ -460,29 +460,6 @@ namespace SharpNeat.Neat.Speciation
             }
         }
 
-        /// <summary>
-        /// Calc the maximum distance between any two centroids.
-        /// </summary>
-        private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
-        {
-            double maxDistance = 0.0;
-
-            // Iterate through all combinations of species, except for pairs of the same species.
-            // Thus for N species the number of comparisons is N^2 - N.
-            for(int i=0; i < speciesArr.Length - 1; i++)
-            {
-                var species = speciesArr[i];
-
-                for(int j = i+1; j < speciesArr.Length; j++)
-                {
-                    double distance = _distanceMetric.GetDistance(species.Centroid, speciesArr[j].Centroid);
-                    maxDistance = Math.Max(maxDistance, distance);
-                }
-            }
-
-            return maxDistance;
-        }
-
         #endregion
 
         #region Private Methods [Empty Species Handling]
@@ -518,6 +495,34 @@ namespace SharpNeat.Neat.Speciation
 
             // Return the selected genome.
             return genome;
+        }
+
+        #endregion
+
+
+        #region Private Methods [Regularization]
+
+        /// <summary>
+        /// Calc the maximum distance between any two centroids.
+        /// </summary>
+        private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
+        {
+            double maxDistance = 0.0;
+
+            // Iterate through all combinations of species, except for pairs of the same species.
+            // Thus for N species the number of comparisons is N^2 - N.
+            for(int i=0; i < speciesArr.Length - 1; i++)
+            {
+                var species = speciesArr[i];
+
+                for(int j = i+1; j < speciesArr.Length; j++)
+                {
+                    double distance = _distanceMetric.GetDistance(species.Centroid, speciesArr[j].Centroid);
+                    maxDistance = Math.Max(maxDistance, distance);
+                }
+            }
+
+            return maxDistance;
         }
 
         #endregion

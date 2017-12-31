@@ -9,13 +9,17 @@ namespace SharpNeat.Neat.Speciation
     /// </summary>
     public static class GeneticKMeansSpeciationStrategyUtils
     {
+
+
+        #region Public Static Methods [IDistanceMetric Utility Methods]
+
         /// <summary>
         /// Get the index of the species with a centroid that is nearest to the provided genome.
         /// </summary>
         public static int GetNearestSpecies<T>(
+            IDistanceMetric<T> distanceMetric,
             NeatGenome<T> genome,
-            Species<T>[] speciesArr,
-            IDistanceMetric<T> distanceMetric)
+            Species<T>[] speciesArr)
         where T : struct
         {
             int nearestSpeciesIdx = 0;
@@ -33,11 +37,6 @@ namespace SharpNeat.Neat.Speciation
             return nearestSpeciesIdx;
         }
 
-        public static T GetAndRemove<T>(IList<T> list, int idx)
-        {
-            T tmp = list[idx];
-            list.RemoveAt(idx);
-            return tmp;
-        }
+        #endregion
     }
 }
