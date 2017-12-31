@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Speciation.Parallelized;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 {

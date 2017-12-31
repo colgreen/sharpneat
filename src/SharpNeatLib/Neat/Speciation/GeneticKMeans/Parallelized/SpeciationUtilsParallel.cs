@@ -2,7 +2,7 @@
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeat.Neat.Speciation
+namespace SharpNeat.Neat.Speciation.Parallelized
 {
     /// <summary>
     /// Static utility methods related to speciation.
