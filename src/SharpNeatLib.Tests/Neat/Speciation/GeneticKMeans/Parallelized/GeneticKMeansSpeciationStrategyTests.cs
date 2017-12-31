@@ -4,7 +4,7 @@ using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 using static SharpNeatLib.Tests.Neat.Speciation.SpeciationStrategyTestUtils;
 
-namespace SharpNeatLib.Tests.Neat.Speciation.Parallelized.GeneticKMeans
+namespace SharpNeatLib.Tests.Neat.Speciation.GeneticKMeans.Parallelized
 {
     [TestClass]
     public class GeneticKMeansSpeciationStrategyTests
