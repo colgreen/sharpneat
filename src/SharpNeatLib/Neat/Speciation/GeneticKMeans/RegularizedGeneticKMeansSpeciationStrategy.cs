@@ -111,7 +111,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         /// <param name="speciesArr">An array of pre-existing species</param>
         public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr)
         {
-            KMeansInit1(speciesArr, out double populationCount, out double maxIntraSpeciesDistance);
+            GetPopulationCountAndMaxIntraSpeciesDistance(speciesArr, out double populationCount, out double maxIntraSpeciesDistance);
 
             // Create a temporary working array of species modification bits.
             var updateBits = new bool[speciesArr.Length];
@@ -163,7 +163,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         private void RunKMeans(Species<T>[] speciesArr, double populationCount, double maxIntraSpeciesDistance)
         {
             // Initialise.
-            KMeansInit2(speciesArr);
+            KMeansInit(speciesArr);
 
             // Create a temporary working array of species modification bits.
             var updateBits = new bool[speciesArr.Length];
@@ -282,6 +282,13 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         #region Private Methods [KMeans Helper Methods]
 
+        private void KMeansInit(Species<T>[] speciesArr)
+        {
+            foreach(var species in speciesArr)  {
+                species.LoadWorkingDictionary();
+            }
+        }
+
         private void KMeansInit(Species<T>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
         {
             // Calc max distance between any two species.
@@ -296,29 +303,6 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             foreach(var species in speciesArr) 
             {
                 populationCount += species.GenomeList.Count;
-                species.LoadWorkingDictionary();
-            }
-        }
-
-        private void KMeansInit1(Species<T>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
-        {
-            // Calc max distance between any two species.
-            maxIntraSpeciesDistance = GetMaxIntraSpeciesCentroidDistance(speciesArr);
-
-            // Transfer all genomes from GenomeList to GenomeById.
-            // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from 
-            // a list requires shuffling up of items to fill the gap.
-            populationCount = 0;
-
-            foreach(var species in speciesArr) {
-                populationCount += species.GenomeList.Count;
-            }
-        }
-
-        private void KMeansInit2(Species<T>[] speciesArr)
-        {
-            foreach(var species in speciesArr)  {
                 species.LoadWorkingDictionary();
             }
         }
@@ -365,6 +349,22 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         #endregion
 
         #region Private Methods [Regularization]
+
+        private void GetPopulationCountAndMaxIntraSpeciesDistance(Species<T>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
+        {
+            // Calc max distance between any two species.
+            maxIntraSpeciesDistance = GetMaxIntraSpeciesCentroidDistance(speciesArr);
+
+            // Transfer all genomes from GenomeList to GenomeById.
+            // Notes. moving genomes between species is more efficient when using dictionaries;
+            // removal from a list can have O(N) complexity because removing an item from 
+            // a list requires shuffling up of items to fill the gap.
+            populationCount = 0;
+
+            foreach(var species in speciesArr) {
+                populationCount += species.GenomeList.Count;
+            }
+        }
 
         /// <summary>
         /// Calc the maximum distance between any two centroids.
