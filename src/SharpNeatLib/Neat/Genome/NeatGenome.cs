@@ -9,31 +9,56 @@ namespace SharpNeat.Neat.Genome
     public class NeatGenome<T> : IGenome
         where T : struct
     {
-        #region Instance Fields
+        #region Auto Properties [IGenome]
 
-        // Genome metadata.
-        readonly MetaNeatGenome<T> _metaNeatGenome;
-
-        // A unique genome ID.
-        readonly int _id;
+        /// <summary>
+        /// Genome ID.
+        /// </summary>
+        public int Id { get; }
 
         // TODO: Consider whether birthGeneration belongs here.
-        // The generation that the genome was created in.
-        readonly int _birthGeneration;
-        
-        // Connection genes data structure.
-        // These define both the neural network structure/topology and the connection weights.
-        readonly ConnectionGenes<T> _connGenes;
+        /// <summary>
+        /// Genome birth generation.
+        /// </summary>
+        public int BirthGeneration { get; }
 
-        // An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
-        // Input and output node IDs are not included because these are allocated fixed IDs starting from zero
-        // and are therefore always known.
-        readonly int[] _hiddenNodeIdArr;
+        /// <summary>
+        /// Genome fitness info.
+        /// </summary>
+        public FitnessInfo FitnessInfo { get; set; }
 
-        // Graph depth information. For acyclic graphs only.
-        GraphDepthInfo _depthInfo;
+        // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
+        // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
+        // that are the result of weight mutation; but the IPhenome can probably be re-used in those cases too.
+        /// <summary>
+        /// Graph depth information. For acyclic graphs only.
+        /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
+        /// not NeatGenome, in particular it's based on contiguous node IDs used by DirectedGraph and not the non-contiguous 
+        /// node innovation IDs used by NeatGenome.
+        /// </summary>
+        public GraphDepthInfo DepthInfo { get; set; }
 
-        FitnessInfo _fitnessInfo;
+        #endregion
+
+        #region Auto Properties [NEAT Genome Specific]
+
+        /// <summary>
+        /// Genome metadata.
+        /// </summary>
+        public MetaNeatGenome<T> MetaNeatGenome { get; }
+
+        /// <summary>
+        /// Connection genes data structure.
+        /// These define both the neural network structure/topology and the connection weights.
+        /// </summary>
+        public ConnectionGenes<T> ConnectionGenes { get; }
+
+        /// <summary>
+        /// An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
+        /// Input and output node IDs are not included because these are allocated fixed IDs starting from zero
+        /// and are therefore always known.
+        /// </summary>
+        public int[] HiddenNodeIdArray { get; }
 
         #endregion
 
@@ -45,9 +70,9 @@ namespace SharpNeat.Neat.Genome
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes)
-            : this(metaNeatGenome, id, birthGeneration, connGenes,
-                  ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount),
-                  null)
+        : this(metaNeatGenome, id, birthGeneration, connGenes,
+               ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount),
+               null)
         {}
 
         /// <summary>
@@ -64,65 +89,13 @@ namespace SharpNeat.Neat.Genome
             // We do not expect depthInfo for cyclic nets; and it is optional for acyclic nets.
             Debug.Assert(metaNeatGenome.IsAcyclic || (!metaNeatGenome.IsAcyclic && null == depthInfo));
 
-            _metaNeatGenome = metaNeatGenome;
-            _id = id;
-            _birthGeneration = birthGeneration;
-            _connGenes = connGenes;
-            _hiddenNodeIdArr = hiddenNodeIdArr;
-            _depthInfo = depthInfo;
+            this.MetaNeatGenome = metaNeatGenome;
+            this.Id = id;
+            this.BirthGeneration = birthGeneration;
+            this.ConnectionGenes = connGenes;
+            this.HiddenNodeIdArray = hiddenNodeIdArr;
+            this.DepthInfo = depthInfo;
         }
-
-        #endregion
-
-        #region Properties [NEAT Genome Specific]
-
-        /// <summary>
-        /// Genome metadata.
-        /// </summary>
-        public MetaNeatGenome<T> MetaNeatGenome {
-            get { return _metaNeatGenome; }
-        }
-
-        /// <summary>
-        /// Connection genes data structure.
-        /// These define both the neural network structure/topology and the connection weights.
-        /// </summary>
-        public ConnectionGenes<T> ConnectionGenes => _connGenes;
-        
-        /// <summary>
-        /// An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
-        /// Input and output node IDs are not included because these are allocated fixed IDs starting from zero
-        /// and are therefore always known.
-        /// </summary>
-        public int[] HiddenNodeIdArray => _hiddenNodeIdArr;
-
-        #endregion
-
-        #region IGenome
-
-        /// <summary>
-        /// Genome ID.
-        /// </summary>
-        public int Id => _id;
-        /// <summary>
-        /// Genome birth generation.
-        /// </summary>
-        public int BirthGeneration => _birthGeneration;
-        /// <summary>
-        /// Genome fitness info.
-        /// </summary>
-        public FitnessInfo FitnessInfo { get => _fitnessInfo; set => _fitnessInfo = value; }
-
-        // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
-        // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
-        // that are the result of weight mutation; but the IPhenome can probably be re-used in those cases too.
-        /// <summary>
-        /// Graph depth information. For acyclic graphs only.
-        /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
-        /// not NeatGenome, in particular it's based on contiguous node IDs used by DirectedGraph and not the non-contiguous 
-        /// node innovation IDs used by NeatGenome.
-        /// </summary>
-        public GraphDepthInfo DepthInfo { get => _depthInfo; set => _depthInfo = value; }
 
         #endregion
 
@@ -133,7 +106,7 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public bool ContainsHiddenNode(int id)
         {
-            return Array.BinarySearch(_hiddenNodeIdArr, id) >= 0;
+            return Array.BinarySearch(this.HiddenNodeIdArray, id) >= 0;
         }
 
         #endregion

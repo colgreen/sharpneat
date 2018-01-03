@@ -5,26 +5,47 @@ namespace SharpNeat.Neat.Speciation
 {
     /// <summary>
     /// Represents a NEAT species.
-    /// In NEAT all genome are within a species.
+    /// In NEAT all genomes are within a species.
     /// </summary>
     /// <typeparam name="T">Genome weight type.</typeparam>
     public class Species<T> where T : struct
     {
-        #region Instance Fields
+        #region Auto Properties
 
-        // Species ID.
-        readonly int _id;
-        // Species centroid.
-        ConnectionGenes<T> _centroid;
+        /// <summary>
+        /// Species ID.
+        /// </summary>
+        public int Id { get; }
 
-        // The genomes that are within the species.
-        readonly List<NeatGenome<T>> _genomeList;
-        // Working dictionary of genomes keyed by genome ID.
-        readonly Dictionary<int,NeatGenome<T>> _genomeById;
-        // Working list of genomes to be added to _genomeById at the end of a k-means iteration.
-        readonly List<NeatGenome<T>> _pendingGenomeList;
-        // Working list of genome IDs to remove from _genomeById at the end of a k-means iteration.
-        public List<int> _removeIdList;
+        /// <summary>
+        /// Species centroid.
+        /// </summary>
+        public ConnectionGenes<T> Centroid { get; set; }
+
+        /// <summary>
+        /// The genomes that are within the species.
+        /// </summary>
+        public List<NeatGenome<T>> GenomeList { get; }
+
+        /// <summary>
+        /// A working dictionary of genomes keyed by ID.
+        /// </summary>
+        public Dictionary<int,NeatGenome<T>> GenomeById { get; }
+
+        /// <summary>
+        /// Working list of genomes to be added to GenomeById at the end of a k-means iteration.
+        /// </summary>
+        public List<NeatGenome<T>> PendingAddsList { get; }
+
+        /// <summary>
+        /// Working list of genome IDs to remove from GenomeById at the end of a k-means iteration.
+        /// </summary>
+        public List<int> PendingRemovesList { get; }
+
+        /// <summary>
+        /// Species statistics.
+        /// </summary>
+        public SpeciesStats Stats { get; }
 
         #endregion
 
@@ -32,47 +53,14 @@ namespace SharpNeat.Neat.Speciation
 
         public Species(int id, ConnectionGenes<T> centroid, int capacity = 0)
         {
-            _id = id;
-            _centroid = centroid;
-            _genomeList = new List<NeatGenome<T>>(capacity);
-            _genomeById = new Dictionary<int,NeatGenome<T>>(capacity);
-            _pendingGenomeList = new List<NeatGenome<T>>(capacity);
-            _removeIdList = new List<int>(capacity);
+            this.Id = id;
+            this.Centroid = centroid;
+            this.GenomeList = new List<NeatGenome<T>>(capacity);
+            this.GenomeById = new Dictionary<int,NeatGenome<T>>(capacity);
+            this.PendingAddsList = new List<NeatGenome<T>>(capacity);
+            this.PendingRemovesList = new List<int>(capacity);
+            this.Stats = new SpeciesStats();
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Species ID.
-        /// </summary>
-        public int Id => _id;
-
-        /// <summary>
-        /// Species centroid.
-        /// </summary>
-        public ConnectionGenes<T> Centroid { get =>_centroid; set => _centroid = value; }
-
-        /// <summary>
-        /// The genomes that are within the species.
-        /// </summary>
-        public List<NeatGenome<T>> GenomeList => _genomeList;
-
-        /// <summary>
-        /// A working dictionary of genomes keyed by ID.
-        /// </summary>
-        public Dictionary<int,NeatGenome<T>> GenomeById => _genomeById;
-
-        /// <summary>
-        /// Working list of genomes to be added to GenomeById at the end of a k-means iteration.
-        /// </summary>
-        public List<NeatGenome<T>> PendingAddsList => _pendingGenomeList;
-
-        /// <summary>
-        /// Working list of genome IDs to remove from GenomeById at the end of a k-means iteration.
-        /// </summary>
-        public List<int> PendingRemovesList => _removeIdList;
 
         #endregion
 
@@ -83,11 +71,11 @@ namespace SharpNeat.Neat.Speciation
         /// </summary>
         public void LoadWorkingDictionary()
         {
-            _genomeById.Clear();
-            foreach(var genome in _genomeList) {
-                _genomeById.Add(genome.Id, genome);
+            GenomeById.Clear();
+            foreach(var genome in GenomeList) {
+                GenomeById.Add(genome.Id, genome);
             }
-            _genomeList.Clear();
+            GenomeList.Clear();
         }
 
         /// <summary>
@@ -95,9 +83,9 @@ namespace SharpNeat.Neat.Speciation
         /// </summary>
         public void FlushWorkingDictionary()
         {
-            _genomeList.Clear();
-            _genomeList.AddRange(_genomeById.Values);
-            _genomeById.Clear();
+            GenomeList.Clear();
+            GenomeList.AddRange(GenomeById.Values);
+            GenomeById.Clear();
         }
 
         /// <summary>
@@ -106,17 +94,17 @@ namespace SharpNeat.Neat.Speciation
         public void CompletePendingMoves()
         {
             // Remove genomes that are marked for removal.
-            foreach(int id in _removeIdList) {
-                _genomeById.Remove(id);
+            foreach(int id in PendingRemovesList) {
+                GenomeById.Remove(id);
             }
 
             // Process pending additions.
-            foreach(var genome in _pendingGenomeList) {
-                _genomeById.Add(genome.Id, genome);
+            foreach(var genome in PendingAddsList) {
+                GenomeById.Add(genome.Id, genome);
             }
 
-            _removeIdList.Clear();
-            _pendingGenomeList.Clear();
+            PendingRemovesList.Clear();
+            PendingAddsList.Clear();
         }
 
         #endregion
