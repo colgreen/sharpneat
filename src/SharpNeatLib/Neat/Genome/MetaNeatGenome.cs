@@ -2,6 +2,11 @@
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// NeatGenome metadata.
+    /// Genome related values/settings that are consistent across all genomes for the lifetime of an evolutionary algorithm run.
+    /// </summary>
+    /// <typeparam name="T">Connection weight and signal data type.</typeparam>
     public class MetaNeatGenome<T> where T : struct
     {
         #region Auto Properties

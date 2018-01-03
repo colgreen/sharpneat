@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace SharpNeat.Neat
 {
-    // TODO: Implement.
-
     public class NeatSelectionReproductionStrategy<T> : ISelectionReproductionStrategy<NeatGenome<T>>
         where T : struct
     {
@@ -18,7 +16,6 @@ namespace SharpNeat.Neat
 
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly int _speciesCount;
-        Species<T>[] _speciesArr;
 
         #endregion
 
@@ -30,12 +27,9 @@ namespace SharpNeat.Neat
         {
             _speciationStrategy = speciationStrategy;
             _speciesCount = speciesCount;
-
-
         }
 
         #endregion
-
 
         #region Public Methods
 
@@ -44,10 +38,19 @@ namespace SharpNeat.Neat
         /// </summary>
         public void Initialise(Population<NeatGenome<T>> population)
         {
-            _speciesArr = _speciationStrategy.SpeciateAll(population.GenomeList, _speciesCount);
-            if(null == _speciesArr || _speciesArr.Length != _speciesCount) {
+            // Check for expected population type.
+            var neatPop = population as NeatPopulation<T>;
+            if(null == neatPop) {
+                throw new ArgumentException("Invalid population type; expected NeatPopulation<T>.", "population");
+            }
+
+            // Initialise species.
+            var speciesArr = _speciationStrategy.SpeciateAll(population.GenomeList, _speciesCount);
+            if(null == speciesArr || speciesArr.Length != _speciesCount) {
                 throw new Exception("Species array is null or has incorrect length.");
             }
+
+            neatPop.SpeciesArray = speciesArr;
         }
 
         /// <summary>

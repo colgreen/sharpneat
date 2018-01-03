@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Speciation;
 using SharpNeat.Utils;
+using static SharpNeat.Neat.NeatPopulationUtils;
 
 namespace SharpNeat.Neat
 {
@@ -19,10 +21,19 @@ namespace SharpNeat.Neat
 
         #region Auto Properties
 
+        /// <summary>
+        /// NeatGenome metadata.
+        /// </summary>
         public MetaNeatGenome<T> MetaNeatGenome { get; }
 
+        /// <summary>
+        /// Genome ID sequence; for obtaining new genome IDs.
+        /// </summary>
         public Int32Sequence GenomeIdSeq { get; }
 
+        /// <summary>
+        /// Innovation ID sequence; for obtaining new innovation IDs.
+        /// </summary>
         public Int32Sequence InnovationIdSeq { get; }
 
         /// <summary>
@@ -31,6 +42,11 @@ namespace SharpNeat.Neat
         /// This allows re-use of the same innovation ID for like nodes.
         /// </summary>
         public AddedNodeBuffer AddedNodeBuffer { get; }
+
+        /// <summary>
+        /// Species array.
+        /// </summary>
+        public Species<T>[] SpeciesArray { get; set; }
 
         #endregion
 
@@ -73,45 +89,6 @@ namespace SharpNeat.Neat
 
             // Assert that the ID sequences have a current IDs higher than any existing ID.
             Debug.Assert(ValidateIdSequences(genomeList, genomeIdSeq, innovationIdSeq));
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        private static bool ValidateIdSequences(
-            List<NeatGenome<T>> genomeList,
-            Int32Sequence genomeIdSeq,
-            Int32Sequence innovationIdSeq)
-        {
-            GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
-
-            if(maxGenomeId >= genomeIdSeq.Peek) {
-                return false;
-            }
-
-            if(maxInnovationId >= innovationIdSeq.Peek) {
-                return false;
-            }
-
-            return true;
-        }
-
-        private static void GetMaxObservedIds(List<NeatGenome<T>> genomeList, out int maxGenomeId, out int maxInnovationId)
-        {
-            maxGenomeId = 0;
-            maxInnovationId = 0;
-            
-            foreach(var genome in genomeList)
-            {
-                maxGenomeId = Math.Max(maxGenomeId, genome.Id);
-
-                for(int i=0; i<genome.ConnectionGenes.Length; i++)
-                {
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].SourceId);
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].TargetId);
-                }
-            }
         }
 
         #endregion
