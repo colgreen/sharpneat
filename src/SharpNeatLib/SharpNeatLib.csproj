@@ -83,6 +83,7 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
     <Compile Include="Neat\NeatPopulationUtils.cs" />
+    <Compile Include="Neat\SelectionReproduction\SpeciesAllocationCalcs.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationInit.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationInit.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\RegularizedGeneticKMeansSpeciationStrategy.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
     <Compile Include="Neat\Genome\NeatGenome.cs" />
     <Compile Include="Neat\NeatPopulation.cs" />
-    <Compile Include="Neat\NeatSelectionReproductionStrategy.cs" />
+    <Compile Include="Neat\SelectionReproduction\NeatSelectionReproductionStrategy.cs" />
     <Compile Include="Neat\NeatPopulationFactory.cs" />
     <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexualSettings.cs" />
     <Compile Include="Neat\Reproduction\Sexual\NeatReproductionSexual.cs" />

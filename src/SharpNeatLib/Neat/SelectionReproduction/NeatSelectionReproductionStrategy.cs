@@ -1,4 +1,6 @@
-﻿using SharpNeat.EA;
+﻿using Redzen.Numerics;
+using Redzen.Random;
+using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 using System;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.Neat
+namespace SharpNeat.Neat.SelectionReproduction
 {
     public class NeatSelectionReproductionStrategy<T> : ISelectionReproductionStrategy<NeatGenome<T>>
         where T : struct
@@ -16,6 +18,7 @@ namespace SharpNeat.Neat
 
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly int _speciesCount;
+        readonly IRandomSource _rng = RandomSourceFactory.Create();
 
         #endregion
 
@@ -60,9 +63,12 @@ namespace SharpNeat.Neat
         /// <param name="population">The population to operate upon.</param>
         public void Invoke(Population<NeatGenome<T>> population)
         {
-            var neatPop = population as NeatPopulation<double>;
+            var neatPop = population as NeatPopulation<T>;
             
-            
+            // Calc species target sizes.
+            SpeciesAllocationCalcs<T>.CalcSpeciesTargetSizes(neatPop, _rng);
+
+
 
 
 
@@ -72,5 +78,6 @@ namespace SharpNeat.Neat
         }
 
         #endregion
+
     }
 }
