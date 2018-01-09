@@ -65,6 +65,7 @@
     <Compile Include="Neat\Reproduction\Sexual\Strategy\EnumerateParentGenesTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossoverReproductionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossoverReproductionStrategyTestsUtils.cs" />
+    <Compile Include="Neat\SelectionReproduction\SpeciesAllocationCalcsTests.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\RegularizedGeneticKMeansSpeciationStrategyTests.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\RegularizedGeneticKMeansSpeciationStrategyTests.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationStrategyTests.cs" />

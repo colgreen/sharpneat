@@ -7,7 +7,7 @@ using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.SelectionReproduction
 {
-    internal class SpeciesAllocationCalcs<T> where T : struct
+    public class SpeciesAllocationCalcs<T> where T : struct
     {
         #region Public Static Methods
 
