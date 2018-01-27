@@ -32,7 +32,7 @@ namespace EfficacySampler
 
         /// <summary>
         /// Initialise and run the evolutionary algorithm until the stop condition occurs (either elapsed clock time, or some number of generations).
-        /// Once the stop conditon is reached this method returns with the current best fitness in the population.
+        /// Once the stop condition is reached this method returns with the current best fitness in the population.
         /// </summary>
         /// <returns></returns>
         public Sample Sample()
@@ -45,7 +45,7 @@ namespace EfficacySampler
             Block(_stopCond);
 
             // Record stats as soon as we can (the EA is still running).
-            // Strictly speaking we should sync access to these states becase the EA is still running; and we prefer 
+            // Strictly speaking we should sync access to these states because the EA is still running; and we prefer 
             // not to stop it first because that can take a long time (because it waits for the current generation to complete).
             Sample sample = new Sample();
 
