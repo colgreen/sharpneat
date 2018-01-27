@@ -9,8 +9,9 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Redzen.Numerics;
 using System;
+using Redzen.Random;
+using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -72,12 +73,12 @@ namespace SharpNeat.Network
             return y;
         }
 
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
+        public double[] GetRandomAuxArgs(IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
 
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

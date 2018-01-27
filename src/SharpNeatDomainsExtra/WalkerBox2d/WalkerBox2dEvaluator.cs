@@ -9,11 +9,10 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
+using Box2DX.Common;
+using Redzen.Random;
 using SharpNeat.Core;
 using SharpNeat.Phenomes;
-using Redzen.Numerics;
-using Box2DX.Common;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
 {

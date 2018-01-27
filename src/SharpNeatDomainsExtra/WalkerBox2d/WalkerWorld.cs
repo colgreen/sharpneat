@@ -12,7 +12,7 @@
 using Box2DX.Collision;
 using Box2DX.Common;
 using Box2DX.Dynamics;
-using Redzen.Numerics;
+using Redzen.Random;
 using SharpNeat.DomainsExtra.Box2D;
 using SysMath = System.Math;
 

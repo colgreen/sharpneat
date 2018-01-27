@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Redzen.Numerics;
+using Redzen.Random;
+using Redzen.Random.Double;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Core;
@@ -50,8 +52,8 @@ namespace SharpNeat.Genomes.Neat
                 = new KeyedCircularBuffer<uint,AddedNeuronGeneStruct>(__INNOVATION_HISTORY_BUFFER_SIZE);
 
         /// <summary>Random number generator associated with this factory.</summary>
-        protected readonly XorShiftRandom _rng = new XorShiftRandom();
-        readonly ZigguratGaussianSampler _gaussianSampler = new ZigguratGaussianSampler();
+        protected readonly IRandomSource _rng = RandomSourceFactory.Create();
+        readonly ZigguratGaussianDistribution _gaussianSampler = new ZigguratGaussianDistribution();
 
         /// <summary>Activation function library associated with this factory.</summary>
         protected readonly IActivationFunctionLibrary _activationFnLibrary;
@@ -498,7 +500,7 @@ namespace SharpNeat.Genomes.Neat
         /// Note. The provided RNG is not thread safe, if concurrent use is required then sync locks
         /// are necessary or some other RNG mechanism.
         /// </summary>
-        public XorShiftRandom Rng
+        public IRandomSource Rng
         {
             get { return _rng; }
         }
@@ -508,7 +510,7 @@ namespace SharpNeat.Genomes.Neat
         /// Note. The provided RNG is not thread safe, if concurrent use is required then sync locks
         /// are necessary or some other RNG mechanism.
         /// </summary>
-        public ZigguratGaussianSampler GaussianSampler
+        public ZigguratGaussianDistribution GaussianSampler
         {
             get { return _gaussianSampler; }
         }
@@ -555,7 +557,7 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public double SampleGaussianDistribution(double mu, double sigma)
         {
-            return _gaussianSampler.NextDouble(mu, sigma);
+            return _gaussianSampler.Sample(mu, sigma);
         }
 
         /// <summary>

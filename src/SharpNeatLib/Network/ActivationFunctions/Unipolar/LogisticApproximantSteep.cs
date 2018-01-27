@@ -11,7 +11,8 @@
  */
 
 using System;
-using Redzen.Numerics;
+using Redzen.Random;
+using Redzen.Random.Double;
 using System.Runtime.CompilerServices;
 
 namespace SharpNeat.Network
@@ -84,7 +85,7 @@ namespace SharpNeat.Network
         /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
         /// added nodes (from an 'add neuron' mutation).
         /// </summary>
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
+        public double[] GetRandomAuxArgs(IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
@@ -92,7 +93,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

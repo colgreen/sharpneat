@@ -488,7 +488,7 @@ namespace SharpNeat.Genomes.Neat
             bool structureChange = false;
             for(;;)
             {
-                int outcome = distCurrent.Sample(_genomeFactory.Rng);
+                int outcome = distCurrent.Sample();
                 switch(outcome)
                 {
                     case 0:
@@ -971,7 +971,7 @@ namespace SharpNeat.Genomes.Neat
         private void Mutate_ConnectionWeights()
         {
             // Determine the type of weight mutation to perform.
-            ConnectionMutationInfo mutationInfo = _genomeFactory.NeatGenomeParameters.ConnectionMutationInfoList.GetRandomItem(_genomeFactory.Rng);
+            ConnectionMutationInfo mutationInfo = _genomeFactory.NeatGenomeParameters.ConnectionMutationInfoList.GetRandomItem();
     
             // Get a delegate that performs the mutation specified by mutationInfo. The alternative is to use a switch statement
             // test perturbance type on each connection weight mutation - which creates a lot of unnecessary branch instructions.

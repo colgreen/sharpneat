@@ -86,7 +86,7 @@ namespace SharpNeat.Genomes.HyperNeat
                 }
                 default:
                 {
-                    activationFnId = _activationFnLibrary.GetRandomFunction(_rng).Id;
+                    activationFnId = _activationFnLibrary.GetRandomFunction().Id;
                     break;
                 }
             }

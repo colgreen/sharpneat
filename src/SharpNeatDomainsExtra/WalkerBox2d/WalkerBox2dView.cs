@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Redzen.Numerics;
+using Redzen.Random;
 using SharpNeat.Core;
 using SharpNeat.DomainsExtra.Box2D;
 using SharpNeat.Genomes.Neat;

@@ -10,14 +10,15 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using Redzen.Numerics;
 using System;
+using Redzen.Random;
+using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
     /// <summary>
     /// A very close approximation of the logistic function that avoids use of exp() and is therefore
-    /// typically much faster to compute, while giving an alomost identical sigmoid curve.
+    /// typically much faster to compute, while giving an almost identical sigmoid curve.
     /// 
     /// This function was obtained from:
     ///    http://stackoverflow.com/a/34448562/15703
@@ -106,7 +107,7 @@ namespace SharpNeat.Network
         /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
         /// added nodes (from an 'add neuron' mutation).
         /// </summary>
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
+        public double[] GetRandomAuxArgs(IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
@@ -114,7 +115,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

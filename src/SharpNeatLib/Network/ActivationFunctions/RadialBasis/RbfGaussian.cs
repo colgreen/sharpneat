@@ -10,8 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using Redzen.Numerics;
-using SharpNeat.Utility;
+using Redzen.Random;
+using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -95,7 +95,7 @@ namespace SharpNeat.Network
         /// </summary>
         public float Calculate(float x, float[] auxArgs)
         {
-            // auxArgs[0] - RBF center.
+            // auxArgs[0] - RBF centre.
             // auxArgs[1] - RBF Gaussian epsilon.
             float d = (x-auxArgs[0]) * (float)Math.Sqrt(auxArgs[1]) * 4f;
             return (float)Math.Exp(-(d*d));
@@ -105,7 +105,7 @@ namespace SharpNeat.Network
         /// For activation functions that accept auxiliary arguments; generates random initial values for aux arguments for newly
         /// added nodes (from an 'add neuron' mutation).
         /// </summary>
-        public double[] GetRandomAuxArgs(XorShiftRandom rng, double connectionWeightRange)
+        public double[] GetRandomAuxArgs(IRandomSource rng, double connectionWeightRange)
         {
             double[] auxArgs = new double[2];
             auxArgs[0] = (rng.NextDouble()-0.5) * 2.0;
@@ -116,11 +116,11 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, XorShiftRandom rng, ZigguratGaussianSampler gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
         {
-            // Mutate center.            
+            // Mutate centre.            
             // Add Gaussian distribution sample and clamp result to +-connectionWeightRange.
-            double tmp = auxArgs[0] + gaussianSampler.NextDouble(0, _auxArgsMutationSigmaCenter);
+            double tmp = auxArgs[0] + gaussianSampler.Sample(0, _auxArgsMutationSigmaCenter);
             if(tmp < -connectionWeightRange) {
                 auxArgs[0] = -connectionWeightRange;
             }
@@ -133,7 +133,7 @@ namespace SharpNeat.Network
 
             // Mutate radius.
             // Add Gaussian distribution sample and clamp result to [0,1]
-            tmp = auxArgs[1] + gaussianSampler.NextDouble(0, _auxArgsMutationSigmaRadius);
+            tmp = auxArgs[1] + gaussianSampler.Sample(0, _auxArgsMutationSigmaRadius);
             if(tmp < 0.0) {
                 auxArgs[1] = 0.0;
             }

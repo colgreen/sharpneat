@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Redzen.Numerics;
+using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Core;
 using SharpNeat.DistanceMetrics;
@@ -352,7 +353,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     }
 
                     // Use a built in class for choosing an item based on a list of relative probabilities.
-                    DiscreteDistribution dist = new DiscreteDistribution(probabilities);
+                    DiscreteDistribution dist = new DiscreteDistribution(_rng, probabilities);
 
                     // Probabilistically assign the required number of additional allocations.
                     // FIXME/ENHANCEMENT: We can improve the allocation fairness by updating the DiscreteDistribution 
@@ -361,7 +362,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     targetSizeDeltaInt *= -1;
                     for(int i=0; i<targetSizeDeltaInt; i++)
                     {
-                        int specieIdx = dist.Sample(_rng);
+                        int specieIdx = dist.Sample();
                         specieStatsArr[specieIdx]._targetSizeInt++;
                     }
                 }
@@ -378,14 +379,14 @@ namespace SharpNeat.EvolutionAlgorithms
                 }
 
                 // Use a built in class for choosing an item based on a list of relative probabilities.
-                DiscreteDistribution dist = new DiscreteDistribution(probabilities);
+                DiscreteDistribution dist = new DiscreteDistribution(_rng, probabilities);
 
                 // Probabilistically decrement specie target sizes.
                 // ENHANCEMENT: We can improve the selection fairness by updating the DiscreteDistribution 
                 // after each decrement (to reflect that decrement).
                 for(int i=0; i<targetSizeDeltaInt;)
                 {
-                    int specieIdx = dist.Sample(_rng);
+                    int specieIdx = dist.Sample();
 
                     // Skip empty species. This can happen because the same species can be selected more than once.
                     if(0 != specieStatsArr[specieIdx]._targetSizeInt) {   
@@ -528,11 +529,11 @@ namespace SharpNeat.EvolutionAlgorithms
                 for(int j=0; j<inst._selectionSizeInt; j++) {
                     probabilities[j] = genomeList[j].EvaluationInfo.Fitness;
                 }
-                distArr[i] = new DiscreteDistribution(probabilities);
+                distArr[i] = new DiscreteDistribution(_rng, probabilities);
             }
 
             // Complete construction of DiscreteDistribution for specie selection.
-            DiscreteDistribution rwlSpecies = new DiscreteDistribution(specieFitnessArr);
+            DiscreteDistribution rwlSpecies = new DiscreteDistribution(_rng, specieFitnessArr);
 
             // Produce offspring from each specie in turn and store them in offspringList.
             List<TGenome> offspringList = new List<TGenome>(offspringCount);
@@ -547,7 +548,7 @@ namespace SharpNeat.EvolutionAlgorithms
             // --- Produce the required number of offspring from asexual reproduction.
                 for(int i=0; i<inst._offspringAsexualCount; i++)
                 {
-                    int genomeIdx = dist.Sample(_rng);
+                    int genomeIdx = dist.Sample();
                     TGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
                     offspringList.Add(offspring);
                 }
@@ -578,7 +579,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     // Fall-back to asexual reproduction.
                     for(; matingsCount<inst._offspringSexualCount; matingsCount++)
                     {
-                        int genomeIdx = dist.Sample(_rng);
+                        int genomeIdx = dist.Sample();
                         TGenome offspring = genomeList[genomeIdx].CreateOffspring(_currentGeneration);
                         offspringList.Add(offspring);
                     }
@@ -589,7 +590,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     for(; matingsCount<inst._offspringSexualCount; matingsCount++)
                     {
                         // Select parent 1.
-                        int parent1Idx = dist.Sample(_rng);
+                        int parent1Idx = dist.Sample();
                         TGenome parent1 = genomeList[parent1Idx];
 
                         // Remove selected parent from set of possible outcomes.
@@ -598,7 +599,7 @@ namespace SharpNeat.EvolutionAlgorithms
                         // Test for existence of at least one more parent to select.
                         if(0 != distTmp.Probabilities.Length)
                         {   // Get the two parents to mate.
-                            int parent2Idx = distTmp.Sample(_rng);
+                            int parent2Idx = distTmp.Sample();
                             TGenome parent2 = genomeList[parent2Idx];
                             TGenome offspring = parent1.CreateOffspring(parent2, _currentGeneration);
                             offspringList.Add(offspring);
@@ -632,14 +633,14 @@ namespace SharpNeat.EvolutionAlgorithms
                                                           IList<TGenome> genomeList)
         {
             // Select parent from current specie.
-            int parent1Idx = dist.Sample(_rng);
+            int parent1Idx = dist.Sample();
 
             // Select specie other than current one for 2nd parent genome.
             DiscreteDistribution distSpeciesTmp = rwlSpecies.RemoveOutcome(currentSpecieIdx);
-            int specie2Idx = distSpeciesTmp.Sample(_rng);
+            int specie2Idx = distSpeciesTmp.Sample();
             
             // Select a parent genome from the second specie.
-            int parent2Idx = distArr[specie2Idx].Sample(_rng);
+            int parent2Idx = distArr[specie2Idx].Sample();
 
             // Get the two parents to mate.
             TGenome parent1 = genomeList[parent1Idx];
