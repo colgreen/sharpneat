@@ -22,6 +22,7 @@ using SharpNeat.Domains.FunctionRegression;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
+using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
 
@@ -138,6 +139,7 @@ namespace SharpNeat.Domains.GenerativeFunctionRegression
 
             _neatGenomeParams = new NeatGenomeParameters();
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
+            _neatGenomeParams.ActivationFn = LeakyReLU.__DefaultInstance;
 
             // Determine what function to regress.
             string fnIdStr = XmlUtils.GetValueAsString(xmlConfig, "Function");

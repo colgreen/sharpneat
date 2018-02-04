@@ -20,6 +20,7 @@ using SharpNeat.DistanceMetrics;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
+using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
 
@@ -133,6 +134,7 @@ namespace SharpNeat.Domains.BinaryThreeMultiplexer
             _eaParams.SpecieCount = _specieCount;
             _neatGenomeParams = new NeatGenomeParameters();
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
+            _neatGenomeParams.ActivationFn = LeakyReLU.__DefaultInstance;
         }
 
         /// <summary>
