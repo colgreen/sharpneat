@@ -5,6 +5,14 @@
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
     <FileVersion>2.4.0.0</FileVersion>
     <Copyright>Copyright © Colin D. Green 2004 - 2018</Copyright>
+    <Version>2.4.0.0</Version>
+    <Authors>Colin D. Green</Authors>
+    <Company />
+    <Description>SharpNEAT - Evolution of Neural Networks.</Description>
+    <PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
+    <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
+    <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
+    <PackageReleaseNotes>See https://github.com/colgreen/sharpneat/releases/tag/v2.4.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
