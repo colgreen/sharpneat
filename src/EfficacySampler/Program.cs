@@ -20,9 +20,7 @@ namespace EfficacySampler
                 }
             };
 
-            string experimentId;
-            string filename;
-            StopCondition stopCond = ArgUtils.ReadArgs(args, out experimentId, out filename);
+            StopCondition stopCond = ArgUtils.ReadArgs(args, out string experimentId, out string filename);
             if(null == stopCond) {
                 return;
             }

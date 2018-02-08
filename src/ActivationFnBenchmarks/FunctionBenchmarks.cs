@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Redzen.Numerics;
+using Redzen.Random.Double;
 
 namespace ActivationFnBenchmarks
 {
@@ -12,11 +12,11 @@ namespace ActivationFnBenchmarks
         public FunctionBenchmarks()
         {
             // Create some random Gaussian values as the inputs to the activation functions.
-            ZigguratGaussianSampler gaussian = new ZigguratGaussianSampler(0);
+            ZigguratGaussianDistribution gaussian = new ZigguratGaussianDistribution(0);
             for(int i=0; i<_x.Length; i++) 
             {
-                _x[i] = gaussian.NextDouble(0, 2.0);
-                _f[i] = (float)gaussian.NextDouble(0, 2.0);
+                _x[i] = gaussian.Sample(0, 2.0);
+                _f[i] = (float)gaussian.Sample(0, 2.0);
             }
         }
 
