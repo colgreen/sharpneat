@@ -45,21 +45,10 @@ namespace SharpNeat.EvolutionAlgorithm
         /// </summary>
         public double InterspeciesMatingProportion { get; set; } = 0.01;
 
-        // TODO: These three length settings can be combined into one setting.
         /// <summary>
-        /// Length of the history buffer used for calculating the best fitness moving average.
+        /// Length of the history buffer used for calculating the moving average for best fitness, mean fitness and mean complexity.
         /// </summary>
-        public int BestFitnessMovingAverageHistoryLength { get; set; } = 100;
-
-        /// <summary>
-        /// Length of the history buffer used for calculating the mean specie champ fitness moving average.
-        /// </summary>
-        public int MeanSpecieChampFitnessMovingAverageHistoryLength { get; set; } = 100;
-
-        /// <summary>
-        /// Length of the history buffer used for calculating the mean genome complexity moving average.
-        /// </summary>
-        public int ComplexityMovingAverageHistoryLength { get; set; } = 100;
+        public int StatisticsMovingAverageHistoryLength { get; set; } = 100;
 
         #endregion
     }
