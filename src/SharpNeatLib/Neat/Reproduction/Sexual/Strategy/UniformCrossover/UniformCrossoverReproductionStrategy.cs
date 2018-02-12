@@ -1,4 +1,5 @@
-﻿using Redzen.Numerics;
+﻿using Redzen;
+using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Utils;
@@ -60,6 +61,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         private NeatGenome<T> CreateGenomeInner(NeatGenome<T> parent1, NeatGenome<T> parent2)
         {
+            // Randomly select one parent as being the primary parent.
+            if(_rng.NextBool()) {
+                VariableUtils.Swap(ref parent1, ref parent2);
+            }
+
             // Enumerate over the connection genes in both parents.
             foreach(var geneIndexPair in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
             {

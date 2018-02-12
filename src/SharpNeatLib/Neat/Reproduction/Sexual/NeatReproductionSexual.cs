@@ -46,36 +46,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             NeatGenome<T> parent1,
             NeatGenome<T> parent2)
         {
-            // TODO: Review / tidy-up.
-
-            //// Ensure the fittest parent is parent1.
-            //if(parent2.Fitness > parent1.Fitness)
-            //{
-            //    Swap(ref parent1, ref parent2);
-            //}
-            //else if(parent2.Fitness == parent1.Fitness)
-            //{
-            //    // For parents of equal fitness, choose the primary parent stochastically.
-            //    if(_rng.NextBool()) {
-            //        Swap(ref parent1, ref parent2);
-            //    }
-            //}
-
             // Invoke the reproduction strategy.
             return _strategy.CreateGenome(parent1, parent2);            
         }
 
         #endregion
-
-        //#region Private Static Methods
-
-        //private static void Swap(ref NeatGenome<T> parent1, ref NeatGenome<T> parent2)
-        //{
-        //    var tmp = parent1;
-        //    parent1 = parent2;
-        //    parent2 = tmp;
-        //}
-
-        //#endregion
     }
 }
