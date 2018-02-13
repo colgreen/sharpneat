@@ -38,7 +38,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// <returns>An array of indexes that are the selected items.</returns>
         public int[] SelectSubset(int supersetCount)
         {
-            // TODO: Ideally we'd return a sorted list of indexes to improve performance of the code that consumes them.
+            // Note. Ideally we'd return a sorted list of indexes to improve performance of the code that consumes them,
+            // however, the sampling process inherently produces samples in randomized order, thus the decision of whether
+            // to sort or not depends on the cost to the code using the samples. I.e. don't sort here!
             int selectionCount = (int)NumericsUtils.ProbabilisticRound(supersetCount * _selectionProportion, _rng);
             int[] idxArr = new int[selectionCount];
             DiscreteDistributionUtils.SampleUniformWithoutReplacement(supersetCount, idxArr, _rng);

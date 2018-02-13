@@ -71,7 +71,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Determine the connection weight.
             // 50% of the time use weights very close to zero.
             // Note. this recreates the strategy used in SharpNEAT 2.x.
-            // TODO: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
+            // ENHANCEMENT: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
             T weight = _rng.NextBool() ? _weightDistB.Sample() : _weightDistA.Sample();
 
             // Create a new connection gene array that consists of the parent connection genes plus the new gene

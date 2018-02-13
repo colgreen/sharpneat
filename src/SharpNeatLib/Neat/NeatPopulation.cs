@@ -14,7 +14,7 @@ namespace SharpNeat.Neat
     {
         #region Consts / Statics
 
-        // TODO: Consider increasing buffer capacity, and different capacities for the two different buffers.
+        // ENHANCEMENT: Consider increasing buffer capacity, and different capacities for the two different buffers.
         const int __defaultInnovationHistoryBufferSize = 0x20000; // = 131,072.
 
         #endregion

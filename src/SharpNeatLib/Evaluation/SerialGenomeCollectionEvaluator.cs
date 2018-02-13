@@ -49,7 +49,7 @@ namespace SharpNeat.Evaluation
             // Decode and evaluate each genome in turn.
             foreach(TGenome genome in genomeList)
             {
-                // TODO: Implement phenome caching (to avoid cost of decode when re-evaluating with a non-deterministic evaluation scheme).
+                // TODO: Implement phenome caching (to avoid decode cost when re-evaluating with a non-deterministic evaluation scheme).
                 TPhenome phenome = _genomeDecoder.Decode(genome);
                 if(null == phenome)
                 {   // Non-viable genome.
