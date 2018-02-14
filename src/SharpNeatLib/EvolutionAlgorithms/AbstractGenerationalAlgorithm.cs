@@ -279,8 +279,9 @@ namespace SharpNeat.EvolutionAlgorithms
                         _awaitPauseEvent.Set();
 
                         // Test for terminate signal.
-                        if(_terminateFlag) {
-                            _runState = Runstate.Terminated;
+                        if(_terminateFlag) 
+                        {
+                            _runState = RunState.Terminated;
                             return;
                         }
 
