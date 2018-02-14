@@ -280,6 +280,7 @@ namespace SharpNeat.EvolutionAlgorithms
 
                         // Test for terminate signal.
                         if(_terminateFlag) {
+                            _runState = Runstate.Terminated;
                             return;
                         }
 
