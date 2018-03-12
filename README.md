@@ -23,7 +23,7 @@ Motivation for the development of SharpNEAT mainly came from a broader interest 
 ---
 
 
-If you would like to fund future work then donations can be made via [[Open Collective(https://opencollective.com/sharpneat)] (details below) or [[Patreon](https://www.patreon.com/sharpneat)]
+If you would like to fund future work then donations can be made via [[Open Collective](https://opencollective.com/sharpneat)] (details below) or [[Patreon](https://www.patreon.com/sharpneat)]
 
 ## Contributors
 
