@@ -69,8 +69,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             finally 
             {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
                 // re-use on the next call.
-                _traversalStack.Clear();
-                _visitedNodes.Clear();
+                Cleanup();
             }
         }
 
@@ -88,7 +87,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Initialise traversal.
             // Notes. 
             // We traverse forwards starting at the new connection's target node. If the new connection's source node is encountered
-            // during traversal then the new connection would form a cycle in the graph as a whole.
+            // during traversal then the connection would form a cycle in the graph as a whole.
 
             // The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.
             int terminalNodeId = newConn.SourceId;
@@ -113,7 +112,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             while(0 != _traversalStack.Count)
             {
                 // Get the connection at the top of the stack.
-                // This determines the current traversal node and the iteration position through its outgoing connections.
+                // This determines both the current traversal node and the iteration position through that node's outgoing connections.
                 int connIdx = _traversalStack.Peek();
                 currNodeId = connArr[connIdx].SourceId;
 
@@ -164,6 +163,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Traversal has completed without visiting the terminal node, therefore the new connection
             // does not form a cycle in the graph.
             return false;
+        }
+
+        private void Cleanup()
+        {
+            _traversalStack.Clear();
+            _visitedNodes.Clear();
         }
 
         #endregion
