@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Genome
         where T : struct
     {        
         /// <summary>
-        /// Array of directed connections; this described the network structure.
+        /// Array of directed connections; this describes the network structure.
         /// </summary>
         public readonly DirectedConnection[] _connArr;
         /// <summary>
