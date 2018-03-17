@@ -36,7 +36,7 @@ namespace SharpNeat.Network.Acyclic
         /// <summary>
         /// Working array of node depths.
         /// </summary>
-        int[] _nodeDepthById;
+        int[] _nodeDepthByIdx;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace SharpNeat.Network.Acyclic
         private AcyclicGraphDepthAnalysis(DirectedGraph digraph)
         {
             _digraph = digraph;
-            _nodeDepthById = new int[digraph.TotalNodeCount];
+            _nodeDepthByIdx = new int[digraph.TotalNodeCount];
         }
 
         #endregion
@@ -78,30 +78,31 @@ namespace SharpNeat.Network.Acyclic
         {
             // Loop over all input nodes; Perform a depth first traversal of each in turn.
             int inputCount = _digraph.InputNodeCount;
-            for(int id=0; id < inputCount; id++) 
+            for(int nodeIdx=0; nodeIdx < inputCount; nodeIdx++) 
             {
                 // Traverse into the input node's target nodes.
-                IList<int> tgtIdArr = _digraph.GetConnections(id);
-                for(int i=0; i<tgtIdArr.Count; i++) {
-                    TraverseNode(tgtIdArr[i], 1);
+                IList<int> tgtIdxArr = _digraph.GetConnections(nodeIdx);
+                for(int i=0; i < tgtIdxArr.Count; i++) 
+                {
+                    TraverseNode(tgtIdxArr[i], 1);
                 }
             }
 
             // Determine the maximum depth of the graph.
-            int maxDepth = (0 == _nodeDepthById.Length) ? 0 : _nodeDepthById.Max();
+            int maxDepth = (0 == _nodeDepthByIdx.Length) ? 0 : _nodeDepthByIdx.Max();
 
             // Return depth analysis info.
-            return new GraphDepthInfo(maxDepth+1, _nodeDepthById);
+            return new GraphDepthInfo(maxDepth+1, _nodeDepthByIdx);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void TraverseNode(int nodeId, int depth)
+        private void TraverseNode(int nodeIdx, int depth)
         {
             // Check if the node has been visited before.
-            if(_nodeDepthById[nodeId] >= depth)
+            if(_nodeDepthByIdx[nodeIdx] >= depth)
             {   // The node already has already been visited via a path that assigned it a greater depth than the 
                 // current path. Stop traversing this path.
                 return;
@@ -109,12 +110,13 @@ namespace SharpNeat.Network.Acyclic
 
             // Either this is the first visit to the node *or* the node has been visited, but via a shorter path.
             // Either way we assign it the current depth value and traverse into its targets to update/set their depth.
-            _nodeDepthById[nodeId] = depth;
+            _nodeDepthByIdx[nodeIdx] = depth;
 
             // Traverse into the current node's target nodes.
-            IList<int> tgtIdArr = _digraph.GetConnections(nodeId);
-            for(int i=0; i<tgtIdArr.Count; i++) {
-                TraverseNode(tgtIdArr[i], depth + 1);
+            IList<int> tgtIdxArr = _digraph.GetConnections(nodeIdx);
+            for(int i=0; i < tgtIdxArr.Count; i++) 
+            {
+                TraverseNode(tgtIdxArr[i], depth + 1);
             }
         }
 

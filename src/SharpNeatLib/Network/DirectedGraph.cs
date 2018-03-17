@@ -23,7 +23,7 @@ namespace SharpNeat.Network
     /// 
     /// Specifics
     /// ---------
-    /// The connection array is sorted by sourceID and secondary sorted by targetID. This means that all
+    /// The connection array is sorted by sourceIdx and secondary sorted by targetIdx. This means that all
     /// connections from a given node are located in a contiguous segment, the start of which can be efficiently
     /// located using a binary search. However to improve efficiency further an array of lookup indexes is compiled
     /// which gives the starting index of a connection span/segment for a given source node index.
@@ -86,7 +86,7 @@ namespace SharpNeat.Network
         public int TotalNodeCount => _totalNodeCount;
 
         /// <summary>
-        /// The internal arrays of connection source and target IDs. Exposed publicly for high performance scenarios.
+        /// The internal arrays of connection source and target node indexes. Exposed publicly for high performance scenarios.
         /// </summary>
         public ConnectionIdArrays ConnectionIdArrays => _connIdArrays;
 
@@ -95,7 +95,7 @@ namespace SharpNeat.Network
         #region Public Methods
 
         /// <summary>
-        /// Get an array of all connection target node IDs for the specified source node.
+        /// Get an array of all connection target node indexes for the specified source node index.
         /// </summary>
         public IList<int> GetConnections(int srcNodeIdx)
         {
