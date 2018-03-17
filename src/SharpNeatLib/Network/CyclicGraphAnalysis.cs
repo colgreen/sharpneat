@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen;
+using Redzen.Structures;
 
 namespace SharpNeat.Network
 {
@@ -31,16 +33,37 @@ namespace SharpNeat.Network
         /// The directed graph being tested.
         /// </summary>
         DirectedGraph _digraph;
-        /// <summary>
-        /// Set of traversal ancestors of current node. 
-        /// </summary>
-        HashSet<int> _ancestorNodeSet = new HashSet<int>();
 
-        // TODO: This can just be an array of boolean flags, because DirectedGraph node IDs are contiguous and start from zero. 
         /// <summary>
-        /// Set of all visited nodes. This allows us to quickly determine if a path should be traversed or not. 
+        /// A bitmap in which each bit represents a node in the graph. 
+        /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
-        HashSet<int> _visitedNodeSet = new HashSet<int>();
+        BoolArray _ancestorNodeBitmap;
+
+        /// <summary>
+        /// A bitmap in which each bit represents a node in the graph. 
+        /// The set bits represent the set of visited nodes on the current traversal path.
+        /// 
+        /// This is used to quickly determine if a given path should be traversed or not. 
+        /// </summary>
+        BoolArray _visitedNodeBitmap;
+
+        #endregion
+
+        #region Construction
+
+        public CyclicGraphAnalysis()
+        {
+            const int defaultInitialNodeCapacity = 2048;
+            _ancestorNodeBitmap = new BoolArray(defaultInitialNodeCapacity);
+            _visitedNodeBitmap = new BoolArray(defaultInitialNodeCapacity);
+        }
+
+        public CyclicGraphAnalysis(int initialNodeCapacity)
+        {
+            _ancestorNodeBitmap = new BoolArray(initialNodeCapacity);
+            _visitedNodeBitmap = new BoolArray(initialNodeCapacity);
+        }
 
         #endregion
 
@@ -52,63 +75,85 @@ namespace SharpNeat.Network
         public bool IsCyclic(DirectedGraph digraph)
         {
             Debug.Assert(null == _digraph, "Re-entrant call on non re-entrant method.");
-
-            Cleanup();
             _digraph = digraph;
 
-            // Loop over all nodes. Take each one in turn as a traversal root node.
-            int nodeCount = _digraph.TotalNodeCount;
-            for(int nodeId=0; nodeId < nodeCount; nodeId++)
+            EnsureNodeCapacity(digraph.TotalNodeCount);
+
+            try
             {
-                // Determine if the node has already been visited.
-                if(_visitedNodeSet.Contains(nodeId)) 
-                {   // Already traversed; Skip.
-                    continue;
+                // Loop over all nodes. Take each one in turn as a traversal root node.
+                int nodeCount = _digraph.TotalNodeCount;
+                for(int nodeIdx=0; nodeIdx < nodeCount; nodeIdx++)
+                {
+                    // Determine if the node has already been visited.
+                    if(_visitedNodeBitmap[nodeIdx])
+                    {   // Already traversed; Skip.
+                        continue;
+                    }
+
+                    // Traverse into the node. 
+                    if(TraverseNode(nodeIdx))
+                    {   // Cycle detected.
+                        return true;    
+                    }
                 }
 
-                // Traverse into the node. 
-                if(TraverseNode(nodeId))
-                {   // Cycle detected.
-                    Cleanup();
-                    return true;
-                }
+                // No cycles detected.
+                return false;
             }
-
-            // No cycles detected.
-            Cleanup();
-            return false;
+            finally
+            {
+                Cleanup();
+            }
         }
 
-        private bool TraverseNode(int nodeId)
+        #endregion
+
+        #region Private Methods
+
+        private void EnsureNodeCapacity(int capacity)
+        {
+            if(capacity > _ancestorNodeBitmap.Length)
+            {
+                // For the new capacity, select the lowest power of two that is above the required capacity.
+                capacity = MathUtils.CeilingPowerOfTwo(capacity);
+
+                // Allocate new bitmaps with the new capacity.
+                _ancestorNodeBitmap = new BoolArray(capacity);
+                _visitedNodeBitmap = new BoolArray(capacity);
+            }
+        }
+
+        private bool TraverseNode(int nodeIdx)
         {
             // Is the node on the current stack of traversal ancestor nodes?
-            if(_ancestorNodeSet.Contains(nodeId))
+            if(_ancestorNodeBitmap[nodeIdx])
             {   // Connectivity cycle detected.
                 return true;
             }
 
             // Have we already traversed this node?
-            if(_visitedNodeSet.Contains(nodeId))
+            if(_visitedNodeBitmap[nodeIdx])
             {   // Already visited; Skip.
                 return false;
             }
 
             // Traverse into the node's targets / children (if it has any)
-            IList<int> tgtIdArr = _digraph.GetConnections(nodeId);
+            IList<int> tgtIdArr = _digraph.GetConnections(nodeIdx);
 
             if(0 == tgtIdArr.Count) 
             {   // No cycles on this traversal path.
                 return false;
             }
 
-            // Register node with set of traversal path ancestor nodes.
-            _ancestorNodeSet.Add(nodeId);
+            // Add node to the set of traversal path nodes.
+            _ancestorNodeBitmap[nodeIdx] = true;
 
             // Register the node as having been visited.
-            _visitedNodeSet.Add(nodeId);
+            _visitedNodeBitmap[nodeIdx] = true;
 
             // Traverse into targets.
-            for(int i=0; i<tgtIdArr.Count; i++)
+            for(int i=0; i < tgtIdArr.Count; i++)
             {
                 if(TraverseNode(tgtIdArr[i])) 
                 {   // Cycle detected.
@@ -116,8 +161,8 @@ namespace SharpNeat.Network
                 }
             }
             
-            // Remove node from set of traversal path ancestor nodes.
-            _ancestorNodeSet.Remove(nodeId);
+            // Remove node from set of traversal path nodes.
+            _ancestorNodeBitmap[nodeIdx] = false;
 
             // No cycles were detected in the traversal paths from this node.
             return false;
@@ -126,8 +171,8 @@ namespace SharpNeat.Network
         private void Cleanup()
         {
             _digraph = null;
-            _ancestorNodeSet.Clear();
-            _visitedNodeSet.Clear();
+            _ancestorNodeBitmap.Reset(false);
+            _visitedNodeBitmap.Reset(false);
         }
 
         #endregion
@@ -144,7 +189,7 @@ namespace SharpNeat.Network
         /// </remarks>
         public static bool IsCyclicStatic(DirectedGraph digraph)
         {
-            var cyclicAnalysis = new CyclicGraphAnalysis();
+            var cyclicAnalysis = new CyclicGraphAnalysis(digraph.TotalNodeCount);
             return cyclicAnalysis.IsCyclic(digraph);
         }
 
