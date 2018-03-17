@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// method call recursion.
     /// </remarks>
     /// <typeparam name="T">Connection weight type.</typeparam>
-    public class CyclicConnectionTest<T> where T : struct
+    public class CyclicConnectionTest
     {
         #region Instance Fields
 

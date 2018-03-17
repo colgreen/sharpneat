@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly IContinuousDistribution<T> _weightDistA;
         readonly IContinuousDistribution<T> _weightDistB;
         readonly IRandomSource _rng;
-        readonly CyclicConnectionTest<T> _cyclicTest;
+        readonly CyclicConnectionTest _cyclicTest;
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
             _rng = RandomSourceFactory.Create();
-            _cyclicTest = new CyclicConnectionTest<T>();
+            _cyclicTest = new CyclicConnectionTest();
         }
 
         #endregion

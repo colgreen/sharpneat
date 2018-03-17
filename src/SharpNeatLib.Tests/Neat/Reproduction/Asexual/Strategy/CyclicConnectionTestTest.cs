@@ -13,7 +13,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         [TestCategory("CyclicConnectionTest")]
         public void TestIsConnectionCyclic1()
         {
-            var cyclicTest= new CyclicConnectionTest<double>();
+            var cyclicTest= new CyclicConnectionTest();
 
             var connArr = new DirectedConnection[3];
             connArr[0] = new DirectedConnection(0, 1);
@@ -43,7 +43,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         [TestCategory("CyclicConnectionTest")]
         public void TestIsConnectionCyclic2()
         {
-            var cyclicTest= new CyclicConnectionTest<double>();
+            var cyclicTest= new CyclicConnectionTest();
 
             var connArr = new DirectedConnection[8];
             connArr[0] = new DirectedConnection(0, 1);
