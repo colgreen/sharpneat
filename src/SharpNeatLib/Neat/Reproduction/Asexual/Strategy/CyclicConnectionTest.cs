@@ -44,6 +44,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// for one source node.
         /// </summary>
         IntStack _traversalStack = new IntStack(16);    
+
+        // ENHANCEMENT: Assign an initial capacity when that becomes possible (i.e. possibly in .NET Standard 2.1)
         /// <summary>
         /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
         /// re-traversal of nodes.
