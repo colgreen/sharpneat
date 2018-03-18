@@ -25,19 +25,31 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// 
     /// The main optimizations then are:
     /// 
-    ///    1) No method call overhead from recursive method calls.
-    ///    2) Each stack frame is a single int32, which keeps the max size of the stack for any given traversal at a minimum.
-    ///    3) The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
+    ///    * No method call overhead from recursive method calls.
+    ///    
+    ///    * Each stack frame is a single int32 and thus the stack as a whole is highly compact; this improves CPU cache
+    ///      locality and hit rate, and also which keeps the max size of the stack for any given traversal at a minimum.
+    ///      
+    ///    * The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
     ///       call to IsConnectionCyclic(), therefore avoiding memory allocation and garbage collection overhead.
     /// 
     /// Using our own stack also avoids any potential for a stack overflow on very deep graphs, which could occur if using 
     /// method call recursion.
+    /// 
+    /// Problems with the approach of this class are:
+    /// 
+    ///    * The code is more complex than the same algorithm written as a recursive function; this makes the code harder 
+    ///      to read and understand and thus increases the probability of subtle defects, and makes the code harder to maintain.
+    ///      
+    ///    * Currently the custom stack is allocated on the heap, and this could improved by using stackalloc of a Span{int}
+    ///      at time of writing that option is not available in the current target framework (.NET Standard 2.0).
+    ///
     /// </remarks>
-    /// <typeparam name="T">Connection weight type.</typeparam>
     public class CyclicConnectionTest
     {
         #region Instance Fields
 
+        // ENHANCEMENT: Use stackalloc of a Span<int> instead of a re-usable heap based stack.
         /// <summary>
         /// The graph traversal stack, as required by a depth first graph traversal algorithm.
         /// Each stack entry is an index into a connection array, representing iteration over the connections 
