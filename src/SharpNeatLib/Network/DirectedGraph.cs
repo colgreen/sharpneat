@@ -117,6 +117,16 @@ namespace SharpNeat.Network
             return new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
         }
 
+        /// <summary>
+        /// Get the index of the first connection with the given sourceNodeIdx.
+        /// </summary>
+        /// <param name="srcNodeIdx"></param>
+        /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
+        public int GetFirstConnectionIndex(int srcNodeIdx)
+        {
+            return _connIdxBySrcNodeIdx[srcNodeIdx];
+        }
+
         #endregion
 
         #region Private Methods

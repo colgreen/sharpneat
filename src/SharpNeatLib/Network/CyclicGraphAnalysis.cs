@@ -139,9 +139,8 @@ namespace SharpNeat.Network
             }
 
             // Traverse into the node's targets / children (if it has any)
-            IList<int> tgtIdArr = _digraph.GetConnections(nodeIdx);
-
-            if(0 == tgtIdArr.Count) 
+            int connIdx = _digraph.GetFirstConnectionIndex(nodeIdx);
+            if(-1 == connIdx) 
             {   // No cycles on this traversal path.
                 return false;
             }
@@ -153,9 +152,11 @@ namespace SharpNeat.Network
             _visitedNodeBitmap[nodeIdx] = true;
 
             // Traverse into targets.
-            for(int i=0; i < tgtIdArr.Count; i++)
+            int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
+
+            for(; connIdx < srcIdxArr.Length && srcIdxArr[connIdx] == nodeIdx; connIdx++)
             {
-                if(TraverseNode(tgtIdArr[i])) 
+                if(TraverseNode(_digraph.ConnectionIdArrays._targetIdArr[connIdx])) 
                 {   // Cycle detected.
                     return true;
                 }
