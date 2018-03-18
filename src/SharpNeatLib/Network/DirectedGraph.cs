@@ -95,9 +95,39 @@ namespace SharpNeat.Network
         #region Public Methods
 
         /// <summary>
+        /// Get the source node index of the given connection.
+        /// </summary>
+        /// <param name="connIdx">Connection index.</param>
+        /// <returns>The connection's source node index.</returns>
+        public ref int GetSouceNodeIdx(int connIdx)
+        {
+            return ref _connIdArrays._sourceIdArr[connIdx];
+        }
+
+        /// <summary>
+        /// Get the target node index of the given connection.
+        /// </summary>
+        /// <param name="connIdx">Connection index.</param>
+        /// <returns>The connection's target node index.</returns>
+        public ref int GetTargetNodeIdx(int connIdx)
+        {
+            return ref _connIdArrays._targetIdArr[connIdx];
+        }
+
+        /// <summary>
+        /// Get the index of the first connection with the given sourceNodeIdx.
+        /// </summary>
+        /// <param name="srcNodeIdx"></param>
+        /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
+        public int GetFirstConnectionIndex(int srcNodeIdx)
+        {
+            return _connIdxBySrcNodeIdx[srcNodeIdx];
+        }
+
+        /// <summary>
         /// Get an array of all connection target node indexes for the specified source node index.
         /// </summary>
-        public IList<int> GetConnections(int srcNodeIdx)
+        public ArraySegment<int> GetTargetNodeIndexes(int srcNodeIdx)
         {
             int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
             if(-1 == startIdx)
@@ -115,16 +145,6 @@ namespace SharpNeat.Network
 
             // Return an array segment over the sub-range of the connection array.
             return new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
-        }
-
-        /// <summary>
-        /// Get the index of the first connection with the given sourceNodeIdx.
-        /// </summary>
-        /// <param name="srcNodeIdx"></param>
-        /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
-        public int GetFirstConnectionIndex(int srcNodeIdx)
-        {
-            return _connIdxBySrcNodeIdx[srcNodeIdx];
         }
 
         #endregion
