@@ -111,14 +111,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int currNodeId = newConn.TargetId;
             
             // Search for outgoing connections from the current node.
-            int connStartIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
-            if(connStartIdx < 0)
+            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
+            if(connIdx < 0)
             {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
                 return false;
             }
 
-            // Push connStartIdx onto the stack.
-            _traversalStack.Push(connStartIdx);
+            // Push connIdx onto the stack.
+            _traversalStack.Push(connIdx);
 
             // Add the current node to the set of visited nodes.
             _visitedNodes.Add(currNodeId);
@@ -149,10 +149,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _visitedNodes.Add(childNodeId);
 
                 // Search for outgoing connections from childNodeId.
-                connStartIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, childNodeId);
-                if(connStartIdx >= 0)
+                connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, childNodeId);
+                if(connIdx >= 0)
                 {   // childNodeId has outgoing connections from it. Push the first connection onto the stack.
-                    _traversalStack.Push(connStartIdx);    
+                    _traversalStack.Push(connIdx);    
                 }                
             }
 
@@ -172,13 +172,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int currNodeId = connArr[currConnIdx].SourceId;
 
             // Find the next connection from the current node that we can traverse down, if any.
-            for(int nextConnIdx = currConnIdx+1; nextConnIdx < connArr.Count && connArr[nextConnIdx].SourceId == currNodeId; nextConnIdx++)
+            for(currConnIdx++; currConnIdx < connArr.Count && connArr[currConnIdx].SourceId == currNodeId; currConnIdx++)
             {
-                if(!_visitedNodes.Contains(connArr[nextConnIdx].TargetId))
+                if(!_visitedNodes.Contains(connArr[currConnIdx].TargetId))
                 {
                     // We have found the next connection to traverse for the current node;
                     // update the current node's entry on the top of the stack to point to it.
-                    _traversalStack.Poke(nextConnIdx);
+                    _traversalStack.Poke(currConnIdx);
                     return;
                 }
             }
