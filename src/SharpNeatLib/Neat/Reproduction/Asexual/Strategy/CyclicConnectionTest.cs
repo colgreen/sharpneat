@@ -126,7 +126,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // While there are entries on the stack.
             while(0 != _traversalStack.Count)
             {
-                // Pop a connection index from the top of stack; this is the next connection to be traversed.
+                // Get the connection index from the top of stack; this is the next connection to be traversed.
                 int currConnIdx = _traversalStack.Peek();
 
                 // Before we traverse the current connection, update the stack state to point to the next connection

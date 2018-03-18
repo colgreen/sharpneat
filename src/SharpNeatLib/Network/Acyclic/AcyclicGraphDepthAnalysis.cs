@@ -15,6 +15,9 @@ using System.Linq;
 
 namespace SharpNeat.Network.Acyclic
 {
+    // ENHANCEMENT: Consider a call stack free implementation to improve performance (see CyclicConnectionTest which uses such an approach).
+    // Such an implementation would be more complex than the recursive function approach here, as such the barrier is fairly high with regards
+    // to whether the added complexity warrants the possibly small performance improvement.
     /// <summary>
     /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.
     /// 
