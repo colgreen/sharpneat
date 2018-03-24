@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Redzen.Collections;
 using SharpNeat.Network;
@@ -199,27 +200,24 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
         /// <returns>The current connection to traverse down.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void MoveForward(IList<DirectedConnection> connList, int currConnIdx)
         {
-            // Get the node currently being traversed, as indicated by the current connection's source node ID.
-            int currNodeId = connList[currConnIdx].SourceId;
-
-            // Find the next connection from the current node that we can traverse down, if any.
-            for(currConnIdx++; currConnIdx < connList.Count && connList[currConnIdx].SourceId == currNodeId; currConnIdx++)
+            // If the current node has at least one more outgoing connection, then update its entry 
+            // on the top of the stack to point to it. i.e. increment the current node's connection 
+            // iterator by one.
+            if(currConnIdx + 1 < connList.Count 
+                && connList[currConnIdx].SourceId == connList[currConnIdx + 1].SourceId)
             {
-                if(!_visitedNodes.Contains(connList[currConnIdx].TargetId))
-                {
-                    // We have found the next connection to traverse for the current node;
-                    // update the current node's entry on the top of the stack to point to it.
-                    _traversalStack.Poke(currConnIdx);
-                    return;
-                }
+                _traversalStack.Poke(currConnIdx + 1);
             }
-
-            // No more connections for the current node; pop/remove its entry from the top of the stack;
-            // traversal will thus continue from the parent node's current position, or will terminate 
-            // if the stack is now empty.
-            _traversalStack.Pop();
+            else
+            {
+                // No more connections for the current node; pop/remove its entry from the top of the stack;
+                // traversal will thus continue from the parent node's current position, or will terminate 
+                // if the stack is now empty.
+                _traversalStack.Pop();
+            }
         }
 
         #endregion
