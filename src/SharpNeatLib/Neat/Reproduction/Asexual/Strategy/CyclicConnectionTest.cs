@@ -99,28 +99,33 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 return true;
             }
 
-            // Initialise traversal.
+            // Search for outgoing connections from the starting node.
+            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, newConn.TargetId);
+            if(connIdx < 0)
+            {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
+                return false;
+            }
+
+            return GraphTraversal(connArr, newConn, connIdx);
+        }
+
+        private bool GraphTraversal(IList<DirectedConnection> connArr, DirectedConnection newConn, int connIdx)
+        {
+            // Initialise traversal algorithm.
             // Notes. 
             // We traverse forwards starting at the new connection's target node. If the new connection's source node is encountered
-            // during traversal then the connection would form a cycle in the graph as a whole.
+            // during traversal then the connection would form a cycle in the graph as a whole, and we return true.
 
             // The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.
             int terminalNodeId = newConn.SourceId;
 
             // Init the current traversal node, i.e. we start at newConn.TargetId.
             int currNodeId = newConn.TargetId;
-            
-            // Search for outgoing connections from the current node.
-            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, currNodeId);
-            if(connIdx < 0)
-            {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
-                return false;
-            }
 
             // Push connIdx onto the stack.
             _traversalStack.Push(connIdx);
 
-            // Add the current node to the set of visited nodes.
+            // Add the current node to the set of visited nodes; this prevents the traversal algorithm from re-traversing nodes.
             _visitedNodes.Add(currNodeId);
 
             // While there are entries on the stack.
@@ -165,7 +170,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
         /// <returns>The current connection to traverse down.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void MoveForward(IList<DirectedConnection> connArr, int currConnIdx)
         {
             // Get the node currently being traversed, as indicated by the current connection's source node ID.
