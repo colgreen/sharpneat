@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Redzen.Collections;
 using SharpNeat.Network;
 
@@ -61,6 +63,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// </summary>
         HashSet<int> _visitedNodes = new HashSet<int>();
 
+        /// <summary>
+        /// Indicates if a call to IsConnectionCyclic() is currently in progress. 
+        /// For checking for attempts to re-enter that method while a call is in progress.
+        /// </summary>
+        int _callFlag = 0;
+
         #endregion
 
         #region Public Methods
@@ -73,6 +81,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
         public bool IsConnectionCyclic(IList<DirectedConnection> connList, DirectedConnection newConn)
         {
+            // Check for attempts to re-enter this method.
+            if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
+                throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
+            }
+
             try 
             {
                 return IsConnectionCyclicInner(connList, newConn);
@@ -111,6 +124,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Note. we pass newConn.SourceId as the terminalNodeId; if traversal reaches this node then a cycle has been detected.
             return TraverseGraph(connList, newConn.SourceId);
+        }
+
+        private void Cleanup()
+        {
+            _traversalStack.Clear();
+            _visitedNodes.Clear();
+
+            // Reset reentrancy test flag.
+            Interlocked.Exchange(ref _callFlag, 0);
         }
 
         #endregion
@@ -198,12 +220,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // traversal will thus continue from the parent node's current position, or will terminate 
             // if the stack is now empty.
             _traversalStack.Pop();
-        }
-
-        private void Cleanup()
-        {
-            _traversalStack.Clear();
-            _visitedNodes.Clear();
         }
 
         #endregion

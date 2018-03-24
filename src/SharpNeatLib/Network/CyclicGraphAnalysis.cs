@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using Redzen;
 using Redzen.Structures;
 
@@ -48,6 +50,12 @@ namespace SharpNeat.Network
         /// </summary>
         BoolArray _visitedNodeBitmap;
 
+        /// <summary>
+        /// Indicates if a call to IsCyclic() is currently in progress. 
+        /// For checking for attempts to re-enter that method while a call is in progress.
+        /// </summary>
+        int _callFlag = 0;
+
         #endregion
 
         #region Construction
@@ -74,9 +82,12 @@ namespace SharpNeat.Network
         /// </summary>
         public bool IsCyclic(DirectedGraph digraph)
         {
-            Debug.Assert(null == _digraph, "Re-entrant call on non re-entrant method.");
-            _digraph = digraph;
+            // Check for attempts to re-enter this method.
+            if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
+                throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
+            }
 
+            _digraph = digraph;
             EnsureNodeCapacity(digraph.TotalNodeCount);
 
             try
@@ -174,6 +185,9 @@ namespace SharpNeat.Network
             _digraph = null;
             _ancestorNodeBitmap.Reset(false);
             _visitedNodeBitmap.Reset(false);
+
+            // Reset reentrancy test flag.
+            Interlocked.Exchange(ref _callFlag, 0);
         }
 
         #endregion
