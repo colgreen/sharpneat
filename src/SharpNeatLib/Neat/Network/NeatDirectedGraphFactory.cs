@@ -32,7 +32,7 @@ namespace SharpNeat.Neat.Network
             int inputOutputCount = inputCount + outputCount;
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            Func<int,int> nodeIdMapFn = DirectedGraphFactoryUtils.CompileNodeIdMap(genome.HiddenNodeIdArray, inputOutputCount);
+            Func<int,int> nodeIdMapFn = DirectedGraphUtils.CompileNodeIdMap(genome.HiddenNodeIdArray, inputOutputCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 

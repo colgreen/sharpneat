@@ -141,7 +141,7 @@
     <None Include="Network\IO\NetworkTsvWriterUtils.cs" />
     <None Include="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <None Include="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
-    <Compile Include="Network\DirectedGraphFactoryUtils.cs" />
+    <Compile Include="Network\DirectedGraphUtils.cs" />
     <Compile Include="Network\WeightedDirectedConnection.cs" />
     <Compile Include="Network\DirectedConnection.cs" />
     <Compile Include="Network\DirectedGraphFactory.cs" />

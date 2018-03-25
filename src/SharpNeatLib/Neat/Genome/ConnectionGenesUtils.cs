@@ -16,6 +16,7 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public static int[] CreateHiddenNodeIdArray(DirectedConnection[] connArr, int inputOutputCount)
         {
+            // TODO / ENHANCEMENT: Set HashSet initial capacity, or use a pool of reusable HashSets?
             var idSet = new HashSet<int>();
             foreach(var conn in connArr)
             {

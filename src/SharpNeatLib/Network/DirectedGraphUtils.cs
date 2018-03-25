@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
-    public static class DirectedGraphFactoryUtils
+    public static class DirectedGraphUtils
     {
         /// <summary>
         /// Determine the set of node IDs, order them (thus assigning each node ID an index),
@@ -20,14 +20,16 @@ namespace SharpNeat.Network
 
             // Return a mapping function.
             // Note. this captures hiddenNodeIdxById in a closure. 
-            Func<int,int> nodeIdxByIdFn = (int id) => {     
-                    // Input/output node IDs are fixed.
-                    if(id < inputOutputCount) {
-                        return id;
-                    }
-                    // Hidden nodes have mappings stored in a dictionary.
-                    return hiddenNodeIdxById[id]; 
-                };
+            int nodeIdxByIdFn(int id)
+            {
+                // Input/output node IDs are fixed.
+                if (id < inputOutputCount)
+                {
+                    return id;
+                }
+                // Hidden nodes have mappings stored in a dictionary.
+                return hiddenNodeIdxById[id];
+            }
 
             return nodeIdxByIdFn;
         }
