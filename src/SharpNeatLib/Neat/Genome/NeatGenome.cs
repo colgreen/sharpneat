@@ -69,17 +69,6 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
-                          ConnectionGenes<T> connGenes)
-        : this(metaNeatGenome, id, birthGeneration, connGenes,
-               ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount),
-               null)
-        {}
-
-        /// <summary>
-        /// Constructs with the provided ID, birth generation and gene arrays.
-        /// </summary>
-        public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
-                          int id, int birthGeneration,
                           ConnectionGenes<T> connGenes,
                           int[] hiddenNodeIdArr,
                           GraphDepthInfo depthInfo)
@@ -107,6 +96,20 @@ namespace SharpNeat.Neat.Genome
         public bool ContainsHiddenNode(int id)
         {
             return Array.BinarySearch(this.HiddenNodeIdArray, id) >= 0;
+        }
+
+        #endregion
+
+        #region Public Static Methods
+
+        public static NeatGenome<T> Create(
+            MetaNeatGenome<T> metaNeatGenome,
+            int id, 
+            int birthGeneration,
+            ConnectionGenes<T> connGenes)
+        {
+            int[] hiddenNodeIdArray = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount);
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArray, null);
         }
 
         #endregion

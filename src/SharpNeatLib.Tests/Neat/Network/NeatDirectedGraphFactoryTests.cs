@@ -24,7 +24,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (2, 4, 3.0);
 
             // Wrap in a genome.
-            var genome = new NeatGenome<double>(
+            var genome = NeatGenome<double>.Create(
                 new MetaNeatGenome<double>(0, 0, false, new ReLU()),
                 0, 0, connGenes);
             
@@ -50,7 +50,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (12, 14, 3.0);
 
             // Wrap in a genome.
-            var genome = new NeatGenome<double>(
+            var genome = NeatGenome<double>.Create(
                 new MetaNeatGenome<double>(0, 10, false, new ReLU()),
                 0, 0, connGenes);
 
@@ -76,7 +76,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (102, 104, 3.0);
 
             // Wrap in a genome.
-            var genome = new NeatGenome<double>(
+            var genome = NeatGenome<double>.Create(
                 new MetaNeatGenome<double>(0, 10, false, new ReLU()),
                 0, 0, connGenes);
 

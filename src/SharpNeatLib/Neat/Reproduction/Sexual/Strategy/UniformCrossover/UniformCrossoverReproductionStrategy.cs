@@ -86,7 +86,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             var connGenes = _builder.ToConnectionGenes();
 
             // Create and return a new genome.
-            return new NeatGenome<T>(
+            return NeatGenome<T>.Create(
                 _metaNeatGenome, 
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,

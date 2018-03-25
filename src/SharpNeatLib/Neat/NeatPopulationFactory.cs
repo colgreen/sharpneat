@@ -121,7 +121,7 @@ namespace SharpNeat.Neat
 
             // Get create a new genome with a new ID, birth generation of zero.
             int id = _genomeIdSeq.Next();
-            return new NeatGenome<T>(_metaNeatGenome, id, 0, connGenes);
+            return NeatGenome<T>.Create(_metaNeatGenome, id, 0, connGenes);
         }
 
         #endregion
