@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Reproduction.Utils;
 using SharpNeat.Network;
 using SharpNeat.Utils;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;

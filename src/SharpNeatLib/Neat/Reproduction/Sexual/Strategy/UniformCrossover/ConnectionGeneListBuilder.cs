@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Reproduction.Asexual.Strategy;
+using SharpNeat.Neat.Reproduction.Utils;
 using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover

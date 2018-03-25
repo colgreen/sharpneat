@@ -80,7 +80,7 @@
     <Compile Include="Neat\Network\NeatDirectedGraphFactoryTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTestWithIdsTest.cs" />
+    <Compile Include="Neat\Reproduction\Utils\CyclicConnectionTestWithIdsTest.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategyTests.cs" />

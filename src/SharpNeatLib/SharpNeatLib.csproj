@@ -98,7 +98,7 @@
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddConnectionUtils.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTestWithIds.cs" />
+    <Compile Include="Neat\Reproduction\Utils\CyclicConnectionTestWithIds.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\IAsexualReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\MutationType.cs" />

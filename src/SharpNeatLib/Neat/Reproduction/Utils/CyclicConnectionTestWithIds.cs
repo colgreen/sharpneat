@@ -5,7 +5,7 @@ using System.Threading;
 using Redzen.Collections;
 using SharpNeat.Network;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
+namespace SharpNeat.Neat.Reproduction.Utils
 {
     /// <summary>
     /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
