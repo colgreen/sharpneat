@@ -153,9 +153,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             return minDistance;
         }
 
-        private static T GetAndRemove<T>(IList<T> list, int idx)
+        private static U GetAndRemove<U>(IList<U> list, int idx)
         {
-            T tmp = list[idx];
+            U tmp = list[idx];
             list.RemoveAt(idx);
             return tmp;
         }
