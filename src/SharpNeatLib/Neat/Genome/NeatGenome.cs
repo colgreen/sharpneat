@@ -60,6 +60,14 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public int[] HiddenNodeIdArray { get; }
 
+        /// <summary>
+        /// Mapping function for obtaining node a index for a given node ID.
+        /// </summary>
+        /// <remarks>
+        /// Node indexes have a range of 0 to N-1 (for N nodes), i.e. the indexes are zero based and contiguous, as opposed to node IDs that are not contiguous.
+        /// </remarks>
+        public Func<int,int> NodeIndexByIdFn { get; }
+
         #endregion
 
         #region Constructors
@@ -71,6 +79,7 @@ namespace SharpNeat.Neat.Genome
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes,
                           int[] hiddenNodeIdArr,
+                          Func<int,int> nodeIndexByIdFn,
                           GraphDepthInfo depthInfo)
         {
             this.MetaNeatGenome = metaNeatGenome;
@@ -78,6 +87,7 @@ namespace SharpNeat.Neat.Genome
             this.BirthGeneration = birthGeneration;
             this.ConnectionGenes = connGenes;
             this.HiddenNodeIdArray = hiddenNodeIdArr;
+            this.NodeIndexByIdFn = nodeIndexByIdFn;
             this.DepthInfo = depthInfo;
         }
 
@@ -105,8 +115,11 @@ namespace SharpNeat.Neat.Genome
         {
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
 
+            // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
             int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount);
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, null);
+            Func<int,int> nodeIndexByIdFn = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, metaNeatGenome.InputOutputNodeCount);
+
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, null);
         }
 
         public static NeatGenome<T> Create(
@@ -118,7 +131,10 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
 
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, null);
+            // Create a mapping from node IDs to node indexes.
+            Func<int,int> nodeIndexByIdFn = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, metaNeatGenome.InputOutputNodeCount);
+
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, null);
         }
 
         public static NeatGenome<T> Create(
@@ -126,6 +142,20 @@ namespace SharpNeat.Neat.Genome
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
+            Func<int,int> nodeIndexByIdFn)
+        {
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
+
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, null);
+        }
+
+        public static NeatGenome<T> Create(
+            MetaNeatGenome<T> metaNeatGenome,
+            int id, int birthGeneration,
+            ConnectionGenes<T> connGenes,
+            int[] hiddenNodeIdArr,
+            Func<int,int> nodeIndexByIdFn,
             GraphDepthInfo depthInfo)
         {
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
@@ -137,7 +167,7 @@ namespace SharpNeat.Neat.Genome
             // 3) GraphDepthInfo is optional for acyclic graphs, but if not supplied then one of the other overloads of Create() should be used.
             Debug.Assert(null != depthInfo && metaNeatGenome.IsAcyclic);
 
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, depthInfo);
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, depthInfo);
         }
 
         #endregion

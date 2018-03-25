@@ -26,14 +26,6 @@ namespace SharpNeat.Neat.Network
             // Assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
 
-            // Determine the full set of hidden node IDs.
-            int inputCount = genome.MetaNeatGenome.InputNodeCount;
-            int outputCount = genome.MetaNeatGenome.OutputNodeCount;
-            int inputOutputCount = inputCount + outputCount;
-
-            // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            Func<int,int> nodeIdMapFn = DirectedGraphUtils.CompileNodeIdMap(genome.HiddenNodeIdArray, inputOutputCount);
-
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
             // The array contents will be manipulated, so copying this avoids modification of the genome's
@@ -41,12 +33,17 @@ namespace SharpNeat.Neat.Network
             // The IDs are substituted for node indexes here.
             CopyAndMapIds(
                 genome.ConnectionGenes._connArr,
-                nodeIdMapFn,
+                genome.NodeIndexByIdFn,
                 out ConnectionIdArrays connIdArrays);
 
             // Construct and return a new WeightedDirectedGraph.
-            int totalNodeCount =  inputOutputCount + genome.HiddenNodeIdArray.Length;
-            return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, genome.ConnectionGenes._weightArr);
+            int totalNodeCount =  genome.MetaNeatGenome.InputOutputNodeCount + genome.HiddenNodeIdArray.Length;
+            return new WeightedDirectedGraph<T>(
+                connIdArrays,
+                genome.MetaNeatGenome.InputNodeCount,
+                genome.MetaNeatGenome.OutputNodeCount,
+                totalNodeCount,
+                genome.ConnectionGenes._weightArr);
         }
 
         #endregion

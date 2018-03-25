@@ -54,6 +54,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _generationSeq.Peek,
                 connGenes,
                 parent.HiddenNodeIdArray,
+                parent.NodeIndexByIdFn,
                 parent.DepthInfo);
         }
 
