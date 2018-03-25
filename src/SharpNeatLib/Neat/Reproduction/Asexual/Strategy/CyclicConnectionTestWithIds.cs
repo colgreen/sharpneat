@@ -62,7 +62,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     ///      to read and understand and thus increases the probability of subtle defects, and makes the code harder to maintain.
     ///
     /// </remarks>
-    public class CyclicConnectionTest
+    public class CyclicConnectionTestWithIds
     {
         #region Instance Fields
 

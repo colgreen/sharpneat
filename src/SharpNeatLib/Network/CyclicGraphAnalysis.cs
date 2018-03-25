@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using Redzen;
 using Redzen.Structures;
@@ -8,7 +6,8 @@ using Redzen.Structures;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// An algorithm for testing for the presence of at least one connectivity cycle within a network.
+    /// An algorithm for testing whether a given graph is cyclic or acyclic, i.e. does a given graph have 
+    /// a connectivity cycle.
     /// 
     /// Method.
     /// =======
