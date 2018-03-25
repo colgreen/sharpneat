@@ -11,33 +11,50 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
     /// </summary>
     /// <remarks>
+    /// This class utilises a depth first graph traversal algorithm to check if a proposed new connection on a given
+    /// graph would form a cycle, as such it is assumed that the graph as given is acyclic, if it isn't then the graph 
+    /// traversal stack will grown to infinity, ultimately resulting in an OutOfMemory exception. 
+    /// 
+    /// The algorithm will perform a full depth first traversal of the graph starting at the proposed new connection's
+    /// target node, and if that connection's source node is encountered then it would form a cycle if it were added 
+    /// to the graph.
+    /// 
     /// Each instance of this class allocates a stack and a hashset for use by the traversal algorithm, and these
     /// are cleared and re-used for each call to IsConnectionCyclic(). This avoids memory re-allocation and garbage
-    /// collection overhead, but the side effect is that IsConnectionCyclic() is not thread safe. However, A thread 
-    /// safe static method IsCyclicStatic() is provided for convenience, but this will have the additional memory
-    /// alloc and GC overhead associated with each call to it.
+    /// collection overhead, but the side effect is that IsConnectionCyclic() is not reentrant, i.e. can only be in
+    /// use by one execution thread at a given point in time. A reentrancy check will throw an exception if reentrancy
+    /// is attempted.
     /// 
-    /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene 
-    /// array data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal 
-    /// algorithm using function recursion. However this is essentially a depth first algorithm that utilises its own
-    /// stack instead of using the call stack, and each stack frame is just an index into the connection array.
     /// 
-    /// The idea is that an entry on the stack represents both a node that is being traversed (given by the current 
-    /// connection's source node) and an iterator over that node's target nodes (given by the connection index, which 
-    /// works because connections are sorted by sourceId).
+    /// Implementation Details / Notes
+    /// ----------------------
+    /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene list
+    /// data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal 
+    /// algorithm using function recursion. However this is essentially a depth first graph traversal algorithm that 
+    /// utilises its own stack instead of using the call stack.
     /// 
+    /// The traversal stack is a stack of Int32(s), each of which is an index into connList (the list of connections
+    /// that make up the graph, ordered by sourceId and then targetId). Thus, each stack entry points to a connection,
+    /// and represents traversal of that connection's source node and also which of that node's child connection/nodes
+    /// is the current traversal position/path from that node (note. this works because the connections are sorted by 
+    /// sourceId first).
+    /// 
+    /// As such this algorithm has a far more compact stack frame than the equivalent algorithm implemented as a
+    /// recursive function, and avoids any other method call overhead as a further performance benefit (i.e. overhead
+    /// other than stack frame initialisation).
+    ///
     /// The main optimizations then are:
     /// 
     ///    * No method call overhead from recursive method calls.
     ///    
     ///    * Each stack frame is a single int32 and thus the stack as a whole is highly compact; this improves CPU cache
-    ///      locality and hit rate, and also which keeps the max size of the stack for any given traversal at a minimum.
+    ///      locality and hit rate, and also keeps the max size of the stack for any given traversal at a minimum.
     ///      
     ///    * The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
-    ///       call to IsConnectionCyclic(), therefore avoiding memory allocation and garbage collection overhead.
+    ///       call to IsConnectionCyclic(), therefore minimizing memory allocation and garbage collection overhead.
     /// 
-    /// Using our own stack also avoids any potential for a stack overflow on very deep graphs, which could occur if using 
-    /// method call recursion.
+    ///    * Using a stack on the heap also avoids any potential for a stack overflow on very deep graphs, which could occur
+    ///    if using method call recursion.
     /// 
     /// Problems with the approach of this class are:
     /// 
@@ -167,6 +184,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 // Before we traverse the current connection, update the stack state to point to the next connection
                 // to be traversed on the current node. I.e. set up the stack state ready for when the traversal down 
                 // into the current connection completes and returns back to the current node.
+                // Note. This is perhaps a slightly non-standard approach because if the current node has no more children
+                // to traverse then we pop it off the stack, even though we haven't yet completed traversal of its last child
+                // node, i.e. the call stack does not necessarily represent the full ancestor line being traversed. One benefit 
+                // to this is that it will tend to require a lower maximum stack depth than the more standard approach.
                 MoveForward(connList, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
@@ -188,7 +209,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 if(connIdx >= 0)
                 {   // childNodeId has outgoing connections; push the first connection onto the stack to mark it for traversal.
                     _traversalStack.Push(connIdx);    
-                }                
+                }
             }
 
             // Traversal has completed without visiting the terminal node, therefore the new connection
