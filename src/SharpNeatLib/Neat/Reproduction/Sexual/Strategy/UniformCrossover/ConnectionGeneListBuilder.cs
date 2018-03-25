@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             // Only genes from the secondary parent can create a cycle; the genes in both parents describe
             // an acyclic graph, thus the only means of creating a cycle here is when we add a connection to
             // a parent (from the other parent) that it previously did not have.
-            if(isSecondaryGene && _isAcyclic && IsCyclicConnection(gene) && IsCyclicConnection(gene)) {
+            if(isSecondaryGene && _isAcyclic && IsCyclicConnection(gene)) {
                 return;
             }
 
