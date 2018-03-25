@@ -67,17 +67,12 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Constructs with the provided ID, birth generation and gene arrays.
         /// </summary>
-        public NeatGenome(MetaNeatGenome<T> metaNeatGenome,
+        private NeatGenome(MetaNeatGenome<T> metaNeatGenome,
                           int id, int birthGeneration,
                           ConnectionGenes<T> connGenes,
                           int[] hiddenNodeIdArr,
                           GraphDepthInfo depthInfo)
         {
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
-            // We do not expect depthInfo for cyclic nets; and it is optional for acyclic nets.
-            Debug.Assert(metaNeatGenome.IsAcyclic || (!metaNeatGenome.IsAcyclic && null == depthInfo));
-
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;
             this.BirthGeneration = birthGeneration;
@@ -100,7 +95,7 @@ namespace SharpNeat.Neat.Genome
 
         #endregion
 
-        #region Public Static Methods
+        #region Public Static Factory Methods
 
         public static NeatGenome<T> Create(
             MetaNeatGenome<T> metaNeatGenome,
@@ -108,8 +103,41 @@ namespace SharpNeat.Neat.Genome
             int birthGeneration,
             ConnectionGenes<T> connGenes)
         {
-            int[] hiddenNodeIdArray = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount);
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArray, null);
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+
+            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, metaNeatGenome.InputOutputNodeCount);
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, null);
+        }
+
+        public static NeatGenome<T> Create(
+            MetaNeatGenome<T> metaNeatGenome,
+            int id, int birthGeneration,
+            ConnectionGenes<T> connGenes,
+            int[] hiddenNodeIdArr)
+        {
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
+
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, null);
+        }
+
+        public static NeatGenome<T> Create(
+            MetaNeatGenome<T> metaNeatGenome,
+            int id, int birthGeneration,
+            ConnectionGenes<T> connGenes,
+            int[] hiddenNodeIdArr,
+            GraphDepthInfo depthInfo)
+        {
+            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
+
+            // Notes.
+            // 1) If calling this overload of Create() then we require depthInfo to be provided.
+            // 2) GraphDepthInfo relates to, and is used for, acyclic graphs only.
+            // 3) GraphDepthInfo is optional for acyclic graphs, but if not supplied then one of the other overloads of Create() should be used.
+            Debug.Assert(null != depthInfo && metaNeatGenome.IsAcyclic);
+
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, depthInfo);
         }
 
         #endregion

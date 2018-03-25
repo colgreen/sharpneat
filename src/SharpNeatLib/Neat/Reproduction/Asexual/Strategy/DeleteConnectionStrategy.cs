@@ -63,13 +63,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, deleteIdx, connArr);
 
             // Create and return a new genome.
-            return new NeatGenome<T>(
+            return NeatGenome<T>.Create(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
-                hiddenNodeIdArr,
-                null);
+                hiddenNodeIdArr);
         }
 
         #endregion
