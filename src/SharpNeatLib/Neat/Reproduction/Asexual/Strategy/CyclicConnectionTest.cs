@@ -96,18 +96,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        private void EnsureNodeCapacity(int capacity)
-        {
-            if (capacity > _visitedNodes.Length)
-            {
-                // For the new capacity, select the lowest power of two that is above the required capacity.
-                capacity = MathUtils.CeilingPowerOfTwo(capacity);
-
-                // Allocate new bitmap with the new capacity.
-                _visitedNodes = new BoolArray(capacity);
-            }
-        }
-
         private bool IsConnectionCyclicInner(DirectedConnection[] connArr, DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
@@ -142,6 +130,18 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _callFlag, 0);
+        }
+
+        private void EnsureNodeCapacity(int capacity)
+        {
+            if (capacity > _visitedNodes.Length)
+            {
+                // For the new capacity, select the lowest power of two that is above the required capacity.
+                capacity = MathUtils.CeilingPowerOfTwo(capacity);
+
+                // Allocate new bitmap with the new capacity.
+                _visitedNodes = new BoolArray(capacity);
+            }
         }
 
         #endregion
