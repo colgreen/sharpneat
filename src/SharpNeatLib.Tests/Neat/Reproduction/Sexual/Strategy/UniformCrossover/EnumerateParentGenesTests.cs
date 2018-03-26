@@ -1,14 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy
+namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     [TestClass]
     public class EnumerateParentGenesTests

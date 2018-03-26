@@ -1,18 +1,18 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Neat.Reproduction.Utils;
+using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Utils
+namespace SharpNeatLib.Tests.Sexual.Strategy.UniformCrossover
 {
     [TestClass]
-    public class CyclicConnectionTestWithIdsTest
+    public class CyclicConnectionTestTest
     {
         [TestMethod]
-        [TestCategory("CyclicConnectionTest")]
+        [TestCategory("CyclicConnectionTestWithIds")]
         public void TestIsConnectionCyclic1()
         {
-            var cyclicTest= new CyclicConnectionTestWithIds();
+            var cyclicTest= new CyclicConnectionTest();
 
             var connArr = new DirectedConnection[3];
             connArr[0] = new DirectedConnection(0, 1);
@@ -39,10 +39,10 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Utils
         }
 
         [TestMethod]
-        [TestCategory("CyclicConnectionTest")]
+        [TestCategory("CyclicConnectionTestWithIds")]
         public void TestIsConnectionCyclic2()
         {
-            var cyclicTest= new CyclicConnectionTestWithIds();
+            var cyclicTest= new CyclicConnectionTest();
 
             var connArr = new DirectedConnection[8];
             connArr[0] = new DirectedConnection(0, 1);

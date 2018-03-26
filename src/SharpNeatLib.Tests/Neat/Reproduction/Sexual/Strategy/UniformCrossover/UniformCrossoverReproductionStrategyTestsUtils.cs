@@ -2,7 +2,7 @@
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy
+namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     public class UniformCrossoverReproductionStrategyTestsUtils
     {

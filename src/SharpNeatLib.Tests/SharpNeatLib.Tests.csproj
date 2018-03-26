@@ -62,9 +62,10 @@
     <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetricTests.cs" />
     <Compile Include="Neat\Network\DirectedConnectionTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\EnumerateParentGenesTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossoverReproductionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossoverReproductionStrategyTestsUtils.cs" />
+    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\EnumerateParentGenesTests.cs" />
+    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyTests.cs" />
+    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyTestsUtils.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTestTest.cs" />
     <Compile Include="Neat\SelectionReproduction\SpeciesAllocationCalcsTests.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\RegularizedGeneticKMeansSpeciationStrategyTests.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\RegularizedGeneticKMeansSpeciationStrategyTests.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="Neat\Network\NeatDirectedGraphFactoryTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Utils\CyclicConnectionTestWithIdsTest.cs" />
+    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\CyclicConnectionTestTest.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategyTests.cs" />
@@ -113,7 +114,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Neat\Reproduction\Utils\" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

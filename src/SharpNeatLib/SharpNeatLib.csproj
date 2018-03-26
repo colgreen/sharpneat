@@ -83,6 +83,7 @@
     <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
     <Compile Include="Neat\IOConnectionUtils.cs" />
     <Compile Include="Neat\NeatPopulationUtils.cs" />
+    <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTest.cs" />
     <Compile Include="Neat\SelectionReproduction\SpeciesAllocationCalcs.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationInit.cs" />
     <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationInit.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddConnectionUtils.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Utils\CyclicConnectionTestWithIds.cs" />
+    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\CyclicConnectionTest.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\IAsexualReproductionStrategy.cs" />
     <Compile Include="Neat\Reproduction\Asexual\MutationType.cs" />
@@ -201,7 +202,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Neat\Reproduction\Utils\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

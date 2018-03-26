@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Redzen.Random;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Reproduction.Utils;
 using SharpNeat.Network;
 using SharpNeat.Utils;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
@@ -26,7 +25,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly IContinuousDistribution<T> _weightDistA;
         readonly IContinuousDistribution<T> _weightDistB;
         readonly IRandomSource _rng;
-        readonly CyclicConnectionTestWithIds _cyclicTest;
+        readonly CyclicConnectionTest _cyclicTest;
 
         #endregion
 
@@ -46,7 +45,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
             _rng = RandomSourceFactory.Create();
-            _cyclicTest = new CyclicConnectionTestWithIds();
+            _cyclicTest = new CyclicConnectionTest();
         }
 
         #endregion
@@ -178,7 +177,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
 
             // Test if the connection will form a cycle in the wider network.
-            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, conn))
+            int totalNodeCount = _metaNeatGenome.InputOutputNodeCount + hiddenCount;
+            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, parent.NodeIndexByIdFn, totalNodeCount, conn))
             {
                 conn = default(DirectedConnection);
                 insertIdx = default(int);

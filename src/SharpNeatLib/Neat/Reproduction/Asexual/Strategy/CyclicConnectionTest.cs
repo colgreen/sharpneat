@@ -1,68 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using Redzen;
 using Redzen.Collections;
+using Redzen.Structures;
 using SharpNeat.Network;
 
-namespace SharpNeat.Neat.Reproduction.Utils
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     /// <summary>
     /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
     /// </summary>
     /// <remarks>
-    /// This class utilises a depth first graph traversal algorithm to check if a proposed new connection on a given
-    /// graph would form a cycle, as such it is assumed that the graph as given is acyclic, if it isn't then the graph 
-    /// traversal stack will grown to infinity, ultimately resulting in an OutOfMemory exception. 
+    /// This is a minor variant on this class with the same name in a different namespace:
     /// 
-    /// The algorithm will perform a full depth first traversal of the graph starting at the proposed new connection's
-    /// target node, and if that connection's source node is encountered then it would form a cycle if it were added 
-    /// to the graph.
+    ///    SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest
     /// 
-    /// Each instance of this class allocates a stack and a hashset for use by the traversal algorithm, and these
-    /// are cleared and re-used for each call to IsConnectionCyclic(). This avoids memory re-allocation and garbage
-    /// collection overhead, but the side effect is that IsConnectionCyclic() is not reentrant, i.e. can only be in
-    /// use by one execution thread at a given point in time. A reentrancy check will throw an exception if reentrancy
-    /// is attempted.
+    /// see that class for full documentation regarding the overall approach taken for detecting cycles
+    /// and the graph traversal algorithm.
     /// 
+    /// The key difference in this class is that IsConnectionCyclic() is passed a function that maps 
+    /// from node IDs to node indexes. These indexes represent all of the nodes in the graph in a 
+    /// contiguous span starting at zero, and therefore the _visitedNodes structure can be implemented
+    /// as a compact BoolArray instead of a HashSet of nodeIDs.
     /// 
-    /// Implementation Details / Notes
-    /// ----------------------
-    /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene list
-    /// data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal 
-    /// algorithm using function recursion. However this is essentially a depth first graph traversal algorithm that 
-    /// utilises its own stack instead of using the call stack.
-    /// 
-    /// The traversal stack is a stack of Int32(s), each of which is an index into connList (the list of connections
-    /// that make up the graph, ordered by sourceId and then targetId). Thus, each stack entry points to a connection,
-    /// and represents traversal of that connection's source node and also which of that node's child connection/nodes
-    /// is the current traversal position/path from that node (note. this works because the connections are sorted by 
-    /// sourceId first).
-    /// 
-    /// As such this algorithm has a far more compact stack frame than the equivalent algorithm implemented as a
-    /// recursive function, and avoids any other method call overhead as a further performance benefit (i.e. overhead
-    /// other than stack frame initialisation).
-    ///
-    /// The main optimizations then are:
-    /// 
-    ///    * No method call overhead from recursive method calls.
-    ///    
-    ///    * Each stack frame is a single int32 and thus the stack as a whole is highly compact; this improves CPU cache
-    ///      locality and hit rate, and also keeps the max size of the stack for any given traversal at a minimum.
-    ///      
-    ///    * The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
-    ///       call to IsConnectionCyclic(), therefore minimizing memory allocation and garbage collection overhead.
-    /// 
-    ///    * Using a stack on the heap also avoids any potential for a stack overflow on very deep graphs, which could occur
-    ///    if using method call recursion.
-    /// 
-    /// Problems with the approach of this class are:
-    /// 
-    ///    * The code is more complex than the same algorithm written as a recursive function; this makes the code harder 
-    ///      to read and understand and thus increases the probability of subtle defects, and makes the code harder to maintain.
-    ///
+    /// This is a more efficient approach *if* the mapping function already exists, i.e. is readily 
+    /// available because it is required for other purposes. Otherwise the cost of constructing the 
+    /// mapping may outweigh the benefits of using this class.
     /// </remarks>
-    public class CyclicConnectionTestWithIds
+    public class CyclicConnectionTest
     {
         #region Instance Fields
 
@@ -74,18 +40,22 @@ namespace SharpNeat.Neat.Reproduction.Utils
         /// </summary>
         IntStack _traversalStack = new IntStack(16);    
 
-        // ENHANCEMENT: Assign an initial capacity when that becomes possible (i.e. possibly in .NET Standard 2.1)
         /// <summary>
         /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
         /// re-traversal of nodes.
-        /// </summary>
-        HashSet<int> _visitedNodes = new HashSet<int>();
+        /// </summary>        
+        BoolArray _visitedNodes = new BoolArray(1024);
 
         /// <summary>
-        /// Indicates if a call to IsConnectionCyclic() is currently in progress. 
-        /// For checking for attempts to re-enter that method while a call is in progress.
+        /// Indicates if a call to IsConnectionCyclic() is currently in progress; 
+        /// for checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _callFlag = 0;
+
+        /// <summary>
+        /// A function that implements a mapping from node IDs to node indexes.
+        /// </summary>
+        Func<int,int> _nodeIdxByIdFn;
 
         #endregion
 
@@ -95,18 +65,25 @@ namespace SharpNeat.Neat.Reproduction.Utils
         /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
         /// acyclic graph described by connArr.
         /// </summary>
-        /// <param name="connList">A set of connections that describe a directed acyclic graph.</param>
+        /// <param name="connArr">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
-        public bool IsConnectionCyclic(IList<DirectedConnection> connList, DirectedConnection newConn)
+        public bool IsConnectionCyclic(
+            DirectedConnection[] connArr,
+            Func<int,int> nodeIdxByIdFn,
+            int totalNodeCount,
+            DirectedConnection newConn)
         {
             // Check for attempts to re-enter this method.
             if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
 
+            EnsureNodeCapacity(totalNodeCount);
+            _nodeIdxByIdFn = nodeIdxByIdFn;
+
             try 
             {
-                return IsConnectionCyclicInner(connList, newConn);
+                return IsConnectionCyclicInner(connArr, newConn);
             }
             finally 
             {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
@@ -119,7 +96,19 @@ namespace SharpNeat.Neat.Reproduction.Utils
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(IList<DirectedConnection> connList, DirectedConnection newConn)
+        private void EnsureNodeCapacity(int capacity)
+        {
+            if (capacity > _visitedNodes.Length)
+            {
+                // For the new capacity, select the lowest power of two that is above the required capacity.
+                capacity = MathUtils.CeilingPowerOfTwo(capacity);
+
+                // Allocate new bitmap with the new capacity.
+                _visitedNodes = new BoolArray(capacity);
+            }
+        }
+
+        private bool IsConnectionCyclicInner(DirectedConnection[] connArr, DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {
@@ -131,7 +120,8 @@ namespace SharpNeat.Neat.Reproduction.Utils
             int startNodeId = newConn.TargetId;
 
             // Search for outgoing connections from the starting node.
-            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connList, startNodeId);
+            // ENHANCEMENT: Eliminate binary search for childNodeId.
+            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, startNodeId);
             if(connIdx < 0)
             {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
                 return false;
@@ -141,13 +131,14 @@ namespace SharpNeat.Neat.Reproduction.Utils
             InitGraphTraversal(startNodeId, connIdx);
 
             // Note. we pass newConn.SourceId as the terminalNodeId; if traversal reaches this node then a cycle has been detected.
-            return TraverseGraph(connList, newConn.SourceId);
+            return TraverseGraph(connArr, newConn.SourceId);
         }
 
         private void Cleanup()
         {
             _traversalStack.Clear();
-            _visitedNodes.Clear();
+            _visitedNodes.Reset(false);
+            _nodeIdxByIdFn = null;
 
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _callFlag, 0);
@@ -164,16 +155,16 @@ namespace SharpNeat.Neat.Reproduction.Utils
 
             // Add the current node to the set of visited nodes; this prevents the traversal algorithm from re-entering this node 
             // (it's on the stack thus it is in the process of being traversed).
-            _visitedNodes.Add(startNodeId);
+            _visitedNodes[_nodeIdxByIdFn(startNodeId)] = true;
         }
 
         /// <summary>
         /// The graph traversal algorithm.
         /// </summary>
-        /// <param name="connList">A set of connections that represents the graph to traverse.</param>
+        /// <param name="connArr">A set of connections that represents the graph to traverse.</param>
         /// <param name="terminalNodeId">// The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.</param>
         /// <returns></returns>
-        private bool TraverseGraph(IList<DirectedConnection> connList, int terminalNodeId)
+        private bool TraverseGraph(DirectedConnection[] connArr, int terminalNodeId)
         {
             // While there are entries on the stack.
             while(0 != _traversalStack.Count)
@@ -188,11 +179,11 @@ namespace SharpNeat.Neat.Reproduction.Utils
                 // to traverse then we pop it off the stack, even though we haven't yet completed traversal of its last child
                 // node, i.e. the call stack does not necessarily represent the full ancestor line being traversed. One benefit 
                 // to this is that it will tend to require a lower maximum stack depth than the more standard approach.
-                MoveForward(connList, currConnIdx);
+                MoveForward(connArr, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
-                int childNodeId = connList[currConnIdx].TargetId;
-                if(_visitedNodes.Contains(childNodeId)) {
+                int childNodeId = connArr[currConnIdx].TargetId;
+                if(_visitedNodes[_nodeIdxByIdFn(childNodeId)]) {
                     continue;
                 }
 
@@ -202,10 +193,11 @@ namespace SharpNeat.Neat.Reproduction.Utils
                 }
 
                 // We're about to traverse into childNodeId, so mark it as visited to prevent re-traversal.
-                _visitedNodes.Add(childNodeId);
+                _visitedNodes[_nodeIdxByIdFn(childNodeId)] = true;
 
                 // Search for outgoing connections from childNodeId.
-                int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connList, childNodeId);
+                // ENHANCEMENT: Eliminate binary search for childNodeId.
+                int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, childNodeId);
                 if(connIdx >= 0)
                 {   // childNodeId has outgoing connections; push the first connection onto the stack to mark it for traversal.
                     _traversalStack.Push(connIdx);    
@@ -222,13 +214,13 @@ namespace SharpNeat.Neat.Reproduction.Utils
         /// </summary>
         /// <returns>The current connection to traverse down.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void MoveForward(IList<DirectedConnection> connList, int currConnIdx)
+        private void MoveForward(DirectedConnection[] connArr, int currConnIdx)
         {
             // If the current node has at least one more outgoing connection, then update its entry 
             // on the top of the stack to point to it. i.e. increment the current node's connection 
             // iterator by one.
-            if(currConnIdx + 1 < connList.Count 
-                && connList[currConnIdx].SourceId == connList[currConnIdx + 1].SourceId)
+            if(currConnIdx + 1 < connArr.Length
+                && connArr[currConnIdx].SourceId == connArr[currConnIdx + 1].SourceId)
             {
                 _traversalStack.Poke(currConnIdx + 1);
             }
