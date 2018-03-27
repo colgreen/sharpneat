@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
@@ -162,7 +161,7 @@ namespace SharpNeat.Network
             // As such this loop is needed, i.e. don't skip this loop just because _connArr.Length is zero; there may still be a
             // non-zero number of nodes defined.
             _connIdxBySrcNodeIdx = new int[_totalNodeCount];
-            for(int i=0; i<_totalNodeCount; i++) {
+            for(int i=0; i < _totalNodeCount; i++) {
                 _connIdxBySrcNodeIdx[i] = -1;
             }
 

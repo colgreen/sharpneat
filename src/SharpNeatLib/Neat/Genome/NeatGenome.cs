@@ -75,12 +75,14 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Constructs with the provided ID, birth generation and gene arrays.
         /// </summary>
-        private NeatGenome(MetaNeatGenome<T> metaNeatGenome,
-                          int id, int birthGeneration,
-                          ConnectionGenes<T> connGenes,
-                          int[] hiddenNodeIdArr,
-                          Func<int,int> nodeIndexByIdFn,
-                          GraphDepthInfo depthInfo)
+        private NeatGenome(
+            MetaNeatGenome<T> metaNeatGenome,
+            int id,
+            int birthGeneration,
+            ConnectionGenes<T> connGenes,
+            int[] hiddenNodeIdArr,
+            Func<int,int> nodeIndexByIdFn,
+            GraphDepthInfo depthInfo)
         {
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;
