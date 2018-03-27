@@ -183,7 +183,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
                 // Test if the next traversal child node has already been visited.
                 int childNodeId = connArr[currConnIdx].TargetId;
-                if(_visitedNodes[_nodeIdxByIdFn(childNodeId)]) {
+                int childNodeIdx = _nodeIdxByIdFn(childNodeId);
+                if(_visitedNodes[childNodeIdx]) {
                     continue;
                 }
 
@@ -193,7 +194,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 }
 
                 // We're about to traverse into childNodeId, so mark it as visited to prevent re-traversal.
-                _visitedNodes[_nodeIdxByIdFn(childNodeId)] = true;
+                _visitedNodes[childNodeIdx] = true;
 
                 // Search for outgoing connections from childNodeId.
                 // ENHANCEMENT: Eliminate binary search for childNodeId.
