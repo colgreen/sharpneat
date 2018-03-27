@@ -76,8 +76,9 @@ namespace SharpNeat.Network.Acyclic
             int netDepth = depthInfo._networkDepth;
             LayerInfo[] layerInfoArr = new LayerInfo[netDepth];
 
-            // Scanning over nodes can start at inputAndBiasCount instead of zero, 
-            // because we know that all nodes prior to that index are at depth zero.
+            // Note. Scanning over nodes can start at inputCount instead of zero, because all nodes prior to that index
+            // are input nodes and are therefore at depth zero. (input nodes are never the target of a connection,
+            // therefore are always guaranteed to be at the start of a connectivity graph thus at depth zero).
             int nodeCount = digraph.TotalNodeCount;
             int nodeIdx = inputCount;
             int connIdx = 0;
@@ -113,7 +114,7 @@ namespace SharpNeat.Network.Acyclic
         {
             // Create an array of all node IDs in the digraph.
             int[] nodeIdArr = new int[nodeCount];
-            for(int i=0; i<nodeCount; i++) {
+            for(int i=0; i < nodeCount; i++) {
                 nodeIdArr[i] = i;
             }
 
@@ -128,7 +129,7 @@ namespace SharpNeat.Network.Acyclic
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e.
             // we are re-allocating IDs based on node depth.
             int[] newIdByOldId = new int[nodeCount];
-            for(int i=0; i<nodeCount; i++) {
+            for(int i=0; i < nodeCount; i++) {
                 newIdByOldId[nodeIdArr[i]] = i;
             }
 
@@ -151,7 +152,7 @@ namespace SharpNeat.Network.Acyclic
 
         private static bool AreZero(int[] arr, int length)
         {
-            for(int i=0; i<length; i++)
+            for(int i=0; i < length; i++)
             {
                 if(0 != arr[i]) {
                     return false;

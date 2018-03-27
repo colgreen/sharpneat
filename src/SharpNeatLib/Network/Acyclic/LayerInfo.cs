@@ -10,12 +10,12 @@ namespace SharpNeat.Network.Acyclic
     public struct LayerInfo
     {
         /// <summary>
-        /// Demarks the last node in the current layer.
+        /// Demarcates the position of the last node in the current layer.
         /// Specifically, this is the index+1 of the last node in the current layer.
         /// </summary>
         public int EndNodeIdx { get; }
         /// <summary>
-        /// Demarks the last connection in the current layer.
+        /// Demarcates the position of the last connection in the current layer.
         /// Specifically, this is the index+1 of the last connection in the current layer.
         /// </summary>     
         public int EndConnectionIdx { get; }

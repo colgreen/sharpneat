@@ -23,8 +23,8 @@ namespace SharpNeat.NeuralNets.Double
     /// 
     ///     http://sharpneat.sourceforge.net/research/network-optimisations.html
     /// 
-    /// A speedup over a previous 'naive' implementation was achieved by compactly storing all required data in arrays
-    /// and in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches. 
+    /// A speed-up over a previous 'naive' implementation was achieved by compactly storing all required data in arrays
+    /// in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches. 
     /// 
     /// Algorithm Overview.
     /// 1) Loop connections. Each connection gets its input signal from its source node, multiplies this signal by its
