@@ -55,22 +55,6 @@ namespace SharpNeat.Network.Acyclic
 
         #endregion
 
-        #region Public Static Methods
-
-        /// <summary>
-        /// Calculate node depths in an acyclic network.
-        /// </summary>
-        public static GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
-        {
-            // Debug assert the graph is acyclic. 
-            // Note. In a release build this test is not performed; in that case the depth analysis will throw a stack overflow exception for cyclic graphs.
-            Debug.Assert(!CyclicGraphAnalysis.IsCyclicStatic(digraph));
-
-            return new AcyclicGraphDepthAnalysis(digraph).CalculateNodeDepthsInner();
-        }
-
-        #endregion
-
         #region Private Methods
 
         /// <summary>
@@ -78,7 +62,7 @@ namespace SharpNeat.Network.Acyclic
         /// </summary>
         private GraphDepthInfo CalculateNodeDepthsInner()
         {
-            // Loop over all connections exiting input nodes; perform a depth first traversal of each in turn.
+            // Loop over all connections exiting from input nodes, and perform a depth first traversal of each in turn.
             int inputCount = _digraph.InputNodeCount;
             int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
             int[] tgtIdxArr = _digraph.ConnectionIdArrays._targetIdArr;
@@ -103,7 +87,7 @@ namespace SharpNeat.Network.Acyclic
         private void TraverseNode(int nodeIdx, int depth)
         {
             // Check if the node has been visited before.
-            if(depth <= _nodeDepthByIdx[nodeIdx])
+            if(_nodeDepthByIdx[nodeIdx] >= depth)
             {   // The node already has already been visited via a path that assigned it an equal or greater depth
                 // than the current path. Stop traversing this path.
                 return;
@@ -125,6 +109,24 @@ namespace SharpNeat.Network.Acyclic
             {
                 TraverseNode(_digraph.GetTargetNodeIdx(connIdx), depth + 1);
             }
+        }
+
+        #endregion
+
+        #region Public Static Methods
+
+        /// <summary>
+        /// Calculate node depths in an acyclic network.
+        /// </summary>
+        public static GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
+        {
+            // Debug assert the graph is acyclic. 
+            // Note. In a release build this test is not performed because we expect this method to be called from 
+            // code handling acyclic graphs only. If digraph is cyclic then the graph traversal implemented here will
+            // cause a stack overflow, so at the very least there isn't a silent error.
+            Debug.Assert(!CyclicGraphAnalysis.IsCyclicStatic(digraph));
+
+            return new AcyclicGraphDepthAnalysis(digraph).CalculateNodeDepthsInner();
         }
 
         #endregion
