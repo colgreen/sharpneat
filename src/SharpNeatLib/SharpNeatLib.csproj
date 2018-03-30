@@ -1,217 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29425503-9A5D-4C86-BB9B-CA17A7742E6A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpNeat</RootNamespace>
-    <AssemblyName>SharpNeatLib</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <Copyright>Copyright © Colin D. Green 2004 - 2018</Copyright>
+    <Version>4.0.0.0</Version>
+    <Authors>Colin D. Green</Authors>
+    <Company />
+    <Description>SharpNEAT - Evolution of Neural Networks.</Description>
+    <PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
+    <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
+    <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Redzen, Version=4.0.0.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Redzen\Redzen\bin\Debug\netstandard2.0\Redzen.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Compile Remove="Network\IO\NetworkTsvWriterUtils.cs" />
+    <Compile Remove="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
+    <Compile Remove="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Evaluation\DefaultFitnessInfoComparer.cs" />
-    <Compile Include="Evaluation\FitnessInfo.cs" />
-    <Compile Include="EA\IGenome.cs" />
-    <Compile Include="Evaluation\IGenomeDecoder.cs" />
-    <Compile Include="Evaluation\IGenomeCollectionEvaluator.cs" />
-    <Compile Include="Evaluation\SerialGenomeCollectionEvaluator.cs" />
-    <Compile Include="EA\ComplexityRegulationMode.cs" />
-    <Compile Include="EA\Controllers\RunState.cs" />
-    <Compile Include="EA\Controllers\UpdateMode.cs" />
-    <Compile Include="EA\Controllers\UpdateScheme.cs" />
-    <Compile Include="EA\EAParameters.cs" />
-    <Compile Include="EA\EAStatistics.cs" />
-    <Compile Include="EA\Controllers\EvolutionAlgorithmController.cs" />
-    <Compile Include="EA\EvolutionAlgorithmSettings.cs" />
-    <Compile Include="EA\IEvolutionAlgorithm.cs" />
-    <Compile Include="EA\ISelectionReproductionStrategy.cs" />
-    <Compile Include="EA\DefaultEvolutionAlgorithm.cs" />
-    <Compile Include="EA\Population.cs" />
-    <Compile Include="Evaluation\IPhenomeEvaluator.cs" />
-    <Compile Include="Neat\AddedNodeBuffer.cs" />
-    <None Include="Neat\AddedConnectionBuffer.cs" />
-    <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricUtils.cs" />
-    <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetric.cs" />
-    <Compile Include="Neat\DistanceMetrics\IDistanceMetric.cs" />
-    <Compile Include="Neat\DistanceMetrics\Double\ManhattanDistanceMetric.cs" />
-    <Compile Include="Neat\Genome\ConnectionGenes.cs" />
-    <Compile Include="Neat\Genome\ConnectionGenesUtils.cs" />
-    <Compile Include="Neat\Genome\Double\NeatGenomeAcyclicDecoder.cs" />
-    <Compile Include="Neat\Genome\Double\NeatGenomeCyclicDecoder.cs" />
-    <Compile Include="Neat\Genome\NeatGenomeFactory.cs" />
-    <Compile Include="Neat\IOConnectionUtils.cs" />
-    <Compile Include="Neat\NeatPopulationUtils.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\CyclicConnectionTest.cs" />
-    <Compile Include="Neat\SelectionReproduction\SpeciesAllocationCalcs.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationInit.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationInit.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\RegularizedGeneticKMeansSpeciationStrategy.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\RegularizedGeneticKMeansSpeciationStrategy.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationStrategy.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\SpeciationUtilsParallel.cs" />
-    <Compile Include="Neat\Speciation\SpeciationUtils.cs" />
-    <Compile Include="Neat\Speciation\ISpeciationStrategy.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationStrategy.cs" />
-    <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactory.cs" />
-    <Compile Include="Neat\Network\NeatDirectedGraphFactory.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddConnectionUtils.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\CyclicConnectionTest.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\IAsexualReproductionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\MutationType.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\MutateWeightsStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\IWeightMutationStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionalSubsetSelectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\CardinalSubsetSelectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ISubsetSelectionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationScheme.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\WeightMutationSchemeFactory.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\ConnectionGeneListBuilder.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\ConnectionGene.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\ISexualReproductionStrategy.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyUtils.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategy.cs" />
-    <Compile Include="Neat\Speciation\Species.cs" />
-    <Compile Include="Neat\Speciation\SpeciesStats.cs" />
-    <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
-    <Compile Include="Network\Acyclic\CyclicConnectionTest.cs" />
-    <Compile Include="Network\Acyclic\LayerInfo.cs" />
-    <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
-    <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraphFactory.cs" />
-    <Compile Include="Network\ConnectionIdArrays.cs" />
-    <Compile Include="Network\ConnectionCompareFunctions.cs" />
-    <Compile Include="Network\ConnectionSorter.cs" />
-    <Compile Include="Network\CyclicGraphAnalysis.cs" />
-    <Compile Include="Neat\Genome\MetaNeatGenome.cs" />
-    <Compile Include="Neat\Genome\NeatGenome.cs" />
-    <Compile Include="Neat\NeatPopulation.cs" />
-    <Compile Include="Neat\SelectionReproduction\NeatSelectionReproductionStrategy.cs" />
-    <Compile Include="Neat\NeatPopulationFactory.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexualSettings.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\NeatReproductionSexual.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\NeatReproductionAsexual.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\NeatReproductionSexualSettings.cs" />
-    <Compile Include="Network\DirectedConnectionUtils.cs" />
-    <None Include="Network\IO\NetworkTsvReaderUtils.cs" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Network\IO\NetworkTsvWriterUtils.cs" />
     <None Include="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <None Include="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
-    <Compile Include="Network\DirectedGraphUtils.cs" />
-    <Compile Include="Network\WeightedDirectedConnection.cs" />
-    <Compile Include="Network\DirectedConnection.cs" />
-    <Compile Include="Network\DirectedGraphFactory.cs" />
-    <Compile Include="Network\DirectedGraph.cs" />
-    <Compile Include="Network\WeightedDirectedGraph.cs" />
-    <Compile Include="Network\WeightedDirectedGraphFactory.cs" />
-    <Compile Include="NeuralNets\DefaultActivationFunctionFactory.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\ArcSinH.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\ArcTan.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Cppn\BipolarGaussian.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Cppn\BipolarSigmoid.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Cppn\Gaussian.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Cppn\Linear.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Cppn\Sine.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\LeakyReLU.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\LeakyReLUShifted.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\LogisticApproximantSteep.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\LogisticFunction.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\LogisticFunctionSteep.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\MaxMinusOne.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\NullFn.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\PolynomialApproximantSteep.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\QuadraticSigmoid.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\ReLU.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\ScaledELU.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\SoftSignSteep.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\SReLU.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\SReLUShifted.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\TanH.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\LeakyReLUShifted.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\LeakyReLU.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\MaxMinusOne.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\PolynomialApproximantSteep.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\QuadraticSigmoid.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\ReLU.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SoftSignSteep.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SReLUShifted.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\Vectorized\SReLU.cs" />
-    <Compile Include="NeuralNets\Double\Vectorized\AcyclicNeuralNet.cs" />
-    <Compile Include="NeuralNets\Double\Vectorized\CyclicNeuralNet.cs" />
-    <Compile Include="NeuralNets\IActivationFunction.cs" />
-    <Compile Include="Network\IActivationFunctionLibrary.cs" />
-    <Compile Include="Network\GraphDepthInfo.cs" />
-    <Compile Include="NeuralNets\IActivationFunctionFactory.cs" />
-    <Compile Include="Phenomes\Double\BoundedVector.cs" />
-    <Compile Include="Phenomes\IPhenome.cs" />
-    <Compile Include="Phenomes\IVector.cs" />
-    <Compile Include="Phenomes\MappingVector.cs" />
-    <Compile Include="Network\Acyclic\AcyclicDirectedGraph.cs" />
-    <Compile Include="NeuralNets\Double\AcyclicNeuralNet.cs" />
-    <Compile Include="NeuralNets\Double\CyclicNeuralNet.cs" />
-    <Compile Include="NeuralNets\NetworkActivationScheme.cs" />
-    <Compile Include="Phenomes\VectorSegment.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="packages.config" />
+    <Reference Include="Redzen">
+      <HintPath>..\..\..\Redzen\Redzen\bin\Debug\netstandard2.0\Redzen.dll</HintPath>
+    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Neat\Reproduction\Utils\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
