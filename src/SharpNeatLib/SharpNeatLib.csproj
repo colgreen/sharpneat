@@ -55,7 +55,7 @@
     <Compile Include="Evaluation\DefaultFitnessInfoComparer.cs" />
     <Compile Include="Evaluation\FitnessInfo.cs" />
     <Compile Include="EA\IGenome.cs" />
-    <Compile Include="Core\IGenomeDecoder.cs" />
+    <Compile Include="Evaluation\IGenomeDecoder.cs" />
     <Compile Include="Evaluation\IGenomeCollectionEvaluator.cs" />
     <Compile Include="Evaluation\SerialGenomeCollectionEvaluator.cs" />
     <Compile Include="EA\ComplexityRegulationMode.cs" />

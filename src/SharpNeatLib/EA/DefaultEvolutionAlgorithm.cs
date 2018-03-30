@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpNeat.Core;
-using SharpNeat.Evaluation;
+﻿using SharpNeat.Evaluation;
 
 namespace SharpNeat.EA
 {

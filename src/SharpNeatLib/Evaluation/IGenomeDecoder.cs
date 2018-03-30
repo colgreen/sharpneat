@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Core
+namespace SharpNeat.Evaluation
 {
     /// <summary>
     /// Represents types that decode genomes into phenomes.

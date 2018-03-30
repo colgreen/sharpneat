@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpNeat.Core;
+using SharpNeat.Evaluation;
 using SharpNeat.Neat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNets.Double;
