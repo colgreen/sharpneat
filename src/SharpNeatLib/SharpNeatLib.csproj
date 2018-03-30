@@ -122,6 +122,7 @@
     <Compile Include="Neat\Speciation\Species.cs" />
     <Compile Include="Neat\Speciation\SpeciesStats.cs" />
     <Compile Include="Network\Acyclic\AcyclicGraphDepthAnalysis.cs" />
+    <Compile Include="Network\Acyclic\CyclicConnectionTest.cs" />
     <Compile Include="Network\Acyclic\LayerInfo.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraph.cs" />
     <Compile Include="Network\Acyclic\WeightedAcyclicDirectedGraphFactory.cs" />
