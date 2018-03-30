@@ -26,17 +26,6 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public FitnessInfo FitnessInfo { get; set; }
 
-        // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
-        // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
-        // that are the result of weight mutation; but the IPhenome can probably be re-used in those cases too.
-        /// <summary>
-        /// Graph depth information. For acyclic graphs only.
-        /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
-        /// not NeatGenome, in particular it's based on contiguous node IDs used by DirectedGraph and not the non-contiguous 
-        /// node innovation IDs used by NeatGenome.
-        /// </summary>
-        public GraphDepthInfo DepthInfo { get; set; }
-
         #endregion
 
         #region Auto Properties [NEAT Genome Specific]
@@ -53,6 +42,20 @@ namespace SharpNeat.Neat.Genome
         public ConnectionGenes<T> ConnectionGenes { get; }
 
         /// <summary>
+        /// The directed graph that the current genome represents.
+        /// </summary>
+        /// <remarks>
+        /// This digraph mirrors the graph described by <see cref="ConnectionGenes"/>; this object represents the
+        /// graph structure only, not the weights, and is therefore reused when spawning genomes with the same structure 
+        /// (i.e. a child that is the result of a connection weight mutation only).
+        /// The DirectedGraph class provides efficient means of working with graphs and is therefore made available
+        /// on this class, this allows for improved performance of 
+        ///  * Decoding to a neural net object
+        ///  * Finding new connections on acyclic graph, i.e. detecting if a random new connection would form a cycle.
+        /// </remarks>
+        public DirectedGraph DirectedGraph { get; }
+
+        /// <summary>
         /// An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
         /// Input and output node IDs are not included because these are allocated fixed IDs starting from zero
         /// and are therefore always known.
@@ -67,6 +70,17 @@ namespace SharpNeat.Neat.Genome
         /// </remarks>
         public Func<int,int> NodeIndexByIdFn { get; }
 
+        // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
+        // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
+        // that are the result of weight mutation; but the IPhenome can probably be re-used in those cases too.
+        /// <summary>
+        /// Graph depth information. For acyclic graphs only.
+        /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
+        /// not NeatGenome, in particular it's based on contiguous node IDs used by DirectedGraph and not the non-contiguous 
+        /// node innovation IDs used by NeatGenome.
+        /// </summary>
+        public GraphDepthInfo DepthInfo { get; set; }
+
         #endregion
 
         #region Constructors
@@ -79,6 +93,7 @@ namespace SharpNeat.Neat.Genome
             int id,
             int birthGeneration,
             ConnectionGenes<T> connGenes,
+            DirectedGraph digraph,
             int[] hiddenNodeIdArr,
             Func<int,int> nodeIndexByIdFn,
             GraphDepthInfo depthInfo)

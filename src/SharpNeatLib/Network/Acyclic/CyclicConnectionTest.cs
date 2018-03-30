@@ -66,7 +66,7 @@ namespace SharpNeat.Network.Acyclic
         /// <param name="newConn">A proposed new connection to add to the graph.
         /// Note. the connection source and target nodes IDs are node indexes as used by the supplied digraph.</param>
         public bool IsConnectionCyclic(
-            AcyclicDirectedGraph digraph,
+            DirectedGraph digraph,
             DirectedConnection newConn)
         {
             // Check for attempts to re-enter this method.
@@ -91,7 +91,7 @@ namespace SharpNeat.Network.Acyclic
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(AcyclicDirectedGraph digraph, DirectedConnection newConn)
+        private bool IsConnectionCyclicInner(DirectedGraph digraph, DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {
@@ -158,7 +158,7 @@ namespace SharpNeat.Network.Acyclic
         /// <param name="terminalNodeId">// The 'terminal' node ID, i.e. if traversal reaches this node 
         /// then newConn would form a cycle and we stop/terminate traversal.</param>
         /// <returns></returns>
-        private bool TraverseGraph(AcyclicDirectedGraph digraph, int terminalNodeId)
+        private bool TraverseGraph(DirectedGraph digraph, int terminalNodeId)
         {
             int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
             int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
