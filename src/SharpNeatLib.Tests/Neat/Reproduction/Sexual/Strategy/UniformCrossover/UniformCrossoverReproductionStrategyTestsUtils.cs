@@ -68,7 +68,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             connGenes[10] = (10, 1, 1.1);
             connGenes[11] = (11, 1, 1.2);
 
-            var genome = NeatGenome<double>.Create(__metaNeatGenome, 0, 0, connGenes);
+            var genome = NeatGenomeFactory<double>.Create(__metaNeatGenome, 0, 0, connGenes);
             return genome;
         }
 
@@ -90,7 +90,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             connGenes[9] = (10, 1, 1.1);
             connGenes[10] = (11, 1, 1.2);
 
-            var genome = NeatGenome<double>.Create(__metaNeatGenome, 0, 0, connGenes);
+            var genome = NeatGenomeFactory<double>.Create(__metaNeatGenome, 0, 0, connGenes);
             return genome;
         }
 

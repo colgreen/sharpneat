@@ -39,7 +39,7 @@ namespace SharpNeatLib.Tests.Neat.Genome
             connGenes[10] = (10, 1, 1.1);
             connGenes[11] = (11, 1, 1.2);
 
-            var genome = NeatGenome<double>.Create(metaNeatGenome, 0, 0, connGenes);
+            var genome = NeatGenomeFactory<double>.Create(metaNeatGenome, 0, 0, connGenes);
             return genome;
         }
 
