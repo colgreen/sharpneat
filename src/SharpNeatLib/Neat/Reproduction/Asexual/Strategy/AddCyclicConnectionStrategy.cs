@@ -1,8 +1,8 @@
 ﻿using System;
 using Redzen.Random;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
-using SharpNeat.Utils;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy

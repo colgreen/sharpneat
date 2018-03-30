@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Redzen.Numerics;
 using Redzen.Random;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
-using SharpNeat.Utils;
 
 namespace SharpNeat.Neat
 {

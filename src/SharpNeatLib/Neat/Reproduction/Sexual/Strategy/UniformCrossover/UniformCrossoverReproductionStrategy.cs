@@ -1,8 +1,8 @@
 ﻿using Redzen;
 using Redzen.Numerics;
 using Redzen.Random;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Utils;
 using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverReproductionStrategyUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover

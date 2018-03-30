@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Utils;
+using Redzen.Structures;
 
 namespace SharpNeat.EA
 {

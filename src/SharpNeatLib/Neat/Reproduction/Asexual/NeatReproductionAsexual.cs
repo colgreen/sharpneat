@@ -1,10 +1,10 @@
 ﻿using System;
 using Redzen.Numerics;
 using Redzen.Random;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeat.Utils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {

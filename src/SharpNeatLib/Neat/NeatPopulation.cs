@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen.Structures;
 using SharpNeat.EA;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
-using SharpNeat.Utils;
 using static SharpNeat.Neat.NeatPopulationUtils;
 
 namespace SharpNeat.Neat
