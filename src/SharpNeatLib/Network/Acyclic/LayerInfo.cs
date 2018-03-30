@@ -7,7 +7,7 @@ namespace SharpNeat.Network.Acyclic
     /// The nodes and connections on an acyclic graph are ordered by the layer they are in. For more details
     /// see AcyclicDirectedGraph.
     /// </summary>
-    public struct LayerInfo
+    public readonly struct LayerInfo
     {
         /// <summary>
         /// Demarcates the position of the last node in the current layer.

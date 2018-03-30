@@ -2,7 +2,7 @@
 
 namespace SharpNeat.Network
 {
-    public struct ConnectionIdArrays
+    public readonly struct ConnectionIdArrays
     {
         public readonly int[] _sourceIdArr;
         public readonly int[] _targetIdArr;

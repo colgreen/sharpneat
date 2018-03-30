@@ -9,7 +9,7 @@ namespace SharpNeat.Network
     /// This type does not inherit from DirectedConnection as might be expected because these are structs (value types)
     /// and therefore inheritance is not possible.
     /// </remarks>
-    public struct WeightedDirectedConnection<T>
+    public readonly struct WeightedDirectedConnection<T>
         where T : struct
     {
         #region Auto Properties
@@ -25,7 +25,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Connection weight.
         /// </summary>
-        public T Weight { get; set; }
+        public T Weight { get; }
 
         #endregion
 
