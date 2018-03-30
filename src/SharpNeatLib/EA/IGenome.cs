@@ -1,7 +1,7 @@
 ﻿
 using SharpNeat.Evaluation;
 
-namespace SharpNeat.Core
+namespace SharpNeat.EA
 {
     public interface IGenome
     {

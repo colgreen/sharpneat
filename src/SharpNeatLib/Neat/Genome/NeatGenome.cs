@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using SharpNeat.Core;
+using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
 
