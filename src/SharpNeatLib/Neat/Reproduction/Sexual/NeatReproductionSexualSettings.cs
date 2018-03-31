@@ -8,6 +8,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
 {
     public class NeatReproductionSexualSettings
     {
+        // TODO: Review. Not currently being used?
         /// <summary>
         /// Probability that all excess and disjoint genes are copied into an offspring genome during sexual reproduction. 
         /// Currently the excess/disjoint genes are copied in an 'all or nothing' strategy.
