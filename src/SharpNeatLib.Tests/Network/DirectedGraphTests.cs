@@ -31,7 +31,6 @@ namespace SharpNeatLib.Tests.Network
 
             // Check the node count.
             Assert.AreEqual(5, digraph.TotalNodeCount);
-
         }
 
         [TestMethod]

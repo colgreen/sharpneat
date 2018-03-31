@@ -231,7 +231,6 @@ namespace SharpNeat.Neat.Genome
             // connection gene list.
             // The IDs are substituted for node indexes here.
             CopyAndMapIds(
-                
                 connGenes._connArr,
                 nodeIndexByIdFn,
                 out ConnectionIdArrays connIdArrays);
