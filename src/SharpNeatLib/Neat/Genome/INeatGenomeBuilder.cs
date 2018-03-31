@@ -12,7 +12,7 @@ namespace SharpNeatLib.Neat.Genome
     /// For creating new instances of NeatGenome.
     /// </summary>
     /// <typeparam name="T">Connection weight type.</typeparam>
-    public interface INeatGenomeFactory<T> 
+    public interface INeatGenomeBuilder<T> 
         where T : struct
     {
         /// <summary>

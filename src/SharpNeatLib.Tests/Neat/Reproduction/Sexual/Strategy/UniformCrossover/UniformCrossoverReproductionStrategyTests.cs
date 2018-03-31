@@ -22,11 +22,11 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            var genomeFactory = new NeatGenomeFactory<double>(metaNeatGenome);
+            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
 
             int count = 100;
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.1, count);
-            var strategy = new UniformCrossoverReproductionStrategy<double>(pop.MetaNeatGenome, genomeFactory, pop.GenomeIdSeq, pop.GenerationSeq);
+            var strategy = new UniformCrossoverReproductionStrategy<double>(pop.MetaNeatGenome, genomeBuilder, pop.GenomeIdSeq, pop.GenerationSeq);
             var rng = new XorShiftRandom(0);
 
             for(int i=0; i<1000; i++)

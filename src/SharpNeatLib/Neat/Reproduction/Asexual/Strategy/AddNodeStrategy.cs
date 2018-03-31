@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         #region Instance Fields
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
-        readonly INeatGenomeFactory<T> _genomeFactory;
+        readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
@@ -26,14 +26,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public AddNodeStrategy(
             MetaNeatGenome<T> metaNeatGenome,
-            INeatGenomeFactory<T> genomeFactory,
+            INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
             AddedNodeBuffer addedNodeBuffer)
         {
             _metaNeatGenome = metaNeatGenome;
-            _genomeFactory = genomeFactory;
+            _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
@@ -170,7 +170,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, addedNodeId, newInnovationIdsFlag);
 
             // Create and return a new genome.
-            return _genomeFactory.Create(
+            return _genomeBuilder.Create(
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,

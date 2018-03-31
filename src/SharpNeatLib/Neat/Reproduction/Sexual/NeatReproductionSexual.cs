@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
 
         public NeatReproductionSexual(
             MetaNeatGenome<T> metaNeatGenome,
-            INeatGenomeFactory<T> genomeFactory,
+            INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
@@ -31,7 +31,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             _rng = RandomSourceFactory.Create();
 
             _strategy = new UniformCrossoverReproductionStrategy<T>(
-                                metaNeatGenome, genomeFactory,
+                                metaNeatGenome, genomeBuilder,
                                 genomeIdSeq, generationSeq);
         }
 

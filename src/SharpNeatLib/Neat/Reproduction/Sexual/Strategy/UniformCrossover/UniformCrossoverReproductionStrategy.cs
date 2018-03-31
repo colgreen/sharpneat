@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
-        readonly INeatGenomeFactory<T> _genomeFactory;
+        readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly IRandomSource _rng;
@@ -28,12 +28,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         public UniformCrossoverReproductionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
-            INeatGenomeFactory<T> genomeFactory,
+            INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
-            _genomeFactory = genomeFactory;
+            _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
@@ -90,7 +90,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             var connGenes = _builder.ToConnectionGenes();
 
             // Create and return a new genome.
-            return _genomeFactory.Create(
+            return _genomeBuilder.Create(
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes);

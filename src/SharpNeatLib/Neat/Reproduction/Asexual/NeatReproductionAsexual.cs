@@ -31,7 +31,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         public NeatReproductionAsexual(
             MetaNeatGenome<T> metaNeatGenome,
-            INeatGenomeFactory<T> genomeFactory,
+            INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
@@ -43,17 +43,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _rng = RandomSourceFactory.Create();
 
             // Instantiate reproduction strategies.
-            _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeFactory, genomeIdSeq, generationSeq, weightMutationScheme);
-            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeFactory, genomeIdSeq, generationSeq);
+            _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
+            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
             if(metaNeatGenome.IsAcyclic) {
-                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(metaNeatGenome, genomeFactory, genomeIdSeq, innovationIdSeq, generationSeq);
+                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq);
             } else {
-                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeFactory, genomeIdSeq, innovationIdSeq, generationSeq);
+                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq);
             }      
             
-            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeFactory, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
+            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
         }
 
         #endregion

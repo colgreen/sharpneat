@@ -9,7 +9,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
-        readonly INeatGenomeFactory<T> _genomeFactory;
+        readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly WeightMutationScheme<T> _weightMutationScheme;
@@ -18,13 +18,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public MutateWeightsStrategy(
             MetaNeatGenome<T> metaNeatGenome,
-            INeatGenomeFactory<T> genomeFactory,
+            INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq,
             WeightMutationScheme<T> weightMutationScheme)
         {
             _metaNeatGenome = metaNeatGenome;
-            _genomeFactory = genomeFactory;
+            _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
             _weightMutationScheme = weightMutationScheme;
@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // TODO: We probably don't need this conditional Create() now that Create() is no longer a set of static methods).
             if(_metaNeatGenome.IsAcyclic)
             {
-                return _genomeFactory.Create(
+                return _genomeBuilder.Create(
                     _genomeIdSeq.Next(), 
                     _generationSeq.Peek,
                     connGenes,
@@ -66,7 +66,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                     parent.DepthInfo);
             }
             // else
-            return _genomeFactory.Create(
+            return _genomeBuilder.Create(
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,

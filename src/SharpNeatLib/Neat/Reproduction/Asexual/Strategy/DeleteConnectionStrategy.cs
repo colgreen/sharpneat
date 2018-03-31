@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
-        readonly INeatGenomeFactory<T> _genomeFactory;
+        readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly IRandomSource _rng;
@@ -20,12 +20,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public DeleteConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
-            INeatGenomeFactory<T> genomeFactory,
+            INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
-            _genomeFactory = genomeFactory;
+            _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
             _rng = RandomSourceFactory.Create();
@@ -67,7 +67,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, deleteIdx, connArr);
 
             // Create and return a new genome.
-            return _genomeFactory.Create(
+            return _genomeBuilder.Create(
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,

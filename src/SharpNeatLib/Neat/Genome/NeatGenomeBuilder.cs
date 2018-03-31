@@ -7,14 +7,14 @@ using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Genome
 {
-    public class NeatGenomeFactory<T> : INeatGenomeFactory<T>
+    public class NeatGenomeBuilder<T> : INeatGenomeBuilder<T>
         where T : struct
     {
         MetaNeatGenome<T> _metaNeatGenome;
 
         #region Constructor
 
-        public NeatGenomeFactory(MetaNeatGenome<T> metaNeatGenome)
+        public NeatGenomeBuilder(MetaNeatGenome<T> metaNeatGenome)
         {
             Debug.Assert(null != metaNeatGenome);
             _metaNeatGenome = metaNeatGenome;
