@@ -27,7 +27,8 @@ namespace SharpNeat.Neat.Genome.Double
         /// </summary>
         /// <param name="neatGenome">The genome to decode.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public IPhenome<double> Decode(NeatGenome<double> neatGenome)
+        public IPhenome<double> Decode(
+            NeatGenome<double> neatGenome)
         {
             // Basic validation test.
             if(!neatGenome.MetaNeatGenome.IsAcyclic) {
