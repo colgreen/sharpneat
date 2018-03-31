@@ -17,7 +17,9 @@ namespace SharpNeat.Network
         /// to allow for the allocation of NeatGenome input and output nodes, which are defined with fixed IDs but aren't
         /// necessarily connected to.
         /// </summary>
-        public static WeightedDirectedGraph<T> Create(IList<WeightedDirectedConnection<T>> connectionList, int inputCount, int outputCount)
+        public static WeightedDirectedGraph<T> Create(
+            IList<WeightedDirectedConnection<T>> connectionList,
+            int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
@@ -47,7 +49,9 @@ namespace SharpNeat.Network
 
         #region Private Static Methods 
 
-        private static int[] GetHiddenNodeIdArray(IList<WeightedDirectedConnection<T>> connList, int inputOutputCount)
+        private static int[] GetHiddenNodeIdArray(
+            IList<WeightedDirectedConnection<T>> connList,
+            int inputOutputCount)
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
             var hiddenNodeIdSet = new HashSet<int>();

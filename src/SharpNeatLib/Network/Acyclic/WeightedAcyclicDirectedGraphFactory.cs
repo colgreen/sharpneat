@@ -9,7 +9,9 @@ namespace SharpNeat.Network.Acyclic
     {
         #region Public Static Methods
 
-        public static WeightedAcyclicDirectedGraph<T> Create(IList<WeightedDirectedConnection<T>> connectionList, int inputCount, int outputCount)
+        public static WeightedAcyclicDirectedGraph<T> Create(
+            IList<WeightedDirectedConnection<T>> connectionList,
+            int inputCount, int outputCount)
         {
             // Convert the set of connections to a standardised graph representation.
             WeightedDirectedGraph<T> digraph = WeightedDirectedGraphFactory<T>.Create(connectionList, inputCount, outputCount);
@@ -18,7 +20,8 @@ namespace SharpNeat.Network.Acyclic
             return Create(digraph);
         }
 
-        public static WeightedAcyclicDirectedGraph<T> Create(WeightedDirectedGraph<T> digraph)
+        public static WeightedAcyclicDirectedGraph<T> Create(
+            WeightedDirectedGraph<T> digraph)
         {
             // Calc the depth of each node in the digraph.
             GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
@@ -26,7 +29,9 @@ namespace SharpNeat.Network.Acyclic
             return CreateInner(digraph, depthInfo);
         }
 
-        public static WeightedAcyclicDirectedGraph<T> Create(WeightedDirectedGraph<T> digraph, GraphDepthInfo depthInfo)
+        public static WeightedAcyclicDirectedGraph<T> Create(
+            WeightedDirectedGraph<T> digraph,
+            GraphDepthInfo depthInfo)
         {
             // Assert that the passed in depth info is correct.
             // Note. This test is expensive because it invokes a graph traversal algorithm to determine node depths.
@@ -39,7 +44,9 @@ namespace SharpNeat.Network.Acyclic
 
         #region Private Static Methods [High Level]
 
-        public static WeightedAcyclicDirectedGraph<T> CreateInner(WeightedDirectedGraph<T> digraph, GraphDepthInfo depthInfo)
+        public static WeightedAcyclicDirectedGraph<T> CreateInner(
+            WeightedDirectedGraph<T> digraph,
+            GraphDepthInfo depthInfo)
         {
             int inputCount = digraph.InputCount;
             int outputCount = digraph.OutputCount;
@@ -113,7 +120,10 @@ namespace SharpNeat.Network.Acyclic
 
         #region Private Static Methods [Mid Level]
 
-        private static int[] CompileNodeIdMap(GraphDepthInfo depthInfo, int nodeCount, int inputCount)
+        private static int[] CompileNodeIdMap(
+            GraphDepthInfo depthInfo,
+            int nodeCount,
+            int inputCount)
         {
             // Create an array of all node IDs in the digraph.
             int[] nodeIdArr = new int[nodeCount];
