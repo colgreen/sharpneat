@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
@@ -18,8 +19,9 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddAcyclicConnection()
         {
             var pop = CreateNeatPopulation();
+            var genomeFactory = new NeatGenomeFactory<double>();
             var genome = pop.GenomeList[0];
-            var strategy = new AddAcyclicConnectionStrategy<double>(pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+            var strategy = new AddAcyclicConnectionStrategy<double>(pop.MetaNeatGenome, genomeFactory, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 

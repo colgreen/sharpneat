@@ -3,6 +3,7 @@ using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
+using SharpNeatLib.Neat.Genome;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
@@ -17,6 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         #region Instance Fields
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly INeatGenomeFactory<T> _genomeFactory;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
@@ -31,11 +33,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public AddCyclicConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeFactory<T> genomeFactory,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
+            _genomeFactory = genomeFactory;
             _genomeIdSeq = genomeIdSeq;
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
@@ -97,7 +101,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
-            return NeatGenomeFactory<T>.Create(
+            return _genomeFactory.Create(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,

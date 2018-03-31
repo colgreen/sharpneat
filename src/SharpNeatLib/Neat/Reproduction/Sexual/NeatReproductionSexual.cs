@@ -3,6 +3,7 @@ using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
+using SharpNeatLib.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Sexual
 {
@@ -19,6 +20,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
 
         public NeatReproductionSexual(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeFactory<T> genomeFactory,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
@@ -29,7 +31,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             _rng = RandomSourceFactory.Create();
 
             _strategy = new UniformCrossoverReproductionStrategy<T>(
-                                metaNeatGenome, genomeIdSeq, generationSeq);
+                                metaNeatGenome, genomeFactory,
+                                genomeIdSeq, generationSeq);
         }
 
         #endregion

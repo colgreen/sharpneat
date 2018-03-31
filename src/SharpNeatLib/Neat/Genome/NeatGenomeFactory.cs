@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
+using SharpNeatLib.Neat.Genome;
 using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Genome
 {
-    public static class NeatGenomeFactory<T> 
+    public class NeatGenomeFactory<T> : INeatGenomeFactory<T>
         where T : struct
     {
         #region Public Static Factory Methods
@@ -19,7 +20,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
         /// <returns>A new NeatGenome instance.</returns>
-        public static NeatGenome<T> Create(
+        public NeatGenome<T> Create(
             MetaNeatGenome<T> metaNeatGenome,
             int id, 
             int birthGeneration,
@@ -45,7 +46,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <returns>A new NeatGenome instance.</returns>
-        public static NeatGenome<T> Create(
+        public NeatGenome<T> Create(
             MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
@@ -73,7 +74,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <returns>A new NeatGenome instance.</returns>
-        public static NeatGenome<T> Create(
+        public NeatGenome<T> Create(
             MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
@@ -104,7 +105,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
         /// <returns>A new NeatGenome instance.</returns>
-        public static NeatGenome<T> Create(
+        public NeatGenome<T> Create(
             MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
@@ -140,7 +141,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
         /// <param name="depthInfo">Graph depth information.</param>
         /// <returns>A new NeatGenome instance.</returns>
-        public static NeatGenome<T> CreateAcyclic(
+        public NeatGenome<T> Create(
             MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,

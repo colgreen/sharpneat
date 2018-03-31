@@ -5,6 +5,7 @@ using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
+using SharpNeatLib.Neat.Genome;
 
 namespace SharpNeat.Neat
 {
@@ -13,9 +14,10 @@ namespace SharpNeat.Neat
         #region Instance Fields
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly INeatGenomeFactory<T> _genomeFactory;
         readonly double _connectionsProportion;
         readonly DirectedConnection[] _connectionDefArr;
-        
+
         readonly IRandomSource _rng;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;        
@@ -25,9 +27,12 @@ namespace SharpNeat.Neat
 
         #region Constructor
 
-        private NeatPopulationFactory(MetaNeatGenome<T> metaNeatGenome, double connectionsProportion)
+        private NeatPopulationFactory(
+            MetaNeatGenome<T> metaNeatGenome,
+            double connectionsProportion)
         {
             _metaNeatGenome = metaNeatGenome;
+            _genomeFactory = new NeatGenomeFactory<T>();
             _connectionsProportion = connectionsProportion;
 
             // Define the set of all possible connections between the input and output nodes (fully interconnected).
@@ -121,7 +126,7 @@ namespace SharpNeat.Neat
 
             // Get create a new genome with a new ID, birth generation of zero.
             int id = _genomeIdSeq.Next();
-            return NeatGenomeFactory<T>.Create(_metaNeatGenome, id, 0, connGenes);
+            return _genomeFactory.Create(_metaNeatGenome, id, 0, connGenes);
         }
 
         #endregion

@@ -24,9 +24,11 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddNode1()
         {
             var pop = CreateNeatPopulation();
+            var genomeFactory = new NeatGenomeFactory<double>();
             var genome = pop.GenomeList[0];
             var strategy = new AddNodeStrategy<double>(
-                pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq,
+                pop.MetaNeatGenome, genomeFactory, 
+                pop.GenomeIdSeq, pop.InnovationIdSeq,
                 pop.GenerationSeq, pop.AddedNodeBuffer);
 
             for(int i=0; i<10000; i++) {
@@ -43,9 +45,11 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddNode2()
         {
             var pop = CreateNeatPopulation();
+            var genomeFactory = new NeatGenomeFactory<double>();
             var genome = pop.GenomeList[0];
             var strategy = new AddNodeStrategy<double>(
-                pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq,
+                pop.MetaNeatGenome, genomeFactory, 
+                pop.GenomeIdSeq, pop.InnovationIdSeq,
                 pop.GenerationSeq, pop.AddedNodeBuffer);
 
             for(int i=0; i<2000; i++)
@@ -67,9 +71,11 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddNode3()
         {
             var pop = CreateNeatPopulation();
+            var genomeFactory = new NeatGenomeFactory<double>();
             var genome = pop.GenomeList[0];
             var strategy = new AddNodeStrategy<double>(
-                pop.MetaNeatGenome, pop.GenomeIdSeq, pop.InnovationIdSeq,
+                pop.MetaNeatGenome, genomeFactory, 
+                pop.GenomeIdSeq, pop.InnovationIdSeq,
                 pop.GenerationSeq, pop.AddedNodeBuffer);
 
             CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);

@@ -1,6 +1,7 @@
 ﻿using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
+using SharpNeatLib.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
@@ -8,6 +9,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly INeatGenomeFactory<T> _genomeFactory;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly WeightMutationScheme<T> _weightMutationScheme;
@@ -16,11 +18,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         public MutateWeightsStrategy(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeFactory<T> genomeFactory,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq,
             WeightMutationScheme<T> weightMutationScheme)
         {
             _metaNeatGenome = metaNeatGenome;
+            _genomeFactory = genomeFactory;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
             _weightMutationScheme = weightMutationScheme;
@@ -48,9 +52,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Create and return a new genome.
             // Note. The parent's ConnectionIndexArray and HiddenNodeIdArray can be re-used here because the new genome
             // has the same set of connections (same neural net structure).
+
+            // TODO: We probably don't need this conditional Create() now that Create() is no longer a set of static methods).
             if(_metaNeatGenome.IsAcyclic)
             {
-                return NeatGenomeFactory<T>.CreateAcyclic(
+                return _genomeFactory.Create(
                     _metaNeatGenome,
                     _genomeIdSeq.Next(), 
                     _generationSeq.Peek,
@@ -61,7 +67,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                     parent.DepthInfo);
             }
             // else
-            return NeatGenomeFactory<T>.Create(
+            return _genomeFactory.Create(
                 _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,

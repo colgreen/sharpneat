@@ -3,6 +3,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeatLib.Neat.Genome;
 using static SharpNeatLib.Tests.Neat.Network.ConnectionCompareUtils;
 
 namespace SharpNeatLib.Tests.Neat.Network
@@ -16,6 +17,8 @@ namespace SharpNeatLib.Tests.Neat.Network
         [TestCategory("NeatDirectedGraphFactory")]
         public void SimpleAcyclic()
         {
+            var genomeFactory = new NeatGenomeFactory<double>();
+
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
             connGenes[0] = (0, 3, 0.0);
@@ -24,7 +27,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (2, 4, 3.0);
 
             // Wrap in a genome.
-            var genome = NeatGenomeFactory<double>.Create(
+            var genome = genomeFactory.Create(
                 new MetaNeatGenome<double>(0, 0, false, new ReLU()),
                 0, 0, connGenes);
             
@@ -42,6 +45,8 @@ namespace SharpNeatLib.Tests.Neat.Network
         [TestCategory("NeatDirectedGraphFactory")]
         public void SimpleAcyclic_DefinedNodes()
         {
+            var genomeFactory = new NeatGenomeFactory<double>();
+
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
             connGenes[0] = (10, 13, 0.0);
@@ -50,7 +55,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (12, 14, 3.0);
 
             // Wrap in a genome.
-            var genome = NeatGenomeFactory<double>.Create(
+            var genome = genomeFactory.Create(
                 new MetaNeatGenome<double>(0, 10, false, new ReLU()),
                 0, 0, connGenes);
 
@@ -68,6 +73,8 @@ namespace SharpNeatLib.Tests.Neat.Network
         [TestCategory("NeatDirectedGraphFactory")]
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
+            var genomeFactory = new NeatGenomeFactory<double>();
+
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
             connGenes[0] = (100, 103, 0.0);
@@ -76,7 +83,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (102, 104, 3.0);
 
             // Wrap in a genome.
-            var genome = NeatGenomeFactory<double>.Create(
+            var genome = genomeFactory.Create(
                 new MetaNeatGenome<double>(0, 10, false, new ReLU()),
                 0, 0, connGenes);
 

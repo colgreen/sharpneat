@@ -17,6 +17,8 @@ namespace SharpNeatLib.Tests.Neat.Network
         [TestCategory("NeatAcyclicDirectedGraphFactory")]
         public void SimpleAcyclic()
         {
+            var genomeFactory = new NeatGenomeFactory<double>();
+
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
             connGenes[0] = (0, 3, 0.0);
@@ -25,7 +27,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes[3] = (2, 4, 3.0);
 
             // Wrap in a genome.
-            var genome = NeatGenomeFactory<double>.Create(
+            var genome = genomeFactory.Create(
                 new MetaNeatGenome<double>(3, 2, true, new ReLU()),
                 0, 0, connGenes);
 
@@ -43,6 +45,8 @@ namespace SharpNeatLib.Tests.Neat.Network
         [TestCategory("NeatAcyclicDirectedGraphFactory")]
         public void DepthNodeReorderTest()
         {
+            var genomeFactory = new NeatGenomeFactory<double>();
+
             // Define graph connections.
             var connGenes = new ConnectionGenes<double>(5);
             connGenes[0] = (0, 4, 0.0);
@@ -53,7 +57,7 @@ namespace SharpNeatLib.Tests.Neat.Network
             connGenes.Sort();
 
             // Wrap in a genome.
-            var genome = NeatGenomeFactory<double>.Create(
+            var genome = genomeFactory.Create(
                 new MetaNeatGenome<double>(2, 2, true, new ReLU()),
                 0, 0, connGenes);
 

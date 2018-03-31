@@ -3,6 +3,7 @@ using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
+using SharpNeatLib.Neat.Genome;
 using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverReproductionStrategyUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
@@ -17,6 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly INeatGenomeFactory<T> _genomeFactory;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly IRandomSource _rng;
@@ -26,10 +28,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         public UniformCrossoverReproductionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeFactory<T> genomeFactory,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
+            _genomeFactory = genomeFactory;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
@@ -86,7 +90,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             var connGenes = _builder.ToConnectionGenes();
 
             // Create and return a new genome.
-            return NeatGenomeFactory<T>.Create(
+            return _genomeFactory.Create(
                 _metaNeatGenome, 
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
