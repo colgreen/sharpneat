@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using SharpNeatLib.Network;
 
 namespace SharpNeat.Network
 {
@@ -28,14 +29,14 @@ namespace SharpNeat.Network
             var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            Func<int,int> nodeIdMapFn = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, inputOutputCount);
+            INodeIdMap nodeIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, inputOutputCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            ConnectionIdArrays connIdArrays = CopyAndMapIds(connectionList, nodeIdMapFn);
+            ConnectionIdArrays connIdArrays = CopyAndMapIds(connectionList, nodeIdMap);
 
             // Construct and return a new DirectedGraph.
             int totalNodeCount =  inputOutputCount + hiddenNodeIdArr.Length;
@@ -71,7 +72,7 @@ namespace SharpNeat.Network
 
         private static ConnectionIdArrays CopyAndMapIds(
             IList<DirectedConnection> connectionList,
-            Func<int,int> nodeIdMap)
+            INodeIdMap nodeIdMap)
         {
             int count = connectionList.Count;
             int [] srcIdArr = new int[count];
@@ -79,8 +80,8 @@ namespace SharpNeat.Network
 
             for(int i=0; i<connectionList.Count; i++) 
             {
-                srcIdArr[i] = nodeIdMap(connectionList[i].SourceId);
-                tgtIdArr[i] = nodeIdMap(connectionList[i].TargetId);    
+                srcIdArr[i] = nodeIdMap.Map(connectionList[i].SourceId);
+                tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);    
             }            
 
             return new ConnectionIdArrays(srcIdArr, tgtIdArr);

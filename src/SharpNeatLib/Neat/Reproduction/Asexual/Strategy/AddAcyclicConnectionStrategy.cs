@@ -109,7 +109,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 _generationSeq.Peek,
                 connGenes,
                 parent.HiddenNodeIdArray,
-                parent.NodeIndexByIdFn);
+                parent.NodeIndexByIdMap);
         }
 
         #endregion
@@ -178,7 +178,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Test if the connection will form a cycle in the wider network.
             int totalNodeCount = _metaNeatGenome.InputOutputNodeCount + hiddenCount;
-            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, parent.NodeIndexByIdFn, totalNodeCount, conn))
+            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, parent.NodeIndexByIdMap, totalNodeCount, conn))
             {
                 conn = default(DirectedConnection);
                 insertIdx = default(int);

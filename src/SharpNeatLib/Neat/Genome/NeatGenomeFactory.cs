@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
+using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Genome
 {
@@ -77,20 +78,20 @@ namespace SharpNeat.Neat.Genome
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
-            Func<int,int> nodeIndexByIdFn)
+            INodeIdMap nodeIndexByIdMap)
         {
             // Assert non-null parameters.
             Debug.Assert(null != metaNeatGenome);
             Debug.Assert(null != connGenes);
             Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdFn);
+            Debug.Assert(null != nodeIndexByIdMap);
 
             // Validity tests.
             Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
 
             // Create genome.
-            return CreateInner(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn);
+            return CreateInner(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
         }
 
         /// <summary>
@@ -108,14 +109,14 @@ namespace SharpNeat.Neat.Genome
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
-            Func<int,int> nodeIndexByIdFn,
+            INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph)
         {
             // Assert non-null parameters.
             Debug.Assert(null != metaNeatGenome);
             Debug.Assert(null != connGenes);
             Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdFn);
+            Debug.Assert(null != nodeIndexByIdMap);
             Debug.Assert(null != digraph);
 
             // Validity tests.
@@ -125,7 +126,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, metaNeatGenome.InputOutputNodeCount));
 
             // Invoke constructor.
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, digraph, null);
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace SharpNeat.Neat.Genome
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
-            Func<int,int> nodeIndexByIdFn,
+            INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
             GraphDepthInfo depthInfo)
         {
@@ -152,7 +153,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(null != metaNeatGenome);
             Debug.Assert(null != connGenes);
             Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdFn);
+            Debug.Assert(null != nodeIndexByIdMap);
             Debug.Assert(null != digraph);
 
             // Validity tests.
@@ -168,7 +169,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(null != depthInfo && metaNeatGenome.IsAcyclic);
 
             // Construct genome.
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, digraph, depthInfo);
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, depthInfo);
         }
 
         #endregion
@@ -194,10 +195,10 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr)
         {
             // Create a mapping from node IDs to node indexes.
-            Func<int,int> nodeIndexByIdFn = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, metaNeatGenome.InputOutputNodeCount);
+            INodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, metaNeatGenome.InputOutputNodeCount);
 
             // Call subroutine to create further supplementary data structures, and create a new genome.
-            return CreateInner(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn);
+            return CreateInner(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
         }
 
         private static NeatGenome<T> CreateInner(
@@ -205,14 +206,14 @@ namespace SharpNeat.Neat.Genome
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
-            Func<int,int> nodeIndexByIdFn)
+            INodeIdMap nodeIndexByIdMap)
         {
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             int totalNodeCount =  metaNeatGenome.InputOutputNodeCount + hiddenNodeIdArr.Length;
-            DirectedGraph digraph = CreateDirectedGraph(metaNeatGenome, connGenes, nodeIndexByIdFn, totalNodeCount);
+            DirectedGraph digraph = CreateDirectedGraph(metaNeatGenome, connGenes, nodeIndexByIdMap, totalNodeCount);
 
             // Construct genome.
-            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdFn, digraph, null);
+            return new NeatGenome<T>(metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }
 
         #endregion
@@ -222,7 +223,7 @@ namespace SharpNeat.Neat.Genome
         private static DirectedGraph CreateDirectedGraph(
             MetaNeatGenome<T> metaNeatGenome,
             ConnectionGenes<T> connGenes,
-            Func<int,int> nodeIndexByIdFn,
+            INodeIdMap nodeIndexByIdMap,
             int totalNodeCount)
         {
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
@@ -232,7 +233,7 @@ namespace SharpNeat.Neat.Genome
             // The IDs are substituted for node indexes here.
             CopyAndMapIds(
                 connGenes._connArr,
-                nodeIndexByIdFn,
+                nodeIndexByIdMap,
                 out ConnectionIdArrays connIdArrays);
 
             // Construct a new DirectedGraph.
@@ -247,7 +248,7 @@ namespace SharpNeat.Neat.Genome
 
         private static void CopyAndMapIds(
             DirectedConnection[] connArr,
-            Func<int,int> nodeIdMap,
+            INodeIdMap nodeIdMap,
             out ConnectionIdArrays connIdArrays)
         {
             int count = connArr.Length;
@@ -256,8 +257,8 @@ namespace SharpNeat.Neat.Genome
 
             for(int i=0; i < count; i++) 
             {
-                srcIdArr[i] = nodeIdMap(connArr[i].SourceId);
-                tgtIdArr[i] = nodeIdMap(connArr[i].TargetId);
+                srcIdArr[i] = nodeIdMap.Map(connArr[i].SourceId);
+                tgtIdArr[i] = nodeIdMap.Map(connArr[i].TargetId);
             }
 
             connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);

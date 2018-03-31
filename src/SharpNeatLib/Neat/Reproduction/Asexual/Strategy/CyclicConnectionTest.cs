@@ -5,6 +5,7 @@ using Redzen;
 using Redzen.Collections;
 using Redzen.Structures;
 using SharpNeat.Network;
+using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
@@ -55,7 +56,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <summary>
         /// A function that implements a mapping from node IDs to node indexes.
         /// </summary>
-        Func<int,int> _nodeIdxByIdFn;
+        INodeIdMap _nodeIdxByIdMap;
 
         #endregion
 
@@ -69,7 +70,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
         public bool IsConnectionCyclic(
             DirectedConnection[] connArr,
-            Func<int,int> nodeIdxByIdFn,
+            INodeIdMap nodeIdxByIdMap,
             int totalNodeCount,
             DirectedConnection newConn)
         {
@@ -79,7 +80,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
 
             EnsureNodeCapacity(totalNodeCount);
-            _nodeIdxByIdFn = nodeIdxByIdFn;
+            _nodeIdxByIdMap = nodeIdxByIdMap;
 
             try 
             {
@@ -126,7 +127,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         {
             _traversalStack.Clear();
             _visitedNodes.Reset(false);
-            _nodeIdxByIdFn = null;
+            _nodeIdxByIdMap = null;
 
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _callFlag, 0);
@@ -155,7 +156,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Add the current node to the set of visited nodes; this prevents the traversal algorithm from re-entering this node 
             // (it's on the stack thus it is in the process of being traversed).
-            _visitedNodes[_nodeIdxByIdFn(startNodeId)] = true;
+            _visitedNodes[_nodeIdxByIdMap.Map(startNodeId)] = true;
         }
 
         /// <summary>
@@ -183,7 +184,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
                 // Test if the next traversal child node has already been visited.
                 int childNodeId = connArr[currConnIdx].TargetId;
-                int childNodeIdx = _nodeIdxByIdFn(childNodeId);
+                int childNodeIdx = _nodeIdxByIdMap.Map(childNodeId);
                 if(_visitedNodes[childNodeIdx]) {
                     continue;
                 }

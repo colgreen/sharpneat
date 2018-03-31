@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using SharpNeatLib.Network;
 
 namespace SharpNeat.Network
 {
@@ -29,14 +30,14 @@ namespace SharpNeat.Network
             var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            Func<int,int> nodeIdMapFn = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, inputOutputCount);
+            INodeIdMap nodeIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, inputOutputCount);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            CopyAndMapIds(connectionList, nodeIdMapFn,
+            CopyAndMapIds(connectionList, nodeIdMap,
                 out ConnectionIdArrays connIdArrays,
                 out T[] weightArr);
 
@@ -82,7 +83,7 @@ namespace SharpNeat.Network
         /// <param name="weightArr"></param>
         private static void CopyAndMapIds(
             IList<WeightedDirectedConnection<T>> connectionList,
-            Func<int,int> nodeIdMap,
+            INodeIdMap nodeIdMap,
             out ConnectionIdArrays connIdArrays,
             out T[] weightArr)
         {
@@ -93,8 +94,8 @@ namespace SharpNeat.Network
 
             for(int i=0; i < count; i++) 
             {
-                srcIdArr[i] = nodeIdMap(connectionList[i].SourceId);
-                tgtIdArr[i] = nodeIdMap(connectionList[i].TargetId);
+                srcIdArr[i] = nodeIdMap.Map(connectionList[i].SourceId);
+                tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);
                 weightArr[i] = connectionList[i].Weight;
             }
 

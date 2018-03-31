@@ -3,6 +3,7 @@ using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
+using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Genome
 {
@@ -59,7 +60,7 @@ namespace SharpNeat.Neat.Genome
         /// <remarks>
         /// Node indexes have a range of 0 to N-1 (for N nodes), i.e. the indexes are zero based and contiguous, as opposed to node IDs that are not contiguous.
         /// </remarks>
-        public Func<int,int> NodeIndexByIdFn { get; }
+        public INodeIdMap NodeIndexByIdMap { get; }
 
         /// <summary>
         /// The directed graph that the current genome represents.
@@ -99,7 +100,7 @@ namespace SharpNeat.Neat.Genome
             int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
-            Func<int,int> nodeIndexByIdFn,
+            INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
             GraphDepthInfo depthInfo)
         {
@@ -108,7 +109,7 @@ namespace SharpNeat.Neat.Genome
             this.BirthGeneration = birthGeneration;
             this.ConnectionGenes = connGenes;
             this.HiddenNodeIdArray = hiddenNodeIdArr;
-            this.NodeIndexByIdFn = nodeIndexByIdFn;
+            this.NodeIndexByIdMap = nodeIndexByIdMap;
             this.DirectedGraph = digraph;
             this.DepthInfo = depthInfo;
         }
