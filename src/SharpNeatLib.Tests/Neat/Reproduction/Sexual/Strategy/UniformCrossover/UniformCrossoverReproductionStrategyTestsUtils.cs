@@ -15,7 +15,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         static UniformCrossoverReproductionStrategyTestsUtils()
         {
             __metaNeatGenome = CreateMetaNeatGenome();
-            __genomeBuilder = new NeatGenomeBuilder<double>(__metaNeatGenome);
+            __genomeBuilder = NeatGenomeBuilderFactory<double>.Create(__metaNeatGenome);
         }
 
         #endregion

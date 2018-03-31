@@ -7,16 +7,16 @@ using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Genome
 {
-    public class NeatGenomeBuilder<T> : INeatGenomeBuilder<T>
+    public class NeatGenomeAcyclicBuilder<T> : INeatGenomeBuilder<T>
         where T : struct
     {
         MetaNeatGenome<T> _metaNeatGenome;
 
         #region Constructor
 
-        public NeatGenomeBuilder(MetaNeatGenome<T> metaNeatGenome)
+        public NeatGenomeAcyclicBuilder(MetaNeatGenome<T> metaNeatGenome)
         {
-            Debug.Assert(null != metaNeatGenome && !metaNeatGenome.IsAcyclic);
+            Debug.Assert(null != metaNeatGenome && metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
         }
 

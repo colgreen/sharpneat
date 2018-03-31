@@ -10,13 +10,13 @@ namespace SharpNeatLib.Tests.Neat.Genome
     {
         public static NeatPopulation<double> CreateNeatPopulation()
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            var metaNeatGenome = new MetaNeatGenome<double>(
                 inputNodeCount: 1,
                 outputNodeCount: 1,
                 isAcyclic: false,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            INeatGenomeBuilder<double> genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             var genome = CreateNeatGenome(metaNeatGenome, genomeBuilder);
             var genomeList = new List<NeatGenome<double>>() { genome };

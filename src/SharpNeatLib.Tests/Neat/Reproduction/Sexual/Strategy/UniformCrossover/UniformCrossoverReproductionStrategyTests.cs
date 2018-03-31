@@ -5,6 +5,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
+using SharpNeatLib.Neat.Genome;
 using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
@@ -22,7 +23,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             int count = 100;
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.1, count);

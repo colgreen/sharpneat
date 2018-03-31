@@ -4,6 +4,7 @@ using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeatLib.Neat.Genome;
 using static SharpNeatLib.Tests.Neat.Network.ConnectionCompareUtils;
 
 namespace SharpNeatLib.Tests.Neat.Network
@@ -18,7 +19,7 @@ namespace SharpNeatLib.Tests.Neat.Network
         public void SimpleAcyclic()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
-            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
@@ -45,7 +46,7 @@ namespace SharpNeatLib.Tests.Neat.Network
         public void DepthNodeReorderTest()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(2, 2, true, new ReLU());
-            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             // Define graph connections.
             var connGenes = new ConnectionGenes<double>(5);

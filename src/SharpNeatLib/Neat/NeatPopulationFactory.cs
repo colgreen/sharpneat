@@ -32,7 +32,7 @@ namespace SharpNeat.Neat
             double connectionsProportion)
         {
             _metaNeatGenome = metaNeatGenome;
-            _genomeBuilder = new NeatGenomeBuilder<T>(metaNeatGenome);
+            _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
             _connectionsProportion = connectionsProportion;
 
             // Define the set of all possible connections between the input and output nodes (fully interconnected).

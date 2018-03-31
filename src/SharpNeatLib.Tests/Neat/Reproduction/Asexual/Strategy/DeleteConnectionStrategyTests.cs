@@ -2,6 +2,7 @@
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
+using SharpNeatLib.Neat.Genome;
 using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
@@ -16,7 +17,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestDeleteConnection()
         {
             var pop = CreateNeatPopulation();
-            var genomeBuilder = new NeatGenomeBuilder<double>(pop.MetaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
             var strategy = new DeleteConnectionStrategy<double>(pop.MetaNeatGenome, genomeBuilder, pop.GenomeIdSeq, pop.GenerationSeq);
             var nodeIdSet = GetNodeIdSet(genome);

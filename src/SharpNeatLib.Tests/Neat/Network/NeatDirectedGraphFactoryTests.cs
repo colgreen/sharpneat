@@ -18,7 +18,7 @@ namespace SharpNeatLib.Tests.Neat.Network
         public void SimpleAcyclic()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 0, false, new ReLU());
-            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
@@ -45,7 +45,7 @@ namespace SharpNeatLib.Tests.Neat.Network
         public void SimpleAcyclic_DefinedNodes()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
-            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
@@ -72,7 +72,7 @@ namespace SharpNeatLib.Tests.Neat.Network
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
-            var genomeBuilder = new NeatGenomeBuilder<double>(metaNeatGenome);
+            var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             // Simple acyclic graph.
             var connGenes = new ConnectionGenes<double>(4);
