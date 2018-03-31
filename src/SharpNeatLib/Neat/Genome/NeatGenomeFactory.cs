@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using SharpNeat.Network;
+using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {

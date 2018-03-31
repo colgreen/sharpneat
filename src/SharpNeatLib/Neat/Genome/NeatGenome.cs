@@ -2,6 +2,7 @@
 using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
+using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {
