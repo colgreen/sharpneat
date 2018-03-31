@@ -91,7 +91,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             // Create and return a new genome.
             return _genomeFactory.Create(
-                _metaNeatGenome, 
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes);

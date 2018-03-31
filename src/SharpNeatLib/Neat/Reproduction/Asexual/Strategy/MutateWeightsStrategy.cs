@@ -57,7 +57,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             if(_metaNeatGenome.IsAcyclic)
             {
                 return _genomeFactory.Create(
-                    _metaNeatGenome,
                     _genomeIdSeq.Next(), 
                     _generationSeq.Peek,
                     connGenes,
@@ -68,7 +67,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
             // else
             return _genomeFactory.Create(
-                _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,

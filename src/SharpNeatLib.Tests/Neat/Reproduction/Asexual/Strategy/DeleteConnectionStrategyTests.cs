@@ -16,7 +16,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestDeleteConnection()
         {
             var pop = CreateNeatPopulation();
-            var genomeFactory = new NeatGenomeFactory<double>();
+            var genomeFactory = new NeatGenomeFactory<double>(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
             var strategy = new DeleteConnectionStrategy<double>(pop.MetaNeatGenome, genomeFactory, pop.GenomeIdSeq, pop.GenerationSeq);
             var nodeIdSet = GetNodeIdSet(genome);

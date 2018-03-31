@@ -22,7 +22,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            var genomeFactory = new NeatGenomeFactory<double>();
+            var genomeFactory = new NeatGenomeFactory<double>(metaNeatGenome);
 
             int count = 100;
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.1, count);

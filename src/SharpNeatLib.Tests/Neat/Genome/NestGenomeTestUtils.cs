@@ -16,7 +16,7 @@ namespace SharpNeatLib.Tests.Neat.Genome
                 isAcyclic: false,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            INeatGenomeFactory<double> genomeFactory = new NeatGenomeFactory<double>();
+            INeatGenomeFactory<double> genomeFactory = new NeatGenomeFactory<double>(metaNeatGenome);
 
             var genome = CreateNeatGenome(metaNeatGenome, genomeFactory);
             var genomeList = new List<NeatGenome<double>>() { genome };
@@ -44,7 +44,7 @@ namespace SharpNeatLib.Tests.Neat.Genome
             connGenes[10] = (10, 1, 1.1);
             connGenes[11] = (11, 1, 1.2);
 
-            var genome = genomeFactory.Create(metaNeatGenome, 0, 0, connGenes);
+            var genome = genomeFactory.Create(0, 0, connGenes);
             return genome;
         }
 

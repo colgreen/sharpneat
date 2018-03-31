@@ -18,13 +18,11 @@ namespace SharpNeatLib.Neat.Genome
         /// <summary>
         /// Create a NeatGenome with the given meta data and connection genes.
         /// </summary>
-        /// <param name="metaNeatGenome">Genome metadata.</param>
         /// <param name="id">Genome ID.</param>
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
         /// <returns>A new NeatGenome instance.</returns>
         NeatGenome<T> Create(
-            MetaNeatGenome<T> metaNeatGenome,
             int id, 
             int birthGeneration,
             ConnectionGenes<T> connGenes);
@@ -32,14 +30,12 @@ namespace SharpNeatLib.Neat.Genome
         /// <summary>
         /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
         /// </summary>
-        /// <param name="metaNeatGenome">Genome metadata.</param>
         /// <param name="id">Genome ID.</param>
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <returns>A new NeatGenome instance.</returns>
         NeatGenome<T> Create(
-            MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr);
@@ -47,14 +43,12 @@ namespace SharpNeatLib.Neat.Genome
         /// <summary>
         /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
         /// </summary>
-        /// <param name="metaNeatGenome">Genome metadata.</param>
         /// <param name="id">Genome ID.</param>
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <returns>A new NeatGenome instance.</returns>
         NeatGenome<T> Create(
-            MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
@@ -63,7 +57,6 @@ namespace SharpNeatLib.Neat.Genome
         /// <summary>
         /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
         /// </summary>
-        /// <param name="metaNeatGenome">Genome metadata.</param>
         /// <param name="id">Genome ID.</param>
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
@@ -71,7 +64,6 @@ namespace SharpNeatLib.Neat.Genome
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
         /// <returns>A new NeatGenome instance.</returns>
         NeatGenome<T> Create(
-            MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,
@@ -81,7 +73,6 @@ namespace SharpNeatLib.Neat.Genome
         /// <summary>
         /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
         /// </summary>
-        /// <param name="metaNeatGenome">Genome metadata.</param>
         /// <param name="id">Genome ID.</param>
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
@@ -90,7 +81,6 @@ namespace SharpNeatLib.Neat.Genome
         /// <param name="depthInfo">Graph depth information.</param>
         /// <returns>A new NeatGenome instance.</returns>
         NeatGenome<T> Create(
-            MetaNeatGenome<T> metaNeatGenome,
             int id, int birthGeneration,
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr,

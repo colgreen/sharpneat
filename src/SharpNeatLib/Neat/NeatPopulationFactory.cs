@@ -32,7 +32,7 @@ namespace SharpNeat.Neat
             double connectionsProportion)
         {
             _metaNeatGenome = metaNeatGenome;
-            _genomeFactory = new NeatGenomeFactory<T>();
+            _genomeFactory = new NeatGenomeFactory<T>(metaNeatGenome);
             _connectionsProportion = connectionsProportion;
 
             // Define the set of all possible connections between the input and output nodes (fully interconnected).
@@ -126,7 +126,7 @@ namespace SharpNeat.Neat
 
             // Get create a new genome with a new ID, birth generation of zero.
             int id = _genomeIdSeq.Next();
-            return _genomeFactory.Create(_metaNeatGenome, id, 0, connGenes);
+            return _genomeFactory.Create(id, 0, connGenes);
         }
 
         #endregion

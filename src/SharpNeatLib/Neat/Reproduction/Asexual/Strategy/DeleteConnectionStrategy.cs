@@ -68,7 +68,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             return _genomeFactory.Create(
-                _metaNeatGenome,
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
