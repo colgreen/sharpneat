@@ -26,8 +26,6 @@ namespace SharpNeat.Neat.Network
             // Invoke factory logic specific to acyclic graphs.
             return WeightedAcyclicDirectedGraphFactory<T>.Create(
                 digraph,
-                genome.MetaNeatGenome.InputNodeCount,
-                genome.MetaNeatGenome.OutputNodeCount,
                 genome.DepthInfo);
         }
 

@@ -28,7 +28,7 @@ namespace SharpNeat.Neat.Genome
 
         #endregion
 
-        #region Auto Properties [NEAT Genome Specific]
+        #region Auto Properties [NEAT Genome]
 
         /// <summary>
         /// Genome metadata.
@@ -41,19 +41,9 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public ConnectionGenes<T> ConnectionGenes { get; }
 
-        /// <summary>
-        /// The directed graph that the current genome represents.
-        /// </summary>
-        /// <remarks>
-        /// This digraph mirrors the graph described by <see cref="ConnectionGenes"/>; this object represents the
-        /// graph structure only, not the weights, and is therefore reused when spawning genomes with the same structure 
-        /// (i.e. a child that is the result of a connection weight mutation only).
-        /// The DirectedGraph class provides efficient means of working with graphs and is therefore made available
-        /// on this class, this allows for improved performance of 
-        ///  * Decoding to a neural net object
-        ///  * Finding new connections on acyclic graph, i.e. detecting if a random new connection would form a cycle.
-        /// </remarks>
-        public DirectedGraph DirectedGraph { get; }
+        #endregion
+
+        #region Auto Properties [Supplemental/Cached Data Structures]
 
         /// <summary>
         /// An array of hidden node IDs, sorted to allow efficient lookup of an ID with a binary search.
@@ -69,6 +59,20 @@ namespace SharpNeat.Neat.Genome
         /// Node indexes have a range of 0 to N-1 (for N nodes), i.e. the indexes are zero based and contiguous, as opposed to node IDs that are not contiguous.
         /// </remarks>
         public Func<int,int> NodeIndexByIdFn { get; }
+
+        /// <summary>
+        /// The directed graph that the current genome represents.
+        /// </summary>
+        /// <remarks>
+        /// This digraph mirrors the graph described by <see cref="ConnectionGenes"/>; this object represents the
+        /// graph structure only, not the weights, and is therefore reused when spawning genomes with the same structure 
+        /// (i.e. a child that is the result of a connection weight mutation only).
+        /// The DirectedGraph class provides an efficient means of working with graphs and is therefore made available
+        /// on this class to provide improved performance for:
+        ///  * Decoding to a neural net object.
+        ///  * Finding new connections on acyclic graph, i.e. detecting if a random new connection would form a cycle.
+        /// </remarks>
+        public DirectedGraph DirectedGraph { get; }
 
         // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
         // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
@@ -93,9 +97,9 @@ namespace SharpNeat.Neat.Genome
             int id,
             int birthGeneration,
             ConnectionGenes<T> connGenes,
-            DirectedGraph digraph,
             int[] hiddenNodeIdArr,
             Func<int,int> nodeIndexByIdFn,
+            DirectedGraph digraph,
             GraphDepthInfo depthInfo)
         {
             this.MetaNeatGenome = metaNeatGenome;
@@ -104,6 +108,7 @@ namespace SharpNeat.Neat.Genome
             this.ConnectionGenes = connGenes;
             this.HiddenNodeIdArray = hiddenNodeIdArr;
             this.NodeIndexByIdFn = nodeIndexByIdFn;
+            this.DirectedGraph = digraph;
             this.DepthInfo = depthInfo;
         }
 

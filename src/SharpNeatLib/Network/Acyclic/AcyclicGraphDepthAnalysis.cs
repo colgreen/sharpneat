@@ -63,7 +63,7 @@ namespace SharpNeat.Network.Acyclic
         private GraphDepthInfo CalculateNodeDepthsInner()
         {
             // Loop over all connections exiting from input nodes, and perform a depth first traversal of each in turn.
-            int inputCount = _digraph.InputNodeCount;
+            int inputCount = _digraph.InputCount;
             int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
             int[] tgtIdxArr = _digraph.ConnectionIdArrays._targetIdArr;
 

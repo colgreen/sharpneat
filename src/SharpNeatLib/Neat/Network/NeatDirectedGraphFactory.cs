@@ -26,46 +26,14 @@ namespace SharpNeat.Neat.Network
             // Assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
 
-            // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
-            // Notes. 
-            // The array contents will be manipulated, so copying this avoids modification of the genome's
-            // connection gene list.
-            // The IDs are substituted for node indexes here.
-            CopyAndMapIds(
-                genome.ConnectionGenes._connArr,
-                genome.NodeIndexByIdFn,
-                out ConnectionIdArrays connIdArrays);
-
             // Construct and return a new WeightedDirectedGraph.
-            int totalNodeCount =  genome.MetaNeatGenome.InputOutputNodeCount + genome.HiddenNodeIdArray.Length;
+            int totalNodeCount = genome.MetaNeatGenome.InputOutputNodeCount + genome.HiddenNodeIdArray.Length;
             return new WeightedDirectedGraph<T>(
-                connIdArrays,
+                genome.DirectedGraph.ConnectionIdArrays,
                 genome.MetaNeatGenome.InputNodeCount,
                 genome.MetaNeatGenome.OutputNodeCount,
                 totalNodeCount,
                 genome.ConnectionGenes._weightArr);
-        }
-
-        #endregion
-
-        #region Private Static Methods 
-
-        private static void CopyAndMapIds(
-            DirectedConnection[] connArr,
-            Func<int,int> nodeIdMap,
-            out ConnectionIdArrays connIdArrays)
-        {
-            int count = connArr.Length;
-            int[] srcIdArr = new int[count];
-            int[] tgtIdArr = new int[count];
-
-            for(int i=0; i < count; i++) 
-            {
-                srcIdArr[i] = nodeIdMap(connArr[i].SourceId);
-                tgtIdArr[i] = nodeIdMap(connArr[i].TargetId);
-            }
-
-            connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
         }
 
         #endregion

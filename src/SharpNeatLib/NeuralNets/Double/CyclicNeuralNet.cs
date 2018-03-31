@@ -86,8 +86,8 @@ namespace SharpNeat.NeuralNets.Double
             _activationCount = activationCount;
 
             // Store input/output node counts.
-            _inputCount = diGraph.InputNodeCount;
-            _outputCount = diGraph.OutputNodeCount;
+            _inputCount = diGraph.InputCount;
+            _outputCount = diGraph.OutputCount;
 
             // Create node pre- and post-activation signal arrays.
             int nodeCount = diGraph.TotalNodeCount;

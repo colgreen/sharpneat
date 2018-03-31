@@ -72,12 +72,12 @@ namespace SharpNeat.Network
         /// <summary>
         /// Get the input node count.
         /// </summary>
-        public int InputNodeCount => _inputCount;
+        public int InputCount => _inputCount;
 
         /// <summary>
         /// Get the output node count.
         /// </summary>
-        public int OutputNodeCount => _outputCount;
+        public int OutputCount => _outputCount;
 
         /// <summary>
         /// Gets the total node count.
