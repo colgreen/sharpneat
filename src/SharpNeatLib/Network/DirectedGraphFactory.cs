@@ -16,7 +16,9 @@ namespace SharpNeat.Network
         /// <remarks>
         /// connectionList is assumed to be sorted by sourceID, TargetID.
         /// </remarks>
-        public static DirectedGraph Create(IList<DirectedConnection> connectionList, int inputCount, int outputCount)
+        public static DirectedGraph Create(
+            IList<DirectedConnection> connectionList,
+            int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
@@ -44,7 +46,9 @@ namespace SharpNeat.Network
 
         #region Private Static Methods
 
-        private static int[] GetHiddenNodeIdArray(IList<DirectedConnection> connectionList, int inputOutputCount)
+        private static int[] GetHiddenNodeIdArray(
+            IList<DirectedConnection> connectionList,
+            int inputOutputCount)
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
             var hiddenNodeIdSet = new HashSet<int>();
