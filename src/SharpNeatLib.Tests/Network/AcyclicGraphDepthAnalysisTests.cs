@@ -19,12 +19,14 @@ namespace SharpNeatLib.Tests.Network
         public void ConnectThroughInput()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(0, 3));
-            connList.Add(new DirectedConnection(1, 3));
-            connList.Add(new DirectedConnection(2, 3));
-            connList.Add(new DirectedConnection(2, 4));
-            connList.Add(new DirectedConnection(4, 1));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(0, 3),
+                new DirectedConnection(1, 3),
+                new DirectedConnection(2, 3),
+                new DirectedConnection(2, 4),
+                new DirectedConnection(4, 1)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -59,12 +61,14 @@ namespace SharpNeatLib.Tests.Network
         public void ShortAndLongPath()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(0, 4));
-            connList.Add(new DirectedConnection(4, 5));
-            connList.Add(new DirectedConnection(5, 2));
-            connList.Add(new DirectedConnection(1, 2));
-            connList.Add(new DirectedConnection(2, 3));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(0, 4),
+                new DirectedConnection(4, 5),
+                new DirectedConnection(5, 2),
+                new DirectedConnection(1, 2),
+                new DirectedConnection(2, 3)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);

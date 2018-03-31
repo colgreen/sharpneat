@@ -14,12 +14,14 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(0, 3));
-            connList.Add(new DirectedConnection(1, 3));
-            connList.Add(new DirectedConnection(2, 3));
-            connList.Add(new DirectedConnection(2, 4));
-            connList.Add(new DirectedConnection(4, 1));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(0, 3),
+                new DirectedConnection(1, 3),
+                new DirectedConnection(2, 3),
+                new DirectedConnection(2, 4),
+                new DirectedConnection(4, 1)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -35,12 +37,14 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleAcyclic_DefinedNodes()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(10, 13));
-            connList.Add(new DirectedConnection(11, 13));
-            connList.Add(new DirectedConnection(12, 13));
-            connList.Add(new DirectedConnection(12, 14));
-            connList.Add(new DirectedConnection(14, 11));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(10, 13),
+                new DirectedConnection(11, 13),
+                new DirectedConnection(12, 13),
+                new DirectedConnection(12, 14),
+                new DirectedConnection(14, 11)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -56,12 +60,14 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(100, 103));
-            connList.Add(new DirectedConnection(101, 103));
-            connList.Add(new DirectedConnection(102, 103));
-            connList.Add(new DirectedConnection(102, 104));
-            connList.Add(new DirectedConnection(104, 101));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(100, 103),
+                new DirectedConnection(101, 103),
+                new DirectedConnection(102, 103),
+                new DirectedConnection(102, 104),
+                new DirectedConnection(104, 101)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -81,13 +87,15 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleCyclic()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(0, 3));
-            connList.Add(new DirectedConnection(1, 3));
-            connList.Add(new DirectedConnection(2, 3));
-            connList.Add(new DirectedConnection(2, 4));
-            connList.Add(new DirectedConnection(4, 1));
-            connList.Add(new DirectedConnection(1, 2));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(0, 3),
+                new DirectedConnection(1, 3),
+                new DirectedConnection(2, 3),
+                new DirectedConnection(2, 4),
+                new DirectedConnection(4, 1),
+                new DirectedConnection(1, 2)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -103,13 +111,15 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleCyclic_DefinedNodes()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(10, 13));
-            connList.Add(new DirectedConnection(11, 13));
-            connList.Add(new DirectedConnection(12, 13));
-            connList.Add(new DirectedConnection(12, 14));
-            connList.Add(new DirectedConnection(14, 11));
-            connList.Add(new DirectedConnection(11, 12));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(10, 13),
+                new DirectedConnection(11, 13),
+                new DirectedConnection(12, 13),
+                new DirectedConnection(12, 14),
+                new DirectedConnection(14, 11),
+                new DirectedConnection(11, 12)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -125,13 +135,15 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleCyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>();
-            connList.Add(new DirectedConnection(100, 103));
-            connList.Add(new DirectedConnection(101, 103));
-            connList.Add(new DirectedConnection(102, 103));
-            connList.Add(new DirectedConnection(102, 104));
-            connList.Add(new DirectedConnection(104, 101));
-            connList.Add(new DirectedConnection(101, 102));
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(100, 103),
+                new DirectedConnection(101, 103),
+                new DirectedConnection(102, 103),
+                new DirectedConnection(102, 104),
+                new DirectedConnection(104, 101),
+                new DirectedConnection(101, 102)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);

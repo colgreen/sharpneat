@@ -16,11 +16,13 @@ namespace SharpNeatLib.Tests.Network
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 3, 0.0));
-            connList.Add(new WeightedDirectedConnection<double>(1, 3, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(2, 3, 2.0));
-            connList.Add(new WeightedDirectedConnection<double>(2, 4, 3.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 3, 0.0),
+                new WeightedDirectedConnection<double>(1, 3, 1.0),
+                new WeightedDirectedConnection<double>(2, 3, 2.0),
+                new WeightedDirectedConnection<double>(2, 4, 3.0)
+            };
 
             // Create graph.
             var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 3, 2);
@@ -37,12 +39,14 @@ namespace SharpNeatLib.Tests.Network
         public void DepthNodeReorderTest()
         {
             // Define graph connections.
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 4, 0.0));
-            connList.Add(new WeightedDirectedConnection<double>(4, 5, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(5, 2, 2.0));
-            connList.Add(new WeightedDirectedConnection<double>(1, 2, 3.0));
-            connList.Add(new WeightedDirectedConnection<double>(2, 3, 4.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 4, 0.0),
+                new WeightedDirectedConnection<double>(4, 5, 1.0),
+                new WeightedDirectedConnection<double>(5, 2, 2.0),
+                new WeightedDirectedConnection<double>(1, 2, 3.0),
+                new WeightedDirectedConnection<double>(2, 3, 4.0)
+            };
 
             // Create graph.
             connList.Sort(ConnectionCompareFunctions.Compare);
@@ -50,12 +54,14 @@ namespace SharpNeatLib.Tests.Network
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.
             // And connections should be ordered by source node ID.
-            var connListExpected = new List<WeightedDirectedConnection<double>>();
-            connListExpected.Add(new WeightedDirectedConnection<double>(0, 2, 0.0));
-            connListExpected.Add(new WeightedDirectedConnection<double>(1, 4, 3.0));
-            connListExpected.Add(new WeightedDirectedConnection<double>(2, 3, 1.0));
-            connListExpected.Add(new WeightedDirectedConnection<double>(3, 4, 2.0));
-            connListExpected.Add(new WeightedDirectedConnection<double>(4, 5, 4.0));
+            var connListExpected = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 2, 0.0),
+                new WeightedDirectedConnection<double>(1, 4, 3.0),
+                new WeightedDirectedConnection<double>(2, 3, 1.0),
+                new WeightedDirectedConnection<double>(3, 4, 2.0),
+                new WeightedDirectedConnection<double>(4, 5, 4.0)
+            };
 
             // Compare actual and expected connections.
             CompareConnectionLists(connListExpected, digraph.ConnectionIdArrays, digraph.WeightArray);

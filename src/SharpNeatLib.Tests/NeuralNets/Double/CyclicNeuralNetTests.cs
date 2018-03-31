@@ -18,8 +18,10 @@ namespace SharpNeatLib.Tests.NeuralNets.Double
         [TestCategory("CyclicNeuralNet")]
         public void SingleInput_WeightZero()
         {
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 1, 0.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 1, 0.0)
+            };
 
             // Create graph.
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
@@ -52,8 +54,10 @@ namespace SharpNeatLib.Tests.NeuralNets.Double
         [TestCategory("CyclicNeuralNet")]
         public void SingleInput_WeightOne()
         {
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 1, 1.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 1, 1.0)
+            };
 
             // Create graph.
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
@@ -95,10 +99,11 @@ namespace SharpNeatLib.Tests.NeuralNets.Double
         [TestCategory("CyclicNeuralNet")]
         public void CyclicOutput()
         {
-
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 1, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(1, 1, 1.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 1, 1.0),
+                new WeightedDirectedConnection<double>(1, 1, 1.0)
+            };
 
             // Create graph.
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
@@ -125,11 +130,13 @@ namespace SharpNeatLib.Tests.NeuralNets.Double
         [TestCategory("CyclicNeuralNet")]
         public void ComplexCyclic()
         {
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 1, -2.0));
-            connList.Add(new WeightedDirectedConnection<double>(0, 2, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(1, 2, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(2, 1, 1.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 1, -2.0),
+                new WeightedDirectedConnection<double>(0, 2, 1.0),
+                new WeightedDirectedConnection<double>(1, 2, 1.0),
+                new WeightedDirectedConnection<double>(2, 1, 1.0)
+            };
 
             // Create graph.
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
@@ -163,10 +170,12 @@ namespace SharpNeatLib.Tests.NeuralNets.Double
         [TestCategory("AcyclicNeuralNet")]
         public void MultipleInputsOutputs()
         {
-            var connList = new List<WeightedDirectedConnection<double>>();
-            connList.Add(new WeightedDirectedConnection<double>(0, 5, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(1, 3, 1.0));
-            connList.Add(new WeightedDirectedConnection<double>(2, 4, 1.0));
+            var connList = new List<WeightedDirectedConnection<double>>
+            {
+                new WeightedDirectedConnection<double>(0, 5, 1.0),
+                new WeightedDirectedConnection<double>(1, 3, 1.0),
+                new WeightedDirectedConnection<double>(2, 4, 1.0)
+            };
 
             // Create graph.
             var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 3, 3);
@@ -184,7 +193,6 @@ namespace SharpNeatLib.Tests.NeuralNets.Double
             Assert.AreEqual(actFn.Fn(3.0), net.OutputVector[1]);
             Assert.AreEqual(actFn.Fn(1.0), net.OutputVector[2]);
         }
-
 
         #endregion
     }
