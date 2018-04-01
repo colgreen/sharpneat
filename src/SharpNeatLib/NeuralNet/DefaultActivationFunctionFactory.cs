@@ -92,7 +92,7 @@ namespace SharpNeat.NeuralNet
             string valueType = this.GetType().GetGenericArguments()[0].Name;
 
             // Build fully namespaced type name.
-            string fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.{name}";
+            string fullName = $"SharpNeat.NeuralNet.{valueType}.ActivationFunctions.{name}";
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
@@ -101,7 +101,7 @@ namespace SharpNeat.NeuralNet
             }
 
             // Attempt again in the CPPN sub-namespace.
-            fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Cppn.{name}";
+            fullName = $"SharpNeat.NeuralNet.{valueType}.ActivationFunctions.Cppn.{name}";
             return TryCreateFromFullName(fullName);
         }
 
@@ -111,7 +111,7 @@ namespace SharpNeat.NeuralNet
             string valueType = this.GetType().GetGenericArguments()[0].Name;
 
             // Build fully namespaced type name.
-            string fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Vectorized.{name}";
+            string fullName = $"SharpNeat.NeuralNet.{valueType}.ActivationFunctions.Vectorized.{name}";
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
@@ -120,7 +120,7 @@ namespace SharpNeat.NeuralNet
             }
 
             // Attempt again in the CPPN sub-namespace.
-            fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Cppn.Vectorized.{name}";
+            fullName = $"SharpNeat.NeuralNet.{valueType}.ActivationFunctions.Cppn.Vectorized.{name}";
             return TryCreateFromFullName(fullName);
         }
 
