@@ -26,6 +26,19 @@ namespace SharpNeat.Network
 
         #region INodeIdMap
 
+        /// <summary>
+        /// Gets the number of mapped node IDs.
+        /// </summary>
+        public int Count
+        {
+            get => _inputOutputCount + _hiddenNodeIdxById.Count;
+        }
+
+        /// <summary>
+        /// Map a given node ID
+        /// </summary>
+        /// <param name="id">A node ID.</param>
+        /// <returns>The mapped to ID.</returns>
         public int Map(int id)
         {
             // Input/output node IDs are fixed.

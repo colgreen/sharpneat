@@ -10,6 +10,11 @@ namespace SharpNeat.Network
     public interface INodeIdMap
     {
         /// <summary>
+        /// Gets the number of mapped node IDs.
+        /// </summary>
+        int Count { get; }
+
+        /// <summary>
         /// Map a given node ID
         /// </summary>
         /// <param name="id">A node ID.</param>
