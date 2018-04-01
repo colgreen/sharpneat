@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeatLib.Tests.NeuralNets.Double
 {

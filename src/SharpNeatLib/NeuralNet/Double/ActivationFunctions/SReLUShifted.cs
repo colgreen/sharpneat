@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// S-shaped rectified linear activation unit (SReLU). Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.

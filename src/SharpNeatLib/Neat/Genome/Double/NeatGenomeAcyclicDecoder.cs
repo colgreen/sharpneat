@@ -2,7 +2,7 @@
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeat.NeuralNets.Double;
+using SharpNeat.NeuralNet.Double;
 using SharpNeat.Phenomes;
 
 namespace SharpNeat.Neat.Genome.Double

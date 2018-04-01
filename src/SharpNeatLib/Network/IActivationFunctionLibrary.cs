@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Network
 {

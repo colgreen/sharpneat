@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNet
 {
     /// <summary>
     /// Default implementation of IActivationFunctionFactory.

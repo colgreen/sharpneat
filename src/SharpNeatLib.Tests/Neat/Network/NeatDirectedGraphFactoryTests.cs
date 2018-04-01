@@ -2,7 +2,7 @@
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
 using SharpNeat.Network;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using SharpNeatLib.Neat.Genome;
 using static SharpNeatLib.Tests.Neat.Network.ConnectionCompareUtils;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.NeuralNets;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
-using Vectorized = SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
+using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using Vectorized = SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeatLib.Tests.NeuralNets.Double.ActivationFunctions
 {

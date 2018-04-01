@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// Leaky rectified linear activation unit (ReLU).

@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
 {
     /// <summary>
     /// Linear activation function with clipping. By 'clipping' we mean the output value is linear between

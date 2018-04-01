@@ -12,7 +12,7 @@
 
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
 {
     /// <summary>
     /// S-shaped rectified linear activation unit (SReLU).

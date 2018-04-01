@@ -73,7 +73,7 @@ namespace TestApp1
                 inputNodeCount: 3, 
                 outputNodeCount: 1,
                 isAcyclic: true,
-                activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
             return metaNeatGenome;
         }

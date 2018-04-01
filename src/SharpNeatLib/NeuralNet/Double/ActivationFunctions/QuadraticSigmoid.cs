@@ -12,7 +12,7 @@
 
 using System;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// A sigmoid formed by two sub-sections of the y=x^2 curve.

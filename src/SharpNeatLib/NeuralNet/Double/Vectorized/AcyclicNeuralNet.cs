@@ -16,7 +16,7 @@ using SharpNeat.Network.Acyclic;
 using SharpNeat.Phenomes;
 using SharpNeat.Phenomes.Double;
 
-namespace SharpNeat.NeuralNets.Double.Vectorized
+namespace SharpNeat.NeuralNet.Double.Vectorized
 {
     /// <summary>
     /// A version of SharpNeat.NeuralNets.Double.AcyclicNeuralNet that utilises some Vector operations

@@ -13,7 +13,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// The logistic function implemented using a fast to compute approximation of exp().

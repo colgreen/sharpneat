@@ -12,7 +12,7 @@
 
 using System;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// The logistic function with a steepened slope.

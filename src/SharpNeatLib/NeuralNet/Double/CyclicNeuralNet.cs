@@ -15,7 +15,7 @@ using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.Phenomes.Double;
 
-namespace SharpNeat.NeuralNets.Double
+namespace SharpNeat.NeuralNet.Double
 {
     /// <summary>
     /// A neural network class that represents a network with recurrent (cyclic) connections. 

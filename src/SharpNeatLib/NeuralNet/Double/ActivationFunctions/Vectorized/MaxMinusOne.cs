@@ -12,7 +12,7 @@
 
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
 {
     public class MaxMinusOne : IActivationFunction<double>
     {

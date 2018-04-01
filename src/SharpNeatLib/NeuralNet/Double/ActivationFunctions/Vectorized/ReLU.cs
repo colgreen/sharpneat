@@ -13,7 +13,7 @@
 using System;
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
 {
     /// <summary>
     /// Rectified linear activation unit (ReLU).

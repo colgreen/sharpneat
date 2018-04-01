@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeat.NeuralNets.Double;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNet.Double;
+using SharpNeat.NeuralNet.Double.ActivationFunctions;
 
 namespace SharpNeatLib.Tests.NeuralNets.Double
 {

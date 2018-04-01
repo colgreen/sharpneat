@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNet
 {
     /// <summary>
     /// An interface that represents factory classes for obtaining instances of IActivationFunction<typeparamref name="T"/>.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNet;
 using static SharpNeatLib.Tests.TestUtils;
 
 namespace SharpNeatLib.Tests.NeuralNets.Double.ActivationFunctions
