@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.NeuralNet;
 
-namespace SharpNeatLib.Tests.NeuralNets.Double
+namespace SharpNeat.Tests.NeuralNets.Double
 {
     [TestClass]
     public class ActivationFunctionFactoryTests

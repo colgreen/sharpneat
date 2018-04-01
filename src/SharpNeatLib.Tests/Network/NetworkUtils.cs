@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 
-namespace SharpNeatLib.Tests.Network
+namespace SharpNeat.Tests.Network
 {
     public static class NetworkUtils
     {

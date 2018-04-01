@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
-using static SharpNeatLib.Tests.Network.NetworkUtils;
+using static SharpNeat.Tests.Network.NetworkUtils;
 
-namespace SharpNeatLib.Tests
+namespace SharpNeat.Tests
 {
     [TestClass]
     public class WeightedDirectedGraphFactoryTests

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpNeatLib.Network
+namespace SharpNeat.Network
 {
     /// <summary>
     /// An INodeIdMap implemented with a dictionary keyed by node ID.

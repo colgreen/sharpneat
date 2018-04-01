@@ -4,10 +4,9 @@ using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
-using SharpNeatLib.Neat.Genome;
-using static SharpNeatLib.Tests.Neat.Network.ConnectionCompareUtils;
+using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;
 
-namespace SharpNeatLib.Tests.Neat.Network
+namespace SharpNeat.Tests.Neat.Network
 {
     [TestClass]
     public class NeatAcyclicDirectedGraphFactoryTests

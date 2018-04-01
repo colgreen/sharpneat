@@ -1,7 +1,6 @@
 ﻿using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeatLib.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {

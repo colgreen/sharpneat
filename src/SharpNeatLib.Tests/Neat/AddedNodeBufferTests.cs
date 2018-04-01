@@ -2,7 +2,7 @@
 using SharpNeat.Neat;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Neat
+namespace SharpNeat.Tests.Neat
 {
     [TestClass]
     public class AddedNodeBufferTests

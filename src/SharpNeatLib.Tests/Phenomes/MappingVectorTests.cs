@@ -2,9 +2,9 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Phenomes;
-using static SharpNeatLib.Tests.TestUtils;
+using static SharpNeat.Tests.TestUtils;
 
-namespace SharpNeatLib.Tests.Phenomes
+namespace SharpNeat.Tests.Phenomes
 {
     [TestClass]
     public class MappingVectorTests

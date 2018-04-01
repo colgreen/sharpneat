@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using static SharpNeatLib.Tests.Network.NetworkUtils;
+using static SharpNeat.Tests.Network.NetworkUtils;
 
-namespace SharpNeatLib.Tests.Network
+namespace SharpNeat.Tests.Network
 {
     [TestClass]
     public class WeightedAcyclicDirectedGraphFactoryTests

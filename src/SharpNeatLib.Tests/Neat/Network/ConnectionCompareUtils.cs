@@ -2,7 +2,7 @@
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Neat.Network
+namespace SharpNeat.Tests.Neat.Network
 {
     public static class ConnectionCompareUtils
     {

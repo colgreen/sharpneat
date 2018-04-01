@@ -2,7 +2,7 @@
 using Redzen.Random;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Network
+namespace SharpNeat.Tests.Network
 {
     [TestClass]
     public class ConnectionSorterTests

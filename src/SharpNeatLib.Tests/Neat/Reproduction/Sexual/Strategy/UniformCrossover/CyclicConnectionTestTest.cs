@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Sexual.Strategy.UniformCrossover
+namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
 {
     [TestClass]
     public class CyclicConnectionTestTest

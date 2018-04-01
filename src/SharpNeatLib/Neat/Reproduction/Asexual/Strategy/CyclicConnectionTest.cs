@@ -5,7 +5,6 @@ using Redzen;
 using Redzen.Collections;
 using Redzen.Structures;
 using SharpNeat.Network;
-using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {

@@ -4,7 +4,7 @@ using Redzen;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
+namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     [TestClass]
     public class EnumerateParentGenesTests

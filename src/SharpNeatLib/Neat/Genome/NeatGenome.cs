@@ -3,7 +3,6 @@ using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeatLib.Network;
 
 namespace SharpNeat.Neat.Genome
 {

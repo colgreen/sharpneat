@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Network
+namespace SharpNeat.Tests.Network
 {
     [TestClass]
     public class CyclicGraphAnalysisTests

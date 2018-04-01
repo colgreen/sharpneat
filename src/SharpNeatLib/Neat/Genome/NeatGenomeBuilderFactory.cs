@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeatLib.Neat.Genome
+namespace SharpNeat.Neat.Genome
 {
     public static class NeatGenomeBuilderFactory<T>
         where T : struct

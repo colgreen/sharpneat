@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpNeatLib.Network
+namespace SharpNeat.Network
 {
     /// <summary>
     /// Represents a mapping of graph node IDs from one ID space to another.

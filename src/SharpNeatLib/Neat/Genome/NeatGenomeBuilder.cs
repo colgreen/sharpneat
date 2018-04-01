@@ -3,8 +3,7 @@ using System.Diagnostics;
 using Redzen.Sorting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeatLib.Neat.Genome;
-using SharpNeatLib.Network;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Genome
 {

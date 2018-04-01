@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Redzen.Sorting;
-using SharpNeatLib.Network;
+using SharpNeat.Network;
 
 namespace SharpNeat.Network
 {

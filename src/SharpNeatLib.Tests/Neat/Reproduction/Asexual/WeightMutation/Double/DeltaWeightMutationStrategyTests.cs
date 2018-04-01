@@ -3,9 +3,9 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Numerics;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
-using SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection;
+using SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
+namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 {
     [TestClass]
     public class DeltaWeightMutationStrategyTests

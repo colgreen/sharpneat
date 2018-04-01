@@ -8,7 +8,7 @@ using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeatLib.Tests.Neat.Speciation
+namespace SharpNeat.Tests.Neat.Speciation
 {
     internal static class SpeciationStrategyTestUtils
     {

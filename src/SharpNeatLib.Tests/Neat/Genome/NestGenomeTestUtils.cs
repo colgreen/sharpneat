@@ -2,9 +2,8 @@
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
-using SharpNeatLib.Neat.Genome;
 
-namespace SharpNeatLib.Tests.Neat.Genome
+namespace SharpNeat.Tests.Neat.Genome
 {
     public static class NestGenomeTestUtils
     {

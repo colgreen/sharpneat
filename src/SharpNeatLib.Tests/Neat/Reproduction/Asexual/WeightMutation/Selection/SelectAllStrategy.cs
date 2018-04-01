@@ -1,6 +1,6 @@
 ﻿using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
+namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
 {
     public class SelectAllStrategy : ISubsetSelectionStrategy
     {

@@ -7,7 +7,7 @@
     <ProjectGuid>{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpNeatLib.Tests</RootNamespace>
+    <RootNamespace>SharpNeat.Tests</RootNamespace>
     <AssemblyName>SharpNeatLib.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

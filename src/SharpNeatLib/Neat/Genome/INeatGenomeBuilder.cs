@@ -4,9 +4,8 @@ using System.Text;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeatLib.Network;
 
-namespace SharpNeatLib.Neat.Genome
+namespace SharpNeat.Neat.Genome
 {
     /// <summary>
     /// For creating new instances of NeatGenome.

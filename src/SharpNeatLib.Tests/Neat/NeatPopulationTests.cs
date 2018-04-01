@@ -3,9 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Sorting;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Neat
+namespace SharpNeat.Tests.Neat
 {
     [TestClass]
     public class NeatPopulationTests

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
+namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
 {
     [TestClass]
     public class CardinalSubsetSelectionStrategyTests

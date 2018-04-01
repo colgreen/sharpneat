@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 
-namespace SharpNeatLib.Tests.Neat.Genome
+namespace SharpNeat.Tests.Neat.Genome
 {
     [TestClass]
     public class DirectedConnectionUtilsTests

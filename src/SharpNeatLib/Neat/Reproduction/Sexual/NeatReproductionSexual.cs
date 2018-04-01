@@ -3,7 +3,6 @@ using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
-using SharpNeatLib.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Sexual
 {

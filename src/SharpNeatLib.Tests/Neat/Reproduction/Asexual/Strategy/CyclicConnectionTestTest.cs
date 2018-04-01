@@ -2,9 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
-using SharpNeatLib.Network;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
+namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 {
     [TestClass]
     public class CyclicConnectionTestTest

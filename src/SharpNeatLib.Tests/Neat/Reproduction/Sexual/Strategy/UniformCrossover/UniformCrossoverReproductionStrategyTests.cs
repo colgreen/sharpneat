@@ -6,10 +6,9 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
-using SharpNeatLib.Neat.Genome;
-using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
+using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
+namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     [TestClass]
     public class UniformCrossoverReproductionStrategyTests

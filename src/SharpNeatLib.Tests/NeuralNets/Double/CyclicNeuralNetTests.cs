@@ -4,7 +4,7 @@ using SharpNeat.Network;
 using SharpNeat.NeuralNet.Double;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 
-namespace SharpNeatLib.Tests.NeuralNets.Double
+namespace SharpNeat.Tests.NeuralNets.Double
 {
     [TestClass]
     public class CyclicNeuralNetTests

@@ -3,7 +3,7 @@ using Redzen;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeatLib.Tests.Neat.DistanceMetrics.Double
+namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
 {
     [TestClass]
     public class DistanceMetricsUtilsTests

@@ -2,11 +2,9 @@
 using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
-using SharpNeat.Network;
-using SharpNeatLib.Neat.Genome;
-using static SharpNeatLib.Tests.Neat.Genome.NestGenomeTestUtils;
+using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
+namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 {
     [TestClass]
     public class DeleteConnectionStrategyTests

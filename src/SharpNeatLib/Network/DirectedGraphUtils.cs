@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SharpNeatLib.Network;
+using SharpNeat.Network;
 
 namespace SharpNeat.Network
 {

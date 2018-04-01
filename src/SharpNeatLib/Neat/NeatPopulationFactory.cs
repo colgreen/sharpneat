@@ -5,7 +5,6 @@ using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
-using SharpNeatLib.Neat.Genome;
 
 namespace SharpNeat.Neat
 {
