@@ -36,10 +36,7 @@ namespace SharpNeat.Neat.Genome
             int birthGeneration,
             ConnectionGenes<T> connGenes)
         {
-            // Assert non-null parameters.
             Debug.Assert(null != connGenes);
-            
-            // Validity tests.
             Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
 
             // Create genome.
@@ -114,18 +111,6 @@ namespace SharpNeat.Neat.Genome
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph)
         {
-            // Assert non-null parameters.
-            Debug.Assert(null != connGenes);
-            Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdMap);
-            Debug.Assert(null != digraph);
-
-            // Validity tests.
-            Debug.Assert(digraph.InputCount == _metaNeatGenome.InputNodeCount);
-            Debug.Assert(digraph.OutputCount == _metaNeatGenome.OutputNodeCount);
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
-
             // Invoke constructor.
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }
