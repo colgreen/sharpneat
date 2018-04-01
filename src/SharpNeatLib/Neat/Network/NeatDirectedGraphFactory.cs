@@ -5,6 +5,8 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Network
 {
+    // TODO: Review this class; seems somewhat pointless now.
+
     /// <summary>
     /// For creating directed graphs from NEAT genomes.
     /// </summary>
