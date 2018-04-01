@@ -10,21 +10,22 @@ namespace SharpNeat.Neat.Genome.Double
 {
     public class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
     {
-        bool _boundedOutput;
         int _activationCount;
+        bool _boundedOutput;
 
         #region Constructor
 
         /// <summary>
-        /// 
+        /// Construct with the given decoding parameters.
         /// </summary>
-        /// <param name="boundedOutput"></param>
+        /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
+        /// <param name="activationCount">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
         public NeatGenomeDecoder(
-            bool boundedOutput,
-            int activationCount)
+            int activationCount,
+            bool boundedOutput)
         {
-            _boundedOutput = boundedOutput;
             _activationCount = activationCount;
+            _boundedOutput = boundedOutput;
         }
 
         #endregion
@@ -35,9 +36,6 @@ namespace SharpNeat.Neat.Genome.Double
         /// Decode a genome into a working neural network.
         /// </summary>
         /// <param name="genome">The genome to decode.</param>
-        /// <param name="activationCount">The number of activations of the cyclic network to perform per 
-        /// invocation of the neural net as a whole.</param>
-        /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
         public IPhenome<double> Decode(
             NeatGenome<double> genome)
         {
