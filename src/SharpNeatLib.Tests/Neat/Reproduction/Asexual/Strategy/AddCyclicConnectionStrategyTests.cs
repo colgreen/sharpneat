@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Sorting;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
 using SharpNeatLib.Neat.Genome;
@@ -37,7 +38,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 Assert.AreEqual(1, newConnList.Count);
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(DirectedConnectionUtils.IsSorted(childGenome.ConnectionGenes._connArr));
+                Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);

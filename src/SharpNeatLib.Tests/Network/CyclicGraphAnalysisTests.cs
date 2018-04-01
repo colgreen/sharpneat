@@ -24,7 +24,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
@@ -47,7 +47,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
@@ -70,7 +70,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
@@ -98,7 +98,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 0, 0);
 
             // Test if cyclic.
@@ -122,7 +122,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.
@@ -146,7 +146,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 0, 10);
 
             // Test if cyclic.

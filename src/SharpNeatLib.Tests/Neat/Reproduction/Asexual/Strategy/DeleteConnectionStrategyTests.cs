@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
@@ -35,7 +36,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual.Strategy
                 Assert.IsTrue(childConnSet.IsProperSubsetOf(connSet));
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(DirectedConnectionUtils.IsSorted(childGenome.ConnectionGenes._connArr));
+                Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                 // Test that the array of hidden node IDs is correct, i.e. corresponds with the hidden node IDs described by the connections.
                 Assert.IsTrue(ConnectionGenesUtils.ValidateHiddenNodeIds(

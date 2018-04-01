@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Redzen.Sorting;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.Network;
 using SharpNeat.Network;
@@ -40,7 +41,7 @@ namespace SharpNeat.Neat.Genome.Double
             NeatGenome<double> genome)
         {
             // Assert that the connections are sorted.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
 
             // Basic validation test.
             // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but that's almost certainly 

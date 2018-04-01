@@ -13,6 +13,7 @@
     <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
     <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <RootNamespace>SharpNeat</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

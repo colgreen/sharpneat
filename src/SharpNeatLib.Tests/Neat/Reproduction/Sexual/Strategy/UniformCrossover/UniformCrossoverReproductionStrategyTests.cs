@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
+using Redzen.Sorting;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Network;
@@ -39,7 +40,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 var childGenome = strategy.CreateGenome(genome1, genome2);
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(DirectedConnectionUtils.IsSorted(childGenome.ConnectionGenes._connArr));
+                Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.

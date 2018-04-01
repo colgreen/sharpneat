@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Sorting;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
@@ -55,7 +56,7 @@ namespace SharpNeatLib.Tests.Neat
             Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
             Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
             Assert.AreEqual(6, genome.ConnectionGenes.Length);
-            Assert.IsTrue(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
+            Assert.IsTrue(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
         }
 
         [TestMethod]
@@ -72,7 +73,7 @@ namespace SharpNeatLib.Tests.Neat
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
             Assert.AreEqual(10000, genome.ConnectionGenes.Length);
-            Assert.IsTrue(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
+            Assert.IsTrue(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
 
             CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out double min, out double max, out double mean);
 

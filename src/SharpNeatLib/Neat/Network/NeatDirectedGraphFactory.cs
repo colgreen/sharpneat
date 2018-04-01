@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 
@@ -26,7 +27,7 @@ namespace SharpNeat.Neat.Network
         public static WeightedDirectedGraph<T> Create(NeatGenome<T> genome)
         {
             // Assert that the connections are sorted.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
 
             // Construct and return a new WeightedDirectedGraph.
             int totalNodeCount = genome.MetaNeatGenome.InputOutputNodeCount + genome.HiddenNodeIdArray.Length;

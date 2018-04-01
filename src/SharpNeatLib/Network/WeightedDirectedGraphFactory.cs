@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Redzen.Sorting;
 using SharpNeatLib.Network;
 
 namespace SharpNeat.Network
@@ -23,7 +24,7 @@ namespace SharpNeat.Network
             int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connectionList));
+            Debug.Assert(SortUtils.IsSortedAscending(connectionList, WeightedDirectedConnectionComparer<T>.Default));
 
             // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;

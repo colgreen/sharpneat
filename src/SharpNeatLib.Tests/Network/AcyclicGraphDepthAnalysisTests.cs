@@ -29,7 +29,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 3, 2);
 
             // Assert is acyclic.
@@ -71,7 +71,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort();
             var digraph = DirectedGraphFactory.Create(connList, 2, 2);
 
             // Assert is acyclic.

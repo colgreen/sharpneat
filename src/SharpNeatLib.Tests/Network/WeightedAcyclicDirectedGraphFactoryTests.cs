@@ -49,7 +49,7 @@ namespace SharpNeatLib.Tests.Network
             };
 
             // Create graph.
-            connList.Sort(ConnectionCompareFunctions.Compare);
+            connList.Sort(WeightedDirectedConnectionComparer<double>.Default);
             var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 2, 2);
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.

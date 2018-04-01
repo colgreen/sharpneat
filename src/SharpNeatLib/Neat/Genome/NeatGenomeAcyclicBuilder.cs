@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Redzen.Sorting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeatLib.Neat.Genome;
@@ -40,7 +41,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(null != connGenes);
             
             // Validity tests.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
 
             // Create genome.
             return CreateInner(id, birthGeneration, connGenes);
@@ -64,7 +65,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(null != hiddenNodeIdArr);
 
             // Validity tests.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
 
             // Create genome.
@@ -91,7 +92,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(null != nodeIndexByIdMap);
 
             // Validity tests.
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
 
             // Create genome.
@@ -123,7 +124,7 @@ namespace SharpNeat.Neat.Genome
             // Validity tests.
             Debug.Assert(digraph.InputCount == _metaNeatGenome.InputNodeCount);
             Debug.Assert(digraph.OutputCount == _metaNeatGenome.OutputNodeCount);
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
 
             // Invoke constructor.
@@ -157,7 +158,7 @@ namespace SharpNeat.Neat.Genome
             // Validity tests.
             Debug.Assert(digraph.InputCount == _metaNeatGenome.InputNodeCount);
             Debug.Assert(digraph.OutputCount == _metaNeatGenome.OutputNodeCount);
-            Debug.Assert(DirectedConnectionUtils.IsSorted(connGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
             Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
 
             // Notes.

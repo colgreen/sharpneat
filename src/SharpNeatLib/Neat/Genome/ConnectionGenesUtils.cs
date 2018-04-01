@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.Genome
         public static bool ValidateHiddenNodeIds(int[] hiddenNodeIdArr, DirectedConnection[] connArr, int inputOutputCount)
         {
             // Test that the IDs are sorted (required to allow for efficient searching of IDs using a binary search).
-            if(!SortUtils.IsSorted(hiddenNodeIdArr)) {
+            if(!SortUtils.IsSortedAscending(hiddenNodeIdArr)) {
                 return false;
             }
 
