@@ -6,7 +6,7 @@ using SharpNeat.Phenomes;
 
 namespace SharpNeat.Neat.Genome.Double
 {
-    public static class NeatGenomeCyclicDecoder
+    public static class NeatGenomeDecoder
     {
         /// <summary>
         /// Decode a genome into a working neural network.
