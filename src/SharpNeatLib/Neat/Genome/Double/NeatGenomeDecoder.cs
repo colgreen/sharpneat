@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using SharpNeat.Evaluation;
 using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.NeuralNets.Double;
@@ -7,8 +8,29 @@ using SharpNeat.Phenomes;
 
 namespace SharpNeat.Neat.Genome.Double
 {
-    public static class NeatGenomeDecoder
+    public class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
     {
+        bool _boundedOutput;
+        int _activationCount;
+
+        #region Constructor
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boundedOutput"></param>
+        public NeatGenomeDecoder(
+            bool boundedOutput,
+            int activationCount)
+        {
+            _boundedOutput = boundedOutput;
+            _activationCount = activationCount;
+        }
+
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Decode a genome into a working neural network.
         /// </summary>
@@ -16,10 +38,8 @@ namespace SharpNeat.Neat.Genome.Double
         /// <param name="activationCount">The number of activations of the cyclic network to perform per 
         /// invocation of the neural net as a whole.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public static IPhenome<double> Decode(
-            NeatGenome<double> genome,
-            int activationCount,
-            bool boundedOutput)
+        public IPhenome<double> Decode(
+            NeatGenome<double> genome)
         {
             // Assert that the connections are sorted.
             Debug.Assert(DirectedConnectionUtils.IsSorted(genome.ConnectionGenes._connArr));
@@ -36,9 +56,11 @@ namespace SharpNeat.Neat.Genome.Double
                 genome.DirectedGraph,
                 genome.ConnectionGenes._weightArr,
                 genome.MetaNeatGenome.ActivationFn.Fn,
-                activationCount, boundedOutput);
+                _activationCount, _boundedOutput);
 
             return neuralNet;
         }
+
+        #endregion
     }
 }
