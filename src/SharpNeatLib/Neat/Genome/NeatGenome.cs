@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
@@ -103,6 +104,11 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             GraphDepthInfo depthInfo)
         {
+            Debug.Assert(NeatGenomeValidation<T>.IsValid(
+                metaNeatGenome, id, birthGeneration,
+                connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
+                digraph, depthInfo));
+
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;
             this.BirthGeneration = birthGeneration;
@@ -110,7 +116,7 @@ namespace SharpNeat.Neat.Genome
             this.HiddenNodeIdArray = hiddenNodeIdArr;
             this.NodeIndexByIdMap = nodeIndexByIdMap;
             this.DirectedGraph = digraph;
-            this.DepthInfo = depthInfo;
+            this.DepthInfo = depthInfo;            
         }
 
         #endregion

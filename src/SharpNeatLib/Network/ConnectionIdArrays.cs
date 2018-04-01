@@ -13,5 +13,7 @@ namespace SharpNeat.Network
             _sourceIdArr = srcIdArr;
             _targetIdArr = tgtIdArr;
         }
+
+        public int Length => _sourceIdArr.Length;
     }
 }

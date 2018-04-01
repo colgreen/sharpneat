@@ -36,10 +36,7 @@ namespace SharpNeat.Neat.Genome
             int birthGeneration,
             ConnectionGenes<T> connGenes)
         {
-            // Assert non-null parameters.
             Debug.Assert(null != connGenes);
-            
-            // Validity tests.
             Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
 
             // Create genome.
@@ -114,19 +111,7 @@ namespace SharpNeat.Neat.Genome
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph)
         {
-            // Assert non-null parameters.
-            Debug.Assert(null != connGenes);
-            Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdMap);
-            Debug.Assert(null != digraph);
-
-            // Validity tests.
-            Debug.Assert(digraph.InputCount == _metaNeatGenome.InputNodeCount);
-            Debug.Assert(digraph.OutputCount == _metaNeatGenome.OutputNodeCount);
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
-
-            // Invoke constructor.
+            // TODO: Build depth info.
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }
 
@@ -148,25 +133,6 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             GraphDepthInfo depthInfo)
         {
-            // Assert non-null parameters.
-            Debug.Assert(null != connGenes);
-            Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdMap);
-            Debug.Assert(null != digraph);
-
-            // Validity tests.
-            Debug.Assert(digraph.InputCount == _metaNeatGenome.InputNodeCount);
-            Debug.Assert(digraph.OutputCount == _metaNeatGenome.OutputNodeCount);
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
-
-            // Notes.
-            // 1) If calling this overload of Create() then we require depthInfo to be provided.
-            // 2) GraphDepthInfo relates to, and is used for, acyclic graphs only.
-            // 3) GraphDepthInfo is optional for acyclic graphs, but if not supplied then one of the other overloads of Create() should be used.
-            Debug.Assert(null != depthInfo && _metaNeatGenome.IsAcyclic);
-
-            // Construct genome.
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, depthInfo);
         }
 
