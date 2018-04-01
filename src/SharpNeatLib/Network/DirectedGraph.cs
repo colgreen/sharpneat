@@ -60,9 +60,6 @@ namespace SharpNeat.Network
             _inputCount = inputCount;
             _outputCount = outputCount;
             _totalNodeCount = totalNodeCount;
-
-            // Determine the connection index that each source node's connections start at.
-            CompileSourceNodeConnectionIndexes();
         }
 
         #endregion
@@ -120,6 +117,9 @@ namespace SharpNeat.Network
         /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
         public int GetFirstConnectionIndex(int srcNodeIdx)
         {
+            if(null == _connIdxBySrcNodeIdx) {
+                _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
+            }
             return _connIdxBySrcNodeIdx[srcNodeIdx];
         }
 
@@ -151,29 +151,29 @@ namespace SharpNeat.Network
         #region Private Methods
 
         /// <summary>
-        /// For each node that is a source node, determine the first connection with that node as its source.
+        /// Determine the connection index that each source node's connections start at.
         /// </summary>
-        private void CompileSourceNodeConnectionIndexes()
+        private int[] CompileSourceNodeConnectionIndexes()
         {
             // Alloc an array of indexes; one index per node, and init with -1 (indicates that a node has no connections exiting from it).
             // Note. _totalNodeCount may be higher than the number of unique nodes described by the connections, this is to handle
             // input and output nodes in NEAT which are allocated fixed node indexes, but may not have any connections.
             // As such this loop is needed, i.e. don't skip this loop just because _connArr.Length is zero; there may still be a
             // non-zero number of nodes defined.
-            _connIdxBySrcNodeIdx = new int[_totalNodeCount];
+            int[] connIdxBySrcNodeIdx = new int[_totalNodeCount];
             for(int i=0; i < _totalNodeCount; i++) {
-                _connIdxBySrcNodeIdx[i] = -1;
+                connIdxBySrcNodeIdx[i] = -1;
             }
 
             // If no connections then nothing to do.
             int[] srcIdArr = _connIdArrays._sourceIdArr;
             if(0 == srcIdArr.Length) {
-                return;
+                return connIdxBySrcNodeIdx;
             }
 
             // Initialise.
             int currentSrcNodeId = srcIdArr[0];
-            _connIdxBySrcNodeIdx[currentSrcNodeId] = 0;
+            connIdxBySrcNodeIdx[currentSrcNodeId] = 0;
 
             // Loop connections.
             for(int i=1; i < srcIdArr.Length; i++)
@@ -185,8 +185,10 @@ namespace SharpNeat.Network
 
                 // We have arrived at the next source node's connections.
                 currentSrcNodeId = srcIdArr[i];
-                _connIdxBySrcNodeIdx[srcIdArr[i]] = i;
+                connIdxBySrcNodeIdx[srcIdArr[i]] = i;
             }
+
+            return connIdxBySrcNodeIdx;
         }
 
         #endregion
