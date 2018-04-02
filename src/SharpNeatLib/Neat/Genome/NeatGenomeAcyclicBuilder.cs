@@ -170,58 +170,11 @@ namespace SharpNeat.Neat.Genome
             INodeIdMap nodeIndexByIdMap)
         {
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
-            int totalNodeCount =  _metaNeatGenome.InputOutputNodeCount + hiddenNodeIdArr.Length;
-            DirectedGraph digraph = CreateDirectedGraph(connGenes, nodeIndexByIdMap, totalNodeCount);
+            DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
+                _metaNeatGenome, connGenes, nodeIndexByIdMap);
 
             // Construct genome.
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
-        }
-
-        #endregion
-
-        #region Private Methods [CreateDirectedGraph]
-
-        private DirectedGraph CreateDirectedGraph(
-            ConnectionGenes<T> connGenes,
-            INodeIdMap nodeIndexByIdMap,
-            int totalNodeCount)
-        {
-            // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
-            // Notes. 
-            // The array contents will be manipulated, so copying this avoids modification of the genome's
-            // connection gene list.
-            // The IDs are substituted for node indexes here.
-            CopyAndMapIds(
-                connGenes._connArr,
-                nodeIndexByIdMap,
-                out ConnectionIdArrays connIdArrays);
-
-            // Construct a new DirectedGraph.
-            var digraph = new DirectedGraph(
-                connIdArrays,
-                _metaNeatGenome.InputNodeCount,
-                _metaNeatGenome.OutputNodeCount,
-                totalNodeCount);
-
-            return digraph;
-        }
-
-        private static void CopyAndMapIds(
-            DirectedConnection[] connArr,
-            INodeIdMap nodeIdMap,
-            out ConnectionIdArrays connIdArrays)
-        {
-            int count = connArr.Length;
-            int[] srcIdArr = new int[count];
-            int[] tgtIdArr = new int[count];
-
-            for(int i=0; i < count; i++) 
-            {
-                srcIdArr[i] = nodeIdMap.Map(connArr[i].SourceId);
-                tgtIdArr[i] = nodeIdMap.Map(connArr[i].TargetId);
-            }
-
-            connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
         }
 
         #endregion
