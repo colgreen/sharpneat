@@ -32,8 +32,13 @@ namespace SharpNeat.Neat.Genome
             }
 
             // DepthInfo relates to acyclic graphs only, and is mandatory for acyclic graphs.
-            // TODO: Reinstate once depthInfo is not null!
-            //if(metaNeatGenome.IsAcyclic && null == depthInfo) return false;
+            // TODO: Enabled once NeatGenomeAcyclicBuilder is finished.
+            //if(metaNeatGenome.IsAcyclic) 
+            //{
+            //    if(!IsValid_Acyclic(metaNeatGenome, depthInfo)) {
+            //        return false;
+            //    }
+            //}
 
             // Node counts.
             if(digraph.InputCount != metaNeatGenome.InputNodeCount) {
@@ -109,6 +114,26 @@ namespace SharpNeat.Neat.Genome
             return true;
         }
 
+        private static bool IsValid_Acyclic(
+            MetaNeatGenome<T> metaNeatGenome,
+            GraphDepthInfo depthInfo)
+        {
+            // DepthInfo is mandatory for acyclic graphs.
+            if(null == depthInfo) {
+                return false;
+            }
+
+            // Test that all input nodes are at depth zero.
+            // Any input node with a non-zero depth must have an input connection, and this is not supported.
+            if(!AreZero(depthInfo._nodeDepthArr, metaNeatGenome.InputNodeCount)) {
+                return false;
+            }
+
+            // TODO: More acyclic graph validation.
+
+            return true;
+        }
+
         #endregion
 
         #region Private Static Methods [ConnectionIdArrays Sort Order]
@@ -144,5 +169,17 @@ namespace SharpNeat.Neat.Genome
         }
 
         #endregion
+
+        private static bool AreZero(int[] arr, int length)
+        {
+            for(int i=0; i < length; i++)
+            {
+                if(0 != arr[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }
 }
