@@ -44,7 +44,7 @@ namespace SharpNeat.Network.Acyclic
 
         #region Private Static Methods [High Level]
 
-        public static WeightedAcyclicDirectedGraph<T> CreateInner(
+        private static WeightedAcyclicDirectedGraph<T> CreateInner(
             WeightedDirectedGraph<T> digraph,
             GraphDepthInfo depthInfo)
         {
