@@ -59,31 +59,31 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// <summary>
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
         /// </summary>
-        /// <param name="diGraph">Network structure definition</param>
+        /// <param name="digraph">Network structure definition</param>
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public AcyclicNeuralNet(
-            WeightedAcyclicDirectedGraph<double> diGraph,
+            WeightedAcyclicDirectedGraph<double> digraph,
             VecFnSegment<double> activationFn,
             bool boundedOutput)
         {
             // Store refs to network structure data.
-            _srcIdArr = diGraph.ConnectionIdArrays._sourceIdArr;
-            _tgtIdArr = diGraph.ConnectionIdArrays._targetIdArr;
-            _weightArr = diGraph.WeightArray;
+            _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
+            _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            _weightArr = digraph.WeightArray;
             _connectionOutputArr = new double[_srcIdArr.Length];
 
-            _layerInfoArr = diGraph.LayerArray;
+            _layerInfoArr = digraph.LayerArray;
 
             // Store network activation function.
             _activationFn = activationFn;
 
             // Store input/output node counts.
-            _inputCount = diGraph.InputCount;
-            _outputCount = diGraph.OutputCount;
+            _inputCount = digraph.InputCount;
+            _outputCount = digraph.OutputCount;
 
             // Create working array for node activation signals.
-            _activationArr = new double[diGraph.TotalNodeCount];
+            _activationArr = new double[digraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
             _inputVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
@@ -92,7 +92,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
-            var outputVec = new MappingVector<double>(_activationArr, diGraph.OutputNodeIdxArr);
+            var outputVec = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
 
             if(boundedOutput) {
                 _outputVector = new BoundedVector(outputVec);
