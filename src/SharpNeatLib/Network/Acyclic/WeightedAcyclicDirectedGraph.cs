@@ -9,14 +9,6 @@ namespace SharpNeat.Network.Acyclic
         /// </summary>
         public T[] WeightArray { get; }
 
-        /// <summary>
-        /// Gives the node index of each output. In acyclic networks the output and hidden nodes are re-ordered by network depth.
-        /// This array describes the location of each output signal in the node activation signal array.
-        /// Note however that the input nodes *are* in their original positions as they are defined as being at depth zero and therefore
-        /// are not moved by the depth based sort.
-        /// </summary>
-        public int[] OutputNodeIdxArr { get; }
-
         #region Constructor
 
         internal WeightedAcyclicDirectedGraph(
@@ -25,12 +17,11 @@ namespace SharpNeat.Network.Acyclic
             int outputCount,
             int nodeCount,
             LayerInfo[] layerArr,
-            T[] weightArr,
-            int[] outputNodeIdxArr) 
-        : base(connIdArrays, inputCount, outputCount, nodeCount, layerArr)
+            int[] outputNodeIdxArr,
+            T[] weightArr) 
+        : base(connIdArrays, inputCount, outputCount, nodeCount, layerArr, outputNodeIdxArr)
         {
             this.WeightArray = weightArr;
-            this.OutputNodeIdxArr = outputNodeIdxArr;
         }
 
         #endregion

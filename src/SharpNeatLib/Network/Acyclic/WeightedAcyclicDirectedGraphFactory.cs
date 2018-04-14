@@ -112,8 +112,9 @@ namespace SharpNeat.Network.Acyclic
             return new WeightedAcyclicDirectedGraph<T>(
                 connIdArrays,
                 inputCount, outputCount, nodeCount,
-                layerInfoArr, weightArr,
-                outputNeuronIdxArr);
+                layerInfoArr, 
+                outputNeuronIdxArr,
+                weightArr);
         }
 
         #endregion
