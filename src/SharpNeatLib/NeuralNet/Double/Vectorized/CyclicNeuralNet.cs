@@ -55,26 +55,26 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// Constructs a CyclicNetwork with the provided neural net definition parameters.
         /// </summary>
         public CyclicNeuralNet (
-            WeightedDirectedGraph<double> diGraph,
+            WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
             int activationCount,
             bool boundedOutput)
         {
             // Store refs to network structure data.
-            _srcIdArr = diGraph.ConnectionIdArrays._sourceIdArr;
-            _tgtIdArr = diGraph.ConnectionIdArrays._targetIdArr;
-            _weightArr = diGraph.WeightArray;
+            _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
+            _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            _weightArr = digraph.WeightArray;
 
             // Store network activation function and parameters.
             _activationFn = activationFn;
             _activationCount = activationCount;
 
             // Store input/output node counts.
-            _inputCount = diGraph.InputCount;
-            _outputCount = diGraph.OutputCount;
+            _inputCount = digraph.InputCount;
+            _outputCount = digraph.OutputCount;
 
             // Create node pre- and post-activation signal arrays.
-            int nodeCount = diGraph.TotalNodeCount;
+            int nodeCount = digraph.TotalNodeCount;
             _preActivationArr = new double[nodeCount];
             _postActivationArr = new double[nodeCount];
 
