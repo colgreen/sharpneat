@@ -20,7 +20,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             connList.Add(new WeightedDirectedConnection<double>(0, 1, 0.0));
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 1, 1);
+            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -51,7 +51,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             connList.Add(new WeightedDirectedConnection<double>(0, 1, 1.0));
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 1, 1);
+            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -84,7 +84,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 2, 1);
+            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 2, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -121,7 +121,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 2, 1);
+            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 2, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -155,7 +155,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 2, 2);
+            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 2, 2);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -185,7 +185,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphFactory<double>.Create(connList, 3, 3);
+            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 3, 3);
 
             // Create neural net
             var actFn = new LogisticFunction();

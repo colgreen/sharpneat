@@ -5,9 +5,7 @@ using Redzen;
 
 namespace SharpNeat.Network.Acyclic
 {
-    // TODO: Consider renaming. This should probably be a 'Builder' class, rather than a Factory.
-
-    public static class WeightedAcyclicDirectedGraphFactory<T>
+    public static class WeightedAcyclicDirectedGraphBuilder<T>
         where T : struct
     {
         #region Public Static Methods
@@ -17,7 +15,7 @@ namespace SharpNeat.Network.Acyclic
             int inputCount, int outputCount)
         {
             // Convert the set of connections to a standardised graph representation.
-            WeightedDirectedGraph<T> digraph = WeightedDirectedGraphFactory<T>.Create(connectionList, inputCount, outputCount);
+            WeightedDirectedGraph<T> digraph = WeightedDirectedGraphBuilder<T>.Create(connectionList, inputCount, outputCount);
 
             // Invoke factory logic specific to acyclic graphs.
             return Create(digraph);

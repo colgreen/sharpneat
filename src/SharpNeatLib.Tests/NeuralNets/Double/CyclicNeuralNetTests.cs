@@ -24,7 +24,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -60,7 +60,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -106,7 +106,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -139,7 +139,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
             var actFn = new LogisticFunction();
@@ -178,7 +178,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             };
 
             // Create graph.
-            var digraph = WeightedDirectedGraphFactory<double>.Create(connList, 3, 3);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 3, 3);
 
             // Create neural net
             var actFn = new LogisticFunction();

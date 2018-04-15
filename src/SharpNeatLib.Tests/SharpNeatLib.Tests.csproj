@@ -101,8 +101,8 @@
     <Compile Include="NeuralNets\Double\AcyclicNeuralNetTests.cs" />
     <Compile Include="Phenomes\VectorSegmentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Network\WeightedAcyclicDirectedGraphFactoryTests.cs" />
-    <Compile Include="Network\WeightedDirectedGraphFactoryTests.cs" />
+    <Compile Include="Network\WeightedAcyclicDirectedGraphBuilderTests.cs" />
+    <Compile Include="Network\WeightedDirectedGraphBuilderTests.cs" />
     <Compile Include="TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>

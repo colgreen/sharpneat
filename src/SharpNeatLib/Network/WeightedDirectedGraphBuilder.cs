@@ -7,7 +7,7 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Network
 {
-    public static class WeightedDirectedGraphFactory<T> 
+    public static class WeightedDirectedGraphBuilder<T> 
         where T : struct
     {
         #region Public Static Methods
