@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Network;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
@@ -53,7 +52,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
-                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome);
+                var digraph = childGenome.DirectedGraph;
                 Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
 
                 // Increment for successful tests only.

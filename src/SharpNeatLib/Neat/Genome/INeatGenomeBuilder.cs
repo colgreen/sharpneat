@@ -61,23 +61,8 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-        /// <returns>A new NeatGenome instance.</returns>
-        NeatGenome<T> Create(
-            int id, int birthGeneration,
-            ConnectionGenes<T> connGenes,
-            int[] hiddenNodeIdArr,
-            INodeIdMap nodeIndexByIdMap,
-            DirectedGraph digraph);
-
-        /// <summary>
-        /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
-        /// </summary>
-        /// <param name="id">Genome ID.</param>
-        /// <param name="birthGeneration">Birth generation.</param>
-        /// <param name="connGenes">Connection genes.</param>
-        /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
-        /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-        /// <param name="depthInfo">Graph depth information.</param>
+        /// <param name="connectionIndexMap">Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based 
+        /// node index allocations.</param>
         /// <returns>A new NeatGenome instance.</returns>
         NeatGenome<T> Create(
             int id, int birthGeneration,
@@ -85,6 +70,6 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            GraphDepthInfo depthInfo);
+            int[] connectionIndexMap);
     }
 }

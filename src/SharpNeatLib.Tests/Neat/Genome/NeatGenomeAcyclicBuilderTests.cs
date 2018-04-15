@@ -1,21 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;
 
-namespace SharpNeat.Tests.Neat.Network
+namespace SharpNeat.Tests.Neat.Genome
 {
     [TestClass]
-    public class NeatAcyclicDirectedGraphFactoryTests
+    public class NeatGenomeAcyclicBuilderTests
     {
         #region Test Methods
 
         [TestMethod]
-        [TestCategory("NeatAcyclicDirectedGraphFactory")]
-        public void SimpleAcyclic()
+        [TestCategory("NeatGenomeAcyclicBuilder")]
+        public void Simple()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
@@ -30,18 +29,19 @@ namespace SharpNeat.Tests.Neat.Network
             // Wrap in a genome.
             var genome = genomeBuilder.Create(0, 0, connGenes);
 
-            // Create graph.
-            var digraph = NeatAcyclicDirectedGraphFactory<double>.Create(genome);
+            // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
+            var acyclicDigraph = (AcyclicDirectedGraph)genome.DirectedGraph;
+            Assert.IsNotNull(acyclicDigraph);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connGenes, acyclicDigraph.ConnectionIdArrays, genome.ConnectionIndexMap);
 
             // Check the node count.
-            Assert.AreEqual(5, digraph.TotalNodeCount);
+            Assert.AreEqual(5, acyclicDigraph.TotalNodeCount);
         }
 
         [TestMethod]
-        [TestCategory("NeatAcyclicDirectedGraphFactory")]
+        [TestCategory("NeatGenomeAcyclicBuilder")]
         public void DepthNodeReorderTest()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(2, 2, true, new ReLU());
@@ -59,8 +59,15 @@ namespace SharpNeat.Tests.Neat.Network
             // Wrap in a genome.
             var genome = genomeBuilder.Create(0, 0, connGenes);
 
-            // Create graph.
-            var digraph = NeatAcyclicDirectedGraphFactory<double>.Create(genome);
+            // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
+            var acyclicDigraph = (AcyclicDirectedGraph)genome.DirectedGraph;
+            Assert.IsNotNull(acyclicDigraph);
+
+            // Simulate the actual weight array that would occur in e.g. a WeightedAcyclicDirectedGraph or AcyclicNeuralNet.
+            double[] weightArrActual = new double[connGenes._weightArr.Length];
+            for(int i=0; i < weightArrActual.Length; i++) {
+                weightArrActual[i] = connGenes._weightArr[genome.ConnectionIndexMap[i]];
+            }
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.
             // And connections should be ordered by source node ID.
@@ -73,7 +80,7 @@ namespace SharpNeat.Tests.Neat.Network
             connArrExpected[4] = new DirectedConnection(4, 5); weightArrExpected[4] = 4.0;
 
             // Compare actual and expected connections.
-            CompareConnectionLists(connArrExpected, weightArrExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connArrExpected, weightArrExpected, acyclicDigraph.ConnectionIdArrays, weightArrActual);
 
             // Test layer info.
             LayerInfo[] layerArrExpected = new LayerInfo[5];
@@ -82,10 +89,10 @@ namespace SharpNeat.Tests.Neat.Network
             layerArrExpected[2] = new LayerInfo(4, 4);
             layerArrExpected[3] = new LayerInfo(5, 5);
             layerArrExpected[4] = new LayerInfo(6, 5);
-            Assert.AreEqual(5, digraph.LayerArray.Length);
+            Assert.AreEqual(5, acyclicDigraph.LayerArray.Length);
 
             // Check the node count.
-            Assert.AreEqual(6, digraph.TotalNodeCount);
+            Assert.AreEqual(6, acyclicDigraph.TotalNodeCount);
         }
 
         #endregion

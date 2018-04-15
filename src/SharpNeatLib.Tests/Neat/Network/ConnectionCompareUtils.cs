@@ -6,7 +6,51 @@ namespace SharpNeat.Tests.Neat.Network
 {
     public static class ConnectionCompareUtils
     {
-        #region Public Static Methods
+        #region Public Static Methods [Compare - No Weights]
+
+        public static void CompareConnectionLists(
+            DirectedConnection[] xConnArr,
+            ConnectionIdArrays yIdArrays)
+        {
+            int xlen = xConnArr.Length;
+            Assert.AreEqual(xlen, yIdArrays._sourceIdArr.Length);
+            Assert.AreEqual(xlen, yIdArrays._targetIdArr.Length);
+
+            for(int i=0; i < xlen; i++)  {
+                Assert.IsTrue(AreEqual(xConnArr, yIdArrays, i, i));
+            }
+        }
+
+        public static void CompareConnectionLists<T>(
+            ConnectionGenes<T> x,
+            ConnectionIdArrays yIdArrays)
+            where T : struct
+        {
+            Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
+            Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
+
+            for(int i=0; i < x.Length; i++)  {
+                Assert.IsTrue(AreEqual(x, yIdArrays, i, i));
+            }
+        }
+
+        public static void CompareConnectionLists<T>(
+            ConnectionGenes<T> x,
+            ConnectionIdArrays yIdArrays,
+            int[] connectionIndexMap)
+            where T : struct
+        {
+            Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
+            Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
+
+            for(int i=0; i < x.Length; i++)  {
+                Assert.IsTrue(AreEqual(x, yIdArrays, connectionIndexMap[i], i));
+            }
+        }
+
+        #endregion
+
+        #region Public Static Methods [Compare - With Weights]
 
         public static void CompareConnectionLists<T>(
             DirectedConnection[] xConnArr, T[] xWeightArr,
@@ -20,43 +64,71 @@ namespace SharpNeat.Tests.Neat.Network
             Assert.AreEqual(xlen, yWeightArr.Length);
 
             for(int i=0; i < xlen; i++)  {
-                Assert.IsTrue(AreEqual(xConnArr, xWeightArr, yIdArrays, yWeightArr, i));
+                Assert.IsTrue(AreEqual(xConnArr, xWeightArr, yIdArrays, yWeightArr, i, i));
             }
         }
 
-        public static bool AreEqual<T>(
-            DirectedConnection[] xConnArr, T[] xWeightArr,
-            ConnectionIdArrays yIdArrays, T[] yWeightArr,
-            int idx)
-            where T : struct
-        {
-            return xConnArr[idx].SourceId == yIdArrays._sourceIdArr[idx] 
-                &&  xConnArr[idx].TargetId == yIdArrays._targetIdArr[idx] 
-                &&  xWeightArr[idx].Equals(yWeightArr[idx]);
-        }
-
-        public static void CompareConnectionLists<T>(ConnectionGenes<T> x,
-                                                     ConnectionIdArrays yIdArrays,
-                                                     T[] yWeightArr)
+        public static void CompareConnectionLists<T>(
+            ConnectionGenes<T> x,
+            ConnectionIdArrays yIdArrays,
+            T[] yWeightArr)
             where T : struct
         {
             Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
             Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
             Assert.AreEqual(x.Length, yWeightArr.Length);
 
-            for(int i=0; i<x.Length; i++)  {
-                Assert.IsTrue(AreEqual(x, yIdArrays, yWeightArr, i));
+            for(int i=0; i < x.Length; i++)  {
+                Assert.IsTrue(AreEqual(x, yIdArrays, yWeightArr, i, i));
             }
         }
 
-        public static bool AreEqual<T>(ConnectionGenes<T> x,
-                                       ConnectionIdArrays yIdArrays,
-                                       T[] yWeightArr, int idx)
+        #endregion
+
+        #region Private Static Methods
+
+        private static bool AreEqual<T>(
+            ConnectionGenes<T> x,
+            ConnectionIdArrays yIdArrays,
+            int xIdx, int yIdx)
             where T : struct
         {
-            return x._connArr[idx].SourceId == yIdArrays._sourceIdArr[idx] 
-                &&  x._connArr[idx].TargetId == yIdArrays._targetIdArr[idx] 
-                &&  x._weightArr[idx].Equals(yWeightArr[idx]);
+            return AreEqual(
+                x._connArr,
+                yIdArrays,
+                xIdx, yIdx);
+        }
+
+        private static bool AreEqual(
+            DirectedConnection[] xConnArr,
+            ConnectionIdArrays yIdArrays,
+            int xIdx, int yIdx)
+        {
+            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx] 
+               &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx];
+        }
+
+        private static bool AreEqual<T>(
+            ConnectionGenes<T> x,
+            ConnectionIdArrays yIdArrays, T[] yWeightArr,
+            int xIdx, int yIdx)
+            where T : struct
+        {
+            return AreEqual(
+                x._connArr, x._weightArr,
+                yIdArrays, yWeightArr,
+                xIdx, yIdx);
+        }
+
+        private static bool AreEqual<T>(
+            DirectedConnection[] xConnArr, T[] xWeightArr,
+            ConnectionIdArrays yIdArrays, T[] yWeightArr,
+            int xIdx, int yIdx)
+            where T : struct
+        {
+            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx] 
+               &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx] 
+               &&  xWeightArr[xIdx].Equals(yWeightArr[yIdx]);
         }
 
         #endregion

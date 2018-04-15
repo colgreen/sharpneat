@@ -21,6 +21,10 @@
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Network\IO\NetworkTsvWriterUtils.cs" />
     <Compile Remove="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />

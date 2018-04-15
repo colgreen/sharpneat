@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Redzen;
 using Redzen.Sorting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
@@ -125,7 +126,7 @@ namespace SharpNeat.Neat.Genome
 
             // Test that all input nodes are at depth zero.
             // Any input node with a non-zero depth must have an input connection, and this is not supported.
-            if(!AreZero(depthInfo._nodeDepthArr, metaNeatGenome.InputNodeCount)) {
+            if(!ArrayUtils.Equals(depthInfo._nodeDepthArr, 0, 0, metaNeatGenome.InputNodeCount)) {
                 return false;
             }
 
@@ -169,17 +170,5 @@ namespace SharpNeat.Neat.Genome
         }
 
         #endregion
-
-        private static bool AreZero(int[] arr, int length)
-        {
-            for(int i=0; i < length; i++)
-            {
-                if(0 != arr[i]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
     }
 }

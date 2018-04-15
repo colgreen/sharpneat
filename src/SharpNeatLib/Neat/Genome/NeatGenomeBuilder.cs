@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using Redzen.Sorting;
+using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Genome
 {
@@ -36,11 +36,10 @@ namespace SharpNeat.Neat.Genome
             int birthGeneration,
             ConnectionGenes<T> connGenes)
         {
-            Debug.Assert(null != connGenes);
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
+            // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
+            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount);
 
-            // Create genome.
-            return CreateInner(id, birthGeneration, connGenes);
+            return Create(id, birthGeneration, connGenes, hiddenNodeIdArr);
         }
 
         /// <summary>
@@ -56,16 +55,10 @@ namespace SharpNeat.Neat.Genome
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr)
         {
-            // Assert non-null parameters.
-            Debug.Assert(null != connGenes);
-            Debug.Assert(null != hiddenNodeIdArr);
+            // Create a mapping from node IDs to node indexes.
+            INodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount);
 
-            // Validity tests.
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
-
-            // Create genome.
-            return CreateInner(id, birthGeneration, connGenes, hiddenNodeIdArr);
+            return Create(id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
         }
 
         /// <summary>
@@ -82,36 +75,10 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap)
         {
-            // Assert non-null parameters.
-            Debug.Assert(null != connGenes);
-            Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdMap);
+            // Create a digraph from the genome.
+            DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
+                _metaNeatGenome, connGenes, nodeIndexByIdMap);
 
-            // Validity tests.
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
-            Debug.Assert(ConnectionGenesUtils.ValidateHiddenNodeIds(hiddenNodeIdArr, connGenes._connArr, _metaNeatGenome.InputOutputNodeCount));
-
-            // Create genome.
-            return CreateInner(id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
-        }
-
-        /// <summary>
-        /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
-        /// </summary>
-        /// <param name="id">Genome ID.</param>
-        /// <param name="birthGeneration">Birth generation.</param>
-        /// <param name="connGenes">Connection genes.</param>
-        /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
-        /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-        /// <returns>A new NeatGenome instance.</returns>
-        public NeatGenome<T> Create(
-            int id, int birthGeneration,
-            ConnectionGenes<T> connGenes,
-            int[] hiddenNodeIdArr,
-            INodeIdMap nodeIndexByIdMap,
-            DirectedGraph digraph)
-        {
-            // Invoke constructor.
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }
 
@@ -123,7 +90,8 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-        /// <param name="depthInfo">Graph depth information.</param>
+        /// <param name="connectionIndexMap">Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based 
+        /// node index allocations.</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(
             int id, int birthGeneration,
@@ -131,51 +99,11 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            GraphDepthInfo depthInfo)
+            int[] connectionIndexMap)
         {
-            // This overload of Create() accepts GraphDepthInfo and is therefore for acyclic graphs only.
-            // The caller should be using NeatGenomeAcyclicBuilder for acyclic graphs.
-            throw new NotImplementedException();
-        }
+            // This should always be null when evolving cyclic genomes/graphs.
+            Debug.Assert(null == connectionIndexMap);
 
-        #endregion
-
-        #region Private Methods
-
-        private NeatGenome<T> CreateInner(
-            int id, int birthGeneration,
-            ConnectionGenes<T> connGenes)
-        {
-            // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
-            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount);
-
-            // Call subroutine to create further supplementary data structures, and create a new genome.
-            return CreateInner(id, birthGeneration, connGenes, hiddenNodeIdArr);
-        }
-
-        private NeatGenome<T> CreateInner(
-            int id, int birthGeneration,
-            ConnectionGenes<T> connGenes,
-            int[] hiddenNodeIdArr)
-        {
-            // Create a mapping from node IDs to node indexes.
-            INodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount);
-
-            // Call subroutine to create further supplementary data structures, and create a new genome.
-            return CreateInner(id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
-        }
-
-        private NeatGenome<T> CreateInner(
-            int id, int birthGeneration,
-            ConnectionGenes<T> connGenes,
-            int[] hiddenNodeIdArr,
-            INodeIdMap nodeIndexByIdMap)
-        {
-            // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
-            DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
-                _metaNeatGenome, connGenes, nodeIndexByIdMap);
-
-            // Construct genome.
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }
 

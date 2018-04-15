@@ -26,6 +26,7 @@ namespace SharpNeat.Network.Acyclic
         : base(connIdArrays, inputCount, outputCount, nodeCount)
         {
             this.LayerArray = layerArr;
+            this.OutputNodeIdxArr = outputNodeIdxArr;
         }
 
         #endregion

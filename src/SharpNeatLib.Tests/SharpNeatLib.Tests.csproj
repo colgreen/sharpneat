@@ -60,6 +60,8 @@
     <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricsUtilsTests.cs" />
     <Compile Include="Neat\DistanceMetrics\Double\ManhattanDistanceMetricTests.cs" />
     <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetricTests.cs" />
+    <Compile Include="Neat\Genome\NeatGenomeAcyclicBuilderTests.cs" />
+    <Compile Include="Neat\Genome\NeatGenomeBuilderTests.cs" />
     <Compile Include="Neat\Network\DirectedConnectionTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\EnumerateParentGenesTests.cs" />
@@ -77,8 +79,6 @@
     <Compile Include="Neat\NeatPopulationTests.cs" />
     <Compile Include="Neat\AddedNodeBufferTests.cs" />
     <Compile Include="Neat\Network\ConnectionCompareUtils.cs" />
-    <Compile Include="Neat\Network\NeatAcyclicDirectedGraphFactoryTests.cs" />
-    <Compile Include="Neat\Network\NeatDirectedGraphFactoryTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionStrategyTests.cs" />
     <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\CyclicConnectionTestTest.cs" />

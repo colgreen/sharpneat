@@ -1,20 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;
 
-namespace SharpNeat.Tests.Neat.Network
+namespace SharpNeat.Tests.Neat.Genome
 {
     [TestClass]
-    public class NeatDirectedGraphFactoryTests
+    public class NeatGenomeBuilderTests
     {
         #region Test Methods
 
         [TestMethod]
-        [TestCategory("NeatDirectedGraphFactory")]
-        public void SimpleAcyclic()
+        [TestCategory("NeatGenomeBuilder")]
+        public void Simple()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 0, false, new ReLU());
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
@@ -28,20 +27,20 @@ namespace SharpNeat.Tests.Neat.Network
 
             // Wrap in a genome.
             var genome = genomeBuilder.Create(0, 0, connGenes);
-            
-            // Create graph.
-            var digraph = NeatDirectedGraphFactory<double>.Create(genome);
+
+            // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
+            var digraph = genome.DirectedGraph;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.AreEqual(5, digraph.TotalNodeCount);
         }
 
         [TestMethod]
-        [TestCategory("NeatDirectedGraphFactory")]
-        public void SimpleAcyclic_DefinedNodes()
+        [TestCategory("NeatGenomeBuilder")]
+        public void Simple_DefinedNodes()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
@@ -56,19 +55,19 @@ namespace SharpNeat.Tests.Neat.Network
             // Wrap in a genome.
             var genome = genomeBuilder.Create(0, 0, connGenes);
 
-            // Create graph.
-            var digraph = NeatDirectedGraphFactory<double>.Create(genome);
+            // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
+            var digraph = genome.DirectedGraph;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);
         }
 
         [TestMethod]
-        [TestCategory("NeatDirectedGraphFactory")]
-        public void SimpleAcyclic_DefinedNodes_NodeIdGap()
+        [TestCategory("NeatGenomeBuilder")]
+        public void Simple_DefinedNodes_NodeIdGap()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
@@ -83,8 +82,8 @@ namespace SharpNeat.Tests.Neat.Network
             // Wrap in a genome.
             var genome = genomeBuilder.Create(0, 0, connGenes);
 
-            // Create graph.
-            var digraph = NeatDirectedGraphFactory<double>.Create(genome);
+            // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
+            var digraph = genome.DirectedGraph;
 
             // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
             var connArrExpected = new DirectedConnection[4];
@@ -95,7 +94,7 @@ namespace SharpNeat.Tests.Neat.Network
             connArrExpected[3] = new DirectedConnection(12, 14); weightArrExpected[3] = 3.0;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connArrExpected, weightArrExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connArrExpected, digraph.ConnectionIdArrays);
             
             // Check the node count.
             Assert.AreEqual(15, digraph.TotalNodeCount);

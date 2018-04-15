@@ -51,27 +51,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Create and return a new genome.
             // Note. The parent's ConnectionIndexArray and HiddenNodeIdArray can be re-used here because the new genome
             // has the same set of connections (same neural net structure).
-
-            // TODO: We probably don't need this conditional Create() now that Create() is no longer a set of static methods).
-            if(_metaNeatGenome.IsAcyclic)
-            {
-                return _genomeBuilder.Create(
-                    _genomeIdSeq.Next(), 
-                    _generationSeq.Peek,
-                    connGenes,
-                    parent.HiddenNodeIdArray,
-                    parent.NodeIndexByIdMap,
-                    parent.DirectedGraph,
-                    parent.DepthInfo);
-            }
-            // else
             return _genomeBuilder.Create(
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,
                 connGenes,
                 parent.HiddenNodeIdArray,
                 parent.NodeIndexByIdMap,
-                parent.DirectedGraph);
+                parent.DirectedGraph,
+                parent.ConnectionIndexMap);
         }
 
         #endregion

@@ -73,19 +73,20 @@ namespace SharpNeat.Neat.Genome
         /// on this class to provide improved performance for:
         ///  * Decoding to a neural net object.
         ///  * Finding new connections on acyclic graph, i.e. detecting if a random new connection would form a cycle.
+        ///  
+        /// When MetaNeatGenome.IsAcyclic is true then the object store here will be of the subtype AcyclicDirectedGraph.
         /// </remarks>
         public DirectedGraph DirectedGraph { get; }
 
-        // TODO: Replace cached GraphDepthInfo with a cached IPhenome, since that is ultimately what we want the depth info for.
-        // A GraphDepthInfo instance can be re-used for child genomes that have the same graph topology as their parent, i.e. child genomes
-        // that are the result of weight mutation; but the IPhenome can probably be re-used in those cases too.
         /// <summary>
-        /// Graph depth information. For acyclic graphs only.
-        /// If present this has been cached during genome decoding, since the depth info is a structure tied to DirectedGraph
-        /// not NeatGenome, in particular it's based on contiguous node IDs used by DirectedGraph and not the non-contiguous 
-        /// node innovation IDs used by NeatGenome.
+        /// Cached info related to acyclic digraphs only.
+        /// 
+        /// Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based 
+        /// node index allocations.
+        /// This allows for mapping of weights from NeatGenome.ConnectionGenes to the re-ordered weight array used by the neural
+        /// net implementation (AcyclicNeuralNet).
         /// </summary>
-        public GraphDepthInfo DepthInfo { get; set; }
+        public int[] ConnectionIndexMap { get; }
 
         #endregion
 
@@ -102,12 +103,13 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            GraphDepthInfo depthInfo)
+            int[] connectionIndexMap)
         {
-            Debug.Assert(NeatGenomeValidation<T>.IsValid(
-                metaNeatGenome, id, birthGeneration,
-                connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
-                digraph, depthInfo));
+            // TODO: Reinstate.
+            //Debug.Assert(NeatGenomeValidation<T>.IsValid(
+            //    metaNeatGenome, id, birthGeneration,
+            //    connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
+            //    digraph, depthInfo));
 
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;
@@ -116,7 +118,7 @@ namespace SharpNeat.Neat.Genome
             this.HiddenNodeIdArray = hiddenNodeIdArr;
             this.NodeIndexByIdMap = nodeIndexByIdMap;
             this.DirectedGraph = digraph;
-            this.DepthInfo = depthInfo;            
+            this.ConnectionIndexMap = connectionIndexMap;
         }
 
         #endregion

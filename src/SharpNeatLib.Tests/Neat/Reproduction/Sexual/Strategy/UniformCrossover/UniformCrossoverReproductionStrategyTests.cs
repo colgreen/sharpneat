@@ -3,13 +3,14 @@ using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Network;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
+    // TODO: Reinstate.
+
     [TestClass]
     public class UniformCrossoverReproductionStrategyTests
     {
@@ -43,7 +44,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
-                var digraph = NeatDirectedGraphFactory<double>.Create(childGenome);
+                var digraph = childGenome.DirectedGraph;
                 Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
 
                 // The child genome node IDs should be a superset of those from parent1 + parent2.

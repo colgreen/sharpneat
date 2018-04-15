@@ -27,22 +27,22 @@ namespace SharpNeat.Network
         
         #region Public Static Methods
 
-        public static void Sort(ConnectionIdArrays connIdArrays, T[] weightArr)
+        public static void Sort(ConnectionIdArrays connIdArrays, T[] secondaryArr)
         {
             Debug.Assert(connIdArrays._sourceIdArr != null);
             Debug.Assert(connIdArrays._targetIdArr != null);
-            Debug.Assert(weightArr != null);
+            Debug.Assert(secondaryArr != null);
             Debug.Assert(connIdArrays._sourceIdArr.Length == connIdArrays._targetIdArr.Length);
-            Debug.Assert(connIdArrays._sourceIdArr.Length == weightArr.Length);
+            Debug.Assert(connIdArrays._sourceIdArr.Length == secondaryArr.Length);
 
-            IntrospectiveSort(connIdArrays._sourceIdArr, connIdArrays._targetIdArr, weightArr, 0, connIdArrays._sourceIdArr.Length);
+            IntrospectiveSort(connIdArrays._sourceIdArr, connIdArrays._targetIdArr, secondaryArr, 0, connIdArrays._sourceIdArr.Length);
         }
 
         #endregion
 
         #region Private Static Methods [Intro Sort]
 
-        private static void IntrospectiveSort(int[] srcIdArr, int[] tgtIdArrTKey, T[] weightArr, int left, int length)
+        private static void IntrospectiveSort(int[] srcIdArr, int[] tgtIdArrTKey, T[] secondaryArr, int left, int length)
         {
             Debug.Assert(left >= 0);
             Debug.Assert(length >= 0);
@@ -52,10 +52,10 @@ namespace SharpNeat.Network
             if (length < 2)
                 return;
 
-            IntroSortInner(srcIdArr, tgtIdArrTKey, weightArr, left, length + left - 1, 2 * FloorLog2(srcIdArr.Length));
+            IntroSortInner(srcIdArr, tgtIdArrTKey, secondaryArr, left, length + left - 1, 2 * FloorLog2(srcIdArr.Length));
         }
 
-        private static void IntroSortInner(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int lo, int hi, int depthLimit)
+        private static void IntroSortInner(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int lo, int hi, int depthLimit)
         {
             Debug.Assert(lo >= 0);
             Debug.Assert(hi < srcIdArr.Length);
@@ -70,36 +70,36 @@ namespace SharpNeat.Network
                     }
                     if (partitionSize == 2) 
                     {
-                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, lo, hi);
+                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
                         return;
                     }
                     if (partitionSize == 3) 
                     {
-                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, lo, hi - 1);
-                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, lo, hi);
-                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, hi - 1, hi);
+                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi - 1);
+                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
+                        SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, hi - 1, hi);
                         return;
                     }
 
-                    InsertionSort(srcIdArr, tgtIdArr, weightArr, lo, hi);
+                    InsertionSort(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
                     return;
                 }
 
                 if (depthLimit == 0)
                 {
-                    Heapsort(srcIdArr, tgtIdArr, weightArr, lo, hi);
+                    Heapsort(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
                     return;
                 }
                 depthLimit--;
 
-                int p = PickPivotAndPartition(srcIdArr, tgtIdArr, weightArr, lo, hi);
+                int p = PickPivotAndPartition(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
                 // Note we've already partitioned around the pivot and do not have to move the pivot again.
-                IntroSortInner(srcIdArr, tgtIdArr, weightArr, p + 1, hi, depthLimit);
+                IntroSortInner(srcIdArr, tgtIdArr, secondaryArr, p + 1, hi, depthLimit);
                 hi = p - 1;
             }
         }
 
-        private static int PickPivotAndPartition(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int lo, int hi)
+        private static int PickPivotAndPartition(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int lo, int hi)
         {   
             Debug.Assert(lo >= 0);
             Debug.Assert(hi > lo);
@@ -109,15 +109,15 @@ namespace SharpNeat.Network
             int middle = lo + ((hi - lo) / 2);
 
             // Sort lo, mid and hi appropriately, then pick mid as the pivot.
-            SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, lo, middle);  // swap the low with the mid point
-            SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, lo, hi);      // swap the low with the high
-            SwapIfGreaterWithItems(srcIdArr, tgtIdArr, weightArr, middle, hi);  // swap the middle with the high
+            SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, middle);  // swap the low with the mid point
+            SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi);      // swap the low with the high
+            SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, middle, hi);  // swap the middle with the high
 
             //TKey pivot = keys[middle];
             int pivotSrcId = srcIdArr[middle];
             int pivotTgtId = tgtIdArr[middle];
 
-            Swap(srcIdArr, tgtIdArr, weightArr, middle, hi - 1);
+            Swap(srcIdArr, tgtIdArr, secondaryArr, middle, hi - 1);
             int left = lo, right = hi - 1;  // We already partitioned lo and hi and put the pivot in hi - 1.  And we pre-increment & decrement below.
 
             while (left < right)
@@ -129,17 +129,17 @@ namespace SharpNeat.Network
                     break;
                 }
 
-                Swap(srcIdArr, tgtIdArr, weightArr, left, right);
+                Swap(srcIdArr, tgtIdArr, secondaryArr, left, right);
             }
 
             // Put pivot in the right location.
-            Swap(srcIdArr, tgtIdArr, weightArr, left, (hi - 1));
+            Swap(srcIdArr, tgtIdArr, secondaryArr, left, (hi - 1));
 
             Debug.Assert(left >= lo && left <= hi);
             return left;
         }
 
-        private static void SwapIfGreaterWithItems(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int a, int b)
+        private static void SwapIfGreaterWithItems(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int a, int b)
         {
             if (a != b && Compare(srcIdArr[a], tgtIdArr[a], srcIdArr[b], tgtIdArr[b]) > 0)
             {
@@ -151,13 +151,13 @@ namespace SharpNeat.Network
                 tgtIdArr[a] = tgtIdArr[b];
                 tgtIdArr[b] = id;
 
-                T w = weightArr[a];
-                weightArr[a] = weightArr[b];
-                weightArr[b] = w;        
+                T w = secondaryArr[a];
+                secondaryArr[a] = secondaryArr[b];
+                secondaryArr[b] = w;        
             }   
         }
 
-        private static void Swap(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int i, int j)
+        private static void Swap(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int i, int j)
         {
             if (i != j)
             {
@@ -169,9 +169,9 @@ namespace SharpNeat.Network
                 tgtIdArr[i] = tgtIdArr[j];
                 tgtIdArr[j] = id;
 
-                T w = weightArr[i];
-                weightArr[i] = weightArr[j];
-                weightArr[j] = w;
+                T w = secondaryArr[i];
+                secondaryArr[i] = secondaryArr[j];
+                secondaryArr[j] = w;
             }
         }
 
@@ -179,7 +179,7 @@ namespace SharpNeat.Network
 
         #region Private Static Methods [Insertion Sort]
 
-        private static void InsertionSort(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int lo, int hi)
+        private static void InsertionSort(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int lo, int hi)
         {
             Debug.Assert(lo >= 0);
             Debug.Assert(hi >= lo);
@@ -195,19 +195,19 @@ namespace SharpNeat.Network
                 j = i;
                 srcId = srcIdArr[i+1];
                 tgtId = tgtIdArr[i+1];
-                weight = weightArr[i+1];
+                weight = secondaryArr[i+1];
 
                 while (j >= lo &&  Compare(srcId, tgtId, srcIdArr[j], tgtIdArr[j]) < 0)
                 {
                     srcIdArr[j + 1] = srcIdArr[j];
                     tgtIdArr[j + 1] = tgtIdArr[j];
-                    weightArr[j + 1] = weightArr[j];
+                    secondaryArr[j + 1] = secondaryArr[j];
                     j--;
                 }
 
                 srcIdArr[j + 1] = srcId;
                 tgtIdArr[j + 1] = tgtId;
-                weightArr[j + 1] = weight;
+                secondaryArr[j + 1] = weight;
             }
         }
 
@@ -215,7 +215,7 @@ namespace SharpNeat.Network
 
         #region Private Static Methods [Heap Sort]
 
-        private static void Heapsort(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int lo, int hi)
+        private static void Heapsort(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int lo, int hi)
         {
             Debug.Assert(lo >= 0);
             Debug.Assert(hi > lo);
@@ -224,23 +224,23 @@ namespace SharpNeat.Network
             int n = hi - lo + 1;
             for (int i = n / 2; i >= 1; i = i - 1)
             {
-                DownHeap(srcIdArr, tgtIdArr, weightArr, i, n, lo);
+                DownHeap(srcIdArr, tgtIdArr, secondaryArr, i, n, lo);
             }
             for (int i = n; i > 1; i = i - 1)
             {
-                Swap(srcIdArr, tgtIdArr, weightArr, lo, lo + i - 1);
-                DownHeap(srcIdArr, tgtIdArr, weightArr, 1, i - 1, lo);
+                Swap(srcIdArr, tgtIdArr, secondaryArr, lo, lo + i - 1);
+                DownHeap(srcIdArr, tgtIdArr, secondaryArr, 1, i - 1, lo);
             }
         }
 
-        private static void DownHeap(int[] srcIdArr, int[] tgtIdArr, T[] weightArr, int i, int n, int lo)
+        private static void DownHeap(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int i, int n, int lo)
         {
             Debug.Assert(lo >= 0);
             Debug.Assert(lo < srcIdArr.Length);
 
             int srcId = srcIdArr[lo + i - 1];
             int tgtId = tgtIdArr[lo + i - 1];
-            T weight = weightArr[lo + i - 1];
+            T weight = secondaryArr[lo + i - 1];
 
             int child;
             while (i <= n / 2)
@@ -255,13 +255,13 @@ namespace SharpNeat.Network
 
                 srcIdArr[lo + i - 1] = srcIdArr[lo + child - 1];
                 tgtIdArr[lo + i - 1] = tgtIdArr[lo + child - 1];
-                weightArr[lo + i - 1] = weightArr[lo + child - 1];
+                secondaryArr[lo + i - 1] = secondaryArr[lo + child - 1];
                 i = child;
             }
 
             srcIdArr[lo + i - 1] = srcId;
             tgtIdArr[lo + i - 1] = tgtId;
-            weightArr[lo + i - 1] = weight;
+            secondaryArr[lo + i - 1] = weight;
         }
 
         #endregion

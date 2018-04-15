@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;
-using SharpNeat.Neat.Network;
 using SharpNeat.Network;
 using SharpNeat.NeuralNet.Double;
 using SharpNeat.Phenomes;
@@ -11,8 +10,8 @@ namespace SharpNeat.Neat.Genome.Double
 {
     public class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
     {
-        int _activationCount;
-        bool _boundedOutput;
+        readonly int _activationCount;
+        readonly bool _boundedOutput;
 
         #region Constructor
 
@@ -40,15 +39,8 @@ namespace SharpNeat.Neat.Genome.Double
         public IPhenome<double> Decode(
             NeatGenome<double> genome)
         {
-            // Assert that the connections are sorted.
-            Debug.Assert(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
-
-            // Basic validation test.
-            // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but that's almost certainly 
-            // not what the caller wanted to do.
-            if(genome.MetaNeatGenome.IsAcyclic) {
-                throw new ArgumentException("Attempt to decode an acyclic neat genome into a cyclic neural network", "neatGenome");
-            }
+            // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but standard sharpneat behaviour is not to support this.
+            Debug.Assert(!genome.MetaNeatGenome.IsAcyclic);
 
             // Create a working neural net.
             var neuralNet = new CyclicNeuralNet(

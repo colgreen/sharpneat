@@ -82,11 +82,25 @@ namespace SharpNeat.NeuralNet.Double
             WeightedAcyclicDirectedGraph<double> digraph,
             VecFnSegment<double> activationFn,
             bool boundedOutput)
+            : this(digraph, digraph.WeightArray, activationFn, boundedOutput)
+        {}
+
+        /// <summary>
+        /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
+        /// </summary>
+        /// <param name="digraph">Network structure definition</param>
+        /// <param name="activationFn">Node activation function.</param>
+        /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
+        public AcyclicNeuralNet(
+            AcyclicDirectedGraph digraph,
+            double[] weightArr,
+            VecFnSegment<double> activationFn,
+            bool boundedOutput)
         {
             // Store refs to network structure data.
             _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
             _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
-            _weightArr = digraph.WeightArray;
+            _weightArr = weightArr;
             _layerInfoArr = digraph.LayerArray;
 
             // Store network activation function.
