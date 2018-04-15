@@ -9,8 +9,6 @@ using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
-    // TODO: Reinstate.
-
     [TestClass]
     public class UniformCrossoverReproductionStrategyTests
     {
