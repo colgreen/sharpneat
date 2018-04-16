@@ -24,7 +24,7 @@ namespace SharpNeat.Tests.Network
             };
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, 0, 0);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connList, digraph.ConnectionIdArrays);
@@ -47,7 +47,7 @@ namespace SharpNeat.Tests.Network
             };
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connList, digraph.ConnectionIdArrays);
@@ -70,7 +70,7 @@ namespace SharpNeat.Tests.Network
             };
 
             // Create graph.
-            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
             var connListExpected = new List<DirectedConnection>

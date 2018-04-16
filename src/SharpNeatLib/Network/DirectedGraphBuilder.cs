@@ -7,7 +7,7 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Network
 {
-    public static class DirectedGraphFactory
+    public static class DirectedGraphBuilder
     {
         #region Public Static Methods
 

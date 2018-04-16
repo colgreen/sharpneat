@@ -30,7 +30,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 3, 2);
+            var digraph = DirectedGraphBuilder.Create(connList, 3, 2);
 
             // Assert is acyclic.
             Assert.IsTrue(!CyclicGraphAnalysis.IsCyclicStatic(digraph));
@@ -72,7 +72,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 2, 2);
+            var digraph = DirectedGraphBuilder.Create(connList, 2, 2);
 
             // Assert is acyclic.
             Assert.IsTrue(!CyclicGraphAnalysis.IsCyclicStatic(digraph));

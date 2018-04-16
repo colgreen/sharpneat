@@ -25,7 +25,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 0, 0);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
@@ -48,7 +48,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
@@ -71,7 +71,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
@@ -99,7 +99,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 0, 0);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
@@ -123,7 +123,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
@@ -147,7 +147,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort();
-            var digraph = DirectedGraphFactory.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
             bool isCyclic = CyclicGraphAnalysis.IsCyclicStatic(digraph);
