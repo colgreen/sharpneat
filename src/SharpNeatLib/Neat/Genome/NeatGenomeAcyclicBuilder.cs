@@ -56,9 +56,46 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr)
         {
             // Create a mapping from node IDs to node indexes.
-            INodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount);
+            DictionaryNodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap(
+                hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount);
 
-            return Create(id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
+            // Create a digraph from the genome.
+            DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
+                _metaNeatGenome, connGenes, nodeIndexByIdMap);
+
+            // Calc the depth of each node in the digraph.
+            GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
+
+            // Create a weighted acyclic digraph.
+            // Note. This also outputs connectionIndexMap. For each connection in the acyclic graph this gives
+            // the index of the same connection in the genome; this is because connections are re-ordered based 
+            // on node depth in the acyclic graph.
+            AcyclicDirectedGraph acyclicDigraph = AcyclicDirectedGraphBuilderUtils.CreateAcyclicDirectedGraph(
+                digraph,
+                depthInfo,
+                out int[] newIdByOldId,
+                out int[] connectionIndexMap);
+
+            // TODO: Write unit tests to cover this!
+            // Update nodeIndexByIdMap.
+            // Notes.
+            // The current nodeIndexByIdMap maps node IDs (also know as innovation IDs in NEAT) to a compact 
+            // ID space in which any gaps have been removed, i.e. a compacted set of IDs that can be used as indexes,
+            // i.e. if there are N nodes in total then the highest node ID will be N-1.
+            //
+            // Here we map the new compact IDs to an alternative ID space that is also compact, but ensures that nodeIDs
+            // reflect the depth of a node in the acyclic graph.
+            nodeIndexByIdMap.UpdateNodeIdMap(
+                hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount, newIdByOldId);
+
+            // Create the neat genome.
+            return new NeatGenome<T>(
+                _metaNeatGenome, id, birthGeneration,
+                connGenes,
+                hiddenNodeIdArr,
+                nodeIndexByIdMap,
+                acyclicDigraph,
+                connectionIndexMap);
         }
 
         /// <summary>
@@ -75,30 +112,10 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap)
         {
-            // Create a digraph from the genome.
-            DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
-                _metaNeatGenome, connGenes, nodeIndexByIdMap);
-
-            // Calc the depth of each node in the digraph.
-            GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
-
-            // Create a weighted acyclic digraph.
-            // Note. This also outputs connectionIndexMap. For each connection in the acyclic graph this gives
-            // the index of the same connection in the genome; this is because connections are re-ordered based 
-            // on node depth in the acyclic graph.
-            var acyclicDigraph = AcyclicDirectedGraphBuilderUtils.CreateAcyclicDirectedGraph(
-                digraph,
-                depthInfo,
-                out int[] connectionIndexMap);
-
-            // Create the neat genome.
-            return new NeatGenome<T>(
-                _metaNeatGenome, id, birthGeneration,
-                connGenes,
-                hiddenNodeIdArr,
-                nodeIndexByIdMap,
-                acyclicDigraph,
-                connectionIndexMap);
+            // Note. Not required for acyclic graphs.
+            // In acyclic graphs nodeIndexByIdMap is so closely related/tied to digraph and connectionIndexMap that 
+            // these three objects exist as a logical unit, i.e. we get all three or none at all.
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -119,10 +136,6 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             int[] connectionIndexMap)
         {
-            Debug.Assert(digraph is AcyclicDirectedGraph);
-            // Mandatory when evolving acyclic genomes/graphs.
-            Debug.Assert(null != connectionIndexMap);
-
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap);
         }
 

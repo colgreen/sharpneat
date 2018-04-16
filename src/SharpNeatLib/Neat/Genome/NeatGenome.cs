@@ -109,7 +109,7 @@ namespace SharpNeat.Neat.Genome
             //Debug.Assert(NeatGenomeValidation<T>.IsValid(
             //    metaNeatGenome, id, birthGeneration,
             //    connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
-            //    digraph, depthInfo));
+            //    digraph, connectionIndexMap));
 
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;

@@ -13,6 +13,7 @@ namespace SharpNeat.Network.Acyclic
         public static AcyclicDirectedGraph CreateAcyclicDirectedGraph(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,
+            out int[] newIdByOldId,
             out int[] connectionIndexMap)
         {
             int inputCount = digraph.InputCount;
@@ -23,11 +24,11 @@ namespace SharpNeat.Network.Acyclic
             Debug.Assert(ArrayUtils.Equals(depthInfo._nodeDepthArr, 0, 0, inputCount));
 
             // Compile a mapping from current node IDs to new IDs (based on node depth in the graph).
-            int[] newIdMap = CompileNodeIdMap(depthInfo, digraph.TotalNodeCount, inputCount);
+            newIdByOldId = CompileNodeIdMap(depthInfo, digraph.TotalNodeCount, inputCount);
 
             // Map the connection node IDs.
             ConnectionIdArrays connIdArrays = digraph.ConnectionIdArrays;
-            MapIds(connIdArrays, newIdMap);
+            MapIds(connIdArrays, newIdByOldId);
 
             // Init connection index map.
             int connCount = connIdArrays.Length;
@@ -45,7 +46,7 @@ namespace SharpNeat.Network.Acyclic
             // Make a copy of the sub-range of newIdMap that represents the output nodes.
             // This is required later to be able to locate the output nodes now that they have been sorted by depth.
             int[] outputNodeIdxArr = new int[outputCount];
-            Array.Copy(newIdMap, inputCount, outputNodeIdxArr, 0, outputCount);
+            Array.Copy(newIdByOldId, inputCount, outputNodeIdxArr, 0, outputCount);
 
             // Create an array of LayerInfo(s).
             // Each LayerInfo contains the index + 1 of both the last node and last connection in that layer.
@@ -121,15 +122,15 @@ namespace SharpNeat.Network.Acyclic
 
         private static void MapIds(
             ConnectionIdArrays connIdArrays,
-            int[] nodeIdMap)
+            int[] newIdByOldId)
         {
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
             for(int i=0; i < srcIdArr.Length; i++) 
             {
-                srcIdArr[i] = nodeIdMap[srcIdArr[i]];
-                tgtIdArr[i] = nodeIdMap[tgtIdArr[i]];
+                srcIdArr[i] = newIdByOldId[srcIdArr[i]];
+                tgtIdArr[i] = newIdByOldId[tgtIdArr[i]];
             }
         }
 

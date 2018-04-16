@@ -21,10 +21,10 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            GraphDepthInfo depthInfo)
+            int[] connectionIndexMap)
         {
             // Mandatory ref tests.
-            if(null == metaNeatGenome 
+            if(    null == metaNeatGenome 
                 || null == connGenes
                 || null == hiddenNodeIdArr
                 || null == nodeIndexByIdMap
@@ -32,8 +32,25 @@ namespace SharpNeat.Neat.Genome
                 return false;
             }
 
+            // Acyclic/cyclic specific checks.
+            if(metaNeatGenome.IsAcyclic)
+            {
+                if(digraph.GetType() != typeof(AcyclicDirectedGraph) || null == connectionIndexMap) {
+                    return false;
+                }
+            }
+            else
+            {
+                if(digraph.GetType() != typeof(DirectedGraph)) {
+                    return false;
+                }
+            }
+
+
             // DepthInfo relates to acyclic graphs only, and is mandatory for acyclic graphs.
-            // TODO: Enabled once NeatGenomeAcyclicBuilder is finished.
+            // TODO: Enable once NeatGenomeAcyclicBuilder is finished.
+            
+            
             //if(metaNeatGenome.IsAcyclic) 
             //{
             //    if(!IsValid_Acyclic(metaNeatGenome, depthInfo)) {
@@ -42,15 +59,7 @@ namespace SharpNeat.Neat.Genome
             //}
 
             // Node counts.
-            if(digraph.InputCount != metaNeatGenome.InputNodeCount) {
-                return false;
-            }
-
-            if(digraph.OutputCount != metaNeatGenome.OutputNodeCount) {
-                return false;
-            }
-
-            if(digraph.TotalNodeCount != nodeIndexByIdMap.Count) {
+            if(!ValidateNodeCounts(metaNeatGenome, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap)) {
                 return false;
             }
 
@@ -59,13 +68,8 @@ namespace SharpNeat.Neat.Genome
                 return false;
             }
 
-            int hiddenNodeCount = (digraph.TotalNodeCount - digraph.InputCount) - digraph.OutputCount;
-            if(hiddenNodeCount != hiddenNodeIdArr.Length) {
-                return false;
-            }
-
             // Connections.
-            if(!IsValid_Connections(connGenes, digraph, nodeIndexByIdMap)) {
+            if (!ValidateConnections(connGenes, digraph, nodeIndexByIdMap)) {
                 return false;
             }
 
@@ -77,7 +81,22 @@ namespace SharpNeat.Neat.Genome
 
         #region Private Static Methods
 
-        private static bool IsValid_Connections(
+        private static bool ValidateNodeCounts(
+            MetaNeatGenome<T> metaNeatGenome,
+            int[] hiddenNodeIdArr,
+            INodeIdMap nodeIndexByIdMap,
+            DirectedGraph digraph,
+            int[] connectionIndexMap)
+        {
+            int totalNodeCount = metaNeatGenome.InputNodeCount + metaNeatGenome.OutputNodeCount + hiddenNodeIdArr.Length;
+
+            return digraph.InputCount == metaNeatGenome.InputNodeCount
+                && digraph.OutputCount == metaNeatGenome.OutputNodeCount
+                && digraph.TotalNodeCount == totalNodeCount
+                && nodeIndexByIdMap.Count == totalNodeCount;
+        }
+
+        private static bool ValidateConnections(
             ConnectionGenes<T> connGenes,
             DirectedGraph digraph,
             INodeIdMap nodeIndexByIdMap)
@@ -88,11 +107,8 @@ namespace SharpNeat.Neat.Genome
             }
 
             // Connection order.
-            if(!SortUtils.IsSortedAscending(connGenes._connArr)) {
-                return false;
-            }
-
-            if(!IsSortedAscending(digraph.ConnectionIdArrays)) {
+            if(   !SortUtils.IsSortedAscending(connGenes._connArr)
+               || !IsSortedAscending(digraph.ConnectionIdArrays)) {
                 return false;
             }
 
@@ -103,11 +119,8 @@ namespace SharpNeat.Neat.Genome
 
             for(int i=0; i < connGenes._connArr.Length; i++)
             {
-                if(nodeIndexByIdMap.Map(connArr[i].SourceId) != srcIdArr[i]) {
-                    return false;
-                }
-
-                if(nodeIndexByIdMap.Map(connArr[i].TargetId) != tgtIdArr[i]) {
+                if(   nodeIndexByIdMap.Map(connArr[i].SourceId) != srcIdArr[i]
+                   || nodeIndexByIdMap.Map(connArr[i].TargetId) != tgtIdArr[i]) {
                     return false;
                 }
             }
@@ -149,9 +162,9 @@ namespace SharpNeat.Neat.Genome
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
-            for(int i=1; i < srcIdArr.Length; i++)
+            for(int i=0; i < srcIdArr.Length -1 ; i++)
             {
-                if(Compare(srcIdArr[i-1], tgtIdArr[i-1], srcIdArr[i], tgtIdArr[i]) > 0) {
+                if(Compare(srcIdArr[0], tgtIdArr[0], srcIdArr[i+1], tgtIdArr[i+1]) > 0) {
                     return false;
                 }
             }

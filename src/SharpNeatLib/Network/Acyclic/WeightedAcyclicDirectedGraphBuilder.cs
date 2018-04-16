@@ -53,6 +53,7 @@ namespace SharpNeat.Network.Acyclic
             var acyclicDigraph = AcyclicDirectedGraphBuilderUtils.CreateAcyclicDirectedGraph(
                 digraph,
                 depthInfo,
+                out int[] _,
                 out int[] connectionIndexMap);
 
             // Copy weights into a new array and into their correct position.

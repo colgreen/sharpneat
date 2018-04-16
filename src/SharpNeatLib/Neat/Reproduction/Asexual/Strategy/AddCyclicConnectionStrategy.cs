@@ -99,7 +99,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Array.Copy(parentWeightArr, insertIdx, weightArr, insertIdx+1, parentLen-insertIdx);
 
             // Create and return a new genome.
-            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
+            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use 
+            // both parent.HiddenNodeIdArray and NodeIndexByIdMap.
             return _genomeBuilder.Create(
                 _genomeIdSeq.Next(), 
                 _generationSeq.Peek,

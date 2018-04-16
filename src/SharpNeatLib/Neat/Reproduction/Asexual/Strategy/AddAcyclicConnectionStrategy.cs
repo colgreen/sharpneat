@@ -105,13 +105,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Array.Copy(parentWeightArr, insertIdx, weightArr, insertIdx+1, parentLen-insertIdx);
 
             // Create and return a new genome.
-            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
+            // Notes.
+            // The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use parent.HiddenNodeIdArray.
+            // However, the presence of a new connection invalidates parent.NodeIndexByIdMap for use in the new genome, because the allocated
+            // node indexes are dependent on node depth in the acyclic graph, which in turn can be modified by the presence of a new connection.
             return _genomeBuilder.Create(
-                _genomeIdSeq.Next(), 
+                _genomeIdSeq.Next(),
                 _generationSeq.Peek,
                 connGenes,
-                parent.HiddenNodeIdArray,
-                parent.NodeIndexByIdMap);
+                parent.HiddenNodeIdArray);
         }
 
         #endregion
