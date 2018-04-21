@@ -1,4 +1,4 @@
-### **NOTICE:** SharpNEAT is currently undergoing a major refactor at [sharpneat-refactor](https://github.com/colgreen/sharpneat-refactor)
+### **Notice:** SharpNEAT is currently undergoing a major refactor at [sharpneat-refactor](https://github.com/colgreen/sharpneat-refactor)
 
 If you would like to fund future work then donations are welcome via [Open Collective](https://opencollective.com/sharpneat) or [Patreon](https://www.patreon.com/sharpneat).
 
