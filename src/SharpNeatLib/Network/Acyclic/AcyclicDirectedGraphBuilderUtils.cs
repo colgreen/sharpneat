@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Redzen;
+using Redzen.Sorting;
 
 namespace SharpNeat.Network.Acyclic
 {
@@ -106,9 +107,16 @@ namespace SharpNeat.Network.Acyclic
             }
 
             // Sort nodeIdArr based on the depth of the nodes.
-            // Note. We skip the input nodes because these all have depth zero, and we don't want a potentially 
-            // unstable sort to change their order.
-            Array.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount - inputCount);
+            // Note. We skip the input nodes because these all have depth zero and therefore remain
+            // at fixed positions. The remaining nodes (output and hidden nodes) must be sorted using a
+            // stable sort, hence timsort is used (which is guaranteed to be stable) rather than
+            // Array.Sort() which at time of writing in implemented using introsort, which is not stable.
+            //
+            // TODO: Clarify why it must be a stable sort!
+            //
+            // TODO: Alloc reusable working arrays for use by timsort; this should improve performance 
+            // by avoiding new allocs on each invocation of sort().
+            TimSort<int,int>.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount);
 
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e.
             // we are re-allocating IDs based on node depth.
