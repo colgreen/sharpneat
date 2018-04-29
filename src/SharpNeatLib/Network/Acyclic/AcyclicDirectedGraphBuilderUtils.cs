@@ -33,25 +33,16 @@ namespace SharpNeat.Network.Acyclic
 
             // Init connection index map.
             int connCount = connIdArrays.Length;
-            int[] connectionIdxArr = new int[connCount];
+            connectionIndexMap = new int[connCount];
             for(int i=0; i < connCount; i++) {
-                connectionIdxArr[i] = i;
+                connectionIndexMap[i] = i;
             }
 
             // Sort the connections based on sourceID, TargetId; this will arrange the connections based on the depth 
             // of the source nodes.
             // Note. This overload of Array.Sort will also sort a second array, i.e. keep the items in both arrays aligned;
             // here we use this to create connectionIndexMap.
-            ConnectionSorter<int>.Sort(connIdArrays, connectionIdxArr);
-
-            // Build connectionIndexMap.
-            // Note. connectionIdxArr is currently (effectively) a map from old index to new index.
-            // Here we are inverting that mapping to be new index by old index.
-            // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
-            connectionIndexMap = new int[connCount];
-            for(int i=0; i < connCount; i++) {
-                connectionIndexMap[connectionIdxArr[i]] = i;
-            }
+            ConnectionSorter<int>.Sort(connIdArrays, connectionIndexMap);
 
             // Make a copy of the sub-range of newIdMap that represents the output nodes.
             // This is required later to be able to locate the output nodes now that they have been sorted by depth.

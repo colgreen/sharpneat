@@ -66,7 +66,7 @@ namespace SharpNeat.Tests.Neat.Genome
             // Simulate the actual weight array that would occur in e.g. a WeightedAcyclicDirectedGraph or AcyclicNeuralNet.
             double[] weightArrActual = new double[connGenes._weightArr.Length];
             for(int i=0; i < weightArrActual.Length; i++) {
-                weightArrActual[genome.ConnectionIndexMap[i]] = connGenes._weightArr[i];
+                weightArrActual[i] = connGenes._weightArr[genome.ConnectionIndexMap[i]];
             }
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.

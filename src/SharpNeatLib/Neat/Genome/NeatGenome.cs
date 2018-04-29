@@ -81,10 +81,15 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Cached info related to acyclic digraphs only.
         /// 
-        /// Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based 
-        /// node index allocations.
+        /// Represents a mapping between genome connection indexes (in NeatGenome.ConnectionGenes), to reordered connections
+        /// based on depth based node index allocations (as utilised in AcyclicDirectedGraph).
+        /// 
         /// This allows for mapping of weights from NeatGenome.ConnectionGenes to the re-ordered weight array used by the neural
         /// net implementation (AcyclicNeuralNet).
+        /// 
+        /// The mapping is in the form of an array of indexes into NeatGenome.ConnectionGenes, i.e. the position in the index
+        /// is the 'new' index (the digraph index), and the value stored at that position is the 'old' index (the genome 
+        /// connection index).
         /// </summary>
         public int[] ConnectionIndexMap { get; }
 

@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Genome
             //}
 
             // Node counts.
-            if(!ValidateNodeCounts(metaNeatGenome, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap)) {
+            if(!ValidateNodeCounts(metaNeatGenome, hiddenNodeIdArr, nodeIndexByIdMap, digraph)) {
                 return false;
             }
 
@@ -85,8 +85,7 @@ namespace SharpNeat.Neat.Genome
             MetaNeatGenome<T> metaNeatGenome,
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
-            DirectedGraph digraph,
-            int[] connectionIndexMap)
+            DirectedGraph digraph)
         {
             int totalNodeCount = metaNeatGenome.InputNodeCount + metaNeatGenome.OutputNodeCount + hiddenNodeIdArr.Length;
 
@@ -123,10 +122,10 @@ namespace SharpNeat.Neat.Genome
                 DirectedConnection connGene = connArr[i];
 
                 // Determine the index of he equivalent connection in the digraph.
-                int graphConnIdx = null == connectionIndexMap ? i : connectionIndexMap[i];
+                int genomeConnIdx = (null == connectionIndexMap) ? i : connectionIndexMap[i];
 
-                if(   nodeIndexByIdMap.Map(connArr[i].SourceId) != srcIdArr[graphConnIdx]
-                   || nodeIndexByIdMap.Map(connArr[i].TargetId) != tgtIdArr[graphConnIdx]) {
+                if(   nodeIndexByIdMap.Map(connArr[genomeConnIdx].SourceId) != srcIdArr[i]
+                   || nodeIndexByIdMap.Map(connArr[genomeConnIdx].TargetId) != tgtIdArr[i]) {
                     return false;
                 }
             }
