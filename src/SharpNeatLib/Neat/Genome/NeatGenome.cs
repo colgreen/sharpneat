@@ -55,10 +55,10 @@ namespace SharpNeat.Neat.Genome
         public int[] HiddenNodeIdArray { get; }
 
         /// <summary>
-        /// Mapping function for obtaining node a index for a given node ID.
+        /// Mapping function for obtaining a node index for a given node ID.
         /// </summary>
         /// <remarks>
-        /// Node indexes have a range of 0 to N-1 (for N nodes), i.e. the indexes are zero based and contiguous, as opposed to node IDs that are not contiguous.
+        /// Node indexes have a range of 0 to N-1 (for N nodes), i.e. the indexes are zero based and contiguous; as opposed to node IDs, which are not contiguous.
         /// </remarks>
         public INodeIdMap NodeIndexByIdMap { get; }
 
@@ -74,7 +74,7 @@ namespace SharpNeat.Neat.Genome
         ///  * Decoding to a neural net object.
         ///  * Finding new connections on acyclic graph, i.e. detecting if a random new connection would form a cycle.
         ///  
-        /// When MetaNeatGenome.IsAcyclic is true then the object store here will be of the subtype AcyclicDirectedGraph.
+        /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype AcyclicDirectedGraph.
         /// </remarks>
         public DirectedGraph DirectedGraph { get; }
 
@@ -105,11 +105,10 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             int[] connectionIndexMap)
         {
-            // TODO: Reinstate.
-            //Debug.Assert(NeatGenomeValidation<T>.IsValid(
-            //    metaNeatGenome, id, birthGeneration,
-            //    connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
-            //    digraph, connectionIndexMap));
+            Debug.Assert(NeatGenomeValidation<T>.IsValid(
+                metaNeatGenome, id, birthGeneration,
+                connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
+                digraph, connectionIndexMap));
 
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;

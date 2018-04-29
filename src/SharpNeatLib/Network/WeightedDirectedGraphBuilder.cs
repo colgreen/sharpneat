@@ -31,7 +31,8 @@ namespace SharpNeat.Network
             var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            INodeIdMap nodeIdMap = DirectedGraphUtils.CompileNodeIdMap(hiddenNodeIdArr, inputOutputCount);
+            INodeIdMap nodeIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+                inputOutputCount, hiddenNodeIdArr);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
             // Notes. 

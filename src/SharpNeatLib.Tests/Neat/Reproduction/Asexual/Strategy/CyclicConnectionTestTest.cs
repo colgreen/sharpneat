@@ -19,8 +19,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             connArr[1] = new DirectedConnection(1, 2);
             connArr[2] = new DirectedConnection(2, 3);
 
-            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap(
-                new int[]{ 0, 1, 2, 3 }, 0);
+            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+                0, new int[]{ 0, 1, 2, 3 });
 
             // True tests (cycle).
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, nodeIdxByIdMap, 4, new DirectedConnection(0, 0)));
@@ -58,8 +58,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             connArr[7] = new DirectedConnection(3, 2);
             Array.Sort(connArr);
 
-            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap(
-                new int[]{ 0, 1, 2, 3, 4, 5, 6 }, 0);
+            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+                0, new int[]{ 0, 1, 2, 3, 4, 5, 6 });
 
             // True tests (cycle).
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, nodeIdxByIdMap, 7, new DirectedConnection(2, 1)));
@@ -95,8 +95,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             connArr[7] = new DirectedConnection(30, 20);
             Array.Sort(connArr);
 
-            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap(
-                new int[]{ 0, 10, 20, 30, 40, 50, 60 }, 0);
+            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+                0, new int[]{ 0, 10, 20, 30, 40, 50, 60 });
 
             // True tests (cycle).
             Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, nodeIdxByIdMap, 7,new DirectedConnection(20, 10)));

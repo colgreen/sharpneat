@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
@@ -55,9 +57,28 @@ namespace SharpNeat.Neat.Genome
             ConnectionGenes<T> connGenes,
             int[] hiddenNodeIdArr)
         {
+            int inputCount = _metaNeatGenome.InputNodeCount;
+            int outputCount = _metaNeatGenome.OutputNodeCount;
+            int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;
+
             // Create a mapping from node IDs to node indexes.
-            DictionaryNodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap(
-                hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount);
+            var nodeIdxById = new Dictionary<int,int>(outputCount + hiddenNodeIdArr.Length);
+
+            // Insert fixed output node IDs (these will become unfixed later, hence they are added to the dictionary
+            // rather than just being covered by DictionaryNodeIdMap.fixedNodeCount.)
+            // Output node indexes start after the last input node index.
+            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++) {
+                nodeIdxById.Add(nodeIdx, nodeIdx);
+            }
+
+            // Insert the hidden node ID mappings. Hidden nodes are allocated node indexes starting directly
+            // after the last output node index.
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++) {
+                nodeIdxById.Add(hiddenNodeIdArr[i], nodeIdx + i);
+            }
+
+            // Create a DictionaryNodeIdMap.
+            DictionaryNodeIdMap nodeIndexByIdMap = new DictionaryNodeIdMap(inputCount, nodeIdxById);
 
             // Create a digraph from the genome.
             DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
@@ -77,7 +98,7 @@ namespace SharpNeat.Neat.Genome
                 out int[] connectionIndexMap);
 
             // TODO: Write unit tests to cover this!
-            // Update nodeIndexByIdMap.
+            // Update nodeIdxById with the new depth based node index allocations.
             // Notes.
             // The current nodeIndexByIdMap maps node IDs (also know as innovation IDs in NEAT) to a compact 
             // ID space in which any gaps have been removed, i.e. a compacted set of IDs that can be used as indexes,
@@ -85,8 +106,13 @@ namespace SharpNeat.Neat.Genome
             //
             // Here we map the new compact IDs to an alternative ID space that is also compact, but ensures that nodeIDs
             // reflect the depth of a node in the acyclic graph.
-            nodeIndexByIdMap.UpdateNodeIdMap(
-                hiddenNodeIdArr, _metaNeatGenome.InputOutputNodeCount, newIdByOldId);
+
+            // ENHANCEMENT: Avoid extraction of dictionary contents with ToArray(); 
+            // this is done because a dictionary cannot be modified within an enumeration loop of that dictionary.
+            KeyValuePair<int,int>[] kvpairArr = nodeIdxById.ToArray();
+            foreach(var kvpair in kvpairArr) {
+                nodeIdxById[kvpair.Key] = newIdByOldId[kvpair.Value];
+            }
 
             // Create the neat genome.
             return new NeatGenome<T>(

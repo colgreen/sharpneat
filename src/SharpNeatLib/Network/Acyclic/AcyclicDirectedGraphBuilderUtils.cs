@@ -33,16 +33,25 @@ namespace SharpNeat.Network.Acyclic
 
             // Init connection index map.
             int connCount = connIdArrays.Length;
-            connectionIndexMap = new int[connCount];
+            int[] connectionIdxArr = new int[connCount];
             for(int i=0; i < connCount; i++) {
-                connectionIndexMap[i] = i;
+                connectionIdxArr[i] = i;
             }
 
             // Sort the connections based on sourceID, TargetId; this will arrange the connections based on the depth 
             // of the source nodes.
             // Note. This overload of Array.Sort will also sort a second array, i.e. keep the items in both arrays aligned;
             // here we use this to create connectionIndexMap.
-            ConnectionSorter<int>.Sort(connIdArrays, connectionIndexMap);
+            ConnectionSorter<int>.Sort(connIdArrays, connectionIdxArr);
+
+            // Build connectionIndexMap.
+            // Note. connectionIdxArr is currently (effectively) a map from old index to new index.
+            // Here we are inverting that mapping to be new index by old index.
+            // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
+            connectionIndexMap = new int[connCount];
+            for(int i=0; i < connCount; i++) {
+                connectionIndexMap[connectionIdxArr[i]] = i;
+            }
 
             // Make a copy of the sub-range of newIdMap that represents the output nodes.
             // This is required later to be able to locate the output nodes now that they have been sorted by depth.
@@ -63,7 +72,7 @@ namespace SharpNeat.Network.Acyclic
 
             // Note. Scanning over nodes can start at inputCount instead of zero, because all nodes prior to that index
             // are input nodes and are therefore at depth zero. (input nodes are never the target of a connection,
-            // therefore are always guaranteed to be at the start of a connectivity graph thus at depth zero).
+            // therefore are always guaranteed to be at the start of a connectivity graph, and thus at depth zero).
             int nodeCount = digraph.TotalNodeCount;
             int nodeIdx = inputCount;
             int connIdx = 0;
@@ -74,10 +83,10 @@ namespace SharpNeat.Network.Acyclic
             for (int currDepth = 0; currDepth < netDepth; currDepth++)
             {
                 // Scan for last node at the current depth.
-                for (; nodeIdx < nodeCount && nodeDepthArr[nodeIdx] == currDepth; nodeIdx++) ;
+                for (; nodeIdx < nodeCount && nodeDepthArr[nodeIdx] == currDepth; nodeIdx++);
 
                 // Scan for last connection at the current depth.
-                for (; connIdx < srcIdArr.Length && nodeDepthArr[srcIdArr[connIdx]] == currDepth; connIdx++) ;
+                for (; connIdx < srcIdArr.Length && nodeDepthArr[srcIdArr[connIdx]] == currDepth; connIdx++);
 
                 // Store node and connection end indexes for the layer.
                 layerInfoArr[currDepth] = new LayerInfo(nodeIdx, connIdx);
@@ -120,6 +129,7 @@ namespace SharpNeat.Network.Acyclic
 
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e.
             // we are re-allocating IDs based on node depth.
+            // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
             int[] newIdByOldId = new int[nodeCount];
             for(int i=0; i < nodeCount; i++) {
                 newIdByOldId[nodeIdArr[i]] = i;

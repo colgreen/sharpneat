@@ -69,7 +69,7 @@ namespace SharpNeat.Neat.Genome
             }
 
             // Connections.
-            if (!ValidateConnections(connGenes, digraph, nodeIndexByIdMap)) {
+            if (!ValidateConnections(connGenes, digraph, nodeIndexByIdMap, connectionIndexMap)) {
                 return false;
             }
 
@@ -99,7 +99,8 @@ namespace SharpNeat.Neat.Genome
         private static bool ValidateConnections(
             ConnectionGenes<T> connGenes,
             DirectedGraph digraph,
-            INodeIdMap nodeIndexByIdMap)
+            INodeIdMap nodeIndexByIdMap,
+            int[] connectionIndexMap)
         {
             // Connection counts.
             if(connGenes._connArr.Length != digraph.ConnectionIdArrays.Length) {
@@ -119,8 +120,13 @@ namespace SharpNeat.Neat.Genome
 
             for(int i=0; i < connGenes._connArr.Length; i++)
             {
-                if(   nodeIndexByIdMap.Map(connArr[i].SourceId) != srcIdArr[i]
-                   || nodeIndexByIdMap.Map(connArr[i].TargetId) != tgtIdArr[i]) {
+                DirectedConnection connGene = connArr[i];
+
+                // Determine the index of he equivalent connection in the digraph.
+                int graphConnIdx = null == connectionIndexMap ? i : connectionIndexMap[i];
+
+                if(   nodeIndexByIdMap.Map(connArr[i].SourceId) != srcIdArr[graphConnIdx]
+                   || nodeIndexByIdMap.Map(connArr[i].TargetId) != tgtIdArr[graphConnIdx]) {
                     return false;
                 }
             }

@@ -6,17 +6,14 @@ namespace SharpNeat.Network
 {
     public static class DirectedGraphUtils
     {
-        /// <summary>
-        /// Determine the set of node IDs, order them (thus assigning each node ID an index),
-        /// and build a dictionary of indexes keyed by ID.
-        /// </summary>
-        public static DictionaryNodeIdMap CompileNodeIdMap(
-            int[] hiddenNodeIdArr, int inputOutputCount)
+        public static DictionaryNodeIdMap CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+            int inputOutputCount, int[] hiddenNodeIdArr)
         {
             // Build dictionary of hidden node new ID/index keyed by old ID.
             // Note. the new IDs start immediately after the last input/output node ID (defined by inputOutputCount).
             var hiddenNodeIdxById = new Dictionary<int,int>(hiddenNodeIdArr.Length);
-            for(int i=0, nodeIdx=inputOutputCount; i < hiddenNodeIdArr.Length; i++, nodeIdx++) {
+
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++, nodeIdx++) {
                 hiddenNodeIdxById.Add(hiddenNodeIdArr[i], nodeIdx);
             }
 
