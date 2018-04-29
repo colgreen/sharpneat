@@ -65,7 +65,7 @@ namespace SharpNeat.Neat.Genome.Double
             int[] connIdxMap = genome.ConnectionIndexMap;
 
             for(int i=0; i < connIdxMap.Length; i++) {
-                neuralNetWeightArr[i] = genomeWeightArr[connIdxMap[i]];
+                neuralNetWeightArr[connIdxMap[i]] = genomeWeightArr[i];
             }
             return neuralNetWeightArr;
         }
