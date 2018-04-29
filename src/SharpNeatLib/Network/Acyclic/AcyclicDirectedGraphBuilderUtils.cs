@@ -108,15 +108,21 @@ namespace SharpNeat.Network.Acyclic
 
             // Sort nodeIdArr based on the depth of the nodes.
             // Note. We skip the input nodes because these all have depth zero and therefore remain
-            // at fixed positions. The remaining nodes (output and hidden nodes) must be sorted using a
-            // stable sort, hence timsort is used (which is guaranteed to be stable) rather than
-            // Array.Sort() which at time of writing in implemented using introsort, which is not stable.
+            // at fixed positions. 
             //
-            // TODO: Clarify why it must be a stable sort!
+            // The remaining nodes (output and hidden nodes) are sorted by depth, noting that typically 
+            // there will be multiple nodes at a given depth. 
+            // Here we apply the TimSort algorithm; this has good performance when there are already sorted 
+            // spans either in teh correct direction or in reverse. It also performs a stable sort, thus
+            // avoids unnecessary shuffling of nodes that are at the same depth, however the use of a stable
+            // sort is not a strict requirement here.
+            // 
+            // Note. At time of writing Array.Sort() is implemented using introsort, which is not stable. 
+            // TODO: Decide which sort algorithm is faster here, in the general case.
             //
             // TODO: Alloc reusable working arrays for use by timsort; this should improve performance 
             // by avoiding new allocs on each invocation of sort().
-            TimSort<int,int>.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount);
+            TimSort<int,int>.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount - inputCount);
 
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e.
             // we are re-allocating IDs based on node depth.
