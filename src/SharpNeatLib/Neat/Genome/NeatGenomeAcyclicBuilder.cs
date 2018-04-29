@@ -62,20 +62,7 @@ namespace SharpNeat.Neat.Genome
             int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;
 
             // Create a mapping from node IDs to node indexes.
-            var nodeIdxById = new Dictionary<int,int>(outputCount + hiddenNodeIdArr.Length);
-
-            // Insert fixed output node IDs (these will become unfixed later, hence they are added to the dictionary
-            // rather than just being covered by DictionaryNodeIdMap.fixedNodeCount.)
-            // Output node indexes start after the last input node index.
-            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++) {
-                nodeIdxById.Add(nodeIdx, nodeIdx);
-            }
-
-            // Insert the hidden node ID mappings. Hidden nodes are allocated node indexes starting directly
-            // after the last output node index.
-            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++) {
-                nodeIdxById.Add(hiddenNodeIdArr[i], nodeIdx + i);
-            }
+            Dictionary<int,int> nodeIdxById = BuildNodeIndexById(hiddenNodeIdArr);
 
             // Create a DictionaryNodeIdMap.
             DictionaryNodeIdMap nodeIndexByIdMap = new DictionaryNodeIdMap(inputCount, nodeIdxById);
@@ -106,13 +93,7 @@ namespace SharpNeat.Neat.Genome
             //
             // Here we map the new compact IDs to an alternative ID space that is also compact, but ensures that nodeIDs
             // reflect the depth of a node in the acyclic graph.
-
-            // ENHANCEMENT: Avoid extraction of dictionary contents with ToArray(); 
-            // this is done because a dictionary cannot be modified within an enumeration loop of that dictionary.
-            KeyValuePair<int,int>[] kvpairArr = nodeIdxById.ToArray();
-            foreach(var kvpair in kvpairArr) {
-                nodeIdxById[kvpair.Key] = newIdByOldId[kvpair.Value];
-            }
+            UpdateNodeIndexById(nodeIdxById, hiddenNodeIdArr, newIdByOldId);
 
             // Create the neat genome.
             return new NeatGenome<T>(
@@ -163,6 +144,66 @@ namespace SharpNeat.Neat.Genome
             int[] connectionIndexMap)
         {
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private Dictionary<int,int> BuildNodeIndexById(int[] hiddenNodeIdArr)
+        {
+            int inputCount = _metaNeatGenome.InputNodeCount;
+            int outputCount = _metaNeatGenome.OutputNodeCount;
+            int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;
+
+            // Create a mapping from node IDs to node indexes.
+            var nodeIdxById = new Dictionary<int,int>(outputCount + hiddenNodeIdArr.Length);
+
+            // Insert fixed output node IDs (these will become unfixed later, hence they are added to the dictionary
+            // rather than just being covered by DictionaryNodeIdMap.fixedNodeCount.)
+            // Output node indexes start after the last input node index.
+            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++) {
+                nodeIdxById.Add(nodeIdx, nodeIdx);
+            }
+
+            // Insert the hidden node ID mappings. Hidden nodes are allocated node indexes starting directly
+            // after the last output node index.
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++) {
+                nodeIdxById.Add(hiddenNodeIdArr[i], nodeIdx + i);
+            }
+
+            return nodeIdxById;
+        }
+
+        private void UpdateNodeIndexById(
+            Dictionary<int,int> nodeIdxById,
+            int[] hiddenNodeIdArr,
+            int[] newIdxByOldIdx)
+        {
+            // Note. This method essentially repeats the logic in BuildNodeIndexById() but 
+            // the values placed into the dictionary are mapped to different values, and
+            // we are updating existing dictionary entries rather than inserting new ones.
+            //
+            // This still requried dictionary lookups and so can be optimised further with
+            // a customised dictionary implementation that allows direct access and updating 
+            // of the keyed values. We could do that here by wrapping each into in a object
+            // i.e. boxing), but that creates lots of additional overhead (object header allocation,
+            // heap allocation, garbage collection, etc.).
+            int inputCount = _metaNeatGenome.InputNodeCount;
+            int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;
+
+            // Update the fixed output node IDs.
+            // Pre-mapped output node indexes start after the last input node index.
+            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++) {
+                nodeIdxById[nodeIdx] = newIdxByOldIdx[nodeIdx];
+            }
+
+            // Update the hidden node ID mappings.
+            // Pre-mapped hidden nodes are allocated node indexes starting directly
+            // after the last output node index.
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++) {
+                nodeIdxById[hiddenNodeIdArr[i]] = newIdxByOldIdx[nodeIdx + i];
+            }
         }
 
         #endregion
