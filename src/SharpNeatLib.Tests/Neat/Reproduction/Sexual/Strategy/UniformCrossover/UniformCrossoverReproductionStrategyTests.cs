@@ -27,7 +27,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             int count = 100;
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.1, count);
             var strategy = new UniformCrossoverReproductionStrategy<double>(pop.MetaNeatGenome, genomeBuilder, pop.GenomeIdSeq, pop.GenerationSeq);
-            var rng = new XorShiftRandom(0);
+            IRandomSource rng = RandomSourceFactory.Create(0);
 
             for(int i=0; i<1000; i++)
             {

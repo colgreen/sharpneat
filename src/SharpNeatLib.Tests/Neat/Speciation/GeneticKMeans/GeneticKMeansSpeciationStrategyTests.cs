@@ -15,7 +15,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
         [TestCategory("Speciation")]
         public void TestSpeciateAll_Manhattan()
         {
-            var rng = new XorShiftRandom(0);
+            IRandomSource rng = RandomSourceFactory.Create(0);
             var distanceMetric = new ManhattanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50);
 
@@ -28,7 +28,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
         [TestCategory("Speciation")]
         public void TestSpeciateAll_Euclidean()
         {
-            var rng = new XorShiftRandom(1);
+            IRandomSource rng = RandomSourceFactory.Create(1);
             var distanceMetric = new EuclideanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50);
 
@@ -41,7 +41,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
         [TestCategory("Speciation")]
         public void TestSpeciateAdd_Manhattan()
         {
-            var rng = new XorShiftRandom(2);
+            IRandomSource rng = RandomSourceFactory.Create(2);
             var distanceMetric = new ManhattanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50);
 
@@ -54,7 +54,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
         [TestCategory("Speciation")]
         public void TestSpeciateAdd_Euclidean()
         {
-            var rng = new XorShiftRandom(3);
+            IRandomSource rng = RandomSourceFactory.Create(3);
             var distanceMetric = new EuclideanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50);
 

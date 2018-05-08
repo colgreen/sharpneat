@@ -137,7 +137,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             });
 
             // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
-            int selectIdx = new DiscreteDistribution(_rng, pArr).Sample();
+            int selectIdx = new DiscreteDistribution(pArr, _rng).Sample();
             return GetAndRemove(remainingGenomes, genomeIdxArr[selectIdx]);
         }
 
