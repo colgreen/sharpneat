@@ -1,8 +1,14 @@
-# SharpNEAT - Evolution of Neural Networks
+### **Notice:** SharpNEAT is currently undergoing a major refactor at [sharpneat-refactor](https://github.com/colgreen/sharpneat-refactor)
 
+If you would like to fund future work then donations are welcome via [Open Collective](https://opencollective.com/sharpneat) or [Patreon](https://www.patreon.com/sharpneat).
+
+---
+
+# SharpNEAT - Evolution of Neural Networks
+ 
 NEAT is NeuroEvolution of Augmenting Topologies; an evolutionary algorithm devised by Kenneth O. Stanley. 
 
-SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET (on both MS Windows and Mono/Linux).
+[SharpNEAT](http://sharpneat.sourceforge.net/) is a complete implementation of NEAT written in C# and targeting .NET (on both MS Windows and Mono/Linux).
 
 From the [SharpNEAT FAQ](http://sharpneat.sourceforge.net/faq.html)...
 
@@ -16,7 +22,3 @@ SharpNEAT is a framework that facilitates research into evolutionary computation
 
 Motivation for the development of SharpNEAT mainly came from a broader interest in biological evolution, and more specifically curiosity on what the limits of neuro-evolution are in terms of the level of problem complexity it can produce satisfactory solutions for.
 
-
----
-
-Donate! Become a Patreon Sponsor at https://www.patreon.com/sharpneat
