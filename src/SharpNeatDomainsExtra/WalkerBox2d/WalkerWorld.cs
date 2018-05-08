@@ -25,7 +25,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     {
         const float __lowerLegLength = 0.5f;
 
-        XorShiftRandom _rng;
+        readonly IRandomSource _rng;
 
         float _trackLength;
         float _trackLengthHalf;
@@ -44,13 +44,13 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public WalkerWorld() : this(new XorShiftRandom(), 300)
+        public WalkerWorld() : this(RandomSourceFactory.Create(), 300)
         {}
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public WalkerWorld(XorShiftRandom rng) : this(rng, 300)
+        public WalkerWorld(IRandomSource rng) : this(rng, 300)
         {}
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
         /// <param name="trackLength"></param>
         /// <param name="rng">Random number generator.</param>
-        public WalkerWorld(XorShiftRandom rng, float trackLength)
+        public WalkerWorld(IRandomSource rng, float trackLength)
         {
             _rng = rng;
             _trackLength = trackLength;

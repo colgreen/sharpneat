@@ -23,7 +23,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     {
         #region Instance Fields
 
-        XorShiftRandom _rng;
+        readonly IRandomSource _rng;
 		int	_maxTimesteps;
 
         // Evaluator state.
@@ -45,7 +45,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
 		public WalkerBox2dEvaluator(int maxTimesteps)
 		{
-            _rng = new XorShiftRandom();
+            _rng = RandomSourceFactory.Create();
             _maxTimesteps = maxTimesteps;
 		}
 

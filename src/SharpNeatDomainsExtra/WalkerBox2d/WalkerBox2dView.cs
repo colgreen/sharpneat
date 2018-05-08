@@ -43,7 +43,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         protected override SimulationWorld CreateSimulationWorld()
         {
             // Init Box2D world.
-            WalkerWorld world = new WalkerWorld(new XorShiftRandom());
+            WalkerWorld world = new WalkerWorld(RandomSourceFactory.Create());
             world.InitSimulationWorld();
 
             // Create an interface onto the walker.

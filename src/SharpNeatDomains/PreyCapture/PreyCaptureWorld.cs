@@ -42,7 +42,7 @@ namespace SharpNeat.Domains.PreyCapture
         IntPoint _agentPos;
         
         // Random number generator.
-        XorShiftRandom _rng;
+        readonly IRandomSource _rng;
 
         #endregion
 
@@ -58,7 +58,7 @@ namespace SharpNeat.Domains.PreyCapture
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
             _maxTimesteps = maxTimesteps;
-            _rng = new XorShiftRandom();
+            _rng = RandomSourceFactory.Create();
         }
 
         #endregion
