@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Redzen" Version="6.0.0" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
   </ItemGroup>
 
@@ -44,12 +45,6 @@
     <None Include="Network\IO\NetworkTsvWriterUtils.cs" />
     <None Include="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <None Include="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Redzen">
-      <HintPath>..\..\..\Redzen\Redzen\bin\Debug\netstandard2.0\Redzen.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
