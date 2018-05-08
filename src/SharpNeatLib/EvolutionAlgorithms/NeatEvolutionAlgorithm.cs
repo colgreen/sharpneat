@@ -353,7 +353,7 @@ namespace SharpNeat.EvolutionAlgorithms
                     }
 
                     // Use a built in class for choosing an item based on a list of relative probabilities.
-                    DiscreteDistribution dist = new DiscreteDistribution(_rng, probabilities);
+                    DiscreteDistribution dist = new DiscreteDistribution(probabilities, _rng);
 
                     // Probabilistically assign the required number of additional allocations.
                     // FIXME/ENHANCEMENT: We can improve the allocation fairness by updating the DiscreteDistribution 
@@ -379,7 +379,7 @@ namespace SharpNeat.EvolutionAlgorithms
                 }
 
                 // Use a built in class for choosing an item based on a list of relative probabilities.
-                DiscreteDistribution dist = new DiscreteDistribution(_rng, probabilities);
+                DiscreteDistribution dist = new DiscreteDistribution(probabilities, _rng);
 
                 // Probabilistically decrement specie target sizes.
                 // ENHANCEMENT: We can improve the selection fairness by updating the DiscreteDistribution 
@@ -529,11 +529,11 @@ namespace SharpNeat.EvolutionAlgorithms
                 for(int j=0; j<inst._selectionSizeInt; j++) {
                     probabilities[j] = genomeList[j].EvaluationInfo.Fitness;
                 }
-                distArr[i] = new DiscreteDistribution(_rng, probabilities);
+                distArr[i] = new DiscreteDistribution(probabilities, _rng);
             }
 
             // Complete construction of DiscreteDistribution for specie selection.
-            DiscreteDistribution rwlSpecies = new DiscreteDistribution(_rng, specieFitnessArr);
+            DiscreteDistribution rwlSpecies = new DiscreteDistribution(specieFitnessArr, _rng);
 
             // Produce offspring from each specie in turn and store them in offspringList.
             List<TGenome> offspringList = new List<TGenome>(offspringCount);
