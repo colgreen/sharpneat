@@ -28,7 +28,7 @@ namespace SharpNeat.SpeciationStrategies
     public class RandomClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome>
         where TGenome : class, IGenome<TGenome>
     {
-        readonly IRandomSource _rng = RandomSourceFactory.Create();
+        readonly IRandomSource _rng = RandomDefaults.CreateRandomSource();
 
         /// <summary>
         /// Speciates the genomes in genomeList into the number of species specified by specieCount

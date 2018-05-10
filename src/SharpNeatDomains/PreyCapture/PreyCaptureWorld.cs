@@ -58,7 +58,7 @@ namespace SharpNeat.Domains.PreyCapture
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
             _maxTimesteps = maxTimesteps;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

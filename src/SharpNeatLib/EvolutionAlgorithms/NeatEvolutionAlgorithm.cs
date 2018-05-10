@@ -41,7 +41,7 @@ namespace SharpNeat.EvolutionAlgorithms
         IList<Specie<TGenome>> _specieList;
         /// <summary>Index of the specie that contains _currentBestGenome.</summary>
         int _bestSpecieIdx;
-        readonly IRandomSource _rng = RandomSourceFactory.Create();
+        readonly IRandomSource _rng = RandomDefaults.CreateRandomSource();
         readonly NeatAlgorithmStats _stats;
 
         ComplexityRegulationMode _complexityRegulationMode;

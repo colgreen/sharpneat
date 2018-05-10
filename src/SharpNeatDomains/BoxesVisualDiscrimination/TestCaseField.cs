@@ -37,7 +37,7 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         /// </summary>
         public TestCaseField()
         {
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

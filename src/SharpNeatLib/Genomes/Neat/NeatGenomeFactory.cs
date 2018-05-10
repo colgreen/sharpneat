@@ -52,7 +52,7 @@ namespace SharpNeat.Genomes.Neat
                 = new KeyedCircularBuffer<uint,AddedNeuronGeneStruct>(__INNOVATION_HISTORY_BUFFER_SIZE);
 
         /// <summary>Random number generator associated with this factory.</summary>
-        protected readonly IRandomSource _rng = RandomSourceFactory.Create();
+        protected readonly IRandomSource _rng = RandomDefaults.CreateRandomSource();
         readonly ZigguratGaussianDistribution _gaussianSampler = new ZigguratGaussianDistribution();
 
         /// <summary>Activation function library associated with this factory.</summary>

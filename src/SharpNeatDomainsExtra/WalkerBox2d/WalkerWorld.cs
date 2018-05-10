@@ -44,7 +44,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public WalkerWorld() : this(RandomSourceFactory.Create(), 300)
+        public WalkerWorld() : this(RandomDefaults.CreateRandomSource(), 300)
         {}
 
         /// <summary>

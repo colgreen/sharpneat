@@ -45,7 +45,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
 		public WalkerBox2dEvaluator(int maxTimesteps)
 		{
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
             _maxTimesteps = maxTimesteps;
 		}
 
