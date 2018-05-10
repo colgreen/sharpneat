@@ -36,7 +36,7 @@ namespace SharpNeat.Tests.Neat.SelectionReproduction
             speciesArr[3].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(800.0));
             
             // Invoke species target size calcs.
-            IRandomSource rng = RandomSourceFactory.Create();
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
             SpeciesAllocationCalcs<double>.CalcSpeciesTargetSizes(neatPop, rng);
 
             // Species target sizes should be relative to the species mean fitness.

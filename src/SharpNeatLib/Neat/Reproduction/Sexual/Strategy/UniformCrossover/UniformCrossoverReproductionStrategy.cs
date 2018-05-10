@@ -36,7 +36,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
             _builder = new ConnectionGeneListBuilder<T>(_metaNeatGenome.IsAcyclic, 1024);
         }
 

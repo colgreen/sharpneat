@@ -13,7 +13,7 @@ namespace SharpNeat.Tests.Network
         [TestCategory("ConnectionSorter")]
         public void TestConnectionSorter()
         {
-            IRandomSource rng = RandomSourceFactory.Create(0);
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
             int len = 1000;
 
             // Create random connection ID arrays.

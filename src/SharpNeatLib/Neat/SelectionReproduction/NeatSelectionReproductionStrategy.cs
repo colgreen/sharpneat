@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly int _speciesCount;
-        readonly IRandomSource _rng = RandomSourceFactory.Create();
+        readonly IRandomSource _rng = RandomDefaults.CreateRandomSource();
 
         #endregion
 

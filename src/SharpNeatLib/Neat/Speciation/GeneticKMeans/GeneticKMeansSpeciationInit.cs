@@ -30,7 +30,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric)
         {
             _distanceMetric = distanceMetric;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric, IRandomSource rng)

@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

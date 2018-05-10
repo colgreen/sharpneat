@@ -39,7 +39,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             WeightMutationScheme<T> weightMutationScheme)
         {
             _settings = settings;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
 
             // Instantiate reproduction strategies.
             _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);

@@ -130,7 +130,7 @@ namespace SharpNeat.Network.Acyclic
             if (capacity > _visitedNodes.Length)
             {
                 // For the new capacity, select the lowest power of two that is above the required capacity.
-                capacity = MathUtils.CeilingPowerOfTwo(capacity);
+                capacity = MathUtils.CeilingToPowerOfTwo(capacity);
 
                 // Allocate new bitmap with the new capacity.
                 _visitedNodes = new BoolArray(capacity);

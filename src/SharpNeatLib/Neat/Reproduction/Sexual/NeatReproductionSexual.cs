@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             NeatReproductionSexualSettings settings)
         {
             _settings = settings;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
 
             _strategy = new UniformCrossoverReproductionStrategy<T>(
                                 metaNeatGenome, genomeBuilder,

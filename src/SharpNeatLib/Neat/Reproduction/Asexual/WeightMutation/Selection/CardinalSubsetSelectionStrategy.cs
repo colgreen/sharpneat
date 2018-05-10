@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         public CardinalSubsetSelectionStrategy(int selectCount)
         {
             _selectCount = selectCount;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

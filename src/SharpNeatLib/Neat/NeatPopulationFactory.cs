@@ -51,7 +51,7 @@ namespace SharpNeat.Neat
             }
 
             // Init RNG and ID sequences.
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
             _genomeIdSeq = new Int32Sequence();
             int nextInnovationId = inputCount + outputCount;
             _innovationIdSeq = new Int32Sequence(nextInnovationId);

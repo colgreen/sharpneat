@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
             _addedNodeBuffer = addedNodeBuffer;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

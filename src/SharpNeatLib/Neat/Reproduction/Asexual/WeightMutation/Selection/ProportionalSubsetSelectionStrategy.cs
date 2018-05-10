@@ -24,7 +24,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
             Debug.Assert(selectionProportion > 0 && selectionProportion <= 1.0);
 
             _selectionProportion = selectionProportion;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

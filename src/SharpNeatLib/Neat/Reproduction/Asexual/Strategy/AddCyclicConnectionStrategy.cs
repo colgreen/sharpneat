@@ -45,7 +45,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

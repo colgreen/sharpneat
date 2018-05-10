@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         {
             _strategySelectionDist = new DiscreteDistribution(strategyProbabilityArr);
             _mutationStrategyArr = mutationStrategyArr;
-            _rng = RandomSourceFactory.Create();
+            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

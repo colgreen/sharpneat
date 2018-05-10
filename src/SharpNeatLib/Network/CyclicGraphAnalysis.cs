@@ -126,7 +126,7 @@ namespace SharpNeat.Network
             if(capacity > _ancestorNodeBitmap.Length)
             {
                 // For the new capacity, select the lowest power of two that is above the required capacity.
-                capacity = MathUtils.CeilingPowerOfTwo(capacity);
+                capacity = MathUtils.CeilingToPowerOfTwo(capacity);
 
                 // Allocate new bitmaps with the new capacity.
                 _ancestorNodeBitmap = new BoolArray(capacity);
