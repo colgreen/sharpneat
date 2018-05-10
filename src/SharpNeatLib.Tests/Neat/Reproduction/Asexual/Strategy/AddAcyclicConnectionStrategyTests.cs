@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
@@ -21,7 +22,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var pop = CreateNeatPopulation();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
-            var strategy = new AddAcyclicConnectionStrategy<double>(pop.MetaNeatGenome, genomeBuilder, pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+
+            var strategy = new AddAcyclicConnectionStrategy<double>(
+                pop.MetaNeatGenome, genomeBuilder,
+                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                RandomDefaults.CreateRandomSource());
+
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 

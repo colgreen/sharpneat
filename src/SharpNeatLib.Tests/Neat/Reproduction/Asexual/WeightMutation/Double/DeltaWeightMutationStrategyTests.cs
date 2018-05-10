@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Numerics;
+using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
 using SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
@@ -19,7 +20,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
             double weightScale = 5.0;
             var strategy = DeltaWeightMutationStrategy.CreateUniformDeltaStrategy(
                 new SelectAllStrategy(),
-                weightScale);
+                weightScale,
+                RandomDefaults.CreateRandomSource(0));
 
             int iters = 10000;
             double[] weightArr = new double[iters];
@@ -48,7 +50,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
         {
             var strategy = DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(
                 new SelectAllStrategy(),
-                1.0);
+                1.0, RandomDefaults.CreateRandomSource(0));
 
             int iters = 100000;
             double[] weightArr = new double[iters];

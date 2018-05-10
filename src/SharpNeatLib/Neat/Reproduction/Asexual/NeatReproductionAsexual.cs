@@ -16,6 +16,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         #region Instance Fields
 
         readonly NeatReproductionAsexualSettings _settings;
+        readonly IRandomSourceBuilder _rngBuilder;
         readonly IRandomSource _rng;
 
         // Asexual reproduction strategies..
@@ -36,23 +37,34 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             Int32Sequence generationSeq,
             AddedNodeBuffer addedNodeBuffer,
             NeatReproductionAsexualSettings settings,
-            WeightMutationScheme<T> weightMutationScheme)
+            WeightMutationScheme<T> weightMutationScheme,
+            IRandomSourceBuilder rngBuilder)
         {
             _settings = settings;
-            _rng = RandomDefaults.CreateRandomSource();
+            _rngBuilder = rngBuilder;
+            _rng = rngBuilder.Create();
 
             // Instantiate reproduction strategies.
             _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
-            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq);
+            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, rngBuilder.Create());
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
-            if(metaNeatGenome.IsAcyclic) {
-                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq);
-            } else {
-                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq);
+            if(metaNeatGenome.IsAcyclic) 
+            {
+                _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(
+                    metaNeatGenome, genomeBuilder,
+                    genomeIdSeq, innovationIdSeq, generationSeq,
+                    rngBuilder.Create());
+            }
+            else 
+            {
+                _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(
+                    metaNeatGenome, genomeBuilder,
+                    genomeIdSeq, innovationIdSeq, generationSeq,
+                    rngBuilder.Create());
             }      
             
-            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
+            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer, rngBuilder.Create());
         }
 
         #endregion

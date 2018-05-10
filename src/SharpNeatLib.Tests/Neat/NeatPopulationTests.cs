@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
@@ -22,7 +23,7 @@ namespace SharpNeat.Tests.Neat
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
             int count = 10;
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count);
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
             Assert.AreEqual(count, neatPop.GenomeList.Count);
             Assert.AreEqual(count, neatPop.GenomeIdSeq.Peek);
 
@@ -68,7 +69,7 @@ namespace SharpNeat.Tests.Neat
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1);
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1, RandomDefaults.CreateRandomSource());
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
             Assert.AreEqual(10000, genome.ConnectionGenes.Length);

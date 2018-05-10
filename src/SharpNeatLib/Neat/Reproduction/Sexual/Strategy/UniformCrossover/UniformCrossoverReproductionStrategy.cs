@@ -29,14 +29,15 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
-            Int32Sequence generationSeq)
+            Int32Sequence generationSeq,
+            IRandomSource rng)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
             _builder = new ConnectionGeneListBuilder<T>(_metaNeatGenome.IsAcyclic, 1024);
         }
 

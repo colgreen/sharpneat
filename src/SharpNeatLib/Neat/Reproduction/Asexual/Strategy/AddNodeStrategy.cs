@@ -29,7 +29,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
-            AddedNodeBuffer addedNodeBuffer)
+            AddedNodeBuffer addedNodeBuffer,
+            IRandomSource rng)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
@@ -37,7 +38,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
             _addedNodeBuffer = addedNodeBuffer;
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
         }
 
         #endregion

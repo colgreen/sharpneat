@@ -35,7 +35,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            Int32Sequence generationSeq)
+            Int32Sequence generationSeq,
+            IRandomSource rng)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
@@ -45,7 +46,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
             _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
         }
 
         #endregion

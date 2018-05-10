@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 
@@ -28,11 +29,12 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
-            int maxKMeansIters)
+            int maxKMeansIters,
+            IRandomSource rng)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric);
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, rng);
         }
 
         #endregion

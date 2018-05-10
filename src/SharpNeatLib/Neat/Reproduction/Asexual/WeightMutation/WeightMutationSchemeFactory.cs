@@ -1,4 +1,5 @@
-﻿using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
+﻿using Redzen.Random;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
@@ -22,45 +23,49 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// </remarks>
         /// <param name="weightScale"></param>
         /// <returns>A new instance of <see cref="WeightMutationScheme"/>.</returns>
-        public static WeightMutationScheme<double> CreateDefaultScheme(double weightScale)
+        public static WeightMutationScheme<double> CreateDefaultScheme(
+            double weightScale, IRandomSourceBuilder rngBuilder)
         {
             var probabilityArr = new double[6];
             var strategyArr = new IWeightMutationStrategy<double>[6];
+            IRandomSource rng = rngBuilder.Create();
 
             // Gaussian delta with sigma=0.01 (most values between +-0.02)
             // Mutate 1, 2 and 3 connections respectively.
             probabilityArr[0] = 0.5985;
             probabilityArr[1] = 0.2985;
             probabilityArr[2] = 0.0985;
-            strategyArr[0] = CreateCardinalGaussianDeltaStrategy(1, 0.1);
-            strategyArr[1] = CreateCardinalGaussianDeltaStrategy(2, 0.1);
-            strategyArr[2] = CreateCardinalGaussianDeltaStrategy(3, 0.1);
+            strategyArr[0] = CreateCardinalGaussianDeltaStrategy(1, 0.1, rngBuilder);
+            strategyArr[1] = CreateCardinalGaussianDeltaStrategy(2, 0.1, rngBuilder);
+            strategyArr[2] = CreateCardinalGaussianDeltaStrategy(3, 0.1, rngBuilder);
 
             // Reset mutations. 1, 2 and 3 connections respectively.
             probabilityArr[3] = 0.015;
             probabilityArr[4] = 0.015;
             probabilityArr[5] = 0.015;
-            strategyArr[3] = CreateCardinalUniformResetStrategy(1, weightScale);
-            strategyArr[4] = CreateCardinalUniformResetStrategy(2, weightScale);
-            strategyArr[5] = CreateCardinalUniformResetStrategy(3, weightScale);
+            strategyArr[3] = CreateCardinalUniformResetStrategy(1, weightScale, rngBuilder);
+            strategyArr[4] = CreateCardinalUniformResetStrategy(2, weightScale, rngBuilder);
+            strategyArr[5] = CreateCardinalUniformResetStrategy(3, weightScale, rngBuilder);
             
-            return new WeightMutationScheme<double>(probabilityArr, strategyArr);
+            return new WeightMutationScheme<double>(probabilityArr, strategyArr, rngBuilder.Create());
         }
 
         #endregion
 
         #region Private Static Methods
 
-        private static IWeightMutationStrategy<double> CreateCardinalGaussianDeltaStrategy(int selectCount, double stdDev)
+        private static IWeightMutationStrategy<double> CreateCardinalGaussianDeltaStrategy(
+            int selectCount, double stdDev, IRandomSourceBuilder rngBuilder)
         {
-            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
-            return DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(selectStrategy, stdDev);
+            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount, rngBuilder.Create());
+            return DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(selectStrategy, stdDev, rngBuilder.Create());
         }
 
-        private static IWeightMutationStrategy<double> CreateCardinalUniformResetStrategy(int selectCount, double weightScale)
+        private static IWeightMutationStrategy<double> CreateCardinalUniformResetStrategy(
+            int selectCount, double weightScale, IRandomSourceBuilder rngBuilder)
         {
-            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
-            return ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(selectStrategy, weightScale);
+            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount, rngBuilder.Create());
+            return ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(selectStrategy, weightScale, rngBuilder.Create());
         }
 
         #endregion

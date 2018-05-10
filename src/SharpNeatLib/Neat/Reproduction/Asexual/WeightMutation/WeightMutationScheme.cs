@@ -10,7 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         DiscreteDistribution _strategySelectionDist;
         IWeightMutationStrategy<T>[] _mutationStrategyArr;
-        IRandomSource _rng;
 
         #endregion
 
@@ -18,11 +17,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         public WeightMutationScheme(
             double[] strategyProbabilityArr,
-            IWeightMutationStrategy<T>[] mutationStrategyArr)
+            IWeightMutationStrategy<T>[] mutationStrategyArr,
+            IRandomSource rng)
         {
-            _strategySelectionDist = new DiscreteDistribution(strategyProbabilityArr);
+            _strategySelectionDist = new DiscreteDistribution(strategyProbabilityArr, rng);
             _mutationStrategyArr = mutationStrategyArr;
-            _rng = RandomDefaults.CreateRandomSource();
         }
 
         #endregion

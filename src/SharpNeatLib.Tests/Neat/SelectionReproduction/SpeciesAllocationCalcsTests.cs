@@ -73,7 +73,7 @@ namespace SharpNeat.Tests.Neat.SelectionReproduction
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, populationSize);
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, populationSize, RandomDefaults.CreateRandomSource());
             neatPop.SpeciesArray = new Species<double>[speciesCount];
 
             for(int i=0; i < speciesCount; i++) {

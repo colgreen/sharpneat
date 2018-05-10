@@ -31,15 +31,6 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         public GeneticKMeansSpeciationInit(
             IDistanceMetric<T> distanceMetric,
-            ParallelOptions parallelOptions)
-        {
-            _distanceMetric = distanceMetric;
-            _parallelOptions = parallelOptions;
-            _rng = RandomDefaults.CreateRandomSource();
-        }
-
-        public GeneticKMeansSpeciationInit(
-            IDistanceMetric<T> distanceMetric,
             ParallelOptions parallelOptions,
             IRandomSource rng)
         {

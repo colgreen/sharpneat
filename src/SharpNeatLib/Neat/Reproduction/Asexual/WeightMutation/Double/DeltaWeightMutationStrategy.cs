@@ -42,17 +42,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 
         public static DeltaWeightMutationStrategy CreateUniformDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            double weightScale)
+            double weightScale,
+            IRandomSource rng)
         {
-            var dist = ContinuousDistributionFactory.CreateUniformDistribution<double>(weightScale, true);
+            var dist = ContinuousDistributionFactory.CreateUniformDistribution<double>(weightScale, true, rng);
             return new DeltaWeightMutationStrategy(selectionStrategy, dist);
         }
 
         public static DeltaWeightMutationStrategy CreateGaussianDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            double stdDev)
+            double stdDev,
+            IRandomSource rng)
         {
-            var dist = ContinuousDistributionFactory.CreateGaussianDistribution<double>(0, stdDev);
+            var dist = ContinuousDistributionFactory.CreateGaussianDistribution<double>(0, stdDev, rng);
             return new DeltaWeightMutationStrategy(selectionStrategy, dist);
         }
 

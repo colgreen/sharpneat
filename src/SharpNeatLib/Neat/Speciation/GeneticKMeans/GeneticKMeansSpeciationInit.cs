@@ -27,13 +27,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         #region Constructors
 
-        public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric)
-        {
-            _distanceMetric = distanceMetric;
-            _rng = RandomDefaults.CreateRandomSource();
-        }
-
-        public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric, IRandomSource rng)
+        public GeneticKMeansSpeciationInit(
+            IDistanceMetric<T> distanceMetric,
+            IRandomSource rng)
         {
             _distanceMetric = distanceMetric;
             _rng = rng;

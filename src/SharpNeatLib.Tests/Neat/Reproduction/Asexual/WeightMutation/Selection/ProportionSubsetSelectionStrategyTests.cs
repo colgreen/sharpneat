@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
@@ -12,7 +13,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
         [TestCategory("ProportionSubsetSelectionStrategy")]
         public void TestCardinality()
         {
-            var strategy = new ProportionSubsetSelectionStrategy(0.1);
+            var strategy = new ProportionSubsetSelectionStrategy(0.1, RandomDefaults.CreateRandomSource());
             for(int i=0; i < 100; i++)
             {
                 int[] idxArr = strategy.SelectSubset(i);
@@ -26,7 +27,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
         [TestCategory("ProportionSubsetSelection")]
         public void TestUniqueness()
         {
-            var strategy = new ProportionSubsetSelectionStrategy(0.66);
+            var strategy = new ProportionSubsetSelectionStrategy(0.66, RandomDefaults.CreateRandomSource());
             for (int i = 0; i < 20; i++)
             {
                 int[] idxArr = strategy.SelectSubset(50);

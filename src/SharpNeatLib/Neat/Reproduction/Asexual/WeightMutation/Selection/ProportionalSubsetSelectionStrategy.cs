@@ -19,12 +19,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// Construct with the given selection proportion.
         /// </summary>
         /// <param name="selectionCount">The proportion of items to select.</param>
-        public ProportionSubsetSelectionStrategy(double selectionProportion)
+        public ProportionSubsetSelectionStrategy(
+            double selectionProportion, IRandomSource rng)
         {
             Debug.Assert(selectionProportion > 0 && selectionProportion <= 1.0);
 
             _selectionProportion = selectionProportion;
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
         }
 
         #endregion

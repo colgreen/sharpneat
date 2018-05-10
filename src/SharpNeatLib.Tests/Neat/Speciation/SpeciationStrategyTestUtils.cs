@@ -135,7 +135,7 @@ namespace SharpNeat.Tests.Neat.Speciation
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count);
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
             return neatPop;
         }
 

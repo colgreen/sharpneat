@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Redzen.Random;
 using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat;
@@ -62,7 +63,8 @@ namespace TestApp1
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(
                 metaNeatGenome,
                 connectionsProportion: 1.0,
-                popSize: popSize);
+                popSize: popSize,
+                rng: RandomDefaults.CreateRandomSource());
 
             return pop;
         }

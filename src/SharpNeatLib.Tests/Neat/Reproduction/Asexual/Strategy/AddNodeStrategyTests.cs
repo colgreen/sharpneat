@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
@@ -26,10 +27,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var pop = CreateNeatPopulation();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
+
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
-                pop.GenomeIdSeq, pop.InnovationIdSeq,
-                pop.GenerationSeq, pop.AddedNodeBuffer);
+                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                pop.AddedNodeBuffer,
+                RandomDefaults.CreateRandomSource());
 
             for(int i=0; i<10000; i++) {
                 NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy);
@@ -47,10 +50,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var pop = CreateNeatPopulation();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
+
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
-                pop.GenomeIdSeq, pop.InnovationIdSeq,
-                pop.GenerationSeq, pop.AddedNodeBuffer);
+                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                pop.AddedNodeBuffer,
+                RandomDefaults.CreateRandomSource());
 
             for(int i=0; i<2000; i++)
             {
@@ -73,10 +78,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var pop = CreateNeatPopulation();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
+
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
-                pop.GenomeIdSeq, pop.InnovationIdSeq,
-                pop.GenerationSeq, pop.AddedNodeBuffer);
+                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                pop.AddedNodeBuffer,
+                RandomDefaults.CreateRandomSource());
 
             CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);
             genomeRing.Enqueue(genome);

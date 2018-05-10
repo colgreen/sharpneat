@@ -28,7 +28,8 @@ namespace SharpNeat.Neat
 
         private NeatPopulationFactory(
             MetaNeatGenome<T> metaNeatGenome,
-            double connectionsProportion)
+            double connectionsProportion,
+            IRandomSource rng)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
@@ -51,7 +52,7 @@ namespace SharpNeat.Neat
             }
 
             // Init RNG and ID sequences.
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
             _genomeIdSeq = new Int32Sequence();
             int nextInnovationId = inputCount + outputCount;
             _innovationIdSeq = new Int32Sequence(nextInnovationId);
@@ -140,9 +141,12 @@ namespace SharpNeat.Neat
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
         /// <param name="popSize">Population size. The number of new genomes to create.</param>
         /// <returns>A new NeatPopulation.</returns>
-        public static NeatPopulation<T> CreatePopulation(MetaNeatGenome<T> metaNeatGenome, double connectionsProportion, int popSize)
+        public static NeatPopulation<T> CreatePopulation(
+            MetaNeatGenome<T> metaNeatGenome,
+            double connectionsProportion, int popSize,
+            IRandomSource rng)
         {
-            var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion);
+            var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion, rng);
             return factory.CreatePopulation(popSize);
         }
 

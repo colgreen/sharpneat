@@ -21,13 +21,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
-            Int32Sequence generationSeq)
+            Int32Sequence generationSeq,
+            IRandomSource rng)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
         }
 
         #endregion

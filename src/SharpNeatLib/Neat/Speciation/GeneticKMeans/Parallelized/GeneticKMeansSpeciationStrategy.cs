@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation.Parallelized;
@@ -39,23 +40,25 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
-            int maxKMeansIters)
+            int maxKMeansIters,
+            IRandomSource rng)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
             _parallelOptions = new ParallelOptions();
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, _parallelOptions);
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, _parallelOptions, rng);
         }
 
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
+            IRandomSource rng,
             ParallelOptions parallelOptions)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
             _parallelOptions = parallelOptions;
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, parallelOptions);
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, parallelOptions, rng);
         }
 
         #endregion

@@ -24,14 +24,16 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
             AddedNodeBuffer addedNodeBuffer,
-            NeatReproductionSexualSettings settings)
+            NeatReproductionSexualSettings settings,
+            IRandomSourceBuilder rngBuilder)
         {
             _settings = settings;
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rngBuilder.Create();
 
             _strategy = new UniformCrossoverReproductionStrategy<T>(
                                 metaNeatGenome, genomeBuilder,
-                                genomeIdSeq, generationSeq);
+                                genomeIdSeq, generationSeq, 
+                                rngBuilder.Create());
         }
 
         #endregion

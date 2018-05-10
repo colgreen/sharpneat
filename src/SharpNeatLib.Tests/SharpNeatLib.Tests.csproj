@@ -46,7 +46,7 @@
       <HintPath>..\packages\MSTest.TestFramework.1.2.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Redzen, Version=7.0.0.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Redzen.7.0.0-20180510-0918\lib\netstandard2.0\Redzen.dll</HintPath>
+      <HintPath>..\packages\Redzen.7.0.0-20180510-1133\lib\netstandard2.0\Redzen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

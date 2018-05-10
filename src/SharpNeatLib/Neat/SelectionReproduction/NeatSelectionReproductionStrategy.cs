@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly int _speciesCount;
-        readonly IRandomSource _rng = RandomDefaults.CreateRandomSource();
+        readonly IRandomSource _rng;
 
         #endregion
 
@@ -26,10 +26,12 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         public NeatSelectionReproductionStrategy(
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
-            int speciesCount)
+            int speciesCount,
+            IRandomSource rng)
         {
             _speciationStrategy = speciationStrategy;
             _speciesCount = speciesCount;
+            _rng = rng;
         }
 
         #endregion

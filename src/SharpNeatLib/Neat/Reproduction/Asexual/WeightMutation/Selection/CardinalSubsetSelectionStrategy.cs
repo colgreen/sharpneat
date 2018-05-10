@@ -20,10 +20,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// Construct with the given selection count (selection cardinality).
         /// </summary>
         /// <param name="selectCount">The number of items to select.</param>
-        public CardinalSubsetSelectionStrategy(int selectCount)
+        public CardinalSubsetSelectionStrategy(
+            int selectCount, IRandomSource rng)
         {
             _selectCount = selectCount;
-            _rng = RandomDefaults.CreateRandomSource();
+            _rng = rng;
         }
 
         #endregion
