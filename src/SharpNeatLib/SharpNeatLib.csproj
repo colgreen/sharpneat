@@ -13,6 +13,7 @@
     <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
     <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
     <PackageReleaseNotes>See https://github.com/colgreen/sharpneat/releases/tag/v2.4.0</PackageReleaseNotes>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Redzen" Version="7.0.0" />
+    <PackageReference Include="Redzen" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
