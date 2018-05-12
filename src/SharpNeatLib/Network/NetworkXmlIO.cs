@@ -535,34 +535,34 @@ namespace SharpNeat.Network
         {
             switch(name)
             {
-                case "BipolarGaussian":
-                    return BipolarGaussian.__DefaultInstance;
-                case "BipolarSigmoid":
-                    return BipolarSigmoid.__DefaultInstance;
-                case "Linear":
-                    return Linear.__DefaultInstance;
-                case "Sine":
-                    return Sine.__DefaultInstance;
+                // Bipolar.
+                case "BipolarGaussian": return BipolarGaussian.__DefaultInstance;
+                case "BipolarSigmoid":  return BipolarSigmoid.__DefaultInstance;
+                case "Linear":          return Linear.__DefaultInstance;
+                case "Sine":            return Sine.__DefaultInstance;
 
-                case "Gaussian":
-                    return Gaussian.__DefaultInstance;
-                case "LogisticFunction":
-                    return LogisticFunction.__DefaultInstance;
-                case "LogisticFunctionSteep":
-                    return LogisticFunctionSteep.__DefaultInstance;
-                case "PolynomialApproximantSteep":
-                    return PolynomialApproximantSteep.__DefaultInstance;
-                case "QuadraticSigmoid":
-                    return QuadraticSigmoid.__DefaultInstance;
-                case "SoftSignSteep":
-                    return SoftSignSteep.__DefaultInstance;
-                case "SReLU":
-                    return SReLU.__DefaultInstance;
-                case "SReLUShifted":
-                    return SReLUShifted.__DefaultInstance;
+                // Unipolar.
+                case "ArcSinH":         return ArcSinH.__DefaultInstance;
+                case "ArcTan":          return ArcTan.__DefaultInstance;
+                case "Gaussian":        return Gaussian.__DefaultInstance;
+                case "LeakyReLU":       return LeakyReLU.__DefaultInstance;
+                case "LeakyReLUShifted":            return LeakyReLUShifted.__DefaultInstance;
+                case "LogisticApproximantSteep":    return LogisticApproximantSteep.__DefaultInstance;
+                case "LogisticFunction":            return LogisticFunction.__DefaultInstance;
+                case "LogisticFunctionSteep":       return LogisticFunctionSteep.__DefaultInstance;
+                case "MaxMinusOne":                 return MaxMinusOne.__DefaultInstance;
+                case "PolynomialApproximantSteep":  return PolynomialApproximantSteep.__DefaultInstance;
+                case "QuadraticSigmoid":            return QuadraticSigmoid.__DefaultInstance;
+                case "ReLU":            return ReLU.__DefaultInstance;
+                case "ScaledELU":       return ScaledELU.__DefaultInstance;
+                case "SoftSignSteep":   return SoftSignSteep.__DefaultInstance;
+                case "SReLU":           return SReLU.__DefaultInstance;
+                case "SReLUShifted":    return SReLUShifted.__DefaultInstance;
+                case "TanH":            return TanH.__DefaultInstance;
 
-                case "RbfGaussian":
-                    return RbfGaussian.__DefaultInstance;
+                // Radial Basis.
+                case "RbfGaussian": return RbfGaussian.__DefaultInstance;
+
             }
             throw new ArgumentException($"Unexpected activation function [{name}]");
         }
