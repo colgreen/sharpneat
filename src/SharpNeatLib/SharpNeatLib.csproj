@@ -2,10 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.4.1.0</AssemblyVersion>
-    <FileVersion>2.4.0.0</FileVersion>
     <Copyright>Copyright © Colin D. Green 2004 - 2018</Copyright>
-    <Version>2.4.1.1</Version>
+    <Version>2.4.1.2</Version>
     <Authors>Colin D. Green</Authors>
     <Company />
     <Description>SharpNEAT - Evolution of Neural Networks.</Description>
