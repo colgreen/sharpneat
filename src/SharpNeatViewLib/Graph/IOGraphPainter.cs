@@ -33,7 +33,7 @@ namespace SharpNeat.View.Graph
         /// <summary>Pen for drawing connections with positive connection weight.</summary>
         protected static readonly Color _connectionPositive = Color.Red;
         /// <summary>Pen for drawing connections with negative connection weight.</summary>
-        protected static readonly Color _connectionNegative = Color.Blue;
+        protected static readonly Color _connectionNegative = Color.FromArgb(0x3e, 0x3e, 0xc2);
 
         #region Painting Methods / High Level
 

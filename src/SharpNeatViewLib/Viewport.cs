@@ -23,8 +23,8 @@ namespace SharpNeat.View
     /// </summary>
     public class Viewport : UserControl
     {
-        const PixelFormat ViewportPixelFormat = PixelFormat.Format16bppRgb565;
-        readonly Brush _brushBackground = new SolidBrush(Color.Lavender);
+        const PixelFormat ViewportPixelFormat = PixelFormat.Format24bppRgb;
+        readonly Brush _brushBackground = new SolidBrush(Color.White);
 
         IViewportPainter _viewportPainter;
         Rectangle _viewportArea;
@@ -145,6 +145,7 @@ namespace SharpNeat.View
             Graphics g = Graphics.FromImage(_image);
             g.FillRectangle(_brushBackground, 0, 0, _image.Width, _image.Height);
             g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.CompositingQuality = CompositingQuality.AssumeLinear;
 
             // If a painter has been assigned then paint the graph.
             if(null != _viewportPainter) {
