@@ -27,9 +27,9 @@ namespace SharpNeat.Network
 
         public string FunctionId => this.GetType().Name;
 
-        public string FunctionString => "";
+        public string FunctionString => "y = max(-1, x)";
 
-        public string FunctionDescription => "Shifted Rectified Linear Unit (ReLU) variant";
+        public string FunctionDescription => "A variant of Shifted Rectified Linear Unit (ReLU).";
 
         public bool AcceptsAuxArgs => false;
 

@@ -547,7 +547,6 @@ namespace SharpNeat.Network
                 case "Gaussian":        return Gaussian.__DefaultInstance;
                 case "LeakyReLU":       return LeakyReLU.__DefaultInstance;
                 case "LeakyReLUShifted":            return LeakyReLUShifted.__DefaultInstance;
-                case "LogisticApproximantSteep":    return LogisticApproximantSteep.__DefaultInstance;
                 case "LogisticFunction":            return LogisticFunction.__DefaultInstance;
                 case "LogisticFunctionSteep":       return LogisticFunctionSteep.__DefaultInstance;
                 case "MaxMinusOne":                 return MaxMinusOne.__DefaultInstance;

@@ -48,7 +48,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return "Plain sigmoid.\r\nEffective xrange->[-5,5] yrange->[0,1]"; }
+            get { return "The logistic function (sigmoid)."; }
         }
 
         /// <summary>

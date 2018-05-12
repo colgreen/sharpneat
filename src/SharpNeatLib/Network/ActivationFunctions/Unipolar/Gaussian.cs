@@ -49,7 +49,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return "Gaussian.\r\nEffective xrange->[-1,1] yrange->[0,1]"; }
+            get { return this.GetType().Name; }
         }
 
         /// <summary>

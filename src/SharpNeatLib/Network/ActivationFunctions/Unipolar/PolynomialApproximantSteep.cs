@@ -64,7 +64,7 @@ namespace SharpNeat.Network
         /// </summary>
         public string FunctionDescription
         {
-            get { return ""; }
+            get { return "A polynomial approximation of the logistic function."; }
         }
 
         /// <summary>
