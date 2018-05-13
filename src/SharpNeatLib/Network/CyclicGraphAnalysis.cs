@@ -48,14 +48,12 @@ namespace SharpNeat.Network
         /// </summary>
         BoolArray _visitedNodeBitmap;
 
-        #if REENTRANCY_CHECKS
-
+        #if DEBUG
         /// <summary>
         /// Indicates if a call to IsCyclic() is currently in progress. 
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentrancyFlag = 0;
-
         #endif
 
         #endregion
@@ -84,13 +82,11 @@ namespace SharpNeat.Network
         /// </summary>
         public bool IsCyclic(DirectedGraph digraph)
         {
-            #if REENTRANCY_CHECKS
-
+            #if DEBUG
             // Check for attempts to re-enter this method.
             if(1 == Interlocked.CompareExchange(ref _reentrancyFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
-
             #endif
 
             _digraph = digraph;
@@ -192,11 +188,9 @@ namespace SharpNeat.Network
             _ancestorNodeBitmap.Reset(false);
             _visitedNodeBitmap.Reset(false);
 
-            #if REENTRANCY_CHECKS
-
+            #if DEBUG
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _reentrancyFlag, 0);
-
             #endif
         }
 
