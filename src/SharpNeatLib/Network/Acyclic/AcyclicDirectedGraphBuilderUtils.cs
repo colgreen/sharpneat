@@ -17,6 +17,28 @@ namespace SharpNeat.Network.Acyclic
             out int[] newIdByOldId,
             out int[] connectionIndexMap)
         {
+            // Timsort working arrays. We only need the variable slot to pass as reference, timsort will allocate them if 
+            // necessary and return them, but here we just discard those arrays. To re-use the arrays call the method overload
+            // that accepts the two arrays.
+            int[] timsortWorkArr = null;
+            int[] timsortWorkVArr = null;
+
+            return CreateAcyclicDirectedGraph(
+                digraph, depthInfo,
+                out newIdByOldId,
+                out connectionIndexMap,
+                ref timsortWorkArr,
+                ref timsortWorkVArr);
+        }
+
+        public static AcyclicDirectedGraph CreateAcyclicDirectedGraph(
+            DirectedGraph digraph,
+            GraphDepthInfo depthInfo,
+            out int[] newIdByOldId,
+            out int[] connectionIndexMap,
+            ref int[] timsortWorkArr,
+            ref int[] timsortWorkVArr)
+        {
             int inputCount = digraph.InputCount;
             int outputCount = digraph.OutputCount;
 
@@ -25,7 +47,7 @@ namespace SharpNeat.Network.Acyclic
             Debug.Assert(ArrayUtils.Equals(depthInfo._nodeDepthArr, 0, 0, inputCount));
 
             // Compile a mapping from current node IDs to new IDs (based on node depth in the graph).
-            newIdByOldId = CompileNodeIdMap(depthInfo, digraph.TotalNodeCount, inputCount);
+            newIdByOldId = CompileNodeIdMap(depthInfo, digraph.TotalNodeCount, inputCount, ref timsortWorkArr, ref timsortWorkVArr);
 
             // Map the connection node IDs.
             ConnectionIdArrays connIdArrays = digraph.ConnectionIdArrays;
@@ -98,7 +120,9 @@ namespace SharpNeat.Network.Acyclic
         private static int[] CompileNodeIdMap(
             GraphDepthInfo depthInfo,
             int nodeCount,
-            int inputCount)
+            int inputCount,
+            ref int[] timsortWorkArr,
+            ref int[] timsortWorkVArr)
         {
             // Create an array of all node IDs in the digraph.
             int[] nodeIdArr = new int[nodeCount];
@@ -107,22 +131,37 @@ namespace SharpNeat.Network.Acyclic
             }
 
             // Sort nodeIdArr based on the depth of the nodes.
-            // Note. We skip the input nodes because these all have depth zero and therefore remain
-            // at fixed positions. 
+            // Notes. 
+            // We skip the input nodes because these all have depth zero and therefore remain at fixed 
+            // positions. 
             //
             // The remaining nodes (output and hidden nodes) are sorted by depth, noting that typically 
-            // there will be multiple nodes at a given depth. 
-            // Here we apply the TimSort algorithm; this has good performance when there are already sorted 
-            // spans either in teh correct direction or in reverse. It also performs a stable sort, thus
-            // avoids unnecessary shuffling of nodes that are at the same depth, however the use of a stable
-            // sort is not a strict requirement here.
-            // 
-            // Note. At time of writing Array.Sort() is implemented using introsort, which is not stable. 
-            // TODO: Decide which sort algorithm is faster here, in the general case.
+            // there will be multiple nodes at a given depth. Here we apply the TimSort algorithm; this 
+            // has very good performance when there are pre-sorted sub-spans, either in the correct
+            // direction or in reverse, as is typical of much real world data, and is likely the case here
+            // too.
             //
-            // TODO: Alloc reusable working arrays for use by timsort; this should improve performance 
-            // by avoiding new allocs on each invocation of sort().
-            TimSort<int,int>.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount - inputCount);
+            // Timsort also performs a stable sort, as it is based on a mergesort (note. at time of writing
+            // Array.Sort employs introsort, which is not stable), thus avoids unnecessary shuffling of nodes
+            // that are at the same depth. However the use of a stable sort is not a strict requirement here.
+            //
+            // Regarding timsort temporary working data. 
+            // Depending on the data being sorted, timsort may use a temp array with up to N/2 elements. Here
+            // we ensure that the maximum possible size is allocated, and we re-use these arrays in future 
+            // calls. If instead we pass null or an array that is too short, then timsort will allocate a new
+            // array internally, per sort, so we want to avoid that cost.
+
+            // Allocate new timsort working arrays, if necessary.
+            int timsortWorkArrLength = nodeCount >> 1;
+
+            if(null == timsortWorkArr || timsortWorkArr.Length < timsortWorkArrLength)
+            {
+                timsortWorkArr = new int[timsortWorkArrLength];
+                timsortWorkVArr = new int[timsortWorkArrLength];
+            }
+
+            // Sort the node IDs by depth.
+            TimSort<int,int>.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount - inputCount, timsortWorkArr, timsortWorkVArr);
 
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e.
             // we are re-allocating IDs based on node depth.

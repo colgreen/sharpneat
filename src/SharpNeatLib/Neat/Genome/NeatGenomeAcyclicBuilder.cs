@@ -12,7 +12,11 @@ namespace SharpNeat.Neat.Genome
     public class NeatGenomeAcyclicBuilder<T> : INeatGenomeBuilder<T>
         where T : struct
     {
-        MetaNeatGenome<T> _metaNeatGenome;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
+
+        // Temp working data for timsort. Allocated once and re-used to minimise object allocate and GC overhead.
+        int[] _timesortWorkArr;
+        int[] _timesortWorkVArr;
 
         #region Constructor
 
@@ -82,7 +86,9 @@ namespace SharpNeat.Neat.Genome
                 digraph,
                 depthInfo,
                 out int[] newIdByOldId,
-                out int[] connectionIndexMap);
+                out int[] connectionIndexMap,
+                ref _timesortWorkArr,
+                ref _timesortWorkVArr);
 
             // TODO: Write unit tests to cover this!
             // Update nodeIdxById with the new depth based node index allocations.
