@@ -14,7 +14,7 @@ namespace SharpNeat.Network
     /// 1) We loop over all nodes in the network and perform a depth-first traversal from each node. 
     /// (Note. the order that the nodes are traversed does not affect the correctness of the method)
     /// 
-    /// 2) Each traversal keeps track of its ancestor nodes (the path to the current node) for each step
+    /// 2) Each traversal keeps track of its ancestor nodes (the path to the current node) at each step
     /// in the traversal. Thus if the traversal encounters an ancestor node then a cycle has been detected.
     /// 
     /// 3) A set of visited nodes is maintained. This persists between traversals and allows each traversal 
@@ -44,16 +44,19 @@ namespace SharpNeat.Network
         /// <summary>
         /// A bitmap in which each bit represents a node in the graph. 
         /// The set bits represent the set of visited nodes on the current traversal path.
-        /// 
         /// This is used to quickly determine if a given path should be traversed or not. 
         /// </summary>
         BoolArray _visitedNodeBitmap;
+
+        #if REENTRANCY_CHECKS
 
         /// <summary>
         /// Indicates if a call to IsCyclic() is currently in progress. 
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
-        int _callFlag = 0;
+        int _reentrancyFlag = 0;
+
+        #endif
 
         #endregion
 
@@ -81,10 +84,14 @@ namespace SharpNeat.Network
         /// </summary>
         public bool IsCyclic(DirectedGraph digraph)
         {
+            #if REENTRANCY_CHECKS
+
             // Check for attempts to re-enter this method.
-            if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
+            if(1 == Interlocked.CompareExchange(ref _reentrancyFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
+
+            #endif
 
             _digraph = digraph;
             EnsureNodeCapacity(digraph.TotalNodeCount);
@@ -185,8 +192,12 @@ namespace SharpNeat.Network
             _ancestorNodeBitmap.Reset(false);
             _visitedNodeBitmap.Reset(false);
 
+            #if REENTRANCY_CHECKS
+
             // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _callFlag, 0);
+            Interlocked.Exchange(ref _reentrancyFlag, 0);
+
+            #endif
         }
 
         #endregion
