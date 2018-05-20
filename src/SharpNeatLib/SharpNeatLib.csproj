@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Copyright © Colin D. Green 2004 - 2018</Copyright>
-    <Version>2.4.1.2</Version>
+    <Version>2.4.1.3</Version>
     <Authors>Colin D. Green</Authors>
     <Company />
     <Description>SharpNEAT - Evolution of Neural Networks.</Description>
     <PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
     <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
     <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
-    <PackageReleaseNotes>See https://github.com/colgreen/sharpneat/releases/tag/v2.4.0</PackageReleaseNotes>
+    <PackageReleaseNotes>See https://github.com/colgreen/sharpneat/releases/tag/v2.4.1</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
