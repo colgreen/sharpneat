@@ -121,6 +121,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
+        // ENHANCEMENT: Consider generating random acyclic connection by sampling endpoint nodes from a node list sorted by depth;
+        // rather than he current rejection sampling approach.
         private bool TryGetConnection(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
         {
             // Make several attempts at find a new connection, if not successful then give up.
