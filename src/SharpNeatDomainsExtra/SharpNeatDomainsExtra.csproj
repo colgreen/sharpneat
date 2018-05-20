@@ -43,8 +43,8 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Redzen, Version=7.2.0.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Redzen.7.2.0\lib\netstandard2.0\Redzen.dll</HintPath>
+    <Reference Include="Redzen, Version=7.2.1.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Redzen.7.2.1\lib\netstandard2.0\Redzen.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
