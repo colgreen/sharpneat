@@ -127,16 +127,16 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             double[] conInputArr = new double[width];
 
             // Activate the network for a fixed number of timesteps.
-            for(int i=0; i<_activationCount; i++)
+            for(int i=0; i < _activationCount; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
                 int conIdx=0;
-                for(; conIdx <= _srcIdArr.Length-width; conIdx += width) 
+                for(; conIdx <= _srcIdArr.Length - width; conIdx += width) 
                 {
                     // Load source node output values into a vector.
                     for(int k=0; k<width; k++) {
-                        conInputArr[k] = _postActivationArr[_srcIdArr[conIdx+k]];
+                        conInputArr[k] = _postActivationArr[_srcIdArr[conIdx + k]];
                     }
                     var conInputVec = new Vector<double>(conInputArr);
 
@@ -147,7 +147,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
                     var conOutputVec = conInputVec * weightVec;
 
                     // Save/accumulate connection output values onto the connection target nodes.
-                    for(int k=0; k<width; k++) {
+                    for(int k=0; k < width; k++) {
                         _preActivationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];
                     }
                 }
@@ -175,7 +175,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         {
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputCount; i<_postActivationArr.Length; i++) {
+            for(int i = _inputCount; i < _postActivationArr.Length; i++) {
                 _preActivationArr[i] = 0.0;
             }
         }

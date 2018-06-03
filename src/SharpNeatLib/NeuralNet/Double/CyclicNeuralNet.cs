@@ -159,11 +159,11 @@ namespace SharpNeat.NeuralNet.Double
         public void Activate()
         {
             // Activate the network for a fixed number of timesteps.
-            for(int i=0; i<_activationCount; i++)
+            for(int i=0; i < _activationCount; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
-                for(int j=0; j<_srcIdArr.Length; j++) {
+                for(int j=0; j < _srcIdArr.Length; j++) {
                     _preActivationArr[_tgtIdArr[j]] += _postActivationArr[_srcIdArr[j]] * _weightArr[j];
                 }
 
@@ -185,7 +185,7 @@ namespace SharpNeat.NeuralNet.Double
         {
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputCount; i<_postActivationArr.Length; i++) {
+            for(int i=_inputCount; i < _postActivationArr.Length; i++) {
                 _preActivationArr[i] = 0.0;
             }
         }

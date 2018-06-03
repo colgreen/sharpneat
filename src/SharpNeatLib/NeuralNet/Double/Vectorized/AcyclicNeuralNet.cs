@@ -149,8 +149,8 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
                 {
 
                     // Load source node output values into a vector.
-                    for(int k=0; k<width; k++) {
-                        conInputArr[k] = _activationArr[_srcIdArr[conIdx+k]];
+                    for(int k=0; k < width; k++) {
+                        conInputArr[k] = _activationArr[_srcIdArr[conIdx + k]];
                     }
                     var conInputVec = new Vector<double>(conInputArr);
 
@@ -161,7 +161,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
                     var conOutputVec = conInputVec * weightVec;
                     
                     // Save/accumulate connection output values onto the connection target nodes.
-                    for(int k=0; k<width; k++) {
+                    for(int k=0; k < width; k++) {
                         _activationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];
                     }
                 }
