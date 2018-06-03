@@ -46,11 +46,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// </summary>        
         BoolArray _visitedNodes = new BoolArray(1024);
 
+        #if DEBUG
         /// <summary>
-        /// Indicates if a call to IsConnectionCyclic() is currently in progress; 
-        /// for checking for attempts to re-enter that method while a call is in progress.
+        /// Indicates if a call to IsConnectionCyclic() is currently in progress.
+        /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
-        int _callFlag = 0;
+        int _reentrancyFlag = 0;
+        #endif
 
         /// <summary>
         /// A function that implements a mapping from node IDs to node indexes.
@@ -73,10 +75,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int totalNodeCount,
             DirectedConnection newConn)
         {
+            #if DEBUG
             // Check for attempts to re-enter this method.
-            if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
+            if(1 == Interlocked.CompareExchange(ref _reentrancyFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
+            #endif
 
             EnsureNodeCapacity(totalNodeCount);
             _nodeIdxByIdMap = nodeIdxByIdMap;
@@ -128,8 +132,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _visitedNodes.Reset(false);
             _nodeIdxByIdMap = null;
 
+            #if DEBUG
             // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _callFlag, 0);
+            Interlocked.Exchange(ref _reentrancyFlag, 0);
+            #endif
         }
 
         private void EnsureNodeCapacity(int capacity)

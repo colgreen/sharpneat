@@ -81,11 +81,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// </summary>
         HashSet<int> _visitedNodes = new HashSet<int>();
 
+        #if DEBUG
         /// <summary>
         /// Indicates if a call to IsConnectionCyclic() is currently in progress. 
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
-        int _callFlag = 0;
+        int _reentrancyFlag = 0;
+        #endif
 
         #endregion
 
@@ -99,10 +101,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
         public bool IsConnectionCyclic(IList<DirectedConnection> connList, DirectedConnection newConn)
         {
+            #if DEBUG
             // Check for attempts to re-enter this method.
-            if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
+            if(1 == Interlocked.CompareExchange(ref _reentrancyFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
+            #endif
 
             try 
             {
@@ -149,8 +153,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             _traversalStack.Clear();
             _visitedNodes.Clear();
 
+            #if DEBUG
             // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _callFlag, 0);
+            Interlocked.Exchange(ref _reentrancyFlag, 0);
+            #endif
         }
 
         #endregion
