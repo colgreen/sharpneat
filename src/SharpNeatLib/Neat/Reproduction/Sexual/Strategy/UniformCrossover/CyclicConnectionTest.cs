@@ -50,16 +50,16 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     ///    * Each stack frame is a single int32 and thus the stack as a whole is highly compact; this improves CPU cache
     ///      locality and hit rate, and also keeps the max size of the stack for any given traversal at a minimum.
     ///      
-    ///    * The stack and a visitedNodes hashset are allocated for each class instance and are cleared and re-used for each 
-    ///       call to IsConnectionCyclic(), therefore minimizing memory allocation and garbage collection overhead.
+    ///    * The stack and a visitedNodes HashSet are allocated for each class instance and are cleared and re-used for each 
+    ///      call to IsConnectionCyclic(), therefore minimizing memory allocation and garbage collection overhead.
     /// 
     ///    * Using a stack on the heap also avoids any potential for a stack overflow on very deep graphs, which could occur
-    ///    if using method call recursion.
+    ///      if using method call recursion.
     /// 
     /// Problems with the approach of this class are:
     /// 
     ///    * The code is more complex than the same algorithm written as a recursive function; this makes the code harder 
-    ///      to read and understand and thus increases the probability of subtle defects, and makes the code harder to maintain.
+    ///      to read, understand and maintain,  thus increasing the probability of subtle defects.
     ///
     /// </remarks>
     public class CyclicConnectionTest
@@ -194,6 +194,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 // to traverse then we pop it off the stack, even though we haven't yet completed traversal of its last child
                 // node, i.e. the call stack does not necessarily represent the full ancestor line being traversed. One benefit 
                 // to this is that it will tend to require a lower maximum stack depth than the more standard approach.
+                // This is essentially a form of tail call optimisation.
                 MoveForward(connList, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
