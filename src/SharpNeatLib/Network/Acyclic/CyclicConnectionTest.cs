@@ -48,11 +48,13 @@ namespace SharpNeat.Network.Acyclic
         /// </summary>        
         BoolArray _visitedNodes = new BoolArray(1024);
 
+        #if DEBUG
         /// <summary>
-        /// Indicates if a call to IsConnectionCyclic() is currently in progress; 
-        /// for checking for attempts to re-enter that method while a call is in progress.
+        /// Indicates if a call to IsConnectionCyclic() is currently in progress.
+        /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
-        int _callFlag = 0;
+        int _reentranceFlag = 0;
+        #endif
 
         #endregion
 
@@ -69,10 +71,12 @@ namespace SharpNeat.Network.Acyclic
             DirectedGraph digraph,
             DirectedConnection newConn)
         {
+            #if DEBUG
             // Check for attempts to re-enter this method.
-            if(1 == Interlocked.CompareExchange(ref _callFlag, 1, 0)) {
+            if(1 == Interlocked.CompareExchange(ref _reentranceFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
+            #endif
 
             EnsureNodeCapacity(digraph.TotalNodeCount);
             
@@ -121,8 +125,10 @@ namespace SharpNeat.Network.Acyclic
             _traversalStack.Clear();
             _visitedNodes.Reset(false);
 
+            #if DEBUG
             // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _callFlag, 0);
+            Interlocked.Exchange(ref _reentranceFlag, 0);
+            #endif
         }
 
         private void EnsureNodeCapacity(int capacity)

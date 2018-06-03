@@ -53,7 +53,7 @@ namespace SharpNeat.Network
         /// Indicates if a call to IsCyclic() is currently in progress. 
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
-        int _reentrancyFlag = 0;
+        int _reentranceFlag = 0;
         #endif
 
         #endregion
@@ -84,7 +84,7 @@ namespace SharpNeat.Network
         {
             #if DEBUG
             // Check for attempts to re-enter this method.
-            if(1 == Interlocked.CompareExchange(ref _reentrancyFlag, 1, 0)) {
+            if(1 == Interlocked.CompareExchange(ref _reentranceFlag, 1, 0)) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
             #endif
@@ -191,7 +191,7 @@ namespace SharpNeat.Network
 
             #if DEBUG
             // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _reentrancyFlag, 0);
+            Interlocked.Exchange(ref _reentranceFlag, 0);
             #endif
         }
 
