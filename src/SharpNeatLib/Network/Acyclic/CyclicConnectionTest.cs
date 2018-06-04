@@ -175,13 +175,14 @@ namespace SharpNeat.Network.Acyclic
                 // Get the connection index from the top of stack; this is the next connection to be traversed.
                 int currConnIdx = _traversalStack.Peek();
 
+                // Notes.
                 // Before we traverse the current connection, update the stack state to point to the next connection
-                // to be traversed on the current node. I.e. set up the stack state ready for when the traversal down 
+                // to be traversed from the current node. I.e. set up the stack state ready for when the traversal down 
                 // into the current connection completes and returns back to the current node.
-                // Note. This is perhaps a slightly non-standard approach because if the current node has no more children
-                // to traverse then we pop it off the stack, even though we haven't yet completed traversal of its last child
-                // node, i.e. the call stack does not necessarily represent the full ancestor line being traversed. One benefit 
-                // to this is that it will tend to require a lower maximum stack depth than the more standard approach.
+                //
+                // This is essentially tail call optimisation, and will result in shorter stacks on average and also
+                // has the side effect that we can no longer examine the stack to observe the traversal path at a given 
+                // point in time.
                 MoveForward(srcIdArr, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
