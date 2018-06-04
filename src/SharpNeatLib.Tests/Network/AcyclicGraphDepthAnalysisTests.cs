@@ -33,7 +33,8 @@ namespace SharpNeat.Tests.Network
             var digraph = DirectedGraphBuilder.Create(connList, 3, 2);
 
             // Assert is acyclic.
-            Assert.IsTrue(!CyclicGraphAnalysis.IsCyclicStatic(digraph));
+            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
+            Assert.IsTrue(!cyclicGraphAnalysis.IsCyclic(digraph));
 
             // Depth analysis.
             GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
@@ -75,7 +76,8 @@ namespace SharpNeat.Tests.Network
             var digraph = DirectedGraphBuilder.Create(connList, 2, 2);
 
             // Assert is acyclic.
-            Assert.IsTrue(!CyclicGraphAnalysis.IsCyclicStatic(digraph));
+            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
+            Assert.IsTrue(!cyclicGraphAnalysis.IsCyclic(digraph));
 
             // Depth analysis.
             GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);

@@ -39,14 +39,14 @@ namespace SharpNeat.Network
         /// A bitmap in which each bit represents a node in the graph. 
         /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
-        BoolArray _ancestorNodeBitmap;
+        BoolArray _ancestorNodeBitmap = new BoolArray(1024);
 
         /// <summary>
         /// A bitmap in which each bit represents a node in the graph. 
         /// The set bits represent the set of visited nodes on the current traversal path.
         /// This is used to quickly determine if a given path should be traversed or not. 
         /// </summary>
-        BoolArray _visitedNodeBitmap;
+        BoolArray _visitedNodeBitmap = new BoolArray(1024);
 
         #if DEBUG
         /// <summary>
@@ -55,23 +55,6 @@ namespace SharpNeat.Network
         /// </summary>
         int _reentranceFlag = 0;
         #endif
-
-        #endregion
-
-        #region Construction
-
-        public CyclicGraphAnalysis()
-        {
-            const int defaultInitialNodeCapacity = 2048;
-            _ancestorNodeBitmap = new BoolArray(defaultInitialNodeCapacity);
-            _visitedNodeBitmap = new BoolArray(defaultInitialNodeCapacity);
-        }
-
-        public CyclicGraphAnalysis(int initialNodeCapacity)
-        {
-            _ancestorNodeBitmap = new BoolArray(initialNodeCapacity);
-            _visitedNodeBitmap = new BoolArray(initialNodeCapacity);
-        }
 
         #endregion
 
@@ -193,24 +176,6 @@ namespace SharpNeat.Network
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _reentranceFlag, 0);
             #endif
-        }
-
-        #endregion
-
-        #region Public Static Methods
-
-        /// <summary>
-        /// Returns true if there is at least one connectivity cycle within the provided DirectedGraph.
-        /// </summary>
-        /// <remarks>
-        /// A static version of IsCyclic() that will create and cleanup its own memory allocations for the 
-        /// analysis algorithm instead of re-using pre-allocated memory. I.e. this method is a slower version
-        /// but is provided for scenarios where the convenience is preferable to speed.
-        /// </remarks>
-        public static bool IsCyclicStatic(DirectedGraph digraph)
-        {
-            var cyclicAnalysis = new CyclicGraphAnalysis(digraph.TotalNodeCount);
-            return cyclicAnalysis.IsCyclic(digraph);
         }
 
         #endregion

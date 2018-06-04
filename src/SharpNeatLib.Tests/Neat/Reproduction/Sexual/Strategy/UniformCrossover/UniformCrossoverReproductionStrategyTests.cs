@@ -34,7 +34,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
-            for(int i=0; i<1000; i++)
+            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
+
+            for(int i=0; i < 1000; i++)
             {
                 // Randomly select two parents from the population.
                 var genome1 = pop.GenomeList[rng.Next(count)];
@@ -48,7 +50,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
                 var digraph = childGenome.DirectedGraph;
-                Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
+                Assert.IsFalse(cyclicGraphAnalysis.IsCyclic(digraph));
 
                 // The child genome node IDs should be a superset of those from parent1 + parent2.
                 var childNodeIdSet = GetNodeIdSet(childGenome);

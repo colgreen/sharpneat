@@ -31,7 +31,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
-            for(int i=0; i<1000;)
+            CyclicGraphAnalysis cyclicGraphAnalysis = new CyclicGraphAnalysis();
+
+            for(int i=0; i < 1000;)
             {
                 var childGenome = strategy.CreateChildGenome(genome);
                 
@@ -59,7 +61,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
                 var digraph = childGenome.DirectedGraph;
-                Assert.IsFalse(CyclicGraphAnalysis.IsCyclicStatic(digraph));
+                Assert.IsFalse(cyclicGraphAnalysis.IsCyclic(digraph));
 
                 // Increment for successful tests only.
                 i++;
