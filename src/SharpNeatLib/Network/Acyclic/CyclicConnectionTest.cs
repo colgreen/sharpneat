@@ -38,15 +38,15 @@ namespace SharpNeat.Network.Acyclic
         /// The graph traversal stack, as required by a depth first graph traversal algorithm.
         /// Each stack entry is an index into a connection list, representing both the current node being traversed 
         /// (the connections's source ID), and the current position in that node's outgoing connections.
-        /// for one source node.
         /// </summary>
-        IntStack _traversalStack = new IntStack(16);    
+        IntStack _traversalStack = new IntStack(16);
 
         /// <summary>
-        /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
-        /// re-traversal of nodes.
-        /// </summary>        
-        BoolArray _visitedNodes = new BoolArray(1024);
+        /// A bitmap in which each bit represents a node in the graph. 
+        /// The set bits represent the set of visited nodes on the current traversal path.
+        /// This is used to quickly determine if a given path should be traversed or not. 
+        /// </summary>     
+        BoolArray _visitedNodeBitmap = new BoolArray(1024);
 
         #if DEBUG
         /// <summary>
@@ -123,7 +123,7 @@ namespace SharpNeat.Network.Acyclic
         private void Cleanup()
         {
             _traversalStack.Clear();
-            _visitedNodes.Reset(false);
+            _visitedNodeBitmap.Reset(false);
 
             #if DEBUG
             // Reset reentrancy test flag.
@@ -133,13 +133,13 @@ namespace SharpNeat.Network.Acyclic
 
         private void EnsureNodeCapacity(int capacity)
         {
-            if (capacity > _visitedNodes.Length)
+            if (capacity > _visitedNodeBitmap.Length)
             {
                 // For the new capacity, select the lowest power of two that is above the required capacity.
                 capacity = MathUtils.CeilingToPowerOfTwo(capacity);
 
                 // Allocate new bitmap with the new capacity.
-                _visitedNodes = new BoolArray(capacity);
+                _visitedNodeBitmap = new BoolArray(capacity);
             }
         }
 
@@ -154,7 +154,7 @@ namespace SharpNeat.Network.Acyclic
 
             // Add the current node to the set of visited nodes; this prevents the traversal algorithm from re-entering this node 
             // (it's on the stack thus it is in the process of being traversed).
-            _visitedNodes[startNodeId] = true;
+            _visitedNodeBitmap[startNodeId] = true;
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace SharpNeat.Network.Acyclic
 
                 // Test if the next traversal child node has already been visited.
                 int childNodeId = tgtIdArr[currConnIdx];
-                if(_visitedNodes[childNodeId]) {
+                if(_visitedNodeBitmap[childNodeId]) {
                     continue;
                 }
 
@@ -196,7 +196,7 @@ namespace SharpNeat.Network.Acyclic
                 }
 
                 // We're about to traverse into childNodeId, so mark it as visited to prevent re-traversal.
-                _visitedNodes[childNodeId] = true;
+                _visitedNodeBitmap[childNodeId] = true;
 
                 // Search for outgoing connections from childNodeId.
                 int connIdx = digraph.GetFirstConnectionIndex(childNodeId);
