@@ -224,21 +224,21 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void MoveForward(DirectedConnection[] connArr, int currConnIdx)
         {
-            // If the current node has at least one more outgoing connection, then update its entry 
-            // on the top of the stack to point to it. i.e. increment the current node's connection 
-            // iterator by one.
-            if(currConnIdx + 1 < connArr.Length
-                && connArr[currConnIdx].SourceId == connArr[currConnIdx + 1].SourceId)
+            // If the current node has at least one more outgoing connection leading to an unvisited node,
+            // then update the node's entry on the top of the stack to point to said connection.
+            for(int i=currConnIdx + 1; i < connArr.Length && (connArr[currConnIdx].SourceId == connArr[i].SourceId); i++)
             {
-                _traversalStack.Poke(currConnIdx + 1);
+                if(!_visitedNodes[connArr[i].TargetId])
+                {
+                    _traversalStack.Poke(currConnIdx + 1);
+                    return;
+                }
             }
-            else
-            {
-                // No more connections for the current node; pop/remove its entry from the top of the stack;
-                // traversal will thus continue from the parent node's current position, or will terminate 
-                // if the stack is now empty.
-                _traversalStack.Pop();
-            }
+
+            // No more connections for the current node; pop/remove the current node from the top of the stack.
+            // Traversal will thus continue from its traversal parent node's current position, or will terminate 
+            // if the stack is now empty.
+            _traversalStack.Pop();
         }
 
         #endregion

@@ -12,7 +12,7 @@ namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
         [TestCategory("CyclicConnectionTestWithIds")]
         public void TestIsConnectionCyclic1()
         {
-            var cyclicTest= new CyclicConnectionTest();
+            var cyclicTest = new CyclicConnectionTest();
 
             var connArr = new DirectedConnection[3];
             connArr[0] = new DirectedConnection(0, 1);
@@ -42,7 +42,7 @@ namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
         [TestCategory("CyclicConnectionTestWithIds")]
         public void TestIsConnectionCyclic2()
         {
-            var cyclicTest= new CyclicConnectionTest();
+            var cyclicTest = new CyclicConnectionTest();
 
             var connArr = new DirectedConnection[8];
             connArr[0] = new DirectedConnection(0, 1);
