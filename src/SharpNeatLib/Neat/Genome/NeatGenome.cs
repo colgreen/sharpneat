@@ -67,12 +67,12 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         /// <remarks>
         /// This digraph mirrors the graph described by <see cref="ConnectionGenes"/>; this object represents the
-        /// graph structure only, not the weights, and is therefore reused when spawning genomes with the same structure 
-        /// (i.e. a child that is the result of a connection weight mutation only).
+        /// graph structure only, not the weights, and is therefore re-used when spawning genomes with the same structure 
+        /// (i.e. a child that is the result of connection weight mutations only).
         /// The DirectedGraph class provides an efficient means of working with graphs and is therefore made available
         /// on this class to provide improved performance for:
         ///  * Decoding to a neural net object.
-        ///  * Finding new connections on acyclic graph, i.e. detecting if a random new connection would form a cycle.
+        ///  * Finding new connections on acyclic graphs, i.e. detecting if a random new connection would form a cycle.
         ///  
         /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype AcyclicDirectedGraph.
         /// </remarks>
