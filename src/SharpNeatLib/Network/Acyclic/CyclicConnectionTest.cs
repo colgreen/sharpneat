@@ -28,7 +28,7 @@ namespace SharpNeat.Network.Acyclic
         /// Each stack entry is an index into a connection list, representing both the current node being traversed 
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// </summary>
-        IntStack _traversalStack = new IntStack(16);
+        readonly IntStack _traversalStack = new IntStack(16);
 
         /// <summary>
         /// A bitmap in which each bit represents a node in the graph. 
@@ -109,17 +109,6 @@ namespace SharpNeat.Network.Acyclic
             return TraverseGraph(digraph, newConn.SourceId);
         }
 
-        private void Cleanup()
-        {
-            _traversalStack.Clear();
-            _visitedNodeBitmap.Reset(false);
-
-            #if DEBUG
-            // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
-        }
-
         private void EnsureNodeCapacity(int capacity)
         {
             if (capacity > _visitedNodeBitmap.Length)
@@ -130,6 +119,17 @@ namespace SharpNeat.Network.Acyclic
                 // Allocate new bitmap with the new capacity.
                 _visitedNodeBitmap = new BoolArray(capacity);
             }
+        }
+
+        private void Cleanup()
+        {
+            _traversalStack.Clear();
+            _visitedNodeBitmap.Reset(false);
+
+            #if DEBUG
+            // Reset reentrancy test flag.
+            Interlocked.Exchange(ref _reentranceFlag, 0);
+            #endif
         }
 
         #endregion

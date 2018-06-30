@@ -107,20 +107,6 @@ namespace SharpNeat.Network
 
         #region Private Methods
 
-        private void EnsureNodeCapacity(int requiredCapacity)
-        {
-            if(requiredCapacity > _ancestorNodeBitmap.Length)
-            {
-                // For the new capacity, select the lowest power of two that is above the required capacity;
-                // this limits the number of capacity increases as the required capacity increases.
-                requiredCapacity = MathUtils.CeilingToPowerOfTwo(requiredCapacity);
-
-                // Allocate new bitmaps with the new capacity.
-                _ancestorNodeBitmap = new BoolArray(requiredCapacity);
-                _visitedNodeBitmap = new BoolArray(requiredCapacity);
-            }
-        }
-
         private bool TraverseNode(int nodeIdx)
         {
             // Is the node on the current stack of traversal ancestor nodes?
@@ -164,6 +150,20 @@ namespace SharpNeat.Network
 
             // No cycles were detected in the traversal paths from this node.
             return false;
+        }
+
+        private void EnsureNodeCapacity(int requiredCapacity)
+        {
+            if(requiredCapacity > _ancestorNodeBitmap.Length)
+            {
+                // For the new capacity, select the lowest power of two that is above the required capacity;
+                // this limits the number of capacity increases as the required capacity increases.
+                requiredCapacity = MathUtils.CeilingToPowerOfTwo(requiredCapacity);
+
+                // Allocate new bitmaps with the new capacity.
+                _ancestorNodeBitmap = new BoolArray(requiredCapacity);
+                _visitedNodeBitmap = new BoolArray(requiredCapacity);
+            }
         }
 
         private void Cleanup()

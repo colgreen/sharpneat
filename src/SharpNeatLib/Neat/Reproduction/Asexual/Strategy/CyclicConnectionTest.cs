@@ -126,18 +126,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return TraverseGraph(connArr, newConn.SourceId);
         }
 
-        private void Cleanup()
-        {
-            _traversalStack.Clear();
-            _visitedNodes.Reset(false);
-            _nodeIdxByIdMap = null;
-
-            #if DEBUG
-            // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
-        }
-
         private void EnsureNodeCapacity(int capacity)
         {
             if (capacity > _visitedNodes.Length)
@@ -148,6 +136,18 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 // Allocate new bitmap with the new capacity.
                 _visitedNodes = new BoolArray(capacity);
             }
+        }
+
+        private void Cleanup()
+        {
+            _traversalStack.Clear();
+            _visitedNodes.Reset(false);
+            _nodeIdxByIdMap = null;
+
+            #if DEBUG
+            // Reset reentrancy test flag.
+            Interlocked.Exchange(ref _reentranceFlag, 0);
+            #endif
         }
 
         #endregion
