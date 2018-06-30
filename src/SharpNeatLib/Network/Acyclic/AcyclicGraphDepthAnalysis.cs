@@ -9,31 +9,45 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using Redzen;
+using Redzen.Collections;
 
 namespace SharpNeat.Network.Acyclic
 {
-    // ENHANCEMENT: Consider a call stack free implementation to improve performance (see CyclicConnectionTest which uses such an approach).
-    // Such an implementation would be more complex than the recursive function approach here, as such the barrier is fairly high with regards
-    // to whether the added complexity warrants the possibly small performance improvement.
     /// <summary>
-    /// An algorithm for analysing acyclic networks and calculating the depth of each node in the network.
+    /// An algorithm for calculating the depth of each node in an acyclic graph.
     /// 
     /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
-    /// the maximum number of hops from the depth 0 nodes.
-    /// 
-    /// Where multiple paths exist to a node (potentially each with a different numbers of hops) the node's 
-    /// depth is defined by the path with the most number of hops.
+    /// the maximum number of hops to each node from a depth 0 node. I.e. where multiple paths exist to a
+    /// node (potentially each with a different numbers of hops) the node's depth is defined by the path 
+    /// with the most number of hops.
     /// </summary>
+    /// <remarks>
+    /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
+    /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
+    /// for more details see the comments on: 
+    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
+    /// Also see:
+    /// <see cref="SharpNeat.Neat.Reproduction.Asexual.Strategy.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Network.Acyclic.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Network.CyclicGraphAnalysis"/>
+    /// </remarks>
     public class AcyclicGraphDepthAnalysis
     {
         #region Instance Fields
 
         /// <summary>
-        /// The directed graph being analysed.
+        /// The graph traversal stack, as required by a depth first graph traversal algorithm.
+        /// Each stack entry is an index into a connection list, representing both the current node being traversed 
+        /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// </summary>
-        DirectedGraph _digraph;
+        LightweightStack<StackFrame> _traversalStack = new LightweightStack<StackFrame>(16);
 
         /// <summary>
         /// Working array of node depths.
@@ -41,98 +55,173 @@ namespace SharpNeat.Network.Acyclic
         int[] _nodeDepthByIdx;
 
         #if DEBUG
+        /// <summary>
+        /// Indicates if a call to IsConnectionCyclic() is currently in progress.
+        /// For checking for attempts to re-enter that method while a call is in progress.
+        /// </summary>
+        int _reentranceFlag = 0;
+
         readonly CyclicGraphAnalysis _cyclicGraphAnalysis = new CyclicGraphAnalysis();
         #endif
 
         #endregion
 
-        #region Constructor
-
-        /// <summary>
-        /// Private constructor. Prevents construction from outside of this class.
-        /// </summary>
-        private AcyclicGraphDepthAnalysis(DirectedGraph digraph)
-        {
-            _digraph = digraph;
-            _nodeDepthByIdx = new int[digraph.TotalNodeCount];
-        }
-
-        #endregion
-
-        #region Private Methods
+        #region Public Methods
 
         /// <summary>
         /// Calculate node depths in an acyclic network.
         /// </summary>
-        private GraphDepthInfo CalculateNodeDepthsInner()
+        public GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
             #if DEBUG
+            // Check for attempts to re-enter this method.
+            if(1 == Interlocked.CompareExchange(ref _reentranceFlag, 1, 0)) {
+                throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
+            }
+
             // Debug assert the graph is acyclic.
             // Note. In a release build this test is not performed because we expect this method to be called from 
             // code handling acyclic graphs only. If digraph is cyclic then the graph traversal implemented here will
-            // cause a stack overflow, so at the very least there isn't a silent error.
-            Debug.Assert(!_cyclicGraphAnalysis.IsCyclic(_digraph));
+            // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
+            Debug.Assert(!_cyclicGraphAnalysis.IsCyclic(digraph));
             #endif
 
-            // Loop over all connections exiting from input nodes, and perform a depth first traversal of each in turn.
-            int inputCount = _digraph.InputCount;
-            int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
-            int[] tgtIdxArr = _digraph.ConnectionIdArrays._targetIdArr;
-
-            for(int connIdx=0; connIdx < srcIdxArr.Length && srcIdxArr[connIdx] < inputCount; connIdx++)
+            _nodeDepthByIdx = new int[digraph.TotalNodeCount];
+            
+            try
             {
-                // Traverse into the target node.
-                TraverseNode(tgtIdxArr[connIdx], 1);
+                CalculateNodeDepthsInner(digraph);
+
+                // Determine the maximum depth of the graph.
+                int maxDepth = (0 == _nodeDepthByIdx.Length) ? 0 : _nodeDepthByIdx.Max();
+
+                // Return depth analysis info.
+                return new GraphDepthInfo(maxDepth+1, _nodeDepthByIdx);
             }
-
-            // Determine the maximum depth of the graph.
-            int maxDepth = (0 == _nodeDepthByIdx.Length) ? 0 : _nodeDepthByIdx.Max();
-
-            // Return depth analysis info.
-            return new GraphDepthInfo(maxDepth+1, _nodeDepthByIdx);
+            finally
+            {
+                Cleanup();
+            }
         }
 
         #endregion
 
         #region Private Methods
 
-        private void TraverseNode(int nodeIdx, int depth)
+        private void CalculateNodeDepthsInner(DirectedGraph digraph)
         {
-            // Check if the node has been visited before.
-            if(_nodeDepthByIdx[nodeIdx] >= depth)
-            {   // The node already has already been visited via a path that assigned it an equal or greater depth
-                // than the current path. Stop traversing this path.
-                return;
-            }
-
-            // Either this is the first visit to the node *or* the node has been visited, but via a shorter path.
-            // Either way we assign it the current depth value and traverse into its targets to update/set their depth.
-            _nodeDepthByIdx[nodeIdx] = depth;
-
-            // Traverse into the current node's target nodes.
-            int connIdx = _digraph.GetFirstConnectionIndex(nodeIdx);
-            if(-1 == connIdx) 
-            {   // No target nodes to traverse.
-                return;
-            }
-
-            int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
-            for(; connIdx < srcIdxArr.Length && srcIdxArr[connIdx] == nodeIdx; connIdx++)
+            // Push all input nodes onto the traversal stack, except input nodes with no
+            // exit connections to traverse.
+            int inputCount = digraph.InputCount;
+            for(int nodeIdx=0; nodeIdx < inputCount; nodeIdx++)
             {
-                TraverseNode(_digraph.GetTargetNodeIdx(connIdx), depth + 1);
+                // Lookup the first connection that exits the current input node (if any).
+                int connIdx = digraph.GetFirstConnectionIndex(nodeIdx);
+                if(connIdx != -1) {
+                    _traversalStack.Push(new StackFrame(connIdx, 1));
+                }
             }
+             
+            // Run the graph traversal algorithm.
+            TraverseGraph(digraph);
+        }
+
+        /// <summary>
+        /// The graph traversal algorithm.
+        /// </summary>
+        /// <param name="digraph">The directed acyclic graph to traverse.</param>
+        private void TraverseGraph(DirectedGraph digraph)
+        {
+            int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
+            int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+
+            // While there are entries on the stack.
+            while (0 != _traversalStack.Count)
+            {
+                // Get the connection index from the top of stack; this indicates next connection to be traversed.
+                StackFrame currStackFrame = _traversalStack.Peek();
+
+                // Notes.
+                // Before we traverse the current connection, update the stack state to point to the next connection to be
+                // traversed, either from the current node or a parent node. I.e. we modify the stack state  ready for when
+                // the traversal down into the current connection completes and returns back to the current node.
+                //
+                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
+                // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
+                // point in time, since some of the path may no longer be on the stack.
+                MoveForward(srcIdArr, tgtIdArr, currStackFrame);
+
+                // Skip nodes that have already been visited via a path that assigned them an equal or greater
+                // depth than the current path.
+                int childNodeId = tgtIdArr[currStackFrame.ConnectionIdx];
+                if(_nodeDepthByIdx[childNodeId] >= currStackFrame.Depth) {
+                    continue;
+                }
+
+                // We're about to traverse into childNodeId, so mark it as visited with the current traversal depth.
+                _nodeDepthByIdx[childNodeId] = currStackFrame.Depth;
+
+                // Search for outgoing connections from childNodeId.
+                int connIdx = digraph.GetFirstConnectionIndex(childNodeId);
+                if (connIdx >= 0)
+                {   // childNodeId has outgoing connections; push the first connection onto the stack to mark it for traversal.
+                    _traversalStack.Push(new StackFrame(connIdx, currStackFrame.Depth + 1));
+                }
+            }
+
+            // The stack is empty. Graph traversal completed.
+        }
+
+        /// <summary>
+        /// Update the stack state to point to the next connection to traverse down.
+        /// </summary>
+        /// <returns>The current connection to traverse down.</returns>
+        private void MoveForward(int[] srcIdArr, int[] tgtIdAr, StackFrame currStackFrame)
+        {
+            // If the current node has at least one more visitable outgoing connection then update the node's entry 
+            // on the top of the stack to point to said connection.
+            int currConnIdx = currStackFrame.ConnectionIdx;
+            int depth = currStackFrame.Depth;
+
+            for(int i=currConnIdx + 1; i < srcIdArr.Length && (srcIdArr[currConnIdx] == srcIdArr[i]); i++)
+            {
+                // Skip nodes that have already been visited via a path that assigned them an equal or greater
+                // depth than the current path. 
+                if(_nodeDepthByIdx[tgtIdAr[i]] < depth)
+                {   
+                    _traversalStack.Poke(new StackFrame(currConnIdx + 1, depth));
+                    return;
+                }
+            }
+
+            // No more connections for the current node; pop/remove the current node from the top of the stack.
+            // Traversal will thus continue from its traversal parent node's current position, or will terminate 
+            // if the stack is now empty.
+            _traversalStack.Pop();
+        }
+
+        private void Cleanup()
+        {
+            #if DEBUG
+            // Reset reentrancy test flag.
+            Interlocked.Exchange(ref _reentranceFlag, 0);
+            #endif
         }
 
         #endregion
 
-        #region Public Static Methods
+        #region Inner Struct
 
-        /// <summary>
-        /// Calculate node depths in an acyclic network.
-        /// </summary>
-        public static GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
+        struct StackFrame
         {
-            return new AcyclicGraphDepthAnalysis(digraph).CalculateNodeDepthsInner();
+            public int ConnectionIdx;
+            public int Depth;
+
+            public StackFrame(int connIdx, int depth)
+            {
+                this.ConnectionIdx = connIdx;
+                this.Depth = depth;
+            }
         }
 
         #endregion

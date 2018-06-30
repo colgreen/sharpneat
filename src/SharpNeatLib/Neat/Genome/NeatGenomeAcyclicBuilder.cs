@@ -15,6 +15,7 @@ namespace SharpNeat.Neat.Genome
         #region Instance Fields
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly AcyclicGraphDepthAnalysis _graphDepthAnalysis;
 
         // Temp working data for timsort. Allocated once and re-used to minimise object allocate and GC overhead.
         int[] _timesortWorkArr;
@@ -28,6 +29,7 @@ namespace SharpNeat.Neat.Genome
         {
             Debug.Assert(null != metaNeatGenome && metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
+            _graphDepthAnalysis = new AcyclicGraphDepthAnalysis();
         }
 
         #endregion
@@ -80,7 +82,7 @@ namespace SharpNeat.Neat.Genome
                 _metaNeatGenome, connGenes, nodeIndexByIdMap);
 
             // Calc the depth of each node in the digraph.
-            GraphDepthInfo depthInfo = AcyclicGraphDepthAnalysis.CalculateNodeDepths(digraph);
+            GraphDepthInfo depthInfo = _graphDepthAnalysis.CalculateNodeDepths(digraph);
 
             // Create a weighted acyclic digraph.
             // Note. This also outputs connectionIndexMap. For each connection in the acyclic graph this gives
