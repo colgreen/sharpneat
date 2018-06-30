@@ -8,27 +8,16 @@ using Redzen.Structures;
 namespace SharpNeat.Network.Acyclic
 {
     // TODO: Unit tests.
-    // TODO: Review/update remarks XML comment.
 
     /// <summary>
-    /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
+    /// For testing if a new connection would form a connectivity cycle in an existing acyclic digraph.
     /// </summary>
     /// <remarks>
-    /// This is a minor variant on this class with the same name in a different namespace:
-    /// 
-    ///    SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest
-    /// 
-    /// see that class for full documentation regarding the overall approach taken for detecting cycles
-    /// and the graph traversal algorithm.
-    /// 
-    /// The key difference in this class is that IsConnectionCyclic() is passed a function that maps 
-    /// from node IDs to node indexes. These indexes represent all of the nodes in the graph in a 
-    /// contiguous span starting at zero, and therefore the _visitedNodes structure can be implemented
-    /// as a compact BoolArray instead of a HashSet of nodeIDs.
-    /// 
-    /// This is a more efficient approach *if* the mapping function already exists, i.e. is readily 
-    /// available because it is required for other purposes. Otherwise the cost of constructing the 
-    /// mapping may outweigh the benefits of using this class.
+    /// Also see:
+    /// <see cref="SharpNeat.Neat.Reproduction.Asexual.Strategy.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Network.Acyclic.AcyclicGraphDepthAnalysis"/>
+    /// <see cref="SharpNeat.Network.CyclicGraphAnalysis"/>
     /// </remarks>
     public class CyclicConnectionTest
     {
