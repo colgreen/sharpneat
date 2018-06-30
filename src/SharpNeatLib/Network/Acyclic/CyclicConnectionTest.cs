@@ -13,6 +13,10 @@ namespace SharpNeat.Network.Acyclic
     /// For testing if a new connection would form a connectivity cycle in an existing acyclic digraph.
     /// </summary>
     /// <remarks>
+    /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
+    /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
+    /// for more details see the comments on: 
+    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
     /// Also see:
     /// <see cref="SharpNeat.Neat.Reproduction.Asexual.Strategy.CyclicConnectionTest"/>
     /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>
@@ -165,13 +169,13 @@ namespace SharpNeat.Network.Acyclic
                 int currConnIdx = _traversalStack.Peek();
 
                 // Notes.
-                // Before we traverse the current connection, update the stack state to point to the next connection
-                // to be traversed from the current node. I.e. set up the stack state ready for when the traversal down 
-                // into the current connection completes and returns back to the current node.
+                // Before we traverse the current connection, update the stack state to point to the next connection to be
+                // traversed, either from the current node or a parent node. I.e. we modify the stack state  ready for when
+                // the traversal down into the current connection completes and returns back to the current node.
                 //
-                // This is essentially tail call optimisation, and will result in shorter stacks on average and also
-                // has the side effect that we can no longer examine the stack to observe the traversal path at a given 
-                // point in time.
+                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
+                // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
+                // point in time, since some of the path may no longer be on the stack.
                 MoveForward(srcIdArr, tgtIdArr, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
@@ -205,7 +209,6 @@ namespace SharpNeat.Network.Acyclic
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
         /// <returns>The current connection to traverse down.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void MoveForward(int[] srcIdArr, int[] tgtIdAr, int currConnIdx)
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,

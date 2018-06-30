@@ -12,21 +12,25 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
     /// </summary>
     /// <remarks>
-    /// This is a minor variant on this class with the same name in a different namespace:
+    /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
+    /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
+    /// for more details see the comments on: 
+    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
     /// 
-    ///    SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest
-    /// 
-    /// see that class for full documentation regarding the overall approach taken for detecting cycles
-    /// and the graph traversal algorithm.
-    /// 
-    /// The key difference in this class is that IsConnectionCyclic() is passed a function that maps 
-    /// from node IDs to node indexes. These indexes represent all of the nodes in the graph in a 
-    /// contiguous span starting at zero, and therefore the _visitedNodes structure can be implemented
-    /// as a compact BoolArray instead of a HashSet of nodeIDs.
+    /// This is a minor variant on that class. The key difference in this class is that IsConnectionCyclic()
+    /// is passed a function that maps from node IDs to node indexes. These indexes represent all of the nodes
+    /// in the graph in a contiguous span starting at zero, and therefore the _visitedNodes structure can be 
+    /// implemented as a compact BoolArray instead of a HashSet of nodeIDs.
     /// 
     /// This is a more efficient approach *if* the mapping function already exists, i.e. is readily 
     /// available because it is required for other purposes. Otherwise the cost of constructing the 
     /// mapping may outweigh the benefits of using this class.
+    /// 
+    /// Also see:
+    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Network.Acyclic.CyclicConnectionTest"/>
+    /// <see cref="SharpNeat.Network.Acyclic.AcyclicGraphDepthAnalysis"/>
+    /// <see cref="SharpNeat.Network.CyclicGraphAnalysis"/>
     /// </remarks>
     public class CyclicConnectionTest
     {
@@ -179,13 +183,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 int currConnIdx = _traversalStack.Peek();
 
                 // Notes.
-                // Before we traverse the current connection, update the stack state to point to the next connection
-                // to be traversed from the current node. I.e. set up the stack state ready for when the traversal down 
-                // into the current connection completes and returns back to the current node.
+                // Before we traverse the current connection, update the stack state to point to the next connection to be
+                // traversed, either from the current node or a parent node. I.e. we modify the stack state  ready for when
+                // the traversal down into the current connection completes and returns back to the current node.
                 //
-                // This is essentially tail call optimisation, and will result in shorter stacks on average and also
-                // has the side effect that we can no longer examine the stack to observe the traversal path at a given 
-                // point in time.
+                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
+                // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
+                // point in time, since some of the path may no longer be on the stack.
                 MoveForward(connArr, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
@@ -221,7 +225,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
         /// <returns>The current connection to traverse down.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void MoveForward(DirectedConnection[] connArr, int currConnIdx)
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,
