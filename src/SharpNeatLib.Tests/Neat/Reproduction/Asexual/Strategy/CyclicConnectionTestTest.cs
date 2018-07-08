@@ -114,5 +114,47 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, nodeIdxByIdMap, 7, new DirectedConnection(60, 40)));
             Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, nodeIdxByIdMap, 7, new DirectedConnection(30, 40)));
         }
+
+        [TestMethod]
+        [TestCategory("CyclicConnectionTestWithIndexes")]
+        public void TestIsConnectionCyclicRegression1()
+        {
+            var cyclicTest = new CyclicConnectionTest();
+
+            var connArr = new DirectedConnection[25];
+            connArr[0] = new DirectedConnection(0, 3);
+            connArr[1] = new DirectedConnection(0, 4);
+            connArr[2] = new DirectedConnection(0, 5);
+            connArr[3] = new DirectedConnection(0, 9);
+            connArr[4] = new DirectedConnection(0, 10);
+            connArr[5] = new DirectedConnection(3, 6);
+            connArr[6] = new DirectedConnection(3, 9);
+            connArr[7] = new DirectedConnection(4, 6);
+            connArr[8] = new DirectedConnection(4, 7);
+            connArr[9] = new DirectedConnection(5, 4);
+            connArr[10] = new DirectedConnection(5, 8);
+            connArr[11] = new DirectedConnection(5, 10);
+            connArr[12] = new DirectedConnection(6, 9);
+            connArr[13] = new DirectedConnection(7, 6);
+            connArr[14] = new DirectedConnection(7, 10);
+            connArr[15] = new DirectedConnection(8, 9);
+            connArr[16] = new DirectedConnection(8, 10);
+            connArr[17] = new DirectedConnection(8, 11);
+            connArr[18] = new DirectedConnection(9, 1);
+            connArr[19] = new DirectedConnection(9, 10);
+            connArr[20] = new DirectedConnection(10, 1);
+            connArr[21] = new DirectedConnection(11, 1);
+            connArr[22] = new DirectedConnection(11, 3);
+            connArr[23] = new DirectedConnection(11, 4);
+            connArr[24] = new DirectedConnection(11, 10);
+
+            Array.Sort(connArr);
+
+            INodeIdMap nodeIdxByIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+                0, new int[]{ 0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 });
+
+            // True tests (cycle).
+            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, nodeIdxByIdMap, 7,new DirectedConnection(3, 5)));
+        }
     }
 }

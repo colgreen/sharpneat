@@ -231,7 +231,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // then update the node's entry on the top of the stack to point to said connection.
             for(int i=currConnIdx + 1; i < connArr.Length && (connArr[currConnIdx].SourceId == connArr[i].SourceId); i++)
             {
-                if(!_visitedNodes[connArr[i].TargetId])
+                if(!_visitedNodes[_nodeIdxByIdMap.Map(connArr[i].TargetId)])
                 {
                     _traversalStack.Poke(currConnIdx + 1);
                     return;
