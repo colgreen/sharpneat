@@ -25,6 +25,13 @@ namespace SharpNeat.Network
     /// by following connectivity from the input nodes only, hence we perform a traversal from each node and
     /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
     /// traversed into.
+    /// 
+    /// The graph traversal algorithm uses function recursion. A number of other classes in SharpNEAT perform
+    /// graph traversal by using a separate traversal stack (store on the heap); that approach is faster but
+    /// more complex, thus this class has not been converted to the faster approach because it is not directly 
+    /// used in the evolution process. At time of writing it this class is used only in Debug.Assert statements
+    /// and unit tests, thus the simpler implementation is more appropriate, i.e. being less complex it's less
+    /// likely to have any defects, either now or via future attempt to modify the code.
     /// </summary>
     public class CyclicGraphAnalysis
     {
