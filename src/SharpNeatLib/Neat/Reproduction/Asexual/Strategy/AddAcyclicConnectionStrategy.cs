@@ -4,6 +4,7 @@ using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
+using SharpNeat.Network.Acyclic;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
@@ -185,9 +186,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 return false;
             }
 
-            // Test if the connection will form a cycle in the wider network.
-            int totalNodeCount = _metaNeatGenome.InputOutputNodeCount + hiddenCount;
-            if(_cyclicTest.IsConnectionCyclic(parent.ConnectionGenes._connArr, parent.NodeIndexByIdMap, totalNodeCount, conn))
+            // Test if the connection would form a cycle if added to the parent genome.
+            if(_cyclicTest.IsConnectionCyclic(parent.DirectedGraph, DirectedConnectionUtils.CloneAndMap(conn, parent.NodeIndexByIdMap)))
             {
                 conn = default(DirectedConnection);
                 insertIdx = default(int);

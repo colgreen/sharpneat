@@ -35,5 +35,16 @@ namespace SharpNeat.Network
             
             return connIdx;
         }
+
+        /// <summary>
+        /// Create a clone of the provided <see cref="DirectedConnection"/>, but with IDs mapped into a different ID space.
+        /// </summary>
+        /// <param name="conn">The connection to clone.</param>
+        /// <param name="nodeIdxById">The node ID mapping.</param>
+        /// <returns>A new <see cref="DirectedConnection"/>.</returns>
+        public static DirectedConnection CloneAndMap(DirectedConnection conn, INodeIdMap nodeIdxById)
+        {
+            return new DirectedConnection(nodeIdxById.Map(conn.SourceId), nodeIdxById.Map(conn.TargetId));
+        }
     }
 }
