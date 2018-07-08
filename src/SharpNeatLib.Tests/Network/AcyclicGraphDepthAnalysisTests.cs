@@ -95,6 +95,63 @@ namespace SharpNeat.Tests.Network
             Assert.AreEqual(2, depthInfo._nodeDepthArr[5]);
         }
 
+        [TestMethod]
+        [TestCategory("AcyclicGraphDepthAnalysis")]
+        public void Random1()
+        {
+            // Simple acyclic graph.
+            var connList = new List<DirectedConnection>
+            {
+                new DirectedConnection(0, 2),
+                new DirectedConnection(0, 3),
+                new DirectedConnection(0, 4),
+                new DirectedConnection(2, 5),
+                new DirectedConnection(2, 10),
+                new DirectedConnection(3, 1),
+                new DirectedConnection(3, 4),
+                new DirectedConnection(3, 6),
+                new DirectedConnection(3, 7),
+                new DirectedConnection(4, 1),
+                new DirectedConnection(4, 6),
+                new DirectedConnection(4, 7),
+                new DirectedConnection(4, 10),
+                new DirectedConnection(5, 4),
+                new DirectedConnection(5, 8),
+                new DirectedConnection(6, 9),
+                new DirectedConnection(7, 9),
+                new DirectedConnection(7, 10),
+                new DirectedConnection(8, 1),
+                new DirectedConnection(8, 3),
+                new DirectedConnection(8, 9),
+                new DirectedConnection(9, 1),
+                new DirectedConnection(10, 1),
+            };
+
+            // Create graph.
+            connList.Sort();
+            var digraph = DirectedGraphBuilder.Create(connList, 1, 1);
+
+            // Depth analysis.
+            GraphDepthInfo depthInfo = new AcyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
+
+            // Assertions.
+            Assert.AreEqual(9, depthInfo._networkDepth);
+            Assert.AreEqual(11, depthInfo._nodeDepthArr.Length);
+
+            // Node depths.
+            Assert.AreEqual(0, depthInfo._nodeDepthArr[0]);
+            Assert.AreEqual(8, depthInfo._nodeDepthArr[1]);
+            Assert.AreEqual(1, depthInfo._nodeDepthArr[2]);
+            Assert.AreEqual(4, depthInfo._nodeDepthArr[3]);
+            Assert.AreEqual(5, depthInfo._nodeDepthArr[4]);
+            Assert.AreEqual(2, depthInfo._nodeDepthArr[5]);
+            Assert.AreEqual(6, depthInfo._nodeDepthArr[6]);
+            Assert.AreEqual(6, depthInfo._nodeDepthArr[7]);
+            Assert.AreEqual(3, depthInfo._nodeDepthArr[8]);
+            Assert.AreEqual(7, depthInfo._nodeDepthArr[9]);
+            Assert.AreEqual(7, depthInfo._nodeDepthArr[10]);
+        }
+
         #endregion
     }
 }
