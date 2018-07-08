@@ -7,6 +7,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
+using SharpNeat.Tests.Network;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
@@ -127,10 +128,14 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                     Assert.IsFalse(cyclicGraphAnalysis.IsCyclic(digraph));
 
                     // Run the acyclic graph depth analysis algorithm.
-                    // Note. We can't do much to check the results of this because we're dealign with accumulated random connections,
-                    // but we can at least check it doesn't throw an exception.
                     GraphDepthInfo depthInfo = graphDepthAnalysis.CalculateNodeDepths(childGenome.DirectedGraph);
+
+                    // Run again with the alternative algorithm (that uses function recursion).
+                    GraphDepthInfo depthInfo2 = AcyclicGraphDepthAnalysisByRecursion.CalculateNodeDepths(childGenome.DirectedGraph);
+
                     Assert.AreEqual(nodeIdSet.Count, depthInfo._nodeDepthArr.Length);
+                    Assert.AreEqual(nodeIdSet.Count, depthInfo2._nodeDepthArr.Length);
+                    TestUtils.Compare(depthInfo2._nodeDepthArr, depthInfo._nodeDepthArr);
 
                     // Set the child genome to be the new parent, thus we accumulate random new connections over time.
                     parentGenome = childGenome;
