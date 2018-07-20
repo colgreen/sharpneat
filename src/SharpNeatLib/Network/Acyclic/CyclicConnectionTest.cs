@@ -7,8 +7,6 @@ using Redzen.Structures;
 
 namespace SharpNeat.Network.Acyclic
 {
-    // TODO: Unit tests.
-
     /// <summary>
     /// For testing if a new connection would form a connectivity cycle in an existing acyclic digraph.
     /// </summary>

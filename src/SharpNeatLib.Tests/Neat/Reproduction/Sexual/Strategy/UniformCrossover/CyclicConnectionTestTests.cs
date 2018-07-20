@@ -6,7 +6,7 @@ using SharpNeat.Network;
 namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
 {
     [TestClass]
-    public class CyclicConnectionTestTest
+    public class CyclicConnectionTestTests
     {
         [TestMethod]
         [TestCategory("CyclicConnectionTestWithIds")]
