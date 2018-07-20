@@ -33,7 +33,6 @@ namespace SharpNeat.Network.Acyclic
 
         #region IEquatable
 
-        // TODO: Check why this is here. Should we also override Equals(object), operator==, GetHashCode(), etc.?
         public bool Equals(GraphDepthInfo other)
         {
             return _networkDepth == other._networkDepth

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Redzen.Sorting;
 using SharpNeat.Neat.Genome;
@@ -10,7 +11,8 @@ namespace SharpNeat.Neat.Genome
     public class NeatGenomeBuilder<T> : INeatGenomeBuilder<T>
         where T : struct
     {
-        MetaNeatGenome<T> _metaNeatGenome;
+        readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly HashSet<int> _workingIdSet;
 
         #region Constructor
 
@@ -18,6 +20,7 @@ namespace SharpNeat.Neat.Genome
         {
             Debug.Assert(null != metaNeatGenome && !metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
+            _workingIdSet = new HashSet<int>();
         }
 
         #endregion
@@ -37,7 +40,7 @@ namespace SharpNeat.Neat.Genome
             ConnectionGenes<T> connGenes)
         {
             // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
-            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount);
+            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount, _workingIdSet);
 
             return Create(id, birthGeneration, connGenes, hiddenNodeIdArr);
         }

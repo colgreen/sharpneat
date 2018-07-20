@@ -16,6 +16,7 @@ namespace SharpNeat.Neat.Genome
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly AcyclicGraphDepthAnalysis _graphDepthAnalysis;
+        readonly HashSet<int> _workingIdSet;
 
         // Temp working data for timsort. Allocated once and re-used to minimise object allocate and GC overhead.
         int[] _timesortWorkArr;
@@ -30,6 +31,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(null != metaNeatGenome && metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
             _graphDepthAnalysis = new AcyclicGraphDepthAnalysis();
+            _workingIdSet = new HashSet<int>();
         }
 
         #endregion
@@ -49,7 +51,7 @@ namespace SharpNeat.Neat.Genome
             ConnectionGenes<T> connGenes)
         {
             // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
-            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount);
+            int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount, _workingIdSet);
 
             return Create(id, birthGeneration, connGenes, hiddenNodeIdArr);
         }

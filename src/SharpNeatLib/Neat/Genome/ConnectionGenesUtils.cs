@@ -14,27 +14,33 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Create a sorted array of hidden node IDs.
         /// </summary>
-        public static int[] CreateHiddenNodeIdArray(DirectedConnection[] connArr, int inputOutputCount)
+        public static int[] CreateHiddenNodeIdArray(
+            DirectedConnection[] connArr, 
+            int inputOutputCount,
+            HashSet<int> workingIdSet)
         {
-            // TODO / ENHANCEMENT: Set HashSet initial capacity, or use a pool of reusable HashSets?
-            var idSet = new HashSet<int>();
+            workingIdSet.Clear();
+
             foreach(var conn in connArr)
             {
                 // Skip input and output node IDs (these start from zero and go up to inputOutputCount-1).
                 if(conn.SourceId >= inputOutputCount) {
-                    idSet.Add(conn.SourceId);
+                    workingIdSet.Add(conn.SourceId);
                 }
                 if(conn.TargetId >= inputOutputCount) {
-                    idSet.Add(conn.TargetId);
+                    workingIdSet.Add(conn.TargetId);
                 }
             }
 
-            int[] idArr = idSet.ToArray();
+            int[] idArr = workingIdSet.ToArray();
             Array.Sort(idArr);
             return idArr;
         }
 
-        public static bool ValidateHiddenNodeIds(int[] hiddenNodeIdArr, DirectedConnection[] connArr, int inputOutputCount)
+        public static bool ValidateHiddenNodeIds(
+            int[] hiddenNodeIdArr,
+            DirectedConnection[] connArr,
+            int inputOutputCount)
         {
             // Test that the IDs are sorted (required to allow for efficient searching of IDs using a binary search).
             if(!SortUtils.IsSortedAscending(hiddenNodeIdArr)) {
@@ -42,7 +48,7 @@ namespace SharpNeat.Neat.Genome
             }
 
             // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
-            int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount);
+            int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, new HashSet<int>());
             if(!ArrayUtils.Equals(idArr, hiddenNodeIdArr)) { 
                 return false;
             }
