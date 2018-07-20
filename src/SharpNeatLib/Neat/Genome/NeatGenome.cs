@@ -110,10 +110,14 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             int[] connectionIndexMap)
         {
-            Debug.Assert(NeatGenomeValidation<T>.IsValid(
+            #if DEBUG
+
+            NeatGenomeAssertions<T>.Assert(
                 metaNeatGenome, id, birthGeneration,
                 connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
-                digraph, connectionIndexMap));
+                digraph, connectionIndexMap);
+
+            #endif
 
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;
