@@ -70,7 +70,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Connection 1 gets the weight from the original connection; connection 2 gets a fixed
             // weight of _metaNeatGenome.ConnectionWeightRange.
 
-            // TODO: Consider a better choice of weights for the new connections; this scheme has been
+            // ENHANCEMENT: Consider a better choice of weights for the new connections; this scheme has been
             // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
             var newWeightArr = new T[] { 
                 parent.ConnectionGenes._weightArr[splitConnIdx],

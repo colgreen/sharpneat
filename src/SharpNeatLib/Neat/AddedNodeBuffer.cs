@@ -3,7 +3,7 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat
 {
-    // TODO: Consider moving the most recently used structure to the head of the buffer to increase its lifespan.
+    // ENHANCEMENT: Consider moving the most recently used structure to the head of the buffer to increase its lifespan.
     /// <summary>
     /// Stores a history of previously added nodes, keyed by the ID of the connection that was split to create the node.
     ///
