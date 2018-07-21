@@ -35,7 +35,10 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 
         public void Fn(double[] v, int startIdx, int endIdx)
         {
-            Fn(v, v, startIdx, endIdx);
+            // Naive implementation.
+            for(int i=startIdx; i < endIdx; i++) {
+                v[i] = Fn(v[i]);
+            }
         }
 
         public void Fn(double[] v, double[] w, int startIdx, int endIdx)
