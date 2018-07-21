@@ -19,8 +19,8 @@ namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
             AssertMonotonic(new LeakyReLU(), true);
             AssertMonotonic(new LeakyReLUShifted(), true);
             AssertMonotonic(new LogisticApproximantSteep(), false);
-            AssertMonotonic(new LogisticFunction(), true);
-            AssertMonotonic(new LogisticFunctionSteep(), true);
+            AssertMonotonic(new Logistic(), true);
+            AssertMonotonic(new LogisticSteep(), true);
             AssertMonotonic(new MaxMinusOne(), false);
             AssertMonotonic(new PolynomialApproximantSteep(), true);
             AssertMonotonic(new QuadraticSigmoid(), false);

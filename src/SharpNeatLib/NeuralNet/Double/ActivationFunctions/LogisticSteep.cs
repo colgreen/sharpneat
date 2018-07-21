@@ -15,13 +15,14 @@ using System;
 namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
-    /// The logistic function.
+    /// The logistic function with a steepened slope.
+    /// <see cref="https://en.wikipedia.org/wiki/Logistic_function"/>
     /// </summary>
-    public class LogisticFunction : IActivationFunction<double>
+    public class LogisticSteep : IActivationFunction<double>
     {
         public double Fn(double x)
         {
-            return 1.0 / (1.0 + Math.Exp(-x));
+            return 1.0 / (1.0 + Math.Exp(-4.9 * x));
         }
 
         public void Fn(double[] v)

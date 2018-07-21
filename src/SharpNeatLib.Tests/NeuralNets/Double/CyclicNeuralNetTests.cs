@@ -27,7 +27,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
-            var actFn = new LogisticFunction();
+            var actFn = new Logistic();
             var net = new CyclicNeuralNet(digraph, actFn.Fn, 2, false);
 
             // Note. The single connection weight is zero, so the input value has no affect.
@@ -63,7 +63,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
-            var actFn = new LogisticFunction();
+            var actFn = new Logistic();
             var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
 
             // Activate and test.
@@ -109,7 +109,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
-            var actFn = new LogisticFunction();
+            var actFn = new Logistic();
             var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
 
             // Activate and test.
@@ -142,7 +142,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
 
             // Create neural net
-            var actFn = new LogisticFunction();
+            var actFn = new Logistic();
             var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
 
             // Simulate network in C# and compare calculated outputs with actual network outputs.
@@ -181,7 +181,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 3, 3);
 
             // Create neural net
-            var actFn = new LogisticFunction();
+            var actFn = new Logistic();
             var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
 
             // Activate and test.
