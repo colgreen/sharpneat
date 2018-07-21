@@ -78,7 +78,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
 
             // Handle vectors with lengths not an exact multiple of vector width.
             for(; i < endIdx; i++) {
-                w[i]= Fn(v[i]);
+                w[i] = Fn(v[i]);
             }
         }
     }
