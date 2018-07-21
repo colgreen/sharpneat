@@ -1,5 +1,5 @@
-﻿using SharpNeat.NeuralNets;
-using SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
+﻿using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeatLib.Benchmarks
 {
@@ -10,8 +10,8 @@ namespace SharpNeatLib.Benchmarks
         public static readonly IActivationFunction<double> LeakyReLU = new LeakyReLU();
         public static readonly IActivationFunction<double> LeakyReLUShifted = new LeakyReLUShifted();
         //public static readonly IActivationFunction<double> LogisticApproximantSteep = new LogisticApproximantSteep();
-        //public static readonly IActivationFunction<double> LogisticFunction = new LogisticFunction();
-        //public static readonly IActivationFunction<double> LogisticFunctionSteep = new LogisticFunctionSteep();
+        //public static readonly IActivationFunction<double> Logistic = new Logistic();
+        //public static readonly IActivationFunction<double> LogisticSteep = new LogisticSteep();
         public static readonly IActivationFunction<double> MaxMinusOne = new MaxMinusOne();
 //        public static readonly IActivationFunction<double> NullFn = new NullFn();
         public static readonly IActivationFunction<double> PolynomialApproximantSteep = new PolynomialApproximantSteep();

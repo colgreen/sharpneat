@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Redzen.Numerics;
-using SharpNeat.NeuralNets;
+using Redzen.Random.Double;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeatLib.Benchmarks
 {
@@ -22,9 +22,9 @@ namespace SharpNeatLib.Benchmarks
         public BenchmarksDouble()
         {
             // Create some random Gaussian values as the inputs to the activation functions.
-            ZigguratGaussianSampler gaussian = new ZigguratGaussianSampler(0);
+            var gaussian = new ZigguratGaussianDistribution(0);
             for(int i=0; i<_x.Length; i++) {
-                _x[i] = gaussian.NextDouble(0, 2.0);
+                _x[i] = gaussian.Sample(0, 2.0);
             }
         }
 
@@ -58,13 +58,13 @@ namespace SharpNeatLib.Benchmarks
         }
 
         [Benchmark]
-        public void LogisticFunction() {
-            RunBenchmark(ActivationFunctionsDouble.LogisticFunction);
+        public void Logistic() {
+            RunBenchmark(ActivationFunctionsDouble.Logistic);
         }
 
         [Benchmark]
-        public void LogisticFunctionSteep() {
-            RunBenchmark(ActivationFunctionsDouble.LogisticFunctionSteep);
+        public void LogisticSteep() {
+            RunBenchmark(ActivationFunctionsDouble.LogisticSteep);
         }
 
         [Benchmark]

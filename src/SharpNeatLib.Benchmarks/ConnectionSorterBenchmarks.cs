@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Attributes.Jobs;
 using BenchmarkDotNet.Engines;
-using Redzen.Numerics;
+using Redzen.Random;
 using SharpNeat.Network;
 
 namespace SharpNeatLib.Benchmarks
@@ -15,7 +10,7 @@ namespace SharpNeatLib.Benchmarks
     [MemoryDiagnoser]
     public class ConnectionSorterBenchmarks
     {
-        XorShiftRandom _rng = new XorShiftRandom(0);
+        Xoshiro256StarStarRandom _rng = new Xoshiro256StarStarRandom(0);
         ConnectionData[] _dataArr;
 
         #region Constructor
