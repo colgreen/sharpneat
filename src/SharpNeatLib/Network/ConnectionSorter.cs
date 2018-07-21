@@ -7,7 +7,7 @@ namespace SharpNeat.Network
     /// 
     ///    https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/ArraySortHelper.cs
     ///    
-    /// This version is customised for sorting network connections. I.e.. sort order is based on both source and target node IDs 
+    /// This version is customised for sorting network connections. I.e. sort order is based on both source and target node IDs 
     /// (which are held in separate arrays), and a separate array of weights is re-ordered to keep the weights at the same array 
     /// index as their respective source and target IDs.
     /// 

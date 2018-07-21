@@ -7,11 +7,12 @@ namespace SharpNeat.Network
     {
         #region Public Static Methods
 
-        // TODO: Replace this naive sort with a more efficient approach.
         // Notes.
-        // Array.Sort() can sort a secondary array, but here we need to sort a third array, the below code
-        // does this but performs a lot of unnecessary memory allocation and copying. What is needed is a
-        // sort implementation that allows sorting of N secondary arrays.
+        // Array.Sort() can sort a secondary array, but here we need to sort a third array; the below code
+        // does this but performs a lot of unnecessary memory allocation and copying. As such this logic was 
+        // replaced (see current implementation of SharpNeat.Network.ConnectionSorter) with a customised sort
+        // routine that is faster and more efficient w.r.t memory allocations and copying.
+    
         public static void Sort<S>(ConnectionIdArrays connIdArrays, S[] weightArr) where S : struct
         {
             // Init array of indexes.
@@ -47,6 +48,7 @@ namespace SharpNeat.Network
 
         #endregion
 
+        #region Private Static Methods
 
         private class ConnectionComparer : IComparer<int>
         {
@@ -87,7 +89,6 @@ namespace SharpNeat.Network
             }
         }
 
-
-
+        #endregion
     }
 }
