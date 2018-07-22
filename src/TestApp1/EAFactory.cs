@@ -48,7 +48,7 @@ namespace TestApp1
 
         #region Private Static Methods
 
-        //private IGenomeCollectionEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
+        //private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
         //{
         //    var genomeDecoder = new NeatGenomeAcyclicDecoder(false);
         //    var phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();

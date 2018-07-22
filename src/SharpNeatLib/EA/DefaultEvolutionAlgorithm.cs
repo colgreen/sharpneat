@@ -8,7 +8,7 @@ namespace SharpNeat.EA
         #region Instance Fields
 
         readonly EAParameters _eaParams;
-        readonly IGenomeCollectionEvaluator<TGenome> _evaluator;
+        readonly IGenomeListEvaluator<TGenome> _evaluator;
         readonly ISelectionReproductionStrategy<TGenome> _selectionReproStrategy;
         readonly Population<TGenome> _pop;
 
@@ -22,7 +22,7 @@ namespace SharpNeat.EA
 
         public DefaultEvolutionAlgorithm(
             EAParameters eaParams,
-            IGenomeCollectionEvaluator<TGenome> evaluator,
+            IGenomeListEvaluator<TGenome> evaluator,
             ISelectionReproductionStrategy<TGenome> selectionReproStrategy,
             Population<TGenome> population)
         {

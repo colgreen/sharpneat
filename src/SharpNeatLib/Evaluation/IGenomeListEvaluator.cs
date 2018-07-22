@@ -2,7 +2,7 @@
 
 namespace SharpNeat.Evaluation
 {
-    public interface IGenomeCollectionEvaluator<TGenome>
+    public interface IGenomeListEvaluator<TGenome>
     {
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.

@@ -4,15 +4,16 @@ using SharpNeat.EA;
 namespace SharpNeat.Evaluation
 {
     /// <summary>
-    /// An implementation of IGenomeListEvaluator that evaluates genomes in series on a single CPU thread,
+    /// An implementation of <see cref="IGenomeListEvaluator{TGenome}"/> that evaluates genomes in series on a single CPU thread,
     /// this can be useful in various scenarios e.g. when debugging code.
-    /// 
-    /// Genome decoding is performed by a provided IGenomeDecoder.
-    /// Phenome evaluation is performed by a provided IPhenomeEvaluator.
     /// </summary>
     /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
     /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
-    public class SerialGenomeCollectionEvaluator<TGenome,TPhenome> : IGenomeCollectionEvaluator<TGenome>
+    /// <remarks>
+    /// Genome decoding is performed by a provided IGenomeDecoder.
+    /// Phenome evaluation is performed by a provided IPhenomeEvaluator.
+    /// </remarks>
+    public class SerialGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
         where TGenome : IGenome
         where TPhenome : class
     {
@@ -26,10 +27,10 @@ namespace SharpNeat.Evaluation
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided IGenomeDecoder and IPhenomeEvaluator.
+        /// Construct with the provided <see cref="IGenomeDecoder"/> and <see cref="IPhenomeEvaluator"/>.
         /// Phenome caching is enabled by default.
         /// </summary>
-        public SerialGenomeCollectionEvaluator(
+        public SerialGenomeListEvaluator(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
             IPhenomeEvaluator<TPhenome> phenomeEvaluator)
         {
@@ -39,7 +40,7 @@ namespace SharpNeat.Evaluation
 
         #endregion
 
-        #region IGenomeCollectionEvaluator Members
+        #region IGenomeListEvaluator Members
 
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.
