@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SharpNeat.Network
 {
@@ -10,13 +8,13 @@ namespace SharpNeat.Network
     /// An INodeIdMap implementation based on a dictionary keyed by node ID and a fixed node count.
     /// </summary>
     /// <remarks>
-    /// The fixed nodes count defines the identity mapping (i.e. x maps to x) for IDs from 0 to count-1.
-    /// I.e. it's a cheap way of decribing those mapping rather than including them in the dictionary,
+    /// The fixed nodes count defines the identity mapping (i.e. x maps to x) for IDs from 0 to count-1,
+    /// i.e. it's a cheap way of describing those mappings rather than including them in the dictionary,
     /// which is relatively expensive to populate and query.
     /// 
     /// Input nodes are *always* fixed, i.e. they exist in a contiguous run of IDs starting at zero.
-    /// In cyclic networks the output nodes are also fixed, startign directly after the input node IDs.
-    /// In acyclic networks the outputs are not fixed, and are therefore are mapped by the dictionary.
+    /// In cyclic networks the output nodes are also fixed, starting directly after the input node IDs.
+    /// In acyclic networks the outputs are not fixed, and are therefore mapped by the dictionary.
     /// </remarks>
     public class DictionaryNodeIdMap : INodeIdMap
     {

@@ -198,11 +198,11 @@ namespace SharpNeat.Neat.Genome
             // the values placed into the dictionary are mapped to different values, and
             // we are updating existing dictionary entries rather than inserting new ones.
             //
-            // This still requried dictionary lookups and so can be optimised further with
+            // This still requires dictionary lookups and so can be optimised further with
             // a customised dictionary implementation that allows direct access and updating 
-            // of the keyed values. We could do that here by wrapping each into in a object
-            // i.e. boxing), but that creates lots of additional overhead (object header allocation,
-            // heap allocation, garbage collection, etc.).
+            // of the keyed values. We could do that here by wrapping each entry in an object
+            // reference (i.e. boxing), but that creates additional overhead (object header 
+            // allocation, heap allocation, garbage collection, etc.).
             int inputCount = _metaNeatGenome.InputNodeCount;
             int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;
 
