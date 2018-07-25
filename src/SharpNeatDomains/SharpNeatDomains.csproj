@@ -83,6 +83,7 @@
     <Compile Include="FunctionRegression\FunctionId.cs" />
     <Compile Include="FunctionRegression\IFunction.cs" />
     <Compile Include="FunctionRegression\IBlackBoxProbe.cs" />
+    <Compile Include="FunctionRegression\RbfFnRegressionExperiment.cs" />
     <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionExperiment.cs" />
     <Compile Include="GenerativeFunctionRegression\GenerativeFnRegressionEvaluator.cs" />
     <Compile Include="IGuiNeatExperiment.cs" />
