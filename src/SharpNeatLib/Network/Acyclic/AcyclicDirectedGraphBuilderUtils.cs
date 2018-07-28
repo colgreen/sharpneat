@@ -151,6 +151,8 @@ namespace SharpNeat.Network.Acyclic
             // calls. If instead we pass null or an array that is too short, then timsort will allocate a new
             // array internally, per sort, so we want to avoid that cost.
 
+            // ENHANCEMENT: Modify TimSort class to accept working arrays by ref, so that if a larger array was allocated internally, we receive it back here.
+            // Thus we achieve the same functionality without requiring knowledge of TimSort's internal logic.
             // Allocate new timsort working arrays, if necessary.
             int timsortWorkArrLength = nodeCount >> 1;
 
