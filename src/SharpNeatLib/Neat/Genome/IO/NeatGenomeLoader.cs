@@ -11,14 +11,15 @@ using SharpNeat.NeuralNet;
 namespace SharpNeat.Neat.Genome.IO
 {
     /// <summary>
-    /// Abstract base class for NeatGenome loading.
+    /// For loading/deserializing instances of <see cref="NeatGenome{T}"/> from file, stream, etc.
     /// </summary>
     /// <typeparam name="T">Connection weight type.</typeparam>
-    public abstract class NeatGenomeLoader<T> where T : struct
+    public class NeatGenomeLoader<T> where T : struct
     {
         #region Instance Fields
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly Func<string,(T,bool)> _tryParseWeight;
         readonly INeatGenomeBuilder<T> _genomeBuilder;
 
         readonly string _activationFnName;
@@ -42,16 +43,19 @@ namespace SharpNeat.Neat.Genome.IO
 
         #region Constructors
 
-        protected NeatGenomeLoader(
-            MetaNeatGenome<T> metaNeatGenome) 
-            : this(metaNeatGenome, 8)
+        public NeatGenomeLoader(
+            MetaNeatGenome<T> metaNeatGenome,
+            Func<string,(T,bool)> tryParseWeight)
+            : this(metaNeatGenome, tryParseWeight, 8)
         {}
 
-        protected NeatGenomeLoader(
+        public NeatGenomeLoader(
             MetaNeatGenome<T> metaNeatGenome,
+            Func<string,(T,bool)> tryParseWeight,
             int connCountEstimate)
         {
             _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
+            _tryParseWeight = tryParseWeight ?? throw new ArgumentNullException(nameof(tryParseWeight));
             _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
 
             _activationFnName = metaNeatGenome.ActivationFn.GetType().Name;
@@ -320,11 +324,12 @@ namespace SharpNeat.Neat.Genome.IO
             }
         }
 
-        #endregion
-
-        #region Protected Abstract Methods
-
-        protected abstract bool TryParseWeight(string str, out T weight);
+        private bool TryParseWeight(string str, out T weight)
+        {
+            (T, bool) result = _tryParseWeight(str);
+            weight = result.Item1;
+            return result.Item2;
+        }
 
         #endregion
 

@@ -16,7 +16,7 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
 
             // Load test genome.
-            NeatGenomeLoaderDouble loader = new NeatGenomeLoaderDouble(metaNeatGenome);
+            NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.GetLoaderDouble(metaNeatGenome);
             NeatGenome<double> genomeLoaded = loader.Load("TestData/example1.genome");
 
             // Manually build an equivalent genome.

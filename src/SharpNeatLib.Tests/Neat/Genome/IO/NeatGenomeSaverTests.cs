@@ -38,7 +38,7 @@ namespace SharpNeat.Tests.Neat.Genome.IO
 
                 // Load the genome.
                 ms.Position = 0;
-                NeatGenomeLoaderDouble loader = new NeatGenomeLoaderDouble(metaNeatGenome);
+                NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.GetLoaderDouble(metaNeatGenome);
                 NeatGenome<double> genomeLoaded = loader.Load(ms);
 
                 // Compare the original genome with the loaded genome.
