@@ -62,7 +62,7 @@ namespace SharpNeat.Network.Acyclic
 
             // Sort the connections based on sourceID, TargetId; this will arrange the connections based on the depth 
             // of the source nodes.
-            // Note. This overload of Array.Sort will also sort a second array, i.e. keep the items in both arrays aligned;
+            // Note. This sort routine will also sort a secondary array, i.e. keep the items in both arrays aligned;
             // here we use this to create connectionIndexMap.
             ConnectionSorter<int>.Sort(connIdArrays, connectionIndexMap);
 
