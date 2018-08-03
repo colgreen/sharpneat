@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Genome.IO
         /// <param name="metaNeatGenome">NeatGenome metadata.</param>
         public NeatGenomeLoaderDouble(
             MetaNeatGenome<double> metaNeatGenome) 
-            : base(metaNeatGenome, 8)
+            : base(metaNeatGenome)
         {}
 
         /// <summary>
