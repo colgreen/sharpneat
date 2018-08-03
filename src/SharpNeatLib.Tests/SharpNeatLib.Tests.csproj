@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpNeat.Tests</RootNamespace>
     <AssemblyName>SharpNeatLib.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -59,6 +59,9 @@
     <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricsUtilsTests.cs" />
     <Compile Include="Neat\DistanceMetrics\Double\ManhattanDistanceMetricTests.cs" />
     <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetricTests.cs" />
+    <Compile Include="Neat\Genome\IO\IOTestUtils.cs" />
+    <Compile Include="Neat\Genome\IO\NeatGenomeLoaderTests.cs" />
+    <Compile Include="Neat\Genome\IO\NeatGenomeSaverTests.cs" />
     <Compile Include="Neat\Genome\NeatGenomeAcyclicBuilderTests.cs" />
     <Compile Include="Neat\Genome\NeatGenomeBuilderTests.cs" />
     <Compile Include="Neat\Network\Acyclic\CyclicConnectionTestTests.cs" />
@@ -117,7 +120,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="TestData\example1.genome">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

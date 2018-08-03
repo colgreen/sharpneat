@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using Redzen.Sorting;
 using SharpNeat.Network;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Neat.Genome.IO
 {
@@ -20,8 +21,10 @@ namespace SharpNeat.Neat.Genome.IO
         readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly INeatGenomeBuilder<T> _genomeBuilder;
 
+        readonly string _activationFnName;
         readonly List<DirectedConnection> _connList;
         readonly List<T> _weightList;
+        readonly List<ActivationFunctionRow> _actFnList;
 
         StreamReader _sr;
         int _lineIdx;
@@ -51,8 +54,10 @@ namespace SharpNeat.Neat.Genome.IO
             _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
             _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
 
+            _activationFnName = metaNeatGenome.ActivationFn.GetType().Name;
             _connList = new List<DirectedConnection>(connCountEstimate);
             _weightList = new List<T>(connCountEstimate);
+            _actFnList = new List<ActivationFunctionRow>();
         }
 
         #endregion
@@ -128,19 +133,24 @@ namespace SharpNeat.Neat.Genome.IO
             ValidateNodeCounts(inputCount, outputCount);
 
             // Read connections.
-            ReadConnections();
+            ReadConnections(out DirectedConnection[] connArr, out T[] weightArr);
 
-            // Copy connection data into arrays, and sort into the correct order (for a NeatGenome).
-            DirectedConnection[] connArr = _connList.ToArray();
-            T[] weightArr = _weightList.ToArray();
-            Array.Sort(connArr, weightArr);
+            // Read activation function(s).
+            // Note. For a NeatGenome we expect a single line specifying a single activation function with ID 0,
+            // and a function code that specifies the function. Additional lines in the section are ignored.
+            ReadActivationFunctions();
+
+            // Read activation function(s).
+            ValidateActivationFunctions();
 
             // Create a genome object and return.
             var connGenes = new ConnectionGenes<T>(connArr, weightArr);
             return _genomeBuilder.Create(_genomeId++, 0, connGenes);
         }
 
-        private void ReadConnections()
+        private void ReadConnections(
+            out DirectedConnection[] connArr,
+            out T[] weightArr)
         {
             for(;;)
             {
@@ -149,7 +159,7 @@ namespace SharpNeat.Neat.Genome.IO
 
                 // Stop reading connections if we detect the end of the section, or end of the file.
                 if(string.IsNullOrEmpty(line)) {
-                    return;
+                    break;
                 }
 
                 // Parse the connection fields.
@@ -180,7 +190,59 @@ namespace SharpNeat.Neat.Genome.IO
                 _connList.Add(new DirectedConnection(srcId, tgtId));
                 _weightList.Add(weight);
             }
+
+            // Copy connection data into arrays, and sort into the correct order (for a NeatGenome).
+            connArr = _connList.ToArray();
+            weightArr = _weightList.ToArray();
+            Array.Sort(connArr, weightArr);
         }
+
+        private void ReadActivationFunctions()
+        {
+            for(int expectedFnId=0;; expectedFnId++)
+            {
+                // Read a line.
+                string line = ReadNextLine();
+
+                // Stop reading connections if we detect the end of the section, or end of the file.
+                if(string.IsNullOrEmpty(line)) {
+                    break;
+                }
+
+                string[] fields = line.Split(' ', '\t');
+                if(fields.Length != 2) {
+                    throw new IOException($"Invalid activation function line. Line [{_lineIdx}].");
+                }
+
+                if(!TryParseInt32(fields[0], out int fnId)) {
+                    throw new IOException($"Invalid activation function ID format. Line [{_lineIdx}].");
+                }
+
+                // The function IDs are required to be in a continuous incrementing sequence, starting at zero.
+                if(fnId != expectedFnId) {
+                    throw new IOException($"Invalid activation function ID [{fnId}]; expected [{expectedFnId}]");
+                }
+
+                string fnCode = fields[1];
+                _actFnList.Add(new ActivationFunctionRow(fnId, fnCode));
+            }
+        }
+
+        private void Cleanup()
+        {
+            _connList.Clear();
+            _weightList.Clear();
+            _actFnList.Clear();
+
+            #if DEBUG
+            // Reset reentrancy test flag.
+            Interlocked.Exchange(ref _reentranceFlag, 0);
+            #endif
+        }
+
+        #endregion
+
+        #region Private Methods [Validation]
 
         private void ValidateNodeCounts(
             int inputCount, int outputCount)
@@ -195,15 +257,21 @@ namespace SharpNeat.Neat.Genome.IO
             }
         }
 
-        private void Cleanup()
+        private void ValidateActivationFunctions()
         {
-            _connList.Clear();
-            _weightList.Clear();
+            // For NEAT each node uses the same activation function, and this is defined on MetaNeatGenome.
 
-            #if DEBUG
-            // Reset reentrancy test flag.
-            Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
+            if(0 == _actFnList.Count) {
+                throw new IOException("No activation function defined for genome.");
+            }
+
+            // Test the code/name of the first defined activation function.
+            string actFnCode = _actFnList[0].Code;
+            if(string.CompareOrdinal(_activationFnName, actFnCode) != 0) {
+                throw new IOException($"The activation function defined for the genome [{actFnCode}] does not match the expected activation function [{_activationFnName}]");
+            }
+
+            // Note. if more than on activation function is defined then the others are ignored.
         }
 
         #endregion
@@ -214,7 +282,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             string line = ReadNonEmptyLine();
             if(!TryParseInt32(line, out int val)) {
-                throw new IOException("Invalid integer format. Line [{_lineIdx}].");
+                throw new IOException($"Invalid integer format. Line [{_lineIdx}].");
             }
             return val;
         }
@@ -223,7 +291,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             string line = ReadNextLine();
             if(line != string.Empty) {
-                throw new IOException("End of section expected. Line [{_lineIdx}].");
+                throw new IOException($"End of section expected. Line [{_lineIdx}].");
             }
         }
 

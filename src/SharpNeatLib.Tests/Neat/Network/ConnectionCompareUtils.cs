@@ -78,7 +78,7 @@ namespace SharpNeat.Tests.Neat.Network
             Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
             Assert.AreEqual(x.Length, yWeightArr.Length);
 
-            for(int i=0; i < x.Length; i++)  {
+            for(int i=0; i < x.Length; i++) {
                 Assert.IsTrue(AreEqual(x, yIdArrays, yWeightArr, i, i));
             }
         }
