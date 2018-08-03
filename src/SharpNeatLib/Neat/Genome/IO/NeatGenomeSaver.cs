@@ -8,7 +8,7 @@ namespace SharpNeat.Neat.Genome.IO
     /// For saving/serializing instances of <see cref="NeatGenome{double}"/> to file, stream, etc.
     /// </summary>
     /// <typeparam name="T">Connection weight type.</typeparam>
-    public class NeatGenomeSaver<T> where T : struct
+    public static class NeatGenomeSaver<T> where T : struct
     {
         static readonly Encoding __utf8Encoding = new UTF8Encoding(false, true);
 
