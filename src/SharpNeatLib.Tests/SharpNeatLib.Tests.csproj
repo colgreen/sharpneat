@@ -61,8 +61,8 @@
     <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetricTests.cs" />
     <Compile Include="Neat\Genome\IO\IOTestUtils.cs" />
     <Compile Include="Neat\Genome\IO\NeatGenomeLoaderTests.cs" />
-    <Compile Include="Neat\Genome\IO\NeatGenomePopulationSaverTests.cs" />
-    <Compile Include="Neat\Genome\IO\NeatGenomeSaverTests.cs" />
+    <Compile Include="Neat\Genome\IO\NeatPopulationIOTests.cs" />
+    <Compile Include="Neat\Genome\IO\NeatGenomeIOTests.cs" />
     <Compile Include="Neat\Genome\NeatGenomeAcyclicBuilderTests.cs" />
     <Compile Include="Neat\Genome\NeatGenomeBuilderTests.cs" />
     <Compile Include="Neat\Network\Acyclic\CyclicConnectionTestTests.cs" />

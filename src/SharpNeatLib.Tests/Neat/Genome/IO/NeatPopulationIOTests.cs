@@ -7,7 +7,7 @@ using SharpNeat.Neat.Genome.IO;
 namespace SharpNeat.Tests.Neat.Genome.IO
 {
     [TestClass]
-    public class NeatGenomePopulationSaverTests
+    public class NeatPopulationIOTests
     {
         // Note. The test framework sets this auto-property just prior to running the unit test methods.
         public TestContext TestContext { get; set; }
@@ -15,8 +15,8 @@ namespace SharpNeat.Tests.Neat.Genome.IO
         #region Test Methods
 
         [TestMethod]
-        [TestCategory("NeatGenomePopulationSaver")]
-        public void SavePopulationToFolder()
+        [TestCategory("NeatPopulationIO")]
+        public void SaveAndLoadPopulationToFolder()
         {
             // Create a test population.
             NeatPopulation<double> pop = NestGenomeTestUtils.CreateNeatPopulation();
@@ -38,8 +38,8 @@ namespace SharpNeat.Tests.Neat.Genome.IO
         }
 
         [TestMethod]
-        [TestCategory("NeatGenomePopulationSaver")]
-        public void SavePopulationToZipArchive()
+        [TestCategory("NeatPopulationIO")]
+        public void SaveAndLoadPopulationToZipArchive()
         {
             // Create a test population.
             NeatPopulation<double> pop = NestGenomeTestUtils.CreateNeatPopulation();

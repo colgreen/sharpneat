@@ -7,7 +7,7 @@ using SharpNeat.NeuralNet.Double.ActivationFunctions;
 namespace SharpNeat.Tests.Neat.Genome.IO
 {
     [TestClass]
-    public class NeatGenomeSaverTests
+    public class NeatGenomeIOTests
     {
         #region Test Methods
 
