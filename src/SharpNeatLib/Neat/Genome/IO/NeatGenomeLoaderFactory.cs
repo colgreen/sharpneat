@@ -9,7 +9,7 @@ namespace SharpNeat.Neat.Genome.IO
     {
         #region Public Static Methods
 
-        public static NeatGenomeLoader<double> GetLoaderDouble(
+        public static NeatGenomeLoader<double> CreateLoaderDouble(
             MetaNeatGenome<double> metaNeatGenome)
         {
             return new NeatGenomeLoader<double>(metaNeatGenome, TryParseWeight);
