@@ -9,12 +9,12 @@ namespace SharpNeat.EA
     /// Generally an ISelectionReproductionStrategy will operate as follows:
     /// 
     /// 1) Selects genomes from the population.
-    /// 2) Creates offspring from those selected genomes and adds the offspring into the population.
-    /// 3) Removes enough low fitness genomes from the population to make way for the new offspring,
+    /// 2) Create offspring from those selected genomes, and add the offspring into the population.
+    /// 3) Remove enough low fitness genomes from the population to make way for the new offspring,
     /// i.e. to keep the population size constant.
     /// 
     /// Encapsulating all of these stages of the evolutionary algorithm within a single strategy interface
-    /// allows for plugging-in of high level evolutionary algorithm strategies.
+    /// allows for plugging-in of alternative high level evolutionary algorithm strategies.
     /// </remarks>
     /// <typeparam name="TGenome"></typeparam>
     public interface ISelectionReproductionStrategy<TGenome>
