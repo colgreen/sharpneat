@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpNeatLib\SharpNeatLib.csproj" />
-    <ProjectReference Include="..\SharpNeatTasks\SharpNeatTasks.csproj" />
+    <ProjectReference Include="..\..\SharpNeatLib\SharpNeatLib.csproj" />
+    <ProjectReference Include="..\..\SharpNeatTasks\SharpNeatTasks.csproj" />
   </ItemGroup>
 
   <ItemGroup>

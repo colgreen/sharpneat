@@ -7,8 +7,8 @@ namespace SharpNeatLib.Benchmarks
         static void Main(string[] args)
         {
             //var summary = BenchmarkRunner.Run<BenchmarksDouble>();
-            //var summary = BenchmarkRunner.Run<BenchmarksVectorizedDouble>();
-            var summary = BenchmarkRunner.Run<ConnectionSorterBenchmarks>();
+            var summary = BenchmarkRunner.Run<BenchmarksVectorizedDouble>();
+            //var summary = BenchmarkRunner.Run<ConnectionSorterBenchmarks>();
         }
     }
 }

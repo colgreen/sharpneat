@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib", "SharpNeatLib\SharpNeatLib.csproj", "{29425503-9A5D-4C86-BB9B-CA17A7742E6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib", "SharpNeatLib\SharpNeatLib.csproj", "{29425503-9A5D-4C86-BB9B-CA17A7742E6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp1", "TestApp1\TestApp1.csproj", "{03EC1CBF-0266-4CE8-952A-68E67ACBCFB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp1", "Tests\TestApp1\TestApp1.csproj", "{03EC1CBF-0266-4CE8-952A-68E67ACBCFB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatTasks", "SharpNeatTasks\SharpNeatTasks.csproj", "{3562605D-7C6B-459C-B116-498DD7A2B078}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks", "SharpNeatTasks\SharpNeatTasks.csproj", "{3562605D-7C6B-459C-B116-498DD7A2B078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib.Tests", "SharpNeatLib.Tests\SharpNeatLib.Tests.csproj", "{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatLib.Tests", "Tests\SharpNeatLib.Tests\SharpNeatLib.Tests.csproj", "{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib.Benchmarks", "Tests\SharpNeatLib.Benchmarks\SharpNeatLib.Benchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{858A8951-5952-40D8-8F62-8F6537B89FD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +37,20 @@ Global
 		{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F98BC33-286F-49DE-9884-D80438DF656D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F98BC33-286F-49DE-9884-D80438DF656D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F98BC33-286F-49DE-9884-D80438DF656D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F98BC33-286F-49DE-9884-D80438DF656D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{03EC1CBF-0266-4CE8-952A-68E67ACBCFB2} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
+		{5E3094A9-15D0-4F62-A8C1-170CA0B545D6} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
+		{4F98BC33-286F-49DE-9884-D80438DF656D} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E02B3A0A-4C61-41CA-AD15-E8A9C318ADBB}
 	EndGlobalSection
 EndGlobal
