@@ -39,8 +39,8 @@ namespace SharpNeat.EvolutionAlgorithms
         protected TGenome _currentBestGenome;
 
         // Algorithm state data.
-        RunState _runState = RunState.NotReady;
-        protected uint _currentGeneration;
+        volatile RunState _runState = RunState.NotReady;
+        protected volatile uint _currentGeneration;
 
         // Update event scheme / data.
         UpdateScheme _updateScheme;
@@ -49,8 +49,8 @@ namespace SharpNeat.EvolutionAlgorithms
 
         // Misc working variables.
         Thread _algorithmThread;
-        bool _pauseRequestFlag;
-        bool _terminateFlag = false;
+        volatile bool _pauseRequestFlag;
+        volatile bool _terminateFlag = false;
         readonly AutoResetEvent _awaitPauseEvent = new AutoResetEvent(false);
         readonly AutoResetEvent _awaitRestartEvent = new AutoResetEvent(false);
 
