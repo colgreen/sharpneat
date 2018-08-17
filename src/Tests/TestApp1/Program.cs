@@ -21,6 +21,7 @@ namespace TestApp1
             //EvolutionAlgorithmController eaController = new EvolutionAlgorithmController(ea);
             ea.PerformOneGeneration();
 
+            Console.ReadKey();
         }
 
     }
