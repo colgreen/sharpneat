@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpNeat.EA;
-using SharpNeat.EA.Controllers;
+using SharpNeat.EA.Runner;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;

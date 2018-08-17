@@ -62,7 +62,9 @@ namespace SharpNeat.EA
 
             // Update stats.
             UpdateBestGenome();
+
             //_eaStats.StopConditionSatisfied = _evaluator.StopConditionSatisfied;
+            _eaStats.Generation++;
         }
 
         #endregion
