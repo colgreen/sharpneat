@@ -13,7 +13,6 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
     /// </summary>
     public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IPhenome<double>>
     {
-        
         #region Public Methods
 
         /// <summary>
@@ -29,7 +28,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
             IVector<double> outputArr = phenome.OutputVector;
             
             // 2048 test cases.
-            for(int i=0; i<2048; i++)
+            for(int i=0; i < 2048; i++)
             {
                 // Bias input.
                 inputArr[0] = 1.0;
@@ -39,9 +38,9 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                 // Note. We /could/ eliminate all the boolean logic by pre-building a table of test 
                 // signals and correct responses.
                 int tmp = i;
-                for(int j=0; j<11; j++) 
+                for(int j=0; j < 11; j++) 
                 {   
-                    inputArr[j+1] = tmp&0x1;
+                    inputArr[j+1] = tmp & 0x1;
                     tmp >>= 1;
                 }
                                 
@@ -59,8 +58,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                     // Note. To base fitness on absolute error use: fitness += output;
-                    fitness += 1.0-((1.0-output)*(1.0-output));
-                    if(output<0.5) {
+                    fitness += 1.0 - ((1.0-output) * (1.0-output));
+                    if(output < 0.5) {
                         success=false;
                     }
                 }
@@ -69,8 +68,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                     // Note. To base fitness on absolute error use: fitness += 1.0-output;
-                    fitness += 1.0-(output*output);
-                    if(output>=0.5) {
+                    fitness += 1.0 - (output * output);
+                    if(output >= 0.5) {
                         success=false;
                     }
                 }
