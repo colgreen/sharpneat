@@ -13,16 +13,17 @@ namespace TestApp1
 {
     class Program
     {
-
         static void Main(string[] args)
         {
+            // Create and initialise the evolutionary algorithm.
             EAFactory factory = new EAFactory();
             DefaultEvolutionAlgorithm<NeatGenome<double>> ea = factory.CreateDefaultEvolutionAlgorithm();
-            //EvolutionAlgorithmController eaController = new EvolutionAlgorithmController(ea);
+            ea.Initialise();
+
+            //EvolutionAlgorithmRunner runner = new EvolutionAlgorithmRunner(ea);
             ea.PerformOneGeneration();
 
             Console.ReadKey();
         }
-
     }
 }

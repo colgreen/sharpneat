@@ -9,6 +9,11 @@ namespace SharpNeat.EA
         EAStatistics EAStats { get; }
 
         /// <summary>
+        /// Initialise the evolutionary algorithm.
+        /// </summary>
+        void Initialise();
+
+        /// <summary>
         /// Perform one generation of the evolutionary algorithm.
         /// </summary>
         void PerformOneGeneration();

@@ -51,6 +51,14 @@ namespace SharpNeat.EA
 
         #region Public Methods
 
+        /// <summary>
+        /// Initialise the evolutionary algorithm.
+        /// </summary>
+        public void Initialise()
+        {
+            _selectionReproStrategy.Initialise(_pop);
+        }
+
         public void PerformOneGeneration()
         {
             // Evaluate each genome in the population; assigning fitness info to each (a single fitness score,
