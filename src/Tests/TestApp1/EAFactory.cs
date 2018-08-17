@@ -34,7 +34,7 @@ namespace TestApp1
             // Create a selection reproduction strategy.
             var selectionReproStrategy = CreateSelectionReproductionStrategy();
 
-            // Pull all of the parts together into a evolution algorithm instance.
+            // Pull all of the parts together into an evolution algorithm instance.
             var ea = new DefaultEvolutionAlgorithm<NeatGenome<double>>(
                 _eaParams,
                 evaluator: genomeListEvaluator,
@@ -74,7 +74,7 @@ namespace TestApp1
 
         private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
         {
-            var genomeDecoder = new NeatGenomeAcyclicDecoder(false);
+            var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
             var phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
             var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IPhenome<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
