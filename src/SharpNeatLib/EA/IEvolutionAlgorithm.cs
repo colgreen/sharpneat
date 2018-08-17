@@ -9,11 +9,6 @@ namespace SharpNeat.EA
         EAStatistics EAStats { get; }
 
         /// <summary>
-        /// Gets or sets the complexity regulation mode.
-        /// </summary>
-        ComplexityRegulationMode ComplexityRegulationMode { get; set; }
-
-        /// <summary>
         /// Perform one generation of the evolutionary algorithm.
         /// </summary>
         void PerformOneGeneration();
