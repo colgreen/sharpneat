@@ -31,8 +31,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             IDistanceMetric<T> distanceMetric,
             IRandomSource rng)
         {
-            _distanceMetric = distanceMetric;
-            _rng = rng;
+            _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
+            _rng = rng ?? throw new ArgumentNullException(nameof(rng));
         }
 
         #endregion

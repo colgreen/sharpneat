@@ -29,10 +29,16 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
+            int maxKMeansIters)
+            : this(distanceMetric, maxKMeansIters, RandomDefaults.CreateRandomSource())
+        {}
+
+        public GeneticKMeansSpeciationStrategy(
+            IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
             IRandomSource rng)
         {
-            _distanceMetric = distanceMetric;
+            _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
             _maxKMeansIters = maxKMeansIters;
             _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, rng);
         }

@@ -26,12 +26,20 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         public NeatSelectionReproductionStrategy(
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
+            int speciesCount)
+            : this(speciationStrategy, speciesCount, RandomDefaults.CreateRandomSource())
+        {}
+
+        public NeatSelectionReproductionStrategy(
+            ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
             int speciesCount,
             IRandomSource rng)
         {
-            _speciationStrategy = speciationStrategy;
+            if(speciesCount <= 0) throw new ArgumentOutOfRangeException(nameof(speciesCount));
             _speciesCount = speciesCount;
-            _rng = rng;
+
+            _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
+            _rng = rng ?? throw new ArgumentNullException(nameof(rng));
         }
 
         #endregion
@@ -44,8 +52,7 @@ namespace SharpNeat.Neat.SelectionReproduction
         public void Initialise(Population<NeatGenome<T>> population)
         {
             // Check for expected population type.
-            var neatPop = population as NeatPopulation<T>;
-            if(null == neatPop) {
+            if (!(population is NeatPopulation<T> neatPop)) {
                 throw new ArgumentException("Invalid population type; expected NeatPopulation<T>.", "population");
             }
 
@@ -71,6 +78,7 @@ namespace SharpNeat.Neat.SelectionReproduction
             SpeciesAllocationCalcs<T>.CalcSpeciesTargetSizes(neatPop, _rng);
 
 
+            // TODO: Implement.
 
 
 
