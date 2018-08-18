@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
+using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
@@ -18,8 +19,12 @@ namespace SharpNeat.Tests.Neat.SelectionReproduction
         [TestCategory("SelectionReproduction")]
         public void TestSpeciesAllocation()
         {
+            EvolutionAlgorithmSettings eaSettings = new EvolutionAlgorithmSettings() {
+                SpeciesCount = 4
+            };
+
             // Create population.
-            NeatPopulation<double> neatPop = CreateNeatPopulation(100, 4, 2, 2, 1.0);
+            NeatPopulation<double> neatPop = CreateNeatPopulation(100, eaSettings.SpeciesCount, 2, 2, 1.0);
 
             // Manually set-up some species.
             var speciesArr = neatPop.SpeciesArray;
@@ -37,8 +42,7 @@ namespace SharpNeat.Tests.Neat.SelectionReproduction
 
             // Invoke species target size calcs.
             IRandomSource rng = RandomDefaults.CreateRandomSource();
-            SpeciesStatsCalcs<double>.CalcAndStoreSpeciesStats(neatPop, rng);
-            SpeciesAllocationCalcs<double>.CalcAndStoreSpeciesTargetSizes(neatPop, rng);
+            SpeciesStatsCalcs<double>.CalcAndStoreSpeciesStats(neatPop, eaSettings, rng);
 
             // Species target sizes should be relative to the species mean fitness.
             double totalMeanFitness = 1500.0;

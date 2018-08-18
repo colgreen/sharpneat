@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Redzen.Random;
+using SharpNeat.EA;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.SelectionReproduction
@@ -16,13 +17,15 @@ namespace SharpNeat.Neat.SelectionReproduction
         #region Public Static Methods
 
         public static void CalcAndStoreSpeciesStats(
-            NeatPopulation<T> pop, IRandomSource rng)
+            NeatPopulation<T> pop,
+            EvolutionAlgorithmSettings eaSettings,
+            IRandomSource rng)
         {
             // Calc and store the mean fitness of each species.
             CalcAndStoreSpeciesFitnessMeans(pop);
 
             // Calc and store the target size of each species (based on the NEAT fitness sharing method).
-            SpeciesAllocationCalcs<T>.CalcAndStoreSpeciesTargetSizes(pop, rng);
+            SpeciesAllocationCalcs<T>.CalcAndStoreSpeciesAllocationSizes(pop, eaSettings, rng);
         }
 
         #endregion

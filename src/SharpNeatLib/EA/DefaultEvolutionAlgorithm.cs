@@ -1,4 +1,5 @@
-﻿using SharpNeat.Evaluation;
+﻿using System;
+using SharpNeat.Evaluation;
 
 namespace SharpNeat.EA
 {
@@ -7,7 +8,7 @@ namespace SharpNeat.EA
     {
         #region Instance Fields
 
-        readonly EAParameters _eaParams;
+        readonly EvolutionAlgorithmSettings _eaSettings;
         readonly IGenomeListEvaluator<TGenome> _evaluator;
         readonly ISelectionReproductionStrategy<TGenome> _selectionReproStrategy;
         readonly Population<TGenome> _pop;
@@ -21,15 +22,19 @@ namespace SharpNeat.EA
         #region Constructors
 
         public DefaultEvolutionAlgorithm(
-            EAParameters eaParams,
+            EvolutionAlgorithmSettings eaSettings,
             IGenomeListEvaluator<TGenome> evaluator,
             ISelectionReproductionStrategy<TGenome> selectionReproStrategy,
             Population<TGenome> population)
         {
-            _eaParams = eaParams;
-            _evaluator = evaluator;
-            _selectionReproStrategy = selectionReproStrategy;
-            _pop = population;
+            _eaSettings = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
+            _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
+            _selectionReproStrategy = selectionReproStrategy ?? throw new ArgumentNullException(nameof(selectionReproStrategy));
+            _pop = population ?? throw new ArgumentNullException(nameof(population));
+
+            if(eaSettings.SpeciesCount > population.PopulationSize) {
+                throw new ArgumentException("Species count is higher then the population size.");
+            }
         }
 
         #endregion
@@ -56,23 +61,31 @@ namespace SharpNeat.EA
         /// </summary>
         public void Initialise()
         {
+            // Evaluate each genome in the new population.
+            _evaluator.Evaluate(_pop.GenomeList);
+
+            // Initialise the selection-reproduction strategy.
             _selectionReproStrategy.Initialise(_pop);
         }
 
         public void PerformOneGeneration()
         {
-            // Evaluate each genome in the population; assigning fitness info to each (a single fitness score,
-            // or perhaps a series of scores each measuring a different aspect of fitness).
-            _evaluator.Evaluate(_pop.GenomeList);
 
-            // Invoke the reproduction strategy (select, cull, create offspring).
-            _selectionReproStrategy.Invoke(_pop);
 
-            // Update stats.
-            UpdateBestGenome();
 
-            //_eaStats.StopConditionSatisfied = _evaluator.StopConditionSatisfied;
-            _eaStats.Generation++;
+
+            //// Evaluate each genome in the population; assigning fitness info to each (a single fitness score,
+            //// or perhaps a series of scores each measuring a different aspect of fitness).
+            //_evaluator.Evaluate(_pop.GenomeList);
+
+            //// Invoke the reproduction strategy (select, cull, create offspring).
+            //_selectionReproStrategy.Invoke(_pop);
+
+            //// Update stats.
+            //UpdateBestGenome();
+
+            ////_eaStats.StopConditionSatisfied = _evaluator.StopConditionSatisfied;
+            //_eaStats.Generation++;
         }
 
         #endregion

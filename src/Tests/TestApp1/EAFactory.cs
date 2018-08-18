@@ -14,7 +14,7 @@ namespace TestApp1
 {
     public class EAFactory
     {
-        EAParameters _eaParams;
+        EvolutionAlgorithmSettings _eaSettings;
         MetaNeatGenome<double> _metaNeatGenome;
         NeatPopulation<double> _neatPop;
 
@@ -24,9 +24,9 @@ namespace TestApp1
         {
             // Create an initial population.
             _metaNeatGenome = CreateMetaNeatGenome();
-            _eaParams = new EAParameters();
-            _eaParams.PopulationSize = 100;
-            _neatPop = CreatePopulation(_metaNeatGenome, _eaParams.PopulationSize);
+            _eaSettings = new EvolutionAlgorithmSettings();
+            _eaSettings.SpeciesCount = 6;
+            _neatPop = CreatePopulation(_metaNeatGenome, 100);
 
             // Create a genome evaluator.
             IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = CreateGenomeListEvaluator();
@@ -36,7 +36,7 @@ namespace TestApp1
 
             // Pull all of the parts together into an evolution algorithm instance.
             var ea = new DefaultEvolutionAlgorithm<NeatGenome<double>>(
-                _eaParams,
+                _eaSettings,
                 evaluator: genomeListEvaluator,
                 selectionReproStrategy: selectionReproStrategy,
                 population: _neatPop);
@@ -84,7 +84,7 @@ namespace TestApp1
         {
             var distanceMetric = new EuclideanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
-            var selectionReproStrategy = new NeatSelectionReproductionStrategy<double>(speciationStrategy, 6);
+            var selectionReproStrategy = new NeatSelectionReproductionStrategy<double>(speciationStrategy, _eaSettings);
             return selectionReproStrategy;
         }
 

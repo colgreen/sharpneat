@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.EvolutionAlgorithm
+namespace SharpNeat.EA
 {
     public class EvolutionAlgorithmSettings
     {

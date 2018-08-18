@@ -1,13 +1,14 @@
-﻿using Redzen.Numerics;
-using Redzen.Random;
-using SharpNeat.EA;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Speciation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Redzen.Numerics;
+using Redzen.Random;
+using Redzen.Sorting;
+using SharpNeat.EA;
+using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.SelectionReproduction
 {
@@ -17,7 +18,7 @@ namespace SharpNeat.Neat.SelectionReproduction
         #region Instance Fields
 
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
-        readonly int _speciesCount;
+        readonly EvolutionAlgorithmSettings _eaSettings;
         readonly IRandomSource _rng;
 
         #endregion
@@ -26,19 +27,17 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         public NeatSelectionReproductionStrategy(
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
-            int speciesCount)
-            : this(speciationStrategy, speciesCount, RandomDefaults.CreateRandomSource())
+            EvolutionAlgorithmSettings eaSettings)
+            : this(speciationStrategy, eaSettings, RandomDefaults.CreateRandomSource())
         {}
 
         public NeatSelectionReproductionStrategy(
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
-            int speciesCount,
+            EvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
         {
-            if(speciesCount <= 0) throw new ArgumentOutOfRangeException(nameof(speciesCount));
-            _speciesCount = speciesCount;
-
             _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
+            _eaSettings = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
             _rng = rng ?? throw new ArgumentNullException(nameof(rng));
         }
 
@@ -57,12 +56,11 @@ namespace SharpNeat.Neat.SelectionReproduction
             }
 
             // Initialise species.
-            var speciesArr = _speciationStrategy.SpeciateAll(population.GenomeList, _speciesCount);
-            if(null == speciesArr || speciesArr.Length != _speciesCount) {
-                throw new Exception("Species array is null or has incorrect length.");
-            }
+            InitialiseSpecies(neatPop);
 
-            neatPop.SpeciesArray = speciesArr;
+            // Calculate and store stats on the population as a whole, and for each species.
+            PopulationStatsCalcs<T>.CalcAndStorePopulationStats(neatPop);
+            SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(neatPop, _eaSettings, _rng);
         }
 
         /// <summary>
@@ -74,20 +72,52 @@ namespace SharpNeat.Neat.SelectionReproduction
         {
             var neatPop = population as NeatPopulation<T>;
             
-            // Calc species target sizes.
-            SpeciesAllocationCalcs<T>.CalcSpeciesTargetSizes(neatPop, _rng);
 
+            // Select genomes.
+
+
+            // Create offspring genomes.
+            //List<NeatGenome<T>> offspringList = CreateOffspring(specieStatsArr, offspringCount);
+
+
+            // Trim species back to their elite genomes.
+
+
+            // Add offspring into genomeList.
+        
+
+            // Evaluate genomes.
+
+
+            // Add/merge offspring into species.
+
+
+            // Calc species target sizes.
+            //SpeciesAllocationCalcs<T>.CalcAndStoreSpeciesTargetSizes(neatPop, _rng);
 
             // TODO: Implement.
-
-
-
-
-
             throw new NotImplementedException();
         }
 
         #endregion
 
+        #region Private Methods
+
+        private void InitialiseSpecies(NeatPopulation<T> pop)
+        {
+            // Allocate the genomes to species.
+            Species<T>[] speciesArr = _speciationStrategy.SpeciateAll(pop.GenomeList, _eaSettings.SpeciesCount);
+            if(null == speciesArr || speciesArr.Length != _eaSettings.SpeciesCount) {
+                throw new Exception("Species array is null or has incorrect length.");
+            }
+            pop.SpeciesArray = speciesArr;
+
+            // Sort the genomes in each species. Highest fitness first, then secondary sorted by youngest genomes first.
+            foreach(Species<T> species in speciesArr) {
+                SortUtils.SortUnstable(species.GenomeList, GenomeFitnessAndAgeComparer<T>.Singleton, _rng);
+            }
+        }
+
+        #endregion
     }
 }

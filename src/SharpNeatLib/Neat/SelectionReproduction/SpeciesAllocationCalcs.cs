@@ -5,6 +5,7 @@ using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Sorting;
+using SharpNeat.EA;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.SelectionReproduction
@@ -18,31 +19,36 @@ namespace SharpNeat.Neat.SelectionReproduction
         #region Public Static Methods
 
         /// <summary>
-        /// Calc species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
-        /// Store the target sizes on each species' stats object.
+        /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
+        /// Then calc and store the elite, selection and offspring allocations/counts, per species.
         /// </summary>
-        public static void CalcAndStoreSpeciesTargetSizes(NeatPopulation<T> pop, IRandomSource rng)
+        public static void CalcAndStoreSpeciesAllocationSizes(
+            NeatPopulation<T> pop,
+            EvolutionAlgorithmSettings eaSettings,
+            IRandomSource rng)
         {            
             // Calculate the new target size of each species using fitness sharing. 
-            int totalTargetSizeInt = CalcAndStoreSpeciesTargetSizesInner(pop, rng);
+            CalcAndStoreSpeciesTargetSizes(pop, rng);
 
-            // Adjust each species' target allocation such that the sum total matches the required population size.
-            AdjustSpeciesTargetSizes(pop, totalTargetSizeInt, rng);
+            // Calculate elite, selection and offspring counts, per species.
+            CalculateAndStoreEliteSelectionOffspringCounts(pop, eaSettings, rng);
         }
 
         #endregion
 
         #region Private Static Methods
 
-        private static int CalcAndStoreSpeciesTargetSizesInner(
+        private static void CalcAndStoreSpeciesTargetSizes(
             NeatPopulation<T> pop, IRandomSource rng)
         {
             double totalMeanFitness = pop.TotalSpeciesMeanFitness;
 
             // Handle specific case where all genomes/species have a zero fitness. 
             // Assign all species an equal targetSize.
-            if(0.0 == totalMeanFitness) {
-                return CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
+            if(0.0 == totalMeanFitness) 
+            {
+                CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
+                return;
             }
 
             // Calculate the new target size of each species using fitness sharing.
@@ -63,7 +69,8 @@ namespace SharpNeat.Neat.SelectionReproduction
                 totalTargetSizeInt += stats.TargetSizeInt;
             }
 
-            return totalTargetSizeInt;
+            // Adjust each species' target allocation such that the sum total matches the required population size.
+            AdjustSpeciesTargetSizes(pop, totalTargetSizeInt, rng);
         }
 
         /// <summary>
@@ -226,6 +233,86 @@ namespace SharpNeat.Neat.SelectionReproduction
             if(!success) {
                 throw new Exception("All species have a zero target size.");
             }
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        /// <summary>
+        /// For each species, allocate the EliteSizeInt, OffspringCount (broken down into OffspringAsexualCount and OffspringSexualCount),
+        /// and SelectionSizeInt values.
+        /// </summary>
+        /// <param name="pop"></param>
+        /// <param name="eaSettings"></param>
+        /// <param name="rng"></param>
+        private static void CalculateAndStoreEliteSelectionOffspringCounts(
+            NeatPopulation<T> pop,
+            EvolutionAlgorithmSettings eaSettings,
+            IRandomSource rng)
+        {
+            Species<T>[] speciesArr = pop.SpeciesArray;
+            int offspringCount = 0;
+
+            // Loop the species, calculating and storing the various size/count properties.
+            for(int i=0; i < speciesArr.Length; i++)
+            {
+                bool isBestGenomeSpecies = (pop.BestGenomeSpeciesIdx == i);
+
+                AllocateEliteSelectionOffspringCounts(speciesArr[i], eaSettings, isBestGenomeSpecies, rng);
+                offspringCount += speciesArr[i].Stats.OffspringCount;
+            }
+        }
+
+        private static void AllocateEliteSelectionOffspringCounts(
+            Species<T> species,
+            EvolutionAlgorithmSettings eaSettings,
+            bool isBestGenomeSpecies,
+            IRandomSource rng)
+        {
+            SpeciesStats stats = species.Stats;
+
+            // Special case - zero target size.
+            if(stats.TargetSizeInt == 0) 
+            {
+                stats.EliteSizeInt = 0;
+                return;
+            }
+
+            // Calculate the elite size as a proportion of the current species size.
+            // Note. We discretize the real size with a probabilistic handling of the fractional part.
+            double eliteSizeReal = species.GenomeList.Count * eaSettings.ElitismProportion;
+            int eliteSizeInt = (int)NumericsUtils.ProbabilisticRound(eliteSizeReal, rng);
+
+            // Ensure eliteSizeInt is no larger than the current target size. (I.e. the value was 
+            // calculated as a proportion of the current size, not the new target size).
+            stats.EliteSizeInt = Math.Min(eliteSizeInt, stats.TargetSizeInt);
+
+            // Special case: ensure the species with the best genome preserves that genome. 
+            // Note. This is done even for a target size of one, which would mean that no offspring are
+            // produced from the best genome, apart from the (usually small) chance of a cross-species mating.
+            if(isBestGenomeSpecies && stats.EliteSizeInt == 0)
+            {
+                Debug.Assert(stats.TargetSizeInt != 0, "Zero target size assigned to specie that contains the best genome.");
+                stats.EliteSizeInt = 1;
+            }
+
+            // Determine how many offspring to produce for the species.
+            stats.OffspringCount = stats.TargetSizeInt - stats.EliteSizeInt;
+
+            // Determine the split between asexual and sexual reproduction. Again using probabilistic
+            // rounding to compensate for any rounding bias.
+            double offspringAsexualCountReal = (double)stats.OffspringCount * eaSettings.OffspringAsexualProportion;
+            stats.OffspringAsexualCount = (int)NumericsUtils.ProbabilisticRound(offspringAsexualCountReal, rng);
+            stats.OffspringSexualCount = stats.OffspringCount - stats.OffspringAsexualCount;
+
+            // Calculate the selectionSize. The number of the species' fittest genomes that are selected from 
+            // to create offspring.
+            // We ensure this is at least one; if TargetSizeInt is zero then it doesn't matter because no genomes will be
+            // selected from this species to produce offspring, except for cross-species mating, hence the minimum of one is 
+            // a useful general approach.
+            double selectionSizeReal = species.GenomeList.Count * eaSettings.SelectionProportion;
+            stats.SelectionSizeInt = Math.Max(1, (int)NumericsUtils.ProbabilisticRound(selectionSizeReal, rng));
         }
 
         #endregion
