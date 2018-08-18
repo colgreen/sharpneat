@@ -14,7 +14,7 @@ namespace SharpNeat.EA
     /// i.e. to keep the population size constant.
     /// 
     /// Encapsulating all of these stages of the evolutionary algorithm within a single strategy interface
-    /// allows for plugging-in of alternative high level evolutionary algorithm strategies.
+    /// allows for plugging-in of alternative high level selection and reproduction strategies.
     /// </remarks>
     /// <typeparam name="TGenome"></typeparam>
     public interface ISelectionReproductionStrategy<TGenome>
