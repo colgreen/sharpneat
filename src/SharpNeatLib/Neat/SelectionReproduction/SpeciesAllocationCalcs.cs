@@ -1,26 +1,30 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
+using Redzen.Sorting;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.SelectionReproduction
 {
+    /// <summary>
+    /// Static method(s) for calculating species target size allocations. 
+    /// </summary>
+    /// <typeparam name="T">Connection weight and signal data type.</typeparam>
     public class SpeciesAllocationCalcs<T> where T : struct
     {
         #region Public Static Methods
 
         /// <summary>
         /// Calc species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
+        /// Store the target sizes on each species' stats object.
         /// </summary>
-        public static void CalcSpeciesTargetSizes(NeatPopulation<T> pop, IRandomSource rng)
-        {
-            // Calc mean fitness of all species, and get sum of all species means.
-            double totalMeanFitness = UpdateSpeciesFitnessMeans(pop.SpeciesArray);
-                        
+        public static void CalcAndStoreSpeciesTargetSizes(NeatPopulation<T> pop, IRandomSource rng)
+        {            
             // Calculate the new target size of each species using fitness sharing. 
-            int totalTargetSizeInt = CalcSpeciesTargetSizes(pop, totalMeanFitness, rng);
+            int totalTargetSizeInt = CalcAndStoreSpeciesTargetSizesInner(pop, rng);
 
             // Adjust each species' target allocation such that the sum total matches the required population size.
             AdjustSpeciesTargetSizes(pop, totalTargetSizeInt, rng);
@@ -28,34 +32,17 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         #endregion
 
-        #region Private Static Methods [Initial Allocation]
+        #region Private Static Methods
 
-        /// <summary>
-        /// Calc mean fitness of all species, and return sum of all species means.
-        /// </summary>
-        /// <param name="speciesArr">The array of species.</param>
-        /// <returns>Sum of species mean fitnesses.</returns>
-        private static double UpdateSpeciesFitnessMeans(Species<T>[] speciesArr)
+        private static int CalcAndStoreSpeciesTargetSizesInner(
+            NeatPopulation<T> pop, IRandomSource rng)
         {
-            // Calc mean fitness of all species, and sum of all species means.
-            double totalMeanFitness = 0.0;
-            for(int i=0; i < speciesArr.Length; i++)
-            {
-                var species = speciesArr[i];
-                double meanFitness = species.GenomeList.Average(x => x.FitnessInfo.PrimaryFitness);
-                species.Stats.MeanFitness = meanFitness;
-                totalMeanFitness += meanFitness;
-            }
-            return totalMeanFitness;
-        }
+            double totalMeanFitness = pop.TotalSpeciesMeanFitness;
 
-        private static int CalcSpeciesTargetSizes(
-            NeatPopulation<T> pop, double totalMeanFitness, IRandomSource rng)
-        {
             // Handle specific case where all genomes/species have a zero fitness. 
             // Assign all species an equal targetSize.
             if(0.0 == totalMeanFitness) {
-                return CalcSpeciesTargetSizes_ZeroTotalMeanFitness(pop, rng);
+                return CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
             }
 
             // Calculate the new target size of each species using fitness sharing.
@@ -82,7 +69,7 @@ namespace SharpNeat.Neat.SelectionReproduction
         /// <summary>
         /// Handle specific case where all genomes/species have a zero fitness. 
         /// </summary>
-        private static int CalcSpeciesTargetSizes_ZeroTotalMeanFitness(NeatPopulation<T> pop, IRandomSource rng)
+        private static int CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(NeatPopulation<T> pop, IRandomSource rng)
         {
             // Assign all species an equal targetSize.
             Species<T>[] speciesArr = pop.SpeciesArray;
@@ -111,7 +98,7 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         #endregion
 
-        #region Private Static Methods [Adjust Allocations]
+        #region Private Static Methods [Adjust Target Allocations]
 
         private static void AdjustSpeciesTargetSizes(
             NeatPopulation<T> pop,
@@ -134,6 +121,9 @@ namespace SharpNeat.Neat.SelectionReproduction
                 // Target size is too high; adjust down.
                 AdjustSpeciesTargetSizesDown(pop.SpeciesArray, targetSizeDeltaInt, rng);
             }
+
+            // Ensure a non-zero target size for the species that contains the best genome.
+            AdjustSpeciesTargetSizes_AccommodateBestGenomeSpecies(pop, rng);
 
             // Assert that Sum(TargetSizeInt) == popSize.
             Debug.Assert(pop.SpeciesArray.Sum(x => x.Stats.TargetSizeInt) == popSize);
@@ -188,6 +178,53 @@ namespace SharpNeat.Neat.SelectionReproduction
                 // If we have looped through all species, but the number of target allocations is still too high, 
                 // then go through species loop again. 
                 // This is probably a rare execution path, but it's theoretically possible so we cover it.
+            }
+        }
+
+        private static void AdjustSpeciesTargetSizes_AccommodateBestGenomeSpecies(
+            NeatPopulation<T> pop, IRandomSource rng)
+        {
+            // Test if the best genome is in a species with a zero target size allocation.
+            Species<T>[] speciesArr = pop.SpeciesArray;
+            if(speciesArr[pop.BestGenomeSpeciesIdx].Stats.TargetSizeInt > 0)
+            {
+                // Nothing to do. The best genome is in a species with a non-zero allocation.
+                return;
+            }
+
+            // Set the target size of the best genome species to a allow the best genome to survive to the next generation.
+            speciesArr[pop.BestGenomeSpeciesIdx].Stats.TargetSizeInt++;
+
+            // Adjust down the target size of one of the other species to compensate.
+            // Pick a species at random (but not the champ species). Note that this may result in a species with a zero 
+            // target size, this is OK at this stage. We handle allocations of zero elsewhere.
+
+            // Create an array of shuffled indexes to select from, i.e. all of the species except for the one with the best genome in it.
+            int speciesCount = speciesArr.Length;
+            int[] speciesIdxArr = new int[speciesCount - 1];
+
+            for(int i=0; i < pop.BestGenomeSpeciesIdx; i++) {
+                speciesIdxArr[i] = i;
+            }
+            for(int i = pop.BestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
+                speciesIdxArr[i-1] = i;
+            }
+            SortUtils.Shuffle(speciesIdxArr, rng);
+
+            // Loop the species indexes.
+            bool success = false;
+            foreach(int speciesIdx in speciesIdxArr)
+            {
+                if(speciesArr[speciesIdx].Stats.TargetSizeInt > 0) 
+                {
+                    speciesArr[speciesIdx].Stats.TargetSizeInt--;
+                    success = true;
+                    break;
+                }
+            }
+
+            if(!success) {
+                throw new Exception("All species have a zero target size.");
             }
         }
 

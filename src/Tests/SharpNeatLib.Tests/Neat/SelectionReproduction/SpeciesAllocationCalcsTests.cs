@@ -34,10 +34,11 @@ namespace SharpNeat.Tests.Neat.SelectionReproduction
             speciesArr[1].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(200.0));
             speciesArr[2].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(400.0));
             speciesArr[3].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(800.0));
-            
+
             // Invoke species target size calcs.
             IRandomSource rng = RandomDefaults.CreateRandomSource();
-            SpeciesAllocationCalcs<double>.CalcSpeciesTargetSizes(neatPop, rng);
+            SpeciesStatsCalcs<double>.CalcAndStoreSpeciesStats(neatPop, rng);
+            SpeciesAllocationCalcs<double>.CalcAndStoreSpeciesTargetSizes(neatPop, rng);
 
             // Species target sizes should be relative to the species mean fitness.
             double totalMeanFitness = 1500.0;
