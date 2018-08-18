@@ -49,6 +49,25 @@ namespace SharpNeat.Neat
 
         #endregion
 
+        #region Auto Properties [Population Statistics]
+
+        /// <summary>
+        /// Index of the best genome.
+        /// </summary>
+        public int BestGenomeIdx { get; set; }
+
+        /// <summary>
+        /// Index of the species that the best genome is within.
+        /// </summary>
+        public int BestGenomeSpeciesIdx { get; set; }
+
+        /// <summary>
+        /// Sum of species fitness means.
+        /// </summary>
+        public double TotalSpeciesMeanFitness { get; set; }
+
+        #endregion
+
         #region Constructors
 
         public NeatPopulation(
