@@ -9,39 +9,41 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-namespace SharpNeat.Phenomes
+namespace SharpNeat.BlackBox
 {
     /// <summary>
-    /// Represents an abstract phenome, with input and output vectors, and an activation method.
+    /// Represents an abstract 'black box' function, with and input vector, an Activate() method that takes
+    /// the inputs, and an output vector. I.e. 'black box' here could also be described as a mathematical 
+    /// function.
     /// 
-    /// Typically a phenome will be a neural network, whereby we set the input vector, activate the network, and
-    /// read its output vector. However in principle a phenome could be any kind of information processing system
+    /// Typically a black box will be a neural network, whereby we set the input vector, activate the network, and
+    /// read its output vector. However in principle a black box could be any kind of information processing system
     /// such as a C# program or a genetic programming tree.
     /// </summary>
-    public interface IPhenome<T> where T : struct
+    public interface IBlackBox<T> where T : struct
     {
         /// <summary>
-        /// Gets the number of inputs to the phenome.
+        /// Gets the number of inputs.
         /// </summary>
         int InputCount { get; }
 
         /// <summary>
-        /// Gets the number of outputs from the phenome.
+        /// Gets the number of outputs.
         /// </summary>
         int OutputCount { get; }
 
         /// <summary>
-        /// Gets an array of input values that feed into the phenome. 
+        /// Gets a vector of input values.
         /// </summary>
         IVector<T> InputVector { get; }
 
         /// <summary>
-        /// Gets an array of output values that feed out from the phenome. 
+        /// Gets a vector of output values. 
         /// </summary>
         IVector<T> OutputVector { get; }
 
         /// <summary>
-        /// Activate the phenome. This is a request for the phenome to accept its inputs and produce output signals
+        /// Activate the black box. This causes the black box to accept its inputs and produce output signals
         /// ready for reading from OutputVector.
         /// </summary>
         void Activate();

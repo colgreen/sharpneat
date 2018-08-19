@@ -12,8 +12,8 @@
 using System;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeat.Phenomes;
-using SharpNeat.Phenomes.Double;
+using SharpNeat.BlackBox;
+using SharpNeat.BlackBox.Double;
 
 namespace SharpNeat.NeuralNet.Double
 {
@@ -41,7 +41,7 @@ namespace SharpNeat.NeuralNet.Double
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public class AcyclicNeuralNet : IPhenome<double>
+    public class AcyclicNeuralNet : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -131,7 +131,7 @@ namespace SharpNeat.NeuralNet.Double
 
         #endregion
 
-        #region IPhenome Members
+        #region IBlackBox
 
         /// <summary>
         /// Gets the number of input nodes.

@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-namespace SharpNeat.Phenomes
+namespace SharpNeat.BlackBox
 {
     /// <summary>
     /// A vector of element of type T.

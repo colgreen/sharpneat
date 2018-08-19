@@ -12,8 +12,8 @@
 using System;
 using System.Diagnostics;
 using SharpNeat.Network;
-using SharpNeat.Phenomes;
-using SharpNeat.Phenomes.Double;
+using SharpNeat.BlackBox;
+using SharpNeat.BlackBox.Double;
 
 namespace SharpNeat.NeuralNet.Double
 {
@@ -38,7 +38,7 @@ namespace SharpNeat.NeuralNet.Double
     /// 
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
-    public class CyclicNeuralNet : IPhenome<double>
+    public class CyclicNeuralNet : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -129,7 +129,7 @@ namespace SharpNeat.NeuralNet.Double
 
         #endregion
 
-        #region IPhenome
+        #region IBlackBox
 
         /// <summary>
         /// Gets the number of input nodes.

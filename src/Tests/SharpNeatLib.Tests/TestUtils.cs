@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Phenomes;
+using SharpNeat.BlackBox;
 
 namespace SharpNeat.Tests
 {

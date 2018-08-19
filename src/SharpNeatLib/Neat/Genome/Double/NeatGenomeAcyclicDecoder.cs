@@ -3,11 +3,11 @@ using System.Diagnostics;
 using SharpNeat.Evaluation;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNet.Double;
-using SharpNeat.Phenomes;
+using SharpNeat.BlackBox;
 
 namespace SharpNeat.Neat.Genome.Double
 {
-    public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
+    public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly bool _boundedOutput;
 
@@ -28,7 +28,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// </summary>
         /// <param name="genome">The genome to decode.</param>
         /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
-        public IPhenome<double> Decode(
+        public IBlackBox<double> Decode(
             NeatGenome<double> genome)
         {
             Debug.Assert(genome?.MetaNeatGenome?.IsAcyclic == true);

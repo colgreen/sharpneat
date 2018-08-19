@@ -12,7 +12,7 @@
 using System;
 using System.Diagnostics;
 
-namespace SharpNeat.Phenomes
+namespace SharpNeat.BlackBox
 {
     /// <summary>
     /// Wraps a native array along with an indirection/mapping array.

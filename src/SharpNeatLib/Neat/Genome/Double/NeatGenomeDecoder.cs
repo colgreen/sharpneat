@@ -4,11 +4,11 @@ using Redzen.Sorting;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
 using SharpNeat.NeuralNet.Double;
-using SharpNeat.Phenomes;
+using SharpNeat.BlackBox;
 
 namespace SharpNeat.Neat.Genome.Double
 {
-    public class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IPhenome<double>>
+    public class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly int _activationCount;
         readonly bool _boundedOutput;
@@ -36,7 +36,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// Decode a genome into a working neural network.
         /// </summary>
         /// <param name="genome">The genome to decode.</param>
-        public IPhenome<double> Decode(
+        public IBlackBox<double> Decode(
             NeatGenome<double> genome)
         {
             // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but standard sharpneat behaviour is not to support this.

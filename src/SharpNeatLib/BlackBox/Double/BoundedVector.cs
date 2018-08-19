@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.Phenomes.Double
+namespace SharpNeat.BlackBox.Double
 {
     public class BoundedVector : IVector<double>
     {

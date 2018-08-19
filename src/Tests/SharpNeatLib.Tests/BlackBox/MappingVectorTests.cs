@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Phenomes;
+using SharpNeat.BlackBox;
 using static SharpNeat.Tests.TestUtils;
 
-namespace SharpNeat.Tests.Phenomes
+namespace SharpNeat.Tests.BlackBox
 {
     [TestClass]
     public class MappingVectorTests

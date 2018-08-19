@@ -7,7 +7,7 @@ using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Speciation.GeneticKMeans;
-using SharpNeat.Phenomes;
+using SharpNeat.BlackBox;
 using SharpNeatTasks.BinaryElevenMultiplexer;
 
 namespace TestApp1
@@ -77,7 +77,7 @@ namespace TestApp1
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
             var phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IPhenome<double>>(genomeDecoder, phenomeEvaluator);
+            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
         }
 

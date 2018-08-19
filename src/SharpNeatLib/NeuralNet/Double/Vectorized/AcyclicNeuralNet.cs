@@ -13,8 +13,8 @@ using System;
 using System.Numerics;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
-using SharpNeat.Phenomes;
-using SharpNeat.Phenomes.Double;
+using SharpNeat.BlackBox;
+using SharpNeat.BlackBox.Double;
 
 namespace SharpNeat.NeuralNet.Double.Vectorized
 {
@@ -22,7 +22,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
     /// A version of SharpNeat.NeuralNets.Double.AcyclicNeuralNet that utilises some Vector operations
     /// for improved performance on hardware platforms that support them.
     /// </summary>
-    public class AcyclicNeuralNet : IPhenome<double>
+    public class AcyclicNeuralNet : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -103,7 +103,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
 
         #endregion
 
-        #region IPhenome Members
+        #region IBlackBox
 
         /// <summary>
         /// Gets the number of input nodes.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using SharpNeat.Evaluation;
-using SharpNeat.Phenomes;
+using SharpNeat.BlackBox;
 
 namespace SharpNeatTasks.BinaryElevenMultiplexer
 {
@@ -11,21 +11,21 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
     /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
     /// input signal (0 or 1).
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IPhenome<double>>
+    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         #region Public Methods
 
         /// <summary>
-        /// Evaluate the provided IPhenome against the Binary 6-Multiplexer problem domain and return
+        /// Evaluate the provided IBlackBox against the Binary 6-Multiplexer problem domain and return
         /// its fitness score.
         /// </summary>
-        public FitnessInfo Evaluate(IPhenome<double> phenome)
+        public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             double fitness = 0.0;
             bool success = true;
             double output;
-            IVector<double> inputArr = phenome.InputVector;
-            IVector<double> outputArr = phenome.OutputVector;
+            IVector<double> inputArr = box.InputVector;
+            IVector<double> outputArr = box.OutputVector;
             
             // 2048 test cases.
             for(int i=0; i < 2048; i++)
@@ -44,8 +44,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                     tmp >>= 1;
                 }
                                 
-                // Activate the phenome.
-                phenome.Activate();
+                // Activate the black box.
+                box.Activate();
 
                 // Read output signal.
                 output = outputArr[0];
@@ -74,8 +74,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                     }
                 }
 
-                // Reset phenome state ready for next test case.
-                phenome.ResetState();
+                // Reset black box ready for next test case.
+                box.ResetState();
             }
 
             // If the correct answer was given in each case then add a bonus value to the fitness.

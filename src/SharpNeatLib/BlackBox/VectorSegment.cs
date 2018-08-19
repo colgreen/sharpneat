@@ -12,19 +12,19 @@
 using System;
 using System.Diagnostics;
 
-namespace SharpNeat.Phenomes
+namespace SharpNeat.BlackBox
 {
     /// <summary>
     /// Wraps a native array along with an offset into that array. The resulting VectorSegment
     /// provides offset indexed access to the underlying native array.
     /// 
     /// VectorSegment minimizes the amount of value copying required when setting input signal values to, and
-    /// reading output values from an IPhenome. E.g. CyclicNeuralNet requires all input, output and 
+    /// reading output values from an IBlackBox. E.g. CyclicNeuralNet requires all input, output and 
     /// hidden node activation values to be stored in a single array. This class allows us to handle direct 
     /// access to the input and output values through their own VectorSegment, thus we can set individual values
     /// in the underlying native array directly without having knowledge of that array's structure. An alternative
     /// would be to pass arrays to SetInputs() and SetOutput() methods, requiring us to copy the complete contents
-    /// of the arrays into the IPhenome's working array on each call.
+    /// of the arrays into the IBlackBox's working array on each call.
     /// 
     /// This class is effectively a substitute for array pointer manipulation as is possible in C++, e.g. in
     /// C++ you might do something like:
