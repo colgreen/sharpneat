@@ -14,7 +14,7 @@ namespace SharpNeat.Evaluation
         /// </summary>
         /// <remarks>
         /// Typically there is a single fitness score whereby a higher score is better, however if there are multiple fitness scores
-        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
+        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo, i.e. to be able to 
         /// determine which is the better FitenssInfo between any two.
         /// </remarks>
         IComparer<FitnessInfo> FitnessComparer { get; }

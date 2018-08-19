@@ -225,7 +225,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 
                 if(IsUpdateDue())
                 {
-                    _prevUpdateGeneration = _ea.EAStats.Generation;
+                    _prevUpdateGeneration = _ea.Stats.Generation;
                     _prevUpdateTimeTick = DateTime.UtcNow.Ticks;
                     OnUpdateEvent();
                 }
@@ -233,7 +233,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                 // Check if a pause has been requested. 
                 // Note. Access to the flag is not thread synchronized, but it doesn't really matter if
                 // we miss it being set and perform one other generation before pausing.
-                if(_pauseRequestFlag || _ea.EAStats.StopConditionSatisfied)
+                if(_pauseRequestFlag || _ea.Stats.StopConditionSatisfied)
                 {
                     // Signal to any waiting thread that we are pausing
                     _awaitPauseEvent.Set();
@@ -264,7 +264,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// </summary>
         private bool IsUpdateDue()
         {
-            return ((UpdateMode.Generational == _updateScheme.UpdateMode) && ((_ea.EAStats.Generation - _prevUpdateGeneration) >= _updateScheme.Generations))
+            return ((UpdateMode.Generational == _updateScheme.UpdateMode) && ((_ea.Stats.Generation - _prevUpdateGeneration) >= _updateScheme.Generations))
                 || ((UpdateMode.Timespan == _updateScheme.UpdateMode) && ((DateTime.UtcNow.Ticks - _prevUpdateTimeTick) >= _updateScheme.TimeSpan.Ticks));
         }
 

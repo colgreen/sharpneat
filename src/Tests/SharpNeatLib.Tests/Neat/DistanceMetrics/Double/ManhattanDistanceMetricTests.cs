@@ -23,8 +23,8 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new ManhattanDistanceMetric();
 
             // GetDistance() tests.
-            Assert.AreEqual(7.0, distanceMetric.GetDistance(connGenes1, connGenes2));
-            Assert.AreEqual(7.0, distanceMetric.GetDistance(connGenes2, connGenes1));
+            Assert.AreEqual(7.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.AreEqual(7.0, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
             Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 7.01));
@@ -59,8 +59,8 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new ManhattanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(0.0, distanceMetric.GetDistance(connGenes1, connGenes2));
-            Assert.AreEqual(0.0, distanceMetric.GetDistance(connGenes2, connGenes1));
+            Assert.AreEqual(0.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.AreEqual(0.0, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
             Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 1.0));
@@ -93,8 +93,8 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new ManhattanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(20, distanceMetric.GetDistance(connGenes1, connGenes2));
-            Assert.AreEqual(20, distanceMetric.GetDistance(connGenes2, connGenes1));
+            Assert.AreEqual(20, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.AreEqual(20, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
             Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 20 + 0.001));
@@ -122,8 +122,8 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new ManhattanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(30, distanceMetric.GetDistance(connGenes1, connGenes2));
-            Assert.AreEqual(30, distanceMetric.GetDistance(connGenes2, connGenes1));
+            Assert.AreEqual(30, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.AreEqual(30, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
             Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 30 + 0.001));
@@ -147,8 +147,8 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new ManhattanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(25, distanceMetric.GetDistance(connGenes1, connGenes2));
-            Assert.AreEqual(25, distanceMetric.GetDistance(connGenes2, connGenes1));
+            Assert.AreEqual(25, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.AreEqual(25, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
             Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 25 + 0.001));

@@ -10,10 +10,12 @@ namespace SharpNeat.Evaluation
         where TPhenome : class
     {
         /// <summary>
-        /// Decodes a genome into a phenome. Note that not all genomes have to decode successfully. That is, we 
-        /// support genetic representations that may produce non-viable offspring. In such cases this method
-        /// can return a null.
+        /// Decodes a genome into a phenome.
         /// </summary>
+        /// <remarks>
+        /// Note that not all genomes have to decode successfully. That is, we support genetic representations
+        /// that may produce non-viable offspring. In such cases this method can return a null.
+        /// </remarks>
         TPhenome Decode(TGenome genome);
     }
 }

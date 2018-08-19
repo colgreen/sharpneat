@@ -11,9 +11,9 @@ namespace SharpNeat.Neat.DistanceMetrics
         where T : struct
     {
         /// <summary>
-        /// Gets the distance between two positions.
+        /// Calculates the distance between two positions.
         /// </summary>
-        double GetDistance(ConnectionGenes<T> p1, ConnectionGenes<T> p2);
+        double CalcDistance(ConnectionGenes<T> p1, ConnectionGenes<T> p2);
 
         /// <summary>
         /// Tests if the distance between the two positions is greater than some threshold.

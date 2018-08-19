@@ -7,6 +7,9 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// Static utility methods related to connection genes.
+    /// </summary>
     public static class ConnectionGenesUtils
     {
         #region Public Static Methods

@@ -13,12 +13,12 @@ namespace SharpNeat.BlackBox
 {
     /// <summary>
     /// Represents an abstract 'black box' function, with and input vector, an Activate() method that takes
-    /// the inputs, and an output vector. I.e. 'black box' here could also be described as a mathematical 
-    /// function.
+    /// the inputs to produce an output vector. I.e. 'black box' here could also be described as a multivariate 
+    /// mathematical function.
     /// 
     /// Typically a black box will be a neural network, whereby we set the input vector, activate the network, and
-    /// read its output vector. However in principle a black box could be any kind of information processing system
-    /// such as a C# program or a genetic programming tree.
+    /// read its output vector. However, in principle a black box could be any kind of function or information processing 
+    /// system such as a C# program or a genetic programming tree.
     /// </summary>
     public interface IBlackBox<T> where T : struct
     {

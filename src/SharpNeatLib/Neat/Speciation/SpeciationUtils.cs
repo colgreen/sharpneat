@@ -22,11 +22,11 @@ namespace SharpNeat.Neat.Speciation
         where T : struct
         {
             int nearestSpeciesIdx = 0;
-            double nearestDistance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
+            double nearestDistance = distanceMetric.CalcDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
 
             for(int i=1; i < speciesArr.Length; i++)
             {
-                double distance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
+                double distance = distanceMetric.CalcDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
                 if(distance < nearestDistance)
                 {
                     nearestSpeciesIdx = i;
@@ -68,7 +68,7 @@ namespace SharpNeat.Neat.Speciation
             Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
 
             // Get the genome furthest from the species centroid.
-            var genome = species.GenomeById.Values.Aggregate((x, y) => distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
+            var genome = species.GenomeById.Values.Aggregate((x, y) => distanceMetric.CalcDistance(species.Centroid, x.ConnectionGenes) > distanceMetric.CalcDistance(species.Centroid, y.ConnectionGenes) ? x : y);
 
             // Remove the genome from its current species.
             species.GenomeById.Remove(genome.Id);

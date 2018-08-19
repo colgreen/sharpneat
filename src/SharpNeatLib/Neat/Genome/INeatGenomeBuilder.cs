@@ -8,7 +8,7 @@ using SharpNeat.Network.Acyclic;
 namespace SharpNeat.Neat.Genome
 {
     /// <summary>
-    /// For creating new instances of NeatGenome.
+    /// For creating new instances of <see cref="NeatGenome{T}"/>.
     /// </summary>
     /// <typeparam name="T">Connection weight type.</typeparam>
     public interface INeatGenomeBuilder<T> 

@@ -2,7 +2,10 @@
 
 namespace SharpNeat.EvolutionAlgorithm
 {
-    public class EAStatistics
+    /// <summary>
+    /// Conveys statistics related to an <see cref="IEvolutionAlgorithm"/>.
+    /// </summary>
+    public class EvolutionAlgorithmStatistics
     {
         /// <summary>
         /// The current generation number.

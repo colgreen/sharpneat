@@ -134,11 +134,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         private double GetDistanceFromNearestSeed(List<NeatGenome<T>> seedGenomeList, NeatGenome<T> genome)
         {
-            double minDistance = _distanceMetric.GetDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
+            double minDistance = _distanceMetric.CalcDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
 
             for(int i=1; i < seedGenomeList.Count; i++) 
             {
-                double distance = _distanceMetric.GetDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
+                double distance = _distanceMetric.CalcDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
                 distance = Math.Min(minDistance, distance);
             }
             return minDistance;

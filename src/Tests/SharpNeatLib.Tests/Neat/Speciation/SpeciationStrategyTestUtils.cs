@@ -109,7 +109,7 @@ namespace SharpNeat.Tests.Neat.Speciation
             fullGenomeList.ForEach(x => Assert.IsTrue(idSet.Contains(x.Id)));
 
             // Confirm all species centroids are correct.
-            Array.ForEach(speciesArr, x => Assert.AreEqual(0.0, distanceMetric.GetDistance(x.Centroid, distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)))));
+            Array.ForEach(speciesArr, x => Assert.AreEqual(0.0, distanceMetric.CalcDistance(x.Centroid, distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)))));
 
             if(validateNearestSpecies)
             {
@@ -158,11 +158,11 @@ namespace SharpNeat.Tests.Neat.Speciation
         {
             var nearestSpeciesList = new List<Species<T>>(4);
             nearestSpeciesList.Add(speciesArr[0]);
-            double nearestDistance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
+            double nearestDistance = distanceMetric.CalcDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
 
             for(int i=1; i < speciesArr.Length; i++)
             {
-                double distance = distanceMetric.GetDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
+                double distance = distanceMetric.CalcDistance(genome.ConnectionGenes, speciesArr[i].Centroid);
                 if(distance < nearestDistance)
                 {
                     nearestSpeciesList.Clear();

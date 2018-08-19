@@ -7,6 +7,10 @@ using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// Represents a NEAT genome, i.e the genetic representation of a neural network.
+    /// </summary>
+    /// <typeparam name="T">Connection weight and signal data type.</typeparam>
     public class NeatGenome<T> : IGenome
         where T : struct
     {

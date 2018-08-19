@@ -6,7 +6,7 @@ namespace SharpNeat.EvolutionAlgorithm
         /// <summary>
         /// Gets evolutionary algorithm statistics.
         /// </summary>
-        EAStatistics EAStats { get; }
+        EvolutionAlgorithmStatistics Stats { get; }
 
         /// <summary>
         /// Initialise the evolutionary algorithm.

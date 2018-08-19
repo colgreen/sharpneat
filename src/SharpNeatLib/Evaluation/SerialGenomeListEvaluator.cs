@@ -4,12 +4,13 @@ using SharpNeat.EvolutionAlgorithm;
 namespace SharpNeat.Evaluation
 {
     /// <summary>
-    /// An implementation of <see cref="IGenomeListEvaluator{TGenome}"/> that evaluates genomes in series on a single CPU thread,
-    /// this can be useful in various scenarios e.g. when debugging code.
+    /// An implementation of <see cref="IGenomeListEvaluator{TGenome}"/> that evaluates genomes in series on a single CPU thread.
     /// </summary>
     /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
     /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
     /// <remarks>
+    /// Single threaded evaluation can be useful in various scenarios e.g. when debugging.
+    /// 
     /// Genome decoding is performed by a provided IGenomeDecoder.
     /// Phenome evaluation is performed by a provided IPhenomeEvaluator.
     /// </remarks>

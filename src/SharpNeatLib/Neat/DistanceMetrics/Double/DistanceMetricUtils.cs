@@ -5,6 +5,9 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double
 {
+    /// <summary>
+    /// Static utility methods related to genetic distance metrics.
+    /// </summary>
     public static class DistanceMetricUtils
     {
         #region Public Static Methods
@@ -147,12 +150,12 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
             // Measure distance to all coords before the target one.
             for(int i=0; i < idx; i++) {
-                totalDistance += distanceMetric.GetDistance(targetCoord, coordList[i]);
+                totalDistance += distanceMetric.CalcDistance(targetCoord, coordList[i]);
             }
 
             // Measure distance to all coords after the target one.
             for(int i = idx+1; i < count; i++) {
-                totalDistance += distanceMetric.GetDistance(targetCoord, coordList[i]);
+                totalDistance += distanceMetric.CalcDistance(targetCoord, coordList[i]);
             }
 
             return totalDistance / (count-1);

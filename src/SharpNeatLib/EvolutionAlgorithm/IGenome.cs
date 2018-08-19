@@ -3,6 +3,9 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.EvolutionAlgorithm
 {
+    /// <summary>
+    /// Represents some universal properties of a genome in SharpNEAT.
+    /// </summary>
     public interface IGenome
     {
         /// <summary>

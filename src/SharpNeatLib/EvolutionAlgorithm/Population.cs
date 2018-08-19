@@ -4,6 +4,10 @@ using Redzen.Structures;
 
 namespace SharpNeat.EvolutionAlgorithm
 {
+    /// <summary>
+    /// A population of genomes.
+    /// </summary>
+    /// <typeparam name="TGenome">Genome type.</typeparam>
     public class Population<TGenome>    
     {
         #region Auto Properties

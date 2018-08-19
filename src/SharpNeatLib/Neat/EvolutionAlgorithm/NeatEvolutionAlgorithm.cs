@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatPopulation<T> _pop;
         readonly IRandomSource _rng;
 
-        EAStatistics _eaStats = new EAStatistics();
+        EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
         ComplexityRegulationMode _complexityRegulationMode = ComplexityRegulationMode.Complexifying;
 
         #endregion
@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #region Properties
 
-        public EAStatistics EAStats => _eaStats;
+        public EvolutionAlgorithmStatistics Stats => _eaStats;
 
         /// <summary>
         /// Gets or sets the complexity regulation mode.

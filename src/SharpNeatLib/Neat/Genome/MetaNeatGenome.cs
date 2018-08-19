@@ -61,7 +61,9 @@ namespace SharpNeat.Neat.Genome
 
         #region Constructor
 
-        public MetaNeatGenome(int inputNodeCount, int outputNodeCount, bool isAcyclic, IActivationFunction<T> activationFn)
+        public MetaNeatGenome(
+            int inputNodeCount, int outputNodeCount, bool isAcyclic,
+            IActivationFunction<T> activationFn)
         {
             this.InputNodeCount = inputNodeCount;
             this.OutputNodeCount = outputNodeCount;

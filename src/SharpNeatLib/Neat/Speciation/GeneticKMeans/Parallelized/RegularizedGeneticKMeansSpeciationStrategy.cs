@@ -301,7 +301,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             double populationCount,
             double maxIntraSpeciesDistance)
         {
-            double distance = _distanceMetric.GetDistance(genome.ConnectionGenes, species.Centroid);
+            double distance = _distanceMetric.CalcDistance(genome.ConnectionGenes, species.Centroid);
 
             // Calc regularization term.
             double clusterCount = species.GenomeById.Count;
@@ -410,7 +410,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
                 for(int j = i+1; j < speciesArr.Length; j++)
                 {
-                    double distance = _distanceMetric.GetDistance(species.Centroid, speciesArr[j].Centroid);
+                    double distance = _distanceMetric.CalcDistance(species.Centroid, speciesArr[j].Centroid);
                     maxDistance = Math.Max(maxDistance, distance);
                 }
             });

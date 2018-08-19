@@ -81,9 +81,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         #region IDistanceMetric Members
 
         /// <summary>
-        /// Gets the distance between two positions.
+        /// Calculates the distance between two positions.
         /// </summary>
-        public double GetDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
+        public double CalcDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
         {
             DirectedConnection[] connArr1 = p1._connArr;
             DirectedConnection[] connArr2 = p2._connArr;

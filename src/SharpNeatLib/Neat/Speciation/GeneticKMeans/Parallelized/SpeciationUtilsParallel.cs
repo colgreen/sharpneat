@@ -41,7 +41,7 @@ namespace SharpNeat.Neat.Speciation.Parallelized
             Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
 
             // Get the genome furthest from the species centroid.
-            var genome = species.GenomeById.Values.AsParallel().Aggregate((x, y) => distanceMetric.GetDistance(species.Centroid, x.ConnectionGenes) > distanceMetric.GetDistance(species.Centroid, y.ConnectionGenes) ? x : y);
+            var genome = species.GenomeById.Values.AsParallel().Aggregate((x, y) => distanceMetric.CalcDistance(species.Centroid, x.ConnectionGenes) > distanceMetric.CalcDistance(species.Centroid, y.ConnectionGenes) ? x : y);
 
             // Remove the genome from its current species.
             species.GenomeById.Remove(genome.Id);
