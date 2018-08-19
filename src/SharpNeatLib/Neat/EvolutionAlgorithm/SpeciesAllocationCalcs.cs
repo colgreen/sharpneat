@@ -5,7 +5,7 @@ using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Sorting;
-using SharpNeat.EA;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm

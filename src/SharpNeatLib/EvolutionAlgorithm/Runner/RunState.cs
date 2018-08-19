@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.EA.Runner
+namespace SharpNeat.EvolutionAlgorithm.Runner
 {
     /// <summary>
     /// An enumeration of possible execution states for an IEvolutionAlgorithm.

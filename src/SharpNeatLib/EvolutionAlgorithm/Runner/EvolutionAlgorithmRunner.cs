@@ -2,7 +2,7 @@
 using System.Threading;
 using log4net;
 
-namespace SharpNeat.EA.Runner
+namespace SharpNeat.EvolutionAlgorithm.Runner
 {
     /// <summary>
     /// Wraps a background thread for running an <see cref="IEvolutionAlgorithm"/>, and methods for asynchronous

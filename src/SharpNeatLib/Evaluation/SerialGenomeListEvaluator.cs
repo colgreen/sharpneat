@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.EA;
+using SharpNeat.EvolutionAlgorithm;
 
 namespace SharpNeat.Evaluation
 {

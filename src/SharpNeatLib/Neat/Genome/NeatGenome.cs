@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using SharpNeat.EA;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Evaluation;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;

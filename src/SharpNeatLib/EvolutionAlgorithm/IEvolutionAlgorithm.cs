@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.EA
+namespace SharpNeat.EvolutionAlgorithm
 {
     public interface IEvolutionAlgorithm
     {

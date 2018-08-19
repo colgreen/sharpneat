@@ -1,5 +1,5 @@
 ﻿
-namespace SharpNeat.EA.Runner
+namespace SharpNeat.EvolutionAlgorithm.Runner
 {
     /// <summary>
     /// An enumeration of update schemes, e.g. Fire an update event the per some time duration or some number of generations.

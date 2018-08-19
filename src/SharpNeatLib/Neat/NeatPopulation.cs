@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Redzen.Structures;
-using SharpNeat.EA;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 using static SharpNeat.Neat.NeatPopulationUtils;

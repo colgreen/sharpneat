@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Redzen.Random;
-using SharpNeat.EA;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm

@@ -1,6 +1,6 @@
 ﻿using SharpNeat.Evaluation;
 
-namespace SharpNeat.EA
+namespace SharpNeat.EvolutionAlgorithm
 {
     public class EAStatistics
     {

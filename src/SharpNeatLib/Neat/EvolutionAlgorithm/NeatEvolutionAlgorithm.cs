@@ -1,7 +1,7 @@
 ﻿using System;
 using Redzen.Random;
 using Redzen.Sorting;
-using SharpNeat.EA;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;

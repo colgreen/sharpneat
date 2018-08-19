@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Redzen.Structures;
 
-namespace SharpNeat.EA
+namespace SharpNeat.EvolutionAlgorithm
 {
     public class Population<TGenome>    
     {

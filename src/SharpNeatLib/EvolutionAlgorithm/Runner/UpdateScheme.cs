@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpNeat.EA.Runner
+namespace SharpNeat.EvolutionAlgorithm.Runner
 {
     /// <summary>
     /// Represents an update scheme for an IEvolutionAlgorithm. e.g. update per some time duration or 

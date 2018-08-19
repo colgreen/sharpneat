@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SharpNeat.EA;
-using SharpNeat.EA.Runner;
+using SharpNeat.EvolutionAlgorithm;
+using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
@@ -17,7 +17,7 @@ namespace TestApp1
         static void Main(string[] args)
         {
             // Create and initialise the evolutionary algorithm.
-            EAFactory factory = new EAFactory();
+            EvolutionAlgorithmFactory factory = new EvolutionAlgorithmFactory();
             NeatEvolutionAlgorithm<double> ea = factory.CreateNeatEvolutionAlgorithm();
             ea.Initialise();
 

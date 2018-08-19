@@ -1,6 +1,6 @@
 ﻿using Redzen.Random;
-using SharpNeat.EA;
 using SharpNeat.Evaluation;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
@@ -12,7 +12,7 @@ using SharpNeatTasks.BinaryElevenMultiplexer;
 
 namespace TestApp1
 {
-    public class EAFactory
+    public class EvolutionAlgorithmFactory
     {
         NeatEvolutionAlgorithmSettings _eaSettings;
         MetaNeatGenome<double> _metaNeatGenome;
