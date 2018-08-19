@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpNeat.Neat.Genome;
 
-namespace SharpNeat.Neat.SelectionReproduction
+namespace SharpNeat.Neat.EvolutionAlgorithm
 {
     /// <summary>
     /// Sort genomes, highest fitness first, then secondary sorted by age (youngest first).

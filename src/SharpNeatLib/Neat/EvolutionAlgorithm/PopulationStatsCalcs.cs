@@ -4,7 +4,7 @@ using System.Text;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeat.Neat.SelectionReproduction
+namespace SharpNeat.Neat.EvolutionAlgorithm
 {
     /// <summary>
     /// Static method(s) for calculating population stats. 

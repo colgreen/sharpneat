@@ -6,7 +6,7 @@ using Redzen.Random;
 using SharpNeat.EA;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeat.Neat.SelectionReproduction
+namespace SharpNeat.Neat.EvolutionAlgorithm
 {
     /// <summary>
     /// Static method(s) for calculating species statistics. 
@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         public static void CalcAndStoreSpeciesStats(
             NeatPopulation<T> pop,
-            EvolutionAlgorithmSettings eaSettings,
+            NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
         {
             // Calc and store the mean fitness of each species.

@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
-using SharpNeat.EA;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.SelectionReproduction;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeat.Tests.Neat.SelectionReproduction
+namespace SharpNeat.Tests.Neat.EvolutionAlgorithm
 {
     [TestClass]
     public class SpeciesAllocationCalcsTests
@@ -19,7 +18,7 @@ namespace SharpNeat.Tests.Neat.SelectionReproduction
         [TestCategory("SelectionReproduction")]
         public void TestSpeciesAllocation()
         {
-            EvolutionAlgorithmSettings eaSettings = new EvolutionAlgorithmSettings() {
+            NeatEvolutionAlgorithmSettings eaSettings = new NeatEvolutionAlgorithmSettings() {
                 SpeciesCount = 4
             };
 

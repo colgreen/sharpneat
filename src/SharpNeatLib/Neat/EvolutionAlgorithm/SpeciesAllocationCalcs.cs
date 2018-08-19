@@ -8,7 +8,7 @@ using Redzen.Sorting;
 using SharpNeat.EA;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeat.Neat.SelectionReproduction
+namespace SharpNeat.Neat.EvolutionAlgorithm
 {
     /// <summary>
     /// Static method(s) for calculating species target size allocations. 
@@ -24,7 +24,7 @@ namespace SharpNeat.Neat.SelectionReproduction
         /// </summary>
         public static void CalcAndStoreSpeciesAllocationSizes(
             NeatPopulation<T> pop,
-            EvolutionAlgorithmSettings eaSettings,
+            NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
         {            
             // Calculate the new target size of each species using fitness sharing. 
@@ -248,7 +248,7 @@ namespace SharpNeat.Neat.SelectionReproduction
         /// <param name="rng"></param>
         private static void CalculateAndStoreEliteSelectionOffspringCounts(
             NeatPopulation<T> pop,
-            EvolutionAlgorithmSettings eaSettings,
+            NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
         {
             Species<T>[] speciesArr = pop.SpeciesArray;
@@ -266,7 +266,7 @@ namespace SharpNeat.Neat.SelectionReproduction
 
         private static void AllocateEliteSelectionOffspringCounts(
             Species<T> species,
-            EvolutionAlgorithmSettings eaSettings,
+            NeatEvolutionAlgorithmSettings eaSettings,
             bool isBestGenomeSpecies,
             IRandomSource rng)
         {

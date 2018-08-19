@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpNeat.EA
+namespace SharpNeat.Neat.EvolutionAlgorithm
 {
-    public class EvolutionAlgorithmSettings
+    public class NeatEvolutionAlgorithmSettings
     {
         #region Auto Properties
 

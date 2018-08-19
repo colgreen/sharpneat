@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SharpNeat.EA;
 using SharpNeat.EA.Runner;
 using SharpNeat.Neat;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 
@@ -17,7 +18,7 @@ namespace TestApp1
         {
             // Create and initialise the evolutionary algorithm.
             EAFactory factory = new EAFactory();
-            DefaultEvolutionAlgorithm<NeatGenome<double>> ea = factory.CreateDefaultEvolutionAlgorithm();
+            NeatEvolutionAlgorithm<double> ea = factory.CreateNeatEvolutionAlgorithm();
             ea.Initialise();
 
             //EvolutionAlgorithmRunner runner = new EvolutionAlgorithmRunner(ea);
