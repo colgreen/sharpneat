@@ -55,6 +55,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
             return new ResetWeightMutationStrategy<T>(selectionStrategy, dist);
         }
 
+        // TODO: Consider Laplacian distribution.
         public static ResetWeightMutationStrategy<T> CreateGaussianResetStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             double stdDev,

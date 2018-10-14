@@ -49,6 +49,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
             return new DeltaWeightMutationStrategy(selectionStrategy, dist);
         }
 
+        // TODO: Consider Laplacian distribution.
         public static DeltaWeightMutationStrategy CreateGaussianDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             double stdDev,
