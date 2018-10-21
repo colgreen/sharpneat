@@ -20,6 +20,7 @@ namespace SharpNeat.BlackBox
     /// read its output vector. However, in principle a black box could be any kind of function or information processing 
     /// system such as a C# program or a genetic programming tree.
     /// </summary>
+    /// <typeparam name="T">Black box numeric data type.</typeparam>
     public interface IBlackBox<T> where T : struct
     {
         /// <summary>

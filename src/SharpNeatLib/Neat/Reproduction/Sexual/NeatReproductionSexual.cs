@@ -9,6 +9,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
     /// <summary>
     /// Creation of offspring given two parents (sexual reproduction).
     /// </summary>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class NeatReproductionSexual<T> where T : struct
     {
         readonly NeatReproductionSexualSettings _settings;

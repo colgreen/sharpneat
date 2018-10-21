@@ -12,7 +12,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// <summary>
     /// Add acyclic connection, asexual reproduction strategy.
     /// </summary>
-    /// <typeparam name="T">Connection weight type.</typeparam>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class AddAcyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {

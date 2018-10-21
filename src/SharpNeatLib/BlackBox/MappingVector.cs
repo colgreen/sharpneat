@@ -17,6 +17,7 @@ namespace SharpNeat.BlackBox
     /// <summary>
     /// Wraps a native array along with an indirection/mapping array.
     /// </summary>
+    /// <typeparam name="T">Vector data type.</typeparam>
     public class MappingVector<T> : IVector<T> where T : struct
     {
         readonly T[] _innerArr;

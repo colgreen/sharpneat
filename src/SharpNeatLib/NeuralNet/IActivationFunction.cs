@@ -34,6 +34,7 @@ namespace SharpNeat.NeuralNet
     /// <summary>
     /// Neural net node activation function.
     /// </summary>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public interface IActivationFunction<T> where T : struct
     {
         /// <summary>

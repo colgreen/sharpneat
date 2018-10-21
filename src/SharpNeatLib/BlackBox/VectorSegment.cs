@@ -38,6 +38,7 @@ namespace SharpNeat.BlackBox
     /// such out-of-bounds accesses, accept when running with a debugger attached in which case assertions will
     /// make these tests.
     /// </summary>
+    /// <typeparam name="T">Vector data type.</typeparam>
     public class VectorSegment<T> : IVector<T> where T : struct
     {
         readonly T[] _innerArr;

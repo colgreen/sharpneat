@@ -9,12 +9,12 @@ namespace SharpNeat.Neat.Genome.IO
     /// <summary>
     /// For saving/serializing a population of <see cref="NeatGenome{double}"/> instances to the local filesystem.
     /// </summary>
-    /// <typeparam name="T">Connection weight type.</typeparam>
     /// <remarks>
     /// A population is a collection of genomes. The genomes are each serialized individually, as when saving a single genome. 
     /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single 
     /// zip archive file.
     /// </remarks>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public static class NeatPopulationSaver<T> where T : struct
     {
         #region Public Static Methods

@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Speciation
     /// Represents a NEAT species.
     /// In NEAT all genomes are within a species.
     /// </summary>
-    /// <typeparam name="T">Genome weight type.</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class Species<T> where T : struct
     {
         #region Auto Properties

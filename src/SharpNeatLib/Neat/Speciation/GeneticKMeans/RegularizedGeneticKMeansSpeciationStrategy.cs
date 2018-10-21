@@ -52,7 +52,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
     /// At time of writing this class is experimental and has not been scientifically examined for suitability or 
     /// efficacy in particular in comparison to the standard k-means method.
     /// </remarks>
-    /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
         where T : struct
     {

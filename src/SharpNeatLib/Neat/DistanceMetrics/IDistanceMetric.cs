@@ -7,6 +7,7 @@ namespace SharpNeat.Neat.DistanceMetrics
     /// Represents a metric for measuring the distance between two genome positions in an encoding space, and thus,
     /// in principle, the compatibility of the two genomes with respect to the probability of creating fit offspring.
     /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public interface IDistanceMetric<T>
         where T : struct
     {

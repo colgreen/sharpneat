@@ -29,6 +29,7 @@ namespace SharpNeat.Network
     /// located using a binary search. However to improve efficiency further an array of lookup indexes is compiled
     /// which gives the starting index of a connection span/segment for a given source node index.
     /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class WeightedDirectedGraph<T> : DirectedGraph 
         where T : struct
     {

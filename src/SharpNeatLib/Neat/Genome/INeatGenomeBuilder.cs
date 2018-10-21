@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Genome
     /// <summary>
     /// For creating new instances of <see cref="NeatGenome{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Connection weight type.</typeparam>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public interface INeatGenomeBuilder<T> 
         where T : struct
     {

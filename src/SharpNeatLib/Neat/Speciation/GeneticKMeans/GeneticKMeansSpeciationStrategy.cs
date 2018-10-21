@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
     /// <remarks>
     /// This is the speciation scheme used in SharpNEAT 2.x.
     /// </remarks>
-    /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
         where T : struct
     {

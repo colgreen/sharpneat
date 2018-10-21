@@ -9,6 +9,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     /// Sort genomes, highest fitness first, then secondary sorted by age (youngest first).
     /// This sort order is used by the selection routines to select the fittest and youngest genomes.
     /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class GenomeFitnessAndAgeComparer<T> : IComparer<NeatGenome<T>>
         where T : struct
     {

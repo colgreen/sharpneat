@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// Multi-threading is achieved using the .NET framework's Parallel classes, and thus by default will adjust to utilise
     /// however many CPU cores are available.
     /// </remarks>
-    /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>,T>
         where T : struct
     {

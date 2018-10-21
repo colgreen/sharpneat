@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     /// <summary>
     /// Static method(s) for calculating species statistics. 
     /// </summary>
-    /// <typeparam name="T">Connection weight and signal data type.</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public static class SpeciesStatsCalcs<T> where T : struct
     {
         #region Public Static Methods

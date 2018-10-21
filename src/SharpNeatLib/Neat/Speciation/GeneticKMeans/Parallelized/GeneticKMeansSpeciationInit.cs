@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// 
     /// Note. this implementation applies a modified version of the k-means++ initialisation method.
     /// </summary>
-    /// <typeparam name="T">Connection weight and input/output numeric type (double or float).</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     internal class GeneticKMeansSpeciationInit<T> where T : struct
     {
         IDistanceMetric<T> _distanceMetric;

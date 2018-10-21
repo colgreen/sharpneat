@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Genome.IO
     /// <summary>
     /// For loading/deserializing instances of <see cref="NeatGenome{T}"/> from file, stream, etc.
     /// </summary>
-    /// <typeparam name="T">Connection weight type.</typeparam>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatGenomeLoader<T> where T : struct
     {
         #region Instance Fields

@@ -9,6 +9,7 @@ namespace SharpNeat.NeuralNet
     /// 
     /// A factory class for obtaining instances of IActivationFunction<typeparamref name="T"/>.
     /// </summary>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
         where T : struct
     {

@@ -14,6 +14,7 @@ namespace SharpNeat.BlackBox
     /// <summary>
     /// A vector of element of type T.
     /// </summary>
+    /// <typeparam name="T">Vector data type.</typeparam>
     public interface IVector<T> where T : struct
     {
         #region Indexer / Properties

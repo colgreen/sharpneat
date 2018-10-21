@@ -9,6 +9,7 @@ namespace SharpNeat.Network
     /// This type does not inherit from DirectedConnection as might be expected because these are structs (value types)
     /// and therefore inheritance is not possible.
     /// </remarks>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public readonly struct WeightedDirectedConnection<T>
         where T : struct
     {

@@ -6,7 +6,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
     /// <summary>
     /// A connection weight mutation strategy that resets connection weights.
     /// </summary>
-    /// <typeparam name="T">Connection weight type.</typeparam>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
         where T : struct
     {
