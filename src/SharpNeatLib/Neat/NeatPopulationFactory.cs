@@ -69,7 +69,7 @@ namespace SharpNeat.Neat
         public NeatPopulation<T> CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
-            return new NeatPopulation<T>(_metaNeatGenome, genomeList, _genomeIdSeq, _innovationIdSeq);
+            return new NeatPopulation<T>(_metaNeatGenome, _genomeBuilder, genomeList, _genomeIdSeq, _innovationIdSeq);
         }
 
         /// <summary>

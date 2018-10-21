@@ -12,7 +12,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual
     public class NeatReproductionSexual<T> where T : struct
     {
         readonly NeatReproductionSexualSettings _settings;
-        readonly IRandomSource _rng;
         readonly ISexualReproductionStrategy<T> _strategy;
 
         #region Constructor
@@ -28,8 +27,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             IRandomSourceBuilder rngBuilder)
         {
             _settings = settings;
-            _rng = rngBuilder.Create();
-
             _strategy = new UniformCrossoverReproductionStrategy<T>(
                                 metaNeatGenome, genomeBuilder,
                                 genomeIdSeq, generationSeq, 

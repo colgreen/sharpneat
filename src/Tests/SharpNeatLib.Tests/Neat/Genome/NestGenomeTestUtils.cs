@@ -20,7 +20,7 @@ namespace SharpNeat.Tests.Neat.Genome
             var genome = CreateNeatGenome(metaNeatGenome, genomeBuilder);
             var genome2 = CreateNeatGenome2(metaNeatGenome, genomeBuilder);
             var genomeList = new List<NeatGenome<double>>() { genome, genome2 };
-            return new NeatPopulation<double>(metaNeatGenome, genomeList);
+            return new NeatPopulation<double>(metaNeatGenome, genomeBuilder, genomeList);
         }
 
         public static NeatGenome<double> CreateNeatGenome(

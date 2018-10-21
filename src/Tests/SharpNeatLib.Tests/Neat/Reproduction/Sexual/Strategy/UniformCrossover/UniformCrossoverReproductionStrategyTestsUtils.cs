@@ -35,7 +35,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                     break;
             }
 
-            return new NeatPopulation<double>(__metaNeatGenome, genomeList);
+            return new NeatPopulation<double>(__metaNeatGenome, __genomeBuilder, genomeList);
         }
 
         #endregion

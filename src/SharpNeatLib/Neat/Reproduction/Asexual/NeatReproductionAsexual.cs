@@ -16,8 +16,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         #region Instance Fields
 
         readonly NeatReproductionAsexualSettings _settings;
-        readonly IRandomSourceBuilder _rngBuilder;
-        readonly IRandomSource _rng;
 
         // Asexual reproduction strategies..
         readonly IAsexualReproductionStrategy<T> _mutateWeightsStrategy;
@@ -41,8 +39,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             IRandomSourceBuilder rngBuilder)
         {
             _settings = settings;
-            _rngBuilder = rngBuilder;
-            _rng = rngBuilder.Create();
 
             // Instantiate reproduction strategies.
             _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
@@ -94,7 +90,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [Create Subroutines]
 
-        public NeatGenome<T> Create(
+        private NeatGenome<T> Create(
             NeatGenome<T> parent,
             ref DiscreteDistribution mutationTypeDist)
         {

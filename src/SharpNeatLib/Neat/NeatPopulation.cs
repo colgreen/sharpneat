@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen.Random;
+using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.EvolutionAlgorithm;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 using static SharpNeat.Neat.NeatPopulationUtils;
@@ -24,6 +28,11 @@ namespace SharpNeat.Neat
         /// NeatGenome metadata.
         /// </summary>
         public MetaNeatGenome<T> MetaNeatGenome { get; }
+
+        /// <summary>
+        /// NeatGenome builder.
+        /// </summary>
+        public INeatGenomeBuilder<T> GenomeBuilder { get; }
 
         /// <summary>
         /// Genome ID sequence; for obtaining new genome IDs.
@@ -72,12 +81,14 @@ namespace SharpNeat.Neat
 
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeBuilder<T> genomeBuilder,
             List<NeatGenome<T>> genomeList) 
             : base(genomeList)
         {
             GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
 
-            this.MetaNeatGenome = metaNeatGenome;
+            this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
+            this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
             this.GenomeIdSeq = new Int32Sequence(maxGenomeId + 1);
             this.InnovationIdSeq = new Int32Sequence(maxInnovationId + 1);
             this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);            
@@ -85,14 +96,16 @@ namespace SharpNeat.Neat
 
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeBuilder<T> genomeBuilder,
             List<NeatGenome<T>> genomeList,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq)
-        : this(metaNeatGenome, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
+        : this(metaNeatGenome, genomeBuilder, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
         {}
 
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
+            INeatGenomeBuilder<T> genomeBuilder,
             List<NeatGenome<T>> genomeList,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
@@ -100,13 +113,37 @@ namespace SharpNeat.Neat
             int addedNodeHistoryBufferSize)
         : base(genomeList)
         {
-            this.MetaNeatGenome = metaNeatGenome;
-            this.GenomeIdSeq = genomeIdSeq;
-            this.InnovationIdSeq = innovationIdSeq;
+            this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
+            this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
+            this.GenomeIdSeq = genomeIdSeq ?? throw new ArgumentNullException(nameof(genomeIdSeq));
+            this.InnovationIdSeq = innovationIdSeq ?? throw new ArgumentNullException(nameof(innovationIdSeq));;
             this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
 
             // Assert that the ID sequences have a current IDs higher than any existing ID.
             Debug.Assert(ValidateIdSequences(genomeList, genomeIdSeq, innovationIdSeq));
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        // TODO: Make this private and call from constructor?
+        public void InitialiseSpecies(
+            ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
+            int speciesCount,
+            IRandomSource rng)
+        {
+            // Allocate the genomes to species.
+            Species<T>[] speciesArr = speciationStrategy.SpeciateAll(this.GenomeList, speciesCount);
+            if(null == speciesArr || speciesArr.Length != speciesCount) {
+                throw new Exception("Species array is null or has incorrect length.");
+            }
+            this.SpeciesArray = speciesArr;
+
+            // Sort the genomes in each species. Highest fitness first, then secondary sorted by youngest genomes first.
+            foreach(Species<T> species in speciesArr) {
+                SortUtils.SortUnstable(species.GenomeList, GenomeFitnessAndAgeComparer<T>.Singleton, rng);
+            }
         }
 
         #endregion

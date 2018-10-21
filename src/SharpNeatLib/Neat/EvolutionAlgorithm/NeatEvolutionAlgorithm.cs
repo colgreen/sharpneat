@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Sorting;
-using SharpNeat.EvolutionAlgorithm;
+using Redzen.Structures;
 using SharpNeat.Evaluation;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Reproduction.Asexual;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
+using SharpNeat.Neat.Reproduction.Sexual;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm
@@ -19,6 +26,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatPopulation<T> _pop;
         readonly IRandomSource _rng;
 
+        readonly Int32Sequence _generationSeq;
+        readonly NeatReproductionAsexual<T> _reproductionAsexual;
+        readonly NeatReproductionSexual<T> _reproductionSexual;
+
+        readonly OffspringBuilder<T> _offspringBuilder;
+
         EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
         ComplexityRegulationMode _complexityRegulationMode = ComplexityRegulationMode.Complexifying;
 
@@ -30,8 +43,14 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             NeatEvolutionAlgorithmSettings eaSettings,
             IGenomeListEvaluator<NeatGenome<T>> evaluator,
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
-            NeatPopulation<T> population)
-            : this(eaSettings, evaluator, speciationStrategy, population, RandomDefaults.CreateRandomSource())
+            NeatPopulation<T> population,
+            NeatReproductionAsexualSettings reproductionAsexualSettings,
+            NeatReproductionSexualSettings reproductionSexualSettings,
+            WeightMutationScheme<T> weightMutationScheme)
+            : this(eaSettings, evaluator, speciationStrategy, population,
+                  reproductionAsexualSettings, reproductionSexualSettings,
+                  weightMutationScheme,
+                  RandomDefaults.DefaultRandomSourceBuilder)
         {}
 
         public NeatEvolutionAlgorithm(
@@ -39,17 +58,39 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IGenomeListEvaluator<NeatGenome<T>> evaluator,
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
             NeatPopulation<T> population,
-            IRandomSource rng)
+            NeatReproductionAsexualSettings reproductionAsexualSettings,
+            NeatReproductionSexualSettings reproductionSexualSettings,
+            WeightMutationScheme<T> weightMutationScheme,
+            IRandomSourceBuilder rngBuilder)
         {
             _eaSettings = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
             _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
             _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
             _pop = population ?? throw new ArgumentNullException(nameof(population));
-             _rng = rng ?? throw new ArgumentNullException(nameof(rng));
+
+            if(reproductionAsexualSettings == null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
+            if(reproductionSexualSettings == null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
+            
+            if(rngBuilder == null) throw new ArgumentNullException(nameof(rngBuilder));
+             _rng = rngBuilder.Create();
 
             if(eaSettings.SpeciesCount > population.PopulationSize) {
                 throw new ArgumentException("Species count is higher then the population size.");
             }
+
+            _generationSeq = new Int32Sequence();
+
+            _reproductionAsexual = new NeatReproductionAsexual<T>(
+                _pop.MetaNeatGenome, _pop.GenomeBuilder,
+                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
+                _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme, rngBuilder);
+
+            _reproductionSexual = new NeatReproductionSexual<T>(
+                _pop.MetaNeatGenome, _pop.GenomeBuilder,
+                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
+                _pop.AddedNodeBuffer, reproductionSexualSettings, rngBuilder);
+
+            _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, rngBuilder.Create(), _eaSettings.InterspeciesMatingProportion);
         }
 
         #endregion
@@ -80,17 +121,36 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _evaluator.Evaluate(_pop.GenomeList);
 
             // Initialise species.
-            InitialiseSpecies();
+            _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
 
             // Calculate and store stats on the population as a whole, and for each species.
             PopulationStatsCalcs<T>.CalcAndStorePopulationStats(_pop);
             SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
-
-
         }
 
         public void PerformOneGeneration()
         {
+            // TODO: Implement! Rough plan below...
+
+
+            // Create offspring.
+            List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(_pop.SpeciesArray);
+
+
+            // Trim population back to elite genomes only.
+
+
+            // Merge offspring into genomeList (and species?)
+
+
+            // Evaluate all genomes in genomeList.
+
+
+            // Update population and per-species stats
+
+
+
+
 
 
 
@@ -111,30 +171,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #endregion
 
-
-
-
-
         #region Private Methods
 
-        private void InitialiseSpecies()
-        {
-            // Allocate the genomes to species.
-            Species<T>[] speciesArr = _speciationStrategy.SpeciateAll(_pop.GenomeList, _eaSettings.SpeciesCount);
-            if(null == speciesArr || speciesArr.Length != _eaSettings.SpeciesCount) {
-                throw new Exception("Species array is null or has incorrect length.");
-            }
-            _pop.SpeciesArray = speciesArr;
-
-            // Sort the genomes in each species. Highest fitness first, then secondary sorted by youngest genomes first.
-            foreach(Species<T> species in speciesArr) {
-                SortUtils.SortUnstable(species.GenomeList, GenomeFitnessAndAgeComparer<T>.Singleton, _rng);
-            }
-        }
-
+        
         #endregion
-
-
-
     }
 }

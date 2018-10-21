@@ -35,14 +35,18 @@ namespace TestApp1
             var distanceMetric = new EuclideanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
 
-            // Pull all of the parts together into an evolution algorithm instance.
-            var ea = new NeatEvolutionAlgorithm<double>(
-                _eaSettings,
-                genomeListEvaluator,
-                speciationStrategy,
-                _neatPop);
+            // TODO: Finish off.
 
-            return ea;
+            //// Pull all of the parts together into an evolution algorithm instance.
+            //var ea = new NeatEvolutionAlgorithm<double>(
+            //    _eaSettings,
+            //    genomeListEvaluator,
+            //    speciationStrategy,
+            //    _neatPop);
+
+            //return ea;
+
+            return null;
         }
 
         #endregion
