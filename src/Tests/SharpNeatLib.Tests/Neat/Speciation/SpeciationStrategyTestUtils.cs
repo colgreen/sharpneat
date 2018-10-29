@@ -32,7 +32,7 @@ namespace SharpNeat.Tests.Neat.Speciation
                 int speciesCount = rng.Next(1, (neatPop.GenomeList.Count/4)+1);
 
                 // Invoke speciation strategy.
-                var speciesArr = speciationStrategy.SpeciateAll(neatPop.GenomeList, speciesCount);
+                var speciesArr = speciationStrategy.SpeciateAll(neatPop.GenomeList, speciesCount, rng);
 
                 // Perform tests.
                 ValidationTests(speciesArr, distanceMetric, speciesCount, neatPop.GenomeList, validateNearestSpecies);
@@ -68,17 +68,17 @@ namespace SharpNeat.Tests.Neat.Speciation
                 var fullGenomeList = new List<NeatGenome<double>>(genomeList1);
 
                 // Invoke speciation strategy, and run tests
-                var speciesArr = speciationStrategy.SpeciateAll(genomeList1, speciesCount);
+                var speciesArr = speciationStrategy.SpeciateAll(genomeList1, speciesCount, rng);
                 ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList, validateNearestSpecies);
 
                 // Add second batch of genomes, and re-run tests.
-                speciationStrategy.SpeciateAdd(genomeList2, speciesArr);
+                speciationStrategy.SpeciateAdd(genomeList2, speciesArr, rng);
 
                 fullGenomeList.AddRange(genomeList2);
                 ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList, validateNearestSpecies);
 
                 // Add third batch of genomes, and re-run tests.
-                speciationStrategy.SpeciateAdd(genomeList3, speciesArr);
+                speciationStrategy.SpeciateAdd(genomeList3, speciesArr, rng);
 
                 fullGenomeList.AddRange(genomeList3);
                 ValidationTests(speciesArr, distanceMetric, speciesCount, fullGenomeList, validateNearestSpecies);

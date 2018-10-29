@@ -83,14 +83,14 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _reproductionAsexual = new NeatReproductionAsexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
                 _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
-                _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme, rngBuilder);
+                _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme);
 
             _reproductionSexual = new NeatReproductionSexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
                 _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
-                _pop.AddedNodeBuffer, reproductionSexualSettings, rngBuilder);
+                _pop.AddedNodeBuffer, reproductionSexualSettings);
 
-            _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, rngBuilder.Create(), _eaSettings.InterspeciesMatingProportion);
+            _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, _eaSettings.InterspeciesMatingProportion);
         }
 
         #endregion
@@ -134,7 +134,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
 
             // Create offspring.
-            List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(_pop.SpeciesArray);
+            List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(_pop.SpeciesArray, _rng);
 
 
             // Trim population back to elite genomes only.

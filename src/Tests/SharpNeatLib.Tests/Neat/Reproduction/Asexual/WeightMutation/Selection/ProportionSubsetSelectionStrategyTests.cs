@@ -13,10 +13,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
         [TestCategory("ProportionSubsetSelectionStrategy")]
         public void TestCardinality()
         {
-            var strategy = new ProportionSubsetSelectionStrategy(0.1, RandomDefaults.CreateRandomSource());
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
+
+            var strategy = new ProportionSubsetSelectionStrategy(0.1);
             for(int i=0; i < 100; i++)
             {
-                int[] idxArr = strategy.SelectSubset(i);
+                int[] idxArr = strategy.SelectSubset(i, rng);
                 int expectedCardinalityMin = (int)Math.Floor(i * 0.1);
                 int expectedCardinalityMax = (int)Math.Ceiling(i * 0.1);
                 Assert.IsTrue(idxArr.Length >= expectedCardinalityMin && idxArr.Length <= expectedCardinalityMax);
@@ -27,10 +29,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
         [TestCategory("ProportionSubsetSelection")]
         public void TestUniqueness()
         {
-            var strategy = new ProportionSubsetSelectionStrategy(0.66, RandomDefaults.CreateRandomSource());
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
+
+            var strategy = new ProportionSubsetSelectionStrategy(0.66);
             for (int i = 0; i < 20; i++)
             {
-                int[] idxArr = strategy.SelectSubset(50);
+                int[] idxArr = strategy.SelectSubset(50, rng);
                 HashSet<int> idxSet = new HashSet<int>();
 
                 for (int j = 0; j < idxArr.Length; j++)

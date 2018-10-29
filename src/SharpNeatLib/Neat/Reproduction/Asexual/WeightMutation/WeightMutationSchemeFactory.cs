@@ -47,7 +47,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
             strategyArr[4] = CreateCardinalUniformResetStrategy(2, weightScale, rngBuilder);
             strategyArr[5] = CreateCardinalUniformResetStrategy(3, weightScale, rngBuilder);
             
-            return new WeightMutationScheme<double>(probabilityArr, strategyArr, rngBuilder.Create());
+            return new WeightMutationScheme<double>(probabilityArr, strategyArr);
         }
 
         #endregion
@@ -57,15 +57,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         private static IWeightMutationStrategy<double> CreateCardinalGaussianDeltaStrategy(
             int selectCount, double stdDev, IRandomSourceBuilder rngBuilder)
         {
-            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount, rngBuilder.Create());
-            return DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(selectStrategy, stdDev, rngBuilder.Create());
+            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
+            return DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(selectStrategy, stdDev);
         }
 
         private static IWeightMutationStrategy<double> CreateCardinalUniformResetStrategy(
             int selectCount, double weightScale, IRandomSourceBuilder rngBuilder)
         {
-            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount, rngBuilder.Create());
-            return ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(selectStrategy, weightScale, rngBuilder.Create());
+            var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
+            return ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(selectStrategy, weightScale);
         }
 
         #endregion

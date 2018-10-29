@@ -10,7 +10,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual
     /// Creation of offspring given two parents (sexual reproduction).
     /// </summary>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
-    public class NeatReproductionSexual<T> where T : struct
+    public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
+        where T : struct
     {
         readonly NeatReproductionSexualSettings _settings;
         readonly ISexualReproductionStrategy<T> _strategy;
@@ -24,14 +25,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
             AddedNodeBuffer addedNodeBuffer,
-            NeatReproductionSexualSettings settings,
-            IRandomSourceBuilder rngBuilder)
+            NeatReproductionSexualSettings settings)
         {
             _settings = settings;
             _strategy = new UniformCrossoverReproductionStrategy<T>(
                                 metaNeatGenome, genomeBuilder,
-                                genomeIdSeq, generationSeq, 
-                                rngBuilder.Create());
+                                genomeIdSeq, generationSeq);
         }
 
         #endregion
@@ -39,17 +38,16 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         #region Public Methods
 
         /// <summary>
-        /// Sexual reproduction.
+        /// Create a new child genome based on the genetic content of two parent genome.
         /// </summary>
-        /// <param name="parent1">Parent genome 1.</param>
-        /// <param name="parent2">Parent genome 2.</param>
-        
-        public NeatGenome<T> CreateGenome(
-            NeatGenome<T> parent1,
-            NeatGenome<T> parent2)
+        /// <param name="parent1">Parent 1.</param>
+        /// <param name="parent2">Parent 2.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new child genome.</returns>
+        public NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
         {
             // Invoke the reproduction strategy.
-            return _strategy.CreateGenome(parent1, parent2);            
+            return _strategy.CreateGenome(parent1, parent2, rng);
         }
 
         #endregion

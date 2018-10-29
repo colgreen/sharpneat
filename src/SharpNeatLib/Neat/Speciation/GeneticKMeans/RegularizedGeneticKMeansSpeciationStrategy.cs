@@ -70,13 +70,12 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         public RegularizedGeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
-            double regularizationConstant,
-            IRandomSource rng)
+            double regularizationConstant)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
             _regularizationConstant = regularizationConstant;
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, rng);
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric);
         }
 
         #endregion
@@ -90,14 +89,17 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         /// <param name="genomeList">The genomes to speciate.</param>
         /// <param name="speciesCount">The number of required species.</param>
         /// <returns>A new array of species.</returns>
-        public Species<T>[] SpeciateAll(IList<NeatGenome<T>> genomeList, int speciesCount)
+        public Species<T>[] SpeciateAll(
+            IList<NeatGenome<T>> genomeList,
+            int speciesCount,
+            IRandomSource rng)
         {
             if(genomeList.Count < speciesCount) {
                 throw new ArgumentException("The number of genomes is less than speciesCount.");
             }
 
             // Initialise using k-means++ initialisation method.
-            var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount);
+            var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount, rng);
 
             // Run the k-means algorithm.
             RunKMeans(speciesArr);
@@ -111,7 +113,10 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         /// </summary>
         /// <param name="genomeList">A list of genomes that have not yet been assigned a species.</param>
         /// <param name="speciesArr">An array of pre-existing species</param>
-        public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr)
+        public void SpeciateAdd(
+            IList<NeatGenome<T>> genomeList,
+            Species<T>[] speciesArr,
+            IRandomSource rng)
         {
             GetPopulationCountAndMaxIntraSpeciesDistance(speciesArr, out double populationCount, out double maxIntraSpeciesDistance);
 

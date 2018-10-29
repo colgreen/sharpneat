@@ -1,4 +1,5 @@
 ﻿using System;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
@@ -22,9 +23,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
 
-        readonly IContinuousDistribution<T> _weightDistA;
-        readonly IContinuousDistribution<T> _weightDistB;
-        readonly IRandomSource _rng;
+        readonly IStatelessSampler<T> _weightSamplerA;
+        readonly IStatelessSampler<T> _weightSamplerB;
 
         #endregion
 
@@ -35,8 +35,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            Int32Sequence generationSeq,
-            IRandomSource rng)
+            Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
@@ -44,9 +43,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
 
-            _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
-            _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange * 0.01, true);
-            _rng = rng;
+            _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightRange, true);
+            _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
         }
 
         #endregion
@@ -57,11 +55,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// Create a new child genome from a given parent genome.
         /// </summary>
         /// <param name="parent">The parent genome.</param>
+        /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             // Attempt to find a new connection that we can add to the genome.
-            if(!TryGetConnection(parent, out DirectedConnection directedConn, out int insertIdx))
+            if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))
             {   // Failed to find a new connection.
                 return null;
             }
@@ -70,7 +69,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // 50% of the time use weights very close to zero.
             // Note. this recreates the strategy used in SharpNEAT 2.x.
             // ENHANCEMENT: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
-            T weight = _rng.NextBool() ? _weightDistB.Sample() : _weightDistA.Sample();
+            T weight = rng.NextBool() ? _weightSamplerB.Sample(rng) : _weightSamplerA.Sample(rng);
 
             // Create a new connection gene array that consists of the parent connection genes plus the new gene
             // inserted at the correct (sorted) position.
@@ -114,12 +113,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        private bool TryGetConnection(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
+        private bool TryGetConnection(
+            NeatGenome<T> parent,
+            IRandomSource rng,
+            out DirectedConnection conn,
+            out int insertIdx)
         {
             // Make several attempts at find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
             {
-                if(TryGetConnectionInner(parent, out conn, out insertIdx)) {
+                if(TryGetConnectionInner(parent, rng, out conn, out insertIdx)) {
                     return true;
                 }
             }
@@ -129,7 +132,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return false;
         }
 
-        private bool TryGetConnectionInner(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
+        private bool TryGetConnectionInner(
+            NeatGenome<T> parent,
+            IRandomSource rng,
+            out DirectedConnection conn,
+            out int insertIdx)
         {
             int inputCount = _metaNeatGenome.InputNodeCount;
             int outputCount = _metaNeatGenome.OutputNodeCount;
@@ -138,12 +145,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Select a source node at random.
             // Note. this can be any node (input, output or hidden).
             int totalNodeCount = parent.MetaNeatGenome.InputOutputNodeCount + hiddenCount;
-            int srcId = GetNodeIdFromIndex(parent, _rng.Next(totalNodeCount));
+            int srcId = GetNodeIdFromIndex(parent, rng.Next(totalNodeCount));
 
             // Select a target node at random.
             // Note. This cannot be an input node (so must be a hidden or output node).
             int outputHiddenCount = outputCount + hiddenCount;
-            int tgtId = GetNodeIdFromIndex(parent, inputCount + _rng.Next(outputHiddenCount));
+            int tgtId = GetNodeIdFromIndex(parent, inputCount + rng.Next(outputHiddenCount));
 
             // Test if the chosen connection already exists.
             // Note. Connection genes are always sorted by sourceId then targetId, so we can use a binary search to 

@@ -31,11 +31,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
                 pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
-                pop.AddedNodeBuffer,
-                RandomDefaults.CreateRandomSource());
+                pop.AddedNodeBuffer);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             for(int i=0; i<10000; i++) {
-                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy);
+                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
             }
         }
 
@@ -54,12 +55,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
                 pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
-                pop.AddedNodeBuffer,
-                RandomDefaults.CreateRandomSource());
+                pop.AddedNodeBuffer);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             for(int i=0; i<2000; i++)
             {
-                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy);
+                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 
                 // Make the child genome the parent in the next iteration. I.e. accumulate add node mutations.
                 genome = childGenome;
@@ -82,15 +84,16 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
                 pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
-                pop.AddedNodeBuffer,
-                RandomDefaults.CreateRandomSource());
+                pop.AddedNodeBuffer);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);
             genomeRing.Enqueue(genome);
 
             for(int i=0; i<5000; i++)
             {
-                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy);
+                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 
                 // Add the new child genome to the ring.
                 genomeRing.Enqueue(childGenome);
@@ -104,12 +107,15 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
         #region Private Static Methods
 
-        private static NeatGenome<double> CreateAndTestChildGenome(NeatGenome<double> parentGenome, AddNodeStrategy<double> strategy)
+        private static NeatGenome<double> CreateAndTestChildGenome(
+            NeatGenome<double> parentGenome,
+            AddNodeStrategy<double> strategy,
+            IRandomSource rng)
         {
             var nodeIdSet = GetNodeIdSet(parentGenome);
             var connSet = GetDirectedConnectionSet(parentGenome);
 
-            var childGenome = strategy.CreateChildGenome(parentGenome);
+            var childGenome = strategy.CreateChildGenome(parentGenome, rng);
 
             // The connection genes should be sorted.
             Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));

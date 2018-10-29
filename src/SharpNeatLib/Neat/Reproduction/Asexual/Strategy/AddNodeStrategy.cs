@@ -17,7 +17,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
         readonly AddedNodeBuffer _addedNodeBuffer;
-        readonly IRandomSource _rng;
 
         #endregion
 
@@ -29,8 +28,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
-            AddedNodeBuffer addedNodeBuffer,
-            IRandomSource rng)
+            AddedNodeBuffer addedNodeBuffer)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
@@ -38,14 +36,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
             _addedNodeBuffer = addedNodeBuffer;
-            _rng = rng;
         }
 
         #endregion
 
         #region Public Methods
 
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
+        /// <summary>
+        /// Create a new child genome from a given parent genome.
+        /// </summary>
+        /// <param name="parent">The parent genome.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new child genome.</returns>
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             if(0 == parent.ConnectionGenes.Length) 
             {   // No connections to split (nodes are added by splitting an existing connection).
@@ -53,7 +56,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
 
             // Select a connection at random.
-            int splitConnIdx = _rng.Next(parent.ConnectionGenes.Length);
+            int splitConnIdx = rng.Next(parent.ConnectionGenes.Length);
             var splitConn = parent.ConnectionGenes._connArr[splitConnIdx];
 
             // The selected connection will be replaced with a new node and two new connections; 

@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Redzen.Numerics;
-using Redzen.Random.Double;
+using Redzen.Numerics.Distributions.Double;
 using SharpNeat.NeuralNet;
 
 namespace SharpNeatLib.Benchmarks
@@ -23,9 +22,9 @@ namespace SharpNeatLib.Benchmarks
         public BenchmarksVectorizedDouble()
         {
             // Create some random Gaussian values as the inputs to the activation functions.
-            var gaussian = new ZigguratGaussianDistribution(0);
+            var gaussian = new ZigguratGaussianSampler(0.0, 2.0, 0);
             for(int i=0; i<_x.Length; i++) {
-                _x[i] = gaussian.Sample(0, 2.0);
+                _x[i] = gaussian.Sample();
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Redzen;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
@@ -20,7 +21,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
-        readonly IRandomSource _rng;
         readonly ConnectionGeneListBuilder<T> _builder;
 
         #region Constructor
@@ -29,15 +29,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
-            Int32Sequence generationSeq,
-            IRandomSource rng)
+            Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
-            _rng = rng;
             _builder = new ConnectionGeneListBuilder<T>(_metaNeatGenome.IsAcyclic, 1024);
         }
 
@@ -45,11 +43,18 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Public Methods
 
-        public NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2)
+        /// <summary>
+        /// Create a new child genome based on the genetic content of two parent genome.
+        /// </summary>
+        /// <param name="parent1">Parent 1.</param>
+        /// <param name="parent2">Parent 2.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new child genome.</returns>
+        public NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
         {
             try
             {
-                return CreateGenomeInner(parent1, parent2);
+                return CreateGenomeInner(parent1, parent2, rng);
             }
             finally
             {
@@ -63,10 +68,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Private Methods
 
-        private NeatGenome<T> CreateGenomeInner(NeatGenome<T> parent1, NeatGenome<T> parent2)
+        private NeatGenome<T> CreateGenomeInner(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
         {
             // Randomly select one parent as being the primary parent.
-            if(_rng.NextBool()) {
+            if(rng.NextBool()) {
                 VariableUtils.Swap(ref parent1, ref parent2);
             }
 
@@ -77,6 +82,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 ConnectionGene<T>? connGene = CreateConnectionGene(
                     parent1.ConnectionGenes, parent2.ConnectionGenes,
                     geneIndexPair.Item1, geneIndexPair.Item2,
+                    rng,
                     out bool isSecondaryGene);
 
                 if(connGene.HasValue)
@@ -104,12 +110,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             ConnectionGenes<T> connGenes1,
             ConnectionGenes<T> connGenes2,
             int idx1, int idx2,
+            IRandomSource rng,
             out bool isSecondaryGene)
         {
             // Select gene at random if it is present on both parents.
             if(-1 != idx1 && -1 != idx2)
             {
-                if(_rng.NextBool())
+                if(rng.NextBool())
                 {
                     isSecondaryGene = false;
                     return CreateConnectionGene(connGenes1, idx1);
@@ -129,7 +136,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             }
 
             // Otherwise use the secondary parent's gene stochastically.
-            if(DiscreteDistributionUtils.SampleBinaryDistribution(_metaNeatGenome.SecondaryParentGeneProbability, _rng))
+            if(DiscreteDistribution.SampleBernoulli(rng, _metaNeatGenome.SecondaryParentGeneProbability))
             {
                 isSecondaryGene = true;
                 return CreateConnectionGene(connGenes2, idx2);

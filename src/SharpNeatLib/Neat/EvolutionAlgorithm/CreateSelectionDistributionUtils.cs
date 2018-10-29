@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using SharpNeat.Neat.Speciation;
 
@@ -22,22 +23,20 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// Create instances of <see cref="DiscreteDistribution"/> for sampling species, and for genomes within each given species.
         /// </summary>
         /// <param name="speciesArr">Species array.</param>
-        /// <param name="rng">A random source for construction of the <see cref="DiscreteDistribution"/> instances.</param>
         /// <param name="speciesDist">Returns a new instance of <see cref="DiscreteDistribution"/> for sampling from the species array.</param>
         /// <param name="genomeDistArr">Returns an array of <see cref="DiscreteDistribution"/>, for sampling from genomes within each species.</param>
         /// <param name="nonEmptySpeciesCount">Returns the number of species that contain at least one genome.</param>
         public static void CreateSelectionDistributions(
             Species<T>[] speciesArr,
-            IRandomSource rng,
             out DiscreteDistribution speciesDist,
             out DiscreteDistribution[] genomeDistArr,
             out int nonEmptySpeciesCount)
         {
             // Species selection distribution.
-            speciesDist = CreateSpeciesSelectionDistribution(speciesArr, rng, out nonEmptySpeciesCount);
+            speciesDist = CreateSpeciesSelectionDistribution(speciesArr, out nonEmptySpeciesCount);
 
             // Per-species genome selection distributions.
-            genomeDistArr = CreateIntraSpeciesGenomeSelectionDistributions(speciesArr, rng);
+            genomeDistArr = CreateIntraSpeciesGenomeSelectionDistributions(speciesArr);
         }
 
         #endregion
@@ -49,12 +48,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// cross species reproduction.
         /// </summary>
         /// <param name="speciesArr">Species array.</param>
-        /// <param name="rng">A random source for construction of the <see cref="DiscreteDistribution"/> instance.</param>
         /// <param name="nonEmptySpeciesCount">Returns the number of species that contain at least one genome.</param>
         /// <returns>A new instance of <see cref="DiscreteDistribution"/> for sampling from the species array.</returns>
         private static DiscreteDistribution CreateSpeciesSelectionDistribution(
             Species<T>[] speciesArr,
-            IRandomSource rng,
             out int nonEmptySpeciesCount)
         {
             int speciesCount = speciesArr.Length;
@@ -73,12 +70,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Note. Here we pass an array of SelectionSizeInt to the constructor of DiscreteDistribution.
             // DiscreteDistribution will normalise these values such that they sum o 1.0, thus, the probability 
             // a given species will be selected is proportional to its SelectionSizeInt value.
-            return new DiscreteDistribution(speciesFitnessArr, rng);
+            return new DiscreteDistribution(speciesFitnessArr);
         }
 
         private static DiscreteDistribution[] CreateIntraSpeciesGenomeSelectionDistributions(
-            Species<T>[] speciesArr,
-            IRandomSource rng)
+            Species<T>[] speciesArr)
         {
             int speciesCount = speciesArr.Length;
             DiscreteDistribution[] distArr = new DiscreteDistribution[speciesCount];
@@ -86,14 +82,14 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // For each species build a DiscreteDistribution for genome selection within 
             // that species. I.e. fitter genomes have higher probability of selection.
             for(int i=0; i < speciesCount; i++) {
-                distArr[i] = CreateIntraSpeciesGenomeSelectionDistribution(speciesArr[i], rng);
+                distArr[i] = CreateIntraSpeciesGenomeSelectionDistribution(speciesArr[i]);
             }
 
             return distArr;
         }
 
         private static DiscreteDistribution CreateIntraSpeciesGenomeSelectionDistribution(
-            Species<T> species, IRandomSource rng)
+            Species<T> species)
         {
             SpeciesStats speciesStats = species.Stats;
             var genomeList = species.GenomeList;
@@ -104,7 +100,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 probArr[i] = genomeList[i].FitnessInfo.PrimaryFitness;
             }
 
-            return new DiscreteDistribution(probArr, rng);
+            return new DiscreteDistribution(probArr);
         }
 
         #endregion

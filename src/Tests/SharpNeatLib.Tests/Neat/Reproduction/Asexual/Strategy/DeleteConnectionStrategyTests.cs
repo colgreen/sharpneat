@@ -22,15 +22,16 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var strategy = new DeleteConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.GenerationSeq,
-                RandomDefaults.CreateRandomSource());
+                pop.GenomeIdSeq, pop.GenerationSeq);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
             for(int i=0; i<1000; i++)
             {
-                var childGenome = strategy.CreateChildGenome(genome);
+                var childGenome = strategy.CreateChildGenome(genome, rng);
                 
                 // The child genome should have one less connection than the parent.
                 Assert.AreEqual(genome.ConnectionGenes.Length - 1, childGenome.ConnectionGenes.Length);

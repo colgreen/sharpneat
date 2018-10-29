@@ -71,15 +71,16 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// </summary>
         /// <param name="genomeList">The genomes to speciate.</param>
         /// <param name="speciesCount">The number of required species.</param>
+        /// <param name="rng">Random source.</param>
         /// <returns>A new array of species.</returns>
-        public Species<T>[] SpeciateAll(IList<NeatGenome<T>> genomeList, int speciesCount)
+        public Species<T>[] SpeciateAll(IList<NeatGenome<T>> genomeList, int speciesCount, IRandomSource rng)
         {
             if(genomeList.Count < speciesCount) {
                 throw new ArgumentException("The number of genomes is less than speciesCount.");
             }
 
             // Initialise using k-means++ initialisation method.
-            var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount);
+            var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount, rng);
 
             // Run the k-means algorithm.
             RunKMeans(speciesArr);
@@ -93,7 +94,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// </summary>
         /// <param name="genomeList">A list of genomes that have not yet been assigned a species.</param>
         /// <param name="speciesArr">An array of pre-existing species</param>
-        public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr)
+        /// <param name="rng">Random source.</param>
+        public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr, IRandomSource rng)
         {
             // Create a temporary working array of species modification bits.
             var updateBits = new bool[speciesArr.Length];

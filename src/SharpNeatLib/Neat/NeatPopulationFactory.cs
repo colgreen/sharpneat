@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
@@ -20,7 +21,7 @@ namespace SharpNeat.Neat
         readonly IRandomSource _rng;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _innovationIdSeq;        
-        readonly IUniformDistribution<T> _connWeightDist;
+        readonly IStatelessSampler<T> _connWeightDist;
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace SharpNeat.Neat
             _innovationIdSeq = new Int32Sequence(nextInnovationId);
 
             // Init random connection weight source.
-            _connWeightDist = ContinuousDistributionFactory.CreateUniformDistribution<T>(_metaNeatGenome.ConnectionWeightRange, true);
+            _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(_metaNeatGenome.ConnectionWeightRange, true);
 
         }
 
@@ -101,8 +102,8 @@ namespace SharpNeat.Neat
 
             // Select a random subset of all possible connections between the input and output nodes.
             int[] sampleArr = new int[connectionCount];
-            DiscreteDistributionUtils.SampleUniformWithoutReplacement(
-                _connectionDefArr.Length, sampleArr, _rng);
+            DiscreteDistribution.SampleUniformWithoutReplacement(
+                _rng, _connectionDefArr.Length, sampleArr);
 
             // Sort the samples.
             // Note. This results in the neural net connections being sorted by sourceID then targetID.
@@ -121,7 +122,7 @@ namespace SharpNeat.Neat
                     cdef.SourceId,
                     cdef.TargetId);
 
-                weightArr[i] = _connWeightDist.Sample(_metaNeatGenome.ConnectionWeightRange, true);
+                weightArr[i] = _connWeightDist.Sample(_rng);
             }
 
             // Get create a new genome with a new ID, birth generation of zero.

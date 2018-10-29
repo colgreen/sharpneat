@@ -27,8 +27,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var strategy = new AddAcyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
-                RandomDefaults.CreateRandomSource());
+                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
@@ -37,7 +38,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             for(int i=0; i < 1000;)
             {
-                var childGenome = strategy.CreateChildGenome(genome);
+                var childGenome = strategy.CreateChildGenome(genome, rng);
                 
                 // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                 // test for this and try again. The test will be for N successful mutations rather than N attempts.
@@ -80,8 +81,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var strategy = new AddAcyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
-                RandomDefaults.CreateRandomSource(0));
+                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             var nodeIdSet = GetNodeIdSet(rootGenome);
 
@@ -98,7 +100,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 // Accumulate random mutations for some number of loops.
                 for(int j=0; j < 20;)
                 {
-                    var childGenome = strategy.CreateChildGenome(rootGenome);
+                    var childGenome = strategy.CreateChildGenome(rootGenome, rng);
                 
                     // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                     // test for this and try again. The test will be for N successful mutations rather than N attempts.

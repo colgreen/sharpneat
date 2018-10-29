@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Redzen.Linq;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
@@ -23,23 +24,22 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
     internal class GeneticKMeansSpeciationInit<T> where T : struct
     {
         IDistanceMetric<T> _distanceMetric;
-        IRandomSource _rng;
 
         #region Constructors
 
-        public GeneticKMeansSpeciationInit(
-            IDistanceMetric<T> distanceMetric,
-            IRandomSource rng)
+        public GeneticKMeansSpeciationInit(IDistanceMetric<T> distanceMetric)
         {
             _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
-            _rng = rng ?? throw new ArgumentNullException(nameof(rng));
         }
 
         #endregion
 
         #region Public Methods
 
-        public Species<T>[] InitialiseSpecies(IList<NeatGenome<T>> genomeList, int speciesCount)
+        public Species<T>[] InitialiseSpecies(
+            IList<NeatGenome<T>> genomeList,
+            int speciesCount,
+            IRandomSource rng)
         {
             // Create an array of seed genomes, i.e. each of these genomes will become the initial 
             // seed/centroid of one species.
@@ -49,12 +49,12 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             var remainingGenomes = new List<NeatGenome<T>>(genomeList);
 
             // Select first genome at random.
-            seedGenomeList.Add(GetAndRemove(remainingGenomes, _rng.Next(remainingGenomes.Count)));
+            seedGenomeList.Add(GetAndRemove(remainingGenomes, rng.Next(remainingGenomes.Count)));
 
             // Select all other seed genomes using k-means++ method.
             for(int i=1; i < speciesCount; i++)
             {
-                var seedGenome = GetSeedGenome(seedGenomeList, remainingGenomes);
+                var seedGenome = GetSeedGenome(seedGenomeList, remainingGenomes, rng);
                 seedGenomeList.Add(seedGenome);
             }
 
@@ -89,7 +89,10 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         #region Private Methods 
 
-        private NeatGenome<T> GetSeedGenome(List<NeatGenome<T>> seedGenomeList, List<NeatGenome<T>> remainingGenomes)
+        private NeatGenome<T> GetSeedGenome(
+            List<NeatGenome<T>> seedGenomeList,
+            List<NeatGenome<T>> remainingGenomes,
+            IRandomSource rng)
         {
             // Select from a random subset of remainingGenomes rather than the full set, otherwise
             // k-means will have something like O(n^2) scalability
@@ -105,7 +108,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             }
                         
             // Get the indexes of a random subset of remainingGenomes.
-            int[] genomeIdxArr = EnumerableUtils.RangeRandomOrder(0, remainingGenomes.Count, _rng).Take(subsetCount).ToArray();
+            int[] genomeIdxArr = EnumerableUtils.RangeRandomOrder(0, remainingGenomes.Count, rng).Take(subsetCount).ToArray();
 
             // Create an array of relative selection probabilities for the candidate genomes.
             double[] pArr = new double[subsetCount];
@@ -118,7 +121,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             }
 
             // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
-            int selectIdx = new DiscreteDistribution(pArr, _rng).Sample();
+            int selectIdx = DiscreteDistribution.Sample(rng, new DiscreteDistribution(pArr));
             return GetAndRemove(remainingGenomes, genomeIdxArr[selectIdx]);
         }
 

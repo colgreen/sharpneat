@@ -1,4 +1,5 @@
-﻿
+﻿using Redzen.Random;
+
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 {
     /// <summary>
@@ -11,6 +12,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// Invoke the strategy.
         /// </summary>
         /// <param name="weightArr">The connection weight array to apply mutations to.</param>
-        void Invoke(T[] weightArr);
+        /// <param name="rng">Random source.</param>
+        void Invoke(T[] weightArr, IRandomSource rng);
     }
 }

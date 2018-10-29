@@ -13,7 +13,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
-        readonly IRandomSource _rng;
 
         #region Constructor
 
@@ -21,21 +20,25 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
-            Int32Sequence generationSeq,
-            IRandomSource rng)
+            Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
-            _rng = rng;
         }
 
         #endregion
 
         #region Public Methods
 
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
+        /// <summary>
+        /// Create a new child genome from a given parent genome.
+        /// </summary>
+        /// <param name="parent">The parent genome.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new child genome.</returns>
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             // We require at least two connections in the parent, i.e. we avoid creating genomes with
             // no connections, which would be pointless.
@@ -47,7 +50,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             var parentConnArr = parent.ConnectionGenes._connArr;
             var parentWeightArr = parent.ConnectionGenes._weightArr;
             int parentLen = parentConnArr.Length;
-            int deleteIdx = _rng.Next(parentLen);
+            int deleteIdx = rng.Next(parentLen);
 
             // Create the child genome's ConnectionGenes object.
             int childLen = parentLen - 1;

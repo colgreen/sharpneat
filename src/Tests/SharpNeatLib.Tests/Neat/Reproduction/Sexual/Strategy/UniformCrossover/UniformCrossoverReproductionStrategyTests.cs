@@ -29,8 +29,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             var strategy = new UniformCrossoverReproductionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.GenerationSeq,
-                RandomDefaults.CreateRandomSource());
+                pop.GenomeIdSeq, pop.GenerationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
@@ -42,7 +41,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 var genome1 = pop.GenomeList[rng.Next(count)];
                 var genome2 = pop.GenomeList[rng.Next(count)];
 
-                var childGenome = strategy.CreateGenome(genome1, genome2);
+                var childGenome = strategy.CreateGenome(genome1, genome2, rng);
 
                 // The connection genes should be sorted.
                 Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));

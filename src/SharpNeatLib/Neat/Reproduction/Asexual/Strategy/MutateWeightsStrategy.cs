@@ -1,4 +1,5 @@
-﻿using Redzen.Structures;
+﻿using Redzen.Random;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
@@ -33,13 +34,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Public Methods
 
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
+        /// <summary>
+        /// Create a new child genome from a given parent genome.
+        /// </summary>
+        /// <param name="parent">The parent genome.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new child genome.</returns>
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             // Clone the parent's connection weight array.
             var weightArr = (T[])parent.ConnectionGenes._weightArr.Clone();
 
             // Apply mutation to the connection weights.
-            _weightMutationScheme.MutateWeights(weightArr);
+            _weightMutationScheme.MutateWeights(weightArr, rng);
 
             // Create the child genome's ConnectionGenes object.
             // Note. The parent genome's connection arrays are re-used; these remain unchanged because we are mutating 

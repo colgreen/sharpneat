@@ -1,4 +1,5 @@
-﻿using Redzen.Random;
+﻿using Redzen.Numerics.Distributions;
+using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
@@ -9,30 +10,35 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
     public class DeltaWeightMutationStrategy: IWeightMutationStrategy<double>
     {
         readonly ISubsetSelectionStrategy _selectionStrategy;
-        readonly IContinuousDistribution<double> _dist;
+        readonly IStatelessSampler<double> _weightDeltaSampler;
 
         #region Constructor
 
         public DeltaWeightMutationStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            IContinuousDistribution<double> weightDeltaDistribution)
+            IStatelessSampler<double> weightDeltaSampler)
         {
             _selectionStrategy = selectionStrategy;
-            _dist = weightDeltaDistribution;
+            _weightDeltaSampler = weightDeltaSampler;
         }
 
         #endregion
 
         #region Public Methods
 
-        public void Invoke(double[] weightArr)
+        /// <summary>
+        /// Invoke the strategy.
+        /// </summary>
+        /// <param name="weightArr">The connection weight array to apply mutations to.</param>
+        /// <param name="rng">Random source.</param>
+        public void Invoke(double[] weightArr, IRandomSource rng)
         {
             // Select a subset of connection genes to mutate.
-            int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length);
+            int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length, rng);
 
             // Loop over the connection genes to be mutated, and mutate them.
             for(int i=0; i<selectedIdxArr.Length; i++) {
-                weightArr[selectedIdxArr[i]] += _dist.Sample();
+                weightArr[selectedIdxArr[i]] += _weightDeltaSampler.Sample(rng);
             }
         }
 
@@ -42,21 +48,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 
         public static DeltaWeightMutationStrategy CreateUniformDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            double weightScale,
-            IRandomSource rng)
+            double weightScale)
         {
-            var dist = ContinuousDistributionFactory.CreateUniformDistribution<double>(weightScale, true, rng);
-            return new DeltaWeightMutationStrategy(selectionStrategy, dist);
+            var sampler = UniformDistributionSamplerFactory.CreateStatelessSampler<double>(weightScale, true);
+            return new DeltaWeightMutationStrategy(selectionStrategy, sampler);
         }
 
         // TODO: Consider Laplacian distribution.
         public static DeltaWeightMutationStrategy CreateGaussianDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            double stdDev,
-            IRandomSource rng)
+            double stdDev)
         {
-            var dist = ContinuousDistributionFactory.CreateGaussianDistribution<double>(0, stdDev, rng);
-            return new DeltaWeightMutationStrategy(selectionStrategy, dist);
+            var sampler = GaussianDistributionSamplerFactory.CreateStatelessSampler<double>(0, stdDev);
+            return new DeltaWeightMutationStrategy(selectionStrategy, sampler);
         }
 
         #endregion

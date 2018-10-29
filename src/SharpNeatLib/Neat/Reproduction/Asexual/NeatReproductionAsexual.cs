@@ -1,5 +1,6 @@
 ﻿using System;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
@@ -11,7 +12,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     /// <summary>
     /// Creation of offspring given a single parent (asexual reproduction).
     /// </summary>
-    public class NeatReproductionAsexual<T> where T : struct
+    public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
+        where T : struct
     {
         #region Instance Fields
 
@@ -35,32 +37,29 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             Int32Sequence generationSeq,
             AddedNodeBuffer addedNodeBuffer,
             NeatReproductionAsexualSettings settings,
-            WeightMutationScheme<T> weightMutationScheme,
-            IRandomSourceBuilder rngBuilder)
+            WeightMutationScheme<T> weightMutationScheme)
         {
             _settings = settings;
 
             // Instantiate reproduction strategies.
             _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
-            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, rngBuilder.Create());
+            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
             if(metaNeatGenome.IsAcyclic) 
             {
                 _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(
                     metaNeatGenome, genomeBuilder,
-                    genomeIdSeq, innovationIdSeq, generationSeq,
-                    rngBuilder.Create());
+                    genomeIdSeq, innovationIdSeq, generationSeq);
             }
             else 
             {
                 _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(
                     metaNeatGenome, genomeBuilder,
-                    genomeIdSeq, innovationIdSeq, generationSeq,
-                    rngBuilder.Create());
+                    genomeIdSeq, innovationIdSeq, generationSeq);
             }      
             
-            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer, rngBuilder.Create());
+            _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
         }
 
         #endregion
@@ -68,10 +67,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         #region Public Methods
 
         /// <summary>
-        /// Asexual reproduction.
+        /// Create a new child genome from a given parent genome.
         /// </summary>
-        /// <param name="parent1">Parent genome.</param>
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
+        /// <param name="parent">The parent genome.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new child genome.</returns>
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             // Get a discrete distribution over the set of possible mutation types.
             DiscreteDistribution mutationTypeDist = GetMutationTypeDistribution(parent);
@@ -79,7 +80,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Keep trying until a child genome is created.
             for(;;)
             {
-                NeatGenome<T> childGenome = Create(parent, ref mutationTypeDist);
+                NeatGenome<T> childGenome = Create(parent, rng, ref mutationTypeDist);
                 if(null != childGenome) {
                     return childGenome;
                 }
@@ -92,10 +93,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         private NeatGenome<T> Create(
             NeatGenome<T> parent,
+            IRandomSource rng,
             ref DiscreteDistribution mutationTypeDist)
         {
             // Determine the type of mutation to attempt.
-            MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample();
+            MutationType mutationTypeId = (MutationType)DiscreteDistribution.Sample(rng, mutationTypeDist);
 
             // Attempt to create a child genome using the selected mutation type.
             NeatGenome<T> childGenome = null;
@@ -105,17 +107,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
                 case MutationType.ConnectionWeight: 
-                    childGenome = _mutateWeightsStrategy.CreateChildGenome(parent);
+                    childGenome = _mutateWeightsStrategy.CreateChildGenome(parent, rng);
                     break;
                 case MutationType.AddNode: 
                     // FIXME: Reinstate.
-                    childGenome = _addNodeStrategy.CreateChildGenome(parent);
+                    childGenome = _addNodeStrategy.CreateChildGenome(parent, rng);
                     break;
                 case MutationType.AddConnection:
-                    childGenome = _addConnectionStrategy.CreateChildGenome(parent);
+                    childGenome = _addConnectionStrategy.CreateChildGenome(parent, rng);
                     break;
                 case MutationType.DeleteConnection:
-                    childGenome = _deleteConnectionStrategy.CreateChildGenome(parent);
+                    childGenome = _deleteConnectionStrategy.CreateChildGenome(parent, rng);
                     break;
                 default: 
                     throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}].");

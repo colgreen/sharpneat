@@ -1,4 +1,5 @@
-﻿using Redzen.Random;
+﻿using Redzen.Numerics.Distributions;
+using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
@@ -11,16 +12,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         where T : struct
     {
         readonly ISubsetSelectionStrategy _selectionStrategy;
-        readonly IContinuousDistribution<T> _dist;
+        readonly IStatelessSampler<T> _weightSampler;
 
         #region Constructor
 
         public ResetWeightMutationStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            IContinuousDistribution<T> weightDistribution)
+            IStatelessSampler<T> weightSampler)
         {
             _selectionStrategy = selectionStrategy;
-            _dist = weightDistribution;
+            _weightSampler = weightSampler;
         }
 
         #endregion
@@ -31,14 +32,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// Invoke the strategy.
         /// </summary>
         /// <param name="weightArr">The connection weight array to apply mutations to.</param>
-        public void Invoke(T[] weightArr)
+        /// <param name="rng">Random source.</param>
+        public void Invoke(T[] weightArr, IRandomSource rng)
         {
             // Select a subset of connection genes to mutate.
-            int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length);
+            int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length, rng);
 
             // Loop over the connection genes to be mutated, and mutate them.
             for(int i=0; i<selectedIdxArr.Length; i++) {
-                weightArr[selectedIdxArr[i]] = _dist.Sample();
+                weightArr[selectedIdxArr[i]] = _weightSampler.Sample(rng);
             }
         }
 
@@ -48,21 +50,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         public static ResetWeightMutationStrategy<T> CreateUniformResetStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            double weightScale,
-            IRandomSource rng)
+            double weightScale)
         {
-            var dist = ContinuousDistributionFactory.CreateUniformDistribution<T>(weightScale, true, rng);
-            return new ResetWeightMutationStrategy<T>(selectionStrategy, dist);
+            var sampler = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(weightScale, true);
+            return new ResetWeightMutationStrategy<T>(selectionStrategy, sampler);
         }
 
         // TODO: Consider Laplacian distribution.
         public static ResetWeightMutationStrategy<T> CreateGaussianResetStrategy(
             ISubsetSelectionStrategy selectionStrategy,
-            double stdDev,
-            IRandomSource rng)
+            double stdDev)
         {
-            var dist = ContinuousDistributionFactory.CreateGaussianDistribution<T>(0, stdDev, rng);
-            return new ResetWeightMutationStrategy<T>(selectionStrategy, dist);
+            var sampler = GaussianDistributionSamplerFactory.CreateStatelessSampler<T>(0, stdDev);
+            return new ResetWeightMutationStrategy<T>(selectionStrategy, sampler);
         }
 
         #endregion

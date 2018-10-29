@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
@@ -24,9 +25,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
 
-        readonly IContinuousDistribution<T> _weightDistA;
-        readonly IContinuousDistribution<T> _weightDistB;
-        readonly IRandomSource _rng;
+        readonly IStatelessSampler<T> _weightSamplerA;
+        readonly IStatelessSampler<T> _weightSamplerB;
         readonly CyclicConnectionTest _cyclicTest;
 
         #endregion
@@ -38,8 +38,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            Int32Sequence generationSeq,
-            IRandomSource rng)
+            Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
@@ -47,9 +46,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
 
-            _weightDistA = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange, true);
-            _weightDistB = ContinuousDistributionFactory.CreateUniformDistribution<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
-            _rng = rng;
+            _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightRange, true);
+            _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
             _cyclicTest = new CyclicConnectionTest();
         }
 
@@ -61,14 +59,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// Create a new child genome from a given parent genome.
         /// </summary>
         /// <param name="parent">The parent genome.</param>
+        /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent)
+        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             Debug.Assert(_metaNeatGenome == parent.MetaNeatGenome, "Parent genome has unexpected MetaNeatGenome.");
 
             // Attempt to find a new connection that we can add to the genome.
             DirectedConnection directedConn;
-            if(!TryGetConnection(parent, out directedConn, out int insertIdx))
+            if(!TryGetConnection(parent, rng, out directedConn, out int insertIdx))
             {   // Failed to find a new connection.
                 return null;
             }
@@ -77,7 +76,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // 50% of the time use weights very close to zero.
             // Note. this recreates the strategy used in SharpNEAT 2.x.
             // ENHANCEMENT: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
-            T weight = _rng.NextBool() ? _weightDistB.Sample() : _weightDistA.Sample();
+            T weight = rng.NextBool() ? _weightSamplerB.Sample(rng) : _weightSamplerA.Sample(rng);
 
             // Create a new connection gene array that consists of the parent connection genes plus the new gene
             // inserted at the correct (sorted) position.
@@ -126,12 +125,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         // acyclic connections, instead of the approach here of selecting random connections and testing if they are acyclic or not.
 
         // rather than he current rejection sampling approach.
-        private bool TryGetConnection(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
+        private bool TryGetConnection(
+            NeatGenome<T> parent,
+            IRandomSource rng,
+            out DirectedConnection conn,
+            out int insertIdx)
         {
             // Make several attempts at find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
             {
-                if(TryGetConnectionInner(parent, out conn, out insertIdx)) {
+                if(TryGetConnectionInner(parent, rng, out conn, out insertIdx)) {
                     return true;
                 }
             }
@@ -141,7 +144,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             return false;
         }
 
-        private bool TryGetConnectionInner(NeatGenome<T> parent, out DirectedConnection conn, out int insertIdx)
+        private bool TryGetConnectionInner(
+            NeatGenome<T> parent,
+            IRandomSource rng,
+            out DirectedConnection conn,
+            out int insertIdx)
         {
             int inputCount = _metaNeatGenome.InputNodeCount;
             int outputCount = _metaNeatGenome.OutputNodeCount;
@@ -153,7 +160,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // for acyclic nets, because that can prevent future connections from targeting the output if it would
             // create a cycle.
             int inputHiddenCount = inputCount + hiddenCount;
-            int srcIdx = _rng.Next(inputHiddenCount);
+            int srcIdx = rng.Next(inputHiddenCount);
 
             if(srcIdx >= inputCount) {
                 srcIdx += outputCount;
@@ -163,7 +170,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Select a target node at random.
             // Note. Valid target nodes are all hidden and output nodes (cannot be an input node).
             int outputHiddenCount = outputCount + hiddenCount;
-            int tgtId = GetNodeIdFromIndex(parent, inputCount + _rng.Next(outputHiddenCount));;
+            int tgtId = GetNodeIdFromIndex(parent, inputCount + rng.Next(outputHiddenCount));;
 
             // Test for simplest cyclic connectivity - node connects to itself.
             if(srcId == tgtId)

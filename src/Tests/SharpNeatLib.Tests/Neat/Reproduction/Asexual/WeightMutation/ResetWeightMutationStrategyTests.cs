@@ -20,8 +20,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation
             double weightScale = 5.0;
             var strategy = ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(
                 new SelectAllStrategy(),
-                weightScale,
-                RandomDefaults.CreateRandomSource(0));
+                weightScale);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
             int iters = 10000;
             double[] weightArr = new double[iters];
@@ -29,7 +30,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation
                 weightArr[i] = 123.0;
             }
             
-            strategy.Invoke(weightArr);
+            strategy.Invoke(weightArr, rng);
 
             // Construct a histogram on the array of weights.
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
@@ -56,7 +57,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation
         {
             var strategy = ResetWeightMutationStrategy<double>.CreateGaussianResetStrategy(
                 new SelectAllStrategy(),
-                1.0, RandomDefaults.CreateRandomSource(0));
+                1.0);
+
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
             int iters = 100000;
             double[] weightArr = new double[iters];
@@ -64,7 +67,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation
                 weightArr[i] = 123.0;
             }
             
-            strategy.Invoke(weightArr);
+            strategy.Invoke(weightArr, rng);
 
             // Construct a histogram on the array of weights.
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);

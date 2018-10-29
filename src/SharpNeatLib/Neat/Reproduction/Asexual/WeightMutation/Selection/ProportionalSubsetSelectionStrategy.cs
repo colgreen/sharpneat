@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
@@ -11,7 +12,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
     public class ProportionSubsetSelectionStrategy : ISubsetSelectionStrategy
     {
         readonly double _selectionProportion;
-        readonly IRandomSource _rng;
 
         #region Constructor
 
@@ -19,13 +19,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// Construct with the given selection proportion.
         /// </summary>
         /// <param name="selectionCount">The proportion of items to select.</param>
-        public ProportionSubsetSelectionStrategy(
-            double selectionProportion, IRandomSource rng)
+        public ProportionSubsetSelectionStrategy(double selectionProportion)
         {
             Debug.Assert(selectionProportion > 0 && selectionProportion <= 1.0);
 
             _selectionProportion = selectionProportion;
-            _rng = rng;
         }
 
         #endregion
@@ -36,15 +34,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// Select a subset of items from a superset of a given size.
         /// </summary>
         /// <param name="supersetCount">The size of the superset to select from.</param>
+        /// <param name="rng">Random source.</param>
         /// <returns>An array of indexes that are the selected items.</returns>
-        public int[] SelectSubset(int supersetCount)
+        public int[] SelectSubset(int supersetCount, IRandomSource rng)
         {
             // Note. Ideally we'd return a sorted list of indexes to improve performance of the code that consumes them,
             // however, the sampling process inherently produces samples in randomized order, thus the decision of whether
             // to sort or not depends on the cost to the code using the samples. I.e. don't sort here!
-            int selectionCount = (int)NumericsUtils.ProbabilisticRound(supersetCount * _selectionProportion, _rng);
+            int selectionCount = (int)NumericsUtils.ProbabilisticRound(supersetCount * _selectionProportion, rng);
             int[] idxArr = new int[selectionCount];
-            DiscreteDistributionUtils.SampleUniformWithoutReplacement(supersetCount, idxArr, _rng);
+            DiscreteDistribution.SampleUniformWithoutReplacement(rng, supersetCount, idxArr);
             return idxArr;
         }
 

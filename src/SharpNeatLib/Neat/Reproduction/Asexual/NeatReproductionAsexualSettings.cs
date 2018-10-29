@@ -1,4 +1,5 @@
 ﻿using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
