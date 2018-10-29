@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             : this(eaSettings, evaluator, speciationStrategy, population,
                   reproductionAsexualSettings, reproductionSexualSettings,
                   weightMutationScheme,
-                  RandomDefaults.DefaultRandomSourceBuilder)
+                  RandomDefaults.CreateRandomSource())
         {}
 
         public NeatEvolutionAlgorithm(
@@ -61,7 +61,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             NeatReproductionAsexualSettings reproductionAsexualSettings,
             NeatReproductionSexualSettings reproductionSexualSettings,
             WeightMutationScheme<T> weightMutationScheme,
-            IRandomSourceBuilder rngBuilder)
+            IRandomSource rng)
         {
             _eaSettings = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
             _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
@@ -70,9 +70,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             if(reproductionAsexualSettings == null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
             if(reproductionSexualSettings == null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
-            
-            if(rngBuilder == null) throw new ArgumentNullException(nameof(rngBuilder));
-             _rng = rngBuilder.Create();
+
+             _rng = rng;
 
             if(eaSettings.SpeciesCount > population.PopulationSize) {
                 throw new ArgumentException("Species count is higher then the population size.");
