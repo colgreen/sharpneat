@@ -29,7 +29,9 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         {
             _settings = settings;
             _strategy = new UniformCrossoverReproductionStrategy<T>(
-                                metaNeatGenome, genomeBuilder,
+                                metaNeatGenome.IsAcyclic,
+                                settings.SecondaryParentGeneProbability,
+                                genomeBuilder,
                                 genomeIdSeq, generationSeq);
         }
 

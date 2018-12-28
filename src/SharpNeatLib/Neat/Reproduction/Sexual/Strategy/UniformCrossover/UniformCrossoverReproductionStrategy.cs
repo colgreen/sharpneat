@@ -17,7 +17,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     public class UniformCrossoverReproductionStrategy<T> : ISexualReproductionStrategy<T>
         where T : struct
     {
-        readonly MetaNeatGenome<T> _metaNeatGenome;
+        readonly bool _isAcyclic;
+        readonly double _secondaryParentGeneProbability;
         readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
@@ -26,17 +27,19 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         #region Constructor
 
         public UniformCrossoverReproductionStrategy(
-            MetaNeatGenome<T> metaNeatGenome,
+            bool isAcyclic,
+            double secondaryParentGeneProbability,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq)
         {
-            _metaNeatGenome = metaNeatGenome;
+            _isAcyclic = isAcyclic;
+            _secondaryParentGeneProbability = secondaryParentGeneProbability;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
-            _builder = new ConnectionGeneListBuilder<T>(_metaNeatGenome.IsAcyclic, 1024);
+            _builder = new ConnectionGeneListBuilder<T>(_isAcyclic, 1024);
         }
 
         #endregion
@@ -136,7 +139,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             }
 
             // Otherwise use the secondary parent's gene stochastically.
-            if(DiscreteDistribution.SampleBernoulli(rng, _metaNeatGenome.SecondaryParentGeneProbability))
+            if(DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability))
             {
                 isSecondaryGene = true;
                 return CreateConnectionGene(connGenes2, idx2);

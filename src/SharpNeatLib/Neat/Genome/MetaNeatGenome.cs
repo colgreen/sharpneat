@@ -39,13 +39,6 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public double ConnectionWeightRange { get; } = 5.0;
 
-        // TODO: Consider if this is in the correct place. Seems a bit odd.
-        /// <summary>
-        /// Sexual reproduction.
-        /// The probability that a gene that exists only on the secondary parent is copied into the child genome.
-        /// </summary>
-        public double SecondaryParentGeneProbability = 0.02;
-
         #endregion
 
         #region Properties
