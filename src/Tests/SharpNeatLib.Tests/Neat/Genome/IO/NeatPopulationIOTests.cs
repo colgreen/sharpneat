@@ -21,8 +21,13 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             // Create a test population.
             NeatPopulation<double> pop = NestGenomeTestUtils.CreateNeatPopulation();
 
-            // Create a parent folder to save populations into.
-            string parentPath = Path.Combine(TestContext.TestRunDirectory, "test-pops");
+            // Build path to test population folder.
+            string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
+
+            // Delete folder if it already exists.
+            Directory.Delete(parentPath, true);
+
+            // Create an empty parent folder to save populations into.            
             Directory.CreateDirectory(parentPath);
 
             // Save the population to the unit test output folder.
@@ -44,8 +49,13 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             // Create a test population.
             NeatPopulation<double> pop = NestGenomeTestUtils.CreateNeatPopulation();
 
-            // Create a parent folder to save populations into.
-            string parentPath = Path.Combine(TestContext.TestRunDirectory, "test-pops");
+            // Build path to test population folder.
+            string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
+
+            // Delete folder if it already exists.
+            Directory.Delete(parentPath, true);
+
+            // Create an empty parent folder to save populations into.            
             Directory.CreateDirectory(parentPath);
 
             // Save the population to the unit test output folder.

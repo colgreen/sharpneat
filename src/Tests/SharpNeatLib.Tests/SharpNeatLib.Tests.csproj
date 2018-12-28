@@ -1,139 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpNeat.Tests</RootNamespace>
-    <AssemblyName>SharpNeatLib.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Redzen, Version=8.0.0.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Redzen.8.0.0-alpha2\lib\netstandard2.0\Redzen.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+    <PackageReference Include="System.Memory" Version="4.5.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Neat\DistanceMetrics\Double\DistanceMetricsUtilsTests.cs" />
-    <Compile Include="Neat\DistanceMetrics\Double\ManhattanDistanceMetricTests.cs" />
-    <Compile Include="Neat\DistanceMetrics\Double\EuclideanDistanceMetricTests.cs" />
-    <Compile Include="Neat\Genome\IO\IOTestUtils.cs" />
-    <Compile Include="Neat\Genome\IO\NeatGenomeLoaderTests.cs" />
-    <Compile Include="Neat\Genome\IO\NeatPopulationIOTests.cs" />
-    <Compile Include="Neat\Genome\IO\NeatGenomeIOTests.cs" />
-    <Compile Include="Neat\Genome\NeatGenomeAcyclicBuilderTests.cs" />
-    <Compile Include="Neat\Genome\NeatGenomeBuilderTests.cs" />
-    <Compile Include="Neat\Network\Acyclic\CyclicConnectionTestTests.cs" />
-    <Compile Include="Neat\Network\DirectedConnectionTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddNodeStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\EnumerateParentGenesTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\UniformCrossoverReproductionStrategyTestsUtils.cs" />
-    <Compile Include="Neat\EvolutionAlgorithm\SpeciesAllocationCalcsTests.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\RegularizedGeneticKMeansSpeciationStrategyTests.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\RegularizedGeneticKMeansSpeciationStrategyTests.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\Parallelized\GeneticKMeansSpeciationStrategyTests.cs" />
-    <Compile Include="Neat\Speciation\GeneticKMeans\GeneticKMeansSpeciationStrategyTests.cs" />
-    <Compile Include="Neat\Speciation\SpeciationStrategyTestUtils.cs" />
-    <Compile Include="Network\AcyclicGraphDepthAnalysisByRecursion.cs" />
-    <Compile Include="Network\DirectedConnectionUtilsTests.cs" />
-    <Compile Include="Neat\Genome\NestGenomeTestUtils.cs" />
-    <Compile Include="Neat\NeatPopulationTests.cs" />
-    <Compile Include="Neat\AddedNodeBufferTests.cs" />
-    <Compile Include="Neat\Network\ConnectionCompareUtils.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddAcyclicConnectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\AddCyclicConnectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Sexual\Strategy\UniformCrossover\CyclicConnectionTestTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\Strategy\DeleteConnectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Double\DeltaWeightMutationStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\ResetWeightMutationStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\ProportionSubsetSelectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\CardinalSubsetSelectionStrategyTests.cs" />
-    <Compile Include="Neat\Reproduction\Asexual\WeightMutation\Selection\SelectAllStrategy.cs" />
-    <Compile Include="Network\AcyclicGraphDepthAnalysisTests.cs" />
-    <Compile Include="Network\ConnectionSorterTests.cs" />
-    <Compile Include="Network\CyclicGraphAnalysisTests.cs" />
-    <Compile Include="Network\DirectedGraphTests.cs" />
-    <Compile Include="Network\NetworkUtils.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctionFactoryTests.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\ActivationFunctionOverloadTests.cs" />
-    <Compile Include="NeuralNets\Double\ActivationFunctions\ActivationFunctionMonotonicityTests.cs" />
-    <Compile Include="NeuralNets\Double\CyclicNeuralNetTests.cs" />
-    <Compile Include="BlackBox\MappingVectorTests.cs" />
-    <Compile Include="NeuralNets\Double\AcyclicNeuralNetTests.cs" />
-    <Compile Include="BlackBox\VectorSegmentTests.cs" />
-    <Compile Include="Network\WeightedAcyclicDirectedGraphBuilderTests.cs" />
-    <Compile Include="Network\WeightedDirectedGraphBuilderTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestUtils.cs" />
+    <Folder Include="Properties\" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpNeatLib\SharpNeatLib.csproj">
-      <Project>{29425503-9a5d-4c86-bb9b-ca17a7742e6a}</Project>
-      <Name>SharpNeatLib</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\SharpNeatLib\SharpNeatLib.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TestData\example1.genome">
+    <None Update="TestData\example1.genome">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" />
+
 </Project>
