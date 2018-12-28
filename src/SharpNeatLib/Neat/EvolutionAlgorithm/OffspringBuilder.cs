@@ -101,8 +101,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 int offspringCountAsexual = stats.OffspringAsexualCount;
                 int offspringCountSexual = stats.OffspringSexualCount;
 
-                // Special case: A species with a single genome cannot perform intra-species sexual reproduction.
-                if(species.GenomeList.Count == 1)
+                // Special case: A species with a single genome marked for selection, cannot perform intra-species sexual reproduction.
+                if(species.Stats.SelectionSizeInt == 1)
                 {
                     // Note. here we assign all the sexual reproduction allocation to asexual reproduction. In principle 
                     // we could still perform inter species sexual reproduction, but that complicates the code further
@@ -117,7 +117,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
                 // Create offspring from the current species.
                 CreateSpeciesOffspringAsexual(species, genomeDist, offspringCountAsexual, offspringList, rng);
-                CreateSpeciasOffspringSexual(speciesArr, species, speciesDistUpdated, genomeDistArr, genomeDist, offspringCountSexual, offspringList, rng);
+                CreateSpeciesOffspringSexual(speciesArr, species, speciesDistUpdated, genomeDistArr, genomeDist, offspringCountSexual, offspringList, rng);
             }
 
             return offspringList;
@@ -145,7 +145,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             }
         }
 
-        private void CreateSpeciasOffspringSexual(
+        private void CreateSpeciesOffspringSexual(
             Species<T>[] speciesArr,
             Species<T> species,
             DiscreteDistribution speciesDistUpdated,
