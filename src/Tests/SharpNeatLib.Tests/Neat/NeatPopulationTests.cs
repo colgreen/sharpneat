@@ -52,7 +52,7 @@ namespace SharpNeat.Tests.Neat
             Assert.AreEqual(3, genome.MetaNeatGenome.InputNodeCount);
             Assert.AreEqual(2, genome.MetaNeatGenome.OutputNodeCount);
             Assert.AreEqual(true, genome.MetaNeatGenome.IsAcyclic);
-            Assert.AreEqual(5.0, genome.MetaNeatGenome.ConnectionWeightRange);
+            Assert.AreEqual(5.0, genome.MetaNeatGenome.ConnectionWeightScale);
             Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
             Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
             Assert.AreEqual(6, genome.ConnectionGenes.Length);
@@ -77,8 +77,8 @@ namespace SharpNeat.Tests.Neat
 
             CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out double min, out double max, out double mean);
 
-            Assert.IsTrue(min < -genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
-            Assert.IsTrue(max > genome.MetaNeatGenome.ConnectionWeightRange * 0.98);
+            Assert.IsTrue(min < -genome.MetaNeatGenome.ConnectionWeightScale * 0.98);
+            Assert.IsTrue(max > genome.MetaNeatGenome.ConnectionWeightScale * 0.98);
             Assert.IsTrue(Math.Abs(mean) < 0.1);
         }
 

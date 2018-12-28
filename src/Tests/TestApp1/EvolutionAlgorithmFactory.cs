@@ -9,6 +9,9 @@ using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Speciation.GeneticKMeans;
 using SharpNeat.BlackBox;
 using SharpNeatTasks.BinaryElevenMultiplexer;
+using SharpNeat.Neat.Reproduction.Asexual;
+using SharpNeat.Neat.Reproduction.Sexual;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
 namespace TestApp1
 {
@@ -35,18 +38,26 @@ namespace TestApp1
             var distanceMetric = new EuclideanDistanceMetric();
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
 
-            // TODO: Finish off.
+            // Create an asexual reproduction settings object (default settings).
+            var reproductionAsexualSettings = new NeatReproductionAsexualSettings();
 
-            //// Pull all of the parts together into an evolution algorithm instance.
-            //var ea = new NeatEvolutionAlgorithm<double>(
-            //    _eaSettings,
-            //    genomeListEvaluator,
-            //    speciationStrategy,
-            //    _neatPop);
+            // Create a sexual reproduction settings object (default settings).
+            var reproductionSexualSettings = new NeatReproductionSexualSettings();
 
-            //return ea;
+            // Create a connection weight mutation scheme.
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(_metaNeatGenome.ConnectionWeightScale);
 
-            return null;
+            // Pull all of the parts together into an evolution algorithm instance.
+            var ea = new NeatEvolutionAlgorithm<double>(
+                _eaSettings,
+                genomeListEvaluator,
+                speciationStrategy,
+                _neatPop,
+                reproductionAsexualSettings,
+                reproductionSexualSettings,
+                weightMutationScheme);
+
+            return ea;
         }
 
         #endregion

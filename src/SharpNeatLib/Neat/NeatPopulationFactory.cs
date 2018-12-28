@@ -59,7 +59,7 @@ namespace SharpNeat.Neat
             _innovationIdSeq = new Int32Sequence(nextInnovationId);
 
             // Init random connection weight source.
-            _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(_metaNeatGenome.ConnectionWeightRange, true);
+            _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(_metaNeatGenome.ConnectionWeightScale, true);
 
         }
 

@@ -77,7 +77,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
             var newWeightArr = new T[] { 
                 parent.ConnectionGenes._weightArr[splitConnIdx],
-                (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightRange, typeof(T))
+                (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightScale, typeof(T))
             };
 
             // Ensure newConnArr is sorted.

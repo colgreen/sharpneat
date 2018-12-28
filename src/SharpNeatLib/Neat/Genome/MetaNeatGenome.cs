@@ -33,11 +33,11 @@ namespace SharpNeat.Neat.Genome
         public IActivationFunction<T> ActivationFn { get; }
 
         /// <summary>
-        /// Maximum connection weight magnitude. 
+        /// Maximum connection weight scale/magnitude. 
         /// E.g. a value of 5 defines a weight range of -5 to 5.
         /// The weight range is strictly enforced, e.g. when creating new connections and mutating existing ones.
         /// </summary>
-        public double ConnectionWeightRange { get; } = 5.0;
+        public double ConnectionWeightScale { get; } = 5.0;
 
         #endregion
 

@@ -46,8 +46,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
 
-            _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightRange, true);
-            _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightRange * 0.01, true);
+            _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale, true);
+            _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale * 0.01, true);
             _cyclicTest = new CyclicConnectionTest();
         }
 
