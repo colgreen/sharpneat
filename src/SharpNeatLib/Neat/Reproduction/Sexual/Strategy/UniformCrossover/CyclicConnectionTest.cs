@@ -35,7 +35,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// 
     /// The traversal stack is a stack of Int32(s), each of which is an index into connList (the list of connections
     /// that make up the graph, ordered by sourceId and then targetId). Thus, each stack entry points to a connection,
-    /// and represents traversal of that connection's source node and also which of that node's child connection/nodes
+    /// and represents traversal of that connection's source node and also which of that node's child connections/nodes
     /// is the current traversal position/path from that node (note. this works because the connections are sorted by 
     /// sourceId first).
     /// 
@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// Problems with the approach of this class are:
     /// 
     ///    * The code is more complex than the same algorithm written as a recursive function; this makes the code harder 
-    ///      to read, understand and maintain,  thus increasing the probability of subtle defects.
+    ///      to read, understand and maintain, thus increasing the probability of subtle defects.
     ///
     /// Also see:
     /// <see cref="SharpNeat.Neat.Reproduction.Asexual.Strategy.CyclicConnectionTest"/>
@@ -194,7 +194,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
                 // Notes.
                 // Before we traverse the current connection, update the stack state to point to the next connection to be
-                // traversed, either from the current node or a parent node. I.e. we modify the stack state  ready for when
+                // traversed, either from the current node or a parent node. I.e. we modify the stack state ready for when
                 // the traversal down into the current connection completes and returns back to the current node.
                 //
                 // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
@@ -241,7 +241,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             {
                 if(!_visitedNodes.Contains(connList[i].TargetId))
                 {
-                    _traversalStack.Poke(currConnIdx + 1);
+                    _traversalStack.Poke(i);
                     return;
                 }
             }

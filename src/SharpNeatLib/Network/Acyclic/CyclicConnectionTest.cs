@@ -215,7 +215,7 @@ namespace SharpNeat.Network.Acyclic
             {
                 if(!_visitedNodeBitmap[tgtIdAr[i]])
                 {
-                    _traversalStack.Poke(currConnIdx + 1);
+                    _traversalStack.Poke(i);
                     return;
                 }
             }
