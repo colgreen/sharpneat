@@ -10,7 +10,7 @@ namespace SharpNeat.EvolutionAlgorithm
         /// <summary>
         /// The current generation number.
         /// </summary>
-        public uint Generation { get; set; }
+        public int Generation { get; set; }
 
         /// <summary>
         /// FitnessInfo associated with the current best genome.

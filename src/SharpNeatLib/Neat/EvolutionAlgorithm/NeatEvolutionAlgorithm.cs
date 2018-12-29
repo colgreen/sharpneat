@@ -151,17 +151,14 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Integrate offspring into the species.
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
 
-
-
-            // TODO: Finish off.
-
             // Update population and per-species stats
+            PopulationStatsCalcs<T>.CalcAndStorePopulationStats(_pop);
+            SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
 
-            //// Update stats.
-            //UpdateBestGenome();
-
-            ////_eaStats.StopConditionSatisfied = _evaluator.StopConditionSatisfied;
-            //_eaStats.Generation++;
+            // Update the EvolutionAlgorithm stats object.
+            _eaStats.BestFitness = _pop.GenomeList[_pop.BestGenomeIdx].FitnessInfo;
+            _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_eaStats.BestFitness);
+            _eaStats.Generation = _generationSeq.Next();
         }
 
         #endregion

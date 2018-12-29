@@ -21,7 +21,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 
         // Update event scheme / data.
         UpdateScheme _updateScheme;
-        uint _prevUpdateGeneration;
+        int _prevUpdateGeneration;
         long _prevUpdateTimeTick;
 
         // Misc working variables.
