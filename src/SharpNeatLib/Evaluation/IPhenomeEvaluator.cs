@@ -9,13 +9,6 @@ namespace SharpNeat.Evaluation
     public interface IPhenomeEvaluator<TPhenome>
     {
         /// <summary>
-        /// Evaluate a single phenome and return its fitness score or scores.
-        /// </summary>
-        /// <param name="phenome">The phenome to evaluate.</param>
-        /// <returns></returns>
-        FitnessInfo Evaluate(TPhenome phenome);
-
-        /// <summary>
         /// Gets a null fitness score, i.e. for genomes that cannot be assigned a fitness score for whatever reason, e.g.
         /// if a genome failed to decode to a viable phenome that could be tested.
         /// </summary>
@@ -30,5 +23,20 @@ namespace SharpNeat.Evaluation
         /// determine which is the better FitnessInfo between any two.
         /// </remarks>
         IComparer<FitnessInfo> FitnessComparer { get; }
+
+        /// <summary>
+        /// Evaluate a single phenome and return its fitness score or scores.
+        /// </summary>
+        /// <param name="phenome">The phenome to evaluate.</param>
+        /// <returns></returns>
+        FitnessInfo Evaluate(TPhenome phenome);
+
+        /// <summary>
+        /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean
+        /// that indicates if the evolution algorithm can stop, i.e. because the fitness is the best that can be achieved (or good enough).
+        /// </summary>
+        /// <param name="fitnessInfo">The fitness info object to test.</param>
+        /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
+        bool TestForStopCondition(FitnessInfo fitnessInfo);
     }
 }

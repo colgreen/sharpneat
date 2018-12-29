@@ -34,13 +34,12 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                 inputArr[0] = 1.0;
 
                 // Apply bitmask to i and shift left to generate the input signals.
-                // In addition we scale 0->1 to be 0.1->1.0
-                // Note. We /could/ eliminate all the boolean logic by pre-building a table of test 
+                // Note. We could eliminate all the boolean logic by pre-building a table of test 
                 // signals and correct responses.
                 int tmp = i;
-                for(int j=0; j < 11; j++) 
+                for(int j=1; j < 12; j++) 
                 {   
-                    inputArr[j+1] = tmp & 0x1;
+                    inputArr[j] = tmp & 0x1;
                     tmp >>= 1;
                 }
                                 
@@ -53,24 +52,26 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
 
                 // Determine the correct answer by using highly cryptic bit manipulation :)
                 // The condition is true if the correct answer is true (1.0).
-                if(((1<<(3+(i&0x7)))&i) != 0)
-                {   // correct answer = true.
+                if(((1 << (3 + (i & 0x7))) &i) != 0)
+                {   
+                    // correct answer = true.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                     // Note. To base fitness on absolute error use: fitness += output;
-                    fitness += 1.0 - ((1.0-output) * (1.0-output));
+                    fitness += 1.0 - ((1.0 - output) * (1.0 - output));
                     if(output < 0.5) {
-                        success=false;
+                        success = false;
                     }
                 }
                 else
-                {   // correct answer = false.
+                {   
+                    // correct answer = false.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                     // Note. To base fitness on absolute error use: fitness += 1.0-output;
                     fitness += 1.0 - (output * output);
                     if(output >= 0.5) {
-                        success=false;
+                        success = false;
                     }
                 }
 
@@ -80,10 +81,21 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
 
             // If the correct answer was given in each case then add a bonus value to the fitness.
             if(success) {
-                fitness += 10000.0;
+                fitness += 10_000.0;
             }
 
             return new FitnessInfo(fitness);
+        }
+
+        /// <summary>
+        /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean
+        /// that indicates if the evolution algorithm can stop, i.e. because the fitness is the best that can be achieved (or good enough).
+        /// </summary>
+        /// <param name="fitnessInfo">The fitness info object to test.</param>
+        /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
+        public bool TestForStopCondition(FitnessInfo fitnessInfo)
+        {
+            return (fitnessInfo.PrimaryFitness >= 10_000);
         }
 
         /// <summary>
