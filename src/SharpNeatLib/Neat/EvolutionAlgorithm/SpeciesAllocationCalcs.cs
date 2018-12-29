@@ -42,31 +42,32 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             NeatPopulation<T> pop, IRandomSource rng)
         {
             double totalMeanFitness = pop.TotalSpeciesMeanFitness;
+            int totalTargetSizeInt = 0;
 
             // Handle specific case where all genomes/species have a zero fitness. 
             // Assign all species an equal targetSize.
             if(0.0 == totalMeanFitness) 
             {
-                CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
-                return;
+                totalTargetSizeInt = CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
             }
-
-            // Calculate the new target size of each species using fitness sharing.
-            double popSizeReal = pop.GenomeList.Count;
-            Species<T>[] speciesArr = pop.SpeciesArray;
-            int totalTargetSizeInt = 0;
-
-            // The size of each specie is based on its fitness relative to the other species.
-            for(int i=0; i < speciesArr.Length; i++)
+            else
             {
-                SpeciesStats stats = speciesArr[i].Stats;
-                stats.TargetSizeReal = (stats.MeanFitness / totalMeanFitness) * popSizeReal;
+                // Calculate the new target size of each species using fitness sharing.
+                double popSizeReal = pop.GenomeList.Count;
+                Species<T>[] speciesArr = pop.SpeciesArray;
 
-                // Discretize targetSize (stochastic rounding).
-                stats.TargetSizeInt = (int)NumericsUtils.ProbabilisticRound(stats.TargetSizeReal, rng);
+                // The size of each specie is based on its fitness relative to the other species.
+                for(int i=0; i < speciesArr.Length; i++)
+                {
+                    SpeciesStats stats = speciesArr[i].Stats;
+                    stats.TargetSizeReal = (stats.MeanFitness / totalMeanFitness) * popSizeReal;
 
-                // Total up discretized target sizes.
-                totalTargetSizeInt += stats.TargetSizeInt;
+                    // Discretize targetSize (stochastic rounding).
+                    stats.TargetSizeInt = (int)NumericsUtils.ProbabilisticRound(stats.TargetSizeReal, rng);
+
+                    // Total up discretized target sizes.
+                    totalTargetSizeInt += stats.TargetSizeInt;
+                }
             }
 
             // Adjust each species' target allocation such that the sum total matches the required population size.
@@ -115,8 +116,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Discretized target sizes may total up to a value that is not equal to the required population size. 
             // Here we check this and if the total does not match the required population size then we adjust the
             // species' targetSizeInt values to compensate for the difference.
-            int popSize = pop.GenomeList.Count;
-            int targetSizeDeltaInt = totalTargetSizeInt - popSize;
+            int targetSizeDeltaInt = totalTargetSizeInt - pop.PopulationSize;
 
             if(targetSizeDeltaInt < 0) 
             {
@@ -133,7 +133,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             AdjustSpeciesTargetSizes_AccommodateBestGenomeSpecies(pop, rng);
 
             // Assert that Sum(TargetSizeInt) == popSize.
-            Debug.Assert(pop.SpeciesArray.Sum(x => x.Stats.TargetSizeInt) == popSize);
+            Debug.Assert(pop.SpeciesArray.Sum(x => x.Stats.TargetSizeInt) == pop.PopulationSize);
         }
 
         private static void AdjustSpeciesTargetSizesUp(
@@ -252,15 +252,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IRandomSource rng)
         {
             Species<T>[] speciesArr = pop.SpeciesArray;
-            int offspringCount = 0;
 
             // Loop the species, calculating and storing the various size/count properties.
             for(int i=0; i < speciesArr.Length; i++)
             {
                 bool isBestGenomeSpecies = (pop.BestGenomeSpeciesIdx == i);
-
                 AllocateEliteSelectionOffspringCounts(speciesArr[i], eaSettings, isBestGenomeSpecies, rng);
-                offspringCount += speciesArr[i].Stats.OffspringCount;
             }
         }
 
@@ -276,6 +273,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             if(stats.TargetSizeInt == 0) 
             {
                 stats.EliteSizeInt = 0;
+                stats.OffspringCount = 0;
+                stats.OffspringAsexualCount = 0;
+                stats.OffspringSexualCount = 0;
+                stats.SelectionSizeInt = 0;
                 return;
             }
 
@@ -302,7 +303,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Determine the split between asexual and sexual reproduction. Again using probabilistic
             // rounding to compensate for any rounding bias.
-            double offspringAsexualCountReal = (double)stats.OffspringCount * eaSettings.OffspringAsexualProportion;
+            double offspringAsexualCountReal = stats.OffspringCount * eaSettings.OffspringAsexualProportion;
             stats.OffspringAsexualCount = (int)NumericsUtils.ProbabilisticRound(offspringAsexualCountReal, rng);
             stats.OffspringSexualCount = stats.OffspringCount - stats.OffspringAsexualCount;
 
