@@ -189,7 +189,7 @@ namespace SharpNeat.Network.Acyclic
                 // depth than the current path. 
                 if(_nodeDepthByIdx[tgtIdAr[i]] < depth)
                 {   
-                    _traversalStack.Poke(new StackFrame(currConnIdx + 1, depth));
+                    _traversalStack.Poke(new StackFrame(i, depth));
                     return;
                 }
             }
