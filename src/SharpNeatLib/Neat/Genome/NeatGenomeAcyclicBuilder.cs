@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Redzen.Sorting;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 

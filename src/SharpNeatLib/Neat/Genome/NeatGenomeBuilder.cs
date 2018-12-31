@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using Redzen.Sorting;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace SharpNeat.Neat.Genome.IO
 {
     public static class NeatPopulationLoaderFactory

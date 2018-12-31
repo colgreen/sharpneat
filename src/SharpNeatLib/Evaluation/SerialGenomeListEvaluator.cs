@@ -41,7 +41,7 @@ namespace SharpNeat.Evaluation
 
         #endregion
 
-        #region IGenomeListEvaluator Members
+        #region IGenomeListEvaluator
 
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.

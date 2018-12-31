@@ -16,7 +16,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
         #region Public Methods
 
         /// <summary>
-        /// Evaluate the provided IBlackBox against the Binary 6-Multiplexer problem domain and return
+        /// Evaluate the provided IBlackBox against the Binary 11-Multiplexer problem domain and return
         /// its fitness score.
         /// </summary>
         public FitnessInfo Evaluate(IBlackBox<double> box)

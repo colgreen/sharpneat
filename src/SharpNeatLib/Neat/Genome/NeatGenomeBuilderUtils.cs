@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpNeat.Network;
+﻿using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
 {

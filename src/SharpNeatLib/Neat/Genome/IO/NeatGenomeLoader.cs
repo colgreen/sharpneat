@@ -4,9 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
-using Redzen.Sorting;
 using SharpNeat.Network;
-using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Neat.Genome.IO
 {

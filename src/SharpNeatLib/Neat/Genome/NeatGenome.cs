@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Evaluation;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {

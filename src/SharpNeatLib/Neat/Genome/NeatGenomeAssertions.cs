@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Redzen;
+﻿using System.Diagnostics;
 using Redzen.Sorting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;

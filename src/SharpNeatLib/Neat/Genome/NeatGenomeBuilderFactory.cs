@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpNeat.Neat.Genome;
-
+﻿
 namespace SharpNeat.Neat.Genome
 {
     public static class NeatGenomeBuilderFactory<T>

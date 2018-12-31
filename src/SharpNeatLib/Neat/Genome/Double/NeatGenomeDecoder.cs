@@ -1,10 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using Redzen.Sorting;
-using SharpNeat.Evaluation;
-using SharpNeat.Network;
-using SharpNeat.NeuralNet.Double;
+﻿using System.Diagnostics;
 using SharpNeat.BlackBox;
+using SharpNeat.Evaluation;
+using SharpNeat.NeuralNet.Double;
 
 namespace SharpNeat.Neat.Genome.Double
 {
