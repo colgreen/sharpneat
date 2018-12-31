@@ -11,10 +11,9 @@
  */
 using System;
 using System.Numerics;
-using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
 using SharpNeat.BlackBox;
 using SharpNeat.BlackBox.Double;
+using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.NeuralNet.Double.Vectorized
 {
@@ -30,9 +29,6 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         readonly int[] _srcIdArr;
         readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
-
-        // The signal at the output of each connection, i.e. the connection input signal multiplied by its weight.
-        readonly double[] _connectionOutputArr;
 
         // Array of layer information.
         readonly LayerInfo[] _layerInfoArr;        
@@ -66,13 +62,25 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             WeightedAcyclicDirectedGraph<double> digraph,
             VecFnSegment<double> activationFn,
             bool boundedOutput)
+            : this(digraph, digraph.WeightArray, activationFn, boundedOutput)
+        {}
+
+        /// <summary>
+        /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
+        /// </summary>
+        /// <param name="digraph">Network structure definition</param>
+        /// <param name="activationFn">Node activation function.</param>
+        /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
+        public AcyclicNeuralNet(
+            AcyclicDirectedGraph digraph,
+            double[] weightArr,
+            VecFnSegment<double> activationFn,
+            bool boundedOutput)
         {
             // Store refs to network structure data.
             _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
             _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
-            _weightArr = digraph.WeightArray;
-            _connectionOutputArr = new double[_srcIdArr.Length];
-
+            _weightArr = weightArr;
             _layerInfoArr = digraph.LayerArray;
 
             // Store network activation function.
@@ -131,6 +139,12 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// </summary>
         public void Activate()
         {   
+            // Reset hidden and output node activation levels, ready for next activation.
+            // Note. this reset is performed here instead of after the below loop because this resets the output
+            // node values, which are the outputs of the network as a whole following activation; hence
+            // they need to be remain unchanged until they have been read by the caller of Activate().
+            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);		
+		
             // Init vector related variables.
             int width = Vector<double>.Count;
             double[] conInputArr = new double[width];
@@ -180,9 +194,6 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;
             }
-
-            // Reset hidden and output node activation levels, ready for next activation.
-            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);
         }
 
         /// <summary>

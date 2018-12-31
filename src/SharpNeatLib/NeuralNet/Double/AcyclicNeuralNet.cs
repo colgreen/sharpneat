@@ -10,10 +10,9 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
 using SharpNeat.BlackBox;
 using SharpNeat.BlackBox.Double;
+using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.NeuralNet.Double
 {

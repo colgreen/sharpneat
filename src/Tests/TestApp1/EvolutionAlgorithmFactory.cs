@@ -12,6 +12,8 @@ using SharpNeatTasks.BinaryElevenMultiplexer;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
+using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNet.Double.ActivationFunctions;
 
 namespace TestApp1
 {
@@ -66,11 +68,13 @@ namespace TestApp1
 
         private static MetaNeatGenome<double> CreateMetaNeatGenome()
         {
+            var activationFnFactory = new DefaultActivationFunctionFactory<double>();
+
             MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
                 inputNodeCount: 12, 
                 outputNodeCount: 1,
                 isAcyclic: true,
-                activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: activationFnFactory.GetActivationFunction("ReLU"));
 
             return metaNeatGenome;
         }

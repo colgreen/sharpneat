@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Numerics;
+using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNet.Double;
-using SharpNeat.BlackBox;
 
 namespace SharpNeat.Neat.Genome.Double
 {
@@ -43,12 +43,24 @@ namespace SharpNeat.Neat.Genome.Double
             double[] neuralNetWeightArr = CreateNeuralNetWeightArray(genome);
 
             // Create a working neural net.
-            var neuralNet = new AcyclicNeuralNet(
-                (AcyclicDirectedGraph)genome.DirectedGraph,
-                neuralNetWeightArr,
-                genome.MetaNeatGenome.ActivationFn.Fn,
-                _boundedOutput);
+            IBlackBox<double> neuralNet;
+            if (Vector.IsHardwareAccelerated)
+            {
+                neuralNet = new NeuralNet.Double.Vectorized.AcyclicNeuralNet(
+                    (AcyclicDirectedGraph)genome.DirectedGraph,
+                    neuralNetWeightArr,
+                    genome.MetaNeatGenome.ActivationFn.Fn,
+                    _boundedOutput);
 
+            }
+            else
+            {
+                neuralNet = new AcyclicNeuralNet(
+                    (AcyclicDirectedGraph)genome.DirectedGraph,
+                    neuralNetWeightArr,
+                    genome.MetaNeatGenome.ActivationFn.Fn,
+                    _boundedOutput);
+            }
             return neuralNet;
         }
 

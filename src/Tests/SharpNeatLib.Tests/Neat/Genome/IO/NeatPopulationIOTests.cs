@@ -30,7 +30,7 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             }
 
             // Create an empty parent folder to save populations into.            
-            DirectoryInfo dirInfo = Directory.CreateDirectory(parentPath);
+            Directory.CreateDirectory(parentPath);
 
             // Save the population to the unit test output folder.
             NeatPopulationSaver<double>.SaveToFolder(pop.GenomeList, parentPath, "pop1");

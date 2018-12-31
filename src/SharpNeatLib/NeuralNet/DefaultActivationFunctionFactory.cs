@@ -55,8 +55,7 @@ namespace SharpNeat.NeuralNet
             lock(_lockObj)
             {
                 // Check for an exiting instance in the activation function cache.
-                IActivationFunction<T> actFn;
-                if(_fnByName.TryGetValue(name, out actFn)) {
+                if(_fnByName.TryGetValue(name, out IActivationFunction<T> actFn)) {
                     return actFn;
                 }
 
