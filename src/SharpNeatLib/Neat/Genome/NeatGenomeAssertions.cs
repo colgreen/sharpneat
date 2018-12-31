@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Genome
     {
         #region Public Static Methods
 
-        public static void Assert(            
+        public static void AssertIsValid(            
             MetaNeatGenome<T> metaNeatGenome,
             int id,
             int birthGeneration,
@@ -109,8 +109,8 @@ namespace SharpNeat.Neat.Genome
             LayerInfo[] layerArr = acyclicDigraph.LayerArray;
             Debug.Assert(null != layerArr && layerArr.Length > 0);
 
-            // Layer 0 is the input layer, thus the number of nodes in this layer should be at least the number of input nodes.
-            // Note. Any node with no incoming connections is assigned to layer 0, therefore there can be non input nodes in 
+            // Layer zero is the input layer, thus the number of nodes in this layer should be at least the number of input nodes.
+            // Note. Any node with no incoming connections is also assigned to layer zero, therefore there can be non-input nodes in 
             // this layer too.
             Debug.Assert(layerArr[0].EndNodeIdx >= metaNeatGenome.InputNodeCount);
 
@@ -149,17 +149,28 @@ namespace SharpNeat.Neat.Genome
                 LayerInfo layerInfo = layerArr[layerIdx];
 
                 // EndNodeIdx should never be negative or higher than the total node count.
-                Debug.Assert(layerInfo.EndNodeIdx >=0 && layerInfo.EndNodeIdx <= digraph.TotalNodeCount);
+                Debug.Assert(layerInfo.EndNodeIdx >= 0 && layerInfo.EndNodeIdx <= digraph.TotalNodeCount);
 
-                // The connections in this layer should all have a source node in this layer, and a target node in a layer
-                // with a higher layer index.
+                // Loop the connections in the current layer.
                 for(; connIdx < layerInfo.EndConnectionIdx; connIdx++)
                 {                    
                     int srcId = srcIdArr[connIdx];
                     int tgtId = tgtIdArr[connIdx];
 
+                    // The connections in the current layer should all have a source node in this layer.
                     Debug.Assert(nodeDepthArr[srcId] == layerIdx);
-                    Debug.Assert(nodeDepthArr[tgtId] > layerIdx);
+                    
+                    // The target node should normally be in a higher layer. However, layer zero is a special case because it
+                    // contains not only the input nodes, but can also contain hidden nodes that are not reachable from an input node.
+                    //
+                    // Thus, the connections in layer zero should have either:
+                    // a) an input source node in this layer, and a target node in a layer with a higher layer index, or,
+                    // b) a hidden source node in this layer, and a target node that can be in any layer, including layer zero
+                    // if the target node is also unreachable from an input node (i.e. via another connectivity path).                    
+                    Debug.Assert(
+                            (layerIdx == 0 && (srcId >= digraph.InputCount || nodeDepthArr[tgtId] > 0)) 
+                        ||  (layerIdx > 0 && nodeDepthArr[tgtId] > layerIdx)
+                    );
                 }
             }
         }

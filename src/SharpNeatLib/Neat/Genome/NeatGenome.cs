@@ -116,7 +116,7 @@ namespace SharpNeat.Neat.Genome
         {
             #if DEBUG
 
-            NeatGenomeAssertions<T>.Assert(
+            NeatGenomeAssertions<T>.AssertIsValid(
                 metaNeatGenome, id, birthGeneration,
                 connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
                 digraph, connectionIndexMap);
