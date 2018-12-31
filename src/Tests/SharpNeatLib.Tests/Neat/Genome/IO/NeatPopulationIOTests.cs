@@ -25,10 +25,12 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
 
             // Delete folder if it already exists.
-            Directory.Delete(parentPath, true);
+            if(Directory.Exists(parentPath)) {
+                Directory.Delete(parentPath, true);
+            }
 
             // Create an empty parent folder to save populations into.            
-            Directory.CreateDirectory(parentPath);
+            DirectoryInfo dirInfo = Directory.CreateDirectory(parentPath);
 
             // Save the population to the unit test output folder.
             NeatPopulationSaver<double>.SaveToFolder(pop.GenomeList, parentPath, "pop1");
@@ -53,7 +55,9 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
 
             // Delete folder if it already exists.
-            Directory.Delete(parentPath, true);
+            if(Directory.Exists(parentPath)) {
+                Directory.Delete(parentPath, true);
+            }
 
             // Create an empty parent folder to save populations into.            
             Directory.CreateDirectory(parentPath);
