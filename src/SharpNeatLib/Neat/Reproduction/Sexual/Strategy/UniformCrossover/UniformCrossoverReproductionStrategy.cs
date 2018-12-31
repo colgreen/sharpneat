@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
-        readonly ConnectionGeneListBuilder<T> _builder;
+        readonly ConnectionGeneListBuilder<T> _connGeneListBuilder;
 
         #region Constructor
 
@@ -39,7 +39,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;
 
-            _builder = new ConnectionGeneListBuilder<T>(_isAcyclic, 1024);
+            _connGeneListBuilder = new ConnectionGeneListBuilder<T>(_isAcyclic, 1024);
         }
 
         #endregion
@@ -63,7 +63,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             {
                 // Clear down ready for re-use of the builder on the next call to CreateGenome().
                 // Re-using in this way avoids having to de-alloc and re-alloc memory, thus reducing garbage collection overhead.
-                _builder.Clear();
+                _connGeneListBuilder.Clear();
             }
         }
 
@@ -91,12 +91,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 if(connGene.HasValue)
                 {
                     // Attempt to add the gene to the child genome we are building.
-                    _builder.TryAddGene(connGene.Value, isSecondaryGene);
+                    _connGeneListBuilder.TryAddGene(connGene.Value, isSecondaryGene);
                 }
             }
 
             // Convert the genes to the structure required by NeatGenome.
-            var connGenes = _builder.ToConnectionGenes();
+            ConnectionGenes<T> connGenes = _connGeneListBuilder.ToConnectionGenes();
 
             // Create and return a new genome.
             return _genomeBuilder.Create(

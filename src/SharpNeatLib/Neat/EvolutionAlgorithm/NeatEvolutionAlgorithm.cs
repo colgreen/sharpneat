@@ -159,6 +159,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _eaStats.BestFitness = _pop.GenomeList[_pop.BestGenomeIdx].FitnessInfo;
             _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_eaStats.BestFitness);
             _eaStats.Generation = _generationSeq.Next();
+
+
+            // TODO: Complexity regulation logic.
         }
 
         #endregion
