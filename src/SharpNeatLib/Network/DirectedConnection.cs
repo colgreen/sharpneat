@@ -64,14 +64,10 @@ namespace SharpNeat.Network
 
         public int CompareTo(DirectedConnection other)
         {
-            // Compare source IDs.
-            if (this.SourceId < other.SourceId) { return -1; }
-            if (this.SourceId > other.SourceId) { return 1; }
+            int v = this.SourceId.CompareTo(other.SourceId);
+            if(v != 0) return v;
 
-            // Source IDs are equal; compare target IDs.
-            if (this.TargetId < other.TargetId) { return -1; }
-            if (this.TargetId > other.TargetId) { return 1; }
-            return 0;
+            return this.TargetId.CompareTo(other.TargetId);
         }
 
         #endregion
