@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Numerics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 using SharpNeat.NeuralNet.Double;
@@ -40,11 +41,23 @@ namespace SharpNeat.Neat.Genome.Double
             Debug.Assert(!genome.MetaNeatGenome.IsAcyclic);
 
             // Create a working neural net.
-            var neuralNet = new CyclicNeuralNet(
-                genome.DirectedGraph,
-                genome.ConnectionGenes._weightArr,
-                genome.MetaNeatGenome.ActivationFn.Fn,
-                _activationCount, _boundedOutput);
+            IBlackBox<double> neuralNet;
+            if(Vector.IsHardwareAccelerated)
+            {
+                neuralNet = new NeuralNet.Double.Vectorized.CyclicNeuralNet(
+                    genome.DirectedGraph,
+                    genome.ConnectionGenes._weightArr,
+                    genome.MetaNeatGenome.ActivationFn.Fn,
+                    _activationCount, _boundedOutput);
+            }
+            else
+            {
+                neuralNet = new CyclicNeuralNet(
+                    genome.DirectedGraph,
+                    genome.ConnectionGenes._weightArr,
+                    genome.MetaNeatGenome.ActivationFn.Fn,
+                    _activationCount, _boundedOutput);
+            }
 
             return neuralNet;
         }

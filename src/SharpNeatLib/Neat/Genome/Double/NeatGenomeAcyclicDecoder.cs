@@ -44,7 +44,7 @@ namespace SharpNeat.Neat.Genome.Double
 
             // Create a working neural net.
             IBlackBox<double> neuralNet;
-            if (Vector.IsHardwareAccelerated)
+            if(Vector.IsHardwareAccelerated)
             {
                 neuralNet = new NeuralNet.Double.Vectorized.AcyclicNeuralNet(
                     (AcyclicDirectedGraph)genome.DirectedGraph,
