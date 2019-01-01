@@ -44,6 +44,25 @@ namespace SharpNeat.Evaluation
         #region IGenomeListEvaluator
 
         /// <summary>
+        /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
+        /// </summary>
+        /// <remarks>
+        /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
+        /// for the same genome, such as scheme is non-deterministic.
+        /// </remarks>
+        public bool IsDeterministic => _phenomeEvaluator.IsDeterministic;
+
+        /// <summary>
+        /// Gets a fitness comparer. 
+        /// </summary>
+        /// <remarks>
+        /// Typically there is a single fitness score whereby a higher score is better, however if there are multiple fitness scores
+        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
+        /// determine which is the better FitenssInfo between any two.
+        /// </remarks>
+        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluator.FitnessComparer;
+
+        /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.
         /// </summary>
         public void Evaluate(ICollection<TGenome> genomeList)
@@ -75,15 +94,7 @@ namespace SharpNeat.Evaluation
             return _phenomeEvaluator.TestForStopCondition(fitnessInfo);
         }
 
-        /// <summary>
-        /// Gets a fitness comparer. 
-        /// </summary>
-        /// <remarks>
-        /// Typically there is a single fitness score whereby a higher score is better, however if there are multiple fitness scores
-        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
-        /// determine which is the better FitenssInfo between any two.
-        /// </remarks>
-        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluator.FitnessComparer;
+
 
         #endregion
     }

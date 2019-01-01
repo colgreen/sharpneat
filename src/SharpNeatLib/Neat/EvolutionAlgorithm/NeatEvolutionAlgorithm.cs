@@ -145,8 +145,16 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // (otherwise we could just evaluate offspringList).
             _pop.GenomeList.AddRange(offspringList);
 
-            // Evaluate all of the genomes in the population, assigning fitness info to each.
-            _evaluator.Evaluate(_pop.GenomeList);
+            // TODO: Review this. We don't necessarily want to re-evaluate genomes even if the evaluation scheme is non-deterministic.
+            // Evaluate the genomes in the population.
+            // If the evaluation scheme is deterministic then only the new genomes (the offspring) need to be evaluated;
+            // otherwise all of the genomes are evaluated, thus the elite genomes are re-evaluated at each generation.
+            if(_evaluator.IsDeterministic) {
+                _evaluator.Evaluate(offspringList);
+            }
+            else {
+                _evaluator.Evaluate(_pop.GenomeList);
+            }
 
             // Integrate offspring into the species.
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);

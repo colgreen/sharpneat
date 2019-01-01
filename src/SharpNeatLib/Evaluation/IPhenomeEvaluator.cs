@@ -9,6 +9,15 @@ namespace SharpNeat.Evaluation
     public interface IPhenomeEvaluator<TPhenome>
     {
         /// <summary>
+        /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
+        /// </summary>
+        /// <remarks>
+        /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
+        /// for the same genome, such as scheme is non-deterministic.
+        /// </remarks>
+        bool IsDeterministic { get; }
+
+        /// <summary>
         /// Gets a null fitness score, i.e. for genomes that cannot be assigned a fitness score for whatever reason, e.g.
         /// if a genome failed to decode to a viable phenome that could be tested.
         /// </summary>
