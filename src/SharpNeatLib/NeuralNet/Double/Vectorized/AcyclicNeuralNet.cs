@@ -48,6 +48,9 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         readonly int _inputCount;
         readonly int _outputCount;
 
+        // Connection inputs array.
+        readonly double[] _conInputArr = new double[Vector<double>.Count];
+
         #endregion
 
         #region Constructor
@@ -147,7 +150,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
 		
             // Init vector related variables.
             int width = Vector<double>.Count;
-            double[] conInputArr = new double[width];
+            double[] conInputArr = _conInputArr;
 
             // Process all layers in turn.
             int conIdx = 0;

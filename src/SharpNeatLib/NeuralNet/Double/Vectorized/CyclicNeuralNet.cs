@@ -14,6 +14,7 @@ using System.Numerics;
 using SharpNeat.Network;
 using SharpNeat.BlackBox;
 using SharpNeat.BlackBox.Double;
+using System.Diagnostics;
 
 namespace SharpNeat.NeuralNet.Double.Vectorized
 {
@@ -47,23 +48,45 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         readonly int _outputCount;
         readonly int _activationCount;
 
+        // Connection inputs array.
+        readonly double[] _conInputArr = new double[Vector<double>.Count];
+
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Constructs a CyclicNetwork with the provided neural net definition parameters.
+        /// Constructs a CyclicNetwork with the provided neural net definition.
         /// </summary>
         public CyclicNeuralNet (
             WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
             int activationCount,
             bool boundedOutput)
+        :this(
+             digraph,
+             digraph.WeightArray,
+             activationFn,
+             activationCount,
+             boundedOutput)
+        {}
+
+        /// <summary>
+        /// Constructs a CyclicNetwork with the provided neural net definition.
+        /// </summary>
+        public CyclicNeuralNet(
+            DirectedGraph digraph,
+            double[] weightArr,
+            VecFnSegment2<double> activationFn,
+            int activationCount,
+            bool boundedOutput)
         {
+            Debug.Assert(digraph.ConnectionIdArrays._sourceIdArr.Length == weightArr.Length);
+
             // Store refs to network structure data.
             _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
             _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
-            _weightArr = digraph.WeightArray;
+            _weightArr = weightArr;
 
             // Store network activation function and parameters.
             _activationFn = activationFn;
@@ -124,7 +147,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         {
             // Init vector related variables.
             int width = Vector<double>.Count;
-            double[] conInputArr = new double[width];
+            double[] conInputArr = _conInputArr;
 
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _activationCount; i++)
