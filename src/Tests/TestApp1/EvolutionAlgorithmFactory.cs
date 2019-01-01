@@ -30,14 +30,14 @@ namespace TestApp1
             // Create an initial population.
             _metaNeatGenome = CreateMetaNeatGenome();
             _eaSettings = new NeatEvolutionAlgorithmSettings();
-            _eaSettings.SpeciesCount = 6;
-            _neatPop = CreatePopulation(_metaNeatGenome, 100);
+            _eaSettings.SpeciesCount = 40;
+            _neatPop = CreatePopulation(_metaNeatGenome, 600);
 
             // Create a genome evaluator.
             IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = CreateGenomeListEvaluator();
 
             // Create a speciation strategy instance.
-            var distanceMetric = new EuclideanDistanceMetric();
+            var distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
             var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
 
             // Create an asexual reproduction settings object (default settings).
@@ -74,7 +74,7 @@ namespace TestApp1
                 inputNodeCount: 12, 
                 outputNodeCount: 1,
                 isAcyclic: true,
-                activationFn: activationFnFactory.GetActivationFunction("ReLU"));
+                activationFn: activationFnFactory.GetActivationFunction("LeakyReLU"));
 
             return metaNeatGenome;
         }
@@ -96,7 +96,8 @@ namespace TestApp1
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
             var phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
+            //var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
+            var genomeListEvaluator = new ParallelGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
         }
 

@@ -22,7 +22,12 @@ namespace TestApp1
             ea.Initialise();
 
             //EvolutionAlgorithmRunner runner = new EvolutionAlgorithmRunner(ea);
-            ea.PerformOneGeneration();
+
+            for(int i=0; i < 10_000; i++)
+            {
+                ea.PerformOneGeneration();
+                Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.BestFitness.PrimaryFitness}");
+            }
 
             Console.ReadKey();
         }
