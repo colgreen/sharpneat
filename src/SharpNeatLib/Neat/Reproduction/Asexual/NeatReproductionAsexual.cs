@@ -1,5 +1,4 @@
 ﻿using System;
-using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;

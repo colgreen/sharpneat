@@ -1,5 +1,4 @@
 ﻿
-
 namespace SharpNeat.Network.Acyclic
 {
     public class AcyclicDirectedGraph : DirectedGraph

@@ -88,6 +88,7 @@ namespace SharpNeat.NeuralNet.Double
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
         /// </summary>
         /// <param name="digraph">Network structure definition</param>
+        /// <param name="weightArr">Connection weights array.</param>
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public AcyclicNeuralNet(

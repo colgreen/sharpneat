@@ -61,7 +61,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                     // Note that we wrap the double value in an object so that we do not have to re-insert values
                     // to increment them. In tests this approach was about 40% faster (including GC overhead).
 
-                    // TODO: Review the use of double[] as a wrapper; this generates a lot of object allocations that we could avoid, e.g.
+                    // TODO: Review the use of WeightRef as a wrapper; this generates a lot of object allocations that we could avoid, e.g.
                     // with a custom dictionary implementation that allows accumulating a numeric value for an existing entry; to do this with a 
                     // Dictionary requires the approach used here, or re-looking up the slot to update it.
                     if(coordElemTotals.TryGetValue(conn, out WeightRef weightRef)) {

@@ -6,7 +6,7 @@ using System.IO.Compression;
 namespace SharpNeat.Neat.Genome.IO
 {
     /// <summary>
-    /// For saving/serializing a population of <see cref="NeatGenome{double}"/> instances to the local filesystem.
+    /// For saving/serializing a population of <see cref="NeatGenome{T}"/> instances to the local filesystem.
     /// </summary>
     /// <remarks>
     /// A population is a collection of genomes. The genomes are each serialized individually, as when saving a single genome. 

@@ -23,6 +23,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// </summary>
     public class LogisticApproximantSteep : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             return 1.0/(1.0 + ExpApprox(-4.9*x));

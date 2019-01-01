@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Redzen.Linq;
-using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;

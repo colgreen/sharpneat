@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Redzen.Sorting;
-using SharpNeat.Network;
 
 namespace SharpNeat.Network
 {
+    /// <summary>
+    /// For building instances of <see cref="WeightedDirectedGraph{T}"./>
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public static class WeightedDirectedGraphBuilder<T> 
         where T : struct
     {
@@ -79,10 +82,6 @@ namespace SharpNeat.Network
         /// Split each IWeightedDirectedConnection in a list into an array of DirectedConnections(s), and an array of weights.
         /// Map the node IDs to indexes as we go.
         /// </summary>
-        /// <param name="connectionList"></param>
-        /// <param name="nodeIdMap"></param>
-        /// <param name="connArr"></param>
-        /// <param name="weightArr"></param>
         private static void CopyAndMapIds(
             IList<WeightedDirectedConnection<T>> connectionList,
             INodeIdMap nodeIdMap,

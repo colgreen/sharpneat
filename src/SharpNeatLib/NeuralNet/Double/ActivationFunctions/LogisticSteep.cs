@@ -16,10 +16,12 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// The logistic function with a steepened slope.
-    /// <see cref="https://en.wikipedia.org/wiki/Logistic_function"/>
+    /// <see href="http://en.wikipedia.org/wiki/Logistic_function"/>
     /// </summary>
     public class LogisticSteep : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             return 1.0 / (1.0 + Math.Exp(-4.9 * x));

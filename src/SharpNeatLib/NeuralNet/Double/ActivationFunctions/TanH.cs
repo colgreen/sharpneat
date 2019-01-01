@@ -14,8 +14,13 @@ using System;
 
 namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
+    /// <summary>
+    /// TanH function (hyperbolic tangent function).
+    /// </summary>
     public class TanH : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             return Math.Tanh(x);

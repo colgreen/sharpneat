@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SharpNeat.Neat.Reproduction.Sexual
+﻿namespace SharpNeat.Neat.Reproduction.Sexual
 {
     public class NeatReproductionSexualSettings
     {

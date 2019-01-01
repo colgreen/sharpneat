@@ -38,7 +38,6 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         /// <param name="connArr">Array of directed connections; this described the network structure.</param>
         /// <param name="weightArr">Array of connection weights.</param>
-        /// <param name="idArr">Array of connection innovation IDs.</param>
         public ConnectionGenes(
             DirectedConnection[] connArr,
             T[] weightArr)

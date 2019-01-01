@@ -17,6 +17,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// </summary>
     public class LeakyReLU : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             const double a = 0.001;

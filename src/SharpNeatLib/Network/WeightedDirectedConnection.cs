@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace SharpNeat.Network
 {
     /// <summary>

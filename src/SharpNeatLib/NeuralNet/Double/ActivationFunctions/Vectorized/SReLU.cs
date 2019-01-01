@@ -23,6 +23,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
     /// </summary>
     public class SReLU : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             const double tl = 0.001; // threshold (left).

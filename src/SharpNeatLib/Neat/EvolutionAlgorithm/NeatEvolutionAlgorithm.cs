@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;

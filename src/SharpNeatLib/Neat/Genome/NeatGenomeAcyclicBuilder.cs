@@ -144,7 +144,6 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-        /// <param name="acyclicInfoCache">Cached info related to acyclic digraphs only.</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(
             int id, int birthGeneration,

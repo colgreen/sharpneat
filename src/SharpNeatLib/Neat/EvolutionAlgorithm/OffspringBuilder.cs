@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;

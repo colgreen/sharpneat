@@ -76,7 +76,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// Creates a list of randomly initialised genomes.
         /// </summary>
-        /// <param name="length">The number of genomes to create.</param>
+        /// <param name="count">The number of genomes to create.</param>
         private List<NeatGenome<T>> CreateGenomeList(int count)
         {
             List<NeatGenome<T>> genomeList = new List<NeatGenome<T>>(count);

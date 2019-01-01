@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Numerics;
 
 namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
@@ -20,6 +19,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// </summary>
     public class ReLU : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             return Math.Max(x, 0.0);

@@ -15,8 +15,13 @@ using System.Runtime.CompilerServices;
 
 namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
+    /// <summary>
+    /// The ArcSinH function (inverse hyperbolic sine function).
+    /// </summary>
     public class ArcSinH : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             // Scaling factor from:

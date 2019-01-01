@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using SharpNeat.Evaluation;
 using SharpNeat.BlackBox;
+using SharpNeat.Evaluation;
 
 namespace SharpNeatTasks.BinaryElevenMultiplexer
 {

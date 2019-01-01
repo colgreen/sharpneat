@@ -1,5 +1,4 @@
-﻿
-using SharpNeat.Evaluation;
+﻿using SharpNeat.Evaluation;
 
 namespace SharpNeat.EvolutionAlgorithm
 {

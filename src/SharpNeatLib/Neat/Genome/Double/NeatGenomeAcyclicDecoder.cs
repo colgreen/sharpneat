@@ -27,7 +27,6 @@ namespace SharpNeat.Neat.Genome.Double
         /// Decode a genome into a working neural network.
         /// </summary>
         /// <param name="genome">The genome to decode.</param>
-        /// <param name="boundedOutput">Indicates whether the output nodes should be bounded to the interval [0,1]</param>
         public IBlackBox<double> Decode(
             NeatGenome<double> genome)
         {

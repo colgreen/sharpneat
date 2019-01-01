@@ -5,7 +5,7 @@ using SharpNeat.Network;
 namespace SharpNeat.Neat.Genome.IO
 {
     /// <summary>
-    /// For saving/serializing instances of <see cref="NeatGenome{double}"/> to file, stream, etc.
+    /// For saving/serializing instances of <see cref="NeatGenome{T}"/> to file, stream, etc.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
     public static class NeatGenomeSaver<T> where T : struct

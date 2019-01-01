@@ -32,6 +32,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// Mutate the connection weights based on a stochastically chosen IWeightMutationStrategy.
         /// </summary>
         /// <param name="weightArr">The connection weight array to apply mutations to.</param>
+        /// <param name="rng">Random source.</param>
         public void MutateWeights(T[] weightArr, IRandomSource rng)
         {
             // Select a mutation strategy, and apply it to the array of connection genes.

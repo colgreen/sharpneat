@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         /// <summary>
         /// Construct with the given selection proportion.
         /// </summary>
-        /// <param name="selectionCount">The proportion of items to select.</param>
+        /// <param name="selectionProportion">The proportion of items to select.</param>
         public ProportionSubsetSelectionStrategy(double selectionProportion)
         {
             Debug.Assert(selectionProportion > 0 && selectionProportion <= 1.0);

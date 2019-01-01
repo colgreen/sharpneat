@@ -20,6 +20,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
     /// </summary>
     public class Gaussian : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             return Math.Exp(-Math.Pow(x * 2.5, 2.0));

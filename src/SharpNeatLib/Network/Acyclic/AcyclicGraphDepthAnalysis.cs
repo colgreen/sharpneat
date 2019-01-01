@@ -12,9 +12,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using Redzen;
 using Redzen.Collections;
 
 namespace SharpNeat.Network.Acyclic
@@ -33,10 +31,8 @@ namespace SharpNeat.Network.Acyclic
     /// for more details see the comments on: 
     /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
     /// Also see:
-    /// <see cref="SharpNeat.Neat.Reproduction.Asexual.Strategy.CyclicConnectionTest"/>
-    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>
-    /// <see cref="SharpNeat.Network.Acyclic.CyclicConnectionTest"/>
-    /// <see cref="SharpNeat.Network.CyclicGraphAnalysis"/>
+    /// <see cref="CyclicConnectionTest"/>
+    /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
     public class AcyclicGraphDepthAnalysis
     {

@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// code base.
         /// </remarks>
         /// <param name="weightScale"></param>
-        /// <returns>A new instance of <see cref="WeightMutationScheme"/>.</returns>
+        /// <returns>A new instance of <see cref="WeightMutationScheme{Double}"/>.</returns>
         public static WeightMutationScheme<double> CreateDefaultScheme(double weightScale)
         {
             var probabilityArr = new double[6];

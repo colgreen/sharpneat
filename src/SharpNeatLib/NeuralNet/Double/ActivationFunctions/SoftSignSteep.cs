@@ -21,6 +21,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// </summary>
     public class SoftSignSteep : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         /// <summary>
         /// Calculates the output value for the specified input value.
         /// </summary>

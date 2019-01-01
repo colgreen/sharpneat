@@ -27,6 +27,8 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// </summary>
     public class ScaledELU : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             double alpha = 1.6732632423543772848170429916717;

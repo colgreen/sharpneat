@@ -31,10 +31,10 @@ namespace SharpNeat.Neat
         }
 
         /// <summary>
-        /// Get the AddedNodeInfo from a previous 'add node' mutation based on splitting a connection with the given ID.
+        /// Get the node innovation ID from a previous 'add node' mutation based on splitting a connection with the given ID.
         /// </summary>
-        /// <remarks>
-        /// <param name="connectionId">The connection ID to look-up.</param>
+        /// <param name="conn">The connection to look-up.</param>
+        /// <param name="addedNodeId">Returns a node innovation ID, if one was found.</param>
         /// <returns>True if a node was found, otherwise false</returns>
         public bool TryLookup(DirectedConnection conn, out int addedNodeId)
         {

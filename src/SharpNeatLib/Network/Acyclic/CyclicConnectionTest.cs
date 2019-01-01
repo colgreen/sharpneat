@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Redzen;
 using Redzen.Collections;
@@ -16,10 +15,8 @@ namespace SharpNeat.Network.Acyclic
     /// for more details see the comments on: 
     /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
     /// Also see:
-    /// <see cref="SharpNeat.Neat.Reproduction.Asexual.Strategy.CyclicConnectionTest"/>
-    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>
-    /// <see cref="SharpNeat.Network.Acyclic.AcyclicGraphDepthAnalysis"/>
-    /// <see cref="SharpNeat.Network.CyclicGraphAnalysis"/>
+    /// <see cref="AcyclicGraphDepthAnalysis"/>
+    /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
     public class CyclicConnectionTest
     {

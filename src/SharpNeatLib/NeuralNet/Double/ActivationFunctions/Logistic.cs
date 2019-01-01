@@ -9,17 +9,18 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-
 using System;
 
 namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
     /// The logistic function.
-    /// <see cref="https://en.wikipedia.org/wiki/Logistic_function"/>
+    /// <see href="http://en.wikipedia.org/wiki/Logistic_function"/>
     /// </summary>
     public class Logistic : IActivationFunction<double>
     {
+        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         public double Fn(double x)
         {
             return 1.0 / (1.0 + Math.Exp(-x));

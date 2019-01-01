@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Redzen.Random;
-using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm
@@ -35,7 +31,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <summary>
         /// Calc mean fitness of all species, and store the results on each species' stats object.
         /// </summary>
-        /// <param name="speciesArr">The array of species.</param>
+        /// <param name="pop">The population.</param>
         /// <returns>Sum of species mean fitnesses.</returns>
         private static void CalcAndStoreSpeciesFitnessMeans(NeatPopulation<T> pop)
         {

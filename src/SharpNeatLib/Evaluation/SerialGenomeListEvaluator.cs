@@ -28,7 +28,7 @@ namespace SharpNeat.Evaluation
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided <see cref="IGenomeDecoder"/> and <see cref="IPhenomeEvaluator"/>.
+        /// Construct with the provided <see cref="IGenomeDecoder{TGenome,TPhenome}"/> and <see cref="IPhenomeEvaluator{TPhenome}"/>.
         /// Phenome caching is enabled by default.
         /// </summary>
         public SerialGenomeListEvaluator(

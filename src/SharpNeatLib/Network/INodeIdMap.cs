@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpNeat.Network
+﻿namespace SharpNeat.Network
 {
     /// <summary>
     /// Represents a mapping of graph node IDs from one ID space to another.
