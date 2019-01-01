@@ -42,7 +42,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             // only if the inserts are in order (sorted). However, this is generally not the case here because although
             // coordinate IDs are sorted within the source CoordinateVectors, not all IDs exist within all CoordinateVectors
             // therefore a low ID may be presented to coordElemTotals after a higher ID.
-            var coordElemTotals = new SortedDictionary<DirectedConnection,double[]>();
+            var coordElemTotals = new SortedDictionary<DirectedConnection,WeightRef>();
 
             // Loop over coords.
             foreach(ConnectionGenes<double> coord in coordList)
@@ -62,13 +62,13 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                     // to increment them. In tests this approach was about 40% faster (including GC overhead).
 
                     // TODO: Review the use of double[] as a wrapper; this generates a lot of object allocations that we could avoid, e.g.
-                    // with a custom dictionary implementation that allows accumulating a value for an existing entry; to do this with a 
+                    // with a custom dictionary implementation that allows accumulating a numeric value for an existing entry; to do this with a 
                     // Dictionary requires the approach used here, or re-looking up the slot to update it.
-                    if(coordElemTotals.TryGetValue(conn, out double[] doubleWrapper)) {
-                        doubleWrapper[0] += weight;
+                    if(coordElemTotals.TryGetValue(conn, out WeightRef weightRef)) {
+                        weightRef.Weight += weight;
                     }
                     else {
-                        coordElemTotals.Add(conn, new double[]{ weight });
+                        coordElemTotals.Add(conn, new WeightRef(weight));
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
         #region Private Static Methods
 
-        private static ConnectionGenes<double> CreateCentroid(SortedDictionary<DirectedConnection,double[]> centroidElements, int coordCount)
+        private static ConnectionGenes<double> CreateCentroid(SortedDictionary<DirectedConnection,WeightRef> centroidElements, int coordCount)
         {
             int length = centroidElements.Count;
             var connGenes = new ConnectionGenes<double>(length);
@@ -132,7 +132,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             foreach(var elem in centroidElements)
             {
                 connArr[idx] = elem.Key;
-                weightArr[idx] = elem.Value[0] * coordCountReciprocol;
+                weightArr[idx] = elem.Value.Weight * coordCountReciprocol;
                 idx++;
             }
 
@@ -163,6 +163,20 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             return totalDistance / (count-1);
+        }
+
+        #endregion
+
+        #region Inner Class
+
+        class WeightRef
+        {
+            public double Weight;
+
+            public WeightRef(double weight)
+            {
+                this.Weight  = weight;
+            }
         }
 
         #endregion
