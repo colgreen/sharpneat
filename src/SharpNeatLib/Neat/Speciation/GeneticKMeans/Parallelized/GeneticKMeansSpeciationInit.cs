@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Redzen.Linq;
-using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
@@ -31,10 +30,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         public GeneticKMeansSpeciationInit(
             IDistanceMetric<T> distanceMetric,
-            ParallelOptions parallelOptions,
-            IRandomSource rng)
+            ParallelOptions parallelOptions)
         {
-            _distanceMetric = distanceMetric;
+            _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
             _parallelOptions = parallelOptions;
         }
 

@@ -40,25 +40,19 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
-            int maxKMeansIters,
-            IRandomSource rng)
-        {
-            _distanceMetric = distanceMetric;
-            _maxKMeansIters = maxKMeansIters;
-            _parallelOptions = new ParallelOptions();
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, _parallelOptions, rng);
-        }
+            int maxKMeansIters)
+            : this(distanceMetric, maxKMeansIters, new ParallelOptions())
+        {}
 
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
-            IRandomSource rng,
             ParallelOptions parallelOptions)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
             _parallelOptions = parallelOptions;
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, parallelOptions, rng);
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, parallelOptions);
         }
 
         #endregion
