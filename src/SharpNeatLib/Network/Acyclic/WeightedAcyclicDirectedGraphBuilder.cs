@@ -14,11 +14,22 @@ using System.Diagnostics;
 
 namespace SharpNeat.Network.Acyclic
 {
+    /// <summary>
+    /// For building instances of <see cref="WeightedAcyclicDirectedGraph{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public static class WeightedAcyclicDirectedGraphBuilder<T>
         where T : struct
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Create with the provided list of connections, and input/output node counts.
+        /// </summary>
+        /// <param name="connectionList">A list of weighted connections that describe the graph.</param>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <returns>A new instance of <see cref="WeightedAcyclicDirectedGraph{T}"/>.</returns>
         public static WeightedAcyclicDirectedGraph<T> Create(
             IList<WeightedDirectedConnection<T>> connectionList,
             int inputCount, int outputCount)
@@ -30,6 +41,15 @@ namespace SharpNeat.Network.Acyclic
             return Create(digraph);
         }
 
+        /// <summary>
+        /// Create from the provided <see cref="WeightedDirectedGraph{T}"/>.
+        /// </summary>
+        /// <remarks>
+        /// The provided graph is expected to describe an acyclic graph; this method asserts that is the case and builds
+        /// a formal acyclic graph representation.
+        /// </remarks>
+        /// <param name="digraph">The directed graph.</param>
+        /// <returns>A new instance of <see cref="WeightedAcyclicDirectedGraph{T}"/>.</returns>
         public static WeightedAcyclicDirectedGraph<T> Create(
             WeightedDirectedGraph<T> digraph)
         {
@@ -40,6 +60,16 @@ namespace SharpNeat.Network.Acyclic
             return CreateInner(digraph, depthInfo);
         }
 
+        /// <summary>
+        /// Create from the provided <see cref="WeightedDirectedGraph{T}"/> and associated depth info.
+        /// </summary>
+        /// <param name="digraph">The directed graph.</param>
+        /// <param name="depthInfo">Depth info associated with <paramref name="digraph"/>.</param>
+        /// <returns>A new instance of <see cref="WeightedAcyclicDirectedGraph{T}"/>.</returns>
+        /// <remarks>
+        /// The provided graph is expected to describe an acyclic graph; this method asserts that is the case and builds
+        /// a formal acyclic graph representation.
+        /// </remarks>
         public static WeightedAcyclicDirectedGraph<T> Create(
             WeightedDirectedGraph<T> digraph,
             GraphDepthInfo depthInfo)

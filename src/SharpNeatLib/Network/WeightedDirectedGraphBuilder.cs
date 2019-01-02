@@ -18,7 +18,7 @@ using Redzen.Sorting;
 namespace SharpNeat.Network
 {
     /// <summary>
-    /// For building instances of <see cref="WeightedDirectedGraph{T}"./>
+    /// For building instances of <see cref="WeightedDirectedGraph{T}"/>.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
     public static class WeightedDirectedGraphBuilder<T> 

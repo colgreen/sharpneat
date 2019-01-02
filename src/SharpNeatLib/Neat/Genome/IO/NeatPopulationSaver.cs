@@ -80,6 +80,7 @@ namespace SharpNeat.Neat.Genome.IO
         /// <param name="genomeList">The population of genomes to save.</param>
         /// <param name="parentPath">Path to an existing folder to create the zip archive within.</param>
         /// <param name="name">The name of the zip archive (without the .zip extension, which will be appended by default).</param>
+        /// <param name="compressionLevel">ZIP archive compression level.</param>
         public static void SaveToZipArchive(
             IList<NeatGenome<T>> genomeList,
             string parentPath,

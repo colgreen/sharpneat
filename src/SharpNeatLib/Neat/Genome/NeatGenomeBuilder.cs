@@ -15,6 +15,10 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// For building instances of <see cref="NeatGenome{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatGenomeBuilder<T> : INeatGenomeBuilder<T>
         where T : struct
     {
@@ -79,6 +83,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
+        /// <param name="nodeIndexByIdMap">Provides a mapping from node ID to node index.</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(
             int id, int birthGeneration,
@@ -100,6 +105,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="birthGeneration">Birth generation.</param>
         /// <param name="connGenes">Connection genes.</param>
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
+        /// <param name="nodeIndexByIdMap">Provides a mapping from node ID to node index.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
         /// <param name="connectionIndexMap">Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based 
         /// node index allocations.</param>

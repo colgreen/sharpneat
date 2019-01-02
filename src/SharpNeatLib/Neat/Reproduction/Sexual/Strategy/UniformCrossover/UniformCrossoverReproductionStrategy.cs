@@ -36,6 +36,14 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given strategy arguments.
+        /// </summary>
+        /// <param name="isAcyclic">Indicates that the strategy will be operating on acyclic graphs/genomes.</param>
+        /// <param name="secondaryParentGeneProbability">The probability that a gene that exists only on the secondary parent is copied into the child genome.</param>
+        /// <param name="genomeBuilder">A neat genome builder.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
+        /// <param name="generationSeq">A sequence that provides the current generation number.</param>
         public UniformCrossoverReproductionStrategy(
             bool isAcyclic,
             double secondaryParentGeneProbability,

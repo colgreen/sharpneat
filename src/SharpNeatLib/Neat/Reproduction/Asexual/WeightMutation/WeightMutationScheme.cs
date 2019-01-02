@@ -14,6 +14,10 @@ using Redzen.Random;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 {
+    /// <summary>
+    /// Connection weight mutation scheme.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class WeightMutationScheme<T> 
         where T : struct
     {
@@ -26,6 +30,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance with the given strategy arguments.
+        /// </summary>
+        /// <param name="strategyProbabilityArr">An array of strategy selection probabilities.</param>
+        /// <param name="mutationStrategyArr">An array of weight mutation strategies.</param>
         public WeightMutationScheme(
             double[] strategyProbabilityArr,
             IWeightMutationStrategy<T>[] mutationStrategyArr)
@@ -39,7 +48,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         #region Public Methods
 
         /// <summary>
-        /// Mutate the connection weights based on a stochastically chosen IWeightMutationStrategy.
+        /// Mutate the connection weights based on a stochastically chosen <see cref="IWeightMutationStrategy{T}"/>.
         /// </summary>
         /// <param name="weightArr">The connection weight array to apply mutations to.</param>
         /// <param name="rng">Random source.</param>

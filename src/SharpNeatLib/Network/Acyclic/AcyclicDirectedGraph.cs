@@ -12,8 +12,19 @@
 
 namespace SharpNeat.Network.Acyclic
 {
+    /// <summary>
+    /// Represents an acyclic directed graph.
+    /// </summary>
     public class AcyclicDirectedGraph : DirectedGraph
     {
+        /// <summary>
+        /// Layer information for the acyclic graph.
+        /// </summary>
+        /// <remarks>
+        /// The nodes of the graph are arranged into layers, where the layer index (or depth) for a node is defined as the longest path 
+        /// (number of node to node hops) to arrive at that node from an input node, thus input nodes are defined as being in layer zero 
+        /// (depth 0).
+        /// </remarks>
         public LayerInfo[] LayerArray { get; }
 
         /// <summary>

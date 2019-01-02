@@ -9,11 +9,13 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-
 using Redzen.Numerics.Distributions;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
+    /// <summary>
+    /// Settings related to <see cref="NeatReproductionAsexual{T}"/>.
+    /// </summary>
     public class NeatReproductionAsexualSettings
     {
         #region Auto Properties [Genome Mutation Settings]

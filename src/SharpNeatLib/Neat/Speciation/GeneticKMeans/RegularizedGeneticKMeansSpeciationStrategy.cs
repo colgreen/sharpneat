@@ -99,6 +99,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         /// </summary>
         /// <param name="genomeList">The genomes to speciate.</param>
         /// <param name="speciesCount">The number of required species.</param>
+        /// <param name="rng">Random source.</param>
         /// <returns>A new array of species.</returns>
         public Species<T>[] SpeciateAll(
             IList<NeatGenome<T>> genomeList,
@@ -124,6 +125,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         /// </summary>
         /// <param name="genomeList">A list of genomes that have not yet been assigned a species.</param>
         /// <param name="speciesArr">An array of pre-existing species</param>
+        /// <param name="rng">Random source.</param>
         public void SpeciateAdd(
             IList<NeatGenome<T>> genomeList,
             Species<T>[] speciesArr,

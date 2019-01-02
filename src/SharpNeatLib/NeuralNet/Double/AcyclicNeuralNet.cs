@@ -69,7 +69,7 @@ namespace SharpNeat.NeuralNet.Double
 
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.

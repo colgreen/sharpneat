@@ -12,6 +12,9 @@
 
 namespace SharpNeat.Neat.Reproduction.Sexual
 {
+    /// <summary>
+    /// Settings related to <see cref="NeatReproductionSexual{T}"/>.
+    /// </summary>
     public class NeatReproductionSexualSettings
     {
         /// <summary>

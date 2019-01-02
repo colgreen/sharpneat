@@ -14,6 +14,9 @@ using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 {
+    /// <summary>
+    /// Static factory methods for creation of <see cref="WeightMutationScheme{T}"/> instances.
+    /// </summary>
     public static class WeightMutationSchemeFactory
     {
         #region Public Static Methods

@@ -14,10 +14,13 @@ using System;
 namespace SharpNeat.Network
 {
     /// <summary>
+    /// Represents a directed graph.
+    /// </summary>
+    /// <remarks>
     /// Overview
     /// --------
-    /// Represents a directed graph. The graph is described by an array of connections,
-    /// each with a source and target node ID.
+    /// Represents a directed graph. The graph is described by an array of connections, each with a 
+    /// source and target node ID.
     /// 
     /// The node IDs are actually node indexes, i.e. if there are N unique IDs referred to in the
     /// connection array then the indexes run from 0 to N-1.
@@ -37,7 +40,7 @@ namespace SharpNeat.Network
     /// connections from a given node are located in a contiguous segment, the start of which can be efficiently
     /// located using a binary search. However to improve efficiency further an array of lookup indexes is compiled
     /// which gives the starting index of a connection span/segment for a given source node index.
-    /// </summary>
+    /// </remarks>
     public class DirectedGraph
     {
         #region Instance Fields
