@@ -14,8 +14,14 @@ using System.Diagnostics;
 
 namespace SharpNeat.Evaluation
 {
+    /// <summary>
+    /// Conveys fitness information for a genome.
+    /// </summary>
     public struct FitnessInfo
     {
+        /// <summary>
+        /// Default singleton instance.
+        /// </summary>
         public static FitnessInfo DefaultFitnessInfo = new FitnessInfo(0.0);
 
         #region Instance Fields
@@ -25,17 +31,25 @@ namespace SharpNeat.Evaluation
         /// multiple fitness values per evaluation to allow for multiple objectives, or secondary 
         /// fitness scores for reporting only.
         /// </summary>
-        double[] _fitnessScores;
+        readonly double[] _fitnessScores;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Construct with a single fitness score.
+        /// </summary>
+        /// <param name="fitness">Genome fitness score.</param>
         public FitnessInfo(double fitness)
         {
             _fitnessScores = new double[] { fitness };
         }
 
+        /// <summary>
+        /// Construct with a compound fitness score.
+        /// </summary>
+        /// <param name="fitnessScores">Genome compound fitness score.</param>
         public FitnessInfo(double[] fitnessScores)
         {
             Debug.Assert(fitnessScores.Length > 0);

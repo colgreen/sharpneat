@@ -22,18 +22,22 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     {
         #region Public Static Methods
 
-        public static void CalcAndStorePopulationStats(NeatPopulation<T> pop)
+        /// <summary>
+        /// Update all population statistics.
+        /// </summary>
+        /// <param name="pop">The population to update.</param>
+        public static void UpdatePopulationStats(NeatPopulation<T> pop)
         {
             // TODO: Calc more stats!
 
-            CalcAndStoreBestGenome(pop);
+            UpdateBestGenome(pop);
         }
 
         #endregion
 
         #region Private Static Methods
 
-        private static void CalcAndStoreBestGenome(NeatPopulation<T> pop)
+        private static void UpdateBestGenome(NeatPopulation<T> pop)
         {
             // Note. If all genomes have the same fitness then we simply return the first genome. This will typically occur
             // for zero fitness, but could occur for any fitness score.

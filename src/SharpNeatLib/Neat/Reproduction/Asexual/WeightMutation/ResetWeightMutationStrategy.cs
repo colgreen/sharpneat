@@ -27,6 +27,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given selection strategy and weight sampler.
+        /// </summary>
+        /// <param name="selectionStrategy">Selection strategy.</param>
+        /// <param name="weightSampler">Weight sampler.</param>
         public ResetWeightMutationStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             IStatelessSampler<T> weightSampler)
@@ -59,6 +64,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
 
         #region Public Static Methods
 
+        /// <summary>
+        /// Create a weight mutation strategy that replaces a random subset of weights with new weights sampled from a uniform distribution.
+        /// </summary>
+        /// <param name="selectionStrategy">Selection strategy.</param>
+        /// <param name="weightScale">The uniform distribution scale.</param>
+        /// <returns>A new instance of <see cref="ResetWeightMutationStrategy{T}"/>.</returns>
         public static ResetWeightMutationStrategy<T> CreateUniformResetStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             double weightScale)
@@ -68,6 +79,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         }
 
         // TODO: Consider Laplacian distribution.
+
+        /// <summary>
+        /// Create a weight mutation strategy that replaces a random subset of weights with new weights sampled from a gaussian distribution.
+        /// </summary>
+        /// <param name="selectionStrategy">Selection strategy.</param>
+        /// <param name="stdDev">Gaussian standard deviation.</param>
+        /// <returns>A new instance of <see cref="ResetWeightMutationStrategy{T}"/>.</returns>
         public static ResetWeightMutationStrategy<T> CreateGaussianResetStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             double stdDev)

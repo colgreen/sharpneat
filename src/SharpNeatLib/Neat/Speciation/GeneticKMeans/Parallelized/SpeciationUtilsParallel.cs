@@ -18,12 +18,19 @@ namespace SharpNeat.Neat.Speciation.Parallelized
     /// <summary>
     /// Static utility methods related to speciation.
     /// 
-    /// Parallel execution versions of methods in SpeciationUtils class.
+    /// Parallel execution versions of some methods in SpeciationUtils class.
     /// </summary>
     public static class SpeciationUtilsParallel
     {
-        #region Public Methods [Empty Species Handling]
+        #region Public Static Methods [Empty Species Handling]
 
+        /// <summary>
+        /// Populate empty species with a single genome.
+        /// </summary>
+        /// <typeparam name="T">Connection weight data type.</typeparam>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="emptySpeciesArr">An array of empty species that are to be populated.</param>
+        /// <param name="speciesArr">An array of all species.</param>
         public static void PopulateEmptySpecies<T>(
             IDistanceMetric<T> distanceMetric,
             Species<T>[] emptySpeciesArr,
@@ -42,6 +49,10 @@ namespace SharpNeat.Neat.Speciation.Parallelized
                 emptySpecies.Centroid = genome.ConnectionGenes;
             }
         }
+
+        #endregion
+
+        #region Private Static Methods
 
         private static NeatGenome<T> GetGenomeForEmptySpecies<T>(
             IDistanceMetric<T> distanceMetric,

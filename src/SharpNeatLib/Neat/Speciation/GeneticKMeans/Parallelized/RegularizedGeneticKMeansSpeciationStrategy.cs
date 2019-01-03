@@ -24,7 +24,6 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// <summary>
     /// A speciation strategy that assigns genomes to species using k-means clustering on the genes of each genome.
     /// </summary>
-    /// 
     /// <remarks>
     /// This class applies a regularized k-means method as described in this paper:
     ///    "REGULARISED k-MEANS CLUSTERING FOR DIMENSION REDUCTION APPLIED TO SUPERVISED CLASSIFICATION", 
@@ -82,6 +81,12 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         
         #region Constructors
         
+        /// <summary>
+        /// Construct with the provided distance metric and k-means settings.
+        /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
+        /// <param name="regularizationConstant">Regularization constant.</param>
         public RegularizedGeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
@@ -89,6 +94,13 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             : this(distanceMetric, maxKMeansIters, regularizationConstant, new ParallelOptions())
         {}
 
+        /// <summary>
+        /// Construct with the provided distance metric and k-means settings.
+        /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
+        /// <param name="regularizationConstant">Regularization constant.</param>
+        /// <param name="parallelOptions">Parallel execution options.</param>
         public RegularizedGeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,

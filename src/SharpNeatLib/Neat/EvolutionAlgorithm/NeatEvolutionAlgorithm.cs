@@ -133,7 +133,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
 
             // Calculate and store stats on the population as a whole, and for each species.
-            PopulationStatsCalcs<T>.CalcAndStorePopulationStats(_pop);
+            PopulationStatsCalcs<T>.UpdatePopulationStats(_pop);
             SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
         }
 
@@ -169,7 +169,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
 
             // Update population and per-species stats
-            PopulationStatsCalcs<T>.CalcAndStorePopulationStats(_pop);
+            PopulationStatsCalcs<T>.UpdatePopulationStats(_pop);
             SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
 
             // Update the EvolutionAlgorithm stats object.

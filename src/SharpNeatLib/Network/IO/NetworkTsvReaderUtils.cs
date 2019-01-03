@@ -15,10 +15,18 @@ using System.IO;
 
 namespace SharpNeat.Network.IO
 {
+    /// <summary>
+    /// Static utility methods for reading networks stored in a tab separated value (tsv) format.
+    /// </summary>
     public static class NetworkTsvReaderUtils
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Read an activation functions section.
+        /// </summary>
+        /// <param name="sr">The stream reader to read from.</param>
+        /// <returns>A dictionary of the activation names keyed by ID.</returns>
         public static IDictionary<int,string> ReadActivationFunctionSection(StreamReader sr)
         {
             var fnNameById = new Dictionary<int,string>();
@@ -40,6 +48,11 @@ namespace SharpNeat.Network.IO
             return fnNameById;
         }
 
+        /// <summary>
+        /// Read an nodes section.
+        /// </summary>
+        /// <param name="sr">The stream reader to read from.</param>
+        /// <returns>A dictionary of activation function IDs keyed by node ID.</returns>
         public static IDictionary<int,int> ReadNodesSection(StreamReader sr)
         {
             var actFnIdByNodeId = new Dictionary<int,int>();
@@ -70,6 +83,11 @@ namespace SharpNeat.Network.IO
             return actFnIdByNodeId;
         }
 
+        /// <summary>
+        /// Read an connections section.
+        /// </summary>
+        /// <param name="sr">The stream reader to read from.</param>
+        /// <returns>A list of <see cref="WeightedDirectedConnection{Double}"/></returns>
         public static IList<WeightedDirectedConnection<double>> ReadConnectionsSection(StreamReader sr)
         {
             var connList = new List<WeightedDirectedConnection<double>>();

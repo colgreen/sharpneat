@@ -9,13 +9,9 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Network.IO
 {
@@ -26,7 +22,12 @@ namespace SharpNeat.Network.IO
     {
         #region Public Static Methods
 
-        public static void WriteActivationFunctionsSection(string activationFnName, StreamWriter sw)
+        /// <summary>
+        /// Write an activation functions section.
+        /// </summary>
+        /// <param name="activationFnName"></param>
+        /// <param name="sw">The stream writer to write to.</param>
+        public static void WriteActivationFunctionsSection(StreamWriter sw, string activationFnName)
         {
             sw.WriteLine("# Activation Functions.");
             sw.WriteLine($"{0}\t{activationFnName}");
@@ -46,7 +47,7 @@ namespace SharpNeat.Network.IO
             sw.WriteLine();
         }
 
-        public static void WriteConnectionsSection(DirectedConnection[] connArr, double[] weightArr, StreamWriter sw)
+        public static void WriteConnectionsSection(StreamWriter sw, DirectedConnection[] connArr, double[] weightArr)
         {
             sw.WriteLine("# Connections.");
 

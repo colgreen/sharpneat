@@ -23,6 +23,10 @@ using static SharpNeat.Neat.NeatPopulationUtils;
 
 namespace SharpNeat.Neat
 {
+    /// <summary>
+    /// A NEAT population.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatPopulation<T> : Population<NeatGenome<T>>
         where T : struct
     {
@@ -90,6 +94,12 @@ namespace SharpNeat.Neat
 
         #region Constructors
 
+        /// <summary>
+        /// Construct a new population with the provided genomes.
+        /// </summary>
+        /// <param name="metaNeatGenome">NeatGenome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeList">A list of genomes that will make up the population.</param>
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
@@ -105,6 +115,14 @@ namespace SharpNeat.Neat
             this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);            
         }
 
+        /// <summary>
+        /// Construct a new population with the provided genomes and ID sequence objects.
+        /// </summary>
+        /// <param name="metaNeatGenome">NeatGenome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeList">A list of genomes that will make up the population.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence.</param>
+        /// <param name="innovationIdSeq">Innovation ID sequence.</param>
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
@@ -114,6 +132,16 @@ namespace SharpNeat.Neat
         : this(metaNeatGenome, genomeBuilder, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
         {}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="metaNeatGenome">NeatGenome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeList">A list of genomes that will make up the population.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence.</param>
+        /// <param name="innovationIdSeq">Innovation ID sequence.</param>
+        /// <param name="addedConnectionHistoryBufferSize">The size to allocate for the added connection history buffer.</param>
+        /// <param name="addedNodeHistoryBufferSize">The size to allocate for the added node history buffer.</param>
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,

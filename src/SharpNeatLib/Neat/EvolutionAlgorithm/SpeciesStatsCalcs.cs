@@ -23,6 +23,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Calculate and update a number of statistical values and target size values on each species in the givben population.
+        /// </summary>
+        /// <param name="pop">The population to update species statistics on.</param>
+        /// <param name="eaSettings">Evolution algorithm settings.</param>
+        /// <param name="rng">Random source.</param>
         public static void CalcAndStoreSpeciesStats(
             NeatPopulation<T> pop,
             NeatEvolutionAlgorithmSettings eaSettings,

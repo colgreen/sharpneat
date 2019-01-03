@@ -14,10 +14,18 @@ using System.Globalization;
 
 namespace SharpNeat.Neat.Genome.IO
 {
+    /// <summary>
+    /// <see cref="NeatGenomeLoader{Double}"/> factory.
+    /// </summary>
     public static class NeatGenomeLoaderFactory
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Create a new instance of <see cref="NeatGenomeLoader{Double}"/>.
+        /// </summary>
+        /// <param name="metaNeatGenome">Meta neat genome.</param>
+        /// <returns>A new instance of <see cref="NeatGenomeLoader{Double}"/>.</returns>
         public static NeatGenomeLoader<double> CreateLoaderDouble(
             MetaNeatGenome<double> metaNeatGenome)
         {

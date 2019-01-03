@@ -16,7 +16,6 @@ namespace SharpNeat.Neat.Speciation
 {
     /// <summary>
     /// Represents a NEAT species.
-    /// In NEAT all genomes are within a species.
     /// </summary>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class Species<T> where T : struct
@@ -62,6 +61,12 @@ namespace SharpNeat.Neat.Speciation
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given species ID, centroid and initial capacity.
+        /// </summary>
+        /// <param name="id">Species ID.</param>
+        /// <param name="centroid">Species centroid.</param>
+        /// <param name="capacity">Initial capacity for the species genome list.</param>
         public Species(int id, ConnectionGenes<T> centroid, int capacity = 0)
         {
             this.Id = id;

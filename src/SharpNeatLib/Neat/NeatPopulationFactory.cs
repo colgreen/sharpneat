@@ -20,6 +20,10 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat
 {
+    /// <summary>
+    /// Factory class for creating new instances of <see cref="NeatPopulationFactory{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatPopulationFactory<T> where T : struct
     {
         #region Instance Fields
@@ -78,7 +82,7 @@ namespace SharpNeat.Neat
 
         #region Private Methods
 
-        public NeatPopulation<T> CreatePopulation(int size)
+        private NeatPopulation<T> CreatePopulation(int size)
         {
             var genomeList = CreateGenomeList(size);
             return new NeatPopulation<T>(_metaNeatGenome, _genomeBuilder, genomeList, _genomeIdSeq, _innovationIdSeq);
@@ -153,7 +157,7 @@ namespace SharpNeat.Neat
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
         /// <param name="popSize">Population size. The number of new genomes to create.</param>
         /// <param name="rng">Random source.</param>
-        /// <returns>A new NeatPopulation.</returns>
+        /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
         public static NeatPopulation<T> CreatePopulation(
             MetaNeatGenome<T> metaNeatGenome,
             double connectionsProportion, int popSize,

@@ -21,12 +21,18 @@ using static SharpNeat.Network.IO.NetworkTsvWriterUtils;
 namespace SharpNeat.Network.IO
 {
     /// <summary>
-    /// Writes a WeightedDirectedGraph to file in a tab separated file (tsv) based format.
+    /// Writes a WeightedDirectedGraph to file in a tab separated value (tsv) format.
     /// </summary>
     public static class WeightedDirectedGraphTsvWriter
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Save a directed graph to a file.
+        /// </summary>
+        /// <param name="digraph">The directed graph to save.</param>
+        /// <param name="activationFnName">The single activation function to save with the graph.</param>
+        /// <param name="path">The file path to save to.</param>
         public static void Save(WeightedDirectedGraph<double> digraph, string activationFnName, string path)
         {
             using(var sw = new StreamWriter(path)) {
@@ -34,6 +40,12 @@ namespace SharpNeat.Network.IO
             }
         }
 
+        /// <summary>
+        /// Write a directed graph to a stream.
+        /// </summary>
+        /// <param name="digraph">The directed graph to save.</param>
+        /// <param name="activationFnName">The single activation function to save with the graph.</param>
+        /// <param name="strm">The stream to write to.</param>
         public static void Write(WeightedDirectedGraph<double> digraph, string activationFnName, Stream strm)
         {
             using(StreamWriter sw = new StreamWriter(strm)) {
@@ -41,6 +53,12 @@ namespace SharpNeat.Network.IO
             }
         }
 
+        /// <summary>
+        /// Write a directed graph to a stream writer.
+        /// </summary>
+        /// <param name="digraph">The directed graph to save.</param>
+        /// <param name="activationFnName">The single activation function to save with the graph.</param>
+        /// <param name="sw">The stream writer to write to.</param>
         public static void Write(WeightedDirectedGraph<double> digraph, string activationFnName, StreamWriter sw)
         {
             WriteActivationFunctionsSection(activationFnName, sw);

@@ -9,9 +9,13 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
+    /// <summary>
+    /// Genome mutation types.
+    /// </summary>
     public enum MutationType
     {
         ConnectionWeight = 0,
