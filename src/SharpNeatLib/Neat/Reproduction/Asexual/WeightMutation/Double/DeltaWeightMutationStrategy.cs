@@ -25,6 +25,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="selectionStrategy">Weight selection strategy.</param>
+        /// <param name="weightDeltaSampler">Weight delta sampler.</param>
         public DeltaWeightMutationStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             IStatelessSampler<double> weightDeltaSampler)
@@ -57,6 +62,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
 
         #region Public Static Methods
 
+        /// <summary>
+        /// Create a weight mutation strategy that applies deltas to a random subset of weights, with deltas sampled from a uniform distribution.
+        /// </summary>
+        /// <param name="selectionStrategy">Weight selection strategy.</param>
+        /// <param name="weightScale">The uniform distribution scale.</param>
+        /// <returns>A new instance of <see cref="DeltaWeightMutationStrategy"/>.</returns>
         public static DeltaWeightMutationStrategy CreateUniformDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             double weightScale)
@@ -66,6 +77,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
         }
 
         // TODO: Consider Laplacian distribution.
+
+        /// <summary>
+        ///  Create a weight mutation strategy that applies deltas to a random subset of weights, with deltas sampled from a gaussian distribution.
+        /// </summary>
+        /// <param name="selectionStrategy">Weight selection strategy.</param>
+        /// <param name="stdDev">Gaussian standard deviation.</param>
+        /// <returns>A new instance of <see cref="DeltaWeightMutationStrategy"/>.</returns>
         public static DeltaWeightMutationStrategy CreateGaussianDeltaStrategy(
             ISubsetSelectionStrategy selectionStrategy,
             double stdDev)

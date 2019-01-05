@@ -75,7 +75,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// <returns>A new instance of <see cref="UpdateScheme"/>.</returns>
         public static UpdateScheme CreateGenerationalUpdateScheme(uint generations)
         {
-            return new UpdateScheme(UpdateMode.Generational, generations, default(TimeSpan));
+            return new UpdateScheme(UpdateMode.Generational, generations, default);
         }
 
         /// <summary>

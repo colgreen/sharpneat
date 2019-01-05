@@ -13,9 +13,18 @@ using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
-    public static class DirectedGraphUtils
+    /// <summary>
+    /// Static utility methods for directed graph building.
+    /// </summary>
+    public static class DirectedGraphBuilderUtils
     {
-        public static DictionaryNodeIdMap CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+        /// <summary>
+        /// Create an <see cref="INodeIdMap"/> that provides a mapping from old to new node IDs.
+        /// </summary>
+        /// <param name="inputOutputCount">The total number of input and output nodes (input and output node IDs remain unchanged, i.e. are mapped with identity mapping).</param>
+        /// <param name="hiddenNodeIdArr">An array of hidden node IDs.</param>
+        /// <returns></returns>
+        public static DictionaryNodeIdMap CompileNodeIdMap(
             int inputOutputCount, int[] hiddenNodeIdArr)
         {
             // Build dictionary of hidden node new ID/index keyed by old ID.

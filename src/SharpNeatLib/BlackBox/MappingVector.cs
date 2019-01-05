@@ -204,7 +204,7 @@ namespace SharpNeat.BlackBox
         public void Reset()
         {
             for(int i=0; i<_map.Length; i++) {
-                _innerArr[_map[i]] = default(T);
+                _innerArr[_map[i]] = default;
             }
         }
 

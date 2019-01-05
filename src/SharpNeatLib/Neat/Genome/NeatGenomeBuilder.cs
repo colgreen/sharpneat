@@ -74,7 +74,7 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr)
         {
             // Create a mapping from node IDs to node indexes.
-            INodeIdMap nodeIndexByIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+            INodeIdMap nodeIndexByIdMap = DirectedGraphBuilderUtils.CompileNodeIdMap(
                 _metaNeatGenome.InputOutputNodeCount, hiddenNodeIdArr);
 
             return Create(id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);

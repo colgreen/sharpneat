@@ -14,7 +14,10 @@ using Redzen;
 
 namespace SharpNeat.Network
 {
-    public static class DirectedConnectionUtils
+    /// <summary>
+    /// Static utility methods related to working with <see cref="DirectedConnection"/>.
+    /// </summary>
+    internal static class DirectedConnectionUtils
     {
         /// <summary>
         /// Get the index of the first connection with the given source node ID.

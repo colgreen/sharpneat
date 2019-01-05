@@ -17,6 +17,14 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
+    /// <summary>
+    /// A NEAT genome asexual reproduction strategy based on deletion of a single connection.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <remarks>
+    /// Offspring genomes are created by taking a clone of a single parent genome and deleting a single 
+    /// connection, if possible.
+    /// </remarks>
     public class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -27,6 +35,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
+        /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
         public DeleteConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,

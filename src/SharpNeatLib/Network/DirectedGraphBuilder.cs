@@ -17,6 +17,9 @@ using Redzen.Sorting;
 
 namespace SharpNeat.Network
 {
+    /// <summary>
+    /// Static class for building instances of <see cref="DirectedGraph"/>.
+    /// </summary>
     public static class DirectedGraphBuilder
     {
         #region Public Static Methods
@@ -26,7 +29,7 @@ namespace SharpNeat.Network
         /// node IDs defined as being in a contiguous sequence starting at ID zero.
         /// </summary>
         /// <remarks>
-        /// connectionList is assumed to be sorted by sourceID, TargetID.
+        /// connectionList is required to be sorted by sourceID, TargetID.
         /// </remarks>
         public static DirectedGraph Create(
             IList<DirectedConnection> connectionList,
@@ -40,7 +43,7 @@ namespace SharpNeat.Network
             var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
-            INodeIdMap nodeIdMap = DirectedGraphUtils.CompileNodeIdMap_InputOutputCount_HiddenNodeIdArr(
+            INodeIdMap nodeIdMap = DirectedGraphBuilderUtils.CompileNodeIdMap(
                 inputOutputCount, hiddenNodeIdArr);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.

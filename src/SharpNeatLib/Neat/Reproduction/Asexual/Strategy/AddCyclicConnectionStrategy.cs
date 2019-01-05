@@ -20,9 +20,13 @@ using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     /// <summary>
-    /// Add cyclic connection, asexual reproduction strategy.
+    /// A NEAT genome asexual reproduction strategy based on adding a single connection.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <remarks>
+    /// Offspring genomes are created by taking a clone of a single parent genome and adding a single connection,
+    /// if possible.
+    /// </remarks>
     public class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -41,6 +45,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
+        /// <param name="innovationIdSeq">Innovation ID sequence; for obtaining new innovation IDs.</param>
+        /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
         public AddCyclicConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
@@ -138,8 +150,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 }
             }
 
-            conn = default(DirectedConnection);
-            insertIdx = default(int);
+            conn = default;
+            insertIdx = default;
             return false;
         }
 
@@ -176,8 +188,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 return true;
             }
 
-            conn = default(DirectedConnection);
-            insertIdx = default(int);
+            conn = default;
+            insertIdx = default;
             return false;
         }
 

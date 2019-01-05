@@ -44,7 +44,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
         /// <summary>
         /// Gets a fitness comparer. 
         /// </summary>
-        public IComparer<FitnessInfo> FitnessComparer => DefaultFitnessInfoComparer.Singleton;
+        public IComparer<FitnessInfo> FitnessComparer => PrimaryFitnessInfoComparer.Singleton;
 
         #endregion
 

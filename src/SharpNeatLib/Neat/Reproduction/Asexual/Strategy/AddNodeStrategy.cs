@@ -17,6 +17,15 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
+    /// <summary>
+    /// A NEAT genome asexual reproduction strategy based on adding a single node.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <remarks>
+    /// Offspring genomes are created by taking a clone of a single parent genome and adding a single node,
+    /// if possible. A node is added by selecting a connection at random, and splitting it, i.e. replacing
+    /// A → B with A → C → B, where A and B are the existing nodes, and C is the new node.
+    /// </remarks>
     public class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -33,6 +42,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
+        /// <param name="innovationIdSeq">Innovation ID sequence; for obtaining new innovation IDs.</param>
+        /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
+        /// <param name="addedNodeBuffer">A history buffer of added nodes.</param>
         public AddNodeStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,

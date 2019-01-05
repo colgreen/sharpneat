@@ -25,9 +25,12 @@ namespace SharpNeat.Network
         /// </summary>
         public readonly static WeightedDirectedConnectionComparer<T> Default = new WeightedDirectedConnectionComparer<T>();
 
-		/// <summary>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.</summary>
-		/// <param name="x">The first object to compare.</param>
-		/// <param name="y">The second object to compare.</param>
+        /// <summary>
+        /// Compares two instances of <see cref="WeightedDirectedConnection{T}"/> and returns a value indicating
+        /// whether one is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
         /// <returns>A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />.</returns>
         public int Compare(
             WeightedDirectedConnection<T> x,

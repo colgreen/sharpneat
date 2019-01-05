@@ -203,7 +203,7 @@ namespace SharpNeat.BlackBox
         public void Reset()
         {
             for(int i=_offset; i < _offset + _length; i++) {
-                _innerArr[i] = default(T);
+                _innerArr[i] = default;
             }
         }
 

@@ -22,9 +22,13 @@ using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     /// <summary>
-    /// Add acyclic connection, asexual reproduction strategy.
+    /// A NEAT genome asexual reproduction strategy based on adding a single acyclic connection.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <remarks>
+    /// Offspring genomes are created by taking a clone of a single parent genome and adding a single acyclic connection,
+    /// if possible.
+    /// </remarks>
     public class AddAcyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
@@ -44,6 +48,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
+        /// <param name="genomeBuilder">NeatGenome builder.</param>
+        /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
+        /// <param name="innovationIdSeq">Innovation ID sequence; for obtaining new innovation IDs.</param>
+        /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
         public AddAcyclicConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
@@ -150,8 +162,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 }
             }
 
-            conn = default(DirectedConnection);
-            insertIdx = default(int);
+            conn = default;
+            insertIdx = default;
             return false;
         }
 
@@ -186,8 +198,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Test for simplest cyclic connectivity - node connects to itself.
             if(srcId == tgtId)
             {   
-                conn = default(DirectedConnection);
-                insertIdx = default(int);
+                conn = default;
+                insertIdx = default;
                 return false;
             }
 
@@ -199,16 +211,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             if((insertIdx = Array.BinarySearch(parent.ConnectionGenes._connArr, conn)) >= 0)
             {   
                 // The proposed new connection already exists.
-                conn = default(DirectedConnection);
-                insertIdx = default(int);
+                conn = default;
+                insertIdx = default;
                 return false;
             }
 
             // Test if the connection would form a cycle if added to the parent genome.
             if(_cyclicTest.IsConnectionCyclic(parent.DirectedGraph, DirectedConnectionUtils.CloneAndMap(conn, parent.NodeIndexByIdMap)))
             {
-                conn = default(DirectedConnection);
-                insertIdx = default(int);
+                conn = default;
+                insertIdx = default;
                 return false;
             }
 

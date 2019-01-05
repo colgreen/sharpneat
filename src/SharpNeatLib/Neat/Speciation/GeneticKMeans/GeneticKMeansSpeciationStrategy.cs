@@ -24,7 +24,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
     /// <remarks>
     /// This is the speciation scheme used in SharpNEAT 2.x.
     /// </remarks>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="T">Neural net signal and weight data type.</typeparam>
     public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
         where T : struct
     {
@@ -38,6 +38,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         
         #region Constructor
         
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
         public GeneticKMeansSpeciationStrategy(IDistanceMetric<T> distanceMetric, int maxKMeansIters)
         {
             _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));

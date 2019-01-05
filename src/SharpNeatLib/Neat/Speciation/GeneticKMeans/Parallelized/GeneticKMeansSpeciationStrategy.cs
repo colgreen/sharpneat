@@ -50,12 +50,23 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         
         #region Constructors
         
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters)
             : this(distanceMetric, maxKMeansIters, new ParallelOptions())
         {}
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
+        /// <param name="parallelOptions">Parallel execution options.</param>
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,

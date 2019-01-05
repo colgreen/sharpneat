@@ -20,6 +20,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// A NEAT genome asexual reproduction strategy based on mutation of connection weights.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <remarks>
+    /// Offspring genomes are created by taking a clone of a single parent genome and applying a weight
+    /// mutation scheme to the connection weights of the clone.
+    /// </remarks>
     public class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
