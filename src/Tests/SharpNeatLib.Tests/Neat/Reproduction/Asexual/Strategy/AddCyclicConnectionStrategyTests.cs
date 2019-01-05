@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
@@ -31,11 +33,21 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
+            
+            const int loops = 1000;
+            int nullResponseCount = 0;
 
-            for(int i=0; i<1000; i++)
+            for(int i=0; i < loops; i++)
             {
                 var childGenome = strategy.CreateChildGenome(genome, rng);
                 
+                // The strategy may return null if no appropriately connection could be found to add.
+                if(childGenome == null) 
+                {
+                    nullResponseCount++;
+                    continue;
+                }
+
                 // The child genome should have one more connection than parent.
                 Assert.AreEqual(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
@@ -51,6 +63,11 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 var childNodeIdSet = GetNodeIdSet(childGenome);
                 Assert.IsTrue(nodeIdSet.SetEquals(childNodeIdSet));
             }
+
+            // nullResponseProportion will typically be 0, with 1.0% being so unlikely
+            // it probably will never be observed.
+            double nullResponseProportion = nullResponseCount / (double)loops;
+            Assert.IsTrue(nullResponseProportion <= 0.01);
         }
 
         #endregion
