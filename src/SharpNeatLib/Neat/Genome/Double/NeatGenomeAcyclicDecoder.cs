@@ -18,12 +18,21 @@ using SharpNeat.NeuralNet.Double;
 
 namespace SharpNeat.Neat.Genome.Double
 {
+    /// <summary>
+    /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
+    /// acyclic neural network instances implemented by either <see cref="NeuralNet.Double.AcyclicNeuralNet"/> 
+    /// or <see cref="NeuralNet.Double.Vectorized.AcyclicNeuralNet"/>.
+    /// </summary>
     public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly bool _boundedOutput;
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given decode arguments.
+        /// </summary>
+        /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>.
         public NeatGenomeAcyclicDecoder(
             bool boundedOutput)
         {

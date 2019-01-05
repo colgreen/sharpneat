@@ -17,6 +17,10 @@ using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// For building instances of <see cref="NeatGenome{T}"/>. For use when evolving acyclic graphs only.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatGenomeAcyclicBuilder<T> : INeatGenomeBuilder<T>
         where T : struct
     {
@@ -34,6 +38,10 @@ namespace SharpNeat.Neat.Genome
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given NEAT genome metadata.
+        /// </summary>
+        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         public NeatGenomeAcyclicBuilder(MetaNeatGenome<T> metaNeatGenome)
         {
             Debug.Assert(null != metaNeatGenome && metaNeatGenome.IsAcyclic);

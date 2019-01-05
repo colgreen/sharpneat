@@ -13,7 +13,7 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.Genome
 {
-    public static class NeatGenomeBuilderUtils
+    internal static class NeatGenomeBuilderUtils
     {
         #region Public Static Methods
 

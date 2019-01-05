@@ -25,6 +25,10 @@ using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm
 {
+    /// <summary>
+    /// The NEAT  evolution algorithm.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm 
         where T : struct
     {
@@ -49,6 +53,16 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #region Constructors
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="eaSettings">NEAT evolution algorithm settings.</param>
+        /// <param name="evaluator">An evaluator of lists of genomes.</param>
+        /// <param name="speciationStrategy">Speciation strategy.</param>
+        /// <param name="population">An initial population of genomes.</param>
+        /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
+        /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
+        /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
         public NeatEvolutionAlgorithm(
             NeatEvolutionAlgorithmSettings eaSettings,
             IGenomeListEvaluator<NeatGenome<T>> evaluator,
@@ -63,6 +77,17 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                   RandomDefaults.CreateRandomSource())
         {}
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="eaSettings">NEAT evolution algorithm settings.</param>
+        /// <param name="evaluator">An evaluator of lists of genomes.</param>
+        /// <param name="speciationStrategy">Speciation strategy.</param>
+        /// <param name="population">An initial population of genomes.</param>
+        /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
+        /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
+        /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
+        /// <param name="rng">Random source.</param>
         public NeatEvolutionAlgorithm(
             NeatEvolutionAlgorithmSettings eaSettings,
             IGenomeListEvaluator<NeatGenome<T>> evaluator,
@@ -106,6 +131,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #region Properties
 
+        /// <summary>
+        /// Gets the current evolution algorithm statistics.
+        /// </summary>
         public EvolutionAlgorithmStatistics Stats => _eaStats;
 
         /// <summary>
@@ -137,6 +165,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
         }
 
+        /// <summary>
+        /// Perform one generation of the evolution algorithm.
+        /// </summary>
         public void PerformOneGeneration()
         {
             // Create offspring.

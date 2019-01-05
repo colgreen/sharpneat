@@ -53,24 +53,35 @@ namespace SharpNeat.Neat.Genome.IO
 
         #region Constructors
 
+        /// <summary>
+        /// Construct a new genome loader.
+        /// </summary>
+        /// <param name="metaNeatGenome">Neat genome meta data.</param>
+        /// <param name="tryParseWeight">Connection weight parse function.</param>
         public NeatGenomeLoader(
             MetaNeatGenome<T> metaNeatGenome,
             Func<string,(T,bool)> tryParseWeight)
             : this(metaNeatGenome, tryParseWeight, 8)
         {}
 
+        /// <summary>
+        /// Construct a new genome loader.
+        /// </summary>
+        /// <param name="metaNeatGenome">Neat genome meta data.</param>
+        /// <param name="tryParseWeight">Connection weight parse function.</param>
+        /// <param name="connectionCapacity">The initial connection count to use for connection lists.</param>
         public NeatGenomeLoader(
             MetaNeatGenome<T> metaNeatGenome,
             Func<string,(T,bool)> tryParseWeight,
-            int connCountEstimate)
+            int connectionCapacity)
         {
             _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
             _tryParseWeight = tryParseWeight ?? throw new ArgumentNullException(nameof(tryParseWeight));
             _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
 
             _activationFnName = metaNeatGenome.ActivationFn.GetType().Name;
-            _connList = new List<DirectedConnection>(connCountEstimate);
-            _weightList = new List<T>(connCountEstimate);
+            _connList = new List<DirectedConnection>(connectionCapacity);
+            _weightList = new List<T>(connectionCapacity);
             _actFnList = new List<ActivationFunctionRow>();
         }
 

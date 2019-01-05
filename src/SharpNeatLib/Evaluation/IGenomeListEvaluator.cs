@@ -14,6 +14,10 @@ using System.Collections.Generic;
 
 namespace SharpNeat.Evaluation
 {
+    /// <summary>
+    /// Represents an evaluator of lists of genomes.
+    /// </summary>
+    /// <typeparam name="TGenome">Genome type.</typeparam>
     public interface IGenomeListEvaluator<TGenome>
     {
         /// <summary>

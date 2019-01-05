@@ -16,11 +16,11 @@ using System.Numerics;
 namespace SharpNeat.NeuralNet
 {
     /// <summary>
-    /// Default implementation of IActivationFunctionFactory.
+    /// Default implementation of <see cref="IActivationFunctionFactory{T}"/>.
     /// 
-    /// A factory class for obtaining instances of IActivationFunction<typeparamref name="T"/>.
+    /// A factory class for obtaining instances of <see cref="IActivationFunction{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="T">Neural net signal and weight data type.</typeparam>
     public class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
         where T : struct
     {

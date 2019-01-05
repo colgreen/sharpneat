@@ -14,6 +14,10 @@ using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy
 {
+    /// <summary>
+    /// Represents a NEAT genome sexual reproduction strategy.
+    /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public interface ISexualReproductionStrategy<T> where T : struct
     {
         /// <summary>

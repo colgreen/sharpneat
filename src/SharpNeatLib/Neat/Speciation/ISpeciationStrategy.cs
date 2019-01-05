@@ -14,6 +14,11 @@ using Redzen.Random;
 
 namespace SharpNeat.Neat.Speciation
 {
+    /// <summary>
+    /// Represents a NEAT speciation strategy.
+    /// </summary>
+    /// <typeparam name="TGenome">Genome type.</typeparam>
+    /// <typeparam name="TWeight">Connection weight data type.</typeparam>
     public interface ISpeciationStrategy<TGenome,TWeight>
         where TWeight : struct
     {

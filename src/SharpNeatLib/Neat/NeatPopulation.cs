@@ -166,7 +166,12 @@ namespace SharpNeat.Neat
 
         #region Public Methods
 
-        // TODO: Make this private and call from constructor?
+        /// <summary>
+        /// Initialise (or re-initialise) the population species.
+        /// </summary>
+        /// <param name="speciationStrategy">The speciation strategy to use.</param>
+        /// <param name="speciesCount">The required number of species.</param>
+        /// <param name="rng">Random source.</param>
         public void InitialiseSpecies(
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
             int speciesCount,

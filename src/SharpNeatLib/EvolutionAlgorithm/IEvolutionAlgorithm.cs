@@ -12,10 +12,13 @@
 
 namespace SharpNeat.EvolutionAlgorithm
 {
+    /// <summary>
+    /// Represents a generational evolution algorithm.
+    /// </summary>
     public interface IEvolutionAlgorithm
     {
         /// <summary>
-        /// Gets evolutionary algorithm statistics.
+        /// Gets the current evolution algorithm statistics.
         /// </summary>
         EvolutionAlgorithmStatistics Stats { get; }
 

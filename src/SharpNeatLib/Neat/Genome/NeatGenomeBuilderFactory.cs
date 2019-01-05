@@ -12,9 +12,18 @@
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// Static factory class for creating instances of <see cref="INeatGenomeBuilder{T}"/>.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public static class NeatGenomeBuilderFactory<T>
         where T : struct
     {
+        /// <summary>
+        /// Create a new instance of <see cref="INeatGenomeBuilder{T}"/>.
+        /// </summary>
+        /// <param name="metaNeatGenome">Neat genome metadata.</param>
+        /// <returns>A new instance of <see cref="INeatGenomeBuilder{T}"/>.</returns>
         public static INeatGenomeBuilder<T> Create(
             MetaNeatGenome<T> metaNeatGenome)
         {

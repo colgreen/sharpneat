@@ -44,6 +44,11 @@ namespace SharpNeat.Network.Acyclic
 
         #region IEquatable
 
+        /// <summary>
+        /// Determines whether the specified <see cref="GraphDepthInfo" /> is equal to the current <see cref="GraphDepthInfo" />.
+        /// </summary>
+        /// <param name="other">The object to compare with the current object.</param>
+        /// <returns>true if the objects are equal; otherwise false.</returns>
         public bool Equals(GraphDepthInfo other)
         {
             return _networkDepth == other._networkDepth

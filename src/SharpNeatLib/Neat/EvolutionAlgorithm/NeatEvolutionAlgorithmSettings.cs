@@ -12,6 +12,9 @@
 
 namespace SharpNeat.Neat.EvolutionAlgorithm
 {
+    /// <summary>
+    /// NEAT evolution algorithm settings.
+    /// </summary>
     public class NeatEvolutionAlgorithmSettings
     {
         #region Auto Properties

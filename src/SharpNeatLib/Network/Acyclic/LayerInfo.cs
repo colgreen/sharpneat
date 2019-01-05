@@ -33,6 +33,11 @@ namespace SharpNeat.Network.Acyclic
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="endNodeIdx">Demarcates the position of the last node in the current layer.</param>
+        /// <param name="endConnectionIdx">Demarcates the position of the last connection in the current layer.</param>
         public LayerInfo(int endNodeIdx, int endConnectionIdx)
         {
             this.EndNodeIdx = endNodeIdx;

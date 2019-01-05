@@ -17,6 +17,11 @@ using SharpNeat.NeuralNet.Double;
 
 namespace SharpNeat.Neat.Genome.Double
 {
+    /// <summary>
+    /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
+    /// cyclic neural network instances implemented by either <see cref="NeuralNet.Double.CyclicNeuralNet"/> 
+    /// or <see cref="NeuralNet.Double.Vectorized.CyclicNeuralNet"/>.
+    /// </summary>
     public class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly int _activationCount;
@@ -25,7 +30,7 @@ namespace SharpNeat.Neat.Genome.Double
         #region Constructor
 
         /// <summary>
-        /// Construct with the given decoding parameters.
+        /// Construct with the given decode arguments.
         /// </summary>
         /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
         /// <param name="activationCount">The number of cyclic neural net activation iterations per invocation of the neural net.</param>

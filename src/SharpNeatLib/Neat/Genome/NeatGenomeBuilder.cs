@@ -16,7 +16,7 @@ using SharpNeat.Network;
 namespace SharpNeat.Neat.Genome
 {
     /// <summary>
-    /// For building instances of <see cref="NeatGenome{T}"/>.
+    /// For building instances of <see cref="NeatGenome{T}"/>. For use when evolving cyclic graphs only.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatGenomeBuilder<T> : INeatGenomeBuilder<T>
@@ -27,6 +27,10 @@ namespace SharpNeat.Neat.Genome
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given NEAT genome metadata.
+        /// </summary>
+        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         public NeatGenomeBuilder(MetaNeatGenome<T> metaNeatGenome)
         {
             Debug.Assert(null != metaNeatGenome && !metaNeatGenome.IsAcyclic);
