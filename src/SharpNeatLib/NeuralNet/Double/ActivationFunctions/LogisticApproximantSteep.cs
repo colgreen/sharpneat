@@ -20,7 +20,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     ///   https://stackoverflow.com/a/412988/15703
     ///   https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
     /// </summary>
-    public class LogisticApproximantSteep : IActivationFunction<double>
+    public sealed class LogisticApproximantSteep : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

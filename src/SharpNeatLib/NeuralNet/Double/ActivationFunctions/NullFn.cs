@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// <summary>
     /// Null activation function. Returns zero regardless of input.
     /// </summary>
-    public class NullFn : IActivationFunction<double>
+    public sealed class NullFn : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

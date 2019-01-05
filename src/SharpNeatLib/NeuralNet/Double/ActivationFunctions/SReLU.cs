@@ -19,7 +19,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
     ///    
     /// </summary>
-    public class SReLU : IActivationFunction<double>
+    public sealed class SReLU : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

@@ -24,7 +24,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
     ///    
     /// </summary>
-    public class ScaledELU : IActivationFunction<double>
+    public sealed class ScaledELU : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

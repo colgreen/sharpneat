@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
     /// <summary>
     /// Bipolar sigmoid activation function. Output range is -1 to 1 instead of the more normal 0 to 1.
     /// </summary>
-    public class BipolarSigmoid : IActivationFunction<double>
+    public sealed class BipolarSigmoid : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

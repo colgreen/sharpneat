@@ -17,7 +17,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
     /// Bipolar Gaussian activation function. Output range is -1 to 1, that is, the tails of the Gaussian
     /// distribution curve tend towards -1 as abs(x) -> Infinity and the Gaussian peak is at y = 1.
     /// </summary>
-    public class BipolarGaussian : IActivationFunction<double>
+    public sealed class BipolarGaussian : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

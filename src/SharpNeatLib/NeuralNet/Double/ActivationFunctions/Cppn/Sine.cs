@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
     /// <summary>
     /// Sine activation function with doubled period.
     /// </summary>
-    public class Sine : IActivationFunction<double>
+    public sealed class Sine : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

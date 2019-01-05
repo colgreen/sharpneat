@@ -22,7 +22,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
     /// A version of SharpNeat.NeuralNets.Double.CyclicNeuralNet that utilises some Vector operations
     /// for improved performance on hardware platforms that support them.
     /// </summary>
-    public class CyclicNeuralNet : IBlackBox<double>
+    public sealed class CyclicNeuralNet : IBlackBox<double>
     {
         #region Instance Fields
 

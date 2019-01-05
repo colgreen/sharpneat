@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// <summary>
     /// The ArcTan function (inverse tangent function) .
     /// </summary>
-    public class ArcTan : IActivationFunction<double>
+    public sealed class ArcTan : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

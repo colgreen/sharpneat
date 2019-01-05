@@ -32,7 +32,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// slope to that of LogisticFunctionSteep.
     ///   
     /// </summary>
-    public class PolynomialApproximantSteep : IActivationFunction<double>
+    public sealed class PolynomialApproximantSteep : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

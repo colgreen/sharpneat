@@ -17,7 +17,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// The logistic function.
     /// <see href="http://en.wikipedia.org/wiki/Logistic_function"/>
     /// </summary>
-    public class Logistic : IActivationFunction<double>
+    public sealed class Logistic : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

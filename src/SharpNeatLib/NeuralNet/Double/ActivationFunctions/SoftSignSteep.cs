@@ -18,7 +18,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// This is a variant of softsign that has a steeper slope at and around the origin that 
     /// is intended to be a similar slope to that of LogisticFunctionSteep.
     /// </summary>
-    public class SoftSignSteep : IActivationFunction<double>
+    public sealed class SoftSignSteep : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// <summary>
     /// Rectified linear activation unit (ReLU).
     /// </summary>
-    public class ReLU : IActivationFunction<double>
+    public sealed class ReLU : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

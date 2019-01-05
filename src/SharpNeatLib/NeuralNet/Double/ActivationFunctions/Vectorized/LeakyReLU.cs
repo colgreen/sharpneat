@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
     /// <summary>
     /// Leaky rectified linear activation unit (ReLU).
     /// </summary>
-    public class LeakyReLU : IActivationFunction<double>
+    public sealed class LeakyReLU : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

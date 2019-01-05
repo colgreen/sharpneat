@@ -21,7 +21,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
     /// A version of SharpNeat.NeuralNets.Double.AcyclicNeuralNet that utilises some Vector operations
     /// for improved performance on hardware platforms that support them.
     /// </summary>
-    public class AcyclicNeuralNet : IBlackBox<double>
+    public sealed class AcyclicNeuralNet : IBlackBox<double>
     {
         #region Instance Fields
 

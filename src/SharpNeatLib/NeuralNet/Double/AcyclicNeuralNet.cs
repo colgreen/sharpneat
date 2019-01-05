@@ -40,7 +40,7 @@ namespace SharpNeat.NeuralNet.Double
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public class AcyclicNeuralNet : IBlackBox<double>
+    public sealed class AcyclicNeuralNet : IBlackBox<double>
     {
         #region Instance Fields
 

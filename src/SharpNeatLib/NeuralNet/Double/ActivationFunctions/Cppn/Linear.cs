@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
     /// Linear activation function with clipping. By 'clipping' we mean the output value is linear between
     /// x = -1 and x = 1. Below -1 and above +1 the output is clipped at -1 and +1 respectively.
     /// </summary>
-    public class Linear : IActivationFunction<double>
+    public sealed class Linear : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

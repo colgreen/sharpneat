@@ -20,7 +20,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
     /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to 
     /// ensure there is at least a gradient to follow at the extremes.
     /// </summary>
-    public class QuadraticSigmoid : IActivationFunction<double>
+    public sealed class QuadraticSigmoid : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

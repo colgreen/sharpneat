@@ -16,7 +16,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
     /// Leaky rectified linear activation unit (ReLU).
     /// Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
     /// </summary>
-    public class LeakyReLUShifted : IActivationFunction<double>
+    public sealed class LeakyReLUShifted : IActivationFunction<double>
     {
         #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
