@@ -27,6 +27,10 @@ namespace SharpNeat.Neat
         
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="capacity">Capacity of the history buffer.</param>
         public AddedNodeBuffer(int capacity)
         {
             _buffer = new KeyedCircularBuffer<DirectedConnection,int>(capacity);
@@ -36,6 +40,11 @@ namespace SharpNeat.Neat
 
         #region Public Methods
 
+        /// <summary>
+        /// Register a new added node.
+        /// </summary>
+        /// <param name="conn">The connection that was split in order to add the node.</param>
+        /// <param name="addedNodeId">The ID of the added node.</param>
         public void Register(DirectedConnection conn, int addedNodeId)
         {
             _buffer.Enqueue(conn, addedNodeId);

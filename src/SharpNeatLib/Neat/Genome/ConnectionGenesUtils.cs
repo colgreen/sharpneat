@@ -52,6 +52,13 @@ namespace SharpNeat.Neat.Genome
             return idArr;
         }
 
+        /// <summary>
+        /// Validation tests on an array of hidden node IDs and an associated array of connections.
+        /// </summary>
+        /// <param name="hiddenNodeIdArr">Array of hidden node IDs.</param>
+        /// <param name="connArr">Array of connections.</param>
+        /// <param name="inputOutputCount">The total number of input and output nodes.</param>
+        /// <returns>true if the provided data is valid; otherwise false.</returns>
         public static bool ValidateHiddenNodeIds(
             int[] hiddenNodeIdArr,
             DirectedConnection[] connArr,

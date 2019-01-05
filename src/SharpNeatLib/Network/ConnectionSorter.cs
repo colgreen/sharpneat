@@ -38,6 +38,11 @@ namespace SharpNeat.Network
         
         #region Public Static Methods
 
+        /// <summary>
+        /// Sort the connections represented by <paramref name="connIdArrays"/> and <paramref name="secondaryArr"/>.
+        /// </summary>
+        /// <param name="connIdArrays">Represents the connections to sort.</param>
+        /// <param name="secondaryArr">A secondary array; this will have its items moved such they remain kept aligned with the sorted connections.</param>
         public static void Sort(ConnectionIdArrays connIdArrays, T[] secondaryArr)
         {
             Debug.Assert(connIdArrays._sourceIdArr != null);

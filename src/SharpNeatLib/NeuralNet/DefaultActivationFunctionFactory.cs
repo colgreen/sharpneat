@@ -61,6 +61,11 @@ namespace SharpNeat.NeuralNet
 
         #region Public Methods
 
+        /// <summary>
+        /// Get an activation function instance for the given activation function name/ID.
+        /// </summary>
+        /// <param name="name">Activation function name/ID.</param>
+        /// <returns>An instance of <see cref="IActivationFunction{T}"/>.</returns>
         public IActivationFunction<T> GetActivationFunction(string name)
         {
             lock(_lockObj)

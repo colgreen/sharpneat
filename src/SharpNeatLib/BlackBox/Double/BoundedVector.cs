@@ -12,12 +12,19 @@
 
 namespace SharpNeat.BlackBox.Double
 {
+    /// <summary>
+    /// Wraps an inner <see cref="IVector{Double}"/> and exposes its values bounded to the interval [0, 1].
+    /// </summary>
     public class BoundedVector : IVector<double>
     {
         IVector<double> _innerVec;
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="innerVec">The inner vector to be wrapped.</param>
         public BoundedVector(IVector<double> innerVec)
         {
             _innerVec = innerVec;
