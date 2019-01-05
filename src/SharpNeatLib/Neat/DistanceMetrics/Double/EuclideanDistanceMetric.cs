@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
     /// There may be good reasons to not use this distance metric in NEAT; see this link for some discussion of this:
     ///   https://stats.stackexchange.com/questions/99171/why-is-euclidean-distance-not-a-good-metric-in-high-dimensions
     /// </summary>
-    public class EuclideanDistanceMetric : IDistanceMetric<double>
+    public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
     {
         #region IDistanceMetric Members
 

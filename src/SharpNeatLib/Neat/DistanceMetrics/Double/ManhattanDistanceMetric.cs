@@ -41,7 +41,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
     /// 2) Topology only distance metric (ignore connections weights).
     /// 3) Equivalent of genome distance in Original NEAT (O-NEAT). This is actually a mix of (1) and (2).
     /// </summary>
-    public class ManhattanDistanceMetric : IDistanceMetric<double>
+    public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     {
         #region Instance Fields
 
