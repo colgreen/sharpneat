@@ -3,11 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.11.3" />
-    <PackageReference Include="Redzen" Version="8.0.0-alpha3" />
+    <PackageReference Include="Redzen" Version="8.0.0-alpha6" />
   </ItemGroup>
 
   <ItemGroup>

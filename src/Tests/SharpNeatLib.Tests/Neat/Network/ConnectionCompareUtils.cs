@@ -10,7 +10,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         public static void CompareConnectionLists(
             DirectedConnection[] xConnArr,
-            ConnectionIdArrays yIdArrays)
+            in ConnectionIdArrays yIdArrays)
         {
             int xlen = xConnArr.Length;
             Assert.AreEqual(xlen, yIdArrays._sourceIdArr.Length);
@@ -23,7 +23,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         public static void CompareConnectionLists<T>(
             ConnectionGenes<T> x,
-            ConnectionIdArrays yIdArrays)
+            in ConnectionIdArrays yIdArrays)
             where T : struct
         {
             Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
@@ -36,7 +36,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         public static void CompareConnectionLists<T>(
             ConnectionGenes<T> x,
-            ConnectionIdArrays yIdArrays,
+            in ConnectionIdArrays yIdArrays,
             int[] connectionIndexMap)
             where T : struct
         {
@@ -54,7 +54,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         public static void CompareConnectionLists<T>(
             DirectedConnection[] xConnArr, T[] xWeightArr,
-            ConnectionIdArrays yIdArrays, T[] yWeightArr)
+            in ConnectionIdArrays yIdArrays, T[] yWeightArr)
             where T : struct
         {
             int xlen = xConnArr.Length;
@@ -70,7 +70,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         public static void CompareConnectionLists<T>(
             ConnectionGenes<T> x,
-            ConnectionIdArrays yIdArrays,
+            in ConnectionIdArrays yIdArrays,
             T[] yWeightArr)
             where T : struct
         {
@@ -89,7 +89,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         private static bool AreEqual<T>(
             ConnectionGenes<T> x,
-            ConnectionIdArrays yIdArrays,
+            in ConnectionIdArrays yIdArrays,
             int xIdx, int yIdx)
             where T : struct
         {
@@ -101,7 +101,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         private static bool AreEqual(
             DirectedConnection[] xConnArr,
-            ConnectionIdArrays yIdArrays,
+            in ConnectionIdArrays yIdArrays,
             int xIdx, int yIdx)
         {
             return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx] 
@@ -110,7 +110,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         private static bool AreEqual<T>(
             ConnectionGenes<T> x,
-            ConnectionIdArrays yIdArrays, T[] yWeightArr,
+            in ConnectionIdArrays yIdArrays, T[] yWeightArr,
             int xIdx, int yIdx)
             where T : struct
         {
@@ -122,7 +122,7 @@ namespace SharpNeat.Tests.Neat.Network
 
         private static bool AreEqual<T>(
             DirectedConnection[] xConnArr, T[] xWeightArr,
-            ConnectionIdArrays yIdArrays, T[] yWeightArr,
+            in ConnectionIdArrays yIdArrays, T[] yWeightArr,
             int xIdx, int yIdx)
             where T : struct
         {

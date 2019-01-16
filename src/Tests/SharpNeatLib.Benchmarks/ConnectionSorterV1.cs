@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
-    public class ConnectionSorterV1
+    public sealed class ConnectionSorterV1
     {
         #region Public Static Methods
 
@@ -13,7 +13,7 @@ namespace SharpNeat.Network
         // replaced (see current implementation of SharpNeat.Network.ConnectionSorter) with a customised sort
         // routine that is faster and more efficient w.r.t memory allocations and copying.
     
-        public static void Sort<S>(ConnectionIdArrays connIdArrays, S[] weightArr) where S : struct
+        public static void Sort<S>(in ConnectionIdArrays connIdArrays, S[] weightArr) where S : struct
         {
             // Init array of indexes.
             int[] srcIdArr = connIdArrays._sourceIdArr;
@@ -25,7 +25,7 @@ namespace SharpNeat.Network
             }
 
             // Sort the array of indexes based on the connections that each index points to.
-            var comparer = new ConnectionComparer(connIdArrays);
+            var comparer = new ConnectionComparer(in connIdArrays);
             Array.Sort(idxArr, comparer);
 
             int len = srcIdArr.Length;
@@ -50,12 +50,12 @@ namespace SharpNeat.Network
 
         #region Private Static Methods
 
-        private class ConnectionComparer : IComparer<int>
+        private sealed class ConnectionComparer : IComparer<int>
         {
-            int[] _srcIdArr;
-            int[] _tgtIdArr;
+            readonly int[] _srcIdArr;
+            readonly int[] _tgtIdArr;
 
-            public ConnectionComparer(ConnectionIdArrays connIdArrays)
+            public ConnectionComparer(in ConnectionIdArrays connIdArrays)
             {
                 _srcIdArr = connIdArrays._sourceIdArr;
                 _tgtIdArr = connIdArrays._targetIdArr;

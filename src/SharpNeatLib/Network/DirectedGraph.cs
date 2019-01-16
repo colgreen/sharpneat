@@ -45,7 +45,7 @@ namespace SharpNeat.Network
     {
         #region Instance Fields
 
-        ConnectionIdArrays _connIdArrays;
+        readonly ConnectionIdArrays _connIdArrays;
 
         // The number of input nodes; these are required to be assigned contiguous IDs starting at zero.
         readonly int _inputCount;
@@ -65,7 +65,7 @@ namespace SharpNeat.Network
         #region Constructor
 
         internal DirectedGraph(
-            ConnectionIdArrays connIdArrays,
+            in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
             int totalNodeCount)

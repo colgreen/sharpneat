@@ -89,8 +89,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Debug.Assert(_metaNeatGenome == parent.MetaNeatGenome, "Parent genome has unexpected MetaNeatGenome.");
 
             // Attempt to find a new connection that we can add to the genome.
-            DirectedConnection directedConn;
-            if(!TryGetConnection(parent, rng, out directedConn, out int insertIdx))
+            if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))
             {   // Failed to find a new connection.
                 return null;
             }

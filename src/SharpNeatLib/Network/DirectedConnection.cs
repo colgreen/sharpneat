@@ -46,7 +46,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Construct with the provided source and target node IDs.
         /// </summary>
-        public DirectedConnection(DirectedConnection copyFrom)
+        public DirectedConnection(in DirectedConnection copyFrom)
         {
             this.SourceId = copyFrom.SourceId;
             this.TargetId = copyFrom.TargetId;
@@ -119,7 +119,7 @@ namespace SharpNeat.Network
         /// <param name="x">The first <see cref="DirectedConnection"/> to compare.</param>
         /// <param name="y">The second <see cref="DirectedConnection"/> to compare.</param>
         /// <returns>true if the two <see cref="DirectedConnection"/>s are equal; otherwise false.</returns>
-        public static bool operator ==(DirectedConnection x, DirectedConnection y)
+        public static bool operator ==(in DirectedConnection x, in DirectedConnection y)
         {
             return (x.SourceId == y.SourceId) 
                 && (x.TargetId == y.TargetId);
@@ -131,7 +131,7 @@ namespace SharpNeat.Network
         /// <param name="x">The first <see cref="DirectedConnection"/> to compare.</param>
         /// <param name="y">The second <see cref="DirectedConnection"/> to compare.</param>
         /// <returns>true if the two <see cref="DirectedConnection"/>s are different; otherwise false.</returns>
-        public static bool operator !=(DirectedConnection x, DirectedConnection y)
+        public static bool operator !=(in DirectedConnection x, in DirectedConnection y)
         {
             return (x.SourceId != y.SourceId) 
                 || (x.TargetId != y.TargetId);
@@ -143,7 +143,7 @@ namespace SharpNeat.Network
         /// <param name="x">The first <see cref="DirectedConnection"/> to compare.</param>
         /// <param name="y">The second <see cref="DirectedConnection"/> to compare.</param>
         /// <returns>true if <paramref name="x" /> is less than <paramref name="y" />; otherwise, false.</returns>
-        public static bool operator <(DirectedConnection x, DirectedConnection y)
+        public static bool operator <(in DirectedConnection x, in DirectedConnection y)
         {
             return x.CompareTo(y) < 0;
         }
@@ -154,7 +154,7 @@ namespace SharpNeat.Network
         /// <param name="x">The first <see cref="DirectedConnection"/> to compare.</param>
         /// <param name="y">The second <see cref="DirectedConnection"/> to compare.</param>
         /// <returns>true if <paramref name="x" /> is greater than <paramref name="y" />; otherwise, false.</returns>
-        public static bool operator >(DirectedConnection x, DirectedConnection y)
+        public static bool operator >(in DirectedConnection x, in DirectedConnection y)
         {
             return x.CompareTo(y) > 0;
         }

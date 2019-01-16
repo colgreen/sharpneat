@@ -68,7 +68,7 @@ namespace SharpNeat.Network.Acyclic
         /// Note. the connection source and target nodes IDs are node indexes as used by the supplied digraph.</param>
         public bool IsConnectionCyclic(
             DirectedGraph digraph,
-            DirectedConnection newConn)
+            in DirectedConnection newConn)
         {
             #if DEBUG
             // Check for attempts to re-enter this method.
@@ -81,7 +81,7 @@ namespace SharpNeat.Network.Acyclic
             
             try 
             {
-                return IsConnectionCyclicInner(digraph, newConn);
+                return IsConnectionCyclicInner(digraph, in newConn);
             }
             finally 
             {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
@@ -94,7 +94,7 @@ namespace SharpNeat.Network.Acyclic
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(DirectedGraph digraph, DirectedConnection newConn)
+        private bool IsConnectionCyclicInner(DirectedGraph digraph, in DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {

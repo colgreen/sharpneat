@@ -213,10 +213,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        private int GetInnovationID(DirectedConnection splitConn, NeatGenome<T> parent, out bool newInnovationIdFlag)
+        private int GetInnovationID(
+            in DirectedConnection splitConn,
+            NeatGenome<T> parent,
+            out bool newInnovationIdFlag)
         {
             // Test if the selected connection has a previous split recorded in the innovation ID buffer.
-            if(_addedNodeBuffer.TryLookup(splitConn, out int addedNodeId))
+            if(_addedNodeBuffer.TryLookup(in splitConn, out int addedNodeId))
             {
                 // Found existing matching structure.
                 // However we can only re-use the ID from that structure if it isn't already present in the current genome;
@@ -240,7 +243,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             addedNodeId = _innovationIdSeq.Next();
 
             // Register the new ID with the buffer.
-            _addedNodeBuffer.Register(splitConn, addedNodeId);
+            _addedNodeBuffer.Register(in splitConn, addedNodeId);
 
             return addedNodeId;
         }

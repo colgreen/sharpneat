@@ -186,7 +186,7 @@ namespace SharpNeat.Network.Acyclic
         }
 
         private static void MapIds(
-            ConnectionIdArrays connIdArrays,
+            in ConnectionIdArrays connIdArrays,
             int[] newIdByOldId)
         {
             int[] srcIdArr = connIdArrays._sourceIdArr;

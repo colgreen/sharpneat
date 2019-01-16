@@ -52,7 +52,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// </summary>
         /// <param name="gene">The connection gene to add.</param>
         /// <param name="isSecondaryGene">Indicates if the gene is from the secondary parent.</param>
-        public void TryAddGene(ConnectionGene<T> gene, bool isSecondaryGene)
+        public void TryAddGene(in ConnectionGene<T> gene, bool isSecondaryGene)
         {
             // For acyclic networks, check if the connection gene would create a cycle in the new genome; if so then reject it.
             //
@@ -64,12 +64,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             // performed when adding genes from the secondary parent.
             //
             // A cyclicity test is relatively expensive, therefore we avoid it if at all possible.
-            if(isSecondaryGene && _isAcyclic && IsCyclicConnection(gene)) {
+            if(isSecondaryGene && _isAcyclic && IsCyclicConnection(in gene)) {
                 return;
             }
 
             // We are free to add the gene.
-            AddGene(gene);
+            AddGene(in gene);
         }
 
         public ConnectionGenes<T> ToConnectionGenes()
@@ -89,15 +89,15 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Private Methods
 
-        private void AddGene(ConnectionGene<T> gene)
+        private void AddGene(in ConnectionGene<T> gene)
         {
             _connList.Add(gene.Endpoints);
             _weightList.Add(gene.Weight);
         }
 
-        private bool IsCyclicConnection(ConnectionGene<T> gene)
+        private bool IsCyclicConnection(in ConnectionGene<T> gene)
         {
-            return _cyclicTest.IsConnectionCyclic(_connList, gene.Endpoints);
+            return _cyclicTest.IsConnectionCyclic(_connList, in gene.Endpoints);
         }
 
         #endregion

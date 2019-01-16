@@ -34,15 +34,15 @@ namespace SharpNeat.Tests.Neat
 
         #region Private Static Methods
 
-        private static void TestLookupSuccess(AddedNodeBuffer buff, DirectedConnection connection, int expectedAddedNodeId)
+        private static void TestLookupSuccess(AddedNodeBuffer buff, in DirectedConnection connection, int expectedAddedNodeId)
         {
-            Assert.IsTrue(buff.TryLookup(connection, out int addedNodeId));
+            Assert.IsTrue(buff.TryLookup(in connection, out int addedNodeId));
             Assert.AreEqual(expectedAddedNodeId, addedNodeId);
         }
 
-        private static void TestLookupFail(AddedNodeBuffer buff, DirectedConnection connection)
+        private static void TestLookupFail(AddedNodeBuffer buff, in DirectedConnection connection)
         {
-            Assert.IsFalse(buff.TryLookup(connection, out int addedNodeId));
+            Assert.IsFalse(buff.TryLookup(in connection, out int addedNodeId));
         }
 
         #endregion

@@ -26,14 +26,14 @@ namespace SharpNeat.Network.Acyclic
         #region Constructor
 
         internal WeightedAcyclicDirectedGraph(
-            ConnectionIdArrays connIdArrays,
+            in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
             int nodeCount,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr,
             T[] weightArr) 
-        : base(connIdArrays, inputCount, outputCount, nodeCount, layerArr, outputNodeIdxArr)
+        : base(in connIdArrays, inputCount, outputCount, nodeCount, layerArr, outputNodeIdxArr)
         {
             this.WeightArray = weightArr;
         }

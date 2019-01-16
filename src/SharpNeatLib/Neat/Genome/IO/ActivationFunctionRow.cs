@@ -13,9 +13,9 @@
 namespace SharpNeat.Neat.Genome.IO
 {
     /// <summary>
-    /// Represents a activation function line/row in a genome data file.
+    /// Represents an activation function line/row in a genome data file.
     /// </summary>
-    public struct ActivationFunctionRow
+    public readonly struct ActivationFunctionRow
     {
         /// <summary>
         /// Activation function ID.

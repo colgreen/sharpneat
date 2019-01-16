@@ -207,7 +207,7 @@ namespace SharpNeat.Neat.Genome
         #region Private Static Methods [ConnectionIdArrays Sort Order]
 
         private static bool IsSortedAscending(
-            ConnectionIdArrays connIdArrays)
+            in ConnectionIdArrays connIdArrays)
         {
             if(0 == connIdArrays.Length) {
                 return true;

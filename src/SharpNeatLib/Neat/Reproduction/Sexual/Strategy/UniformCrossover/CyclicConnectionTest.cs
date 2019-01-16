@@ -113,7 +113,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// </summary>
         /// <param name="connList">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
-        public bool IsConnectionCyclic(IList<DirectedConnection> connList, DirectedConnection newConn)
+        public bool IsConnectionCyclic(IList<DirectedConnection> connList, in DirectedConnection newConn)
         {
             #if DEBUG
             // Check for attempts to re-enter this method.
@@ -124,7 +124,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             try 
             {
-                return IsConnectionCyclicInner(connList, newConn);
+                return IsConnectionCyclicInner(connList, in newConn);
             }
             finally 
             {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
@@ -137,7 +137,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(IList<DirectedConnection> connList, DirectedConnection newConn)
+        private bool IsConnectionCyclicInner(IList<DirectedConnection> connList, in DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {

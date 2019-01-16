@@ -172,7 +172,7 @@ namespace SharpNeat.Network.Acyclic
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
         /// <returns>The current connection to traverse down.</returns>
-        private void MoveForward(int[] srcIdArr, int[] tgtIdAr, StackFrame currStackFrame)
+        private void MoveForward(int[] srcIdArr, int[] tgtIdAr, in StackFrame currStackFrame)
         {
             // If the current node has at least one more visitable outgoing connection then update the node's entry 
             // on the top of the stack to point to said connection.
@@ -208,10 +208,10 @@ namespace SharpNeat.Network.Acyclic
 
         #region Inner Struct
 
-        struct StackFrame
+        readonly struct StackFrame
         {
-            public int ConnectionIdx;
-            public int Depth;
+            public readonly int ConnectionIdx;
+            public readonly int Depth;
 
             public StackFrame(int connIdx, int depth)
             {

@@ -133,8 +133,6 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
             return (fitnessInfo.PrimaryFitness >= 10_000);
         }
 
-
-
         #endregion
     }
 }

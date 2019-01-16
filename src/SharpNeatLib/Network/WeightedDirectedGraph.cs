@@ -52,7 +52,7 @@ namespace SharpNeat.Network
         #region Constructor
 
         internal WeightedDirectedGraph(
-            ConnectionIdArrays connIdArrays,
+            in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
             int nodeCount,

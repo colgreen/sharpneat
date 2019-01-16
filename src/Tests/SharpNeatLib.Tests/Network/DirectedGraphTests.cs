@@ -91,7 +91,7 @@ namespace SharpNeat.Tests.Network
 
         #region Private Static Methods
 
-        private static void CompareConnectionLists(IList<DirectedConnection> x, ConnectionIdArrays connIdArrays)
+        private static void CompareConnectionLists(IList<DirectedConnection> x, in ConnectionIdArrays connIdArrays)
         {
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;

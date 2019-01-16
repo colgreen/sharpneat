@@ -45,9 +45,9 @@ namespace SharpNeat.Neat
         /// </summary>
         /// <param name="conn">The connection that was split in order to add the node.</param>
         /// <param name="addedNodeId">The ID of the added node.</param>
-        public void Register(DirectedConnection conn, int addedNodeId)
+        public void Register(in DirectedConnection conn, int addedNodeId)
         {
-            _buffer.Enqueue(conn, addedNodeId);
+            _buffer.Enqueue(in conn, addedNodeId);
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace SharpNeat.Neat
         /// <param name="conn">The connection to look-up.</param>
         /// <param name="addedNodeId">Returns a node innovation ID, if one was found.</param>
         /// <returns>True if a node was found, otherwise false</returns>
-        public bool TryLookup(DirectedConnection conn, out int addedNodeId)
+        public bool TryLookup(in DirectedConnection conn, out int addedNodeId)
         {
-            return _buffer.TryGetValue(conn, out addedNodeId);
+            return _buffer.TryGetValue(in conn, out addedNodeId);
         }
 
         #endregion

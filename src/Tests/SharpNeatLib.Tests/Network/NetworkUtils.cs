@@ -9,8 +9,9 @@ namespace SharpNeat.Tests.Network
     {
         #region Public Static Methods
 
-        public static void CompareConnectionLists(IList<WeightedDirectedConnection<double>> x,
-                                                  ConnectionIdArrays connIdArrays, double[] yWeightArr)
+        public static void CompareConnectionLists(
+            IList<WeightedDirectedConnection<double>> x,
+            in ConnectionIdArrays connIdArrays, double[] yWeightArr)
         {
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
@@ -23,8 +24,9 @@ namespace SharpNeat.Tests.Network
             }
         }
 
-        public static void CompareConnections(WeightedDirectedConnection<double> x,
-                                              int ySrcId, int yTgtId, double yWeight)
+        public static void CompareConnections(
+            in WeightedDirectedConnection<double> x,
+            int ySrcId, int yTgtId, double yWeight)
         {
             Assert.AreEqual(x.SourceId, ySrcId);
             Assert.AreEqual(x.TargetId, yTgtId);
@@ -39,7 +41,7 @@ namespace SharpNeat.Tests.Network
             }
         }
 
-        public static void CompareLayerInfo(LayerInfo x, LayerInfo y)
+        public static void CompareLayerInfo(in LayerInfo x, in LayerInfo y)
         {
             Assert.AreEqual(x.EndNodeIdx, y.EndNodeIdx);
             Assert.AreEqual(x.EndConnectionIdx, y.EndConnectionIdx);
