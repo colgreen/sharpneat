@@ -103,13 +103,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 ConnectionGene<T>? connGene = CreateConnectionGene(
                     parent1.ConnectionGenes, parent2.ConnectionGenes,
                     geneIndexPair.Item1, geneIndexPair.Item2,
-                    rng,
-                    out bool isSecondaryGene);
+                    rng);
 
                 if(connGene.HasValue)
-                {
-                    // Attempt to add the gene to the child genome we are building.
-                    _connGeneListBuilder.TryAddGene(connGene.Value, isSecondaryGene);
+                {   // Attempt to add the gene to the child genome we are building.
+                    _connGeneListBuilder.TryAddGene(connGene.Value);
                 }
             }
 
@@ -131,43 +129,32 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             ConnectionGenes<T> connGenes1,
             ConnectionGenes<T> connGenes2,
             int idx1, int idx2,
-            IRandomSource rng,
-            out bool isSecondaryGene)
+            IRandomSource rng)
         {
             // Select gene at random if it is present on both parents.
             if(-1 != idx1 && -1 != idx2)
             {
-                if(rng.NextBool())
-                {
-                    isSecondaryGene = false;
+                if(rng.NextBool()) {
                     return CreateConnectionGene(connGenes1, idx1);
-                }
-                else
-                {
-                    isSecondaryGene = true;
+                } else {
                     return CreateConnectionGene(connGenes2, idx2);
                 }
             }
 
             // Use the primary parent's gene if it has one.
-            if(-1 != idx1) 
-            {
-                isSecondaryGene = false;
+            if(-1 != idx1) {
                 return CreateConnectionGene(connGenes1, idx1);
             }
 
             // Otherwise use the secondary parent's gene stochastically.
-            if(DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability))
-            {
-                isSecondaryGene = true;
+            if(DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability)) {
                 return CreateConnectionGene(connGenes2, idx2);
             }
             
-            isSecondaryGene = false;
             return null;
         }
 
-        private ConnectionGene<T> CreateConnectionGene(ConnectionGenes<T> connGenes, int idx)
+        private static ConnectionGene<T> CreateConnectionGene(ConnectionGenes<T> connGenes, int idx)
         {
             return new ConnectionGene<T>(
                 connGenes._connArr[idx],

@@ -51,20 +51,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// Add a Gene to the builder, but only if the connection is not already present (as determined by its source and target ID endpoints).
         /// </summary>
         /// <param name="gene">The connection gene to add.</param>
-        /// <param name="isSecondaryGene">Indicates if the gene is from the secondary parent.</param>
-        public void TryAddGene(in ConnectionGene<T> gene, bool isSecondaryGene)
+        public void TryAddGene(in ConnectionGene<T> gene)
         {
             // For acyclic networks, check if the connection gene would create a cycle in the new genome; if so then reject it.
-            //
-            // Notes. 
-            // This applies only when evolving acyclic networks.
-            //
-            // Both parent genomes are guaranteed to be acyclic, and since we take all genes from the primary parent, the child genome
-            // is essentially the primary parent plus some genes from the secondary parent, therefore this check only needs to be
-            // performed when adding genes from the secondary parent.
-            //
-            // A cyclicity test is relatively expensive, therefore we avoid it if at all possible.
-            if(isSecondaryGene && _isAcyclic && IsCyclicConnection(in gene)) {
+            // Note. A cyclicity test is expensive, therefore we avoid it if at all possible.
+            if(_isAcyclic && IsCyclicConnection(in gene)) {
                 return;
             }
 
