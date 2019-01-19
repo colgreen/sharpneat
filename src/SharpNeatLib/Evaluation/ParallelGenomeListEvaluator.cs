@@ -33,6 +33,7 @@ namespace SharpNeat.Evaluation
         readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
         readonly IPhenomeEvaluator<TPhenome> _phenomeEvaluator;
         readonly ParallelOptions _parallelOptions;
+        EvaluationStateObjectPool _evalStateObjectPool;
 
         #endregion
 
@@ -58,6 +59,14 @@ namespace SharpNeat.Evaluation
             _genomeDecoder = genomeDecoder;
             _phenomeEvaluator = phenomeEvaluator;
             _parallelOptions = parallelOptions;
+
+            // Init evaluation state object pool (if the phenome evaluator uses evaluation state objects).
+            if(_phenomeEvaluator.UsesEvaluationStateObject)
+            {
+                _evalStateObjectPool = new EvaluationStateObjectPool(
+                    parallelOptions.MaxDegreeOfParallelism,
+                    _phenomeEvaluator.CreateEvaluationStateObject);
+            }
         }
 
         #endregion
@@ -88,30 +97,52 @@ namespace SharpNeat.Evaluation
         /// </summary>
         public void Evaluate(ICollection<TGenome> genomeList)
         {
-            // TODO: Use a pool of pre-constructed evaluation state objects to avoid having to instantiate new objects each time we 
-            // invoke the Parallel.ForEach (one state object per partition).
+            if(_phenomeEvaluator.UsesEvaluationStateObject)
+            {
+                // TODO: Test this execution path (requires an IPhenoneEvaluator with UsesEvaluationStateObject == true)
 
-            // Decode and evaluate genomes in parallel.
-            Parallel.ForEach<TGenome,object>(
-                genomeList,
-                _parallelOptions,
-                () => _phenomeEvaluator.CreateEvaluationStateObject(),
-                (genome, loopState, evalStateObj) => 
-                {
-                    TPhenome phenome = _genomeDecoder.Decode(genome);
-                    if(null == phenome)
-                    {   // Non-viable genome.
-                        genome.FitnessInfo = _phenomeEvaluator.NullFitness;
-                    }
-                    else
+                // Decode and evaluate genomes in parallel.
+                Parallel.ForEach<TGenome,object>(
+                    genomeList,
+                    _parallelOptions,
+                    () => _evalStateObjectPool.GetEvaluationStateObject(),
+                    (genome, loopState, evalStateObj) => 
                     {
-                        genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, evalStateObj);
-                    }
+                        TPhenome phenome = _genomeDecoder.Decode(genome);
+                        if(null == phenome)
+                        {   // Non-viable genome.
+                            genome.FitnessInfo = _phenomeEvaluator.NullFitness;
+                        }
+                        else
+                        {
+                            genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, evalStateObj);
+                        }
 
-                    return evalStateObj;
-                },
-                (evalStateObj) => { }
-            );
+                        return evalStateObj;
+                    },
+                    (evalStateObj) => _evalStateObjectPool.ReleaseEvaluationStateObject()
+                );
+            }
+            else
+            {
+                // Decode and evaluate genomes in parallel.
+                Parallel.ForEach(
+                    genomeList,
+                    _parallelOptions,
+                    (genome) => 
+                    {
+                        TPhenome phenome = _genomeDecoder.Decode(genome);
+                        if(null == phenome)
+                        {   // Non-viable genome.
+                            genome.FitnessInfo = _phenomeEvaluator.NullFitness;
+                        }
+                        else
+                        {
+                            genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, null);
+                        }
+                    }
+                );
+            }
         }
 
         /// <summary>
