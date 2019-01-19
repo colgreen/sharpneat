@@ -26,6 +26,7 @@ namespace SharpNeat.Neat.Genome.Double
     public class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly bool _boundedOutput;
+        readonly bool _suppressHardwareAcceleration;
 
         #region Constructor
 
@@ -33,10 +34,13 @@ namespace SharpNeat.Neat.Genome.Double
         /// Construct with the given decode arguments.
         /// </summary>
         /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>.
+        /// <param name="supressHardwareAcceleration">Suppress use of hardware accelerated black box (i.e neural network) implementations.</param>
         public NeatGenomeAcyclicDecoder(
-            bool boundedOutput)
+            bool boundedOutput,
+            bool supressHardwareAcceleration = false)
         {
             _boundedOutput = boundedOutput;
+            _suppressHardwareAcceleration = supressHardwareAcceleration;
         }
 
         #endregion
@@ -63,7 +67,7 @@ namespace SharpNeat.Neat.Genome.Double
 
             // Create a working neural net.
             IBlackBox<double> neuralNet;
-            if(Vector.IsHardwareAccelerated)
+            if(!_suppressHardwareAcceleration && Vector.IsHardwareAccelerated)
             {
                 neuralNet = new NeuralNet.Double.Vectorized.AcyclicNeuralNet(
                     (AcyclicDirectedGraph)genome.DirectedGraph,

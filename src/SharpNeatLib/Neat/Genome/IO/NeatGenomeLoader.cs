@@ -165,7 +165,7 @@ namespace SharpNeat.Neat.Genome.IO
             // and a function code that specifies the function. Additional lines in the section are ignored.
             ReadActivationFunctions();
 
-            // Read activation function(s).
+            // Validate activation function(s).
             ValidateActivationFunctions();
 
             // Create a genome object and return.
@@ -285,7 +285,6 @@ namespace SharpNeat.Neat.Genome.IO
         private void ValidateActivationFunctions()
         {
             // For NEAT each node uses the same activation function, and this is defined on MetaNeatGenome.
-
             if(0 == _actFnList.Count) {
                 throw new IOException("No activation function defined for genome.");
             }
