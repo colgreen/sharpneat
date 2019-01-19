@@ -14,7 +14,7 @@ using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 
-namespace SharpNeatTasks.BinaryThreeMultiplexer
+namespace SharpNeat.Tasks.BinaryThreeMultiplexer
 {
     // TODO: Consider a variant on this evaluator that uses two outputs instead of one, i.e. 'false' and 'true' outputs;
     // (if both outputs are low or high then that's just an invalid response).

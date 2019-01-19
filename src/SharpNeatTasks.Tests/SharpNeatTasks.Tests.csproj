@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>SharpNeat.Tasks.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

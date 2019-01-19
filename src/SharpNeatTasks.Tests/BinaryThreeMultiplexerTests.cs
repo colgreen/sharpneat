@@ -5,9 +5,9 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNet;
-using SharpNeatTasks.BinaryThreeMultiplexer;
+using SharpNeat.Tasks.BinaryThreeMultiplexer;
 
-namespace SharpNeatTasks.Tests
+namespace SharpNeat.Tasks.Tests
 {
     [TestClass]
     public class BinaryThreeMultiplexerTests
