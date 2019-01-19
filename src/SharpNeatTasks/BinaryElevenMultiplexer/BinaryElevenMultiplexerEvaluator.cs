@@ -16,6 +16,9 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeatTasks.BinaryElevenMultiplexer
 {
+    // TODO: Consider a variant on this evaluator that uses two outputs instead of one, i.e. 'false' and 'true' outputs;
+    // (if both outputs are low or high then that's just an invalid response).
+
     /// <summary>
     /// Binary 11-Multiplexer task.
     /// Three inputs supply a binary number between 0 and 7. This number selects one of the
@@ -58,7 +61,6 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
         {
             double fitness = 0.0;
             bool success = true;
-            double output;
             IVector<double> inputArr = box.InputVector;
             IVector<double> outputArr = box.OutputVector;
             
@@ -71,8 +73,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                 // Apply bitmask to i and shift left to generate the input signals.
                 // Note. We could eliminate all the boolean logic by pre-building a table of test 
                 // signals and correct responses.
-                int tmp = i;
-                for(int j=1; j < 12; j++) 
+                for(int tmp = i, j=1; j < 12; j++) 
                 {   
                     inputArr[j] = tmp & 0x1;
                     tmp >>= 1;
@@ -82,32 +83,33 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                 box.Activate();
 
                 // Read output signal.
-                output = outputArr[0];
+                double output = outputArr[0];
                 Debug.Assert(output >= 0.0, "Unexpected negative output.");
+                bool trueResponse = (output > 0.5);
 
-                // Determine the correct answer by using highly cryptic bit manipulation :)
+                // Determine the correct answer with somewhat cryptic bit manipulation.
                 // The condition is true if the correct answer is true (1.0).
                 if(((1 << (3 + (i & 0x7))) &i) != 0)
                 {   
-                    // correct answer = true.
+                    // correct answer: true.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                     // Note. To base fitness on absolute error use: fitness += output;
                     fitness += 1.0 - ((1.0 - output) * (1.0 - output));
-                    if(output < 0.5) {
-                        success = false;
-                    }
+
+                    // Reset success flag if at least one response is wrong.
+                    success &= trueResponse; 
                 }
                 else
                 {   
-                    // correct answer = false.
+                    // correct answer: false.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                     // Note. To base fitness on absolute error use: fitness += 1.0-output;
                     fitness += 1.0 - (output * output);
-                    if(output >= 0.5) {
-                        success = false;
-                    }
+
+                    // Reset success flag if at least one response is wrong.
+                    success &= !trueResponse; 
                 }
 
                 // Reset black box ready for next test case.
