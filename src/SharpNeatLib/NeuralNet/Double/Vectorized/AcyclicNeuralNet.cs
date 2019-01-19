@@ -184,7 +184,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
                 }
 
                 // Loop remaining connections
-                for(; conIdx < _srcIdArr.Length; conIdx++) {
+                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
                     _activationArr[_tgtIdArr[conIdx]] += _activationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
                 }
 
