@@ -20,10 +20,13 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer
     // (if both outputs are low or high then that's just an invalid response).
 
     /// <summary>
-    /// Binary 6-Multiplexer task.
-    /// Two inputs supply a binary number between 0 and 3. This number selects one of the
-    /// further 4 inputs (six inputs in total). The correct response is the selected inputs
+    /// Binary 6-Multiplexer task evaluator.
+    /// 
+    /// Two inputs supply a binary number between 0 and 3; this number selects one of the
+    /// further 4 inputs (six inputs in total). The correct response is the selected input's
     /// input signal (0 or 1).
+    /// 
+    /// Evaluation consists of querying the provided black box for all possible input combinations (2^6 = 64).
     /// </summary>
     public class BinarySixMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {

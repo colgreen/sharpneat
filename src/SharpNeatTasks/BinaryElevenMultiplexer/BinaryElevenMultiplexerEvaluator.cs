@@ -20,10 +20,13 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     // (if both outputs are low or high then that's just an invalid response).
 
     /// <summary>
-    /// Binary 11-Multiplexer task.
-    /// Three inputs supply a binary number between 0 and 7. This number selects one of the
+    /// Binary 11-Multiplexer task evaluator.
+    /// 
+    /// Three inputs supply a binary number between 0 and 7; this number selects one of the
     /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
     /// input signal (0 or 1).
+    /// 
+    /// Evaluation consists of querying the provided black box for all possible input combinations (2^11 = 2048).
     /// </summary>
     public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {

@@ -20,9 +20,12 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
     // (if both outputs are low or high then that's just an invalid response).
 
     /// <summary>
-    /// Binary 3-Multiplexer task.
+    /// Binary 3-Multiplexer task evaluator.
+    /// 
     /// One binary input selects which of two other binary inputs to output. 
     /// The correct response is the selected input's input signal (0 or 1).
+    ///
+    /// Evaluation consists of querying the provided black box for all possible input combinations (2^3 = 8). 
     /// </summary>
     public class BinaryThreeMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
