@@ -33,6 +33,7 @@ namespace SharpNeat.Evaluation
 
         readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
         readonly IPhenomeEvaluator<TPhenome> _phenomeEvaluator;
+        readonly object _evalStateObj;
 
         #endregion
 
@@ -48,6 +49,12 @@ namespace SharpNeat.Evaluation
         {
             _genomeDecoder = genomeDecoder;
             _phenomeEvaluator = phenomeEvaluator;
+
+            // Create a single evaluation state object.
+            // This may return null if the phenome evaluator doesn't utilise a state object.
+            // Either way this reference will be passed on each call Evaluate() to allow for re-usable state if required.
+            // Only one object is required here because this is a single threaded implementation of IGenomeListEvaluator.
+            _evalStateObj = _phenomeEvaluator.CreateEvaluationStateObject();
         }
 
         #endregion
@@ -89,7 +96,7 @@ namespace SharpNeat.Evaluation
                 }
                 else 
                 {   
-                    genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome);
+                    genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, _evalStateObj);
                 }
             }
         }
@@ -104,8 +111,6 @@ namespace SharpNeat.Evaluation
         {
             return _phenomeEvaluator.TestForStopCondition(fitnessInfo);
         }
-
-
 
         #endregion
     }

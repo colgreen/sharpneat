@@ -51,6 +51,12 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         /// </summary>
         public IComparer<FitnessInfo> FitnessComparer => PrimaryFitnessInfoComparer.Singleton;
 
+        /// <summary>
+        /// True if this phenome evaluator uses evaluation state objects, i.e. <see cref="CreateEvaluationStateObject"/> returns
+        /// an object (rather than a null reference), and one of these objects must be passed on each call to <see cref="Evaluate(IBlackBox{double}, object)"/>
+        /// </summary>
+        public bool UsesEvaluationStateObject => false;
+
         #endregion
 
         #region Public Methods
@@ -59,7 +65,9 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         /// Evaluate the provided IBlackBox against the Binary 11-Multiplexer problem domain and return
         /// its fitness score.
         /// </summary>
-        public FitnessInfo Evaluate(IBlackBox<double> box)
+        /// <param name="box">The black box to evaluate.</param>
+        /// <param name="evaluationState">Optional evaluation state object that can be re-used between evaluations.</param>
+        public FitnessInfo Evaluate(IBlackBox<double> box, object evaluationState)
         {
             double fitness = 0.0;
             bool success = true;
@@ -135,6 +143,15 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
             return (fitnessInfo.PrimaryFitness >= 100);
+        }
+
+        /// <summary>
+        /// Create an evaluation state object.
+        /// </summary>
+        /// <returns>A new instance of an evaluation state object for the current.</returns>
+        public object CreateEvaluationStateObject()
+        {
+            return null;
         }
 
         #endregion

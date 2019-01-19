@@ -45,11 +45,18 @@ namespace SharpNeat.Evaluation
         IComparer<FitnessInfo> FitnessComparer { get; }
 
         /// <summary>
+        /// True if this phenome evaluator uses evaluation state objects, i.e. <see cref="CreateEvaluationStateObject"/> returns
+        /// an object (rather than a null reference), and one of these objects must be passed on each call to <see cref="Evaluate(TPhenome, object)"/>
+        /// </summary>
+        bool UsesEvaluationStateObject { get; }
+
+        /// <summary>
         /// Evaluate a single phenome and return its fitness score or scores.
         /// </summary>
         /// <param name="phenome">The phenome to evaluate.</param>
+        /// <param name="evaluationState">Optional evaluation state object that can be re-used between evaluations.</param>
         /// <returns></returns>
-        FitnessInfo Evaluate(TPhenome phenome);
+        FitnessInfo Evaluate(TPhenome phenome, object evaluationState);
 
         /// <summary>
         /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean
@@ -58,5 +65,11 @@ namespace SharpNeat.Evaluation
         /// <param name="fitnessInfo">The fitness info object to test.</param>
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         bool TestForStopCondition(FitnessInfo fitnessInfo);
+
+        /// <summary>
+        /// Create an evaluation state object.
+        /// </summary>
+        /// <returns>A new instance of an evaluation state object for the current.</returns>
+        object CreateEvaluationStateObject();
     }
 }

@@ -8,15 +8,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>0</WarningLevel>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>obj\Debug\netstandard2.0\SharpNeatTasks.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SharpNeatLib\SharpNeatLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

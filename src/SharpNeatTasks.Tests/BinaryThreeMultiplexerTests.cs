@@ -41,10 +41,11 @@ namespace SharpNeat.Tasks.Tests
 
             // Evaluate the neural net.
             var evaluator = new BinaryThreeMultiplexerEvaluator();
+            object evaluationState = evaluator.CreateEvaluationStateObject();
 
             // Confirm the expected fitness (to a limited amount of precision to allow for small variations of floating point
             // results that can occur as a result of platform/environmental variations).
-            FitnessInfo fitnessInfo = evaluator.Evaluate(blackBox);
+            FitnessInfo fitnessInfo = evaluator.Evaluate(blackBox, evaluationState);
             Assert.AreEqual(107.50554956432657, fitnessInfo.PrimaryFitness, 0.000001);
         }
     }

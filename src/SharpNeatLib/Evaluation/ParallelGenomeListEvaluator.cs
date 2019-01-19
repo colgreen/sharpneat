@@ -88,19 +88,30 @@ namespace SharpNeat.Evaluation
         /// </summary>
         public void Evaluate(ICollection<TGenome> genomeList)
         {
+            // TODO: Use a pool of pre-constructed evaluation state objects to avoid having to instantiate new objects each time we 
+            // invoke the Parallel.ForEach (one state object per partition).
+
             // Decode and evaluate genomes in parallel.
-            Parallel.ForEach(genomeList, _parallelOptions, delegate(TGenome genome)
-            {
-                TPhenome phenome = _genomeDecoder.Decode(genome);
-                if(null == phenome)
-                {   // Non-viable genome.
-                    genome.FitnessInfo = _phenomeEvaluator.NullFitness;
-                }
-                else
+            Parallel.ForEach<TGenome,object>(
+                genomeList,
+                _parallelOptions,
+                () => _phenomeEvaluator.CreateEvaluationStateObject(),
+                (genome, loopState, evalStateObj) => 
                 {
-                    genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome);
-                }
-            });
+                    TPhenome phenome = _genomeDecoder.Decode(genome);
+                    if(null == phenome)
+                    {   // Non-viable genome.
+                        genome.FitnessInfo = _phenomeEvaluator.NullFitness;
+                    }
+                    else
+                    {
+                        genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, evalStateObj);
+                    }
+
+                    return evalStateObj;
+                },
+                (evalStateObj) => { }
+            );
         }
 
         /// <summary>
