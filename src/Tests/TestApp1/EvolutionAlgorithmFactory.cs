@@ -14,6 +14,8 @@ using SharpNeat.Neat.Reproduction.Sexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.NeuralNet;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using SharpNeatTasks.BinarySixMultiplexer;
+using SharpNeatTasks.BinaryThreeMultiplexer;
 
 namespace TestApp1
 {
@@ -71,7 +73,7 @@ namespace TestApp1
             var activationFnFactory = new DefaultActivationFunctionFactory<double>();
 
             MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
-                inputNodeCount: 12, 
+                inputNodeCount: 4, 
                 outputNodeCount: 1,
                 isAcyclic: true,
                 activationFn: activationFnFactory.GetActivationFunction("LeakyReLU"));
@@ -85,7 +87,7 @@ namespace TestApp1
         {
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(
                 metaNeatGenome,
-                connectionsProportion: 1.0,
+                connectionsProportion: 0.1,
                 popSize: popSize,
                 rng: RandomDefaults.CreateRandomSource());
 
@@ -95,9 +97,9 @@ namespace TestApp1
         private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
-            var phenomeEvaluator = new BinaryElevenMultiplexerEvaluator();
-            //var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
-            var genomeListEvaluator = new ParallelGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
+            var phenomeEvaluator = new BinaryThreeMultiplexerEvaluator();
+            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
+            //var genomeListEvaluator = new ParallelGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
         }
 

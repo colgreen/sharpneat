@@ -14,18 +14,17 @@ using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 
-namespace SharpNeatTasks.BinaryElevenMultiplexer
+namespace SharpNeatTasks.BinaryThreeMultiplexer
 {
     // TODO: Consider a variant on this evaluator that uses two outputs instead of one, i.e. 'false' and 'true' outputs;
     // (if both outputs are low or high then that's just an invalid response).
 
     /// <summary>
-    /// Binary 11-Multiplexer task.
-    /// Three inputs supply a binary number between 0 and 7. This number selects one of the
-    /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
-    /// input signal (0 or 1).
+    /// Binary 3-Multiplexer task.
+    /// One binary input selects which of two other binary inputs to output. 
+    /// The correct response is the selected input's input signal (0 or 1).
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public class BinaryThreeMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         #region Properties
 
@@ -64,8 +63,8 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
             IVector<double> inputVec = box.InputVector;
             IVector<double> outputVec = box.OutputVector;
             
-            // 2048 test cases.
-            for(int i=0; i < 2048; i++)
+            // 8 test cases.
+            for(int i=0; i < 8; i++)
             {
                 // Bias input.
                 inputVec[0] = 1.0;
@@ -73,7 +72,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                 // Apply bitmask to i and shift left to generate the input signals.
                 // Note. We could eliminate all the boolean logic by pre-building a table of test 
                 // signals and correct responses.
-                for(int tmp = i, j=1; j < 12; j++) 
+                for(int tmp = i, j=1; j < 4; j++) 
                 {   
                     inputVec[j] = tmp & 0x1;
                     tmp >>= 1;
@@ -89,7 +88,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
 
                 // Determine the correct answer with somewhat cryptic bit manipulation.
                 // The condition is true if the correct answer is true (1.0).
-                if(((1 << (3 + (i & 0x7))) &i) != 0)
+                if(((1 << (1 + (i & 0x1))) &i) != 0)
                 {   
                     // correct answer: true.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
@@ -98,7 +97,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
                     fitness += 1.0 - ((1.0 - output) * (1.0 - output));
 
                     // Reset success flag if at least one response is wrong.
-                    success &= trueResponse; 
+                    success &= trueResponse;
                 }
                 else
                 {   
@@ -118,7 +117,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
 
             // If the correct answer was given in each case then add a bonus value to the fitness.
             if(success) {
-                fitness += 10_000.0;
+                fitness += 100.0;
             }
 
             return new FitnessInfo(fitness);
@@ -132,7 +131,7 @@ namespace SharpNeatTasks.BinaryElevenMultiplexer
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return (fitnessInfo.PrimaryFitness >= 10_000);
+            return (fitnessInfo.PrimaryFitness >= 100);
         }
 
         #endregion
