@@ -112,8 +112,8 @@ namespace SharpNeat.Tasks.Xor
         #region Private Static Methods
 
         private static double Activate(
-            in IBlackBox<double> box,
-            in double in1, in double in2)
+            IBlackBox<double> box,
+            double in1, double in2)
         {
             // Bias input.
             box.InputVector[0] = 1.0;
