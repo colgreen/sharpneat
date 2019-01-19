@@ -97,9 +97,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         private static DiscreteDistribution CreateIntraSpeciesGenomeSelectionDistribution(
             Species<T> species)
         {
-            SpeciesStats speciesStats = species.Stats;
-            var genomeList = species.GenomeList;
+            // Skip species with a zero target size. These will be ignored by the parent genome selection logic.
+            if(species.Stats.SelectionSizeInt == 0) {
+                return null;
+            }
 
+            var genomeList = species.GenomeList;
             double[] probArr = new double[species.Stats.SelectionSizeInt];
 
             for(int i=0; i < probArr.Length; i++) {
