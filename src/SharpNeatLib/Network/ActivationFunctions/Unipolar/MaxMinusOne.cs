@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -18,7 +17,7 @@ namespace SharpNeat.Network
     /// y = max(-1, x).
     /// i.e. a rectified linear activation unit (ReLU) variant.
     /// </summary>
-    public class MaxMinusOne : IActivationFunction
+    public sealed class MaxMinusOne : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -60,7 +59,7 @@ namespace SharpNeat.Network
             throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
 
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

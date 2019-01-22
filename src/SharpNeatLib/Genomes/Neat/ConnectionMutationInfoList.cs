@@ -11,7 +11,8 @@
  */
 
 using System.Collections.Generic;
-using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
+using Redzen.Random;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -73,9 +74,9 @@ namespace SharpNeat.Genomes.Neat
         /// Gets one of the ConnectionMutationInfo items at random based upon the ActivationProbability 
         /// of the contained items.
         /// </summary>
-        public ConnectionMutationInfo GetRandomItem()
+        public ConnectionMutationInfo GetRandomItem(IRandomSource rng)
         {
-            return this[_dist.Sample()];
+            return this[DiscreteDistribution.Sample(rng, _dist)];
         }
 
         /// <summary>

@@ -11,6 +11,7 @@
  */
 using System;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using SharpNeat.Phenomes;
 
@@ -292,8 +293,8 @@ namespace SharpNeat.Domains.PreyCapture
             probs[2] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI * 1.5) / Math.PI) * T * 0.33);  // South.
             probs[3] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI) / Math.PI) * T * 0.33);        // West.
             
-            DiscreteDistribution dist = new DiscreteDistribution(probs, _rng);
-            int action = dist.Sample();
+            DiscreteDistribution dist = new DiscreteDistribution(probs);
+            int action = DiscreteDistribution.Sample(_rng, dist);
             switch(action)
             {
                  case 0: // Move north.

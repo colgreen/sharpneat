@@ -12,7 +12,6 @@
 
 using System;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -35,7 +34,7 @@ namespace SharpNeat.Network
     /// slope to that of LogisticFunctionSteep.
     ///   
     /// </summary>
-    public class PolynomialApproximantSteep : IActivationFunction
+    public sealed class PolynomialApproximantSteep : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -115,7 +114,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

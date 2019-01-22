@@ -37,7 +37,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public class FastAcyclicNetwork : IBlackBox
+    public sealed class FastAcyclicNetwork : IBlackBox
     {
     //=== Fixed data. Network structure and activation functions/data.
         /// <summary>
@@ -173,7 +173,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// <summary>
         /// Gets a value indicating whether the internal state is valid. Always returns true for this class.
         /// </summary>
-        public virtual bool IsStateValid
+        public bool IsStateValid
         {
             get { return true; }
         }
@@ -182,7 +182,7 @@ namespace SharpNeat.Phenomes.NeuralNets
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals
         /// to OutputSignalArray.
         /// </summary>
-        public virtual void Activate()
+        public void Activate()
         {   
             // Reset any state from a previous activation.
             for(int i=_inputAndBiasNodeCount; i<_activationArr.Length; i++) {

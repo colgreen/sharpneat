@@ -10,10 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using Redzen.Numerics;
 using Redzen.Random;
-using Redzen.Random.Double;
-using SharpNeat.Utility;
 
 namespace SharpNeat.Network
 {
@@ -73,6 +70,6 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange);
+        void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange);
     }
 }

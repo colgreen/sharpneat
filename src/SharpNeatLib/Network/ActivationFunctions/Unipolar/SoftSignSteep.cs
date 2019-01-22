@@ -12,7 +12,6 @@
 
 using System;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -21,7 +20,7 @@ namespace SharpNeat.Network
     /// This is a variant of softsign that has a steeper slope at and around the origin that 
     /// is intended to be a similar slope to that of LogisticFunctionSteep.
     /// </summary>
-    public class SoftSignSteep : IActivationFunction
+    public sealed class SoftSignSteep : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -91,7 +90,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

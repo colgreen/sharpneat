@@ -12,7 +12,6 @@
 
 using System;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -22,7 +21,7 @@ namespace SharpNeat.Network
     /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slope to 
     /// ensure there is at least a gradient to follow at the extremes.
     /// </summary>
-    public class QuadraticSigmoid : IActivationFunction
+    public sealed class QuadraticSigmoid : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -122,7 +121,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

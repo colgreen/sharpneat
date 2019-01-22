@@ -12,7 +12,6 @@
 
 using System;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -20,7 +19,7 @@ namespace SharpNeat.Network
     /// Bipolar Gaussian activation function. Output range is -1 to 1, that is, the tails of the Gaussian
     /// distribution curve tend towards -1 as abs(x) -> Infinity and the Gaussian peak is at y = 1.
     /// </summary>
-    public class BipolarGaussian : IActivationFunction
+    public sealed class BipolarGaussian : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -90,7 +89,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

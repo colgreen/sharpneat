@@ -12,14 +12,13 @@
 using System;
 using System.Runtime.CompilerServices;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
     /// <summary>
     /// Rectified linear activation unit (ReLU).
     /// </summary>
-    public class ArcSinH : IActivationFunction
+    public sealed class ArcSinH : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -55,7 +54,7 @@ namespace SharpNeat.Network
             throw new SharpNeatException("GetRandomAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
 
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

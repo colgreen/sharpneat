@@ -14,8 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Redzen.Numerics;
+using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
-using Redzen.Random.Double;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Core;
@@ -53,7 +53,6 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>Random number generator associated with this factory.</summary>
         protected readonly IRandomSource _rng = RandomDefaults.CreateRandomSource();
-        readonly ZigguratGaussianDistribution _gaussianSampler = new ZigguratGaussianDistribution();
 
         /// <summary>Activation function library associated with this factory.</summary>
         protected readonly IActivationFunctionLibrary _activationFnLibrary;
@@ -506,16 +505,6 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Gets a Gaussian sampler associated with the factory. 
-        /// Note. The provided RNG is not thread safe, if concurrent use is required then sync locks
-        /// are necessary or some other RNG mechanism.
-        /// </summary>
-        public ZigguratGaussianDistribution GaussianSampler
-        {
-            get { return _gaussianSampler; }
-        }
-
-        /// <summary>
         /// Gets some statistics associated with the factory and NEAT genomes that it has spawned.
         /// </summary>
         public NeatGenomeStats Stats
@@ -557,12 +546,12 @@ namespace SharpNeat.Genomes.Neat
         /// </summary>
         public double SampleGaussianDistribution(double mu, double sigma)
         {
-            return _gaussianSampler.Sample(mu, sigma);
+            return ZigguratGaussian.Sample(_rng, mu, sigma);
         }
 
         /// <summary>
         /// Create a genome with the provided internal state/definition data/objects.
-        /// Overridable method to allow alternative NeatGenome sub-classes to be used.
+        /// Virtual method to allow alternative NeatGenome sub-classes to be used.
         /// </summary>
         public virtual NeatGenome CreateGenome(uint id, 
                                                uint birthGeneration,
@@ -578,7 +567,7 @@ namespace SharpNeat.Genomes.Neat
 
         /// <summary>
         /// Create a copy of an existing NeatGenome, substituting in the specified ID and birth generation.
-        /// Overridable method to allow alternative NeatGenome sub-classes to be used.
+        /// Virtual method to allow alternative NeatGenome sub-classes to be used.
         /// </summary>
         public virtual NeatGenome CreateGenomeCopy(NeatGenome copyFrom, uint id, uint birthGeneration)
         {
@@ -586,7 +575,7 @@ namespace SharpNeat.Genomes.Neat
         }
 
         /// <summary>
-        /// Overridable method to allow alternative NeuronGene sub-classes to be used.
+        /// Virtual method to allow alternative NeuronGene sub-classes to be used.
         /// </summary>
         public virtual NeuronGene CreateNeuronGene(uint innovationId, NodeType neuronType)
         {

@@ -10,8 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
@@ -19,7 +19,7 @@ namespace SharpNeat.Network
     /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian
     /// distribution curve tend towards 0 as abs(x) -> Infinity and the Gaussian peak is at x = 0.
     /// </summary>
-    public class RbfGaussian : IActivationFunction
+    public sealed class RbfGaussian : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -116,11 +116,11 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             // Mutate centre.            
             // Add Gaussian distribution sample and clamp result to +-connectionWeightRange.
-            double tmp = auxArgs[0] + gaussianSampler.Sample(0, _auxArgsMutationSigmaCenter);
+            double tmp = auxArgs[0] + ZigguratGaussian.Sample(rng, 0, _auxArgsMutationSigmaCenter);
             if(tmp < -connectionWeightRange) {
                 auxArgs[0] = -connectionWeightRange;
             }
@@ -133,7 +133,7 @@ namespace SharpNeat.Network
 
             // Mutate radius.
             // Add Gaussian distribution sample and clamp result to [0,1]
-            tmp = auxArgs[1] + gaussianSampler.Sample(0, _auxArgsMutationSigmaRadius);
+            tmp = auxArgs[1] + ZigguratGaussian.Sample(rng, 0, _auxArgsMutationSigmaCenter);
             if(tmp < 0.0) {
                 auxArgs[1] = 0.0;
             }

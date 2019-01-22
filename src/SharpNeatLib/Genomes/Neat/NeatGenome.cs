@@ -10,12 +10,12 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using Redzen.Numerics;
-using SharpNeat.Core;
-using SharpNeat.Network;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Redzen.Numerics.Distributions;
+using SharpNeat.Core;
+using SharpNeat.Network;
 
 namespace SharpNeat.Genomes.Neat
 {
@@ -317,7 +317,7 @@ namespace SharpNeat.Genomes.Neat
                 if(CorrelationItemType.Match == correlItem.CorrelationItemType) 
                 {   // For matches pick a parent genome at random (they both have the same connection gene, 
                     // but with a different connection weight)   
-                    selectionSwitch = DiscreteDistributionUtils.SampleBinaryDistribution(0.5, _genomeFactory.Rng) ? 1 : 2;
+                    selectionSwitch = DiscreteDistribution.SampleBernoulli(_genomeFactory.Rng, 0.5) ? 1 : 2;
                 }
                 else if(1==fitSwitch && null != correlItem.ConnectionGene1) 
                 {   // Disjoint/excess gene on the fittest genome (genome #1).
@@ -488,7 +488,7 @@ namespace SharpNeat.Genomes.Neat
             bool structureChange = false;
             for(;;)
             {
-                int outcome = distCurrent.Sample();
+                int outcome = DiscreteDistribution.Sample(_genomeFactory.Rng, distCurrent);
                 switch(outcome)
                 {
                     case 0:
@@ -904,8 +904,10 @@ namespace SharpNeat.Genomes.Neat
             Debug.Assert(fnLib.GetFunction(gene.ActivationFnId).AcceptsAuxArgs);
 
             // Invoke mutation method (specific to each activation function).
-            fnLib.GetFunction(gene.ActivationFnId).MutateAuxArgs(gene.AuxState, _genomeFactory.Rng, _genomeFactory.GaussianSampler,
-                                                                 _genomeFactory.NeatGenomeParameters.ConnectionWeightRange);
+            fnLib.GetFunction(gene.ActivationFnId).MutateAuxArgs(
+                gene.AuxState,
+                _genomeFactory.Rng, 
+                _genomeFactory.NeatGenomeParameters.ConnectionWeightRange);
             // Indicate success.
             return true;
         }
@@ -971,7 +973,7 @@ namespace SharpNeat.Genomes.Neat
         private void Mutate_ConnectionWeights()
         {
             // Determine the type of weight mutation to perform.
-            ConnectionMutationInfo mutationInfo = _genomeFactory.NeatGenomeParameters.ConnectionMutationInfoList.GetRandomItem();
+            ConnectionMutationInfo mutationInfo = _genomeFactory.NeatGenomeParameters.ConnectionMutationInfoList.GetRandomItem(_genomeFactory.Rng);
     
             // Get a delegate that performs the mutation specified by mutationInfo. The alternative is to use a switch statement
             // test perturbance type on each connection weight mutation - which creates a lot of unnecessary branch instructions.

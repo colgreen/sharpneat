@@ -12,14 +12,13 @@
 
 using System;
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
     /// <summary>
     /// Bipolar sigmoid activation function. Output range is -1 to 1 instead of the more normal 0 to 1.
     /// </summary>
-    public class BipolarSigmoid : IActivationFunction
+    public sealed class BipolarSigmoid : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -89,7 +88,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }

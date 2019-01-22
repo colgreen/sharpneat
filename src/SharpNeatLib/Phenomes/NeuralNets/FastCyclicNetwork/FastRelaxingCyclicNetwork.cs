@@ -23,7 +23,7 @@ namespace SharpNeat.Phenomes.NeuralNets
     /// update iterations is less than some threshold value (defined by maxAllowedSignalDelta on the constructor)
     /// for all hidden and output neurons (input and bias neurons have a fixed output value).
     /// </summary>
-    public class FastRelaxingCyclicNetwork : FastCyclicNetwork
+    public sealed class FastRelaxingCyclicNetwork : FastCyclicNetwork
     {
         bool _isStateValid = false;
         readonly double _signalDeltaThreshold;

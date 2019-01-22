@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using Redzen.Numerics;
+using Redzen.Numerics.Distributions;
 using SharpNeat.Network;
 
 namespace SharpNeat.Genomes.Neat

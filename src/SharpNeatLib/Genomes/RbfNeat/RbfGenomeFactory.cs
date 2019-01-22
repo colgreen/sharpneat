@@ -75,7 +75,7 @@ namespace SharpNeat.Genomes.RbfNeat
                 }
                 default:
                 {
-                    ActivationFunctionInfo fnInfo = _activationFnLibrary.GetRandomFunction();
+                    ActivationFunctionInfo fnInfo = _activationFnLibrary.GetRandomFunction(_rng);
                     IActivationFunction actFn = fnInfo.ActivationFunction;
                     double[] auxArgs = null;
                     if(actFn.AcceptsAuxArgs) {

@@ -11,14 +11,13 @@
  */
 
 using Redzen.Random;
-using Redzen.Random.Double;
 
 namespace SharpNeat.Network
 {
     /// <summary>
     /// Null activation function. Returns zero regardless of input.
     /// </summary>
-    public class NullFn : IActivationFunction
+    public sealed class NullFn : IActivationFunction
     {
         /// <summary>
         /// Default instance provided as a public static field.
@@ -88,7 +87,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Genetic mutation for auxiliary argument data.
         /// </summary>
-        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, ZigguratGaussianDistribution gaussianSampler, double connectionWeightRange)
+        public void MutateAuxArgs(double[] auxArgs, IRandomSource rng, double connectionWeightRange)
         {
             throw new SharpNeatException("MutateAuxArgs() called on activation function that does not use auxiliary arguments.");
         }
