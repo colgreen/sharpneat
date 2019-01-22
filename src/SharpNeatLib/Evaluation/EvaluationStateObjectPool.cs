@@ -45,6 +45,8 @@ namespace SharpNeat.Evaluation
 
         public object GetEvaluationStateObject()
         {
+            // FIXME: This could return a state object that is still in use, i.e. the next object on the round robin list may not have been released yet.
+
             // Wait (block calling thread) if all of the pool objects have been issued.
             // In reality this method is called by the Parallel.ForEach local state initialisation routine
             // and the number of these running concurrently is limited by the ParallelOptions.MaxDegreeOfParallelism
