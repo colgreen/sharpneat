@@ -32,12 +32,13 @@ namespace SharpNeat.Evaluation
         #region Instance Fields
 
         readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
+        readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
         readonly IPhenomeEvaluator<TPhenome> _phenomeEvaluator;
-        readonly object _evalStateObj;
 
         #endregion
 
         #region Constructor
+
 
         /// <summary>
         /// Construct with the provided <see cref="IGenomeDecoder{TGenome,TPhenome}"/> and <see cref="IPhenomeEvaluator{TPhenome}"/>.
@@ -45,16 +46,13 @@ namespace SharpNeat.Evaluation
         /// </summary>
         public SerialGenomeListEvaluator(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
-            IPhenomeEvaluator<TPhenome> phenomeEvaluator)
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme)
         {
             _genomeDecoder = genomeDecoder;
-            _phenomeEvaluator = phenomeEvaluator;
+            _phenomeEvaluationScheme = phenomeEvaluationScheme;
 
-            // Create a single evaluation state object.
-            // This may return null if the phenome evaluator doesn't utilise a state object.
-            // Either way this reference will be passed on each call Evaluate() to allow for re-usable state if required.
-            // Only one object is required here because this is a single threaded implementation of IGenomeListEvaluator.
-            _evalStateObj = _phenomeEvaluator.CreateEvaluationStateObject();
+            // Note. SerialGenomeListEvaluator will only evaluate on one thread therefore only ever requires a single evaluator.
+            _phenomeEvaluator = phenomeEvaluationScheme.Create();
         }
 
         #endregion
@@ -68,7 +66,7 @@ namespace SharpNeat.Evaluation
         /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
         /// for the same genome, such as scheme is non-deterministic.
         /// </remarks>
-        public bool IsDeterministic => _phenomeEvaluator.IsDeterministic;
+        public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
 
         /// <summary>
         /// Gets a fitness comparer. 
@@ -78,7 +76,7 @@ namespace SharpNeat.Evaluation
         /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
         /// determine which is the better FitenssInfo between any two.
         /// </remarks>
-        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluator.FitnessComparer;
+        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.
@@ -92,11 +90,11 @@ namespace SharpNeat.Evaluation
                 TPhenome phenome = _genomeDecoder.Decode(genome);
                 if(null == phenome)
                 {   // Non-viable genome.
-                    genome.FitnessInfo = _phenomeEvaluator.NullFitness;
+                    genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;
                 }
                 else 
                 {   
-                    genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, _evalStateObj);
+                    genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome);
                 }
             }
         }
@@ -109,7 +107,7 @@ namespace SharpNeat.Evaluation
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return _phenomeEvaluator.TestForStopCondition(fitnessInfo);
+            return _phenomeEvaluationScheme.TestForStopCondition(fitnessInfo);
         }
 
         #endregion

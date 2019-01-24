@@ -97,8 +97,8 @@ namespace TestApp1
         private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
-            var phenomeEvaluator = new BinaryThreeMultiplexerEvaluator();
-            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
+            var phenomeEvaluationScheme = new BinaryThreeMultiplexerEvaluationScheme();
+            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluationScheme);
             //var genomeListEvaluator = new ParallelGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
             return genomeListEvaluator;
         }

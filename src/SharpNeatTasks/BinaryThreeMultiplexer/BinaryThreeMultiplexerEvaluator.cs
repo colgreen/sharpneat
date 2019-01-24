@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Collections.Generic;
 using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
@@ -29,36 +28,6 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
     /// </summary>
     public class BinaryThreeMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
-        #region Properties
-
-        /// <summary>
-        /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
-        /// </summary>
-        /// <remarks>
-        /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
-        /// for the same genome, such as scheme is non-deterministic.
-        /// </remarks>
-        public bool IsDeterministic => true;
-
-        /// <summary>
-        /// Gets a null fitness score, i.e. for genomes that cannot be assigned a fitness score for whatever reason, e.g.
-        /// if a genome failed to decode to a viable phenome that could be tested.
-        /// </summary>
-        public FitnessInfo NullFitness => FitnessInfo.DefaultFitnessInfo;
-
-        /// <summary>
-        /// Gets a fitness comparer. 
-        /// </summary>
-        public IComparer<FitnessInfo> FitnessComparer => PrimaryFitnessInfoComparer.Singleton;
-
-        /// <summary>
-        /// True if this phenome evaluator uses evaluation state objects, i.e. <see cref="CreateEvaluationStateObject"/> returns
-        /// an object (rather than a null reference), and one of these objects must be passed on each call to <see cref="Evaluate(IBlackBox{double}, object)"/>
-        /// </summary>
-        public bool UsesEvaluationStateObject => false;
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -66,8 +35,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         /// its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
-        /// <param name="evaluationState">Optional evaluation state object that can be re-used between evaluations.</param>
-        public FitnessInfo Evaluate(IBlackBox<double> box, object evaluationState)
+        public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             double fitness = 0.0;
             bool success = true;
@@ -132,26 +100,6 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
             }
 
             return new FitnessInfo(fitness);
-        }
-
-        /// <summary>
-        /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean
-        /// that indicates if the evolution algorithm can stop, i.e. because the fitness is the best that can be achieved (or good enough).
-        /// </summary>
-        /// <param name="fitnessInfo">The fitness info object to test.</param>
-        /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
-        public bool TestForStopCondition(FitnessInfo fitnessInfo)
-        {
-            return (fitnessInfo.PrimaryFitness >= 100);
-        }
-
-        /// <summary>
-        /// Create an evaluation state object.
-        /// </summary>
-        /// <returns>A new instance of an evaluation state object for the current.</returns>
-        public object CreateEvaluationStateObject()
-        {
-            return null;
         }
 
         #endregion
