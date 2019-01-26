@@ -33,5 +33,10 @@ namespace SharpNeat.EvolutionAlgorithm
         /// This property's value can remain false to allow the algorithm to run indefinitely.
         /// </summary>
         public bool StopConditionSatisfied { get; set; }
+
+        /// <summary>
+        /// Running evaluation count total.
+        /// </summary>
+        public ulong TotalEvaluationCount { get; set; }
     }
 }

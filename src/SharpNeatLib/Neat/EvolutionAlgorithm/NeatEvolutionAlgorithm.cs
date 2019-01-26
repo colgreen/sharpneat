@@ -155,7 +155,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public void Initialise()
         {
             // Evaluate each genome in the new population.
-            _evaluator.Evaluate(_pop.GenomeList);
+            Evaluate(_pop.GenomeList);
 
             // Initialise species.
             _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
@@ -190,10 +190,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // If the evaluation scheme is deterministic then only the new genomes (the offspring) need to be evaluated;
             // otherwise all of the genomes are evaluated, thus the elite genomes are re-evaluated at each generation.
             if(_evaluator.IsDeterministic) {
-                _evaluator.Evaluate(offspringList);
+                Evaluate(offspringList);
             }
             else {
-                _evaluator.Evaluate(_pop.GenomeList);
+                Evaluate(_pop.GenomeList);
             }
 
             // Integrate offspring into the species.
@@ -309,6 +309,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 }
             }
             return false;
+        }
+
+        private void Evaluate(ICollection<NeatGenome<T>> genomeList)
+        {
+            _evaluator.Evaluate(genomeList);
+            _eaStats.TotalEvaluationCount += (ulong)genomeList.Count;
         }
 
         #endregion
