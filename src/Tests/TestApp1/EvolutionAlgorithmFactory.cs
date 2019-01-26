@@ -98,8 +98,12 @@ namespace TestApp1
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
             var phenomeEvaluationScheme = new BinaryThreeMultiplexerEvaluationScheme();
-            var genomeListEvaluator = new SerialGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluationScheme);
-            //var genomeListEvaluator = new ParallelGenomeListEvaluator<NeatGenome<double>, IBlackBox<double>>(genomeDecoder, phenomeEvaluator);
+
+            var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
+                genomeDecoder,
+                phenomeEvaluationScheme,
+                createConcurrentEvaluator: false);
+
             return genomeListEvaluator;
         }
 

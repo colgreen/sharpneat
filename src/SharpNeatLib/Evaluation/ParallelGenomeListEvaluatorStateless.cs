@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharpNeat.EvolutionAlgorithm;
@@ -21,19 +22,22 @@ namespace SharpNeat.Evaluation
     /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
     /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
     /// <remarks>
-    /// Genome decoding is performed by a provided IGenomeDecoder.
-    /// Phenome evaluation is performed by a provided IPhenomeEvaluator.
+    /// Genome decoding to a phenome is performed by a <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.
+    /// Phenome fitness evaluation is performed by a <see cref="IPhenomeEvaluator{TPhenome}"/>.
+    /// 
+    /// This class is for use with a stateless (and therefore thread safe) phenome evaluator, i.e. one phenome evaluator is created
+    /// and the is used concurrently by multiple threads.
     /// </remarks>
-    public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
+    public class ParallelGenomeListEvaluatorStateless<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
         where TGenome : IGenome
         where TPhenome : class
     {
         #region Instance Fields
 
         readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
+        readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
         readonly IPhenomeEvaluator<TPhenome> _phenomeEvaluator;
         readonly ParallelOptions _parallelOptions;
-        EvaluationStateObjectPool _evalStateObjectPool;
 
         #endregion
 
@@ -42,31 +46,27 @@ namespace SharpNeat.Evaluation
         /// <summary>
         /// Construct with the provided IGenomeDecoder and IPhenomeEvaluator.
         /// </summary>
-        public ParallelGenomeListEvaluator(
+        public ParallelGenomeListEvaluatorStateless(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
-            IPhenomeEvaluator<TPhenome> phenomeEvaluator)
-            : this(genomeDecoder, phenomeEvaluator, new ParallelOptions())
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme)
+            : this(genomeDecoder, phenomeEvaluationScheme, new ParallelOptions())
         {}
 
         /// <summary>
         /// Construct with the provided IGenomeDecoder, IPhenomeEvaluator and ParallelOptions.
         /// </summary>
-        public ParallelGenomeListEvaluator(
+        public ParallelGenomeListEvaluatorStateless(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
-            IPhenomeEvaluator<TPhenome> phenomeEvaluator,
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluatorScheme,
             ParallelOptions parallelOptions)
         {
-            _genomeDecoder = genomeDecoder;
-            _phenomeEvaluator = phenomeEvaluator;
-            _parallelOptions = parallelOptions;
+            // This class can only accept an evaluation scheme that uses a stateless evaluator.
+            if(phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
 
-            // Init evaluation state object pool (if the phenome evaluator uses evaluation state objects).
-            if(_phenomeEvaluator.UsesEvaluationStateObject)
-            {
-                _evalStateObjectPool = new EvaluationStateObjectPool(
-                    parallelOptions.MaxDegreeOfParallelism,
-                    _phenomeEvaluator.CreateEvaluationStateObject);
-            }
+            _genomeDecoder = genomeDecoder;
+            _phenomeEvaluationScheme = phenomeEvaluatorScheme;
+            _phenomeEvaluator = phenomeEvaluatorScheme.CreateEvaluator();
+            _parallelOptions = parallelOptions;
         }
 
         #endregion
@@ -80,7 +80,7 @@ namespace SharpNeat.Evaluation
         /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
         /// for the same genome, such as scheme is non-deterministic.
         /// </remarks>
-        public bool IsDeterministic => _phenomeEvaluator.IsDeterministic;
+        public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
 
         /// <summary>
         /// Gets a fitness comparer. 
@@ -90,59 +90,30 @@ namespace SharpNeat.Evaluation
         /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
         /// determine which is the better FitenssInfo between any two.
         /// </remarks>
-        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluator.FitnessComparer;
+        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.
         /// </summary>
         public void Evaluate(ICollection<TGenome> genomeList)
         {
-            if(_phenomeEvaluator.UsesEvaluationStateObject)
-            {
-                // TODO: Test this execution path (requires an IPhenoneEvaluator with UsesEvaluationStateObject == true)
-
-                // Decode and evaluate genomes in parallel.
-                Parallel.ForEach<TGenome,object>(
-                    genomeList,
-                    _parallelOptions,
-                    () => _evalStateObjectPool.GetEvaluationStateObject(),
-                    (genome, loopState, evalStateObj) => 
-                    {
-                        TPhenome phenome = _genomeDecoder.Decode(genome);
-                        if(null == phenome)
-                        {   // Non-viable genome.
-                            genome.FitnessInfo = _phenomeEvaluator.NullFitness;
-                        }
-                        else
-                        {
-                            genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, evalStateObj);
-                        }
-
-                        return evalStateObj;
-                    },
-                    (evalStateObj) => _evalStateObjectPool.ReleaseEvaluationStateObject()
-                );
-            }
-            else
-            {
-                // Decode and evaluate genomes in parallel.
-                Parallel.ForEach(
-                    genomeList,
-                    _parallelOptions,
-                    (genome) => 
-                    {
-                        TPhenome phenome = _genomeDecoder.Decode(genome);
-                        if(null == phenome)
-                        {   // Non-viable genome.
-                            genome.FitnessInfo = _phenomeEvaluator.NullFitness;
-                        }
-                        else
-                        {
-                            genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome, null);
-                        }
+            // Decode and evaluate genomes in parallel.
+            Parallel.ForEach(
+                genomeList,
+                _parallelOptions,
+                (genome) => 
+                {
+                    TPhenome phenome = _genomeDecoder.Decode(genome);
+                    if(null == phenome)
+                    {   // Non-viable genome.
+                        genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;
                     }
-                );
-            }
+                    else
+                    {
+                        genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome);
+                    }
+                }
+            );   
         }
 
         /// <summary>
@@ -153,7 +124,7 @@ namespace SharpNeat.Evaluation
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return _phenomeEvaluator.TestForStopCondition(fitnessInfo);
+            return _phenomeEvaluationScheme.TestForStopCondition(fitnessInfo);
         }
 
         #endregion
