@@ -20,6 +20,7 @@ namespace SharpNeat.Evaluation
     /// <typeparam name="TPhenome">Phenome type.</typeparam>
     public sealed class PhenomeEvaluatorStackPool<TPhenome> : IPhenomeEvaluatorPool<TPhenome>
     {
+        readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
         readonly LightweightStack<IPhenomeEvaluator<TPhenome>> _evaluatorStack;
         readonly object _stackLockObj = new object();
 
@@ -38,8 +39,10 @@ namespace SharpNeat.Evaluation
                 throw new InvalidOperationException("A stateless evaluation scheme does not require an evaluator pool; just use a single evaluator instance concurrently.");
             }
 
-            // Create the stack with the required capacity.
-            _evaluatorStack = new LightweightStack<IPhenomeEvaluator<TPhenome>>(initialPoolSize);
+            _phenomeEvaluationScheme = phenomeEvaluationScheme;
+
+            // Create the stack with the spare capacity; to avoid re-alloc overhead if we require additional capacity.
+            _evaluatorStack = new LightweightStack<IPhenomeEvaluator<TPhenome>>(initialPoolSize * 2);
             
             // Pre-populate with evaluators.
             for(int i=0; i < initialPoolSize; i++) {
@@ -59,7 +62,13 @@ namespace SharpNeat.Evaluation
         {
             lock(_stackLockObj)
             {
-                return _evaluatorStack.Pop();
+                if(_evaluatorStack.Count > 0) {
+                    return _evaluatorStack.Pop();
+                }
+
+                // If the pool is empty then create a new evaluator instance; this should get released
+                // back into the pool, thus increasing the total number of evaluators being managed by the pool.
+                return _phenomeEvaluationScheme.CreateEvaluator();
             }
         }
 
