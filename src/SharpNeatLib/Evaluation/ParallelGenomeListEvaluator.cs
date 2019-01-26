@@ -60,12 +60,17 @@ namespace SharpNeat.Evaluation
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluatorScheme,
             ParallelOptions parallelOptions)
         {
-            // This class can only accept an evaluation scheme that uses a stateless evaluator.
-            if(phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
+            // This class should only be used with evaluation schemes that use evaluators with state,
+            // otherwise ParallelGenomeListEvaluatorStateless should be used.
+            if(!phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
 
             _genomeDecoder = genomeDecoder;
             _phenomeEvaluationScheme = phenomeEvaluatorScheme;
             _parallelOptions = parallelOptions;
+
+            // Resolve concurrency level.
+            int concurrencyLevel = parallelOptions.MaxDegreeOfParallelism;
+            if(concurrencyLevel == -1) concurrencyLevel = Environment.ProcessorCount;
 
             // Create a pool of phenome evaluators.
             // Note. the pool is initialised with a number of pre-constructed evaluators that matches 
@@ -73,7 +78,7 @@ namespace SharpNeat.Evaluation
             // evaluators at any given point in time.
             _evaluatorPool = new PhenomeEvaluatorStackPool<TPhenome>(
                 phenomeEvaluatorScheme,
-                parallelOptions.MaxDegreeOfParallelism);
+                concurrencyLevel);
         }
 
         #endregion
