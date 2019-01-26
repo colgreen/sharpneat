@@ -29,14 +29,14 @@ namespace TestApp1
 
         public NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm()
         {
+            // Create a genome evaluator.
+            var genomeListEvaluator = CreateGenomeListEvaluator(out int inputCount, out int outputCount);
+
             // Create an initial population.
-            _metaNeatGenome = CreateMetaNeatGenome();
+            _metaNeatGenome = CreateMetaNeatGenome(inputCount, outputCount);
             _eaSettings = new NeatEvolutionAlgorithmSettings();
             _eaSettings.SpeciesCount = 40;
             _neatPop = CreatePopulation(_metaNeatGenome, 600);
-
-            // Create a genome evaluator.
-            IGenomeListEvaluator<NeatGenome<double>> genomeListEvaluator = CreateGenomeListEvaluator();
 
             // Create a speciation strategy instance.
             var distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
@@ -68,13 +68,13 @@ namespace TestApp1
 
         #region Private Static Methods
 
-        private static MetaNeatGenome<double> CreateMetaNeatGenome()
+        private static MetaNeatGenome<double> CreateMetaNeatGenome(int inputCount, int outputCount)
         {
             var activationFnFactory = new DefaultActivationFunctionFactory<double>();
 
             MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
-                inputNodeCount: 4, 
-                outputNodeCount: 1,
+                inputNodeCount: inputCount, 
+                outputNodeCount: outputCount,
                 isAcyclic: true,
                 activationFn: activationFnFactory.GetActivationFunction("LeakyReLU"));
 
@@ -94,16 +94,19 @@ namespace TestApp1
             return pop;
         }
 
-        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator()
+        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
+            out int inputCount, out int outputCount)
         {
             var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
-            var phenomeEvaluationScheme = new BinaryThreeMultiplexerEvaluationScheme();
+            IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new BinaryElevenMultiplexerEvaluationScheme();
 
             var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
                 genomeDecoder,
-                phenomeEvaluationScheme,
+                blackBoxEvaluationScheme,
                 createConcurrentEvaluator: false);
 
+            inputCount = blackBoxEvaluationScheme.InputCount;
+            outputCount = blackBoxEvaluationScheme.OutputCount;
             return genomeListEvaluator;
         }
 

@@ -18,9 +18,22 @@ namespace SharpNeat.Tasks.Xor
     /// <summary>
     /// Evaluation scheme for the logical XOR task.
     /// </summary>
-    public class XorEvaluationScheme : IPhenomeEvaluationScheme<IBlackBox<double>>
+    public class XorEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
+
+        /// <summary>
+        /// The number of black box inputs expected/required by the black box evaluation scheme.
+        /// </summary>
+        /// <remarks>
+        /// The 2 inputs of the logical XOR task, plus one bias input (input zero).
+        /// </remarks>
+        public int InputCount => 3;
+
+        /// <summary>
+        /// The number of black box inputs expected/required by the black box evaluation scheme.
+        /// </summary>
+        public int OutputCount => 1;
 
         /// <summary>
         /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.

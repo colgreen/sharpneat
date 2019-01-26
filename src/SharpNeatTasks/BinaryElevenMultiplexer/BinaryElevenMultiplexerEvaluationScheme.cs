@@ -18,9 +18,22 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     /// <summary>
     /// Evaluation scheme for the Binary 11-Multiplexer task.
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluationScheme : IPhenomeEvaluationScheme<IBlackBox<double>>
+    public class BinaryElevenMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
+
+        /// <summary>
+        /// The number of black box inputs expected/required by the black box evaluation scheme.
+        /// </summary>
+        /// <remarks>
+        /// The 11 inputs of the binary 11-multiplexer task, plus one bias input (input zero).
+        /// </remarks>
+        public int InputCount => 12;
+
+        /// <summary>
+        /// The number of black box inputs expected/required by the black box evaluation scheme.
+        /// </summary>
+        public int OutputCount => 1;
 
         /// <summary>
         /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.

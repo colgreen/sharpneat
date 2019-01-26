@@ -18,9 +18,22 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
     /// <summary>
     /// Evaluation scheme for the Binary 3-Multiplexer task.
     /// </summary>
-    public class BinaryThreeMultiplexerEvaluationScheme : IPhenomeEvaluationScheme<IBlackBox<double>>
+    public class BinaryThreeMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
+
+        /// <summary>
+        /// The number of black box inputs expected/required by the black box evaluation scheme.
+        /// </summary>
+        /// <remarks>
+        /// The 3 inputs of the binary 3-multiplexer task, plus one bias input (input zero).
+        /// </remarks>
+        public int InputCount => 4;
+
+        /// <summary>
+        /// The number of black box inputs expected/required by the black box evaluation scheme.
+        /// </summary>
+        public int OutputCount => 1;
 
         /// <summary>
         /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
