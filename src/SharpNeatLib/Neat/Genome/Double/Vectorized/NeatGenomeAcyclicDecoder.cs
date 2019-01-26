@@ -13,13 +13,12 @@ using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 using SharpNeat.Network.Acyclic;
-using SharpNeat.NeuralNet.Double;
 
-namespace SharpNeat.Neat.Genome.Double
+namespace SharpNeat.Neat.Genome.Double.Vectorized
 {
     /// <summary>
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
-    /// acyclic neural network instances implemented by <see cref="NeuralNet.Double.AcyclicNeuralNet"/>
+    /// acyclic neural network instances implemented by <see cref="NeuralNet.Double.Vectorized.AcyclicNeuralNet"/>.
     /// </summary>
     public sealed class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
@@ -44,7 +43,8 @@ namespace SharpNeat.Neat.Genome.Double
         /// Decode a genome into a working neural network.
         /// </summary>
         /// <param name="genome">The genome to decode.</param>
-        public IBlackBox<double> Decode(NeatGenome<double> genome)
+        public IBlackBox<double> Decode(
+            NeatGenome<double> genome)
         {
             Debug.Assert(genome?.MetaNeatGenome?.IsAcyclic == true);
             Debug.Assert(null != genome?.ConnectionGenes);
@@ -55,32 +55,14 @@ namespace SharpNeat.Neat.Genome.Double
             // Note. We cannot use the genome's weight array directly here (as is done in NeatGenomeDecoder,
             // i.e. for cyclic graphs) because the genome connections and digraph connections have a 
             // different order.
-            double[] neuralNetWeightArr = CreateNeuralNetWeightArray(genome);
+            double[] neuralNetWeightArr = Double.NeatGenomeAcyclicDecoder.CreateNeuralNetWeightArray(genome);
 
             // Create a working neural net.
-            return new AcyclicNeuralNet(
+            return new NeuralNet.Double.Vectorized.AcyclicNeuralNet(
                     (AcyclicDirectedGraph)genome.DirectedGraph,
                     neuralNetWeightArr,
                     genome.MetaNeatGenome.ActivationFn.Fn,
                     _boundedOutput);
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        internal static double[] CreateNeuralNetWeightArray(
-            NeatGenome<double> genome)
-        {
-            // Create a new weight array, and copy in the weights from the genome into their correct positions.
-            double[] genomeWeightArr = genome.ConnectionGenes._weightArr;
-            double[] neuralNetWeightArr = new double[genomeWeightArr.Length];
-            int[] connIdxMap = genome.ConnectionIndexMap;
-
-            for(int i=0; i < connIdxMap.Length; i++) {
-                neuralNetWeightArr[i] = genomeWeightArr[connIdxMap[i]];
-            }
-            return neuralNetWeightArr;
         }
 
         #endregion

@@ -97,7 +97,7 @@ namespace TestApp1
         private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
             out int inputCount, out int outputCount)
         {
-            var genomeDecoder = new NeatGenomeAcyclicDecoder(true);
+            var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeAcyclicDecoder(true);
             IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new BinaryElevenMultiplexerEvaluationScheme();
 
             var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(

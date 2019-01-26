@@ -12,13 +12,12 @@
 using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
-using SharpNeat.NeuralNet.Double;
 
-namespace SharpNeat.Neat.Genome.Double
+namespace SharpNeat.Neat.Genome.Double.Vectorized
 {
     /// <summary>
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
-    /// cyclic neural network instances implemented by either <see cref="NeuralNet.Double.CyclicNeuralNet"/>.
+    /// cyclic neural network instances implemented by <see cref="NeuralNet.Double.Vectorized.CyclicNeuralNet"/>.
     /// </summary>
     public sealed class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
@@ -51,8 +50,7 @@ namespace SharpNeat.Neat.Genome.Double
             // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but standard sharpneat behaviour is not to support this.
             Debug.Assert(!genome.MetaNeatGenome.IsAcyclic);
 
-            // Create a working neural net.
-            return new CyclicNeuralNet(
+            return new NeuralNet.Double.Vectorized.CyclicNeuralNet(
                     genome.DirectedGraph,
                     genome.ConnectionGenes._weightArr,
                     genome.MetaNeatGenome.ActivationFn.Fn,

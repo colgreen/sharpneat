@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib.Benchmarks", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{858A8951-5952-40D8-8F62-8F6537B89FD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatTasks.Tests", "SharpNeatTasks.Tests\SharpNeatTasks.Tests.csproj", "{331608F1-832B-4D8A-BEC8-78C524DA08E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks.Tests", "SharpNeatTasks.Tests\SharpNeatTasks.Tests.csproj", "{331608F1-832B-4D8A-BEC8-78C524DA08E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
