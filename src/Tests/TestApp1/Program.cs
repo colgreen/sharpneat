@@ -27,6 +27,7 @@ namespace TestApp1
             {
                 ea.PerformOneGeneration();
                 Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.BestFitness.PrimaryFitness}");
+                //Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.TotalEvaluationCount}");
             }
 
             Console.ReadKey();

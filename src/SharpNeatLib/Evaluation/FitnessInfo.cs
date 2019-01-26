@@ -26,12 +26,14 @@ namespace SharpNeat.Evaluation
 
         #region Instance Fields
 
+        readonly double _primaryFitness;
+
         /// <summary>
-        /// An array of fitness scores. Most problem tasks will yield just a single fitness value, here we allow for 
-        /// multiple fitness values per evaluation to allow for multiple objectives, or secondary 
-        /// fitness scores for reporting only.
+        /// An array of auxiliary fitness scores. Most problem tasks will yield just a single fitness value,
+        /// here we allow for multiple fitness values per evaluation to allow for multiple objectives, or
+        /// secondary fitness scores for reporting only.
         /// </summary>
-        readonly double[] _fitnessScores;
+        readonly double[] _auxFitnessScores;
 
         #endregion
 
@@ -43,17 +45,20 @@ namespace SharpNeat.Evaluation
         /// <param name="fitness">Genome fitness score.</param>
         public FitnessInfo(double fitness)
         {
-            _fitnessScores = new double[] { fitness };
+            _primaryFitness = fitness;
+            _auxFitnessScores = null;
         }
 
         /// <summary>
         /// Construct with a compound fitness score.
         /// </summary>
-        /// <param name="fitnessScores">Genome compound fitness score.</param>
-        public FitnessInfo(double[] fitnessScores)
+        /// <param name="primaryFitness">Primary fitness.</param>
+        /// <param name="auxFitnessScores">Auxiliary fitness scores.</param>
+        public FitnessInfo(double primaryFitness, double[] auxFitnessScores)
         {
-            Debug.Assert(fitnessScores.Length > 0);
-            _fitnessScores = fitnessScores;
+            Debug.Assert(auxFitnessScores.Length > 0);
+            _primaryFitness = primaryFitness;
+            _auxFitnessScores = auxFitnessScores;
         }
 
         #endregion
@@ -61,18 +66,14 @@ namespace SharpNeat.Evaluation
         #region Properties / Indexer
 
         /// <summary>
-        /// Get/set the i'th fitness score.
-        /// </summary>
-        public double this[int idx]
-        {
-            get => _fitnessScores[idx];
-            set => _fitnessScores[idx] = value;
-        }
-
-        /// <summary>
         /// Gets the primary fitness score; for most evaluation schemes this is the one and only fitness score.
         /// </summary>
-        public double PrimaryFitness => _fitnessScores[0];
+        public double PrimaryFitness => _primaryFitness;
+
+        /// <summary>
+        /// Gets an array of auxiliary fitness scores.
+        /// </summary>
+        public double[] AuxFitnessScores => _auxFitnessScores;
 
         #endregion
     }

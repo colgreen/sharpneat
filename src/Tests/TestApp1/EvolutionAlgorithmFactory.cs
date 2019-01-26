@@ -1,7 +1,5 @@
 ﻿using Redzen.Random;
-using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
-using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
@@ -10,12 +8,8 @@ using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.Neat.Speciation.GeneticKMeans;
 using SharpNeat.NeuralNet;
-using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
-using SharpNeat.Tasks.BinarySixMultiplexer;
-using SharpNeat.Tasks.BinaryThreeMultiplexer;
 
 namespace TestApp1
 {
@@ -103,7 +97,7 @@ namespace TestApp1
             var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
                 genomeDecoder,
                 blackBoxEvaluationScheme,
-                createConcurrentEvaluator: false);
+                createConcurrentEvaluator: true);
 
             inputCount = blackBoxEvaluationScheme.InputCount;
             outputCount = blackBoxEvaluationScheme.OutputCount;
