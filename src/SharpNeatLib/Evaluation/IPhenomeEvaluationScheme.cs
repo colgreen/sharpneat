@@ -39,7 +39,7 @@ namespace SharpNeat.Evaluation
         FitnessInfo NullFitness { get; }
 
         /// <summary>
-        /// Indicates if the evaluators created by <see cref="Create"/> have state.
+        /// Indicates if the evaluators created by <see cref="CreateEvaluator"/> have state.
         /// </summary>
         /// <remarks>
         /// If an evaluator has no state then it is sufficient to create a single instance and to use that evaluator concurrently on multiple threads.
@@ -55,7 +55,7 @@ namespace SharpNeat.Evaluation
         /// Create a new evaluator object.
         /// </summary>
         /// <returns>A new instance of <see cref="IPhenomeEvaluator{T}"/>.</returns>
-        IPhenomeEvaluator<TPhenome> Create();
+        IPhenomeEvaluator<TPhenome> CreateEvaluator();
 
         /// <summary>
         /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean

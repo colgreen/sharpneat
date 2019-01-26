@@ -52,7 +52,7 @@ namespace SharpNeat.Evaluation
             _phenomeEvaluationScheme = phenomeEvaluationScheme;
 
             // Note. SerialGenomeListEvaluator will only evaluate on one thread therefore only ever requires a single evaluator.
-            _phenomeEvaluator = phenomeEvaluationScheme.Create();
+            _phenomeEvaluator = phenomeEvaluationScheme.CreateEvaluator();
         }
 
         #endregion

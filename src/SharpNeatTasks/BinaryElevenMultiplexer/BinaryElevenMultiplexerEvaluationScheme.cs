@@ -36,7 +36,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
         public FitnessInfo NullFitness => FitnessInfo.DefaultFitnessInfo;
 
         /// <summary>
-        /// Indicates if the evaluators created by <see cref="Create"/> have state.
+        /// Indicates if the evaluators created by <see cref="CreateEvaluator"/> have state.
         /// </summary>
         /// <remarks>
         /// If an evaluator has no state then it is sufficient to create a single instance and to use that evaluator concurrently on multiple threads.
@@ -52,7 +52,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
         /// Create a new evaluator object.
         /// </summary>
         /// <returns>A new instance of <see cref="IPhenomeEvaluator{T}"/>.</returns>
-        public IPhenomeEvaluator<IBlackBox<double>> Create()
+        public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
         {
             return new BinaryElevenMultiplexerEvaluator();
         }
