@@ -1,0 +1,153 @@
+﻿/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using SharpNeat.EvolutionAlgorithm;
+
+namespace SharpNeat.Evaluation
+{
+    /// <summary>
+    /// An implementation of <see cref="IGenomeListEvaluator{TGenome}"/> that evaluates genomes in parallel on multiple CPU threads.
+    /// </summary>
+    /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
+    /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
+    /// <remarks>
+    /// Genome decoding to a phenome is performed by a <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.
+    /// Phenome fitness evaluation is performed by a <see cref="IPhenomeEvaluator{TPhenome}"/>.
+    /// 
+    /// This class is for use with a stateless (and therefore thread safe) phenome evaluator, i.e. one phenome evaluator is created
+    /// and the is used concurrently by multiple threads.
+    /// </remarks>
+    public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
+        where TGenome : IGenome
+        where TPhenome : class
+    {
+        #region Instance Fields
+
+        readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
+        readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
+        readonly ParallelOptions _parallelOptions;
+        readonly IPhenomeEvaluatorPool<TPhenome> _evaluatorPool;
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Construct with the provided IGenomeDecoder and IPhenomeEvaluator.
+        /// </summary>
+        public ParallelGenomeListEvaluator(
+            IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme)
+            : this(genomeDecoder, phenomeEvaluationScheme, new ParallelOptions())
+        {}
+
+        /// <summary>
+        /// Construct with the provided IGenomeDecoder, IPhenomeEvaluator and ParallelOptions.
+        /// </summary>
+        public ParallelGenomeListEvaluator(
+            IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluatorScheme,
+            ParallelOptions parallelOptions)
+        {
+            // This class can only accept an evaluation scheme that uses a stateless evaluator.
+            if(phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
+
+            _genomeDecoder = genomeDecoder;
+            _phenomeEvaluationScheme = phenomeEvaluatorScheme;
+            _parallelOptions = parallelOptions;
+
+            // Create a pool of phenome evaluators.
+            // Note. the pool is initialised with a number of pre-constructed evaluators that matches 
+            // MaxDegreeOfParallelism. We don't expect the pool to be asked for more than this number of 
+            // evaluators at any given point in time.
+            _evaluatorPool = new PhenomeEvaluatorStackPool<TPhenome>(
+                phenomeEvaluatorScheme,
+                parallelOptions.MaxDegreeOfParallelism);
+        }
+
+        #endregion
+
+        #region IGenomeListEvaluator
+
+        /// <summary>
+        /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
+        /// </summary>
+        /// <remarks>
+        /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
+        /// for the same genome, such as scheme is non-deterministic.
+        /// </remarks>
+        public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
+
+        /// <summary>
+        /// Gets a fitness comparer. 
+        /// </summary>
+        /// <remarks>
+        /// Typically there is a single fitness score whereby a higher score is better, however if there are multiple fitness scores
+        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
+        /// determine which is the better FitenssInfo between any two.
+        /// </remarks>
+        public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
+
+        /// <summary>
+        /// Evaluates a collection of genomes and assigns fitness info to each.
+        /// </summary>
+        public void Evaluate(ICollection<TGenome> genomeList)
+        {
+            // Decode and evaluate genomes in parallel.
+            // Notes.
+            // This overload of Parallel.ForEach accepts a factory function for obtaining an object that represents some state 
+            // that can re-used within a partition, here we return a phenome evaluator as that partition state object.
+            // 
+            // Here a partition is a group genomes from genomeList that will be evaluated by a single thread, i.e.
+            // partitions may be executed in parallel, but genomes within a partition are evaluated sequentially and 
+            // therefore require only one phenome evaluator between them, we just need to ensure evaluator state is reset between
+            // evaluations.
+            Parallel.ForEach(
+                genomeList,
+                _parallelOptions,
+                () => _evaluatorPool.GetEvaluator(),    // Get a phenome evaluator from the pool to use for the current partition.
+                (genome, loopState, evaluator) =>       // Evaluate a single genome.
+                {
+                    TPhenome phenome = _genomeDecoder.Decode(genome);
+                    if(null == phenome)
+                    {   // Non-viable genome.
+                        genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;
+                    }
+                    else
+                    {
+                        genome.FitnessInfo = evaluator.Evaluate(phenome);
+                    }
+
+                    // The {evaluator} param for the next call of this anonymous method comes from what we return here,
+                    // this is useful for struct based partition state, but here we're just passing an object ref around.
+                    return evaluator;
+                },
+                (evaluator) => _evaluatorPool.ReleaseEvaluator(evaluator)   // Release this partition's phenome evaluator back into pool.
+            );
+        }
+
+        /// <summary>
+        /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean
+        /// that indicates if the evolution algorithm can stop, i.e. because the fitness is the best that can be achieved (or good enough).
+        /// </summary>
+        /// <param name="fitnessInfo">The fitness info object to test.</param>
+        /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
+        public bool TestForStopCondition(FitnessInfo fitnessInfo)
+        {
+            return _phenomeEvaluationScheme.TestForStopCondition(fitnessInfo);
+        }
+
+        #endregion
+    }
+}

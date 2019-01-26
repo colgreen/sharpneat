@@ -40,10 +40,8 @@ namespace SharpNeat.Evaluation
             }
 
             // Create a parallelised evaluator.
-            if(phenomeEvaluationScheme.EvaluatorsHaveState)
-            {
-                // TODO: ParallelGenomeListEvaluator with evaluator pool.
-                throw new NotImplementedException();
+            if(phenomeEvaluationScheme.EvaluatorsHaveState) {
+                return new ParallelGenomeListEvaluator<TGenome,TPhenome>(genomeDecoder, phenomeEvaluationScheme);
             }
 
             // else
