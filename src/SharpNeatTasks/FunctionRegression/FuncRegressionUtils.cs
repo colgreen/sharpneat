@@ -11,6 +11,7 @@
  */
 using System;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace SharpNeat.Tasks.FunctionRegression
 {
@@ -45,7 +46,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             gradientArr[0] = CalcGradient(xArr[0], yArr[0], xArr[1], yArr[1]);
 
             // Intermediate points.
-            for(int i=1; i< xArr.Length-1; i++) {
+            for(int i=1; i < xArr.Length - 1; i++) {
                 gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i + 1], yArr[i + 1]);
             }
 
@@ -89,20 +90,49 @@ namespace SharpNeat.Tasks.FunctionRegression
         {
             Debug.Assert(a.Length == b.Length);
 
-            // TODO: Vectorize.
-
-            // Calc sum(squared error).
             double total = 0.0;
-            for(int i=0; i < a.Length; i++)
+
+            if(Vector.IsHardwareAccelerated)
             {
-                double err = a[i] - b[i];
-                total += err * err;
+                int width = Vector<double>.Count;
+                var sumVec = new Vector<double>(0.0);
+
+                // Loop over vector sized segments, calc the squared error for each, and accumulate in sumVec.
+                int idx=0;
+                for(; idx <= a.Length - width; idx += width)
+                {
+                    var aVec = new Vector<double>(a, idx);
+                    var bVec = new Vector<double>(b, idx);
+
+                    var cVec = aVec - bVec;
+                    sumVec += cVec * cVec;
+                }
+
+                // Sum the elements of sumVec.
+                for(int j=0; j < width; j++){
+                    total += sumVec[j];
+                }
+
+                // Handle remaining elements (if any).
+                for(; idx < a.Length; idx++)
+                {
+                    double err = a[idx] - b[idx];
+                    total += err * err;
+                }
+            }
+            else
+            {
+                // Calc sum(squared error).
+                for(int i=0; i < a.Length; i++)
+                {
+                    double err = a[i] - b[i];
+                    total += err * err;
+                }
             }
 
             // Calculate mean squared error (MSE).
             return total / a.Length;
         }
-
 
         #endregion
 
