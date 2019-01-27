@@ -19,7 +19,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     // (if both outputs are low or high then that's just an invalid response).
 
     /// <summary>
-    /// Binary 11-Multiplexer task evaluator.
+    /// Evaluator for the Binary 11-Multiplexer task.
     /// 
     /// Three inputs supply a binary number between 0 and 7; this number selects one of the
     /// further 8 inputs (eleven inputs in total). The correct response is the selected input's
@@ -27,13 +27,13 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     /// 
     /// Evaluation consists of querying the provided black box for all possible input combinations (2^11 = 2048).
     /// </summary>
-    public class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         #region Public Methods
 
         /// <summary>
-        /// Evaluate the provided IBlackBox against the Binary 11-Multiplexer problem domain and return
-        /// its fitness score.
+        /// Evaluate the provided black box against the Binary 11-Multiplexer task,
+        /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
         public FitnessInfo Evaluate(IBlackBox<double> box)

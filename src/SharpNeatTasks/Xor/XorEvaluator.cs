@@ -16,7 +16,7 @@ using SharpNeat.Evaluation;
 namespace SharpNeat.Tasks.Xor
 {
     /// <summary>
-    /// XOR logic task evaluator.
+    /// Evaluator for the logical XOR task.
     /// 
     /// Two inputs supply the two XOR input values.
     /// 
@@ -24,13 +24,13 @@ namespace SharpNeat.Tasks.Xor
     /// 
     /// Evaluation consists of querying the provided black box for all possible input combinations (2^2 = 4).
     /// </summary>
-    public class XorEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public sealed class XorEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         #region Public Methods
 
         /// <summary>
-        /// Evaluate the provided IBlackBox against the Binary 11-Multiplexer problem domain and return
-        /// its fitness score.
+        /// Evaluate the provided black box against the logical XOR task,
+        /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
         public FitnessInfo Evaluate(IBlackBox<double> box)
