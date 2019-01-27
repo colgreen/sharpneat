@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
 using System.Diagnostics;
-using System.Text;
 using SharpNeat.BlackBox;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression
 {
-    public class GenerativeBlackBoxProbe
+    public sealed class GenerativeBlackBoxProbe
     {
         readonly int _sampleCount;
         readonly double _offset;
