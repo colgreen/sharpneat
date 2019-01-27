@@ -10,9 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace SharpNeat.Tasks.FunctionRegression
 {
@@ -39,6 +37,8 @@ namespace SharpNeat.Tasks.FunctionRegression
             double[] yArr,
             double[] gradientArr)
         {
+            // TODO: Can this be vectorized?
+
             // Handle the end points as special cases.
             // First point.
             double[] xArr = paramSamplingInfo.XArr;
@@ -88,6 +88,8 @@ namespace SharpNeat.Tasks.FunctionRegression
         public static double CalcMeanSquaredError(double[] a, double[] b)
         {
             Debug.Assert(a.Length == b.Length);
+
+            // TODO: Vectorize.
 
             // Calc sum(squared error).
             double total = 0.0;
