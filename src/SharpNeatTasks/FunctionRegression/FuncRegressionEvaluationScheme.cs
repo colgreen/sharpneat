@@ -21,9 +21,19 @@ namespace SharpNeat.Tasks.FunctionRegression
     /// </summary>
     public class FuncRegressionEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
+        #region Instance Fields
+
         readonly Func<double,double> _fn;
         readonly ParamSamplingInfo _paramSamplingInfo;
         readonly double _gradientMseWeight;
+
+        // Expected/correct response arrays.
+        readonly double[] _yArrTarget;
+        readonly double[] _gradientArrTarget;
+
+        readonly IBlackBoxProbe _blackBoxProbe;
+
+        #endregion
 
         #region Auto Properties [IBlackBoxEvaluationScheme]
 
@@ -85,6 +95,18 @@ namespace SharpNeat.Tasks.FunctionRegression
             _fn = fn;
             _paramSamplingInfo = paramSamplingInfo;
             _gradientMseWeight = gradientMseWeight;
+
+            // Alloc arrays.
+            int sampleCount = _paramSamplingInfo.SampleCount;
+            _yArrTarget = new double[sampleCount];
+            _gradientArrTarget = new double[sampleCount];
+
+            // Predetermine target responses.
+            FuncRegressionUtils.Probe(fn, paramSamplingInfo, _yArrTarget);
+            FuncRegressionUtils.CalcGradients(paramSamplingInfo, _yArrTarget, _gradientArrTarget);
+
+            // Create blackbox probe.
+            _blackBoxProbe = CreateBlackBoxProbe(fn, paramSamplingInfo);
         }
 
         #endregion
@@ -97,7 +119,7 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// <returns>A new instance of <see cref="IPhenomeEvaluator{T}"/>.</returns>
         public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
         {
-            return new FuncRegressionEvaluator(_fn, _paramSamplingInfo, _gradientMseWeight);
+            return new FuncRegressionEvaluator(_fn, _paramSamplingInfo, _gradientMseWeight, _yArrTarget, _gradientArrTarget, _blackBoxProbe);
         }
 
         /// <summary>
@@ -109,6 +131,22 @@ namespace SharpNeat.Tasks.FunctionRegression
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
             return (fitnessInfo.PrimaryFitness >= 100_000.0);
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static BlackBoxProbe CreateBlackBoxProbe(
+            Func<double,double> fn,
+            ParamSamplingInfo paramSamplingInfo)
+        {
+            // Determine the mid output value of the function (over the specified sample points) and a scaling factor
+            // to apply the to neural network response for it to be able to recreate the function (because the neural net
+            // output range is [0,1] when using the logistic function as the neuron activation function).
+            FuncRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out double mid, out double scale);
+
+            return new BlackBoxProbe(paramSamplingInfo, mid, scale);
         }
 
         #endregion

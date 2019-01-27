@@ -95,7 +95,7 @@ namespace TestApp1
             var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeAcyclicDecoder(true);
             IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new BinaryElevenMultiplexerEvaluationScheme();
 
-            // Create function regression evaluation scheme.
+            //// Create function regression evaluation scheme.
             //int sampleResolution = 20;
             //double sampleMin = 0;
             //double sampleMax = 6.283185;
