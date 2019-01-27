@@ -10,6 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Diagnostics;
+using System.Threading;
 using Redzen.Collections;
 
 namespace SharpNeat.Evaluation
@@ -22,7 +24,9 @@ namespace SharpNeat.Evaluation
     {
         readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
         readonly LightweightStack<IPhenomeEvaluator<TPhenome>> _evaluatorStack;
-        readonly object _stackLockObj = new object();
+
+        // Note. Do not make this readonly; it's a mutable struct.
+        SpinLock _spinLock;
 
         #region Constructor
 
@@ -48,6 +52,9 @@ namespace SharpNeat.Evaluation
             for(int i=0; i < initialPoolSize; i++) {
                 _evaluatorStack.Push(phenomeEvaluationScheme.CreateEvaluator());
             }
+
+            // Enable thread tracking only if the debugger is attached; it adds non-trivial overhead to Enter/Exit.
+            _spinLock = new SpinLock(Debugger.IsAttached); 
         }
 
         #endregion
@@ -60,16 +67,26 @@ namespace SharpNeat.Evaluation
         /// <returns>An evaluator instance.</returns>
         public IPhenomeEvaluator<TPhenome> GetEvaluator()
         {
-            lock(_stackLockObj)
+            bool lockTaken = false;
+            try
             {
+                // Wait for the sync lock.
+                _spinLock.Enter(ref lockTaken);
+
+                // Take an evaluator from the pool (if any available).
                 if(_evaluatorStack.Count > 0) {
                     return _evaluatorStack.Pop();
                 }
-
-                // If the pool is empty then create a new evaluator instance; this should get released
-                // back into the pool, thus increasing the total number of evaluators being managed by the pool.
-                return _phenomeEvaluationScheme.CreateEvaluator();
             }
+            finally
+            {
+                // Release the sync lock.
+                if(lockTaken) _spinLock.Exit(false);
+            }
+
+            // If the pool is empty then create a new evaluator instance; this should get released
+            // back into the pool, thus increasing the total number of evaluators being managed by the pool.
+            return _phenomeEvaluationScheme.CreateEvaluator();
         }
 
         /// <summary>
@@ -78,9 +95,19 @@ namespace SharpNeat.Evaluation
         /// <param name="evaluator">The evaluator to release.</param>
         public void ReleaseEvaluator(IPhenomeEvaluator<TPhenome> evaluator)
         {
-            lock(_stackLockObj)
+            bool lockTaken = false;
+            try
             {
+                // Wait for the sync lock.
+                _spinLock.Enter(ref lockTaken);
+
+                // Put the evaluator into the pool.
                 _evaluatorStack.Push(evaluator);
+            }
+            finally
+            {
+                // Release the sync lock.
+                if(lockTaken) _spinLock.Exit(false);
             }
         }
 
