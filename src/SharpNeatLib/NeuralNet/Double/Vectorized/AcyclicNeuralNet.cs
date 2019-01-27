@@ -163,7 +163,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx < layerInfo.EndConnectionIdx - width; conIdx += width) 
+                for(; conIdx <= layerInfo.EndConnectionIdx - width; conIdx += width) 
                 {
                     // Load source node output values into a vector.
                     for(int k=0; k < width; k++) {
