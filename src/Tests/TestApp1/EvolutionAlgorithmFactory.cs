@@ -10,6 +10,7 @@ using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Reproduction.Sexual;
 using SharpNeat.NeuralNet;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
+using SharpNeat.Tasks.FunctionRegression;
 
 namespace TestApp1
 {
@@ -93,6 +94,13 @@ namespace TestApp1
         {
             var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeAcyclicDecoder(true);
             IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new BinaryElevenMultiplexerEvaluationScheme();
+
+            // Create function regression evaluation scheme.
+            //int sampleResolution = 20;
+            //double sampleMin = 0;
+            //double sampleMax = 6.283185;
+            //var paramSamplingInfo = new ParamSamplingInfo(sampleMin, sampleMax, sampleResolution);
+            //IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new FuncRegressionEvaluationScheme(FunctionFactory.GetFunction(FunctionId.Sin), paramSamplingInfo, 0.3);
 
             var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
                 genomeDecoder,

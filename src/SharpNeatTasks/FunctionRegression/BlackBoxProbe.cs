@@ -57,11 +57,15 @@ namespace SharpNeat.Tasks.FunctionRegression
                 // Reset black box internal state.
                 box.ResetState();
 
-                // Apply function argument to black box input, and activate.
-                box.InputVector[0] = xArr[i];
+                // Set bias input, and function input value.
+                box.InputVector[0] = 1.0;
+                box.InputVector[1] = xArr[i];
+
+                // Activate the black box.
                 box.Activate();
 
                 // Get the black box's output value.
+                // TODO: Review. Note this scheme is different to the one in SharpNEAT 2.x
                 responseArr[i] = (box.OutputVector[0] + _offset) * _scale;
             }
         }

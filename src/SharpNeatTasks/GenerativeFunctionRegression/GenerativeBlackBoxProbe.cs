@@ -14,6 +14,9 @@ using SharpNeat.BlackBox;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression
 {
+    /// <summary>
+    /// For probing and recording the responses of instances of <see cref="IBlackBox{T}"/>.
+    /// </summary>
     public sealed class GenerativeBlackBoxProbe
     {
         readonly int _sampleCount;
@@ -39,6 +42,11 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
 
         #region Public Methods
 
+        /// <summary>
+        /// Probe the given black box, and record the responses in <paramref name="responseArr"/>
+        /// </summary>
+        /// <param name="box">The black box to probe.</param>
+        /// <param name="responseArr">Response array.</param>
         public void Probe(IBlackBox<double> box, double[] responseArr)
         {
             Debug.Assert(responseArr.Length == _sampleCount);
@@ -49,10 +57,14 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             // Take the require number of samples.
             for(int i=0; i < _sampleCount; i++)
             {
+                // Set bias input.
+                box.InputVector[0] = 1.0;
+
                 // Activate the black box.
                 box.Activate();
 
                 // Get the black box's output value.
+                // TODO: Review. Note this scheme is different to the one in SharpNEAT 2.x
                 responseArr[i] = (box.OutputVector[0] + _offset) * _scale;
             }
         }
