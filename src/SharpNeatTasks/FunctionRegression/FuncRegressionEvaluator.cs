@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using Redzen;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 
@@ -90,11 +91,11 @@ namespace SharpNeat.Tasks.FunctionRegression
             FuncRegressionUtils.CalcGradients(_paramSamplingInfo, _yArr, _gradientArr);
 
             // Calc y position mean squared error (MSE), and apply weighting.
-            double yMse = FuncRegressionUtils.CalcMeanSquaredError(_yArr, _yArrTarget);
+            double yMse = MathArrayUtils.MeanSquaredDelta(_yArr, _yArrTarget);
             yMse *= _yMseWeight;
 
             // Calc gradient mean squared error.
-            double gradientMse = FuncRegressionUtils.CalcMeanSquaredError(_gradientArr, _gradientArrTarget);
+            double gradientMse = MathArrayUtils.MeanSquaredDelta(_gradientArr, _gradientArrTarget);
             gradientMse *= _gradientMseWeight;
 
             // Calc fitness as the inverse of MSE (higher value is fitter). 

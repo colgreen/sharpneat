@@ -11,7 +11,6 @@
  */
 using System;
 using System.Diagnostics;
-using System.Numerics;
 
 namespace SharpNeat.Tasks.FunctionRegression
 {
@@ -84,54 +83,6 @@ namespace SharpNeat.Tasks.FunctionRegression
             double range = max - min;
             scale = range / 0.8;
             mid = (min + max) / 2.0;
-        }
-
-        public static double CalcMeanSquaredError(double[] a, double[] b)
-        {
-            Debug.Assert(a.Length == b.Length);
-
-            double total = 0.0;
-
-            if(Vector.IsHardwareAccelerated)
-            {
-                int width = Vector<double>.Count;
-                var sumVec = new Vector<double>(0.0);
-
-                // Loop over vector sized segments, calc the squared error for each, and accumulate in sumVec.
-                int idx=0;
-                for(; idx <= a.Length - width; idx += width)
-                {
-                    var aVec = new Vector<double>(a, idx);
-                    var bVec = new Vector<double>(b, idx);
-
-                    var cVec = aVec - bVec;
-                    sumVec += cVec * cVec;
-                }
-
-                // Sum the elements of sumVec.
-                for(int j=0; j < width; j++){
-                    total += sumVec[j];
-                }
-
-                // Handle remaining elements (if any).
-                for(; idx < a.Length; idx++)
-                {
-                    double err = a[idx] - b[idx];
-                    total += err * err;
-                }
-            }
-            else
-            {
-                // Calc sum(squared error).
-                for(int i=0; i < a.Length; i++)
-                {
-                    double err = a[i] - b[i];
-                    total += err * err;
-                }
-            }
-
-            // Calculate mean squared error (MSE).
-            return total / a.Length;
         }
 
         #endregion
