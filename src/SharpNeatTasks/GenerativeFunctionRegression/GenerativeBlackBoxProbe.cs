@@ -11,13 +11,14 @@
  */
 using System.Diagnostics;
 using SharpNeat.BlackBox;
+using SharpNeat.Tasks.FunctionRegression;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression
 {
     /// <summary>
     /// For probing and recording the responses of instances of <see cref="IBlackBox{T}"/>.
     /// </summary>
-    public sealed class GenerativeBlackBoxProbe
+    public sealed class GenerativeBlackBoxProbe : IBlackBoxProbe
     {
         readonly int _sampleCount;
         readonly double _offset;
