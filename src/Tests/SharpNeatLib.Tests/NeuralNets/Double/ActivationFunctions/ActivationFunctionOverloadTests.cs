@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.NeuralNet;
-using static SharpNeat.Tests.TestUtils;
+using static SharpNeat.Tests.ArrayTestUtils;
 
 namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
 {

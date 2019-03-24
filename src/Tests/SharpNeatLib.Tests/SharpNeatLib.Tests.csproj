@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SharpNeatLib\SharpNeatLib.csproj" />
+    <ProjectReference Include="..\..\TestsLib\TestsLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

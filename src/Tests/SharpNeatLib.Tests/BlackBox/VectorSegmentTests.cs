@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.BlackBox;
-using static SharpNeat.Tests.TestUtils;
+using static SharpNeat.Tests.ArrayTestUtils;
 
 namespace SharpNeat.Tests.BlackBox
 {

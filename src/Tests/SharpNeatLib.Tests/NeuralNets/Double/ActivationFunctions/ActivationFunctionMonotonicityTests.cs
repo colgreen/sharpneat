@@ -55,7 +55,7 @@ namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
 
         private static void AssertMonotonic(IActivationFunction<double> actFn, bool strict)
         {
-            Assert.IsTrue(TestUtils.IsMonotonicIncreasing(actFn.Fn, -6, 6, 0.01, strict));
+            Assert.IsTrue(FuncTestUtils.IsMonotonicIncreasing(actFn.Fn, -6, 6, 0.01, strict));
         }
 
         #endregion

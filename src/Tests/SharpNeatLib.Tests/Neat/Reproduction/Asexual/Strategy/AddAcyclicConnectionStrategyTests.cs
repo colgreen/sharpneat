@@ -137,7 +137,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
                     Assert.AreEqual(nodeIdSet.Count, depthInfo._nodeDepthArr.Length);
                     Assert.AreEqual(nodeIdSet.Count, depthInfo2._nodeDepthArr.Length);
-                    TestUtils.Compare(depthInfo2._nodeDepthArr, depthInfo._nodeDepthArr);
+                    ArrayTestUtils.Compare(depthInfo2._nodeDepthArr, depthInfo._nodeDepthArr);
 
                     // Set the child genome to be the new parent, thus we accumulate random new connections over time.
                     parentGenome = childGenome;

@@ -19,11 +19,11 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             // Compare connections.
             var xGenes = x.ConnectionGenes;
             var yGenes = y.ConnectionGenes;
-            TestUtils.Compare(xGenes._connArr, yGenes._connArr);
-            TestUtils.Compare(xGenes._weightArr, yGenes._weightArr);
+            ArrayTestUtils.Compare(xGenes._connArr, yGenes._connArr);
+            ArrayTestUtils.Compare(xGenes._weightArr, yGenes._weightArr);
 
             // Compare hidden node ID arrays.
-            TestUtils.Compare(x.HiddenNodeIdArray, y.HiddenNodeIdArray);
+            ArrayTestUtils.Compare(x.HiddenNodeIdArray, y.HiddenNodeIdArray);
         }
     }
 }

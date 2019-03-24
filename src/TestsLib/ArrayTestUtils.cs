@@ -4,7 +4,7 @@ using SharpNeat.BlackBox;
 
 namespace SharpNeat.Tests
 {
-    public static class TestUtils
+    public static class ArrayTestUtils
     {
         public static void Compare(int[] expectedArr, IVector<int> vec)
         {
@@ -67,36 +67,6 @@ namespace SharpNeat.Tests
 
                 if(delta > maxdelta){
                     return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Function monotonicity test.
-        /// </summary>
-        public static bool IsMonotonicIncreasing(Func<double,double> fn, double min, double max, double incr, bool strict)
-        {
-            double y_prev = fn(min);
-   
-            if(strict)
-            {
-                // Strictly monotonic text, i.e. must be increasing and not unchanged.
-                for(double x = min+incr; x <= max; x += incr)
-                {
-                    double y = fn(x);
-                    y_prev = y;
-                }
-            }
-            else
-            {
-                for(double x = min+incr; x <= max; x += incr)
-                {
-                    double y = fn(x);
-                    if(y < y_prev) {
-                        return false;
-                    }
-                    y_prev = y;
                 }
             }
             return true;

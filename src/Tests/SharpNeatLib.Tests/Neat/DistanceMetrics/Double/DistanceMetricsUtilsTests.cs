@@ -55,7 +55,7 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             expected[10] = (10, 20, 200 / 3.0);
 
             Assert.IsTrue(ArrayUtils.Equals(expected._connArr, centroid._connArr));
-            Assert.IsTrue(TestUtils.Equals(expected._weightArr, centroid._weightArr, 1e-6));
+            Assert.IsTrue(ArrayTestUtils.Equals(expected._weightArr, centroid._weightArr, 1e-6));
         }
     }
 }
