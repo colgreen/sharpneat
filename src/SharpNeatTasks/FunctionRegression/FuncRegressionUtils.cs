@@ -11,6 +11,7 @@
  */
 using System;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace SharpNeat.Tasks.FunctionRegression
 {
@@ -37,8 +38,6 @@ namespace SharpNeat.Tasks.FunctionRegression
             double[] yArr,
             double[] gradientArr)
         {
-            // TODO: Vectorize the gradient calcs.
-
             // Notes.
             // The gradient at a sample point is approximated by taking the gradient of the line between the two 
             // sample points either side of that point. For the first and last sample points we take the gradient 
@@ -60,8 +59,28 @@ namespace SharpNeat.Tasks.FunctionRegression
             gradientArr[0] = CalcGradient(xArr[0], yArr[0], xArr[1], yArr[1]);
 
             // Intermediate points.
+            int width = Vector<double>.Count;
             int i=1;
-            for(; i < xArr.Length - 1; i++) {
+            for(; i < xArr.Length - width - 1; i += width) 
+            {
+                // Calc a block of x deltas.
+                var vecLeft = new Vector<double>(xArr, i - 1);
+                var vecRight = new Vector<double>(xArr, i + 1);
+                var xVecDelta = vecRight - vecLeft;
+
+                // Calc a block of y deltas.
+                vecLeft = new Vector<double>(yArr, i - 1);
+                vecRight = new Vector<double>(yArr, i + 1);
+                var yVecDelta = vecRight - vecLeft;
+
+                // Divide the y's by x's to obtain the gradients.
+                var gradientVec = yVecDelta / xVecDelta;
+
+                gradientVec.CopyTo(gradientArr, i);
+            }
+
+            // Calc gradients for remaining intermediate points (if any).
+            for (; i < xArr.Length - 1; i++) {
                 gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i + 1], yArr[i + 1]);
             }
 

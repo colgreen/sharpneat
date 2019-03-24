@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks.Tests", "Sha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{13A413E1-46CC-4497-BFE5-E900D82F10C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeatTasks.Benchmarks", "Benchmarks\SharpNeatTasks.Benchmarks\SharpNeatTasks.Benchmarks.csproj", "{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks.Benchmarks", "Benchmarks\SharpNeatTasks.Benchmarks\SharpNeatTasks.Benchmarks.csproj", "{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsLib", "TestsLib\TestsLib.csproj", "{D786F3C3-F391-4568-B512-3B1A4E6F24F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{4F98BC33-286F-49DE-9884-D80438DF656D} = {13A413E1-46CC-4497-BFE5-E900D82F10C5}
 		{331608F1-832B-4D8A-BEC8-78C524DA08E7} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
 		{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6} = {13A413E1-46CC-4497-BFE5-E900D82F10C5}
+		{D786F3C3-F391-4568-B512-3B1A4E6F24F5} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E02B3A0A-4C61-41CA-AD15-E8A9C318ADBB}

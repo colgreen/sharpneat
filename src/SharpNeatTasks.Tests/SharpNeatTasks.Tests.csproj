@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SharpNeatLib\SharpNeatLib.csproj" />
     <ProjectReference Include="..\SharpNeatTasks\SharpNeatTasks.csproj" />
+    <ProjectReference Include="..\TestsLib\TestsLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
