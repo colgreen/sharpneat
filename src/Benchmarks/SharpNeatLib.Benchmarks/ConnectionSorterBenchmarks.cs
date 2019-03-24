@@ -9,7 +9,7 @@ namespace SharpNeatLib.Benchmarks
     [MemoryDiagnoser]
     public class ConnectionSorterBenchmarks
     {
-        Xoshiro256StarStarRandom _rng = new Xoshiro256StarStarRandom(0);
+        readonly Xoshiro256StarStarRandom _rng = new Xoshiro256StarStarRandom(0);
         ConnectionData[] _dataArr;
 
         #region Constructor
