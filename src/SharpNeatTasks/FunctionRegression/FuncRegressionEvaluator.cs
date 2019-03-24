@@ -48,7 +48,10 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// </summary>
         /// <param name="fn">The function to apply function regression to..</param>
         /// <param name="paramSamplingInfo">Parameter sampling info.</param>
-        /// <param name="gradientMseWeight">Fitness weighting to apply to the gradient fitness score.</param>
+        /// <param name="gradientMseWeight">Fitness weighting to apply to the gradient fitness score.</param> 
+        /// <param name="yArrTarget">Array of target y values (function output values).</param>
+        /// <param name="gradientArrTarget">Array of target gradient values.</param>
+        /// <param name="blackBoxProbe">Black box probe. For obtaining the y value response array from an instance of <see cref="IBlackBox{T}"/>.</param>
         internal FuncRegressionEvaluator(
             Func<double,double> fn,
             ParamSamplingInfo paramSamplingInfo,

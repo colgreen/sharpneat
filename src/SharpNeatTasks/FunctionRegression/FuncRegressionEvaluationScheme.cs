@@ -87,6 +87,12 @@ namespace SharpNeat.Tasks.FunctionRegression
 
         #region Constructors
 
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="fn">The target function.</param>
+        /// <param name="paramSamplingInfo">Sampling (defines the x range and sampling density).</param>
+        /// <param name="gradientMseWeight">The fitness weighting to assign to the gradient mean squared error (MSE) score.</param>
         public FuncRegressionEvaluationScheme(
             Func<double,double> fn,
             ParamSamplingInfo paramSamplingInfo,
