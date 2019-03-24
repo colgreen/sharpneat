@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks", "SharpNeat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib.Tests", "Tests\SharpNeatLib.Tests\SharpNeatLib.Tests.csproj", "{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib.Benchmarks", "Tests\SharpNeatLib.Benchmarks\SharpNeatLib.Benchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib.Benchmarks", "Benchmarks\SharpNeatLib.Benchmarks\SharpNeatLib.Benchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{858A8951-5952-40D8-8F62-8F6537B89FD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks.Tests", "SharpNeatTasks.Tests\SharpNeatTasks.Tests.csproj", "{331608F1-832B-4D8A-BEC8-78C524DA08E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{13A413E1-46CC-4497-BFE5-E900D82F10C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,7 +56,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{03EC1CBF-0266-4CE8-952A-68E67ACBCFB2} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
 		{5E3094A9-15D0-4F62-A8C1-170CA0B545D6} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
-		{4F98BC33-286F-49DE-9884-D80438DF656D} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
+		{4F98BC33-286F-49DE-9884-D80438DF656D} = {13A413E1-46CC-4497-BFE5-E900D82F10C5}
 		{331608F1-832B-4D8A-BEC8-78C524DA08E7} = {858A8951-5952-40D8-8F62-8F6537B89FD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
