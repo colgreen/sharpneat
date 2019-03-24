@@ -11,6 +11,7 @@ using SharpNeat.Neat.Reproduction.Sexual;
 using SharpNeat.NeuralNet;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.FunctionRegression;
+using SharpNeat.Tasks.GenerativeFunctionRegression;
 
 namespace TestApp1
 {
@@ -25,7 +26,7 @@ namespace TestApp1
         public NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm()
         {
             // Create a genome evaluator.
-            var genomeListEvaluator = CreateGenomeListEvaluator(out int inputCount, out int outputCount);
+            var genomeListEvaluator = CreateGenomeListEvaluator_BinaryElevenMultiplexer(out int inputCount, out int outputCount);
 
             // Create an initial population.
             _metaNeatGenome = CreateMetaNeatGenome(inputCount, outputCount);
@@ -89,18 +90,34 @@ namespace TestApp1
             return pop;
         }
 
-        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
+        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator_BinaryElevenMultiplexer(
             out int inputCount, out int outputCount)
         {
             var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeAcyclicDecoder(true);
             IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new BinaryElevenMultiplexerEvaluationScheme();
 
-            //// Create function regression evaluation scheme.
-            //int sampleResolution = 20;
-            //double sampleMin = 0;
-            //double sampleMax = 6.283185;
-            //var paramSamplingInfo = new ParamSamplingInfo(sampleMin, sampleMax, sampleResolution);
-            //IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new FuncRegressionEvaluationScheme(FunctionFactory.GetFunction(FunctionId.Sin), paramSamplingInfo, 0.3);
+            var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
+                genomeDecoder,
+                blackBoxEvaluationScheme,
+                createConcurrentEvaluator: true);
+
+            inputCount = blackBoxEvaluationScheme.InputCount;
+            outputCount = blackBoxEvaluationScheme.OutputCount;
+            return genomeListEvaluator;
+        }
+
+
+        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator_GenerativeSinewave(
+            out int inputCount, out int outputCount)
+        {
+            var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(1, true);
+
+            // Create function regression evaluation scheme.
+            int sampleResolution = 20;
+            double sampleMin = 0;
+            double sampleMax = 6.283185;
+            var paramSamplingInfo = new ParamSamplingInfo(sampleMin, sampleMax, sampleResolution);
+            IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new GenerativeFuncRegressionEvaluationScheme(FunctionFactory.GetFunction(FunctionId.Sin), paramSamplingInfo, 0.3);
 
             var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
                 genomeDecoder,
