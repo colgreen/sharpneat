@@ -106,13 +106,7 @@ namespace SharpNeat.Tasks.FunctionRegression
 
         private static double CalcGradient(double x1, double y1, double x2, double y2)
         {
-            double ydiff = y2 - y1;
-
-            // TODO: Consider: it might be fast to avoid the branch and always to the division. Especially so if this is vectorized!
-            if(ydiff == 0.0) {
-                return 0.0;
-            }
-            return ydiff / (x2 - x1);
+            return (y2 - y1) / (x2 - x1);
         }
 
         #endregion
