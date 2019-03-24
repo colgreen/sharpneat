@@ -37,7 +37,22 @@ namespace SharpNeat.Tasks.FunctionRegression
             double[] yArr,
             double[] gradientArr)
         {
-            // TODO: Can this be vectorized?
+            // TODO: Vectorize the gradient calcs.
+
+            // Notes.
+            // The gradient at a sample point is approximated by taking the gradient of the line between the two 
+            // sample points either side of that point. For the first and last sample points we take the gradient 
+            // of the line between the sample point and its single adjacent sample point (as an alternative we could 
+            // sample an additional point at each end that doesn't get used for the function regression evaluation.
+            //
+            // This approach is rather crude, but fast. A better approach might be to do a polynomial regression on 
+            // the sample point and its nearest two adjacent samples, and then take the gradient of the polynomial
+            // regression at the required point; obviously that would required more computational work to do so may
+            // not be beneficial in the overall context of an evolutionary algorithm.
+            //
+            // Furthermore, the difference between this gradient approximation and the true gradient decreases with
+            // increases sample density, therefore this is a reasonable approach *if* the sample density is 
+            // sufficiently high.
 
             // Handle the end points as special cases.
             // First point.
@@ -45,13 +60,13 @@ namespace SharpNeat.Tasks.FunctionRegression
             gradientArr[0] = CalcGradient(xArr[0], yArr[0], xArr[1], yArr[1]);
 
             // Intermediate points.
-            for(int i=1; i < xArr.Length - 1; i++) {
+            int i=1;
+            for(; i < xArr.Length - 1; i++) {
                 gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i + 1], yArr[i + 1]);
             }
 
             // Last point.
-            int lastIdx = xArr.Length - 1;
-            gradientArr[lastIdx] = CalcGradient(xArr[lastIdx - 1], yArr[lastIdx - 1], xArr[lastIdx], yArr[lastIdx]);
+            gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i], yArr[i]);
         }
 
         /// <summary>
@@ -92,6 +107,8 @@ namespace SharpNeat.Tasks.FunctionRegression
         private static double CalcGradient(double x1, double y1, double x2, double y2)
         {
             double ydiff = y2 - y1;
+
+            // TODO: Consider: it might be fast to avoid the branch and always to the division. Especially so if this is vectorized!
             if(ydiff == 0.0) {
                 return 0.0;
             }
