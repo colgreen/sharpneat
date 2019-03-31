@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using Redzen.Sorting;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
@@ -17,12 +18,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestDeleteConnection()
         {
             var pop = CreateNeatPopulation();
+            var generationSeq = new Int32Sequence();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
 
             var strategy = new DeleteConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.GenerationSeq);
+                pop.GenomeIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 

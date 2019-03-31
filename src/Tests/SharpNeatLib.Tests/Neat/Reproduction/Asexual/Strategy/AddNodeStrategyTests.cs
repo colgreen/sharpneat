@@ -25,12 +25,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddNode1()
         {
             var pop = CreateNeatPopulation();
+            var generationSeq = new Int32Sequence();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
 
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq,
                 pop.AddedNodeBuffer);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
@@ -49,12 +50,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddNode2()
         {
             var pop = CreateNeatPopulation();
+            var generationSeq = new Int32Sequence();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
 
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq,
                 pop.AddedNodeBuffer);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
@@ -78,12 +80,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddNode3()
         {
             var pop = CreateNeatPopulation();
+            var generationSeq = new Int32Sequence();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
 
             var strategy = new AddNodeStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder, 
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq,
+                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq,
                 pop.AddedNodeBuffer);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using Redzen.Sorting;
+using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
@@ -22,12 +23,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddAcyclicConnection()
         {
             var pop = CreateNeatPopulation();
+            var generationSeq = new Int32Sequence();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var genome = pop.GenomeList[0];
 
             var strategy = new AddAcyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
@@ -76,12 +78,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         public void TestAddAcyclicConnection_CumulativeAdditions()
         {
             var pop = CreateNeatPopulation();
+            var generationSeq = new Int32Sequence();
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
             var rootGenome = pop.GenomeList[0];
 
             var strategy = new AddAcyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, pop.GenerationSeq);
+                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 

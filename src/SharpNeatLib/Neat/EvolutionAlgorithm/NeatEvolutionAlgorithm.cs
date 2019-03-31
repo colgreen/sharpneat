@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
+using Redzen.Structures;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
@@ -40,8 +41,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatPopulation<T> _pop;
         readonly IRandomSource _rng;
 
-        // TODO: Consider un-commenting this and removing the instance on the Population class.
-        //readonly Int32Sequence _generationSeq;
+        readonly Int32Sequence _generationSeq;
         readonly NeatReproductionAsexual<T> _reproductionAsexual;
         readonly NeatReproductionSexual<T> _reproductionSexual;
 
@@ -118,17 +118,16 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 throw new ArgumentException("Species count is higher then the population size.");
             }
 
-            // TODO: Remove/reinstate?
-            //_generationSeq = new Int32Sequence();
+            _generationSeq = new Int32Sequence();
 
             _reproductionAsexual = new NeatReproductionAsexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
-                _pop.GenomeIdSeq, population.InnovationIdSeq, population.GenerationSeq,
+                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
                 _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme);
 
             _reproductionSexual = new NeatReproductionSexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
-                _pop.GenomeIdSeq, population.InnovationIdSeq, population.GenerationSeq,
+                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
                 _pop.AddedNodeBuffer, reproductionSexualSettings);
 
             _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, _eaSettings.InterspeciesMatingProportion);
@@ -294,8 +293,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _pop.UpdateStats(_evaluator.FitnessComparer);
 
             // Store the current generation number, and increment.
-            _eaStats.Generation = _pop.GenerationSeq.Peek;
-            _pop.GenerationSeq.Next();
+            _eaStats.Generation = _generationSeq.Peek;
+            _generationSeq.Next();
 
             // Test if the evaluator is signalling that the best fitness is good enough to stop the evolution algorithm.
             _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_pop.Stats.BestFitness);

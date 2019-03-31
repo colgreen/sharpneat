@@ -44,12 +44,6 @@ namespace SharpNeat.EvolutionAlgorithm
         /// </summary>
         public PopulationStats Stats { get; }
 
-        // TODO: Consider if this belongs on NeatEvolutionAlgorithm.
-        /// <summary>
-        /// A sequence that provides the current generation number.
-        /// </summary>
-        public Int32Sequence GenerationSeq { get; }
-
         #endregion
 
         #region Constructor
@@ -67,7 +61,6 @@ namespace SharpNeat.EvolutionAlgorithm
 
             this.PopulationSize = genomeList.Count;
             this.Stats = CreatePopulatonStats();
-            this.GenerationSeq = new Int32Sequence();
         }
 
         #endregion

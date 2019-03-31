@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using Redzen.Sorting;
+using Redzen.Structures;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
@@ -26,12 +27,13 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             int count = 100;
             NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.1, count, RandomDefaults.CreateRandomSource());
+            var generationSeq = new Int32Sequence();
 
             var strategy = new UniformCrossoverReproductionStrategy<double>(
                 pop.MetaNeatGenome.IsAcyclic,
                 0.02,
                 genomeBuilder,
-                pop.GenomeIdSeq, pop.GenerationSeq);
+                pop.GenomeIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
