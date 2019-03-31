@@ -12,9 +12,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
+using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
@@ -71,24 +73,10 @@ namespace SharpNeat.Neat
         /// </summary>
         public Species<T>[] SpeciesArray { get; set; }
 
-        #endregion
-
-        #region Auto Properties [Population Statistics]
-
         /// <summary>
-        /// Index of the best genome.
+        /// NeatPopulation statistics.
         /// </summary>
-        public int BestGenomeIdx { get; set; }
-
-        /// <summary>
-        /// Index of the species that the best genome is within.
-        /// </summary>
-        public int BestGenomeSpeciesIdx { get; set; }
-
-        /// <summary>
-        /// Sum of species fitness means.
-        /// </summary>
-        public double TotalSpeciesMeanFitness { get; set; }
+        public NeatPopulationStats NeatPopulationStats => (NeatPopulationStats)this.Stats;
 
         #endregion
 
@@ -187,6 +175,97 @@ namespace SharpNeat.Neat
             // Sort the genomes in each species. Highest fitness first, then secondary sorted by youngest genomes first.
             foreach(Species<T> species in speciesArr) {
                 SortUtils.SortUnstable(species.GenomeList, GenomeFitnessAndAgeComparer<T>.Singleton, rng);
+            }
+        }
+
+        /// <summary>
+        /// Update the population statistics object.
+        /// </summary>
+        /// <param name="fitnessComparer">A genome fitness comparer.</param>
+        public override void UpdateStats(IComparer<FitnessInfo> fitnessComparer)
+        {
+            // Update non-NEAT based population stats.
+            base.UpdateStats(fitnessComparer);
+
+            // Calc NEAT based population stats.
+            UpdateNeatPopulationStats(fitnessComparer);
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Create a new population statistics object.
+        /// </summary>
+        /// <returns>A new instance of <see cref="PopulationStats"/>.</returns>
+        protected override PopulationStats CreatePopulatonStats()
+        {
+            return new NeatPopulationStats();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void UpdateNeatPopulationStats(IComparer<FitnessInfo> fitnessComparer)
+        {
+            // TODO: Unit test
+
+            // Calc NEAT based population stats.
+
+            // Loop the species, and calculate/determine the following:
+            // - Calculate the mean fitness of genomes in each species.
+            // - Calculate sum of the species mean fitnesses.
+            // - Identify the species that contains the best genome in the population as a whole.
+
+            // Notes.
+            // The best genome has already been identified by base.UpdatePopulationStats() (and the 
+            // result stored in {PopulationStats.BestGenomeIndex})
+            //
+            // The genomes in each species are sorted by fitness, fittest genome first. Therefore we
+            // don't need to scan the full genome list of each species, we can just scan as far as the
+            // first genome with a fitness less than the best genome, noting that there may be multiple
+            // genomes with a fitness equal to the single chosen 'best' genome.
+            var bestGenome = this.GenomeList[this.Stats.BestGenomeIndex];
+            double sumMeanFitness = 0.0;
+            int bestGenomeSpeciesIdx = -1;
+
+            Species<T>[] speciesArr = this.SpeciesArray;
+            for(int i=0; i < speciesArr.Length; i++)
+            {
+                Species<T> species = speciesArr[i];
+
+                // Calc mean of the primary fitness, store the result, and update the sum.
+                double meanFitness = species.GenomeList.Average(x => x.FitnessInfo.PrimaryFitness);
+                species.Stats.MeanFitness = meanFitness;
+                sumMeanFitness += meanFitness;
+
+                // Test if this species contains the best genome.
+                FitnessInfo bestFitness = bestGenome.FitnessInfo;
+
+                if(bestGenomeSpeciesIdx == -1)
+                {
+                    // Note. Although the species genomes are sorted by fitness (fittest first), the population best genome may not be at index 0
+                    // if multiple genomes have he best fitness score.
+                    // TODO: We can avoid this if we find the best genome by sorting the species first, and then selecting the best genome from index 0 of each species.
+                    for(int j=0; j < species.GenomeList.Count && fitnessComparer.Compare(species.GenomeList[j].FitnessInfo, bestFitness) >= 0; j++)
+                    {
+                        if(species.GenomeList[j] == bestGenome) {
+                            bestGenomeSpeciesIdx = i;
+                        }
+                    }
+                }
+            }
+
+            // Store best genome species index.
+            NeatPopulationStats neatPopStats = this.NeatPopulationStats;
+            neatPopStats.SumSpeciesMeanFitness = sumMeanFitness;
+
+            if(bestGenomeSpeciesIdx != -1) {
+                neatPopStats.BestGenomeSpeciesIdx = bestGenomeSpeciesIdx;
+            } else {
+                throw new InvalidOperationException("Invalid state; none of the species contain the best genome.");
             }
         }
 

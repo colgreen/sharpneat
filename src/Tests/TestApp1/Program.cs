@@ -21,12 +21,14 @@ namespace TestApp1
             NeatEvolutionAlgorithm<double> ea = factory.CreateNeatEvolutionAlgorithm();
             ea.Initialise();
 
+            var neatPop = ea.Population;
+
             //EvolutionAlgorithmRunner runner = new EvolutionAlgorithmRunner(ea);
 
             for(int i=0; i < 10_000; i++)
             {
                 ea.PerformOneGeneration();
-                Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.BestFitness.PrimaryFitness}");
+                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness}");
                 //Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.TotalEvaluationCount}");
             }
 

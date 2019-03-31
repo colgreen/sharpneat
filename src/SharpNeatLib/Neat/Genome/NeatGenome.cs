@@ -41,6 +41,14 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         public FitnessInfo FitnessInfo { get; set; }
 
+        /// <summary>
+        /// Gets a value that is representative of the genome's complexity.
+        /// </summary>
+        /// <remarks>
+        /// For a NEAT genome we take the number of connections as representative of genome complexity.
+        /// </remarks>
+        public double Complexity { get => this.ConnectionGenes._connArr.Length; }
+
         #endregion
 
         #region Auto Properties [NEAT Genome]

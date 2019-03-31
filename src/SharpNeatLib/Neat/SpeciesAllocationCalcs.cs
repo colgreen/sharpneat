@@ -16,15 +16,16 @@ using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
 using Redzen.Sorting;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeat.Neat.EvolutionAlgorithm
+namespace SharpNeat.Neat
 {
     /// <summary>
     /// Static method(s) for calculating species target size allocations. 
     /// </summary>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
-    public class SpeciesAllocationCalcs<T> where T : struct
+    internal static class SpeciesAllocationCalcs<T> where T : struct
     {
         #region Public Static Methods
 
@@ -32,26 +33,26 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
         /// Then calc and store the elite, selection and offspring allocations/counts, per species.
         /// </summary>
-        public static void CalcAndStoreSpeciesAllocationSizes(
+        public static void UpdateSpeciesAllocationSizes(
             NeatPopulation<T> pop,
             NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
         {            
             // Calculate the new target size of each species using fitness sharing. 
-            CalcAndStoreSpeciesTargetSizes(pop, rng);
+            UpdateSpeciesTargetSizes(pop, rng);
 
             // Calculate elite, selection and offspring counts, per species.
-            CalculateAndStoreEliteSelectionOffspringCounts(pop, eaSettings, rng);
+            UpdateEliteSelectionOffspringCounts(pop, eaSettings, rng);
         }
 
         #endregion
 
         #region Private Static Methods
 
-        private static void CalcAndStoreSpeciesTargetSizes(
+        private static void UpdateSpeciesTargetSizes(
             NeatPopulation<T> pop, IRandomSource rng)
         {
-            double totalMeanFitness = pop.TotalSpeciesMeanFitness;
+            double totalMeanFitness = pop.NeatPopulationStats.SumSpeciesMeanFitness;
             int totalTargetSizeInt = 0;
 
             // Handle specific case where all genomes/species have a zero fitness. 
@@ -202,15 +203,16 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             NeatPopulation<T> pop, IRandomSource rng)
         {
             // Test if the best genome is in a species with a zero target size allocation.
+            int bestGenomeSpeciesIdx = pop.NeatPopulationStats.BestGenomeSpeciesIdx;
             Species<T>[] speciesArr = pop.SpeciesArray;
-            if(speciesArr[pop.BestGenomeSpeciesIdx].Stats.TargetSizeInt > 0)
+            if(speciesArr[bestGenomeSpeciesIdx].Stats.TargetSizeInt > 0)
             {
                 // Nothing to do. The best genome is in a species with a non-zero allocation.
                 return;
             }
 
             // Set the target size of the best genome species to a allow the best genome to survive to the next generation.
-            speciesArr[pop.BestGenomeSpeciesIdx].Stats.TargetSizeInt++;
+            speciesArr[bestGenomeSpeciesIdx].Stats.TargetSizeInt++;
 
             // Adjust down the target size of one of the other species to compensate.
             // Pick a species at random (but not the champ species). Note that this may result in a species with a zero 
@@ -220,10 +222,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             int speciesCount = speciesArr.Length;
             int[] speciesIdxArr = new int[speciesCount - 1];
 
-            for(int i=0; i < pop.BestGenomeSpeciesIdx; i++) {
+            for(int i=0; i < bestGenomeSpeciesIdx; i++) {
                 speciesIdxArr[i] = i;
             }
-            for(int i = pop.BestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
+            for(int i = bestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
                 speciesIdxArr[i-1] = i;
             }
             SortUtils.Shuffle(speciesIdxArr, rng);
@@ -256,7 +258,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <param name="pop"></param>
         /// <param name="eaSettings"></param>
         /// <param name="rng"></param>
-        private static void CalculateAndStoreEliteSelectionOffspringCounts(
+        private static void UpdateEliteSelectionOffspringCounts(
             NeatPopulation<T> pop,
             NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
@@ -264,9 +266,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             Species<T>[] speciesArr = pop.SpeciesArray;
 
             // Loop the species, calculating and storing the various size/count properties.
+            int bestGenomeSpeciesIdx = pop.NeatPopulationStats.BestGenomeSpeciesIdx;
             for(int i=0; i < speciesArr.Length; i++)
             {
-                bool isBestGenomeSpecies = (pop.BestGenomeSpeciesIdx == i);
+                bool isBestGenomeSpecies = (bestGenomeSpeciesIdx == i);
                 AllocateEliteSelectionOffspringCounts(speciesArr[i], eaSettings, isBestGenomeSpecies, rng);
             }
         }

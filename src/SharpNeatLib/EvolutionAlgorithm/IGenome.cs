@@ -33,5 +33,10 @@ namespace SharpNeat.EvolutionAlgorithm
         /// The genome's fitness info.
         /// </summary>
         FitnessInfo FitnessInfo { get; set; }
+
+        /// <summary>
+        /// Gets a value that is representative of the genome's complexity.
+        /// </summary>
+        double Complexity { get; }
     }
 }

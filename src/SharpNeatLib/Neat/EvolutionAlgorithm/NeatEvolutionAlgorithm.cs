@@ -12,9 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
-using Redzen.Structures;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
@@ -40,7 +40,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatPopulation<T> _pop;
         readonly IRandomSource _rng;
 
-        readonly Int32Sequence _generationSeq;
+        // TODO: Consider un-commenting this and removing the instance on the Population class.
+        //readonly Int32Sequence _generationSeq;
         readonly NeatReproductionAsexual<T> _reproductionAsexual;
         readonly NeatReproductionSexual<T> _reproductionSexual;
 
@@ -71,10 +72,15 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             NeatReproductionAsexualSettings reproductionAsexualSettings,
             NeatReproductionSexualSettings reproductionSexualSettings,
             WeightMutationScheme<T> weightMutationScheme)
-            : this(eaSettings, evaluator, speciationStrategy, population,
-                  reproductionAsexualSettings, reproductionSexualSettings,
-                  weightMutationScheme,
-                  RandomDefaults.CreateRandomSource())
+            : this(
+                eaSettings,
+                evaluator,
+                speciationStrategy,
+                population,
+                reproductionAsexualSettings,
+                reproductionSexualSettings,
+                weightMutationScheme,
+                RandomDefaults.CreateRandomSource())
         {}
 
         /// <summary>
@@ -112,16 +118,17 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 throw new ArgumentException("Species count is higher then the population size.");
             }
 
-            _generationSeq = new Int32Sequence();
+            // TODO: Remove/reinstate?
+            //_generationSeq = new Int32Sequence();
 
             _reproductionAsexual = new NeatReproductionAsexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
-                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
+                _pop.GenomeIdSeq, population.InnovationIdSeq, population.GenerationSeq,
                 _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme);
 
             _reproductionSexual = new NeatReproductionSexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
-                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
+                _pop.GenomeIdSeq, population.InnovationIdSeq, population.GenerationSeq,
                 _pop.AddedNodeBuffer, reproductionSexualSettings);
 
             _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, _eaSettings.InterspeciesMatingProportion);
@@ -130,6 +137,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the <see cref="NeatPopulation{T}"/>.
+        /// </summary>
+        public NeatPopulation<T> Population => _pop;
 
         /// <summary>
         /// Gets the current evolution algorithm statistics.
@@ -160,9 +172,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Initialise species.
             _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
 
-            // Calculate and store stats on the population as a whole, and for each species.
-            PopulationStatsCalcs<T>.UpdatePopulationStats(_pop);
-            SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
+            // Update population and evolution algorithm statistics.
+            UpdateStats();
         }
 
         /// <summary>
@@ -199,15 +210,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Integrate offspring into the species.
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
 
-            // Update population and per-species stats
-            PopulationStatsCalcs<T>.UpdatePopulationStats(_pop);
-            SpeciesStatsCalcs<T>.CalcAndStoreSpeciesStats(_pop, _eaSettings, _rng);
-
-            // Update the EvolutionAlgorithm stats object.
-            _eaStats.BestFitness = _pop.GenomeList[_pop.BestGenomeIdx].FitnessInfo;
-            _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_eaStats.BestFitness);
-            _eaStats.Generation = _generationSeq.Next();
-
+            // Update statistics.
+            UpdateStats();
 
             // TODO: Complexity regulation logic.
         }
@@ -284,6 +288,27 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             Debug.Assert(!TestForEmptySpecies(), "Speciation resulted in one or more empty species.");
         }
 
+        private void UpdateStats()
+        {
+            // Update population statistics.
+            _pop.UpdateStats(_evaluator.FitnessComparer);
+
+            // Store the current generation number, and increment.
+            _eaStats.Generation = _pop.GenerationSeq.Peek;
+            _pop.GenerationSeq.Next();
+
+            // Test if the evaluator is signalling that the best fitness is good enough to stop the evolution algorithm.
+            _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_pop.Stats.BestFitness);
+
+            // Update total number of evaluations performed.
+            // TODO: Get number of genome evaluations that have been performed in the current generation.
+            ulong evaluationCountDelta = 0;
+            _eaStats.TotalEvaluationCount += evaluationCountDelta;
+
+            // Update species allocation sizes.
+            SpeciesAllocationCalcs<T>.UpdateSpeciesAllocationSizes(_pop, _eaSettings, _rng);
+        }
+
         #endregion
 
         #region Private Methods [Low Level]
@@ -303,12 +328,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// </summary>
         private bool TestForEmptySpecies()
         {
-            foreach(var species in _pop.SpeciesArray) {
-                if(species.GenomeList.Count == 0) {
-                    return true;
-                }
-            }
-            return false;
+            return _pop.SpeciesArray.Any(x => (x.GenomeList.Count == 0));
         }
 
         private void Evaluate(ICollection<NeatGenome<T>> genomeList)

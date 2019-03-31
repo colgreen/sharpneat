@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using SharpNeat.Evaluation;
 
 namespace SharpNeat.EvolutionAlgorithm
 {
@@ -22,11 +21,6 @@ namespace SharpNeat.EvolutionAlgorithm
         /// The current generation number.
         /// </summary>
         public int Generation { get; set; }
-
-        /// <summary>
-        /// FitnessInfo associated with the current best genome.
-        /// </summary>
-        public FitnessInfo BestFitness { get; set; }
 
         /// <summary>
         /// Indicates whether some goal fitness has been achieved and that the evolutionary algorithm search should stop.
