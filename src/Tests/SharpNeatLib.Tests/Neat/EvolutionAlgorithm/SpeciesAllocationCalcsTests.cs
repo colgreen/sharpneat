@@ -40,8 +40,9 @@ namespace SharpNeat.Tests.Neat.EvolutionAlgorithm
             speciesArr[3].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(800.0));
 
             // Invoke species target size calcs.
-            IRandomSource rng = RandomDefaults.CreateRandomSource();
             neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
+            SpeciesAllocationCalcs<double>.UpdateSpeciesAllocationSizes(
+                neatPop, eaSettings, RandomDefaults.CreateRandomSource());
 
             // Species target sizes should be relative to the species mean fitness.
             double totalMeanFitness = 1500.0;
