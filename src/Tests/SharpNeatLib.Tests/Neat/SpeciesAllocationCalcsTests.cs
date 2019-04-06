@@ -7,7 +7,7 @@ using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 
-namespace SharpNeat.Tests.Neat.EvolutionAlgorithm
+namespace SharpNeat.Tests.Neat
 {
     [TestClass]
     public class SpeciesAllocationCalcsTests

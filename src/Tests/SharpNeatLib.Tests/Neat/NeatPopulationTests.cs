@@ -35,7 +35,7 @@ namespace SharpNeat.Tests.Neat
             Assert.AreEqual(5, neatPop.InnovationIdSeq.Peek);
 
             // Loop the created genomes.
-            for(int i=0; i<count; i++) 
+            for(int i=0; i < count; i++) 
             {
                 var genome = neatPop.GenomeList[i];
                 Assert.AreEqual(i, genome.Id);
@@ -43,20 +43,6 @@ namespace SharpNeat.Tests.Neat
 
                 TestGenome(genome);
             }
-        }
-
-        private void TestGenome(NeatGenome<double> genome)
-        {
-            Assert.IsNotNull(genome);
-            Assert.IsNotNull(genome.MetaNeatGenome);
-            Assert.AreEqual(3, genome.MetaNeatGenome.InputNodeCount);
-            Assert.AreEqual(2, genome.MetaNeatGenome.OutputNodeCount);
-            Assert.AreEqual(true, genome.MetaNeatGenome.IsAcyclic);
-            Assert.AreEqual(5.0, genome.MetaNeatGenome.ConnectionWeightScale);
-            Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
-            Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
-            Assert.AreEqual(6, genome.ConnectionGenes.Length);
-            Assert.IsTrue(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
         }
 
         [TestMethod]
@@ -85,6 +71,20 @@ namespace SharpNeat.Tests.Neat
         #endregion
 
         #region Private Static Methods
+
+        private void TestGenome(NeatGenome<double> genome)
+        {
+            Assert.IsNotNull(genome);
+            Assert.IsNotNull(genome.MetaNeatGenome);
+            Assert.AreEqual(3, genome.MetaNeatGenome.InputNodeCount);
+            Assert.AreEqual(2, genome.MetaNeatGenome.OutputNodeCount);
+            Assert.AreEqual(true, genome.MetaNeatGenome.IsAcyclic);
+            Assert.AreEqual(5.0, genome.MetaNeatGenome.ConnectionWeightScale);
+            Assert.AreEqual(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
+            Assert.AreEqual(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
+            Assert.AreEqual(6, genome.ConnectionGenes.Length);
+            Assert.IsTrue(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
+        }
 
         private void CalcWeightMinMaxMean(double[] weightArr, out double min, out double max, out double mean)
         {
