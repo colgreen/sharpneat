@@ -6,7 +6,6 @@ namespace SharpNeat.Tests.Neat.Network
     [TestClass]
     public class DirectedConnectionTests
     {
-
         [TestMethod]
         [TestCategory("DirectedConnection")]
         public void TestDirectedConnection_Equals()

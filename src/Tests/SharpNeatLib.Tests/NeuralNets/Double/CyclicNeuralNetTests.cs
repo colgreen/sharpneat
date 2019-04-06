@@ -68,7 +68,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Activate and test.
             net.InputVector[0] = 0.0;
-            for(int i=0; i<10; i++)
+            for(int i=0; i < 10; i++)
             {    
                 net.Activate();
                 Assert.AreEqual(0.5, net.OutputVector[0]);
@@ -76,7 +76,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Activate and test.
             net.InputVector[0] = 1.0;
-            for(int i=0; i<10; i++)
+            for(int i=0; i < 10; i++)
             {    
                 net.Activate();
                 Assert.AreEqual(actFn.Fn(1), net.OutputVector[0]);
@@ -84,7 +84,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Activate and test.
             net.InputVector[0] = 10.0;
-            for(int i=0; i<10; i++)
+            for(int i=0; i < 10; i++)
             {    
                 net.Activate();
                 Assert.AreEqual(actFn.Fn(10), net.OutputVector[0]);

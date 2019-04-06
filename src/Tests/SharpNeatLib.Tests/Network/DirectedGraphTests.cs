@@ -99,7 +99,7 @@ namespace SharpNeat.Tests.Network
             Assert.AreEqual(x.Count, srcIdArr.Length);
             Assert.AreEqual(x.Count, tgtIdArr.Length);
 
-            for(int i=0; i<x.Count; i++) 
+            for(int i=0; i < x.Count; i++) 
             {
                 Assert.AreEqual(x[i].SourceId, srcIdArr[i]);
                 Assert.AreEqual(x[i].TargetId, tgtIdArr[i]);

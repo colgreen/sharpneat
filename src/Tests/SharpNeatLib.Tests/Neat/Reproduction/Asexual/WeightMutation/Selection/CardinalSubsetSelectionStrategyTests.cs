@@ -36,7 +36,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
                 int[] idxArr = strategy.SelectSubset(20, rng);
                 HashSet<int> idxSet = new HashSet<int>();
 
-                for(int j=0; j<idxArr.Length; j++)
+                for(int j=0; j < idxArr.Length; j++)
                 {
                     int val = idxArr[j];
                     Assert.IsFalse(idxSet.Contains(val));

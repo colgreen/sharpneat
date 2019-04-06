@@ -36,7 +36,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            for(int i=0; i<10000; i++) {
+            for(int i=0; i < 10_000; i++) {
                 NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
             }
         }
@@ -61,7 +61,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            for(int i=0; i<2000; i++)
+            for(int i=0; i < 2000; i++)
             {
                 NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 
@@ -94,7 +94,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);
             genomeRing.Enqueue(genome);
 
-            for(int i=0; i<5000; i++)
+            for(int i=0; i < 5000; i++)
             {
                 NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 

@@ -24,7 +24,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
-            int iters = 10000;
+            int iters = 10_000;
             double[] weightArr = new double[iters];
             for (int i = 0; i < iters; i++) {
                 weightArr[i] = 1000.0;
@@ -55,7 +55,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
-            int iters = 100000;
+            int iters = 100_000;
             double[] weightArr = new double[iters];
             for (int i = 0; i < iters; i++) {
                 weightArr[i] = 1000.0;

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
 
@@ -13,12 +12,12 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
         public void TestPythagoras()
         {
             var connGenes1 = new ConnectionGenes<double>(2);
-            connGenes1[0] =   (0, 3, 0.0);
-            connGenes1[1] =   (0, 4, 0.0);
+            connGenes1[0] = (0, 3, 0.0);
+            connGenes1[1] = (0, 4, 0.0);
 
             var connGenes2 = new ConnectionGenes<double>(2);
-            connGenes2[0] =   (0, 3, 3.0);
-            connGenes2[1] =   (0, 4, 4.0);
+            connGenes2[0] = (0, 3, 3.0);
+            connGenes2[1] = (0, 4, 4.0);
 
             var distanceMetric = new ManhattanDistanceMetric();
 

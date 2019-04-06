@@ -31,7 +31,7 @@ namespace SharpNeatLib.Tests.Neat
             neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
 
             // Validate expected mean fitness for each species.
-            for(int i=0; i< neatPop.SpeciesArray.Length; i++)
+            for(int i=0; i < neatPop.SpeciesArray.Length; i++)
             {
                 double expectedMeanFitness = (i+1) * 10.0;
                 Assert.AreEqual(expectedMeanFitness, neatPop.SpeciesArray[i].Stats.MeanFitness);

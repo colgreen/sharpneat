@@ -31,7 +31,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
-            for(int i=0; i<1000; i++)
+            for(int i=0; i < 1000; i++)
             {
                 var childGenome = strategy.CreateChildGenome(genome, rng);
                 
