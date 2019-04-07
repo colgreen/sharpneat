@@ -23,7 +23,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Neat\ComplexityRegulation\DefaultComplexityRegulationStrategy.cs" />
     <Compile Remove="Network\IO\NetworkTsvWriterUtils.cs" />
     <Compile Remove="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <Compile Remove="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
@@ -37,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Neat\ComplexityRegulation\DefaultComplexityRegulationStrategy.cs" />
     <None Include="Network\IO\NetworkTsvWriterUtils.cs" />
     <None Include="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <None Include="Network\IO\WeightedDirectedGraphTsvWriter.cs" />

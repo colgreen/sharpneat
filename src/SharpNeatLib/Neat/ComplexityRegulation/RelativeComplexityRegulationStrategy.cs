@@ -15,12 +15,14 @@ using SharpNeat.EvolutionAlgorithm;
 namespace SharpNeat.Neat.ComplexityRegulation
 {
     /// <summary>
-    /// A complexity regulation strategy that applies a fixed/absolute complexity ceiling.
-    /// The strategy transitions from complexifying to simplifying when the fixed ceiling is reached.
+    /// A complexity regulation strategy that applies a moving complexity ceiling that is relative
+    /// to the population mean complexity each at the start of each transition to complexifying mode.
+    ///
+    /// The strategy transitions from complexifying to simplifying when the relative ceiling is reached.
     /// Transitioning from simplifying to complexifying occurs when complexity is no longer falling
     /// *and* complexity is below the ceiling.
     /// </summary>
-    public class AbsoluteCeilingComplexityRegulationStrategy : IComplexityRegulationStrategy
+    public class RelativeCeilingComplexityRegulationStrategy : IComplexityRegulationStrategy
     {
         #region Instance Fields
 
@@ -30,9 +32,14 @@ namespace SharpNeat.Neat.ComplexityRegulation
         readonly int _minSimplifcationGenerations;
 
         /// <summary>
-        /// The fixed/absolute complexity ceiling.
+        /// The relative complexity ceiling.
         /// </summary>
-        readonly double _complexityCeiling;
+        readonly double _relativeComplexityCeiling;
+
+        /// <summary>
+        /// The running/moving complexity ceiling.
+        /// </summary>
+        double _complexityCeiling;
 
         /// <summary>
         /// The current regulation mode - simplifying or complexifying.
@@ -56,14 +63,15 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// <summary>
         /// Construct a new instance.
         /// </summary>
-        /// <param name="complexityCeiling">The absolute complexity ceiling.</param>
+        /// <param name="relativeComplexityCeiling">The relative complexity ceiling.</param>
         /// <param name="minSimplifcationGenerations">The minimum number of generations we stay within simplification mode.</param>
-        public AbsoluteCeilingComplexityRegulationStrategy(
+        public RelativeCeilingComplexityRegulationStrategy(
             int minSimplifcationGenerations,
-            double complexityCeiling)
+            double relativeComplexityCeiling)
         {
             _minSimplifcationGenerations = minSimplifcationGenerations;
-            _complexityCeiling = complexityCeiling;
+            _relativeComplexityCeiling = relativeComplexityCeiling;
+            _complexityCeiling = relativeComplexityCeiling;
             _currentMode = ComplexityRegulationMode.Complexifying;
             _lastTransitionGeneration = 0;
         }
@@ -139,6 +147,9 @@ namespace SharpNeat.Neat.ComplexityRegulation
 
             // Update prev mean moving average complexity value.
             _prevMeanMovingAverage = popStats.MeanComplexityHistory.Mean;
+
+            // Set a new complexity ceiling, relative to the current population complexity mean.
+            _complexityCeiling = popStats.MeanComplexity + _relativeComplexityCeiling;
         }
 
         #endregion
