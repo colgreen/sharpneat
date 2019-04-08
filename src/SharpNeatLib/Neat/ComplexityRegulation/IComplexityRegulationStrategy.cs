@@ -34,6 +34,6 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// <param name="popStats">Population statistics.</param>
         ComplexityRegulationMode DetermineMode(
             EvolutionAlgorithmStatistics eaStats,
-            PopulationStats popStats);
+            PopulationStatistics popStats);
     }
 }

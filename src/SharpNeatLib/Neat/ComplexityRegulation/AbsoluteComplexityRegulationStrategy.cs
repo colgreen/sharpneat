@@ -80,19 +80,16 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// <param name="popStats">Population statistics.</param>
         public ComplexityRegulationMode DetermineMode(
             EvolutionAlgorithmStatistics eaStats,
-            PopulationStats popStats)
+            PopulationStatistics popStats)
         {
             switch(_currentMode)
             {
                 case ComplexityRegulationMode.Complexifying:
-                    DetermineMode_WhileComplexifying(eaStats, popStats);
-                    break;
+                    return DetermineMode_WhileComplexifying(eaStats, popStats);
 
                 case ComplexityRegulationMode.Simplifying:
-                    DetermineMode_WhileSimplifying(eaStats, popStats);
-                    break;
+                    return DetermineMode_WhileSimplifying(eaStats, popStats);
             }
-
             throw new InvalidOperationException("Unexpected complexity regulation mode.");
         }
 
@@ -100,9 +97,9 @@ namespace SharpNeat.Neat.ComplexityRegulation
 
         #region Private Methods
 
-        private void DetermineMode_WhileComplexifying(
+        private ComplexityRegulationMode DetermineMode_WhileComplexifying(
             EvolutionAlgorithmStatistics eaStats,
-            PopulationStats popStats)
+            PopulationStatistics popStats)
         {
             // Currently complexifying.
             // Test if the complexity ceiling has been reached.
@@ -113,11 +110,13 @@ namespace SharpNeat.Neat.ComplexityRegulation
                 _lastTransitionGeneration = eaStats.Generation;
                 _prevMeanMovingAverage = popStats.MeanComplexityHistory.Mean;
             }
+
+            return _currentMode;
         }
 
-        private void DetermineMode_WhileSimplifying(
+        private ComplexityRegulationMode DetermineMode_WhileSimplifying(
             EvolutionAlgorithmStatistics eaStats,
-            PopulationStats popStats)
+            PopulationStatistics popStats)
         {
             // Currently simplifying. 
             // Test if simplification (ongoing reduction in complexity) has stalled.
@@ -139,6 +138,8 @@ namespace SharpNeat.Neat.ComplexityRegulation
 
             // Update prev mean moving average complexity value.
             _prevMeanMovingAverage = popStats.MeanComplexityHistory.Mean;
+
+            return _currentMode;
         }
 
         #endregion
