@@ -29,7 +29,7 @@ namespace SharpNeatLib.Tests.EvolutionAlgorithm
 
             // Validate stats.
             // Fitness stats.
-            PopulationStats stats = pop.Stats;
+            PopulationStatistics stats = pop.Stats;
             Assert.AreEqual(10, stats.BestGenomeIndex);
             Assert.AreEqual(100.0, stats.BestFitness.PrimaryFitness);
             Assert.AreEqual(10.8, stats.MeanFitness);

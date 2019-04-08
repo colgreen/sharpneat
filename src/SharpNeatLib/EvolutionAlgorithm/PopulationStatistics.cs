@@ -17,7 +17,7 @@ namespace SharpNeat.EvolutionAlgorithm
     /// <summary>
     /// Population statistics.
     /// </summary>
-    public class PopulationStats
+    public class PopulationStatistics
     {
         #region Genome Fitness Stats
 

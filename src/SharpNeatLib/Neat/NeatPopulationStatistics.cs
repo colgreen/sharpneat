@@ -16,7 +16,7 @@ namespace SharpNeat.Neat
     /// <summary>
     /// NeatPopulation statistics.
     /// </summary>
-    public class NeatPopulationStats : PopulationStats
+    public class NeatPopulationStatistics : PopulationStatistics
     {
         #region Auto Properties [NeatPopulation Statistics]
 

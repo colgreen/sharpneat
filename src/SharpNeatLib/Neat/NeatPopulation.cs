@@ -76,7 +76,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// NeatPopulation statistics.
         /// </summary>
-        public NeatPopulationStats NeatPopulationStats => (NeatPopulationStats)this.Stats;
+        public NeatPopulationStatistics NeatPopulationStats => (NeatPopulationStatistics)this.Stats;
 
         #endregion
 
@@ -198,10 +198,10 @@ namespace SharpNeat.Neat
         /// <summary>
         /// Create a new population statistics object.
         /// </summary>
-        /// <returns>A new instance of <see cref="PopulationStats"/>.</returns>
-        protected override PopulationStats CreatePopulatonStats()
+        /// <returns>A new instance of <see cref="PopulationStatistics"/>.</returns>
+        protected override PopulationStatistics CreatePopulatonStats()
         {
-            return new NeatPopulationStats();
+            return new NeatPopulationStatistics();
         }
 
         #endregion
@@ -259,7 +259,7 @@ namespace SharpNeat.Neat
             }
 
             // Store best genome species index.
-            NeatPopulationStats neatPopStats = this.NeatPopulationStats;
+            NeatPopulationStatistics neatPopStats = this.NeatPopulationStats;
             neatPopStats.SumSpeciesMeanFitness = sumMeanFitness;
 
             if(bestGenomeSpeciesIdx != -1) {

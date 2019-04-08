@@ -42,7 +42,7 @@ namespace SharpNeat.EvolutionAlgorithm
         /// <summary>
         /// Population statistics.
         /// </summary>
-        public PopulationStats Stats { get; }
+        public PopulationStatistics Stats { get; }
 
         #endregion
 
@@ -102,7 +102,7 @@ namespace SharpNeat.EvolutionAlgorithm
             }
 
             // Update population stats object.
-            PopulationStats stats = this.Stats;
+            PopulationStatistics stats = this.Stats;
 
             // Fitness stats.
             stats.BestGenomeIndex = bestGenomeIdx;
@@ -125,9 +125,9 @@ namespace SharpNeat.EvolutionAlgorithm
         /// Create a new population statistics object.
         /// </summary>
         /// <returns>A new instance of <see cref="Stats"/>.</returns>
-        protected virtual PopulationStats CreatePopulatonStats()
+        protected virtual PopulationStatistics CreatePopulatonStats()
         {
-            return new PopulationStats();
+            return new PopulationStatistics();
         }
 
         #endregion
