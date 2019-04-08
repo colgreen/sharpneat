@@ -40,6 +40,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly IGenomeListEvaluator<NeatGenome<T>> _evaluator;
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly NeatPopulation<T> _pop;
+        readonly IComplexityRegulationStrategy _complexityRegulationStrategy;
         readonly IRandomSource _rng;
 
         readonly Int32Sequence _generationSeq;
@@ -49,7 +50,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly OffspringBuilder<T> _offspringBuilder;
 
         EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
-        ComplexityRegulationMode _complexityRegulationMode = ComplexityRegulationMode.Complexifying;
 
         #endregion
 
@@ -62,6 +62,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <param name="evaluator">An evaluator of lists of genomes.</param>
         /// <param name="speciationStrategy">Speciation strategy.</param>
         /// <param name="population">An initial population of genomes.</param>
+        /// <param name="complexityRegulationStrategy" > Complexity regulation strategy.</param>
         /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
         /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
         /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
@@ -70,6 +71,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IGenomeListEvaluator<NeatGenome<T>> evaluator,
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
             NeatPopulation<T> population,
+            IComplexityRegulationStrategy complexityRegulationStrategy,
             NeatReproductionAsexualSettings reproductionAsexualSettings,
             NeatReproductionSexualSettings reproductionSexualSettings,
             WeightMutationScheme<T> weightMutationScheme)
@@ -78,6 +80,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 evaluator,
                 speciationStrategy,
                 population,
+                complexityRegulationStrategy,
                 reproductionAsexualSettings,
                 reproductionSexualSettings,
                 weightMutationScheme,
@@ -91,6 +94,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <param name="evaluator">An evaluator of lists of genomes.</param>
         /// <param name="speciationStrategy">Speciation strategy.</param>
         /// <param name="population">An initial population of genomes.</param>
+        /// <param name="complexityRegulationStrategy">Complexity regulation strategy.</param>
         /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
         /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
         /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
@@ -100,6 +104,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IGenomeListEvaluator<NeatGenome<T>> evaluator,
             ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
             NeatPopulation<T> population,
+            IComplexityRegulationStrategy complexityRegulationStrategy,
             NeatReproductionAsexualSettings reproductionAsexualSettings,
             NeatReproductionSexualSettings reproductionSexualSettings,
             WeightMutationScheme<T> weightMutationScheme,
@@ -109,6 +114,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
             _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
             _pop = population ?? throw new ArgumentNullException(nameof(population));
+            _complexityRegulationStrategy = complexityRegulationStrategy ?? throw new ArgumentNullException(nameof(complexityRegulationStrategy));
 
             if(reproductionAsexualSettings == null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
             if(reproductionSexualSettings == null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
@@ -149,12 +155,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public EvolutionAlgorithmStatistics Stats => _eaStats;
 
         /// <summary>
-        /// Gets or sets the complexity regulation mode.
+        /// Gets the current complexity regulation mode.
         /// </summary>
         public ComplexityRegulationMode ComplexityRegulationMode 
         { 
-            get => _complexityRegulationMode;
-            set => _complexityRegulationMode = value; 
+            get => _complexityRegulationStrategy.CurrentMode;
         }
 
         #endregion
@@ -213,7 +218,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Update statistics.
             UpdateStats();
 
-            // TODO: Complexity regulation logic.
+            // Update complexity regulation mode.
+            _complexityRegulationStrategy.UpdateMode(_eaStats, _pop.Stats);
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat;
+using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
@@ -34,6 +35,9 @@ namespace TestApp1
             _eaSettings.SpeciesCount = 40;
             _neatPop = CreatePopulation(_metaNeatGenome, 600);
 
+            // Create a complexity regulation strategy.
+            var complexityRegulationStrategy = new RelativeComplexityRegulationStrategy(10, 10.0);
+
             // Create a speciation strategy instance.
             var distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
             var speciationStrategy = new SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
@@ -53,6 +57,7 @@ namespace TestApp1
                 genomeListEvaluator,
                 speciationStrategy,
                 _neatPop,
+                complexityRegulationStrategy,
                 reproductionAsexualSettings,
                 reproductionSexualSettings,
                 weightMutationScheme);
