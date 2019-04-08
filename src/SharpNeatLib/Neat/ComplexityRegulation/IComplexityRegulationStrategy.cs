@@ -28,11 +28,16 @@ namespace SharpNeat.Neat.ComplexityRegulation
     public interface IComplexityRegulationStrategy
     {
         /// <summary>
-        /// Determine the complexity regulation mode that the evolution algorithm should be.
+        /// Gets the current complexity regulation mode.
+        /// </summary>
+        ComplexityRegulationMode CurrentMode { get; }
+
+        /// <summary>
+        /// Update the complexity regulation mode that the evolution algorithm should be in.
         /// </summary>
         /// <param name="eaStats">Evolution algorithm statistics.</param>
         /// <param name="popStats">Population statistics.</param>
-        ComplexityRegulationMode DetermineMode(
+        ComplexityRegulationMode UpdateMode(
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats);
     }

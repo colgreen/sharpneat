@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
     /// Transitioning from simplifying to complexifying occurs when complexity is no longer falling
     /// *and* complexity is below the ceiling.
     /// </summary>
-    public class RelativeCeilingComplexityRegulationStrategy : IComplexityRegulationStrategy
+    public class RelativeComplexityRegulationStrategy : IComplexityRegulationStrategy
     {
         #region Instance Fields
 
@@ -65,7 +65,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// </summary>
         /// <param name="relativeComplexityCeiling">The relative complexity ceiling.</param>
         /// <param name="minSimplifcationGenerations">The minimum number of generations we stay within simplification mode.</param>
-        public RelativeCeilingComplexityRegulationStrategy(
+        public RelativeComplexityRegulationStrategy(
             int minSimplifcationGenerations,
             double relativeComplexityCeiling)
         {
@@ -78,7 +78,12 @@ namespace SharpNeat.Neat.ComplexityRegulation
 
         #endregion
 
-        #region Public Methods 
+        #region IComplexityRegulationStrategy
+
+        /// <summary>
+        /// Gets the current complexity regulation mode.
+        /// </summary>
+        public ComplexityRegulationMode CurrentMode => _currentMode;
 
         /// <summary>
         /// Determine the complexity regulation mode that the evolution algorithm search should be in given the 
@@ -86,7 +91,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// </summary>
         /// <param name="eaStats">Evolution algorithm statistics.</param>
         /// <param name="popStats">Population statistics.</param>
-        public ComplexityRegulationMode DetermineMode(
+        public ComplexityRegulationMode UpdateMode(
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats)
         {
