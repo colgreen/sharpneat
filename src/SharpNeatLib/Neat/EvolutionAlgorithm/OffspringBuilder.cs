@@ -125,8 +125,14 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 DiscreteDistribution speciesDistUpdated = speciesDist.RemoveOutcome(speciesIdx);
 
                 // Create offspring from the current species.
-                CreateSpeciesOffspringAsexual(species, genomeDist, offspringCountAsexual, offspringList, rng);
-                CreateSpeciesOffspringSexual(speciesArr, species, speciesDistUpdated, genomeDistArr, genomeDist, offspringCountSexual, offspringList, rng);
+                CreateSpeciesOffspringAsexual(
+                    species, genomeDist, offspringCountAsexual, offspringList, rng);
+
+                CreateSpeciesOffspringSexual(
+                    speciesArr, species, speciesDistUpdated,
+                    genomeDistArr, genomeDist,
+                    offspringCountSexual, offspringList,
+                    interspeciesMatingProportion, rng);
             }
 
             return offspringList;
@@ -162,14 +168,15 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             DiscreteDistribution genomeDist,
             int offspringCount,
             List<NeatGenome<T>> offspringList,
+            double interspeciesMatingProportion,
             IRandomSource rng)
         {
             // Calc the number of offspring to create via inter-species sexual reproduction.
             int offspringCountSexualInter;
-            if(_interspeciesMatingProportion == 0.0) {
+            if(interspeciesMatingProportion == 0.0) {
                 offspringCountSexualInter = 0;
             } else {
-                offspringCountSexualInter = (int)NumericsUtils.ProbabilisticRound(_interspeciesMatingProportion * offspringCount, rng);
+                offspringCountSexualInter = (int)NumericsUtils.ProbabilisticRound(interspeciesMatingProportion * offspringCount, rng);
             }
 
             // Calc the number of offspring to create via intra-species sexual reproduction.
