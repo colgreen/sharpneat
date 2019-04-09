@@ -35,7 +35,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
-        readonly Int32Sequence _innovationIdSeq;
         readonly Int32Sequence _generationSeq;
 
         readonly IStatelessSampler<T> _weightSamplerA;
@@ -51,19 +50,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         /// <param name="genomeBuilder">NeatGenome builder.</param>
         /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
-        /// <param name="innovationIdSeq">Innovation ID sequence; for obtaining new innovation IDs.</param>
         /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
         public AddCyclicConnectionStrategy(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
-            Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq)
         {
             _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
-            _innovationIdSeq = innovationIdSeq;
             _generationSeq = generationSeq;
 
             _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale, true);
@@ -142,7 +138,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             out DirectedConnection conn,
             out int insertIdx)
         {
-            // Make several attempts at find a new connection, if not successful then give up.
+            // Make several attempts to find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
             {
                 if(TryGetConnectionInner(parent, rng, out conn, out insertIdx)) {

@@ -117,7 +117,7 @@ namespace SharpNeat.Neat
             List<NeatGenome<T>> genomeList,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq)
-        : this(metaNeatGenome, genomeBuilder, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize, __defaultInnovationHistoryBufferSize)
+        : this(metaNeatGenome, genomeBuilder, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize)
         {}
 
         /// <summary>
@@ -128,7 +128,6 @@ namespace SharpNeat.Neat
         /// <param name="genomeList">A list of genomes that will make up the population.</param>
         /// <param name="genomeIdSeq">Genome ID sequence.</param>
         /// <param name="innovationIdSeq">Innovation ID sequence.</param>
-        /// <param name="addedConnectionHistoryBufferSize">The size to allocate for the added connection history buffer.</param>
         /// <param name="addedNodeHistoryBufferSize">The size to allocate for the added node history buffer.</param>
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
@@ -136,7 +135,6 @@ namespace SharpNeat.Neat
             List<NeatGenome<T>> genomeList,
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq,
-            int addedConnectionHistoryBufferSize,
             int addedNodeHistoryBufferSize)
         : base(genomeList)
         {

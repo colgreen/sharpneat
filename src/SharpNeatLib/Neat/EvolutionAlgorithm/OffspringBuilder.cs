@@ -97,12 +97,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Create an empty list to add the offspring to (with preallocated storage).
             var offspringList = new List<NeatGenome<T>>(offspringCount);
 
+            // Loop the species.
             for(int speciesIdx=0; speciesIdx < speciesArr.Length; speciesIdx++)
             {
                 // Get the current species.
                 Species<T> species = speciesArr[speciesIdx];
                 
-                // Get the DiscreteDistribution for genome selection within this species.
+                // Get the DiscreteDistribution for genome selection within the current species.
                 DiscreteDistribution genomeDist = genomeDistArr[speciesIdx];
 
                 // Determine how many offspring to create through asexual and sexual reproduction.

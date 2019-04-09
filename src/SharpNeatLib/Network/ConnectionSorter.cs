@@ -238,11 +238,11 @@ namespace SharpNeat.Network
             Debug.Assert(hi < srcIdArr.Length);
 
             int n = hi - lo + 1;
-            for (int i = n / 2; i >= 1; i = i - 1)
+            for (int i = n / 2; i >= 1; i -= 1)
             {
                 DownHeap(srcIdArr, tgtIdArr, secondaryArr, i, n, lo);
             }
-            for (int i = n; i > 1; i = i - 1)
+            for (int i = n; i > 1; i -= 1)
             {
                 Swap(srcIdArr, tgtIdArr, secondaryArr, lo, lo + i - 1);
                 DownHeap(srcIdArr, tgtIdArr, secondaryArr, 1, i - 1, lo);
@@ -308,7 +308,7 @@ namespace SharpNeat.Network
             while (n >= 1)
             {
                 result++;
-                n = n / 2;
+                n /= 2;
             }
             return result;
         }

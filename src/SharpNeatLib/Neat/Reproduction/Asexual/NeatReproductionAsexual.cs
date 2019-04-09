@@ -78,7 +78,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             {
                 _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(
                     metaNeatGenome, genomeBuilder,
-                    genomeIdSeq, innovationIdSeq, generationSeq);
+                    genomeIdSeq, generationSeq);
             }      
             
             _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
@@ -122,7 +122,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             MutationType mutationTypeId = (MutationType)DiscreteDistribution.Sample(rng, mutationTypeDist);
 
             // Attempt to create a child genome using the selected mutation type.
-            NeatGenome<T> childGenome = null;
+            NeatGenome<T> childGenome;
 
             switch(mutationTypeId)
             {
@@ -132,7 +132,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                     childGenome = _mutateWeightsStrategy.CreateChildGenome(parent, rng);
                     break;
                 case MutationType.AddNode: 
-                    // FIXME: Reinstate.
                     childGenome = _addNodeStrategy.CreateChildGenome(parent, rng);
                     break;
                 case MutationType.AddConnection:

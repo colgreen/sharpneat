@@ -27,7 +27,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var strategy = new AddCyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq);
+                pop.GenomeIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 

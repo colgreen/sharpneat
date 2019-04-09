@@ -26,10 +26,10 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
             const double offset = 0.5;
 
             double y;
-            if (x+offset > 0.0) {
-                y = x+offset;
+            if (x + offset > 0.0) {
+                y = x + offset;
             } else {
-                y = (x+offset) * a;
+                y = (x + offset) * a;
             }
             return y;
         }
@@ -38,7 +38,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
         {
             // Naive implementation.
             for(int i=0; i<v.Length; i++) {
-                v[i]= Fn(v[i]);
+                v[i] = Fn(v[i]);
             }
         }
 

@@ -34,7 +34,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
         {
             // Naive implementation.
             for(int i=0; i<v.Length; i++) {
-                v[i]= Fn(v[i]);
+                v[i] = Fn(v[i]);
             }
         }
 

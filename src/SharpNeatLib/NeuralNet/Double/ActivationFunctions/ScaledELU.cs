@@ -35,10 +35,10 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 
             double y;
             if(x >= 0) {
-                y = scale*x;
+                y = scale * x;
             } 
             else {
-                y = scale*(alpha*Math.Exp(x) - alpha);
+                y = scale * (alpha * Math.Exp(x) - alpha);
             }
 
             return y;
@@ -48,7 +48,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
         {
             // Naive implementation.
             for(int i=0; i<v.Length; i++) {
-                v[i]= Fn(v[i]);
+                v[i] = Fn(v[i]);
             }
         }
 
