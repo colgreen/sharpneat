@@ -190,8 +190,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(_pop.SpeciesArray, _rng);
 
             // Trim population back to elite genomes only.
-            // Get back a flag that indicates if one or more species are now completely empty (i.e. species.genomeList.Count == 0).
-            bool emptySpeciesFlag = TrimSpeciesBackToElite();
+            // Note. Returns a flag that indicates if there is at least one empty species following trimming.
+            TrimSpeciesBackToElite(out bool emptySpeciesFlag);
 
             // Rebuild _pop.GenomeList. It will now contain just the elite genomes from each species.
             RebuildGenomeList();
@@ -228,15 +228,16 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         #region Private Methods
 
         /// <summary>
-        /// Trims the genomeList in each specie back to the number of elite genomes defined for each species.
-        /// Returns true if there are empty species following trimming.
+        /// Loops through species, and for each trims the species genomeList back to the number of elite
+        /// genomes defined for that species.
         /// </summary>
+        /// <param name="emptySpeciesFlag">Returns true if there is at least one empty species following trimming.</param>
         /// <remarks>
-        /// The genomes in species.GenomeList are ordered best to worst, thus the genomes must be removed from the end of the list.
+        /// The genomes in species.GenomeList are ordered best to worst, thus genomes are removed from the end of the lists.
         /// </remarks>
-        private bool TrimSpeciesBackToElite()
+        private void TrimSpeciesBackToElite(out bool emptySpeciesFlag)
         {
-            bool emptySpeciesFlag = false;
+            emptySpeciesFlag = false;
             int speciesCount = _pop.SpeciesArray.Length;
 
             for(int i=0; i < speciesCount; i++)
@@ -250,8 +251,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                     emptySpeciesFlag = true;
                 }
             }
-
-            return emptySpeciesFlag;
         }
 
         /// <summary>
