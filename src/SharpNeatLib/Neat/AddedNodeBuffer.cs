@@ -16,7 +16,7 @@ namespace SharpNeat.Neat
 {
     // ENHANCEMENT: Consider moving the most recently used structure to the head of the buffer to increase its lifespan.
     /// <summary>
-    /// Stores a history of previously added nodes, keyed by the the connection that was split to create the node (i.e. 
+    /// Stores a history of previously added nodes, keyed by the connection that was split to create the node (i.e. 
     /// the source and target node IDs of the connection).
     ///
     /// Used when adding new nodes to check if an identical node (connection split) has been added to a genome elsewhere 

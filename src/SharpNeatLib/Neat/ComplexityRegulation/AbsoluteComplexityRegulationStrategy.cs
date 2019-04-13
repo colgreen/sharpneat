@@ -141,7 +141,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
             }
             // else: otherwise remain in simplifying mode.
 
-            // Update prev mean moving average complexity value.
+            // Update previous mean moving average complexity value.
             _prevMeanMovingAverage = popStats.MeanComplexityHistory.Mean;
 
             return _currentMode;

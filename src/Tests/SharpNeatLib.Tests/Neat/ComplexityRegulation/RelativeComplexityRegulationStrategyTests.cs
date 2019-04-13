@@ -91,7 +91,7 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
                 Assert.AreEqual(ComplexityRegulationMode.Simplifying, mode);
             }
 
-            // Now that {minSimplifcationGenerations} have passed, the stratgey should switch
+            // Now that {minSimplifcationGenerations} have passed, the strategy should switch
             // back to complexifying mode.
             eaStats.Generation = generation++;
             popStats.MeanComplexity = 2.0;

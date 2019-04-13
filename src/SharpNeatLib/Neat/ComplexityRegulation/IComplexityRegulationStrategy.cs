@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
     /// Represents a complexity regulation strategy. 
     /// 
     /// DetermineMode() is called once per generation. A strategy determines the <see cref="ComplexityRegulationMode"/>
-    /// that the evolution algorithm search should be in by examining passed in statisics. As such, the simplest valid
+    /// that the evolution algorithm search should be in by examining passed in statistics. As such, the simplest valid
     /// strategy is to just return <see cref="ComplexityRegulationMode.Complexifying"/>, which results in no complexity
     /// regulation taking place.
     /// 

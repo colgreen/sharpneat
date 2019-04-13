@@ -49,7 +49,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         readonly OffspringBuilder<T> _offspringBuilder;
 
-        EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
+        readonly EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
 
         #endregion
 
@@ -339,8 +339,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         private void Evaluate(ICollection<NeatGenome<T>> genomeList, out ulong evaluationCount)
         {
             _evaluator.Evaluate(genomeList);
-            // Note. In future the evaluator may return this value, as it may apply a strategy that determine which 
-            // genomes to evaluate. For now we just evaluate all genomes in the list and return the length of the list.
+            // Note. In future the evaluator may return an evaluation count, as it may apply a strategy that determines
+            // which genomes to evaluate. For now we just evaluate all genomes in the list and return the length of the list.
             evaluationCount = (ulong)genomeList.Count;
         }
 

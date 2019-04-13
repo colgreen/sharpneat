@@ -11,7 +11,7 @@
  */
 namespace SharpNeat.BlackBox
 {
-    // TODO: Consider if this can be replaced by Memory<T> and Span<T> once those types are fully supported, e.g. in dotnetcore 3 and dotnet framework 4.8 (?)
+    // TODO: Consider if this can be replaced by Memory<T> and Span<T> once those types are fully supported, e.g. in dotnet core 3 and dotnet framework 4.8 (?)
 
     /// <summary>
     /// A vector of element of type T.
