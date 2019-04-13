@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
@@ -36,7 +35,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     {
         #region Instance Fields
 
-        readonly NeatEvolutionAlgorithmSettings _eaSettings;
+        NeatEvolutionAlgorithmSettings _eaSettingsCurrent;
+        readonly NeatEvolutionAlgorithmSettings _eaSettingsComplexifying;
         readonly NeatEvolutionAlgorithmSettings _eaSettingsSimplifying;
         readonly IGenomeListEvaluator<NeatGenome<T>> _evaluator;
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
@@ -111,8 +111,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             WeightMutationScheme<T> weightMutationScheme,
             IRandomSource rng)
         {
-            _eaSettings = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
-            _eaSettingsSimplifying = _eaSettings.CreateSimplifyingSettings();
+            _eaSettingsCurrent = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
+            _eaSettingsComplexifying = eaSettings;
+            _eaSettingsSimplifying = eaSettings.CreateSimplifyingSettings();
 
             _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
             _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
@@ -140,7 +141,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
                 _pop.AddedNodeBuffer, reproductionSexualSettings);
 
-            _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, _eaSettings.InterspeciesMatingProportion);
+            _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, eaSettings.InterspeciesMatingProportion);
         }
 
         #endregion
@@ -178,7 +179,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _evaluator.Evaluate(_pop.GenomeList);
 
             // Initialise species.
-            _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
+            _pop.InitialiseSpecies(_speciationStrategy, _eaSettingsCurrent.SpeciesCount, _rng);
 
             // Update population and evolution algorithm statistics.
             UpdateStats(evaluationCountDelta: (ulong)_pop.GenomeList.Count);
@@ -204,8 +205,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // (otherwise we could just evaluate offspringList).
             _pop.GenomeList.AddRange(offspringList);
 
-            // Perform the genome evaluation stage of the evolution algorithm.
-            PerformGenomeEvaluationStage(offspringList, out ulong evaluationCount);
+            // Genome evaluation.
+            DoGenomeEvaluation(offspringList, out ulong evaluationCount);
 
             // Integrate offspring into the species.
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
@@ -213,8 +214,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Update statistics.
             UpdateStats(evaluationCount);
 
-            // Update complexity regulation mode.
-            _complexityRegulationStrategy.UpdateMode(_eaStats, _pop.Stats);
+            // Complexity regulation.
+            UpdateComplexityRegulationMode();
         }
 
         #endregion
@@ -265,7 +266,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// </summary>
         /// <param name="offspringList"></param>
         /// <param name="evaluationCount"></param>
-        private void PerformGenomeEvaluationStage(
+        private void DoGenomeEvaluation(
             List<NeatGenome<T>> offspringList,
             out ulong evaluationCount)
         {
@@ -303,7 +304,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 _pop.ClearAllSpecies();
 
                 // Re-initialise the species.
-                _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);    
+                _pop.InitialiseSpecies(_speciationStrategy, _eaSettingsCurrent.SpeciesCount, _rng);    
             }
             else
             {
@@ -335,7 +336,34 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _eaStats.TotalEvaluationCount += evaluationCountDelta;
 
             // Update species allocation sizes.
-            SpeciesAllocationCalcs<T>.UpdateSpeciesAllocationSizes(_pop, _eaSettings, _rng);
+            SpeciesAllocationCalcs<T>.UpdateSpeciesAllocationSizes(_pop, _eaSettingsCurrent, _rng);
+        }
+
+        private void UpdateComplexityRegulationMode()
+        {
+            // Update complexity regulation mode.
+            ComplexityRegulationMode modePrev = _complexityRegulationStrategy.CurrentMode;
+            ComplexityRegulationMode mode = _complexityRegulationStrategy.UpdateMode(_eaStats, _pop.Stats);
+
+            // If the mode has not changed then do nothing
+            if(modePrev == mode) {
+                return;
+            }
+
+            // Notify all objects that need to be notified of the change in mode.
+            _reproductionAsexual.NotifyComplexityRegulationMode(mode);
+
+            switch(mode)
+            {
+                case ComplexityRegulationMode.Complexifying:
+                    _eaSettingsCurrent = _eaSettingsComplexifying;
+                    break;
+                case ComplexityRegulationMode.Simplifying:
+                    _eaSettingsCurrent = _eaSettingsSimplifying;
+                    break;
+                default:
+                    throw new ArgumentException("Unexpected complexity regulation mode.");
+            }
         }
 
         #endregion

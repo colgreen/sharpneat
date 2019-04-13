@@ -28,7 +28,7 @@ namespace TestApp1
             for(int i=0; i < 10_000; i++)
             {
                 ea.PerformOneGeneration();
-                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {ea.Stats.TotalEvaluationCount}");
+                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {ea.Stats.TotalEvaluationCount} {ea.ComplexityRegulationMode}");
                 //Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.TotalEvaluationCount}");
             }
 

@@ -14,6 +14,7 @@ using System;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
+using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
@@ -28,7 +29,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     {
         #region Instance Fields
 
-        readonly NeatReproductionAsexualSettings _settings;
+        NeatReproductionAsexualSettings _settingsCurrent;
+        readonly NeatReproductionAsexualSettings _settingsComplexifying;
+        readonly NeatReproductionAsexualSettings _settingsSimplifying;
 
         // Asexual reproduction strategies..
         readonly IAsexualReproductionStrategy<T> _mutateWeightsStrategy;
@@ -61,7 +64,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
         {
-            _settings = settings;
+            _settingsCurrent = settings;
+            _settingsComplexifying = settings;
+            _settingsSimplifying = settings.CreateSimplifyingSettings();
 
             // Instantiate reproduction strategies.
             _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
@@ -89,6 +94,29 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         #region Public Methods
 
         /// <summary>
+        /// Notify the strategy of a change in complexity regulation mode in the evolution algorithm.
+        /// </summary>
+        /// <param name="mode">The current mode.</param>
+        public void NotifyComplexityRegulationMode(ComplexityRegulationMode mode)
+        {
+            switch(mode)
+            {
+                case ComplexityRegulationMode.Complexifying:
+                    _settingsCurrent = _settingsComplexifying;
+                    break;
+                case ComplexityRegulationMode.Simplifying:
+                    _settingsCurrent = _settingsSimplifying;
+                    break;
+                default:
+                    throw new ArgumentException("Unexpected complexity regulation mode.");
+            }
+        }
+
+        #endregion
+
+        #region IAsexualReproductionStrategy
+
+        /// <summary>
         /// Create a new child genome from a given parent genome.
         /// </summary>
         /// <param name="parent">The parent genome.</param>
@@ -108,7 +136,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 }
             }
         }
-        
+
         #endregion
 
         #region Private Methods [Create Subroutines]
@@ -170,8 +198,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // If there is only one connection then avoid destructive mutations to avoid the 
             // creation of genomes with no connections.
             DiscreteDistribution dist = (parent.ConnectionGenes.Length < 2) ?
-                  _settings.MutationTypeDistributionNonDestructive
-                : _settings.MutationTypeDistribution;
+                  _settingsCurrent.MutationTypeDistributionNonDestructive
+                : _settingsCurrent.MutationTypeDistribution;
 
             return dist;
         }
