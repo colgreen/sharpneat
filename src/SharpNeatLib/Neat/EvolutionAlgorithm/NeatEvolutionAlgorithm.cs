@@ -37,6 +37,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         #region Instance Fields
 
         readonly NeatEvolutionAlgorithmSettings _eaSettings;
+        readonly NeatEvolutionAlgorithmSettings _eaSettingsSimplifying;
         readonly IGenomeListEvaluator<NeatGenome<T>> _evaluator;
         readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
         readonly NeatPopulation<T> _pop;
@@ -111,6 +112,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IRandomSource rng)
         {
             _eaSettings = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
+            _eaSettingsSimplifying = _eaSettings.CreateSimplifyingSettings();
+
             _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
             _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
             _pop = population ?? throw new ArgumentNullException(nameof(population));

@@ -60,5 +60,47 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public int StatisticsMovingAverageHistoryLength { get; set; } = 100;
 
         #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public NeatEvolutionAlgorithmSettings()
+        {}
+
+        /// <summary>
+        /// Copy constructor.
+        /// </summary>
+        public NeatEvolutionAlgorithmSettings(NeatEvolutionAlgorithmSettings copyFrom)
+        {
+            this.SpeciesCount = copyFrom.SpeciesCount;
+            this.ElitismProportion = copyFrom.ElitismProportion;
+            this.SelectionProportion = copyFrom.SelectionProportion;
+            this.OffspringAsexualProportion = copyFrom.OffspringAsexualProportion;
+            this.OffspringSexualProportion = copyFrom.OffspringSexualProportion;
+            this.InterspeciesMatingProportion = copyFrom.InterspeciesMatingProportion;
+            this.StatisticsMovingAverageHistoryLength = copyFrom.StatisticsMovingAverageHistoryLength;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Creates a new settings object based on the current settings object but modified to be suitable for use when 
+        /// the evolution algorithm is in simplifying mode.
+        /// </summary>
+        /// <returns></returns>
+        public NeatEvolutionAlgorithmSettings CreateSimplifyingSettings()
+        {
+            // Clone the current settings object.
+            var settings = new NeatEvolutionAlgorithmSettings(this);
+            settings.OffspringAsexualProportion = 1.0;
+            settings.OffspringSexualProportion = 0.0;
+            return settings;
+        }
+
+        #endregion
     }
 }
