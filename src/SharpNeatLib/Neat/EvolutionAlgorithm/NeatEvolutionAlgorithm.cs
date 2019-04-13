@@ -172,13 +172,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public void Initialise()
         {
             // Evaluate each genome in the new population.
-            Evaluate(_pop.GenomeList, out ulong evaluationCount);
+            _evaluator.Evaluate(_pop.GenomeList);
 
             // Initialise species.
             _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
 
             // Update population and evolution algorithm statistics.
-            UpdateStats(evaluationCount);
+            UpdateStats(evaluationCountDelta: (ulong)_pop.GenomeList.Count);
         }
 
         /// <summary>
@@ -201,17 +201,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // (otherwise we could just evaluate offspringList).
             _pop.GenomeList.AddRange(offspringList);
 
-            // TODO: Review this. We don't necessarily want to re-evaluate genomes even if the evaluation scheme is non-deterministic.
-            // Evaluate the genomes in the population.
-            // If the evaluation scheme is deterministic then only the new genomes (the offspring) need to be evaluated;
-            // otherwise all of the genomes are evaluated, thus the elite genomes are re-evaluated at each generation.
-            ulong evaluationCount;
-            if(_evaluator.IsDeterministic) {
-                Evaluate(offspringList, out evaluationCount);
-            }
-            else {
-                Evaluate(_pop.GenomeList, out evaluationCount);
-            }
+            // Perform the genome evaluation stage of the evolution algorithm.
+            PerformGenomeEvaluationStage(offspringList, out ulong evaluationCount);
 
             // Integrate offspring into the species.
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
@@ -266,6 +257,37 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             }
         }
 
+        /// <summary>
+        /// Perform the genome evaluation stage of the evolution algorithm.
+        /// </summary>
+        /// <param name="offspringList"></param>
+        /// <param name="evaluationCount"></param>
+        private void PerformGenomeEvaluationStage(
+            List<NeatGenome<T>> offspringList,
+            out ulong evaluationCount)
+        {
+            // TODO: Review this. We don't necessarily want to re-evaluate genomes even if the evaluation scheme is non-deterministic.
+
+            // If the evaluation scheme is deterministic then we only need to evaluate genome that have not been evaluated yet, i.e. 
+            // the offspring genomes; the elite genomes that remain in the population from the previous generation have already been 
+            // evaluated and assigned a fitness score, so we can avoid the effort of re-evaluating those. If however the evaluation scheme
+            // is non-deterministic, then we must re-evaluate all genomes in the population, both old and new genome.
+            if(_evaluator.IsDeterministic) 
+            {
+                _evaluator.Evaluate(offspringList);
+                evaluationCount = (ulong)offspringList.Count;
+            }
+            else 
+            {
+                _evaluator.Evaluate(_pop.GenomeList);
+                evaluationCount = (ulong)_pop.GenomeList.Count;
+            }
+
+            // Note. In future _evaluator may return an evaluation count, as it may apply a strategy that determines
+            // which genomes to evaluate. For now we just evaluate all genomes in the chosen genome list 
+            // (offspringList or _pop.GenomeList) and return the length of that chosen list.
+        }
+
         private void IntegrateOffspringIntoSpecies(List<NeatGenome<T>> offspringList, bool emptySpeciesFlag)
         {
             // Handle special case of one or more species having a zero target size (dead species).
@@ -311,18 +333,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Update species allocation sizes.
             SpeciesAllocationCalcs<T>.UpdateSpeciesAllocationSizes(_pop, _eaSettings, _rng);
-        }
-
-        #endregion
-
-        #region Private Methods [Low Level]
-
-        private void Evaluate(ICollection<NeatGenome<T>> genomeList, out ulong evaluationCount)
-        {
-            _evaluator.Evaluate(genomeList);
-            // Note. In future the evaluator may return an evaluation count, as it may apply a strategy that determines
-            // which genomes to evaluate. For now we just evaluate all genomes in the list and return the length of the list.
-            evaluationCount = (ulong)genomeList.Count;
         }
 
         #endregion
