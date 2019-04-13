@@ -172,13 +172,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public void Initialise()
         {
             // Evaluate each genome in the new population.
-            Evaluate(_pop.GenomeList);
+            Evaluate(_pop.GenomeList, out ulong evaluationCount);
 
             // Initialise species.
             _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);
 
             // Update population and evolution algorithm statistics.
-            UpdateStats();
+            UpdateStats(evaluationCount);
         }
 
         /// <summary>
@@ -205,18 +205,19 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Evaluate the genomes in the population.
             // If the evaluation scheme is deterministic then only the new genomes (the offspring) need to be evaluated;
             // otherwise all of the genomes are evaluated, thus the elite genomes are re-evaluated at each generation.
+            ulong evaluationCount;
             if(_evaluator.IsDeterministic) {
-                Evaluate(offspringList);
+                Evaluate(offspringList, out evaluationCount);
             }
             else {
-                Evaluate(_pop.GenomeList);
+                Evaluate(_pop.GenomeList, out evaluationCount);
             }
 
             // Integrate offspring into the species.
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
 
             // Update statistics.
-            UpdateStats();
+            UpdateStats(evaluationCount);
 
             // Update complexity regulation mode.
             _complexityRegulationStrategy.UpdateMode(_eaStats, _pop.Stats);
@@ -294,7 +295,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             Debug.Assert(!TestForEmptySpecies(), "Speciation resulted in one or more empty species.");
         }
 
-        private void UpdateStats()
+        private void UpdateStats(ulong evaluationCountDelta)
         {
             // Update population statistics.
             _pop.UpdateStats(_evaluator.FitnessComparer);
@@ -307,8 +308,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_pop.Stats.BestFitness);
 
             // Update total number of evaluations performed.
-            // TODO: Get number of genome evaluations that have been performed in the current generation.
-            ulong evaluationCountDelta = 0;
             _eaStats.TotalEvaluationCount += evaluationCountDelta;
 
             // Update species allocation sizes.
@@ -337,10 +336,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             return _pop.SpeciesArray.Any(x => (x.GenomeList.Count == 0));
         }
 
-        private void Evaluate(ICollection<NeatGenome<T>> genomeList)
+        private void Evaluate(ICollection<NeatGenome<T>> genomeList, out ulong evaluationCount)
         {
             _evaluator.Evaluate(genomeList);
-            _eaStats.TotalEvaluationCount += (ulong)genomeList.Count;
+            // Note. In future the evaluator may return this value, as it may apply a strategy that determine which 
+            // genomes to evaluate. For now we just evaluate all genomes in the list and return the length of the list.
+            evaluationCount = (ulong)genomeList.Count;
         }
 
         #endregion
