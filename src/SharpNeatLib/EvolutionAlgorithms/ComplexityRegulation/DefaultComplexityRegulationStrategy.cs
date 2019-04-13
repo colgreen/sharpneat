@@ -36,13 +36,13 @@ namespace SharpNeat.EvolutionAlgorithms.ComplexityRegulation
         /// <summary>
         /// The ceiling type - absolute or relative.
         /// </summary>
-        ComplexityCeilingType _ceilingType;
+        readonly ComplexityCeilingType _ceilingType;
 
         /// <summary>
         /// The ceiling value passed into the constructor. Allows the true ceiling to be calculated
         /// if the ceiling type is relative.
         /// </summary>
-        double _complexityCeiling;
+        readonly double _complexityCeiling;
 
         /// <summary>
         /// The ceiling point at which we switch to 'simplifying' mode. This value may be fixed 

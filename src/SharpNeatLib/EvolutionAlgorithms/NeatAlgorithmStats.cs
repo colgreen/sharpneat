@@ -11,7 +11,6 @@
  */
 using System;
 using Redzen.Structures;
-using SharpNeat.Utility;
 
 namespace SharpNeat.EvolutionAlgorithms
 {
