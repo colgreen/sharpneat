@@ -160,11 +160,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int? nodeId2 = parent.ConnectionGenes._connArr[deleteIdx].TargetId;
 
             // Set IDs to null for input/output nodes (these nodes are fixed and therefore cannot be deleted).
+            // Also, for cyclic networks nodeId1 and 2 could refer to the same node (a cyclic connection on the same node), if
+            // so then we don't need to set nodeId2.
             if(nodeId1.Value < parent.MetaNeatGenome.InputOutputNodeCount) {
                 nodeId1 = null;
             }
 
-            if(nodeId2.Value < parent.MetaNeatGenome.InputOutputNodeCount) {
+            if(nodeId2.Value < parent.MetaNeatGenome.InputOutputNodeCount || nodeId1 == nodeId2) {
                 nodeId2 = null;
             }
 
