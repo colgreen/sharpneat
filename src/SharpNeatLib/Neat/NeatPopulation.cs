@@ -189,6 +189,24 @@ namespace SharpNeat.Neat
             UpdateNeatPopulationStats(fitnessComparer);
         }
 
+        /// <summary>
+        /// Clear the genome list of all species.
+        /// </summary>
+        public void ClearAllSpecies()
+        {
+            foreach(var species in this.SpeciesArray) {
+                species.GenomeList.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Returns true if there is at least one empty species.
+        /// </summary>
+        public bool ContainsEmptySpecies()
+        {
+            return this.SpeciesArray.Any(x => (x.GenomeList.Count == 0));
+        }
+
         #endregion
 
         #region Protected Methods

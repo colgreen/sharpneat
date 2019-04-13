@@ -275,7 +275,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // to evenly divide them between the required number of species.
 
                 // Clear all genomes from species (note. we still have all genomes in _pop.GenomeList).
-                ClearAllSpecies();
+                _pop.ClearAllSpecies();
 
                 // Re-initialise the species.
                 _pop.InitialiseSpecies(_speciationStrategy, _eaSettings.SpeciesCount, _rng);    
@@ -291,7 +291,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 }
             }
 
-            Debug.Assert(!TestForEmptySpecies(), "Speciation resulted in one or more empty species.");
+            Debug.Assert(!_pop.ContainsEmptySpecies(), "Speciation resulted in one or more empty species.");
         }
 
         private void UpdateStats(ulong evaluationCountDelta)
@@ -316,24 +316,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         #endregion
 
         #region Private Methods [Low Level]
-
-        /// <summary>
-        /// Clear the genome list of all species.
-        /// </summary>
-        private void ClearAllSpecies()
-        {
-            foreach(var species in _pop.SpeciesArray) {
-                species.GenomeList.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Returns true if there is one or more empty species.
-        /// </summary>
-        private bool TestForEmptySpecies()
-        {
-            return _pop.SpeciesArray.Any(x => (x.GenomeList.Count == 0));
-        }
 
         private void Evaluate(ICollection<NeatGenome<T>> genomeList, out ulong evaluationCount)
         {

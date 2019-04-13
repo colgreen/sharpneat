@@ -37,6 +37,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// </summary>
         /// <param name="eaStats">Evolution algorithm statistics.</param>
         /// <param name="popStats">Population statistics.</param>
+        /// <returns>The updated mode.</returns>
         ComplexityRegulationMode UpdateMode(
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats);
