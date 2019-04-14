@@ -27,7 +27,7 @@ namespace TestApp1
             var genomeListEvaluator = CreateGenomeListEvaluator(out int inputCount, out int outputCount);
 
             // Create an initial population.
-            _metaNeatGenome = CreateMetaNeatGenome(inputCount, outputCount, isAcyclic: false, activationFnName: "LeakyReLU" );
+            _metaNeatGenome = CreateMetaNeatGenome(inputCount, outputCount, isAcyclic: true, activationFnName: "LeakyReLU" );
             _eaSettings = new NeatEvolutionAlgorithmSettings();
             _eaSettings.SpeciesCount = 40;
             _neatPop = CreatePopulation(_metaNeatGenome, 600);
