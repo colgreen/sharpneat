@@ -47,14 +47,14 @@ namespace SharpNeat.Domains.FunctionRegression
             // Reset black box internal state.
             box.ResetState();
 
-            double[] xArr = _paramSamplingInfo._xArrNetwork;
-            for(int i=0; i < xArr.Length; i++)
+            int sampleCount = _paramSamplingInfo._sampleCount;
+            for(int i=0; i < sampleCount; i++)
             {
                 // Activate the black box.
                 box.Activate();
 
                 // Get the black box's output value.
-                responseArr[i] = ((box.OutputSignalArray[0]-0.5) * _scale) + _offset;
+                responseArr[i] = ((box.OutputSignalArray[0] - 0.5) * _scale) + _offset;
             }
         }
 
