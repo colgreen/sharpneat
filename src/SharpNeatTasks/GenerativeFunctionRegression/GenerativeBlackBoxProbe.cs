@@ -65,8 +65,9 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
                 box.Activate();
 
                 // Get the black box's output value.
-                // TODO: Review. Note this scheme is different to the one in SharpNEAT 2.x
-                responseArr[i] = (box.OutputVector[0] + _offset) * _scale;
+                // TODO: Review this scheme. This replicates the behaviour in SharpNEAT 2.x but not sure if it's ideal, 
+                // for one it depends on the output range of the neural net activation function in use.
+                responseArr[i] = ((box.OutputVector[0] - 0.5) * _scale) + _offset;
             }
         }
 

@@ -50,7 +50,7 @@ namespace SharpNeat.Tasks.FunctionRegression
 
             double incrNet = 1.0 / (sampleCount - 1);
             double x = min;
-            double xNet = 0;
+            double xNet = 0.0;
             this.XArr = new double[sampleCount];
             this.XArrNetwork = new double[sampleCount];
 

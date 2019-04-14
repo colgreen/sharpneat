@@ -74,6 +74,7 @@ namespace TestApp1
             var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(1, true);
 
             // Create function regression evaluation scheme.
+            // TODO: Increase the resolution, really this is too low-res (it results in large y value changes between adjacent samples).
             int sampleResolution = 80;
             double sampleMin = 0;
             double sampleMax = 25.13274123;

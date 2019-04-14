@@ -108,7 +108,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             _yArrTarget = new double[sampleCount];
             _gradientArrTarget = new double[sampleCount];
 
-            // Predetermine target responses.
+            // Calculate the target responses (the expected/correct responses).
             FuncRegressionUtils.Probe(fn, paramSamplingInfo, _yArrTarget);
             FuncRegressionUtils.CalcGradients(paramSamplingInfo, _yArrTarget, _gradientArrTarget);
 
