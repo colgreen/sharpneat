@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using SharpNeat.Core;
 using SharpNeat.Domains;
@@ -12,10 +11,10 @@ namespace EfficacySampler
 {
     public class EvolutionAlgorithmHost
     {
-        IGuiNeatExperiment _experiment;
-        StopCondition _stopCond;
+        readonly IGuiNeatExperiment _experiment;
+        readonly StopCondition _stopCond;
+        readonly Stopwatch _stopwatch;
         NeatEvolutionAlgorithm<NeatGenome> _ea;
-        Stopwatch _stopwatch;
 
         #region Constructor
 
@@ -93,11 +92,16 @@ namespace EfficacySampler
         private void Block(StopCondition stopCond)
         {
             // Enter monitor loop.
-            if(stopCond.StopConditionType == StopConditionType.ElapsedClockTime) {
-                Block(TimeSpan.FromSeconds(stopCond.Value));
-            }
-            else {
-                Block(stopCond.Value);
+            switch(stopCond.StopConditionType)
+            {
+                case StopConditionType.ElapsedClockTime:
+                    Block(TimeSpan.FromSeconds(stopCond.Value));
+                    break;
+                case StopConditionType.GenerationCount:
+                    BlockUntilGeneration(stopCond.Value);
+                    break;
+                default:
+                    throw new ArgumentException(nameof(stopCond));
             }
         }
 
@@ -120,7 +124,7 @@ namespace EfficacySampler
             }
         }
 
-        private void Block(int generation)
+        private void BlockUntilGeneration(int generation)
         {
             for(;;)
             {
