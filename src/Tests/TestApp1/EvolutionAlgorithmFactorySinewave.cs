@@ -1,5 +1,4 @@
-﻿using Redzen.Random;
-using SharpNeat.Evaluation;
+﻿using SharpNeat.Evaluation;
 using SharpNeat.Neat;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.DistanceMetrics.Double;
@@ -9,14 +8,13 @@ using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.NeuralNet;
-using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.FunctionRegression;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
+using static TestApp1.EvolutionAlgorithmFactoryUtils;
 
 namespace TestApp1
 {
-    public class EvolutionAlgorithmFactory
+    public class EvolutionAlgorithmFactorySinewave
     {
         NeatEvolutionAlgorithmSettings _eaSettings;
         MetaNeatGenome<double> _metaNeatGenome;
@@ -27,10 +25,11 @@ namespace TestApp1
         public NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm()
         {
             // Create a genome evaluator.
-            var genomeListEvaluator = CreateGenomeListEvaluator_BinaryElevenMultiplexer(out int inputCount, out int outputCount);
+            //var genomeListEvaluator = CreateGenomeListEvaluator_BinaryElevenMultiplexer(out int inputCount, out int outputCount);
+            var genomeListEvaluator = CreateGenomeListEvaluator(out int inputCount, out int outputCount);
 
             // Create an initial population.
-            _metaNeatGenome = CreateMetaNeatGenome(inputCount, outputCount);
+            _metaNeatGenome = CreateMetaNeatGenome(inputCount, outputCount, isAcyclic: false, activationFnName: "LeakyReLU");
             _eaSettings = new NeatEvolutionAlgorithmSettings();
             _eaSettings.SpeciesCount = 40;
             _neatPop = CreatePopulation(_metaNeatGenome, 600);
@@ -69,58 +68,15 @@ namespace TestApp1
 
         #region Private Static Methods
 
-        private static MetaNeatGenome<double> CreateMetaNeatGenome(int inputCount, int outputCount)
-        {
-            var activationFnFactory = new DefaultActivationFunctionFactory<double>();
-
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
-                inputNodeCount: inputCount, 
-                outputNodeCount: outputCount,
-                isAcyclic: true,
-                activationFn: activationFnFactory.GetActivationFunction("LeakyReLU"));
-
-            return metaNeatGenome;
-        }
-
-        private static NeatPopulation<double> CreatePopulation(
-            MetaNeatGenome<double> metaNeatGenome,
-            int popSize)
-        {
-            NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(
-                metaNeatGenome,
-                connectionsProportion: 0.1,
-                popSize: popSize,
-                rng: RandomDefaults.CreateRandomSource());
-
-            return pop;
-        }
-
-        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator_BinaryElevenMultiplexer(
-            out int inputCount, out int outputCount)
-        {
-            var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeAcyclicDecoder(true);
-            IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new BinaryElevenMultiplexerEvaluationScheme();
-
-            var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
-                genomeDecoder,
-                blackBoxEvaluationScheme,
-                createConcurrentEvaluator: true);
-
-            inputCount = blackBoxEvaluationScheme.InputCount;
-            outputCount = blackBoxEvaluationScheme.OutputCount;
-            return genomeListEvaluator;
-        }
-
-
-        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator_GenerativeSinewave(
+        private IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
             out int inputCount, out int outputCount)
         {
             var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(1, true);
 
             // Create function regression evaluation scheme.
-            int sampleResolution = 20;
+            int sampleResolution = 80;
             double sampleMin = 0;
-            double sampleMax = 6.283185;
+            double sampleMax = 25.13274123;
             var paramSamplingInfo = new ParamSamplingInfo(sampleMin, sampleMax, sampleResolution);
             IBlackBoxEvaluationScheme<double> blackBoxEvaluationScheme = new GenerativeFuncRegressionEvaluationScheme(FunctionFactory.GetFunction(FunctionId.Sin), paramSamplingInfo, 0.3);
 

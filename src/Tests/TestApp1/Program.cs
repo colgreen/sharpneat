@@ -1,14 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.EvolutionAlgorithm.Runner;
-using SharpNeat.Neat;
-using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
 
 namespace TestApp1
 {
@@ -17,8 +7,8 @@ namespace TestApp1
         static void Main(string[] args)
         {
             // Create and initialise the evolutionary algorithm.
-            EvolutionAlgorithmFactory factory = new EvolutionAlgorithmFactory();
-            NeatEvolutionAlgorithm<double> ea = factory.CreateNeatEvolutionAlgorithm();
+            var factory = new EvolutionAlgorithmFactorySinewave();
+            var ea = factory.CreateNeatEvolutionAlgorithm();
             ea.Initialise();
 
             var neatPop = ea.Population;
@@ -29,7 +19,6 @@ namespace TestApp1
             {
                 ea.PerformOneGeneration();
                 Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {ea.Stats.TotalEvaluationCount} {ea.ComplexityRegulationMode}");
-                //Console.WriteLine($"{ea.Stats.Generation} {ea.Stats.TotalEvaluationCount}");
             }
 
             Console.ReadKey();
