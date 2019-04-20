@@ -51,7 +51,11 @@ namespace EfficacySampler
                 if (ndpKey != null)
                 {
                     int releaseKey = Convert.ToInt32(ndpKey.GetValue("Release"));
-                    // magic numbers come from https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx
+                    // The release numbers are from https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx
+                    if (releaseKey >= 528049 && Directory.Exists(@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8"))
+                        return "4.8";
+                    if (releaseKey >= 461808 && Directory.Exists(@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2"))
+                        return "4.7.2";
                     if (releaseKey >= 461308 && Directory.Exists(@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1"))
                         return "4.7.1";
                     if (releaseKey >= 460798 && Directory.Exists(@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7"))
