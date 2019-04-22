@@ -13,8 +13,6 @@ namespace TestApp1
 
             var neatPop = ea.Population;
 
-            //EvolutionAlgorithmRunner runner = new EvolutionAlgorithmRunner(ea);
-
             for(int i=0; i < 10_000; i++)
             {
                 ea.PerformOneGeneration();
