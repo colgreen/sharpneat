@@ -17,7 +17,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 {
     /// <summary>
     /// Wraps a background thread for running an <see cref="IEvolutionAlgorithm"/>, and methods for asynchronous
-    /// control of the background thread, i.e. for starting, stopping, pausing and restarting the evolution algorithm.
+    /// control of the background thread, for starting, stopping, pausing and restarting the evolution algorithm.
     /// </summary>
     public class EvolutionAlgorithmRunner : IDisposable
     {
@@ -27,11 +27,16 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 
         readonly IEvolutionAlgorithm _ea;
 
+        // Update event scheme.
+        readonly UpdateScheme _updateScheme;
+        readonly Func<bool> _isUpdateDueFn;
+
+        // Event synchronisation.
+        readonly AutoResetEvent _awaitPauseEvent = new AutoResetEvent(false);
+        readonly AutoResetEvent _awaitRestartEvent = new AutoResetEvent(false);
+
         // Runner state.
         volatile RunState _runState = RunState.NotReady;
-
-        // Update event scheme / data.
-        UpdateScheme _updateScheme;
         int _prevUpdateGeneration;
         long _prevUpdateTimeTick;
 
@@ -39,8 +44,6 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         Thread _algorithmThread;
         volatile bool _pauseRequestFlag;
         volatile bool _terminateFlag = false;
-        readonly AutoResetEvent _awaitPauseEvent = new AutoResetEvent(false);
-        readonly AutoResetEvent _awaitRestartEvent = new AutoResetEvent(false);
 
         #endregion
 
@@ -64,15 +67,19 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// Constructs a new instance.
         /// </summary>
         /// <param name="ea">The <see cref="IEvolutionAlgorithm"/> to wrap.</param>
-        public EvolutionAlgorithmRunner(IEvolutionAlgorithm ea)
+        /// <param name="updateScheme">Evolution algorithm update event scheme.</param>
+        public EvolutionAlgorithmRunner(
+            IEvolutionAlgorithm ea,
+            UpdateScheme updateScheme)
         {
             _ea = ea ?? throw new ArgumentNullException(nameof(ea));
 
+            // Init update update scheme.
+            _updateScheme = updateScheme ?? throw new ArgumentNullException(nameof(updateScheme));
+            _isUpdateDueFn = CreateIsUpdateDueFunction(_updateScheme);
+
             // Set to ready state.
             _runState = RunState.Ready;
-
-            // Set a default update scheme of once per second.
-            _updateScheme = UpdateScheme.CreateTimeSpanUpdateScheme(TimeSpan.FromSeconds(1));
         }
 
         #endregion
@@ -90,7 +97,6 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         public UpdateScheme UpdateScheme 
         {
             get { return _updateScheme; }
-            set { _updateScheme = value; }
         }
 
         /// <summary>
@@ -130,7 +136,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                     return;
                 
                 case RunState.Paused:
-                    // The runner is paused. Resume execution.
+                    // The runner is paused; resume execution.
                     _runState = RunState.Running;
                     OnUpdateEvent();
                     _awaitRestartEvent.Set();
@@ -234,7 +240,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             {
                 _ea.PerformOneGeneration();
 
-                if(IsUpdateDue())
+                if(_isUpdateDueFn())
                 {
                     _prevUpdateGeneration = _ea.Stats.Generation;
                     _prevUpdateTimeTick = DateTime.UtcNow.Ticks;
@@ -246,7 +252,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                 // we miss it being set and perform one other generation before pausing.
                 if(_pauseRequestFlag || _ea.Stats.StopConditionSatisfied)
                 {
-                    // Signal to any waiting thread that we are pausing
+                    // Signal to any waiting thread that we are pausing.
                     _awaitPauseEvent.Set();
 
                     // Test for terminate signal.
@@ -270,15 +276,6 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 
         #region Private Methods [Events]
 
-        /// <summary>
-        /// Returns true if an update event is due.
-        /// </summary>
-        private bool IsUpdateDue()
-        {
-            return ((UpdateMode.Generational == _updateScheme.UpdateMode) && ((_ea.Stats.Generation - _prevUpdateGeneration) >= _updateScheme.Generations))
-                || ((UpdateMode.Timespan == _updateScheme.UpdateMode) && ((DateTime.UtcNow.Ticks - _prevUpdateTimeTick) >= _updateScheme.TimeSpan.Ticks));
-        }
-
         private void OnUpdateEvent()
         {
             this?.UpdateEvent(this, EventArgs.Empty);
@@ -287,6 +284,39 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         private void OnPausedEvent()
         {
             this?.PausedEvent(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Private Methods [IsUpdateDue Functions / Function Factory]
+
+        private Func<bool> CreateIsUpdateDueFunction(UpdateScheme updateScheme)
+        {
+            switch(updateScheme.UpdateMode)
+            {
+                case UpdateMode.None: 
+                    return () => false;
+
+                case UpdateMode.Generational:
+                    return IsUpdateDue_Generational;
+
+                case UpdateMode.Timespan:
+                    return IsUpdateDue_TimeSpan;
+
+                default:
+                    throw new ArgumentException("Unexpected UpdateMode.");
+            }
+        }
+
+        private bool IsUpdateDue_Generational()
+        {
+            return (_ea.Stats.Generation - _prevUpdateGeneration) >= _updateScheme.Generations;
+        }
+
+
+        private bool IsUpdateDue_TimeSpan()
+        {
+            return (DateTime.UtcNow.Ticks - _prevUpdateTimeTick) >= _updateScheme.TimeSpan.Ticks;
         }
 
         #endregion

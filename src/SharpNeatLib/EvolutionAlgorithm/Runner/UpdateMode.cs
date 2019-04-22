@@ -13,16 +13,20 @@
 namespace SharpNeat.EvolutionAlgorithm.Runner
 {
     /// <summary>
-    /// An enumeration of update schemes, e.g. Fire an update event the per some time duration or some number of generations.
+    /// Evolution algorithm update event modes.
     /// </summary>
     public enum UpdateMode
     {
         /// <summary>
-        /// Raise an update event at regular time intervals.
+        /// Do not generate any update events.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Generate an update event at regular time intervals.
         /// </summary>
         Timespan,
         /// <summary>
-        /// Raise an update event at regular generation intervals. (Every N generations).
+        /// Generate an update event at regular generation intervals. (Every N generations).
         /// </summary>
         Generational
     }
