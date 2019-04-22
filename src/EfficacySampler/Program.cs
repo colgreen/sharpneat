@@ -26,7 +26,7 @@ namespace EfficacySampler
             }
 
             // Initialise NEAT experiment.
-            IGuiNeatExperiment experiment = InitExperiment(experimentId);
+            INeatExperiment experiment = InitExperiment(experimentId);
             if(null == experiment) {
                 return;
             }
@@ -72,7 +72,7 @@ namespace EfficacySampler
             return sw;
         }
 
-        private static IGuiNeatExperiment InitExperiment(string experimentId)
+        private static INeatExperiment InitExperiment(string experimentId)
         {
             switch(experimentId)
             {
@@ -86,7 +86,7 @@ namespace EfficacySampler
             return null;
         }
 
-        private static IGuiNeatExperiment InitExperiment_BinaryElevenMultiplexer()
+        private static INeatExperiment InitExperiment_BinaryElevenMultiplexer()
         {
             // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
             var experiment = new BinaryElevenMultiplexerExperiment();
@@ -98,7 +98,7 @@ namespace EfficacySampler
             return experiment;
         }
 
-        private static IGuiNeatExperiment InitExperiment_Sinwave()
+        private static INeatExperiment InitExperiment_Sinwave()
         {
             // Experiment classes encapsulate much of the nuts and bolts of setting up a NEAT search.
             var experiment = new GenerativeFnRegressionExperiment();

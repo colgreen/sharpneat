@@ -11,14 +11,14 @@ namespace EfficacySampler
 {
     public class EvolutionAlgorithmHost
     {
-        readonly IGuiNeatExperiment _experiment;
+        readonly INeatExperiment _experiment;
         readonly StopCondition _stopCond;
         readonly Stopwatch _stopwatch;
         NeatEvolutionAlgorithm<NeatGenome> _ea;
 
         #region Constructor
 
-        public EvolutionAlgorithmHost(IGuiNeatExperiment experiment, StopCondition stopCond)
+        public EvolutionAlgorithmHost(INeatExperiment experiment, StopCondition stopCond)
         {
             _experiment = experiment;
             _stopCond = stopCond;
