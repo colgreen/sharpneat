@@ -86,8 +86,6 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr)
         {
             int inputCount = _metaNeatGenome.InputNodeCount;
-            int outputCount = _metaNeatGenome.OutputNodeCount;
-            int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;
 
             // Create a mapping from node IDs to node indexes.
             Dictionary<int,int> nodeIdxById = BuildNodeIndexById(hiddenNodeIdArr);
