@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         /// <summary>
         /// The probability that a gene that exists only on the secondary parent is copied into the child genome.
         /// </summary>
-        public double SecondaryParentGeneProbability = 0.02;
+        public double SecondaryParentGeneProbability { get; set; } = 0.02;
 
         // TODO: Review. Not currently being used?
         /// <summary>

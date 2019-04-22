@@ -23,36 +23,22 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// <summary>
         /// Probability that a genome mutation is a connection weights mutation.
         /// </summary>
-        public double ConnectionWeightMutationProbability { get; }
+        public double ConnectionWeightMutationProbability { get; set; } = 0.94;
 
         /// <summary>
         /// Probability that a genome mutation is an 'add node' mutation.
         /// </summary>
-        public double AddNodeMutationProbability { get; }
+        public double AddNodeMutationProbability { get; set; } = 0.01;
 
         /// <summary>
         /// Probability that a genome mutation is an 'add connection' mutation.
         /// </summary>
-        public double AddConnectionMutationProbability { get; }
+        public double AddConnectionMutationProbability { get; set; } = 0.025;
 
         /// <summary>
         /// Probability that a genome mutation is a 'delete connection' mutation.
         /// </summary>
-        public double DeleteConnectionMutationProbability { get; }
-
-        #endregion
-
-        #region Auto Properties [Mutation Type Distributions]
-
-        /// <summary>
-        /// The mutation type probability settings represented as a <see cref="DiscreteDistribution"/>.
-        /// </summary>
-        public DiscreteDistribution MutationTypeDistribution { get; }
-        /// <summary>
-        /// A copy of MutationTypeDistribution but with all destructive mutations (i.e. delete connections)
-        /// removed. Useful when e.g. mutating a genome with very few connections.
-        /// </summary>
-        public DiscreteDistribution MutationTypeDistributionNonDestructive { get; }
+        public double DeleteConnectionMutationProbability { get; set; } = 0.025;
 
         #endregion
 
@@ -62,31 +48,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Default constructor.
         /// </summary>
         public NeatReproductionAsexualSettings()
-            : this(
-                connectionWeightMutationProbability: 0.94,
-                addNodeMutationProbability: 0.01,
-                addConnectionMutationProbability: 0.025,
-                deleteConnectionMutationProbability: 0.025)
         {}
 
         /// <summary>
-        /// Construct a new instance with the provided settings.
+        /// Copy constructor.
         /// </summary>
-        public NeatReproductionAsexualSettings(
-            double connectionWeightMutationProbability,
-            double addNodeMutationProbability,
-            double addConnectionMutationProbability,
-            double deleteConnectionMutationProbability)
-        {
-            // Store settings.
-            this.ConnectionWeightMutationProbability = connectionWeightMutationProbability;
-            this.AddNodeMutationProbability = addNodeMutationProbability;
-            this.AddConnectionMutationProbability = addConnectionMutationProbability;
-            this.DeleteConnectionMutationProbability = deleteConnectionMutationProbability;
-
-            // Create discrete distributions over the mutation type probabilities.
-            this.MutationTypeDistribution = CreateMutationTypeDiscreteDistribution(this);
-            this.MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive(this);
+        public NeatReproductionAsexualSettings(NeatReproductionAsexualSettings copyFrom)
+        { 
+            this.ConnectionWeightMutationProbability = copyFrom.ConnectionWeightMutationProbability;
+            this.AddNodeMutationProbability = copyFrom.AddNodeMutationProbability;
+            this.AddConnectionMutationProbability = copyFrom.AddConnectionMutationProbability;
+            this.DeleteConnectionMutationProbability = copyFrom.DeleteConnectionMutationProbability;
         }
 
         #endregion
@@ -100,56 +72,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// <returns></returns>
         public NeatReproductionAsexualSettings CreateSimplifyingSettings()
         {
-            // Note. Currently all of the settings are modified, therefore this method could be static,
-            // however, if additional settings are added that need to be copied into the new settings object
-            // then they will be passed from the current object.
-            return new NeatReproductionAsexualSettings(
-                connectionWeightMutationProbability: 0.6,
-                addNodeMutationProbability: 0.0,
-                addConnectionMutationProbability: 0.0,
-                deleteConnectionMutationProbability: 0.4);
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        /// <summary>
-        /// Create a new instance of <see cref="DiscreteDistribution"/> that represents all of the possible
-        /// genome mutation types, and their relative probabilities.
-        /// </summary>
-        /// <param name="settings">Settings object that conveys the mutation type probabilities.</param>
-        /// <returns>A new instance of <see cref="DiscreteDistribution"/>.</returns>
-        private static DiscreteDistribution CreateMutationTypeDiscreteDistribution(
-            NeatReproductionAsexualSettings settings)
-        {
-            double[] probabilities = new double[] 
-                {
-                    settings.ConnectionWeightMutationProbability, 
-                    settings.AddNodeMutationProbability,
-                    settings.AddConnectionMutationProbability,
-                    settings.DeleteConnectionMutationProbability
-                };
-            return new DiscreteDistribution(probabilities);
-        }
-
-        /// <summary>
-        /// Create a new instance of <see cref="DiscreteDistribution"/> that represents a subset of the possible
-        /// genome mutation types, and their relative probabilities. The subset consists of mutation types that 
-        /// are non-destructive (i.e. weight mutation, add node mutation, add connection mutation).
-        /// </summary>
-        /// <param name="settings">Settings object that conveys the mutation type probabilities.</param>
-        /// <returns>A new instance of <see cref="DiscreteDistribution"/>.</returns>
-        private static DiscreteDistribution CreateMutationTypeDiscreteDistribution_NonDestructive(
-            NeatReproductionAsexualSettings settings)
-        {
-            double[] probabilities = new double[] 
-                {
-                    settings.ConnectionWeightMutationProbability, 
-                    settings.AddNodeMutationProbability,
-                    settings.AddConnectionMutationProbability
-                };
-            return new DiscreteDistribution(probabilities);
+            // Invoke the copy constructor with the the current object.
+            //
+            // Note. Currently all of the settings are modified, therefore it's not necessary to use the copy constructor
+            // however, if additional settings are added to the settigns class then they will be handled automatically here 
+            // without having to update this code, so this is a slightly safer approach.
+            var settings = new NeatReproductionAsexualSettings(this)
+            {
+                ConnectionWeightMutationProbability = 0.6,
+                AddNodeMutationProbability = 0.0,
+                AddConnectionMutationProbability = 0.0,
+                DeleteConnectionMutationProbability = 0.4
+            };
+            return settings;
         }
 
         #endregion

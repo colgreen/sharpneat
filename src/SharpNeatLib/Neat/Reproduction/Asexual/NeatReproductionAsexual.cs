@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-
 using System;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
@@ -29,9 +28,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     {
         #region Instance Fields
 
-        NeatReproductionAsexualSettings _settingsCurrent;
         readonly NeatReproductionAsexualSettings _settingsComplexifying;
         readonly NeatReproductionAsexualSettings _settingsSimplifying;
+        NeatReproductionAsexualSettings _settingsCurrent;
+
+        readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
+        readonly MutationTypeDistributions _mutationTypeDistributionsSimplifying;
+        MutationTypeDistributions _mutationTypeDistributionsCurrent;
 
         // Asexual reproduction strategies..
         readonly IAsexualReproductionStrategy<T> _mutateWeightsStrategy;
@@ -64,9 +67,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
         {
-            _settingsCurrent = settings;
             _settingsComplexifying = settings;
             _settingsSimplifying = settings.CreateSimplifyingSettings();
+            _settingsCurrent = _settingsComplexifying;
+            
+            _mutationTypeDistributionsComplexifying = new MutationTypeDistributions(_settingsComplexifying);
+            _mutationTypeDistributionsSimplifying = new MutationTypeDistributions(_settingsSimplifying);
+            _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
 
             // Instantiate reproduction strategies.
             _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
@@ -103,9 +110,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             {
                 case ComplexityRegulationMode.Complexifying:
                     _settingsCurrent = _settingsComplexifying;
+                    _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
                     break;
                 case ComplexityRegulationMode.Simplifying:
                     _settingsCurrent = _settingsSimplifying;
+                    _mutationTypeDistributionsCurrent = _mutationTypeDistributionsSimplifying;
                     break;
                 default:
                     throw new ArgumentException("Unexpected complexity regulation mode.");
@@ -198,8 +207,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // If there is only one connection then avoid destructive mutations to avoid the 
             // creation of genomes with no connections.
             DiscreteDistribution dist = (parent.ConnectionGenes.Length < 2) ?
-                  _settingsCurrent.MutationTypeDistributionNonDestructive
-                : _settingsCurrent.MutationTypeDistribution;
+                  _mutationTypeDistributionsCurrent.MutationTypeDistributionNonDestructive
+                : _mutationTypeDistributionsCurrent.MutationTypeDistribution;
 
             return dist;
         }
