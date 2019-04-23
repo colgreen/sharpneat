@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
+using Redzen;
 using SharpNeat.Core;
 using SharpNeat.Phenomes;
 
@@ -103,11 +103,11 @@ namespace SharpNeat.Domains.FunctionRegression
             FnRegressionUtils.CalcGradients(_paramSamplingInfo, yArr, gradientArr);
 
             // Calc y position mean squared error (MSE), and apply weighting.
-            double yMse = FnRegressionUtils.CalcMeanSquaredError(yArr, _yArrTarget);
+            double yMse = MathArrayUtils.MeanSquaredDelta(yArr, _yArrTarget);
             yMse *= _yMseWeight;
 
             // Calc gradient mean squared error.
-            double gradientMse = FnRegressionUtils.CalcMeanSquaredError(gradientArr, _gradientArrTarget);
+            double gradientMse = MathArrayUtils.MeanSquaredDelta(gradientArr, _gradientArrTarget);
             gradientMse *= _gradientMseWeight;
 
             // Calc fitness as the inverse of MSE (higher value is fitter). 

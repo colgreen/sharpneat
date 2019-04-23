@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Diagnostics;
+using System.Numerics;
 
 namespace SharpNeat.Domains.FunctionRegression
 {
@@ -37,37 +37,59 @@ namespace SharpNeat.Domains.FunctionRegression
             mid = ((min+max) / 2.0);
         }
 
-        public static void CalcGradients (ParamSamplingInfo paramSamplingInfo, double[] yArr, double[] gradientArr)
+        public static void CalcGradients(
+            ParamSamplingInfo paramSamplingInfo,
+            double[] yArr,
+            double[] gradientArr)
         {
+            // Notes.
+            // The gradient at a sample point is approximated by taking the gradient of the line between the two 
+            // sample points either side of that point. For the first and last sample points we take the gradient 
+            // of the line between the sample point and its single adjacent sample point (as an alternative we could 
+            // sample an additional point at each end that doesn't get used for the function regression evaluation.
+            //
+            // This approach is rather crude, but fast. A better approach might be to do a polynomial regression on 
+            // the sample point and its nearest two adjacent samples, and then take the gradient of the polynomial
+            // regression at the required point; obviously that would required more computational work to do so may
+            // not be beneficial in the overall context of an evolutionary algorithm.
+            //
+            // Furthermore, the difference between this gradient approximation and the true gradient decreases with
+            // increases sample density, therefore this is a reasonable approach *if* the sample density is 
+            // sufficiently high.
+
             // Handle the end points as special cases.
             // First point.
             double[] xArr = paramSamplingInfo._xArr;
             gradientArr[0] = CalcGradient(xArr[0], yArr[0], xArr[1], yArr[1]);
 
             // Intermediate points.
-            for(int i=1; i< xArr.Length-1; i++) {
-                gradientArr[i] = CalcGradient(xArr[i-1], yArr[i-1], xArr[i+1], yArr[i+1]);
+            int width = Vector<double>.Count;
+            int i=1;
+            for(; i < xArr.Length - width - 1; i += width) 
+            {
+                // Calc a block of x deltas.
+                var vecLeft = new Vector<double>(xArr, i - 1);
+                var vecRight = new Vector<double>(xArr, i + 1);
+                var xVecDelta = vecRight - vecLeft;
+
+                // Calc a block of y deltas.
+                vecLeft = new Vector<double>(yArr, i - 1);
+                vecRight = new Vector<double>(yArr, i + 1);
+                var yVecDelta = vecRight - vecLeft;
+
+                // Divide the y's by x's to obtain the gradients.
+                var gradientVec = yVecDelta / xVecDelta;
+
+                gradientVec.CopyTo(gradientArr, i);
+            }
+
+            // Calc gradients for remaining intermediate points (if any).
+            for (; i < xArr.Length - 1; i++) {
+                gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i + 1], yArr[i + 1]);
             }
 
             // Last point.
-            int lastIdx = xArr.Length-1;
-            gradientArr[lastIdx] = CalcGradient(xArr[lastIdx-1], yArr[lastIdx-1], xArr[lastIdx], yArr[lastIdx]);
-        }
-
-        public static double CalcMeanSquaredError(double[] a, double[] b)
-        {
-            Debug.Assert(a.Length == b.Length);
-
-            // Calc sum(squared error).
-            double total = 0.0;
-            for(int i=0; i<a.Length; i++)
-            {
-                double err = a[i] - b[i];
-                total += err * err;
-            }
-
-            // Calculate mean squared error (MSE).
-            return total / a.Length;
+            gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i], yArr[i]);
         }
 
         #endregion
@@ -76,11 +98,7 @@ namespace SharpNeat.Domains.FunctionRegression
 
         private static double CalcGradient(double x1, double y1, double x2, double y2)
         {
-            double ydiff = y2 - y1;
-            if(ydiff == 0.0) {
-                return 0.0;
-            }
-            return ydiff / (x2-x1);
+            return (y2 - y1) / (x2 - x1);
         }
 
         #endregion
