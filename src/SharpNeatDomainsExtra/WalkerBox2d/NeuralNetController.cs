@@ -58,6 +58,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             _box.InputSignalArray[6] = _iface.RightLegIFace.HipJointAngle;
             _box.InputSignalArray[7] = _iface.RightLegIFace.KneeJointAngle;
 
+            // TODO: Idea: Add a single output that controls the frequency of the sinewave input.
             // Sine wave inputs (one is a 180 degree phase shift of the other).
             double sinWave0 = (Math.Sin(_timestep * _sineWaveIncr) + 1.0) * 0.5;
             double sinWave180 = (Math.Sin((_timestep+30) * _sineWaveIncr) + 1.0) * 0.5;
