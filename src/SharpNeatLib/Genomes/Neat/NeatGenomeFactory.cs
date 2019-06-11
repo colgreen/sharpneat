@@ -93,6 +93,12 @@ namespace SharpNeat.Genomes.Neat
 
             _genomeIdGenerator = new UInt32IdGenerator();
             _innovationIdGenerator = new UInt32IdGenerator();
+
+            if (neatGenomeParams.ActivationFn != null)
+            {
+                // Register the activation function with the library if it is specified.
+                ActivationFunctionRegistry.RegisterActivationFunction(neatGenomeParams.ActivationFn);
+            }
         }
 
         /// <summary>

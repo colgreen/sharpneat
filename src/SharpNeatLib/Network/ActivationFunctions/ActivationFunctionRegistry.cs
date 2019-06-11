@@ -56,7 +56,10 @@ namespace SharpNeat.Network
         /// </summary>
         public static void RegisterActivationFunction(IActivationFunction function)
         {
-            _registeredActivationFunctions.Add(function.FunctionId, function);
+            if (!_registeredActivationFunctions.ContainsKey(function.FunctionId))
+            {
+                _registeredActivationFunctions.Add(function.FunctionId, function);
+            }
         }
         #endregion // Static Public Methods
     }
