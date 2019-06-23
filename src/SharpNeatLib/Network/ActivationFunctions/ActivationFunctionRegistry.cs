@@ -11,14 +11,15 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
+using System.Collections.Generic;
+
 namespace SharpNeat.Network
 {
-    using System.Collections.Generic;
-
     public static class ActivationFunctionRegistry
     {
-        #region Static Properties
-        internal static Dictionary<string, IActivationFunction> _registeredActivationFunctions = new Dictionary<string, IActivationFunction>()
+        // The default set of activation functions.
+        private static Dictionary<string, IActivationFunction> __activationFunctionTable = new Dictionary<string, IActivationFunction>()
         {
             // Bipolar.
             { "BipolarSigmoid", BipolarSigmoid.__DefaultInstance },
@@ -44,23 +45,34 @@ namespace SharpNeat.Network
             { "SReLUShifted", SReLUShifted.__DefaultInstance },
             { "TanH", TanH.__DefaultInstance },
 
-            // Radial Bias.
+            // Radial Basis.
             { "RbfGaussian", RbfGaussian.__DefaultInstance },
         };
 
-        #endregion // Static Properties
+        #region Public Static Methods
 
-        #region Static Public Methods
         /// <summary>
-        /// Registers a custom activation function not implemented by the framework that can be loaded via XML later.
+        /// Registers a custom activation function in addition to those in the default activation function table.
+        /// Alows loading of neural nets from XML that use custom activation functions.
         /// </summary>
         public static void RegisterActivationFunction(IActivationFunction function)
         {
-            if (!_registeredActivationFunctions.ContainsKey(function.FunctionId))
-            {
-                _registeredActivationFunctions.Add(function.FunctionId, function);
+            if(!__activationFunctionTable.ContainsKey(function.FunctionId)) {
+                __activationFunctionTable.Add(function.FunctionId, function);
             }
         }
-        #endregion // Static Public Methods
+
+        /// <summary>
+        /// Gets an IActivationFunction with the given short name.
+        /// </summary>
+        public static IActivationFunction GetActivationFunction(string name)
+        {
+            if(!__activationFunctionTable.ContainsKey(name)) {
+                throw new ArgumentException($"Unexpected activation function [{name}]");
+            }
+            return __activationFunctionTable[name];
+        }
+
+        #endregion
     }
 }

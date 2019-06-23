@@ -459,7 +459,7 @@ namespace SharpNeat.Network
                     string fnName = xrSubtree.GetAttribute(__AttrName);
 
                     // Lookup function name.
-                    IActivationFunction activationFn = GetActivationFunction(fnName);
+                    IActivationFunction activationFn = ActivationFunctionRegistry.GetActivationFunction(fnName);
 
                     // Add new function to our list of functions.
                     ActivationFunctionInfo fnInfo = new ActivationFunctionInfo(id, selectionProb, activationFn);
@@ -526,19 +526,6 @@ namespace SharpNeat.Network
                     return "hid";
             }
             throw new ArgumentException($"Unexpected NodeType [{nodeType}]");
-        }
-
-        /// <summary>
-        /// Gets an IActivationFunction from its short name.
-        /// </summary>
-        public static IActivationFunction GetActivationFunction(string name)
-        {
-            if (!ActivationFunctionRegistry._registeredActivationFunctions.ContainsKey(name))
-            {
-                throw new ArgumentException($"Unexpected activation function [{name}]");
-            }
-
-            return ActivationFunctionRegistry._registeredActivationFunctions[name];
         }
 
         #endregion
