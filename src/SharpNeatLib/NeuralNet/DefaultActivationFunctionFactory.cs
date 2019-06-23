@@ -86,11 +86,12 @@ namespace SharpNeat.NeuralNet
                     actFn = TryCreate(name);
                 }
 
+                // TODO: Add ability to register custom functions not defined in the core sharpneat assembly; as per 
+                // pull request https://github.com/colgreen/sharpneat/pull/40
                 if(null != actFn)
                 {
                     // Add to the cache for future use.
                     _fnByName.Add(name, actFn);
-
                     return actFn;
                 }
             }
@@ -104,6 +105,8 @@ namespace SharpNeat.NeuralNet
 
         private IActivationFunction<T> TryCreate(string name)
         {
+            // TODO: Reconsider this approach of builing a type name then attempting to instantiate that type on-the-fly.
+
             // Get the generic type parameter name (i.e. Float or Double).
             string valueType = this.GetType().GetGenericArguments()[0].Name;
 
