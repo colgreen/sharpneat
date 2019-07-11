@@ -104,7 +104,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             // Calc fitness as the inverse of MSE (higher value is fitter). 
             // Add a constant to avoid divide by zero, and to constrain the fitness range between bad and good solutions; 
             // this allows the selection strategy to select solutions that are mediocre and therefore helps preserve diversity.
-            double fitness =  20.0 / (yMse + gradientMse + 0.02);
+            double fitness = 20.0 / (yMse + gradientMse + 0.02);
 
             return new FitnessInfo(fitness);
         }
