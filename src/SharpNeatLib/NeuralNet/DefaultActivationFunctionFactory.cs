@@ -25,6 +25,12 @@ namespace SharpNeat.NeuralNet
     public class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
         where T : struct
     {
+        // TODO/FIXME: Consider refactoring this out of existence.
+        /// <summary>
+        /// Default/singleton activation function library.
+        /// </summary>
+        public static IActivationFunctionFactory<T> DefaultInstance { get; } = new DefaultActivationFunctionFactory<T>();
+
         #region Instance Fields
 
         /// <summary>
@@ -46,6 +52,7 @@ namespace SharpNeat.NeuralNet
         /// Default constructor.
         /// </summary>
         public DefaultActivationFunctionFactory()
+            : this(false)
         {}
 
         /// <summary>
