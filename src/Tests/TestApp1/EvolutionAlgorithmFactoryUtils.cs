@@ -14,7 +14,7 @@ namespace TestApp1
         {
             var activationFnFactory = new DefaultActivationFunctionFactory<double>();
 
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            var metaNeatGenome = new MetaNeatGenome<double>(
                 inputNodeCount: inputCount, 
                 outputNodeCount: outputCount,
                 isAcyclic: isAcyclic,
