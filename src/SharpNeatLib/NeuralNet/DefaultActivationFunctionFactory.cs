@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -35,8 +36,7 @@ namespace SharpNeat.NeuralNet
         /// A dictionary of activation function instances keyed by class name.
         /// </summary>
         readonly Dictionary<string,IActivationFunction<T>> _fnByName = new Dictionary<string, IActivationFunction<T>>();
-
-        readonly object _lockObj = new object();
+        readonly object _lockObj;
 
         #endregion
 
@@ -55,6 +55,7 @@ namespace SharpNeat.NeuralNet
         public DefaultActivationFunctionFactory(bool suppressHardwareAcceleration)
         {
             _suppressHardwareAcceleration = suppressHardwareAcceleration;
+            _lockObj = ((IDictionary)_fnByName).SyncRoot;
         }
 
         #endregion
