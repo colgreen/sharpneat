@@ -14,30 +14,17 @@ using SharpNeat.EvolutionAlgorithm;
 namespace SharpNeat.Neat.ComplexityRegulation
 {
     /// <summary>
-    /// A complexity regulation strategy that remains fixed in a single complexity regulation mode
-    /// throughout the lifetime of the evolution algorithm.
+    /// A complexity regulation strategy that remains fixed in complexifying mode throughout 
+    /// the lifetime of the evolution algorithm.
     /// </summary>
-    public class StaticComplexityRegulationStrategy : IComplexityRegulationStrategy
+    public class NullComplexityRegulationStrategy : IComplexityRegulationStrategy
     {
-        #region Constructor
-
-        /// <summary>
-        /// Construct with the given sttaic mode.
-        /// </summary>
-        /// <param name="mode">The static mode.</param>
-        public StaticComplexityRegulationStrategy(ComplexityRegulationMode mode)
-        {
-            this.CurrentMode = mode;
-        }
-
-        #endregion
-
         #region IComplexityRegulationStrategy
 
         /// <summary>
         /// Gets the current complexity regulation mode.
         /// </summary>
-        public ComplexityRegulationMode CurrentMode { get; }
+        public ComplexityRegulationMode CurrentMode => ComplexityRegulationMode.Complexifying;
 
         /// <summary>
         /// Update the complexity regulation mode that the evolution algorithm should be in.
@@ -47,8 +34,8 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// <returns>The updated mode.</returns>
         public ComplexityRegulationMode UpdateMode(EvolutionAlgorithmStatistics eaStats, PopulationStatistics popStats)
         {
-            // This is the static strategy, therefore do nothing.
-            return this.CurrentMode;
+            // This is the null strategy, therefore do nothing.
+            return ComplexityRegulationMode.Complexifying;
         }
 
         #endregion
