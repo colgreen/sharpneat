@@ -95,9 +95,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public NeatEvolutionAlgorithmSettings CreateSimplifyingSettings()
         {
             // Clone the current settings object.
-            var settings = new NeatEvolutionAlgorithmSettings(this);
-            settings.OffspringAsexualProportion = 1.0;
-            settings.OffspringSexualProportion = 0.0;
+            var settings = new NeatEvolutionAlgorithmSettings(this)
+            { 
+                OffspringAsexualProportion = 1.0,
+                OffspringSexualProportion = 0.0
+            };
             return settings;
         }
 
