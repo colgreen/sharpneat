@@ -25,7 +25,7 @@ namespace SharpNeat.Experiments
     /// <summary>
     /// An aggregation of settings objects that make up a given experiment.
     /// </summary>
-    ///<typeparam name="T">Black box numeric data type.</typeparam>
+    /// <typeparam name="T">Black box numeric data type.</typeparam>
     public class NeatExperiment<T> : INeatExperiment<T>
         where T : struct
     {
@@ -118,7 +118,7 @@ namespace SharpNeat.Experiments
         /// <param name="evalScheme">Experiment evaluation scheme object.</param>
         /// <param name="activationFnName">Name of the neuron activation function to use in evolved networks.</param>
         /// <param name="isAcyclic">Indicates if the genomes that are evolved are to be acyclic.</param>
-        /// <param name="cyclesPerActivation">For cyclic neural networks (i.e. if <see cref="isAcyclic"/> is false) this defines how many timesteps to run the neural net per call to Activate().</param>
+        /// <param name="cyclesPerActivation">For cyclic neural networks (i.e. if <paramref name="isAcyclic"/> is false) this defines how many timesteps to run the neural net per call to Activate().</param>
         private NeatExperiment(
             string name,
             IBlackBoxEvaluationScheme<T> evalScheme,
@@ -175,7 +175,7 @@ namespace SharpNeat.Experiments
         /// <param name="name">Experiment name.</param>
         /// <param name="evalScheme">Experiment evaluation scheme object.</param>
         /// <param name="activationFnName">Name of the neuron activation function to use in evolved networks.</param>
-        /// <param name="cyclesPerActivation">For cyclic neural networks (i.e. if <see cref="isAcyclic"/> is false) this defines how many timesteps to run the neural net per call to Activate().</param>
+        /// <param name="cyclesPerActivation">Defines how many timesteps to run the neural net per call to Activate().</param>
         /// <returns>A new instance of <see cref="NeatExperiment{T}"/>.</returns>
         public static NeatExperiment<T> CreateCyclic(
             string name,
