@@ -36,7 +36,7 @@ namespace SharpNeat.Tasks.Tests
             NeatGenome<double> genome = loader.Load("TestData/binary-three-multiplexer.genome");
 
             // Decode genome to a neural net.
-            var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeAcyclicDecoder(true);
+            var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic(true);
             IBlackBox<double> blackBox = genomeDecoder.Decode(genome);
 
             // Evaluate the neural net.

@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Genome.Double
                 return new Vectorized.NeatGenomeDecoder(activationCount, boundedOutput);    
             }
             // else
-            return new NeatGenomeDecoder(activationCount, boundedOutput);
+            return new NeatGenomeDecoderCyclic(activationCount, boundedOutput);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
         /// <param name="suppressHardwareAcceleration">Suppress use of hardware accelerated black box (i.e neural network) implementations.</param>
         /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
-        public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeAcyclicDecoder(
+        public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderAcyclic(
             bool boundedOutput,
             bool suppressHardwareAcceleration = false)
         {
@@ -43,7 +43,7 @@ namespace SharpNeat.Neat.Genome.Double
                 return new Vectorized.NeatGenomeAcyclicDecoder(boundedOutput);    
             }
             // else
-            return new NeatGenomeAcyclicDecoder(boundedOutput);
+            return new NeatGenomeDecoderAcyclic(boundedOutput);
         }
     }
 }
