@@ -38,8 +38,7 @@ namespace SharpNeatLib.Tests.Experiments
     },
     'reproductionSexualSettings':
     {
-        'secondaryParentGeneProbability':0.11,
-        'disjointExcessGenesRecombinedProbability':0.22
+        'secondaryParentGeneProbability':0.11
     },
 
     'populationSize':222,
@@ -92,7 +91,6 @@ namespace SharpNeatLib.Tests.Experiments
 
             var sexualSettings = experiment.ReproductionSexualSettings;
             Assert.AreEqual(0.11, sexualSettings.SecondaryParentGeneProbability);
-            Assert.AreEqual(0.22, sexualSettings.DisjointExcessGenesRecombinedProbability);
 
             Assert.AreEqual(222, experiment.PopulationSize);
             Assert.AreEqual(0.33, experiment.InitialInterconnectionsProportion);

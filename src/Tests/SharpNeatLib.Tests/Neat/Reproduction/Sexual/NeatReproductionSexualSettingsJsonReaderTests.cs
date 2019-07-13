@@ -12,8 +12,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual
         {
             JObject jobj = JObject.Parse(
 @"{
-    'secondaryParentGeneProbability':0.11,
-    'disjointExcessGenesRecombinedProbability':0.22
+    'secondaryParentGeneProbability':0.11
 }");
             // Init a default settings object.
             var settings = new NeatReproductionSexualSettings();
@@ -23,7 +22,6 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual
 
             // Assert the expected values.
             Assert.AreEqual(0.11, settings.SecondaryParentGeneProbability);
-            Assert.AreEqual(0.22, settings.DisjointExcessGenesRecombinedProbability);
         }
     }
 }

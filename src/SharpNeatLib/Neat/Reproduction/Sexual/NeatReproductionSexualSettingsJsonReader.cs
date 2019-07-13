@@ -31,7 +31,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             JObject jobj)
         {
             ReadDoubleOptional(jobj, "secondaryParentGeneProbability", x => target.SecondaryParentGeneProbability = x);
-            ReadDoubleOptional(jobj, "disjointExcessGenesRecombinedProbability", x => target.DisjointExcessGenesRecombinedProbability = x);
         }
     }
 }
