@@ -21,7 +21,7 @@ namespace SharpNeat.Neat.Genome
     /// For building instances of <see cref="NeatGenome{T}"/>. For use when evolving acyclic graphs only.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class NeatGenomeAcyclicBuilder<T> : INeatGenomeBuilder<T>
+    public class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
         where T : struct
     {
         #region Instance Fields
@@ -42,7 +42,7 @@ namespace SharpNeat.Neat.Genome
         /// Construct with the given NEAT genome metadata.
         /// </summary>
         /// <param name="metaNeatGenome">NEAT genome metadata.</param>
-        public NeatGenomeAcyclicBuilder(MetaNeatGenome<T> metaNeatGenome)
+        public NeatGenomeBuilderAcyclic(MetaNeatGenome<T> metaNeatGenome)
         {
             Debug.Assert(null != metaNeatGenome && metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;

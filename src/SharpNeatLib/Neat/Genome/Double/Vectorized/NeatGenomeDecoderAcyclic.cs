@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
     /// acyclic neural network instances implemented by <see cref="NeuralNet.Double.Vectorized.AcyclicNeuralNet"/>.
     /// </summary>
-    public sealed class NeatGenomeAcyclicDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
+    public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly bool _boundedOutput;
 
@@ -30,7 +30,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
         /// Construct with the given decode arguments.
         /// </summary>
         /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>.
-        public NeatGenomeAcyclicDecoder(bool boundedOutput)
+        public NeatGenomeDecoderAcyclic(bool boundedOutput)
         {
             _boundedOutput = boundedOutput;
         }

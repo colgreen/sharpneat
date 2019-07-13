@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
     /// cyclic neural network instances implemented by <see cref="NeuralNet.Double.Vectorized.CyclicNeuralNet"/>.
     /// </summary>
-    public sealed class NeatGenomeDecoder : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
+    public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly int _activationCount;
         readonly bool _boundedOutput;
@@ -31,7 +31,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
         /// </summary>
         /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
         /// <param name="activationCount">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
-        public NeatGenomeDecoder(int activationCount, bool boundedOutput)
+        public NeatGenomeDecoderCyclic(int activationCount, bool boundedOutput)
         {
             _activationCount = activationCount;
             _boundedOutput = boundedOutput;

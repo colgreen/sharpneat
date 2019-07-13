@@ -29,10 +29,10 @@ namespace SharpNeat.Neat.Genome
         {
             if(metaNeatGenome.IsAcyclic)
             {
-                return new NeatGenomeAcyclicBuilder<T>(metaNeatGenome);
+                return new NeatGenomeBuilderAcyclic<T>(metaNeatGenome);
             }
             // else
-            return new NeatGenomeBuilder<T>(metaNeatGenome);
+            return new NeatGenomeBuilderCyclic<T>(metaNeatGenome);
         }
     }
 }
