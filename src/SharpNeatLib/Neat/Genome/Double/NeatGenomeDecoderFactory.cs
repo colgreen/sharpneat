@@ -12,20 +12,20 @@ namespace SharpNeat.Neat.Genome.Double
         /// <summary>
         /// Create a genome decoder that decodes to a cyclic neural network implementation.
         /// </summary>
-        /// <param name="activationCount">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
+        /// <param name="cyclesPerActivation">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
         /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
         /// <param name="suppressHardwareAcceleration">Suppress use of hardware accelerated black box (i.e neural network) implementations.</param>
         /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
         public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderCyclic(
-            int activationCount, bool boundedOutput,
+            int cyclesPerActivation, bool boundedOutput,
             bool suppressHardwareAcceleration = false)
         {
             if(!suppressHardwareAcceleration && Vector.IsHardwareAccelerated)
             {
-                return new Vectorized.NeatGenomeDecoderCyclic(activationCount, boundedOutput);    
+                return new Vectorized.NeatGenomeDecoderCyclic(cyclesPerActivation, boundedOutput);    
             }
             // else
-            return new NeatGenomeDecoderCyclic(activationCount, boundedOutput);
+            return new NeatGenomeDecoderCyclic(cyclesPerActivation, boundedOutput);
         }
 
         /// <summary>

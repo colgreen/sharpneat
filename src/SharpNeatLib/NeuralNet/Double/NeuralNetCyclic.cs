@@ -62,7 +62,7 @@ namespace SharpNeat.NeuralNet.Double
         // Convenient counts.
         readonly int _inputCount;
         readonly int _outputCount;
-        readonly int _activationCount;
+        readonly int _cyclesPerActivation;
 
         #endregion
 
@@ -74,13 +74,13 @@ namespace SharpNeat.NeuralNet.Double
         public NeuralNetCyclic (
             WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
-            int activationCount,
+            int cyclesPerActivation,
             bool boundedOutput)
         :this(
              digraph,
              digraph.WeightArray,
              activationFn,
-             activationCount,
+             cyclesPerActivation,
              boundedOutput)
         {}
 
@@ -91,7 +91,7 @@ namespace SharpNeat.NeuralNet.Double
             DirectedGraph digraph,
             double[] weightArr,
             VecFnSegment2<double> activationFn,
-            int activationCount,
+            int cyclesPerActivation,
             bool boundedOutput)
         {
             Debug.Assert(digraph.ConnectionIdArrays._sourceIdArr.Length == weightArr.Length);
@@ -103,7 +103,7 @@ namespace SharpNeat.NeuralNet.Double
 
             // Store network activation function and parameters.
             _activationFn = activationFn;
-            _activationCount = activationCount;
+            _cyclesPerActivation = cyclesPerActivation;
 
             // Store input/output node counts.
             _inputCount = digraph.InputCount;
@@ -159,7 +159,7 @@ namespace SharpNeat.NeuralNet.Double
         public void Activate()
         {
             // Activate the network for a fixed number of timesteps.
-            for(int i=0; i < _activationCount; i++)
+            for(int i=0; i < _cyclesPerActivation; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
