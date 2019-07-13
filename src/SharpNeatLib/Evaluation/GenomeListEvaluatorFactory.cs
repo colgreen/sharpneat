@@ -26,16 +26,16 @@ namespace SharpNeat.Evaluation
         /// <typeparam name="TPhenome">Phenome type.</typeparam>
         /// <param name="genomeDecoder">Genome decoder, for decoding a genome to a phenome.</param>
         /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
-        /// <param name="createConcurrentEvaluator">If true a evaluator that runs on multiple threads will be created.</param>
+        /// <param name="parallelEvaluator">If true then create an evaluator that distributes work to multiple CPU threads.</param>
         /// <returns>A new instance of <see cref="IGenomeListEvaluator{TGenome}"/></returns>
         public static IGenomeListEvaluator<TGenome> CreateEvaluator<TGenome,TPhenome>(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
-            bool createConcurrentEvaluator)
+            bool parallelEvaluator)
             where TGenome : IGenome
             where TPhenome : class
         {
-            if(!createConcurrentEvaluator) {
+            if(!parallelEvaluator) {
                 return new SerialGenomeListEvaluator<TGenome, TPhenome>(genomeDecoder, phenomeEvaluationScheme);
             }
 
