@@ -101,11 +101,6 @@ namespace SharpNeat.Experiments
         /// The complexity regulation strategy to use for the experiment.
         /// </summary>
         public IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
-
-        /// <summary>
-        /// The speciation strategy to use for the experiment.
-        /// </summary>
-        public ISpeciationStrategy<NeatGenome<double>,double> SpeciationStrategy { get; set; }
         
         /// <summary>
         /// The number of CPU threads to distribute work to. 
@@ -159,10 +154,6 @@ namespace SharpNeat.Experiments
 
             // Assign a default complexity regulation strategy.
             this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
-
-            // Assign a default speciation strategy.
-            IDistanceMetric<double> distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
-            this.SpeciationStrategy = new Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
         }
 
         #endregion

@@ -12,10 +12,8 @@
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Experiments
 {
@@ -95,11 +93,6 @@ namespace SharpNeat.Experiments
         /// The complexity regulation strategy to use for the experiment.
         /// </summary>
         IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
-
-        /// <summary>
-        /// The speciation strategy to use for the experiment.
-        /// </summary>
-        ISpeciationStrategy<NeatGenome<double>,double> SpeciationStrategy { get; set; }
 
         /// <summary>
         /// The number of CPU threads to distribute work to.
