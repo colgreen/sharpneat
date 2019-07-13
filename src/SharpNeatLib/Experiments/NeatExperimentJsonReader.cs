@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System.IO;
 using Newtonsoft.Json.Linq;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
@@ -25,6 +26,26 @@ namespace SharpNeat.Experiments
     public static class NeatExperimentJsonReader<T> where T : struct
     {
         #region Public Static Methods
+
+        /// <summary>
+        /// Read json from a file into a target instance of <see cref="NeatExperiment{T}"/>.
+        /// Settings that are present are read and set on the target settings object; all other settings
+        /// remain unchanged on the target object.
+        /// </summary>
+        /// <param name="target">The target settings object to store the read values on.</param>
+        /// <param name="filename">The filename of the json to read from.</param>
+        public static void ReadFile(
+            INeatExperiment<T> target, string filename)
+        {
+            // Read the entire contents into a string; we don't ever expect to see large json files here, so this fine.
+            string jsonStr = File.ReadAllText(filename);
+
+            // Parse the json string.
+            var jobj = JObject.Parse(jsonStr);
+
+            // Read the parsed json into our target experiment object.
+            Read(target, jobj);
+        }
 
         /// <summary>
         /// Read json into a target instance of <see cref="NeatExperiment{T}"/>.
