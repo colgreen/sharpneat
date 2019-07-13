@@ -10,35 +10,19 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Diagnostics;
+using System.Numerics;
 using SharpNeat.Network;
 using SharpNeat.BlackBox;
 using SharpNeat.BlackBox.Double;
+using System.Diagnostics;
 
-namespace SharpNeat.NeuralNet.Double
+namespace SharpNeat.NeuralNet.Double.Vectorized
 {
     /// <summary>
-    /// A neural network class that represents a network with recurrent (cyclic) connections. 
-    /// 
-    /// This class contains performance improvements described in the following report/post:
-    /// 
-    ///     http://sharpneat.sourceforge.net/research/network-optimisations.html
-    /// 
-    /// A speed-up over a previous 'naive' implementation was achieved by compactly storing all required data in arrays
-    /// in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches. 
-    /// 
-    /// Algorithm Overview.
-    /// 1) Loop connections. Each connection gets its input signal from its source node, multiplies this signal by its
-    /// weight, and adds the result to its target node's pre-activation variable. Connections are ordered by source node 
-    /// index, thus all memory reads here are sequential, but the memory writes to node pre-activation variables are 
-    /// non-sequential.
-    /// 
-    /// 2) Loop nodes. Pass each node's pre-activation signal through the activation function and set its 
-    /// post-activation signal value. 
-    /// 
-    /// The activation loop is now complete and we can go back to (1) or stop.
+    /// A version of <see cref="SharpNeat.NeuralNet.Double.NeuralNetCyclic"/> that utilises some vectorized operations
+    /// for improved performance on hardware platforms that support them.
     /// </summary>
-    public sealed class CyclicNeuralNet : IBlackBox<double>
+    public sealed class NeuralNetCyclic : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -64,6 +48,9 @@ namespace SharpNeat.NeuralNet.Double
         readonly int _outputCount;
         readonly int _activationCount;
 
+        // Connection inputs array.
+        readonly double[] _conInputArr = new double[Vector<double>.Count];
+
         #endregion
 
         #region Constructor
@@ -71,7 +58,7 @@ namespace SharpNeat.NeuralNet.Double
         /// <summary>
         /// Constructs a CyclicNetwork with the provided neural net definition.
         /// </summary>
-        public CyclicNeuralNet (
+        public NeuralNetCyclic (
             WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
             int activationCount,
@@ -87,7 +74,7 @@ namespace SharpNeat.NeuralNet.Double
         /// <summary>
         /// Constructs a CyclicNetwork with the provided neural net definition.
         /// </summary>
-        public CyclicNeuralNet(
+        public NeuralNetCyclic(
             DirectedGraph digraph,
             double[] weightArr,
             VecFnSegment2<double> activationFn,
@@ -158,13 +145,39 @@ namespace SharpNeat.NeuralNet.Double
         /// </summary>
         public void Activate()
         {
+            // Init vector related variables.
+            int width = Vector<double>.Count;
+            double[] conInputArr = _conInputArr;
+
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _activationCount; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
-                for(int j=0; j < _srcIdArr.Length; j++) {
-                    _preActivationArr[_tgtIdArr[j]] += _postActivationArr[_srcIdArr[j]] * _weightArr[j];
+                int conIdx=0;
+                for(; conIdx <= _srcIdArr.Length - width; conIdx += width) 
+                {
+                    // Load source node output values into a vector.
+                    for(int k=0; k<width; k++) {
+                        conInputArr[k] = _postActivationArr[_srcIdArr[conIdx + k]];
+                    }
+                    var conInputVec = new Vector<double>(conInputArr);
+
+                    // Load connection weights into a vector.
+                    var weightVec = new Vector<double>(_weightArr, conIdx);
+
+                    // Multiply connection source inputs and connection weights.
+                    var conOutputVec = conInputVec * weightVec;
+
+                    // Save/accumulate connection output values onto the connection target nodes.
+                    for(int k=0; k < width; k++) {
+                        _preActivationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];
+                    }
+                }
+
+                // Loop remaining connections
+                for(; conIdx < _srcIdArr.Length; conIdx++) {
+                    _preActivationArr[_tgtIdArr[conIdx]] += _postActivationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
                 }
 
                 // Pass the pre-activation levels through the activation function.
@@ -185,7 +198,7 @@ namespace SharpNeat.NeuralNet.Double
         {
             // Reset the output signal for all output and hidden neurons.
             // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputCount; i < _postActivationArr.Length; i++) {
+            for(int i = _inputCount; i < _postActivationArr.Length; i++) {
                 _preActivationArr[i] = 0.0;
             }
         }

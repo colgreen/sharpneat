@@ -16,6 +16,7 @@ using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.NeuralNet.Double
 {
+    // TODO: Revise/update this summary comment...
     /// <summary>
     /// A neural network implementation for acyclic networks.
     /// 
@@ -40,7 +41,7 @@ namespace SharpNeat.NeuralNet.Double
     /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
-    public sealed class AcyclicNeuralNet : IBlackBox<double>
+    public sealed class NeuralNetAcyclic : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -77,7 +78,7 @@ namespace SharpNeat.NeuralNet.Double
         /// <param name="digraph">Network structure definition</param>
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNeuralNet(
+        public NeuralNetAcyclic(
             WeightedAcyclicDirectedGraph<double> digraph,
             VecFnSegment<double> activationFn,
             bool boundedOutput)
@@ -91,7 +92,7 @@ namespace SharpNeat.NeuralNet.Double
         /// <param name="weightArr">Connection weights array.</param>
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNeuralNet(
+        public NeuralNetAcyclic(
             AcyclicDirectedGraph digraph,
             double[] weightArr,
             VecFnSegment<double> activationFn,

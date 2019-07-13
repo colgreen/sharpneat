@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.Genome.Double
 {
     /// <summary>
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
-    /// acyclic neural network instances implemented by <see cref="NeuralNet.Double.AcyclicNeuralNet"/>
+    /// acyclic neural network instances implemented by <see cref="NeuralNet.Double.NeuralNetAcyclic"/>
     /// </summary>
     public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
@@ -58,7 +58,7 @@ namespace SharpNeat.Neat.Genome.Double
             double[] neuralNetWeightArr = CreateNeuralNetWeightArray(genome);
 
             // Create a working neural net.
-            return new AcyclicNeuralNet(
+            return new NeuralNetAcyclic(
                     (AcyclicDirectedGraph)genome.DirectedGraph,
                     neuralNetWeightArr,
                     genome.MetaNeatGenome.ActivationFn.Fn,

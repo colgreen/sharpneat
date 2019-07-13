@@ -7,7 +7,7 @@ using SharpNeat.NeuralNet.Double.ActivationFunctions;
 namespace SharpNeat.Tests.NeuralNets.Double
 {
     [TestClass]
-    public class CyclicNeuralNetTests
+    public class NeuralNetCyclicTests
     {
         #region Test Methods
 
@@ -28,7 +28,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new CyclicNeuralNet(digraph, actFn.Fn, 2, false);
+            var net = new NeuralNetCyclic(digraph, actFn.Fn, 2, false);
 
             // Note. The single connection weight is zero, so the input value has no affect.
             // Activate and test.
@@ -64,7 +64,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
+            var net = new NeuralNetCyclic(digraph, actFn.Fn, 1, false);
 
             // Activate and test.
             net.InputVector[0] = 0.0;
@@ -110,7 +110,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
+            var net = new NeuralNetCyclic(digraph, actFn.Fn, 1, false);
 
             // Activate and test.
             const double input = 0.1;
@@ -143,7 +143,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
+            var net = new NeuralNetCyclic(digraph, actFn.Fn, 1, false);
 
             // Simulate network in C# and compare calculated outputs with actual network outputs.
             double[] preArr = new double[3];
@@ -182,7 +182,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new CyclicNeuralNet(digraph, actFn.Fn, 1, false);
+            var net = new NeuralNetCyclic(digraph, actFn.Fn, 1, false);
 
             // Activate and test.
             net.InputVector[0] = 1.0;

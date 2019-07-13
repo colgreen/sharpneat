@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Genome.Double
 {
     /// <summary>
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
-    /// cyclic neural network instances implemented by either <see cref="NeuralNet.Double.CyclicNeuralNet"/>.
+    /// cyclic neural network instances implemented by either <see cref="NeuralNet.Double.NeuralNetCyclic"/>.
     /// </summary>
     public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
@@ -52,7 +52,7 @@ namespace SharpNeat.Neat.Genome.Double
             Debug.Assert(!genome.MetaNeatGenome.IsAcyclic);
 
             // Create a working neural net.
-            return new CyclicNeuralNet(
+            return new NeuralNetCyclic(
                     genome.DirectedGraph,
                     genome.ConnectionGenes._weightArr,
                     genome.MetaNeatGenome.ActivationFn.Fn,

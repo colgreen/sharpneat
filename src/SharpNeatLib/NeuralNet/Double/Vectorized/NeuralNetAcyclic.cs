@@ -18,10 +18,10 @@ using SharpNeat.Network.Acyclic;
 namespace SharpNeat.NeuralNet.Double.Vectorized
 {
     /// <summary>
-    /// A version of SharpNeat.NeuralNets.Double.AcyclicNeuralNet that utilises some Vector operations
+    /// A version of <see cref="SharpNeat.NeuralNet.Double.NeuralNetAcyclic"/> that utilises some vectorized operations
     /// for improved performance on hardware platforms that support them.
     /// </summary>
-    public sealed class AcyclicNeuralNet : IBlackBox<double>
+    public sealed class NeuralNetAcyclic : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -61,7 +61,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// <param name="digraph">Network structure definition</param>
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNeuralNet(
+        public NeuralNetAcyclic(
             WeightedAcyclicDirectedGraph<double> digraph,
             VecFnSegment<double> activationFn,
             bool boundedOutput)
@@ -75,7 +75,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// <param name="weightArr">Connection weights array.</param>
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
-        public AcyclicNeuralNet(
+        public NeuralNetAcyclic(
             AcyclicDirectedGraph digraph,
             double[] weightArr,
             VecFnSegment<double> activationFn,
