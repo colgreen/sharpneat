@@ -46,6 +46,7 @@ namespace SharpNeatLib.Tests.Experiments
     'initialInterconnectionsProportion':0.33,
     'connectionWeightScale':4.44,
     'suppressHardwareAcceleration':true,
+    'degreeOfParallelism':6
 }");
 
             // Create a mock evaluation scheme.
@@ -88,6 +89,7 @@ namespace SharpNeatLib.Tests.Experiments
             Assert.AreEqual(222, experiment.PopulationSize);
             Assert.AreEqual(0.33, experiment.InitialInterconnectionsProportion);
             Assert.AreEqual(4.44, experiment.ConnectionWeightScale);
+            Assert.AreEqual(6, experiment.DegreeOfParallelism);
             Assert.AreEqual(true, experiment.SuppressHardwareAcceleration);
         }
     }

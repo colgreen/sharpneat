@@ -108,6 +108,12 @@ namespace SharpNeat.Experiments
         public ISpeciationStrategy<NeatGenome<double>,double> SpeciationStrategy { get; set; }
         
         /// <summary>
+        /// The number of CPU threads to distribute work to. 
+        /// Set to -1 to use a thread count that matches the number of logical CPU cores (this is the default).
+        /// </summary>
+        public int DegreeOfParallelism { get; set; } = -1;
+
+        /// <summary>
         /// Suppress use of hardware accelerated neural network implementations and neuron activation functions.
         /// I.e. alternate implementations that use CPU SIMD/vector inststructions.
         /// </summary>

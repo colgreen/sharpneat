@@ -53,6 +53,7 @@ namespace SharpNeat.Experiments
 
             ReadComplexityRegulationStrategy(target, jobj);
 
+            ReadIntOptional(jobj, "degreeOfParallelism", x => target.DegreeOfParallelism = x);
             ReadBoolOptional(jobj, "suppressHardwareAcceleration", x => target.SuppressHardwareAcceleration = x);
         }
 

@@ -48,25 +48,22 @@ namespace SharpNeat.Evaluation
         /// </summary>
         public ParallelGenomeListEvaluatorStateless(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
-            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme)
-            : this(genomeDecoder, phenomeEvaluationScheme, new ParallelOptions())
-        {}
-
-        /// <summary>
-        /// Construct with the provided IGenomeDecoder, IPhenomeEvaluator and ParallelOptions.
-        /// </summary>
-        public ParallelGenomeListEvaluatorStateless(
-            IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluatorScheme,
-            ParallelOptions parallelOptions)
+            int degreeOfParallelism)
         {
             // This class can only accept an evaluation scheme that uses a stateless evaluator.
             if(phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
 
+            // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time 
+            // this constructor is invoked, and 1 is nonsensical for a parallel evaluator.
+            if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
+
             _genomeDecoder = genomeDecoder;
             _phenomeEvaluationScheme = phenomeEvaluatorScheme;
             _phenomeEvaluator = phenomeEvaluatorScheme.CreateEvaluator();
-            _parallelOptions = parallelOptions;
+            _parallelOptions = new ParallelOptions {
+                 MaxDegreeOfParallelism = degreeOfParallelism
+            };
         }
 
         #endregion
