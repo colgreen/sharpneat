@@ -11,7 +11,6 @@
  */
 using System;
 using SharpNeat.BlackBox;
-using SharpNeat.BlackBox.Double;
 using SharpNeat.Network.Acyclic;
 
 namespace SharpNeat.NeuralNet.Double
@@ -77,12 +76,10 @@ namespace SharpNeat.NeuralNet.Double
         /// </summary>
         /// <param name="digraph">Network structure definition</param>
         /// <param name="activationFn">Node activation function.</param>
-        /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public NeuralNetAcyclic(
             WeightedDirectedGraphAcyclic<double> digraph,
-            VecFnSegment<double> activationFn,
-            bool boundedOutput)
-            : this(digraph, digraph.WeightArray, activationFn, boundedOutput)
+            VecFnSegment<double> activationFn)
+            : this(digraph, digraph.WeightArray, activationFn)
         {}
 
         /// <summary>
@@ -91,12 +88,10 @@ namespace SharpNeat.NeuralNet.Double
         /// <param name="digraph">Network structure definition</param>
         /// <param name="weightArr">Connection weights array.</param>
         /// <param name="activationFn">Node activation function.</param>
-        /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public NeuralNetAcyclic(
             DirectedGraphAcyclic digraph,
             double[] weightArr,
-            VecFnSegment<double> activationFn,
-            bool boundedOutput)
+            VecFnSegment<double> activationFn)
         {
             // Store refs to network structure data.
             _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
@@ -121,13 +116,7 @@ namespace SharpNeat.NeuralNet.Double
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
-            var outputVec = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
-
-            if(boundedOutput) {
-                _outputVector = new BoundedVector(outputVec);
-            } else {
-                _outputVector = outputVec;
-            }
+            _outputVector = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new NeuralNetAcyclic(digraph, actFn.Fn, false);
+            var net = new NeuralNetAcyclic(digraph, actFn.Fn);
 
             // Note. The single connection weight is zero, so the input value has no affect.
             // Activate and test.
@@ -55,7 +55,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new NeuralNetAcyclic(digraph, actFn.Fn, false);
+            var net = new NeuralNetAcyclic(digraph, actFn.Fn);
 
             // Activate and test.
             net.InputVector[0] = 0.0;
@@ -88,7 +88,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new NeuralNetAcyclic(digraph, actFn.Fn, false);
+            var net = new NeuralNetAcyclic(digraph, actFn.Fn);
 
             // Activate and test.
             net.InputVector[0] = 0.0;
@@ -125,7 +125,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new NeuralNetAcyclic(digraph, actFn.Fn, false);
+            var net = new NeuralNetAcyclic(digraph, actFn.Fn);
 
             // Activate and test.
             net.InputVector[0] = 0.0;
@@ -159,7 +159,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new NeuralNetAcyclic(digraph, actFn.Fn, false);
+            var net = new NeuralNetAcyclic(digraph, actFn.Fn);
 
             // Activate and test.
             net.InputVector[0] = 0.5;
@@ -189,7 +189,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
 
             // Create neural net
             var actFn = new Logistic();
-            var net = new NeuralNetAcyclic(digraph, actFn.Fn, false);
+            var net = new NeuralNetAcyclic(digraph, actFn.Fn);
 
             // Activate and test.
             net.InputVector[0] = 1.0;

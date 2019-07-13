@@ -10,16 +10,15 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Numerics;
-using SharpNeat.Network;
-using SharpNeat.BlackBox;
-using SharpNeat.BlackBox.Double;
 using System.Diagnostics;
+using System.Numerics;
+using SharpNeat.BlackBox;
+using SharpNeat.Network;
 
 namespace SharpNeat.NeuralNet.Double.Vectorized
 {
     /// <summary>
-    /// A version of <see cref="SharpNeat.NeuralNet.Double.NeuralNetCyclic"/> that utilises some vectorized operations
+    /// A version of <see cref="Double.NeuralNetCyclic"/> that utilises some vectorized operations
     /// for improved performance on hardware platforms that support them.
     /// </summary>
     public sealed class NeuralNetCyclic : IBlackBox<double>
@@ -61,14 +60,12 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         public NeuralNetCyclic (
             WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
-            int cyclesPerActivation,
-            bool boundedOutput)
+            int cyclesPerActivation)
         :this(
              digraph,
              digraph.WeightArray,
              activationFn,
-             cyclesPerActivation,
-             boundedOutput)
+             cyclesPerActivation)
         {}
 
         /// <summary>
@@ -78,8 +75,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             DirectedGraph digraph,
             double[] weightArr,
             VecFnSegment2<double> activationFn,
-            int cyclesPerActivation,
-            bool boundedOutput)
+            int cyclesPerActivation)
         {
             Debug.Assert(digraph.ConnectionIdArrays._sourceIdArr.Length == weightArr.Length);
 
@@ -105,13 +101,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             _inputVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
-            var outputVec = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
-
-            if(boundedOutput) {
-                _outputVector = new BoundedVector(outputVec);
-            } else {
-                _outputVector = outputVec;
-            }
+            _outputVector = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
         }
 
         #endregion

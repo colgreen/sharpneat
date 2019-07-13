@@ -11,9 +11,8 @@
  */
 using System;
 using System.Diagnostics;
-using SharpNeat.Network;
 using SharpNeat.BlackBox;
-using SharpNeat.BlackBox.Double;
+using SharpNeat.Network;
 
 namespace SharpNeat.NeuralNet.Double
 {
@@ -74,14 +73,12 @@ namespace SharpNeat.NeuralNet.Double
         public NeuralNetCyclic (
             WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
-            int cyclesPerActivation,
-            bool boundedOutput)
+            int cyclesPerActivation)
         :this(
              digraph,
              digraph.WeightArray,
              activationFn,
-             cyclesPerActivation,
-             boundedOutput)
+             cyclesPerActivation)
         {}
 
         /// <summary>
@@ -91,8 +88,7 @@ namespace SharpNeat.NeuralNet.Double
             DirectedGraph digraph,
             double[] weightArr,
             VecFnSegment2<double> activationFn,
-            int cyclesPerActivation,
-            bool boundedOutput)
+            int cyclesPerActivation)
         {
             Debug.Assert(digraph.ConnectionIdArrays._sourceIdArr.Length == weightArr.Length);
 
@@ -118,13 +114,7 @@ namespace SharpNeat.NeuralNet.Double
             _inputVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
-            var outputVec = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
-
-            if(boundedOutput) {
-                _outputVector = new BoundedVector(outputVec);
-            } else {
-                _outputVector = outputVec;
-            }
+            _outputVector = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
         }
 
         #endregion

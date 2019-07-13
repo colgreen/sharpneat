@@ -23,21 +23,6 @@ namespace SharpNeat.Neat.Genome.Double
     /// </summary>
     public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
-        readonly bool _boundedOutput;
-
-        #region Constructor
-
-        /// <summary>
-        /// Construct with the given decode arguments.
-        /// </summary>
-        /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>.
-        public NeatGenomeDecoderAcyclic(bool boundedOutput)
-        {
-            _boundedOutput = boundedOutput;
-        }
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -61,8 +46,7 @@ namespace SharpNeat.Neat.Genome.Double
             return new NeuralNetAcyclic(
                     (DirectedGraphAcyclic)genome.DirectedGraph,
                     neuralNetWeightArr,
-                    genome.MetaNeatGenome.ActivationFn.Fn,
-                    _boundedOutput);
+                    genome.MetaNeatGenome.ActivationFn.Fn);
         }
 
         #endregion

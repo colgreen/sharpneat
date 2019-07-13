@@ -22,19 +22,16 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
     public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {
         readonly int _cyclesPerActivation;
-        readonly bool _boundedOutput;
 
         #region Constructor
 
         /// <summary>
         /// Construct with the given decode arguments.
         /// </summary>
-        /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
         /// <param name="cyclesPerActivation">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
-        public NeatGenomeDecoderCyclic(int cyclesPerActivation, bool boundedOutput)
+        public NeatGenomeDecoderCyclic(int cyclesPerActivation)
         {
             _cyclesPerActivation = cyclesPerActivation;
-            _boundedOutput = boundedOutput;
         }
 
         #endregion
@@ -54,7 +51,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
                     genome.DirectedGraph,
                     genome.ConnectionGenes._weightArr,
                     genome.MetaNeatGenome.ActivationFn.Fn,
-                    _cyclesPerActivation, _boundedOutput);
+                    _cyclesPerActivation);
         }
 
         #endregion
