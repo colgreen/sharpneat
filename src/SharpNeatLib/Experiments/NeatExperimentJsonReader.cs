@@ -36,7 +36,7 @@ namespace SharpNeat.Experiments
         /// <param name="target">The target settings object to store the read values on.</param>
         /// <param name="jobj">The json object to read from.</param>
         public static void Read(
-            NeatExperiment<T> target, JObject jobj)
+            INeatExperiment<T> target, JObject jobj)
         {
             ReadStringOptional(jobj, "description", x => target.Description = x);
             ReadBoolOptional(jobj, "isAcyclic", x => target.IsAcyclic = x);
@@ -62,7 +62,7 @@ namespace SharpNeat.Experiments
         #region Private Static Methods
 
         private static void ReadNeatEvolutionAlgorithmSettings(
-            NeatExperiment<T> target, JObject jobj)
+            INeatExperiment<T> target, JObject jobj)
         {
             JObject settingsJobj = (JObject)jobj["neatEvolutionAlgorithmSettings"];
             if(settingsJobj != null) {
@@ -71,7 +71,7 @@ namespace SharpNeat.Experiments
         }
 
         private static void ReadNeatReproductionAsexualSettings(
-            NeatExperiment<T> target, JObject jobj)
+            INeatExperiment<T> target, JObject jobj)
         {
             JObject settingsJobj = (JObject)jobj["reproductionAsexualSettings"];
             if(settingsJobj != null) {
@@ -80,7 +80,7 @@ namespace SharpNeat.Experiments
         }
 
         private static void ReadNeatReproductionSexualSettings(
-            NeatExperiment<T> target, JObject jobj)
+            INeatExperiment<T> target, JObject jobj)
         {
             JObject settingsJobj = (JObject)jobj["reproductionSexualSettings"];
             if(settingsJobj != null) {
@@ -89,7 +89,7 @@ namespace SharpNeat.Experiments
         }
 
         private static void ReadComplexityRegulationStrategy(
-            NeatExperiment<T> target, JObject jobj)
+            INeatExperiment<T> target, JObject jobj)
         {
             IComplexityRegulationStrategy strategy = ReadComplexityRegulationStrategy(jobj);
 

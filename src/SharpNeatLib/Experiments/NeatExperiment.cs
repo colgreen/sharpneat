@@ -12,13 +12,9 @@
 using System;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.Neat.DistanceMetrics;
-using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Experiments
 {
