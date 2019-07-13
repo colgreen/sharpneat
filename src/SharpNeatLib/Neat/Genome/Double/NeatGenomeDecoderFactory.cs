@@ -30,11 +30,9 @@ namespace SharpNeat.Neat.Genome.Double
         /// <summary>
         /// Create a genome decoder that decodes to an  acyclic neural network implementation.
         /// </summary>
-        /// <param name="boundedOutput">Indicates whether the output values at the output nodes should be bounded to the interval [0,1]</param>
         /// <param name="suppressHardwareAcceleration">Suppress use of hardware accelerated black box (i.e neural network) implementations.</param>
         /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
         public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderAcyclic(
-            bool boundedOutput,
             bool suppressHardwareAcceleration = false)
         {
             if(!suppressHardwareAcceleration && Vector.IsHardwareAccelerated)
