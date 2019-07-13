@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using SharpNeat.Experiments;
 using Moq;
+using Newtonsoft.Json.Linq;
 using SharpNeat.Evaluation;
+using SharpNeat.Experiments;
 
 namespace SharpNeatLib.Tests.Experiments
 {
@@ -45,6 +45,14 @@ namespace SharpNeatLib.Tests.Experiments
     'populationSize':222,
     'initialInterconnectionsProportion':0.33,
     'connectionWeightScale':4.44,
+
+    'complexityRegulationStrategy':
+    {
+        'strategyName': 'absolute',
+        'complexityCeiling': 10,
+        'minSimplifcationGenerations': 10
+    },
+
     'suppressHardwareAcceleration':true,
     'degreeOfParallelism':6
 }");
@@ -89,6 +97,10 @@ namespace SharpNeatLib.Tests.Experiments
             Assert.AreEqual(222, experiment.PopulationSize);
             Assert.AreEqual(0.33, experiment.InitialInterconnectionsProportion);
             Assert.AreEqual(4.44, experiment.ConnectionWeightScale);
+
+            var complexityRegulationStrategy = experiment.ComplexityRegulationStrategy;
+            Assert.AreEqual("AbsoluteComplexityRegulationStrategy", complexityRegulationStrategy.GetType().Name);
+
             Assert.AreEqual(6, experiment.DegreeOfParallelism);
             Assert.AreEqual(true, experiment.SuppressHardwareAcceleration);
         }

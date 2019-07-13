@@ -9,13 +9,11 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using Newtonsoft.Json.Linq;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
-using static SharpNeat.IO.JsonReadMandatoryUtils;
 using static SharpNeat.IO.JsonReadOptionalUtils;
 
 namespace SharpNeat.Experiments
@@ -91,56 +89,10 @@ namespace SharpNeat.Experiments
         private static void ReadComplexityRegulationStrategy(
             INeatExperiment<T> target, JObject jobj)
         {
-            IComplexityRegulationStrategy strategy = ReadComplexityRegulationStrategy(jobj);
-
-            // If a strategy was explcitly defined, then set it on our target settings object to override the default strategy;
-            // otherwise leave the default strategy in place.
-            if(strategy != null) {
-                target.ComplexityRegulationStrategy = strategy;
-            }
-        }
-
-        private static IComplexityRegulationStrategy ReadComplexityRegulationStrategy(JObject jobj)
-        {
             JObject settingsJobj = (JObject)jobj["complexityRegulationStrategy"];
-            if(settingsJobj == null) {
-                return null;
+            if(settingsJobj != null) {
+                target.ComplexityRegulationStrategy = ComplexityRegulationStrategyJsonReader.Read(settingsJobj);    
             }
-
-            string strategyName = (string)settingsJobj["strategyName"];
-            switch(strategyName)
-            {
-                case null:
-                    // No strategy defined; continue using whatever strategy is defined by default.
-                    return null;
-
-                case "null":
-                    // The 'null' strategy has been explicitly defined.
-                    return new NullComplexityRegulationStrategy();
-
-                case "absolute":
-                    return ReadAbsoluteComplexityRegulationStrategy(settingsJobj);
-
-                case "relative":
-                    return ReadRelativeComplexityRegulationStrategy(settingsJobj);
-
-                default:
-                    throw new Exception($"Unsupported complexity regulation strategyName [{strategyName}]");
-            }
-        }
-
-        private static AbsoluteComplexityRegulationStrategy ReadAbsoluteComplexityRegulationStrategy(JObject jobj)
-        {
-            int complexityCeiling = ReadIntMandatory(jobj, "complexityCeiling");
-            int minSimplifcationGenerations = ReadIntMandatory(jobj, "minSimplifcationGenerations");
-            return new AbsoluteComplexityRegulationStrategy(minSimplifcationGenerations, complexityCeiling);
-        }
-
-        private static RelativeComplexityRegulationStrategy ReadRelativeComplexityRegulationStrategy(JObject jobj)
-        {
-            int relativeComplexityCeiling = ReadIntMandatory(jobj, "relativeComplexityCeiling");
-            int minSimplifcationGenerations = ReadIntMandatory(jobj, "minSimplifcationGenerations");
-            return new RelativeComplexityRegulationStrategy(minSimplifcationGenerations, relativeComplexityCeiling);
         }
 
         #endregion
