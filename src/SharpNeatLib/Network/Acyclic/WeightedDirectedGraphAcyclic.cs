@@ -15,7 +15,7 @@ namespace SharpNeat.Network.Acyclic
     /// <summary>
     /// Represents a weighted acyclic directed graph.
     /// </summary>
-    public class WeightedAcyclicDirectedGraph<T> : DirectedGraphAcyclic
+    public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
         where T : struct
     {
         /// <summary>
@@ -25,7 +25,7 @@ namespace SharpNeat.Network.Acyclic
 
         #region Constructor
 
-        internal WeightedAcyclicDirectedGraph(
+        internal WeightedDirectedGraphAcyclic(
             in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,

@@ -62,7 +62,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// <param name="activationFn">Node activation function.</param>
         /// <param name="boundedOutput">Indicates that the output values at the output nodes should be bounded to the interval [0,1]</param>
         public NeuralNetAcyclic(
-            WeightedAcyclicDirectedGraph<double> digraph,
+            WeightedDirectedGraphAcyclic<double> digraph,
             VecFnSegment<double> activationFn,
             bool boundedOutput)
             : this(digraph, digraph.WeightArray, activationFn, boundedOutput)

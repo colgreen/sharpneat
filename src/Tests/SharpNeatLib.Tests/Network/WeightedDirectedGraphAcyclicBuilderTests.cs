@@ -7,7 +7,7 @@ using static SharpNeat.Tests.Network.NetworkUtils;
 namespace SharpNeat.Tests.Network
 {
     [TestClass]
-    public class WeightedAcyclicDirectedGraphBuilderTests
+    public class WeightedDirectedGraphAcyclicBuilderTests
     {
         #region Test Methods
 
@@ -25,7 +25,7 @@ namespace SharpNeat.Tests.Network
             };
 
             // Create graph.
-            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 3, 2);
+            var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connList, 3, 2);
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connList, digraph.ConnectionIdArrays, digraph.WeightArray);
@@ -50,7 +50,7 @@ namespace SharpNeat.Tests.Network
 
             // Create graph.
             connList.Sort(WeightedDirectedConnectionComparer<double>.Default);
-            var digraph = WeightedAcyclicDirectedGraphBuilder<double>.Create(connList, 2, 2);
+            var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connList, 2, 2);
 
             // The nodes should have IDs allocated based on depth, i.e. the layer they are in.
             // And connections should be ordered by source node ID.
