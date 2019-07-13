@@ -100,5 +100,16 @@ namespace SharpNeat.Experiments
         /// The speciation strategy to use for the experiment.
         /// </summary>
         ISpeciationStrategy<NeatGenome<double>,double> SpeciationStrategy { get; set; }
+
+        /// <summary>
+        /// Suppress use of hardware accelerated neural network implementations and neuron activation functions.
+        /// I.e. alternate implementations that use CPU SIMD/vector inststructions.
+        /// </summary>
+        /// <remarks>
+        /// The vectorized code is provided by alternative classes, and these classes tend to be more complex than their
+        /// 'baseline' non-vectorized equivalents. Therefore when debugging a problem it is often useful to suppress use
+        /// of all vectorized code to rule out that code as the source of a problem/bug.
+        /// </remarks>
+        bool SuppressHardwareAcceleration { get; set; }
     }
 }

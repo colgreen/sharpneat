@@ -52,6 +52,8 @@ namespace SharpNeat.Experiments
             ReadDoubleOptional(jobj, "connectionWeightScale", x => target.ConnectionWeightScale = x);
 
             ReadComplexityRegulationStrategy(target, jobj);
+
+            ReadBoolOptional(jobj, "suppressHardwareAcceleration", x => target.SuppressHardwareAcceleration = x);
         }
 
         #endregion

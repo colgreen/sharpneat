@@ -42,11 +42,11 @@ namespace SharpNeatLib.Tests.Experiments
         'disjointExcessGenesRecombinedProbability':0.22
     },
 
-
     'populationSize':222,
     'initialInterconnectionsProportion':0.33,
-    'connectionWeightScale':4.44
-    }");
+    'connectionWeightScale':4.44,
+    'suppressHardwareAcceleration':true,
+}");
 
             // Create a mock evaluation scheme.
             var evalScheme = new Mock<IBlackBoxEvaluationScheme<double>>();
@@ -88,6 +88,7 @@ namespace SharpNeatLib.Tests.Experiments
             Assert.AreEqual(222, experiment.PopulationSize);
             Assert.AreEqual(0.33, experiment.InitialInterconnectionsProportion);
             Assert.AreEqual(4.44, experiment.ConnectionWeightScale);
+            Assert.AreEqual(true, experiment.SuppressHardwareAcceleration);
         }
     }
 }
