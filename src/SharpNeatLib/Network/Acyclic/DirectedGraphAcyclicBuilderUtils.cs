@@ -16,11 +16,11 @@ using Redzen.Sorting;
 
 namespace SharpNeat.Network.Acyclic
 {
-    internal static class AcyclicDirectedGraphBuilderUtils
+    internal static class DirectedGraphAcyclicBuilderUtils
     {
         #region Public Static Methods
 
-        public static AcyclicDirectedGraph CreateAcyclicDirectedGraph(
+        public static DirectedGraphAcyclic CreateAcyclicDirectedGraph(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,
             out int[] newIdByOldId,
@@ -40,7 +40,7 @@ namespace SharpNeat.Network.Acyclic
                 ref timsortWorkVArr);
         }
 
-        public static AcyclicDirectedGraph CreateAcyclicDirectedGraph(
+        public static DirectedGraphAcyclic CreateAcyclicDirectedGraph(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,
             out int[] newIdByOldId,
@@ -115,7 +115,7 @@ namespace SharpNeat.Network.Acyclic
             }
 
             // Construct and return.
-            return new AcyclicDirectedGraph(
+            return new DirectedGraphAcyclic(
                 connIdArrays,
                 inputCount, outputCount, nodeCount,
                 layerInfoArr,

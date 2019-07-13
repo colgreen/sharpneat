@@ -30,7 +30,7 @@ namespace SharpNeat.Tests.Neat.Genome
             var genome = genomeBuilder.Create(0, 0, connGenes);
 
             // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
-            var acyclicDigraph = (AcyclicDirectedGraph)genome.DirectedGraph;
+            var acyclicDigraph = (DirectedGraphAcyclic)genome.DirectedGraph;
             Assert.IsNotNull(acyclicDigraph);
 
             // The graph should be unchanged from the input connections.
@@ -60,7 +60,7 @@ namespace SharpNeat.Tests.Neat.Genome
             var genome = genomeBuilder.Create(0, 0, connGenes);
 
             // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
-            var acyclicDigraph = (AcyclicDirectedGraph)genome.DirectedGraph;
+            var acyclicDigraph = (DirectedGraphAcyclic)genome.DirectedGraph;
             Assert.IsNotNull(acyclicDigraph);
 
             // Simulate the actual weight array that would occur in e.g. a WeightedAcyclicDirectedGraph or AcyclicNeuralNet.

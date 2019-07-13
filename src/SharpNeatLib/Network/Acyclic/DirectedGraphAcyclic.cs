@@ -15,7 +15,7 @@ namespace SharpNeat.Network.Acyclic
     /// <summary>
     /// Represents an acyclic directed graph.
     /// </summary>
-    public class AcyclicDirectedGraph : DirectedGraph
+    public class DirectedGraphAcyclic : DirectedGraph
     {
         /// <summary>
         /// Layer information for the acyclic graph.
@@ -37,7 +37,7 @@ namespace SharpNeat.Network.Acyclic
 
         #region Constructor
 
-        internal AcyclicDirectedGraph(
+        internal DirectedGraphAcyclic(
             in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,

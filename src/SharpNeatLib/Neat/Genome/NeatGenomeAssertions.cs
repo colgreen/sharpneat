@@ -106,11 +106,11 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             int[] connectionIndexMap)
         {
-            Debug.Assert(digraph is AcyclicDirectedGraph);
+            Debug.Assert(digraph is DirectedGraphAcyclic);
             Debug.Assert(null != connectionIndexMap);
 
             // Cast to an acyclic digraph.
-            var acyclicDigraph = (AcyclicDirectedGraph)digraph;
+            var acyclicDigraph = (DirectedGraphAcyclic)digraph;
 
             // Layer info checks.
             LayerInfo[] layerArr = acyclicDigraph.LayerArray;

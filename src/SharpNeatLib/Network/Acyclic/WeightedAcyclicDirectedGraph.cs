@@ -15,7 +15,7 @@ namespace SharpNeat.Network.Acyclic
     /// <summary>
     /// Represents a weighted acyclic directed graph.
     /// </summary>
-    public class WeightedAcyclicDirectedGraph<T> : AcyclicDirectedGraph
+    public class WeightedAcyclicDirectedGraph<T> : DirectedGraphAcyclic
         where T : struct
     {
         /// <summary>

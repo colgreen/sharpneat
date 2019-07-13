@@ -92,7 +92,7 @@ namespace SharpNeat.Network.Acyclic
             GraphDepthInfo depthInfo)
         {
             // Create acyclic digraph.
-            var acyclicDigraph = AcyclicDirectedGraphBuilderUtils.CreateAcyclicDirectedGraph(
+            var acyclicDigraph = DirectedGraphAcyclicBuilderUtils.CreateAcyclicDirectedGraph(
                 digraph,
                 depthInfo,
                 out int[] _,

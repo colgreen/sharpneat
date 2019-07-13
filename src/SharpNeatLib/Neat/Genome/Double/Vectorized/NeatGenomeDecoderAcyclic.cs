@@ -49,7 +49,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
             Debug.Assert(genome?.MetaNeatGenome?.IsAcyclic == true);
             Debug.Assert(null != genome?.ConnectionGenes);
             Debug.Assert(genome.ConnectionGenes.Length == genome?.ConnectionIndexMap?.Length);
-            Debug.Assert(genome.DirectedGraph is AcyclicDirectedGraph);
+            Debug.Assert(genome.DirectedGraph is DirectedGraphAcyclic);
 
             // Create neural net weight array.
             // Note. We cannot use the genome's weight array directly here (as is done in NeatGenomeDecoder,
@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
 
             // Create a working neural net.
             return new NeuralNet.Double.Vectorized.NeuralNetAcyclic(
-                    (AcyclicDirectedGraph)genome.DirectedGraph,
+                    (DirectedGraphAcyclic)genome.DirectedGraph,
                     neuralNetWeightArr,
                     genome.MetaNeatGenome.ActivationFn.Fn,
                     _boundedOutput);
