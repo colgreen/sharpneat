@@ -15,6 +15,7 @@ using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Experiments
 {
@@ -57,6 +58,11 @@ namespace SharpNeat.Experiments
         /// Name of the neuron activation function to use in evolved networks.
         /// </summary>
         public string ActivationFnName { get; set; } 
+
+        /// <summary>
+        /// The activation function actory to be used for the experiment.
+        /// </summary>
+        public IActivationFunctionFactory<T> ActivationFunctionFactory { get; set; }
 
         /// <summary>
         /// The <see cref="NeatEvolutionAlgorithmSettings"/> to be used for the experiment.
@@ -139,6 +145,9 @@ namespace SharpNeat.Experiments
             this.IsAcyclic = isAcyclic;
             this.CyclesPerActivation = cyclesPerActivation;
             this.ActivationFnName = activationFnName ?? throw new ArgumentNullException(nameof(activationFnName));
+
+            // Assign a default activation function factory.
+            this.ActivationFunctionFactory = DefaultActivationFunctionFactory<T>.DefaultInstance;
 
             // Assign a set of default settings.
             this.NeatEvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();

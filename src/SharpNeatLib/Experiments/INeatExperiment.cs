@@ -14,6 +14,7 @@ using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Experiments
 {
@@ -53,6 +54,11 @@ namespace SharpNeat.Experiments
         /// Name of the neuron activation function to use in evolved networks.
         /// </summary>
         string ActivationFnName { get; set; } 
+
+        /// <summary>
+        /// The activation function actory to be used for the experiment.
+        /// </summary>
+        IActivationFunctionFactory<T> ActivationFunctionFactory { get; set; }
 
         /// <summary>
         /// The <see cref="NeatEvolutionAlgorithmSettings"/> to be used for the experiment.
