@@ -69,7 +69,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             _gradientArrTarget = gradientArrTarget;
 
             // Alloc working arrays for receiving black box outputs.
-            int sampleCount = _paramSamplingInfo.SampleCount;
+            int sampleCount = _paramSamplingInfo.SampleResolution;
             _yArr = new double[sampleCount];
             _gradientArr = new double[sampleCount];
 

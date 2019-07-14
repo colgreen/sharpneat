@@ -104,7 +104,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             _gradientMseWeight = gradientMseWeight;
 
             // Alloc arrays.
-            int sampleCount = _paramSamplingInfo.SampleCount;
+            int sampleCount = _paramSamplingInfo.SampleResolution;
             _yArrTarget = new double[sampleCount];
             _gradientArrTarget = new double[sampleCount];
 
@@ -153,7 +153,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             // output range is [0,1] when using the logistic function as the neuron activation function).
             FuncRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out double mid, out double scale);
 
-            return new GenerativeBlackBoxProbe(paramSamplingInfo.SampleCount, mid, scale);
+            return new GenerativeBlackBoxProbe(paramSamplingInfo.SampleResolution, mid, scale);
         }
 
         #endregion

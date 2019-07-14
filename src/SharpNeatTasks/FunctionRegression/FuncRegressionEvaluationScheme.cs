@@ -103,7 +103,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             _gradientMseWeight = gradientMseWeight;
 
             // Alloc arrays.
-            int sampleCount = _paramSamplingInfo.SampleCount;
+            int sampleCount = _paramSamplingInfo.SampleResolution;
             _yArrTarget = new double[sampleCount];
             _gradientArrTarget = new double[sampleCount];
 

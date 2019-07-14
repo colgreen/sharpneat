@@ -49,7 +49,7 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// <param name="responseArr">Response array.</param>
         public void Probe(IBlackBox<double> box, double[] responseArr)
         {
-            Debug.Assert(responseArr.Length == _paramSamplingInfo.SampleCount);
+            Debug.Assert(responseArr.Length == _paramSamplingInfo.SampleResolution);
 
             double[] xArr = _paramSamplingInfo.XArrNetwork;
             for(int i=0; i < xArr.Length; i++)

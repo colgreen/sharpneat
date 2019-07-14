@@ -24,7 +24,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             ParamSamplingInfo paramSamplingInfo,
             double[] responseArr)
         {
-            Debug.Assert(responseArr.Length == paramSamplingInfo.SampleCount);
+            Debug.Assert(responseArr.Length == paramSamplingInfo.SampleResolution);
 
             double[] xArr = paramSamplingInfo.XArr;
 
