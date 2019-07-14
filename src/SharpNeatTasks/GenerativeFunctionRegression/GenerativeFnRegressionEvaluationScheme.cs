@@ -20,7 +20,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     /// <summary>
     /// Evaluation scheme for the function regression task.
     /// </summary>
-    public class GenerativeFuncRegressionEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public class GenerativeFnRegressionEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Instance Fields
 
@@ -94,7 +94,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         /// <param name="fn">The target function.</param>
         /// <param name="paramSamplingInfo">Sampling (defines the x range and sampling density).</param>
         /// <param name="gradientMseWeight">The fitness weighting to assign to the gradient mean squared error (MSE) score.</param>
-        public GenerativeFuncRegressionEvaluationScheme(
+        public GenerativeFnRegressionEvaluationScheme(
             Func<double,double> fn,
             ParamSamplingInfo paramSamplingInfo,
             double gradientMseWeight)
