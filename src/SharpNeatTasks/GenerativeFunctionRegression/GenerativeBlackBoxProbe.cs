@@ -67,8 +67,20 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
                 // Get the black box's output value.
                 // TODO: Review this scheme. This replicates the behaviour in SharpNEAT 2.x but not sure if it's ideal, 
                 // for one it depends on the output range of the neural net activation function in use.
-                responseArr[i] = ((box.OutputVector[0] - 0.5) * _scale) + _offset;
+                double output = box.OutputVector[0];
+                Clip(ref output);
+                responseArr[i] = ((output - 0.5) * _scale) + _offset;
             }
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static void Clip(ref double x)
+        {
+            if(x < 0.0) x = 0.0;
+            else if(x > 1.0) x = 1.0;
         }
 
         #endregion
