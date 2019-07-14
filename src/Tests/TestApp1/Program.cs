@@ -8,6 +8,7 @@ namespace TestApp1
         {
             // Create and initialise the evolutionary algorithm.
             var factory = new EvolutionAlgorithmFactoryBinary11();
+            //var factory = new EvolutionAlgorithmFactorySinewave();
             var ea = factory.CreateNeatEvolutionAlgorithm();
             ea.Initialise();
 
