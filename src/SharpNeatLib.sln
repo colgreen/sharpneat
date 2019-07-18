@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib", "SharpNeatLib\SharpNeatLib.csproj", "{29425503-9A5D-4C86-BB9B-CA17A7742E6A}"
 EndProject
@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks.Benchmarks", "Benchmarks\SharpNeatTasks.Benchmarks\SharpNeatTasks.Benchmarks.csproj", "{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsLib", "TestsLib\TestsLib.csproj", "{D786F3C3-F391-4568-B512-3B1A4E6F24F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsLib", "TestsLib\TestsLib.csproj", "{D786F3C3-F391-4568-B512-3B1A4E6F24F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficacySampler", "EfficacySampler\EfficacySampler.csproj", "{134D2702-EFFE-4782-99CD-1A358190BE28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D786F3C3-F391-4568-B512-3B1A4E6F24F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{134D2702-EFFE-4782-99CD-1A358190BE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{134D2702-EFFE-4782-99CD-1A358190BE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{134D2702-EFFE-4782-99CD-1A358190BE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{134D2702-EFFE-4782-99CD-1A358190BE28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

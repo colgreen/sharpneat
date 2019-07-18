@@ -94,18 +94,12 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// <summary>
         /// Gets or sets the runner's update scheme.
         /// </summary>
-        public UpdateScheme UpdateScheme 
-        {
-            get { return _updateScheme; }
-        }
+        public UpdateScheme UpdateScheme => _updateScheme;
 
         /// <summary>
         /// Gets the current run state of the runner.
         /// </summary>
-        public RunState RunState
-        {
-            get { return _runState; }
-        }
+        public RunState RunState => _runState;
 
         #endregion
 
@@ -228,6 +222,11 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             }
             catch(ThreadAbortException)
             {   // Quietly exit thread.
+            }
+            catch(Exception ex)
+            {
+                __log.Error($"BackgroundThreadMethod() failed with exception [{ex.Message}]", ex);
+                throw;
             }
         }
 
