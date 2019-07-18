@@ -71,10 +71,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// <returns></returns>
         public NeatReproductionAsexualSettings CreateSimplifyingSettings()
         {
-            // Invoke the copy constructor with the the current object.
+            // Invoke the copy constructor with the current object.
             //
             // Note. Currently all of the settings are modified, therefore it's not necessary to use the copy constructor
-            // however, if additional settings are added to the settigns class then they will be handled automatically here 
+            // however, if additional settings are added to the settings class then they will be handled automatically here 
             // without having to update this code, so this is a slightly safer approach.
             var settings = new NeatReproductionAsexualSettings(this)
             {

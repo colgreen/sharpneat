@@ -74,7 +74,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         {
             _ea = ea ?? throw new ArgumentNullException(nameof(ea));
 
-            // Init update update scheme.
+            // Init update scheme.
             _updateScheme = updateScheme ?? throw new ArgumentNullException(nameof(updateScheme));
             _isUpdateDueFn = CreateIsUpdateDueFunction(_updateScheme);
 

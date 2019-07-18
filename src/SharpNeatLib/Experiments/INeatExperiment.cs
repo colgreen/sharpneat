@@ -56,7 +56,7 @@ namespace SharpNeat.Experiments
         string ActivationFnName { get; set; } 
 
         /// <summary>
-        /// The activation function actory to be used for the experiment.
+        /// The activation function factory to be used for the experiment.
         /// </summary>
         IActivationFunctionFactory<T> ActivationFunctionFactory { get; set; }
 
@@ -108,7 +108,7 @@ namespace SharpNeat.Experiments
 
         /// <summary>
         /// Suppress use of hardware accelerated neural network implementations and neuron activation functions.
-        /// I.e. alternate implementations that use CPU SIMD/vector inststructions.
+        /// I.e. alternate implementations that use CPU SIMD/vector instructions.
         /// </summary>
         /// <remarks>
         /// The vectorized code is provided by alternative classes, and these classes tend to be more complex than their

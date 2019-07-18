@@ -38,7 +38,7 @@ namespace SharpNeat.Evaluation
             // Reject nonsensical values for degreeOfParallelism.
             if(degreeOfParallelism < 1) throw new ArgumentException(nameof(degreeOfParallelism));
 
-            // Create a serial (single threaded) evaulator if degreeOfParallelism is one.
+            // Create a serial (single threaded) evaluator if degreeOfParallelism is one.
             if(degreeOfParallelism == 1) {
                 return new SerialGenomeListEvaluator<TGenome, TPhenome>(genomeDecoder, phenomeEvaluationScheme);
             }
