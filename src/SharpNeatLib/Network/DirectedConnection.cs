@@ -68,16 +68,17 @@ namespace SharpNeat.Network
         }
 
         /// <summary>
-        /// 
+        /// Compares this instance to a specified instance and returns an indication of their relative values.
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        /// <param name="other">A directed connection to compare with.</param>
+        /// <returns>A signed integer indicating result of the comparison.</returns>
         public int CompareTo(DirectedConnection other)
         {
             int v = this.SourceId.CompareTo(other.SourceId);
-            if(v != 0) return v;
-
-            return this.TargetId.CompareTo(other.TargetId);
+            if(v == 0) {
+                this.TargetId.CompareTo(other.TargetId);
+            }
+            return v;
         }
 
         #endregion
