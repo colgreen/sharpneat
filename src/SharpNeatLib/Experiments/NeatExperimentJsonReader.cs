@@ -83,7 +83,7 @@ namespace SharpNeat.Experiments
         private static void ReadNeatEvolutionAlgorithmSettings(
             INeatExperiment<T> target, JObject jobj)
         {
-            JObject settingsJobj = (JObject)jobj["neatEvolutionAlgorithmSettings"];
+            JObject settingsJobj = (JObject)jobj["evolutionAlgorithmSettings"];
             if(settingsJobj != null) {
                 NeatEvolutionAlgorithmSettingsJsonReader.Read(target.NeatEvolutionAlgorithmSettings, settingsJobj);
             }

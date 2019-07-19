@@ -19,7 +19,7 @@ namespace SharpNeatLib.Tests.Experiments
     'cyclesPerActivation':111,
     'activationFnName':'bar-activation-fn',
 
-    'neatEvolutionAlgorithmSettings':
+    'evolutionAlgorithmSettings':
     {
         'speciesCount':1111,
         'elitismProportion':0.11,
