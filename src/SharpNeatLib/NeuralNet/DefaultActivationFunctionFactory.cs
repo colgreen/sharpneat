@@ -113,7 +113,7 @@ namespace SharpNeat.NeuralNet
 
         private IActivationFunction<T> TryCreate(string name)
         {
-            // TODO: Reconsider this approach of builing a type name then attempting to instantiate that type on-the-fly.
+            // TODO: Reconsider this approach of building a type name then attempting to instantiate that type on-the-fly.
 
             // Get the generic type parameter name (i.e. Float or Double).
             string valueType = this.GetType().GetGenericArguments()[0].Name;
