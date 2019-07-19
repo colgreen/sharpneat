@@ -33,7 +33,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// distance between each of those points and the centroid. As such it can also be thought of as being an exemplar 
         /// for a set of points.
         /// </remarks>
-        public static ConnectionGenes<double> CalculateEuclideanCentroid(IEnumerable<ConnectionGenes<double>> coordList)
+        public static ConnectionGenes<double> CalculateEuclideanCentroid(
+            IEnumerable<ConnectionGenes<double>> coordList)
         {
             // Special case. One item in list, therefore it is the centroid.
             int count = coordList.Count();
@@ -42,18 +43,12 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 return coordList.First();
             }
 
+            // ENHANCEMENT: Obtain dictionary from a pool to avoid allocation and initialisation cost on each call to this method.
+
             // Each coordinate element has an ID. Here we calculate the total for each ID across all CoordinateVectors,
             // then divide the totals by the number of CoordinateVectors to get the average for each ID. That is, we 
             // calculate the componentwise mean.
-            //
-            // Coord elements within a CoordinateVector must be sorted by ID, therefore we use a SortedDictionary here 
-            // when building the centroid coordinate to eliminate the need to sort elements later.
-            //
-            // We use SortedDictionary and not SortedList for performance. SortedList is fastest for insertion
-            // only if the inserts are in order (sorted). However, this is generally not the case here because although
-            // coordinate IDs are sorted within the source CoordinateVectors, not all IDs exist within all CoordinateVectors
-            // therefore a low ID may be presented to coordElemTotals after a higher ID.
-            var coordElemTotals = new SortedDictionary<DirectedConnection,WeightRef>();
+            var coordElemTotals = new Dictionary<DirectedConnection,double>(64);
 
             // Loop over coords.
             foreach(ConnectionGenes<double> coord in coordList)
@@ -67,19 +62,16 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                     DirectedConnection conn = connArr[i];
                     double weight = weightArr[i];
 
+                    // ENHANCEMENT: Updating an existing entry here requires a second lookup; in principle this could be avoided,
+                    // e.g. by using a custom dictionary implementation with InsertOrSum() method.
+                    
                     // If the ID has previously been encountered then add the current element value to it, otherwise
-                    // add a new double[1] to hold the value.. 
-                    // Note that we wrap the double value in an object so that we do not have to re-insert values
-                    // to increment them. In tests this approach was about 40% faster (including GC overhead).
-
-                    // TODO: Review the use of WeightRef as a wrapper; this generates a lot of object allocations that we could avoid, e.g.
-                    // with a custom dictionary implementation that allows accumulating a numeric value for an existing entry; to do this with a 
-                    // Dictionary requires the approach used here, or re-looking up the slot to update it.
-                    if(coordElemTotals.TryGetValue(conn, out WeightRef weightRef)) {
-                        weightRef.Weight += weight;
+                    // add a new entry to the dictionary.
+                    if(coordElemTotals.TryGetValue(conn, out double weightAcc)) {
+                        coordElemTotals[conn] = weightAcc + weight;
                     }
                     else {
-                        coordElemTotals.Add(conn, new WeightRef(weight));
+                        coordElemTotals.Add(conn, weight);
                     }
                 }
             }
@@ -94,7 +86,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// This method uses an inefficient N*N comparison of coords to find a medoid. It is provided only as a last
         /// resort for distance metrics for which no means exist to calculate a centroid.
         /// </summary>
-        public static ConnectionGenes<double> FindMedoid(IDistanceMetric<double> distanceMetric, IList<ConnectionGenes<double>> coordList)
+        public static ConnectionGenes<double> FindMedoid(
+            IDistanceMetric<double> distanceMetric, IList<ConnectionGenes<double>> coordList)
         {
             // Special case. One item in list, therefore it is the centroid.
             if(1 == coordList.Count) {
@@ -127,7 +120,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
         #region Private Static Methods
 
-        private static ConnectionGenes<double> CreateCentroid(SortedDictionary<DirectedConnection,WeightRef> centroidElements, int coordCount)
+        private static ConnectionGenes<double> CreateCentroid(
+            Dictionary<DirectedConnection,double> centroidElements,
+            int coordCount)
         {
             int length = centroidElements.Count;
             var connGenes = new ConnectionGenes<double>(length);
@@ -143,9 +138,12 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             foreach(var elem in centroidElements)
             {
                 connArr[idx] = elem.Key;
-                weightArr[idx] = elem.Value.Weight * coordCountReciprocol;
+                weightArr[idx] = elem.Value * coordCountReciprocol;
                 idx++;
             }
+
+            // Sort the connection genes.
+            connGenes.Sort();
 
             return connGenes;
         }
@@ -157,7 +155,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// <param name="distanceMetric">The distance metric.</param>
         /// <param name="coordList">The list of coordinates.</param>
         /// <param name="idx">The index of the coordinate to measure distance to.</param>
-        private static double CalculateMeanDistanceFromCoords(IDistanceMetric<double> distanceMetric, IList<ConnectionGenes<double>> coordList, int idx)
+        private static double CalculateMeanDistanceFromCoords(
+            IDistanceMetric<double> distanceMetric,
+            IList<ConnectionGenes<double>> coordList, int idx)
         {
             double totalDistance = 0.0;
             int count = coordList.Count;
@@ -174,20 +174,6 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             return totalDistance / (count-1);
-        }
-
-        #endregion
-
-        #region Inner Class
-
-        class WeightRef
-        {
-            public double Weight;
-
-            public WeightRef(double weight)
-            {
-                this.Weight  = weight;
-            }
         }
 
         #endregion
