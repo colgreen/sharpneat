@@ -124,7 +124,12 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         /// <returns>A new instance of <see cref="IPhenomeEvaluator{T}"/>.</returns>
         public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
         {
-            return new FuncRegressionEvaluator(_paramSamplingInfo, _gradientMseWeight, _yArrTarget, _gradientArrTarget, _blackBoxProbe);
+            return new FuncRegressionEvaluator(
+                _paramSamplingInfo,
+                _gradientMseWeight,
+                _yArrTarget,
+                _gradientArrTarget,
+                _blackBoxProbe);
         }
 
         /// <summary>
@@ -149,9 +154,14 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             // Determine the mid output value of the function (over the specified sample points) and a scaling factor
             // to apply the to neural network response for it to be able to recreate the function (because the neural net
             // output range is [0,1] when using the logistic function as the neuron activation function).
-            FuncRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out double mid, out double scale);
+            FuncRegressionUtils.CalcFunctionMidAndScale(
+                fn, paramSamplingInfo,
+                out double mid,
+                out double scale);
 
-            return new GenerativeBlackBoxProbe(paramSamplingInfo.SampleResolution, mid, scale);
+            return new GenerativeBlackBoxProbe(
+                paramSamplingInfo.SampleResolution,
+                mid, scale);
         }
 
         #endregion
