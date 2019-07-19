@@ -74,11 +74,11 @@ namespace SharpNeat.Network
         /// <returns>A signed integer indicating result of the comparison.</returns>
         public int CompareTo(DirectedConnection other)
         {
-            int v = this.SourceId.CompareTo(other.SourceId);
-            if(v == 0) {
-                this.TargetId.CompareTo(other.TargetId);
+            long v = (long)this.SourceId - (long)other.SourceId;
+            if(v == 0L) {
+                v = (long)this.TargetId - (long)other.TargetId;
             }
-            return v;
+            return Math.Sign(v);
         }
 
         #endregion
