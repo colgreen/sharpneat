@@ -163,8 +163,8 @@ namespace SharpNeat.NeuralNet.Double
                 // post-activation values and are never activated. 
                 _activationFn(_preActivationArr, _postActivationArr, _inputCount, _preActivationArr.Length);
 
-                // Reset the elements of _preActivationArray
-                Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length-_inputCount);
+                // Reset the elements of _preActivationArray that represent the output and hidden nodes.
+                Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length - _inputCount);
             }
         }
 
@@ -173,11 +173,11 @@ namespace SharpNeat.NeuralNet.Double
         /// </summary>
         public void ResetState()
         {
-            // Reset the output signal for all output and hidden neurons.
-            // Ignore connection signal state as this gets overwritten on each iteration.
-            for(int i=_inputCount; i < _postActivationArr.Length; i++) {
-                _preActivationArr[i] = 0.0;
-            }
+            // Reset the elements of _preActivationArray and _postActivationArr that represent the
+            // output and hidden nodes.
+            // Note. Connection signal state is not reset as this gets overwritten on each iteration.   
+            Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length - _inputCount);
+            Array.Clear(_postActivationArr, _inputCount, _postActivationArr.Length - _inputCount);
         }
 
         #endregion
