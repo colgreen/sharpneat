@@ -24,7 +24,6 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     {
         #region Instance Fields
 
-        readonly Func<double,double> _fn;
         readonly ParamSamplingInfo _paramSamplingInfo;
         readonly double _gradientMseWeight;
 
@@ -99,7 +98,6 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             ParamSamplingInfo paramSamplingInfo,
             double gradientMseWeight)
         {
-            _fn = fn;
             _paramSamplingInfo = paramSamplingInfo;
             _gradientMseWeight = gradientMseWeight;
 
@@ -126,7 +124,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         /// <returns>A new instance of <see cref="IPhenomeEvaluator{T}"/>.</returns>
         public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
         {
-            return new FuncRegressionEvaluator(_fn, _paramSamplingInfo, _gradientMseWeight, _yArrTarget, _gradientArrTarget, _blackBoxProbe);
+            return new FuncRegressionEvaluator(_paramSamplingInfo, _gradientMseWeight, _yArrTarget, _gradientArrTarget, _blackBoxProbe);
         }
 
         /// <summary>

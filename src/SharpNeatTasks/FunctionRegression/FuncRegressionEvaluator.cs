@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using Redzen;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
@@ -26,7 +25,6 @@ namespace SharpNeat.Tasks.FunctionRegression
     /// </summary>
     public sealed class FuncRegressionEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
-        readonly Func<double,double> _fn;
         readonly ParamSamplingInfo _paramSamplingInfo;
         readonly double _gradientMseWeight;
         readonly double _yMseWeight;
@@ -46,21 +44,18 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// <summary>
         /// Construct a new instance.
         /// </summary>
-        /// <param name="fn">The function to apply function regression to..</param>
         /// <param name="paramSamplingInfo">Parameter sampling info.</param>
         /// <param name="gradientMseWeight">Fitness weighting to apply to the gradient fitness score.</param> 
         /// <param name="yArrTarget">Array of target y values (function output values).</param>
         /// <param name="gradientArrTarget">Array of target gradient values.</param>
         /// <param name="blackBoxProbe">Black box probe. For obtaining the y value response array from an instance of <see cref="IBlackBox{T}"/>.</param>
         internal FuncRegressionEvaluator(
-            Func<double,double> fn,
             ParamSamplingInfo paramSamplingInfo,
             double gradientMseWeight,
             double[] yArrTarget,
             double[] gradientArrTarget,
             IBlackBoxProbe blackBoxProbe)
         {
-            _fn = fn;
             _paramSamplingInfo = paramSamplingInfo;
             _gradientMseWeight = gradientMseWeight;
             _yMseWeight = 1.0 - gradientMseWeight;
