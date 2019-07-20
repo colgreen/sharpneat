@@ -138,8 +138,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             _reproductionSexual = new NeatReproductionSexual<T>(
                 _pop.MetaNeatGenome, _pop.GenomeBuilder,
-                _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
-                _pop.AddedNodeBuffer, reproductionSexualSettings);
+                _pop.GenomeIdSeq, _generationSeq,
+                reproductionSexualSettings);
 
             _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, eaSettings.InterspeciesMatingProportion);
         }

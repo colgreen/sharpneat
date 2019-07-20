@@ -35,17 +35,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         /// <param name="metaNeatGenome">NeatGenome metadata.</param>
         /// <param name="genomeBuilder">NeatGenome builder.</param>
         /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
-        /// <param name="innovationIdSeq">Innovation ID sequence; for obtaining new innovation IDs.</param>
         /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
-        /// <param name="addedNodeBuffer">A history buffer of added nodes.</param>
         /// <param name="settings">Sexual reproduction settings.</param>
         public NeatReproductionSexual(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
-            Int32Sequence innovationIdSeq,
             Int32Sequence generationSeq,
-            AddedNodeBuffer addedNodeBuffer,
             NeatReproductionSexualSettings settings)
         {
             _settings = settings;
