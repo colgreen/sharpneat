@@ -74,11 +74,18 @@ namespace SharpNeat.Network
         /// <returns>A signed integer indicating result of the comparison.</returns>
         public int CompareTo(DirectedConnection other)
         {
-            long v = (long)this.SourceId - (long)other.SourceId;
+            // Notes.
+            // The comparison here uses subtraction rather than comparing IDs, this eliminates a number of branches
+            // which gives better performance. The code works and is safe because the source and target node IDs are
+            // always have non-negative values, and therefore have a possible range of [0, (2^31)-1]. And if we 
+            // subtract the largest possible value from zero we get -(2^31)-1 which is still within the range of 
+            // and Int32, i.e. the result of that subtraction does not overflow and is therefore a negative value
+            // as required (to give a valid comparison result).
+            int v = this.SourceId - other.SourceId;
             if(v == 0L) {
-                v = (long)this.TargetId - (long)other.TargetId;
+                v = this.TargetId - other.TargetId;
             }
-            return Math.Sign(v);
+            return v;
         }
 
         #endregion

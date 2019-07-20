@@ -62,6 +62,18 @@ namespace SharpNeat.Tests.Neat.Network
             Assert.AreEqual(-1, new DirectedConnection(10,20).CompareTo(new DirectedConnection(10,21)));
             Assert.AreEqual(-1, new DirectedConnection(10,20).CompareTo(new DirectedConnection(11,20)));
             Assert.AreEqual(-1, new DirectedConnection(10,20).CompareTo(new DirectedConnection(11,21)));
+
+            Assert.IsTrue(new DirectedConnection(0,0).CompareTo(new DirectedConnection(0,int.MaxValue)) < 0);
+            Assert.IsTrue(new DirectedConnection(0,0).CompareTo(new DirectedConnection(int.MaxValue,0)) < 0);
+            Assert.IsTrue(new DirectedConnection(0,0).CompareTo(new DirectedConnection(int.MaxValue,int.MaxValue)) < 0);
+
+            Assert.IsTrue(new DirectedConnection(0,int.MaxValue).CompareTo(new DirectedConnection(0,0)) > 0);
+            Assert.IsTrue(new DirectedConnection(int.MaxValue,0).CompareTo(new DirectedConnection(0,0)) > 0);
+            Assert.IsTrue(new DirectedConnection(int.MaxValue,int.MaxValue).CompareTo(new DirectedConnection(0,0)) > 0);
+
+            Assert.IsTrue(new DirectedConnection(0,int.MaxValue).CompareTo(new DirectedConnection(0,int.MaxValue)) == 0);
+            Assert.IsTrue(new DirectedConnection(int.MaxValue,0).CompareTo(new DirectedConnection(int.MaxValue,0)) == 0);
+            Assert.IsTrue(new DirectedConnection(int.MaxValue,int.MaxValue).CompareTo(new DirectedConnection(int.MaxValue,int.MaxValue)) == 0);
         }
     }
 }
