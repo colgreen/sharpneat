@@ -55,27 +55,24 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// </summary>
         /// <param name="distanceMetric">Distance metric.</param>
         /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
-        public GeneticKMeansSpeciationStrategy(
-            IDistanceMetric<T> distanceMetric,
-            int maxKMeansIters)
-            : this(distanceMetric, maxKMeansIters, new ParallelOptions())
-        {}
-
-        /// <summary>
-        /// Construct a new instance.
-        /// </summary>
-        /// <param name="distanceMetric">Distance metric.</param>
-        /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
-        /// <param name="parallelOptions">Parallel execution options.</param>
+        /// <param name="degreeOfParallelism">The number of CPU threads to distribute work to.</param>
         public GeneticKMeansSpeciationStrategy(
             IDistanceMetric<T> distanceMetric,
             int maxKMeansIters,
-            ParallelOptions parallelOptions)
+            int degreeOfParallelism)
         {
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
-            _parallelOptions = parallelOptions;
-            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, parallelOptions);
+
+            // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time 
+            // this constructor is invoked, and 1 is nonsensical for a parallel strategy.
+            if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
+
+            _parallelOptions = new ParallelOptions {
+                 MaxDegreeOfParallelism = degreeOfParallelism
+            };
+
+            _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, _parallelOptions);
         }
 
         #endregion

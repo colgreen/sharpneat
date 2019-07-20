@@ -88,7 +88,7 @@ namespace SharpNeatLib.Tests.Neat
         {
             // Create a speciation strategy instance.
             var distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
-            var speciationStrategy = new SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
+            var speciationStrategy = new SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, 4);
 
             // Apply the speciation strategy.
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);

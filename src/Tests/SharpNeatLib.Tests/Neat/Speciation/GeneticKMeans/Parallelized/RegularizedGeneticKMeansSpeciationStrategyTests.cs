@@ -17,7 +17,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans.Parallelized
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
             var distanceMetric = new ManhattanDistanceMetric();
-            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1);
+            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1, 4);
 
             TestSpeciateAll(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng, false);
             TestSpeciateAll(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng, false);
@@ -30,7 +30,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans.Parallelized
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(1);
             var distanceMetric = new EuclideanDistanceMetric();
-            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1);
+            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1, 4);
 
             TestSpeciateAll(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng, false);
             TestSpeciateAll(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng, false);
@@ -43,7 +43,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans.Parallelized
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(2);
             var distanceMetric = new ManhattanDistanceMetric();
-            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1);
+            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1, 4);
 
             TestSpeciateAdd(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng, false);
             TestSpeciateAdd(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng, false);
@@ -56,7 +56,7 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans.Parallelized
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(3);
             var distanceMetric = new EuclideanDistanceMetric();
-            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1);
+            var speciationStrategy = new RegularizedGeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 0.1, 4);
 
             TestSpeciateAdd(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng, false);
             TestSpeciateAdd(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng, false);

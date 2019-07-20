@@ -128,7 +128,7 @@ namespace SharpNeat.Experiments
             }
             
             // Create a parallel (multi-threaded) strategy for degreeOfParallelism > 1.
-            return new Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
+            return new Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, degreeOfParallelismResolved);
         }
 
         private static int ResolveDegreeOfParallelism(INeatExperiment<double> neatExperiment)
