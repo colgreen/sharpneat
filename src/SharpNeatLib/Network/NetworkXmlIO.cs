@@ -459,7 +459,7 @@ namespace SharpNeat.Network
                     string fnName = xrSubtree.GetAttribute(__AttrName);
 
                     // Lookup function name.
-                    IActivationFunction activationFn = GetActivationFunction(fnName);
+                    IActivationFunction activationFn = ActivationFunctionRegistry.GetActivationFunction(fnName);
 
                     // Add new function to our list of functions.
                     ActivationFunctionInfo fnInfo = new ActivationFunctionInfo(id, selectionProb, activationFn);
@@ -526,44 +526,6 @@ namespace SharpNeat.Network
                     return "hid";
             }
             throw new ArgumentException($"Unexpected NodeType [{nodeType}]");
-        }
-
-        /// <summary>
-        /// Gets an IActivationFunction from its short name.
-        /// </summary>
-        public static IActivationFunction GetActivationFunction(string name)
-        {
-            switch(name)
-            {
-                // Bipolar.
-                case "BipolarGaussian": return BipolarGaussian.__DefaultInstance;
-                case "BipolarSigmoid":  return BipolarSigmoid.__DefaultInstance;
-                case "Linear":          return Linear.__DefaultInstance;
-                case "Sine":            return Sine.__DefaultInstance;
-
-                // Unipolar.
-                case "ArcSinH":         return ArcSinH.__DefaultInstance;
-                case "ArcTan":          return ArcTan.__DefaultInstance;
-                case "Gaussian":        return Gaussian.__DefaultInstance;
-                case "LeakyReLU":       return LeakyReLU.__DefaultInstance;
-                case "LeakyReLUShifted":            return LeakyReLUShifted.__DefaultInstance;
-                case "LogisticFunction":            return LogisticFunction.__DefaultInstance;
-                case "LogisticFunctionSteep":       return LogisticFunctionSteep.__DefaultInstance;
-                case "MaxMinusOne":                 return MaxMinusOne.__DefaultInstance;
-                case "PolynomialApproximantSteep":  return PolynomialApproximantSteep.__DefaultInstance;
-                case "QuadraticSigmoid":            return QuadraticSigmoid.__DefaultInstance;
-                case "ReLU":            return ReLU.__DefaultInstance;
-                case "ScaledELU":       return ScaledELU.__DefaultInstance;
-                case "SoftSignSteep":   return SoftSignSteep.__DefaultInstance;
-                case "SReLU":           return SReLU.__DefaultInstance;
-                case "SReLUShifted":    return SReLUShifted.__DefaultInstance;
-                case "TanH":            return TanH.__DefaultInstance;
-
-                // Radial Basis.
-                case "RbfGaussian": return RbfGaussian.__DefaultInstance;
-
-            }
-            throw new ArgumentException($"Unexpected activation function [{name}]");
         }
 
         #endregion
