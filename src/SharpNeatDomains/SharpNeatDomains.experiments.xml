@@ -25,7 +25,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <ClassName>SharpNeat.Domains.BinarySixMultiplexer.BinarySixMultiplexerExperiment</ClassName>
     <Config>
       <PopulationSize>300</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -44,7 +44,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <ClassName>SharpNeat.Domains.BinarySixMultiplexer.RbfBinarySixMultiplexerExperiment</ClassName>
     <Config>
       <PopulationSize>300</PopulationSize>
-      <SpecieCount>20</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>        
       </Activation>
@@ -68,7 +68,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <ClassName>SharpNeat.Domains.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperiment</ClassName>
     <Config>
       <PopulationSize>600</PopulationSize>
-      <SpecieCount>40</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -87,7 +87,7 @@ To distinguish between correct low scorers and incorrect low scorers an addition
     <ClassName>SharpNeat.Domains.BinaryElevenMultiplexer.RbfBinaryElevenMultiplexerExperiment</ClassName>
     <Config>
       <PopulationSize>1000</PopulationSize>
-      <SpecieCount>50</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -176,7 +176,7 @@ Sin(x) evaluated over [0,2*PI]
     <ClassName>SharpNeat.Domains.FunctionRegression.FnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>600</PopulationSize>
-      <SpecieCount>40</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -198,7 +198,7 @@ Sin(x) evaluated over [0,2*PI]
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>600</PopulationSize>
-      <SpecieCount>40</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
@@ -220,7 +220,7 @@ Sin(x) evaluated over [0,2*PI]
     <ClassName>SharpNeat.Domains.GenerativeFunctionRegression.GenerativeFnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>600</PopulationSize>
-      <SpecieCount>40</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
@@ -268,7 +268,7 @@ Sin(x) evaluated over [0,2*PI]
     <ClassName>SharpNeat.Domains.FunctionRegression.RbfFnRegressionExperiment</ClassName>
     <Config>
       <PopulationSize>1000</PopulationSize>
-      <SpecieCount>50</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>Acyclic</Scheme>
       </Activation>
@@ -527,7 +527,7 @@ Difficulty of the task can be varying
     <ClassName>SharpNeat.Domains.BoxesVisualDiscrimination.BoxesVisualDiscriminationExperiment</ClassName>
     <Config>
       <PopulationSize>500</PopulationSize>
-      <SpecieCount>40</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <ActivationCppn>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>4</Iters>
@@ -558,7 +558,7 @@ The problem domain view allows the performance of the best genome to be observed
     <ClassName>SharpNeat.Domains.BoxesVisualDiscrimination.BoxesVisualDiscriminationExperiment</ClassName>
     <Config>
       <PopulationSize>500</PopulationSize>
-      <SpecieCount>40</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <ActivationCppn>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>4</Iters>

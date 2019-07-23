@@ -42,7 +42,7 @@
     <ClassName>SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp.SinglePoleBalancingSwingUpExperiment</ClassName>
     <Config>
       <PopulationSize>500</PopulationSize>
-      <SpecieCount>30</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
@@ -61,7 +61,7 @@
     <ClassName>SharpNeat.DomainsExtra.InvertedDoublePendulum.InvertedDoublePendulumExperiment</ClassName>
     <Config>
       <PopulationSize>500</PopulationSize>
-      <SpecieCount>30</SpecieCount>
+      <SpecieCount>10</SpecieCount>
       <Activation>
         <Scheme>CyclicFixedIters</Scheme>
         <Iters>1</Iters>
@@ -117,7 +117,7 @@
     <ClassName>SharpNeat.DomainsExtra.WalkerBox2d.WalkerBox2dExperimentHyperNeat</ClassName>
     <Config>
       <PopulationSize>2000</PopulationSize>
-      <SpecieCount>50</SpecieCount>      
+      <SpecieCount>10</SpecieCount>      
       <ActivationCppn>
         <Scheme>Acyclic</Scheme>
       </ActivationCppn>

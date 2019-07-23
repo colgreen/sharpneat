@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Config>
   <PopulationSize>600</PopulationSize>
-  <SpecieCount>40</SpecieCount>
+  <SpecieCount>10</SpecieCount>
   <Activation>
     <Scheme>CyclicFixedIters</Scheme>
     <Iters>1</Iters>
