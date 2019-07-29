@@ -141,7 +141,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 _pop.GenomeIdSeq, _generationSeq,
                 reproductionSexualSettings);
 
-            _offspringBuilder = new OffspringBuilder<T>(_reproductionAsexual, _reproductionSexual, eaSettings.InterspeciesMatingProportion);
+            _offspringBuilder = new OffspringBuilder<T>(
+                _reproductionAsexual,
+                _reproductionSexual,
+                eaSettings.InterspeciesMatingProportion,
+                evaluator.FitnessComparer);
         }
 
         #endregion

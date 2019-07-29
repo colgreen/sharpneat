@@ -11,9 +11,11 @@
  */
 using System.Collections.Generic;
 using System.Linq;
+using Redzen;
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
+using SharpNeat.Evaluation;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
@@ -34,6 +36,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatReproductionAsexual<T> _reproductionAsexual;
         readonly NeatReproductionSexual<T> _reproductionSexual;
         readonly double _interspeciesMatingProportion;
+        readonly IComparer<FitnessInfo> _fitnessComparer;
 
         #endregion
 
@@ -42,11 +45,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public OffspringBuilder(
             NeatReproductionAsexual<T> reproductionAsexual,
             NeatReproductionSexual<T> reproductionSexual,
-            double interspeciesMatingProportion)
+            double interspeciesMatingProportion,
+            IComparer<FitnessInfo> fitnessComparer)
         {
             _reproductionAsexual = reproductionAsexual;
             _reproductionSexual = reproductionSexual;
             _interspeciesMatingProportion = interspeciesMatingProportion;
+            _fitnessComparer = fitnessComparer;
         }
 
         #endregion
@@ -201,6 +206,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 DiscreteDistribution genomeDistB = genomeDistArr[speciesIdx];
                 genomeIdx = DiscreteDistribution.Sample(rng, genomeDistB);
                 var parentGenomeB = speciesB.GenomeList[genomeIdx];
+
+                // Ensure parentA is the fittest of the two parents.
+                if(_fitnessComparer.Compare(parentGenomeA.FitnessInfo, parentGenomeB.FitnessInfo) < 0) {
+                    VariableUtils.Swap(ref parentGenomeA, ref parentGenomeB);
+                }
 
                 // Create a child genome and add it to offspringList.
                 var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);

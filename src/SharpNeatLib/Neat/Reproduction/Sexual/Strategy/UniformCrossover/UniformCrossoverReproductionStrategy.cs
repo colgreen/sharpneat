@@ -71,7 +71,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <param name="parent2">Parent 2.</param>
         /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        public NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
+        public NeatGenome<T> CreateGenome(
+            NeatGenome<T> parent1,
+            NeatGenome<T> parent2,
+            IRandomSource rng)
         {
             try
             {
@@ -89,12 +92,14 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Private Methods
 
-        private NeatGenome<T> CreateGenomeInner(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
+        private NeatGenome<T> CreateGenomeInner(
+            NeatGenome<T> parent1,
+            NeatGenome<T> parent2,
+            IRandomSource rng)
         {
-            // Randomly select one parent as being the primary parent.
-            if(rng.NextBool()) {
-                VariableUtils.Swap(ref parent1, ref parent2);
-            }
+            // Resolve a flag that determines if *all* disjoint genes from the secondary parent will be included in the child genome, or not.
+            // This approach is from SharpNEAT v2.x and is preserved to act as baseline in v4.x, but better strategies may exist.
+            bool includeSecondaryParentGene = DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability);
 
             // Enumerate over the connection genes in both parents.
             foreach(var geneIndexPair in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
@@ -103,7 +108,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 ConnectionGene<T>? connGene = CreateConnectionGene(
                     parent1.ConnectionGenes, parent2.ConnectionGenes,
                     geneIndexPair.Item1, geneIndexPair.Item2,
-                    rng);
+                    includeSecondaryParentGene, rng);
 
                 if(connGene.HasValue)
                 {   // Attempt to add the gene to the child genome we are building.
@@ -129,6 +134,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             ConnectionGenes<T> connGenes1,
             ConnectionGenes<T> connGenes2,
             int idx1, int idx2,
+            bool includeSecondaryParentGene,
             IRandomSource rng)
         {
             // Select gene at random if it is present on both parents.
@@ -146,11 +152,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 return CreateConnectionGene(connGenes1, idx1);
             }
 
-            // Otherwise use the secondary parent's gene stochastically.
-            if(DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability)) {
+            // Otherwise use the secondary parent's gene if the 'includeSecondaryParentGene' flag is set.
+            if(includeSecondaryParentGene) {
                 return CreateConnectionGene(connGenes2, idx2);
             }
-            
+
             return null;
         }
 
