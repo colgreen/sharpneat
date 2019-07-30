@@ -2,7 +2,7 @@
   "profiles": {
     "EfficacySampler": {
       "commandName": "Project",
-      "commandLineArgs": "binary11 secs 15 out.csv"
+      "commandLineArgs": "binary11 secs 60 out.csv"
     }
   }
 }
