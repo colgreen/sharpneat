@@ -21,6 +21,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Speciation;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Experiments
 {
@@ -43,7 +44,8 @@ namespace SharpNeat.Experiments
             var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
 
             // Resolve the configured activation function name to an activation function instance.
-            var activationFn = neatExperiment.ActivationFunctionFactory.GetActivationFunction(neatExperiment.ActivationFnName);
+            var actFnFactory = new DefaultActivationFunctionFactory<double>(neatExperiment.EnableHardwareAcceleratedActivationFunctions);
+            var activationFn = actFnFactory.GetActivationFunction(neatExperiment.ActivationFnName);
 
             // Construct a MetaNeatGenome.
             var metaNeatGenome = new MetaNeatGenome<double>(

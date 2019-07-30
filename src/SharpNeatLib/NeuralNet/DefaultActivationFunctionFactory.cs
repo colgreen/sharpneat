@@ -25,12 +25,6 @@ namespace SharpNeat.NeuralNet
     public class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
         where T : struct
     {
-        // TODO: Consider refactoring this out of existence.
-        /// <summary>
-        /// Default/singleton activation function library.
-        /// </summary>
-        public static IActivationFunctionFactory<T> DefaultInstance { get; } = new DefaultActivationFunctionFactory<T>(false);
-
         #region Instance Fields
 
         /// <summary>
@@ -47,13 +41,6 @@ namespace SharpNeat.NeuralNet
         #endregion
 
         #region Constructor
-
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public DefaultActivationFunctionFactory()
-            : this(false)
-        {}
 
         /// <summary>
         /// Construct with the provided options.
@@ -113,8 +100,6 @@ namespace SharpNeat.NeuralNet
 
         private IActivationFunction<T> TryCreate(string name)
         {
-            // TODO: Reconsider this approach of building a type name then attempting to instantiate that type on-the-fly.
-
             // Get the generic type parameter name (i.e. Float or Double).
             string valueType = this.GetType().GetGenericArguments()[0].Name;
 
