@@ -104,12 +104,14 @@ namespace SharpNeat.Experiments
         private static IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> CreateGenomeDecoder(
             INeatExperiment<double> neatExperiment)
         {
-            if(neatExperiment.IsAcyclic) {
-                return NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic(neatExperiment.SuppressHardwareAcceleration);
+            if(neatExperiment.IsAcyclic) 
+            {
+                return NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic(
+                    neatExperiment.EnableHardwareAcceleratedNeuralNets);
             }
             return NeatGenomeDecoderFactory.CreateGenomeDecoderCyclic(
                 neatExperiment.CyclesPerActivation,
-                neatExperiment.SuppressHardwareAcceleration);
+                neatExperiment.EnableHardwareAcceleratedNeuralNets);
         }
 
         private static ISpeciationStrategy<NeatGenome<double>, double> CreateSpeciationStrategy(

@@ -11,7 +11,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
         [TestCategory("ActivationFunctionFactory")]
         public void Test()
         {
-            var fact = new DefaultActivationFunctionFactory<double>(true);
+            var fact = new DefaultActivationFunctionFactory<double>(false);
             var actFn = fact.GetActivationFunction("ReLU");
 
             Assert.IsNotNull(actFn);
@@ -30,7 +30,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
                 Assert.Inconclusive("Hardware accelerations not available. Hardware acceleration is available on supporting CPUs only, and only for x64 builds with optimization enabled (i.e. release builds).");
             }
 
-            var fact = new DefaultActivationFunctionFactory<double>();
+            var fact = new DefaultActivationFunctionFactory<double>(true);
             var actFn = fact.GetActivationFunction("ReLU");
 
             Assert.IsNotNull(actFn);
@@ -46,7 +46,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
         [TestCategory("ActivationFunctionFactory")]
         public void TestCppn()
         {
-            var fact = new DefaultActivationFunctionFactory<double>(true);
+            var fact = new DefaultActivationFunctionFactory<double>(false);
             var actFn = fact.GetActivationFunction("Gaussian");
 
             Assert.IsNotNull(actFn);

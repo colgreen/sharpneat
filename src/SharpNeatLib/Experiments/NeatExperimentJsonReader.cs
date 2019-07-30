@@ -73,7 +73,8 @@ namespace SharpNeat.Experiments
             ReadComplexityRegulationStrategy(target, jobj);
 
             ReadIntOptional(jobj, "degreeOfParallelism", x => target.DegreeOfParallelism = x);
-            ReadBoolOptional(jobj, "suppressHardwareAcceleration", x => target.SuppressHardwareAcceleration = x);
+            ReadBoolOptional(jobj, "enableHardwareAcceleratedNeuralNets", x => target.EnableHardwareAcceleratedNeuralNets = x);
+            ReadBoolOptional(jobj, "enableHardwareAcceleratedActivationFunctions", x => target.EnableHardwareAcceleratedActivationFunctions = x);
         }
 
         #endregion

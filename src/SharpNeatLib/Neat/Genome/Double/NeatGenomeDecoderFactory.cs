@@ -13,13 +13,13 @@ namespace SharpNeat.Neat.Genome.Double
         /// Create a genome decoder that decodes to a cyclic neural network implementation.
         /// </summary>
         /// <param name="cyclesPerActivation">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
-        /// <param name="suppressHardwareAcceleration">Suppress use of hardware accelerated black box (i.e neural network) implementations.</param>
+        /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network) implementations.</param>
         /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
         public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderCyclic(
             int cyclesPerActivation,
-            bool suppressHardwareAcceleration = false)
+            bool enableHardwareAcceleration = false)
         {
-            if(!suppressHardwareAcceleration && Vector.IsHardwareAccelerated)
+            if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
             {
                 return new Vectorized.NeatGenomeDecoderCyclic(cyclesPerActivation);    
             }
@@ -28,14 +28,14 @@ namespace SharpNeat.Neat.Genome.Double
         }
 
         /// <summary>
-        /// Create a genome decoder that decodes to an  acyclic neural network implementation.
+        /// Create a genome decoder that decodes to an acyclic neural network implementation.
         /// </summary>
-        /// <param name="suppressHardwareAcceleration">Suppress use of hardware accelerated black box (i.e neural network) implementations.</param>
+        /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network) implementations.</param>
         /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
         public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderAcyclic(
-            bool suppressHardwareAcceleration = false)
+            bool enableHardwareAcceleration = false)
         {
-            if(!suppressHardwareAcceleration && Vector.IsHardwareAccelerated)
+            if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
             {
                 return new Vectorized.NeatGenomeDecoderAcyclic();    
             }

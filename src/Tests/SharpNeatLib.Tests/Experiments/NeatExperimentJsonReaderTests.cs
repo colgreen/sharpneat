@@ -52,7 +52,8 @@ namespace SharpNeatLib.Tests.Experiments
         'minSimplifcationGenerations': 10
     },
 
-    'suppressHardwareAcceleration':true,
+    'enableHardwareAcceleratedNeuralNets':true,
+    'enableHardwareAcceleratedActivationFunctions':true,
     'degreeOfParallelism':6
 }");
 
@@ -100,7 +101,8 @@ namespace SharpNeatLib.Tests.Experiments
             Assert.AreEqual("AbsoluteComplexityRegulationStrategy", complexityRegulationStrategy.GetType().Name);
 
             Assert.AreEqual(6, experiment.DegreeOfParallelism);
-            Assert.AreEqual(true, experiment.SuppressHardwareAcceleration);
+            Assert.AreEqual(true, experiment.EnableHardwareAcceleratedNeuralNets);
+            Assert.AreEqual(true, experiment.EnableHardwareAcceleratedActivationFunctions);
         }
     }
 }

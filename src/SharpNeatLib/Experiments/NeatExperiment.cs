@@ -111,15 +111,30 @@ namespace SharpNeat.Experiments
         public int DegreeOfParallelism { get; set; } = -1;
 
         /// <summary>
-        /// Suppress use of hardware accelerated neural network implementations and neuron activation functions.
-        /// I.e. alternate implementations that use CPU SIMD/vector instructions.
+        /// Enable use of hardware accelerated neural network implementations, i.e. alternate implementations that use 
+        /// CPU SIMD/vector instructions.
         /// </summary>
         /// <remarks>
         /// The vectorized code is provided by alternative classes, and these classes tend to be more complex than their
-        /// 'baseline' non-vectorized equivalents. Therefore when debugging a problem it is often useful to suppress use
+        /// 'baseline' non-vectorized equivalents. Therefore when debugging a problem it is often useful to disable use
         /// of all vectorized code to rule out that code as the source of a problem/bug.
         /// </remarks>
-        public bool SuppressHardwareAcceleration { get; set; } = false;
+        public bool EnableHardwareAcceleratedNeuralNets { get; set; } = false;
+
+        /// <summary>
+        /// Enable use of hardware accelerated neural network activation functions, i.e. alternate implementations that use
+        /// CPU SIMD/vector instructions.
+        /// </summary>
+        /// <remarks>
+        /// The vectorized code is provided by alternative classes, and these classes tend to be more complex than their
+        /// 'baseline' non-vectorized equivalents. Therefore when debugging a problem it is often useful to disable use
+        /// of all vectorized code so as to rule out that code as the source of a problem/bug.
+        /// 
+        /// Furthermore, enabling hardware acceleration has been observed to often result in slower execution speed,
+        /// probably because NEAT deals with non-homogenous, irregular neural network structures that are generally not 
+        /// conducive to the application of vectorized code.
+        /// </remarks>
+        public bool EnableHardwareAcceleratedActivationFunctions { get; set; } = false;
 
         #endregion
 

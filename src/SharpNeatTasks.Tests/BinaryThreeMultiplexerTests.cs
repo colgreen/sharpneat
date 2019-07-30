@@ -21,14 +21,14 @@ namespace SharpNeat.Tasks.Tests
 
         [TestMethod]
         [TestCategory("BinaryThreeMultiplexer")]
-        public void TestCorrectResponse_SuppressHardwareAcceleration()
+        public void TestCorrectResponse_EnableHardwareAcceleration()
         {
             TestCorrectResponseInner(true);
         }
 
-        private void TestCorrectResponseInner(bool suppressHardwareAcceleration)
+        private void TestCorrectResponseInner(bool enableHardwareAcceleration)
         {
-            var activationFnFactory = new DefaultActivationFunctionFactory<double>(suppressHardwareAcceleration);
+            var activationFnFactory = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
             var metaNeatGenome = new MetaNeatGenome<double>(4, 1, true, activationFnFactory.GetActivationFunction("LeakyReLU"));
 
             // Load test genome.

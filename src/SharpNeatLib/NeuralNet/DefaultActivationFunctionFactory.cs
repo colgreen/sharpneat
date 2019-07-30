@@ -29,14 +29,14 @@ namespace SharpNeat.NeuralNet
         /// <summary>
         /// Default/singleton activation function library.
         /// </summary>
-        public static IActivationFunctionFactory<T> DefaultInstance { get; } = new DefaultActivationFunctionFactory<T>();
+        public static IActivationFunctionFactory<T> DefaultInstance { get; } = new DefaultActivationFunctionFactory<T>(false);
 
         #region Instance Fields
 
         /// <summary>
-        /// If true then hardware accelerated activation functions are not used even when they are available.
+        /// If true then hardware accelerated activation functions are used when available.
         /// </summary>
-        readonly bool _suppressHardwareAcceleration = false;
+        readonly bool _enableHardwareAcceleration = false;
 
         /// <summary>
         /// A dictionary of activation function instances keyed by class name.
@@ -58,10 +58,10 @@ namespace SharpNeat.NeuralNet
         /// <summary>
         /// Construct with the provided options.
         /// </summary>
-        /// <param name="suppressHardwareAcceleration">If true then hardware accelerated activation functions are not used even when they are available.</param>
-        public DefaultActivationFunctionFactory(bool suppressHardwareAcceleration)
+        /// <param name="enableHardwareAcceleration">If true then hardware accelerated activation functions are used when available.</param>
+        public DefaultActivationFunctionFactory(bool enableHardwareAcceleration)
         {
-            _suppressHardwareAcceleration = suppressHardwareAcceleration;
+            _enableHardwareAcceleration = enableHardwareAcceleration;
             _lockObj = ((IDictionary)_fnByName).SyncRoot;
         }
 
@@ -84,7 +84,7 @@ namespace SharpNeat.NeuralNet
                 }
 
                 // No entry in the cache, attempt to create a new instance.
-                if(!_suppressHardwareAcceleration && Vector.IsHardwareAccelerated)
+                if(_enableHardwareAcceleration && Vector.IsHardwareAccelerated)
                 {   // Attempt to get a hardware accelerated instance.
                     actFn = TryCreateVectorized(name);
                 }
