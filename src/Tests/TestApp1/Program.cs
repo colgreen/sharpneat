@@ -7,9 +7,7 @@ namespace TestApp1
         static void Main(string[] args)
         {
             // Create and initialise the evolutionary algorithm.
-            //var factory = new EvolutionAlgorithmFactoryBinary11();
-            var factory = new EvolutionAlgorithmFactorySinewave();
-            var ea = factory.CreateNeatEvolutionAlgorithm();
+            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_Binary6();
             ea.Initialise();
 
             var neatPop = ea.Population;
@@ -17,10 +15,8 @@ namespace TestApp1
             for(int i = 0; i < 10_000; i++)
             {
                 ea.PerformOneGeneration();
-                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {ea.Stats.TotalEvaluationCount} {ea.ComplexityRegulationMode}");
+                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {neatPop.Stats.MeanComplexity} {ea.ComplexityRegulationMode}");
             }
-
-            Console.ReadKey();
         }
     }
 }
