@@ -4,7 +4,7 @@
 	"cyclesPerActivation": 1,
 	"activationFnName": "LeakyReLU",
 	"evolutionAlgorithmSettings": {
-		"speciesCount" : 40,
+		"speciesCount" : 10,
 		"elitismProportion" : 0.2,
 		"selectionProportion" : 0.2,
 		"offspringAsexualProportion" : 0.5,
@@ -29,6 +29,8 @@
 		"minSimplifcationGenerations": 10
 	},
 	"degreeOfParallelism": 4,
+	"enableHardwareAcceleratedNeuralNets": false,
+	"enableHardwareAcceleratedActivationFunctions": false,
 	"customEvaluationSchemeConfig": {
 		"functionId": "Sin",
 		"sampleIntervalMin": 0,
