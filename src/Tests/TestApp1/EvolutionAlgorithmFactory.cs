@@ -2,11 +2,20 @@
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.BinarySixMultiplexer;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
+using SharpNeat.Tasks.Xor;
 
 namespace TestApp1
 {
     public static class EvolutionAlgorithmFactory
     {
+        public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_Xor()
+        {
+            var experimentFactory = new XorExperimentFactory();
+            return Utils.CreateNeatEvolutionAlgorithm(
+                experimentFactory,
+                "config/xor.config.json");
+        }
+
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_Binary6()
         {
             var experimentFactory = new BinarySixMultiplexerExperimentFactory();

@@ -89,8 +89,15 @@ namespace SharpNeat.Tasks.Xor
 
             // Read output signal.
             double output = box.OutputVector[0];
+            Clip(ref output);
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
             return output;
+        }
+
+        private static void Clip(ref double x)
+        {
+            if(x < 0.0) x = 0.0;
+            else if(x > 1.0) x = 1.0;
         }
 
         #endregion
