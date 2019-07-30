@@ -11,6 +11,7 @@
  */
 using Newtonsoft.Json.Linq;
 using SharpNeat.Experiments;
+using SharpNeat.IO;
 using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Tasks.BinaryThreeMultiplexer
@@ -30,9 +31,9 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         public INeatExperiment<double> CreateExperiment(string jsonConfig)
         {
             // Parse the json config string.
-            JObject configJobj = JObject.Parse(jsonConfig);
+            JObject configJobj = JsonUtils.Parse(jsonConfig);
 
-            // Create an evaluation scheme object for the binary 11-multiplexer task.
+            // Create an evaluation scheme object for the binary 3-multiplexer task.
             var evalScheme = new BinaryThreeMultiplexerEvaluationScheme();
 
             // Create a NeatExperiment object with the evaluation scheme.
@@ -42,7 +43,9 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
                 __DefaultActivationFunctionName.ToString());
 
             // Read standard neat experiment json config and use it configure the experiment.
-            NeatExperimentJsonReader<double>.Read(experiment, configJobj);
+            if(configJobj != null) { 
+                NeatExperimentJsonReader<double>.Read(experiment, configJobj);
+            }
 
             return experiment;
         }

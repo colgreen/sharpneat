@@ -17,9 +17,10 @@ namespace SharpNeat.Experiments
     /// </summary>
     /// <typeparam name="T">Black box numeric data type.</typeparam>
     public interface INeatExperimentFactory<T> where T : struct
-    {        
+    {
         /// <summary>
-        /// Create a new instance of <see cref="INeatExperiment{T}"/>.
+        /// Create a new instance of <see cref="INeatExperiment{T}"/> using experiment 
+        /// configuration settings from the provided json string.
         /// </summary>
         /// <param name="jsonConfig">Experiment config in json format.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
