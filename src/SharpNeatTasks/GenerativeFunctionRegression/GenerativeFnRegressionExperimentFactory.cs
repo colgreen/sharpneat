@@ -13,6 +13,7 @@ using System;
 using Newtonsoft.Json.Linq;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
+using SharpNeat.NeuralNet;
 using SharpNeat.Tasks.FunctionRegression;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression
@@ -22,8 +23,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     /// </summary>
     public class GenerativeFnRegressionExperimentFactory : INeatExperimentFactory<double>
     {
-        // TODO: Consider defining a central list of standard activation function names.
-        const string __DefaultActivationFunctionName = "LeakyReLU";
+        const ActivationFunctionName __DefaultActivationFunctionName = ActivationFunctionName.LeakyReLU;
 
         #region Public Methods
 
@@ -52,7 +52,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             var experiment = NeatExperiment<double>.CreateCyclic(
                 "Generative Function Regression",
                 evalScheme,
-                __DefaultActivationFunctionName,
+                __DefaultActivationFunctionName.ToString(),
                 1);
 
             // Read standard neat experiment json config and use it configure the experiment.

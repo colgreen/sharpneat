@@ -11,6 +11,7 @@
  */
 using Newtonsoft.Json.Linq;
 using SharpNeat.Experiments;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Tasks.BinaryElevenMultiplexer
 {
@@ -19,8 +20,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     /// </summary>
     public class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFactory<double>
     {
-        // TODO: Consider defining a central list of standard activation function names.
-        const string __DefaultActivationFunctionName = "LeakyReLU";
+        const ActivationFunctionName __DefaultActivationFunctionName = ActivationFunctionName.LeakyReLU;
 
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
@@ -39,7 +39,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
             var experiment = NeatExperiment<double>.CreateAcyclic(
                 "Binary 11-multiplexer",
                 evalScheme,
-                __DefaultActivationFunctionName);
+                __DefaultActivationFunctionName.ToString());
 
             // Read standard neat experiment json config and use it configure the experiment.
             NeatExperimentJsonReader<double>.Read(experiment, configJobj);

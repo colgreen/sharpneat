@@ -14,7 +14,7 @@ using System;
 namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 {
     /// <summary>
-    /// The ArcTan function (inverse tangent function) .
+    /// The ArcTan function (inverse tangent function).
     /// </summary>
     public sealed class ArcTan : IActivationFunction<double>
     {
