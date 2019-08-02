@@ -119,7 +119,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
             double theta_dot_dot = ((G * sinTheta) + (cosTheta * ((-force - HalfPoleMassLength * thetaVelocitySquaredSinTheta) * TotalMassReciprocal)))
                                  / (HalfPoleLength * (4/3 - (MassPole * cosTheta * cosTheta * TotalMassReciprocal)));
                 
-            // Calc angular acceleration of the cart.
+            // Calc acceleration of the cart.
             double x_dot_dot = (force + HalfPoleMassLength * (thetaVelocitySquaredSinTheta - theta_dot_dot * cosTheta)) * TotalMassReciprocal;
 
 			// Update the four state variables using Euler's method.
