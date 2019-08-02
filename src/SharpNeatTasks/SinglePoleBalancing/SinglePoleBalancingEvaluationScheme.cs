@@ -89,7 +89,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return (fitnessInfo.PrimaryFitness >= 100_000);
+            return (fitnessInfo.PrimaryFitness >= 200_000);
         }
 
         #endregion
