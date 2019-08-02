@@ -30,7 +30,7 @@ All four variables are provided as inputs to the controller; and note that veloc
 solve with no hidden neural net nodes required.
 
 * Physics simulation timesteps are in increments of 0.01 seconds.
-* Maximum timesteps for a trial is 100,000, i.e. 1000 seconds, or about 16 minutes clock time.
+* Maximum timesteps for a trial is 200,000, i.e. 2000 seconds, or about 33.3 minutes clock time.
 
 
 The goal is for the controller to balance the pole for as long as possible by applying force to the cart.

@@ -107,8 +107,8 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
             // Avoiding that scenario may be why the original/canonical single pole balncing task used bang-bang control
             // (see https://en.wikipedia.org/wiki/Bang%E2%80%93bang_control).
             // Note that this can cause the force to slightly exceed MaxForce.
-            // Inject noise in the interval [-0.05,0.05]
-            force += (_rng.NextDouble()-0.5) * 0.1;
+            // Inject noise in the interval [-0.01,0.01]
+            force += (_rng.NextDouble()-0.5) * 0.02;
 
             // Pre-calculate some reusable terms.
             double sinTheta = Math.Sin(_poleAngle);

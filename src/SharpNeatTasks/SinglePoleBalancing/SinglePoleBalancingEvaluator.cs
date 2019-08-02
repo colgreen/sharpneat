@@ -90,7 +90,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 			}
 
             // The controller's fitness is defined as the number of timesteps that elapsed before failure.
-            double fitness = timestep;
+            double fitness = timestep + (_trackLengthThreshold - Math.Abs(physics.CartPosX)) * 5.0;
             return new FitnessInfo(fitness);
         }
 
