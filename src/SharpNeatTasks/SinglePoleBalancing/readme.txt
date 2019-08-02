@@ -53,7 +53,18 @@ The physics model is taken from:
   https://pdfs.semanticscholar.org/3dd6/7d8565480ddb5f3c0b4ea6be7058e77b4172.pdf
 
 
-The original formulation of the problem appears to have originated in this paper:
+This paper seems to be an earlier source of the update equations, for both the single and double pole balancing tasks,
+and including modelling of friction at the cart-track, and pole hinge.
+
+  Evolving Controls for Unstable Systems
+  Alexis P. Weiland
+  Computer Science Department
+  University of California,
+  Los Angeles, CA 90024-1596
+  https://books.google.co.uk/books?hl=en&lr=&id=_Z6jBQAAQBAJ&oi=fnd&pg=PA91
+
+
+This even earler paper contains the same equations, but for single pole balancing task only.
 
   Neuronlike Adaptive Elements That Can Solve Difficult Learning Control Problems
   Andrew G. Barton, Richard S. Sutton, Charles W. Anderson
