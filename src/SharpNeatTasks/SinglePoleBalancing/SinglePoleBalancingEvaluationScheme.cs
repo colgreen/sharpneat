@@ -42,7 +42,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
         /// for the same genome, such as scheme is non-deterministic.
         /// </remarks>
-        public bool IsDeterministic => true;
+        public bool IsDeterministic => false;
 
         /// <summary>
         /// Gets a fitness comparer for the scheme.
@@ -89,7 +89,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return (fitnessInfo.PrimaryFitness >= 10_000);
+            return (fitnessInfo.PrimaryFitness >= 100_000);
         }
 
         #endregion

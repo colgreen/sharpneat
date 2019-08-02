@@ -14,6 +14,9 @@ using Redzen.Random;
 
 namespace SharpNeat.Tasks.SinglePoleBalancing
 {
+    /// <summary>
+    /// Physics engine/model for the Single Pole Balancing task.
+    /// </summary>
     public class SinglePoleBalancingPhysics
     {
 		#region Constants
@@ -104,8 +107,8 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
             // Avoiding that scenario may be why the original/canonical single pole balncing task used bang-bang control
             // (see https://en.wikipedia.org/wiki/Bang%E2%80%93bang_control).
             // Note that this can cause the force to slightly exceed MaxForce.
-            // Inject noise in the interval [-0.5,0.5]
-            force += (_rng.NextDouble()-0.5);
+            // Inject noise in the interval [-0.05,0.05]
+            force += (_rng.NextDouble()-0.5) * 0.1;
 
             // Pre-calculate some reusable terms.
             double sinTheta = Math.Sin(_poleAngle);
@@ -119,7 +122,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
             // Calc angular acceleration of the cart.
             double x_dot_dot = (force + HalfPoleMassLength * (thetaVelocitySquaredSinTheta - theta_dot_dot * cosTheta)) * TotalMassReciprocal;
 
-			// Update the four state variables, using Euler's method.
+			// Update the four state variables using Euler's method.
 			_cartPosX				+= Tau * _cartVelocityX;
 			_cartVelocityX		    += Tau * x_dot_dot;
 			_poleAngle			    += Tau * _poleAngularVelocity;

@@ -15,6 +15,9 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.SinglePoleBalancing
 {
+    /// <summary>
+    /// Evaluator for the Single Pole Balancing task.
+    /// </summary>
     public class SinglePoleBalancingEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
 		const double TwelveDegrees = Math.PI / 15.0; //= 0.2094384 radians.
