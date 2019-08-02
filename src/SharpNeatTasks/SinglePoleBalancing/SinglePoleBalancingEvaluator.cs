@@ -34,7 +34,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// Construct evaluator with default task arguments/variables.
         /// </summary>
 		public SinglePoleBalancingEvaluator() 
-            : this(100000, 2.4, TwelveDegrees)
+            : this(100_000, 2.4, TwelveDegrees)
 		{}
 
         /// <summary>
