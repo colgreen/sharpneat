@@ -24,7 +24,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         const double TotalMassReciprocal = 1.0 / (MassPole + MassCart);
 		const double HalfPoleLength = 0.5;
 		const double HalfPoleMassLength = (MassPole * HalfPoleLength);
-		const double ForceMag = 10.0;               // Fixed magnitude of the force applied to the cart, in Newtons.
+		const double MaxForce = 10.0;               // Maximum force applied to the cart, in Newtons.
 		const double Tau = 0.02;                    // Time increment.
 		const double SixDegrees = Math.PI / 30.0;	//= 0.1047192 radians;
 
@@ -86,12 +86,15 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// Update the physics model state by one timestep.
         /// </summary>
         /// <param name="forceSign">If positive then push the cart to the right in this timestep; otherwise push the cart to the left. Only the sign on this valus is used.</param>
-        public void Update(double forceSign)
+        public void Update(double force)
         {
             // Determine the force to be applied to the cart.
             // Note. The cart is always being pushed with a constant force, either to the left or right. This was the approach taken in the original
             // cart and pole experiment; it would be trivial to change this to use a variable force input instead.
-			double force = Math.Sign(forceSign) * ForceMag;
+
+            // Clip input value to interval [-1,1], then multiple by MaxForce.
+            ClipForce(ref force);
+            force *= MaxForce;
 
             // Pre-calculate some reusable terms.
             double sinTheta = Math.Sin(_poleAngle);
@@ -110,6 +113,16 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 			_cartVelocityX		    += Tau * x_dot_dot;
 			_poleAngle			    += Tau * _poleAngularVelocity;
 			_poleAngularVelocity    += Tau * theta_dot_dot;
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static void ClipForce(ref double x)
+        {
+            if(x < -1) x = -1.0;
+            else if(x > 1.0) x = 1.0;
         }
 
         #endregion
