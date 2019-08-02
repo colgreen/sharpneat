@@ -25,7 +25,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 		const double HalfPoleLength = 0.5;
 		const double HalfPoleMassLength = (MassPole * HalfPoleLength);
 		const double MaxForce = 10.0;               // Maximum force applied to the cart, in Newtons.
-		const double Tau = 0.02;                    // Time increment.
+		const double Tau = 0.01;                    // Time increment.
 		const double SixDegrees = Math.PI / 30.0;	//= 0.1047192 radians;
 
 		#endregion
