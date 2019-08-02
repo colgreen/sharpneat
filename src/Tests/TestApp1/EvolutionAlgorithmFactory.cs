@@ -3,6 +3,7 @@ using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.BinarySixMultiplexer;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
 using SharpNeat.Tasks.SinglePoleBalancing;
+using SharpNeat.Tasks.SinglePoleBalancingNv;
 using SharpNeat.Tasks.Xor;
 
 namespace TestApp1
@@ -47,6 +48,14 @@ namespace TestApp1
             return Utils.CreateNeatEvolutionAlgorithm(
                 experimentFactory,
                 "config/single-pole-balancing.config.json");
+        }
+
+        public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_SinglePoleBalancingNv()
+        {
+            var experimentFactory = new SinglePoleBalancingNvExperimentFactory();
+            return Utils.CreateNeatEvolutionAlgorithm(
+                experimentFactory,
+                "config/single-pole-balancing-nv.config.json");
         }
     }
 }

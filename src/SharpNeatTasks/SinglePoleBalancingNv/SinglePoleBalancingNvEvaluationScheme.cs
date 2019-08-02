@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 
-namespace SharpNeat.Tasks.SinglePoleBalancing
+namespace SharpNeat.Tasks.SinglePoleBalancingNv
 {
     /// <summary>
-    /// Evaluation scheme for the Single Pole Balancing task.
+    /// Evaluation scheme for the Single Pole Balancing task variant with no velocity inputs.
     /// </summary>
-    public class SinglePoleBalancingEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public class SinglePoleBalancingNvEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
 
@@ -28,7 +28,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// <remarks>
         /// The 4 inputs of the single pole balancing task, plus one bias input (input zero).
         /// </remarks>
-        public int InputCount => 5;
+        public int InputCount => 3;
 
         /// <summary>
         /// The number of black box inputs expected/required by the black box evaluation scheme.
@@ -78,7 +78,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// <returns>A new instance of <see cref="IPhenomeEvaluator{T}"/>.</returns>
         public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
         {
-            return new SinglePoleBalancingEvaluator();
+            return new SinglePoleBalancingNvEvaluator();
         }
 
         /// <summary>
