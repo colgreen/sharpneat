@@ -66,7 +66,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// If an evaluator has no state then it is sufficient to create a single instance and to use that evaluator concurrently on multiple threads.
         /// If an evaluator has state then concurrent use requires the creation of one evaluator instance per thread.
         /// </remarks>
-        public bool EvaluatorsHaveState => false;
+        public bool EvaluatorsHaveState => true;
 
         #endregion
 
