@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using Redzen.Random;
 
 namespace SharpNeat.Tasks.SinglePoleBalancing
 {
@@ -36,6 +37,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 		double _cartVelocityX;
 		double _poleAngle;
 		double _poleAngularVelocity;
+        IRandomSource _rng;
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 
         public SinglePoleBalancingPhysics()
         {
+            _rng = RandomDefaults.CreateRandomSource();
             ResetState();
         }
 
@@ -95,6 +98,14 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
             // Clip input value to interval [-1,1], then multiple by MaxForce.
             ClipForce(ref force);
             force *= MaxForce;
+
+            // In addition, we inject some random noise into the force variable to beter model a real world physical system;
+            // without this the pole may become perfectly balanced at which point the the controller can just output exactly zero force. 
+            // Avoiding that scenario may be why the original/canonical single pole balncing task used bang-bang control
+            // (see https://en.wikipedia.org/wiki/Bang%E2%80%93bang_control).
+            // Note that this can cause the force to slightly exceed MaxForce.
+            // Inject noise in the interval [-0.5,0.5]
+            force += (_rng.NextDouble()-0.5);
 
             // Pre-calculate some reusable terms.
             double sinTheta = Math.Sin(_poleAngle);
