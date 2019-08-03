@@ -13,18 +13,20 @@ An external agent can push the cart with a fixed force either left or right.
 
 
 The model parameters are:
-* Rail length. Default is 4.8 m, i.e. +-2.4 m from tne center.
-* Cart mass. Default is 1 kg.
-* Pole mass. Default is 0.1 kg.
-* Pole length. Default is 1 m.
-* Fixed force. Default is +-10 Newtons, i.e. the controller controls only the direction that this force is applied.
+ * Rail length. Default is 4.8 m, i.e. +-2.4 m from tne center.
+ * Cart mass. Default is 1 kg.
+ * Pole mass. Default is 0.1 kg.
+ * Pole length. Default is 1 m.
+ * Coefficient of friction of cart on track. Default is 0.01.
+ * Coefficient of pole hinge. Default is 0.0018.
+ * Maximum controller force. Default is 10 Newtons.
 
 
 The model state variables are:
-* Cart position on rail (x-axis).
-* Cart velocity.
-* Polel angle.
-* Polel angular velocity.
+ * Cart position on rail (x-axis).
+ * Cart velocity.
+ * Polel angle.
+ * Polel angular velocity.
 
 All four variables are provided as inputs to the controller; and note that velocity input in particular makes the task an easy one to 
 solve with no hidden neural net nodes required.
@@ -37,6 +39,24 @@ The goal is for the controller to balance the pole for as long as possible by ap
 
 The controller is considered to have failed if the cart runs off the ends of the track (i.e. an x position of outside of +-2.4 meters) 
 and/or the pole angle is >= +-12 degrees.
+
+Notes on Friction
+-----------------
+The canonical pole balancing tasks did not include modelling of friction as it was deemed an inconsequential 
+component of the model with regards to it difficulty. In practice I found that if we apply no force then the pole will swing to an angle
+higher than its initial angle, i.e. the total energy in the system will increase due to the approximations to the real world physics, and
+in particular the use of Euler's method, which will tend to under and overestimate.
+
+By introducing friction we can avoid the steady increase in total system energy, in particular the pole friction seems to be critical and
+the default value of 0.0018 was chosen as a value that just about prevent the pole from swinging to an angle higher than its starting angle
+when starting from its default startign angle of 6 degrees.
+
+Cart friction seems less important overall, but note that a typical car will have a drag coefficient of 0.3, therefore the value of 0.01 for
+the cart is very low indeed.
+
+My initial observation is that including friction into the model seems to have made the problem task much easier to solve, and this may be
+because without friction the main problem to solve is a runaway increase in energy in the system (due to physics approximations) rather
+than the pole balancing task per se.
 
 
 The physics model is taken from:

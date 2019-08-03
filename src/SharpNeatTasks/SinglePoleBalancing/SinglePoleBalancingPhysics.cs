@@ -22,12 +22,14 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 		#region Constants
 
 		// Some physical model constants.
-		const double G = 9.81;
+		const double G = 9.8;
 		const double MassCart = 1.0;
 		const double MassPole = 0.1;
         const double TotalMassReciprocal = 1.0 / (MassPole + MassCart);
 		const double HalfPoleLength = 0.5;
-		const double HalfPoleMassLength = (MassPole * HalfPoleLength);
+		const double HalfPoleMassLength = MassPole * HalfPoleLength;
+        const double CartFriction = 0.01;           // Coefficient of friction of cart on track.
+        const double PoleFriction = 0.0018;         // Coefficient of friction of pole.
 		const double MaxForce = 10.0;               // Maximum force applied to the cart, in Newtons.
 		const double Tau = 0.01;                    // Time increment.
 		const double SixDegrees = Math.PI / 30.0;	//= 0.1047192 radians;
@@ -116,11 +118,11 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
             double thetaVelocitySquaredSinTheta = _poleAngularVelocity * _poleAngularVelocity * sinTheta;
 
             // Calc angular acceleration of the pole.
-            double theta_dot_dot = ((G * sinTheta) + (cosTheta * ((-force - HalfPoleMassLength * thetaVelocitySquaredSinTheta) * TotalMassReciprocal)))
+            double theta_dot_dot = ((G * sinTheta) + (cosTheta * ((-force - HalfPoleMassLength * thetaVelocitySquaredSinTheta) * TotalMassReciprocal)) - ((PoleFriction * _poleAngularVelocity) / HalfPoleMassLength))
                                  / (HalfPoleLength * (4/3 - (MassPole * cosTheta * cosTheta * TotalMassReciprocal)));
                 
             // Calc acceleration of the cart.
-            double x_dot_dot = (force + HalfPoleMassLength * (thetaVelocitySquaredSinTheta - theta_dot_dot * cosTheta)) * TotalMassReciprocal;
+            double x_dot_dot = (force + HalfPoleMassLength * (thetaVelocitySquaredSinTheta - theta_dot_dot * cosTheta) - (CartFriction * Math.Sign(_cartVelocityX))) * TotalMassReciprocal;
 
 			// Update the four state variables using Euler's method.
 			_cartPosX				+= Tau * _cartVelocityX;
