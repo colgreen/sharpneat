@@ -21,7 +21,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
     {
 		#region Constants
 
-		// Some physical model constants.
+		// Some physics model constants.
 		const double G = 9.8;
 		const double MassCart = 1.0;
 		const double MassPole = 0.1;
@@ -30,19 +30,20 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
 		const double HalfPoleMassLength = MassPole * HalfPoleLength;
         const double CartFriction = 0.01;           // Coefficient of friction of cart on track.
         const double PoleFriction = 0.0018;         // Coefficient of friction of pole.
-		const double MaxForce = 10.0;               // Maximum force applied to the cart, in Newtons.
 		const double Tau = 0.01;                    // Time increment.
 		const double SixDegrees = Math.PI / 30.0;	//= 0.1047192 radians;
 
 		#endregion
 
-        #region Instance Fields [Variable Physics Model State]
+        #region Instance Fields
 
-		double _cartPosX;
-		double _cartVelocityX;
-		double _poleAngle;
-		double _poleAngularVelocity;
-        IRandomSource _rng;
+        readonly IRandomSource _rng;
+
+        // Physics model state variables.
+		double _x;          // Cart position on the track.
+		double _x_dot;      // Cart velocity (x_dot).
+		double _theta;      // Pole angle (radians).
+		double _theta_dot;  // Pole anglular velocity (radians/s)
 
         #endregion
 
@@ -61,19 +62,19 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// <summary>
         /// Cart position (meters from origin).
         /// </summary>
-        public double CartPosX => _cartPosX;
+        public double CartPosX => _x;
         /// <summary>
         /// Cart velocity (m/s).
         /// </summary>
-        public double CartVelocityX => _cartVelocityX;
+        public double CartVelocity => _x_dot;
         /// <summary>
         /// Pole angle (radians). Straight up = 0.
         /// </summary>
-        public double PoleAngle => _poleAngle;
+        public double PoleAngle => _theta;
         /// <summary>
         /// Pole angular velocity (radians/sec).
         /// </summary>
-        public double PoleAngularVelocity => _poleAngularVelocity;
+        public double PoleAngularVelocity => _theta_dot;
 
         #endregion
 
@@ -84,61 +85,45 @@ namespace SharpNeat.Tasks.SinglePoleBalancing
         /// </summary>
         public void ResetState()
         {
-            _cartPosX = 0.0;
-            _cartVelocityX = 0.0;
-            _poleAngle = SixDegrees;
-            _poleAngularVelocity = 0.0;
+            _x = 0.0;
+            _x_dot = 0.0;
+            _theta = SixDegrees;
+            _theta_dot = 0.0;
         }
 
         /// <summary>
         /// Update the physics model state by one timestep.
         /// </summary>
-        /// <param name="forceSign">If positive then push the cart to the right in this timestep; otherwise push the cart to the left. Only the sign on this valus is used.</param>
+        /// <param name="force">The force (in Newtons) to be applied to the cart in this timestep. A positive force pushes the cart to the right, a negative force pushes left.</param>
         public void Update(double force)
         {
-            // Determine the force to be applied to the cart.
-            // Note. The cart is always being pushed with a constant force, either to the left or right. This was the approach taken in the original
-            // cart and pole experiment; it would be trivial to change this to use a variable force input instead.
+            const double dt = Tau;
 
-            // Clip input value to interval [-1,1], then multiple by MaxForce.
-            ClipForce(ref force);
-            force *= MaxForce;
-
-            // In addition, we inject some random noise into the force variable to beter model a real world physical system;
+            // Inject some random noise into the force variable to better model a real world physical system;
             // without this the pole may become perfectly balanced at which point the the controller can just output exactly zero force. 
             // Avoiding that scenario may be why the original/canonical single pole balncing task used bang-bang control
             // (see https://en.wikipedia.org/wiki/Bang%E2%80%93bang_control).
-            // Note that this can cause the force to slightly exceed MaxForce.
             // Inject noise in the interval [-0.01,0.01]
             force += (_rng.NextDouble()-0.5) * 0.02;
 
             // Pre-calculate some reusable terms.
-            double sinTheta = Math.Sin(_poleAngle);
-			double cosTheta = Math.Cos(_poleAngle);
-            double thetaVelocitySquaredSinTheta = _poleAngularVelocity * _poleAngularVelocity * sinTheta;
+            double sinTheta = Math.Sin(_theta);
+			double cosTheta = Math.Cos(_theta);
+            double thetaDotSqrSinTheta = _theta_dot * _theta_dot * sinTheta;
 
             // Calc angular acceleration of the pole.
-            double theta_dot_dot = ((G * sinTheta) + (cosTheta * ((-force - HalfPoleMassLength * thetaVelocitySquaredSinTheta) * TotalMassReciprocal)) - ((PoleFriction * _poleAngularVelocity) / HalfPoleMassLength))
-                                 / (HalfPoleLength * (4/3 - (MassPole * cosTheta * cosTheta * TotalMassReciprocal)));
+            double theta_dot_dot = 
+                ((G * sinTheta) + (cosTheta * ((-force - HalfPoleMassLength * thetaDotSqrSinTheta) * TotalMassReciprocal)) - ((PoleFriction * _theta_dot) / HalfPoleMassLength))
+              / (HalfPoleLength * (4/3 - (MassPole * cosTheta * cosTheta * TotalMassReciprocal)));
                 
             // Calc acceleration of the cart.
-            double x_dot_dot = (force + HalfPoleMassLength * (thetaVelocitySquaredSinTheta - theta_dot_dot * cosTheta) - (CartFriction * Math.Sign(_cartVelocityX))) * TotalMassReciprocal;
+            double x_dot_dot = (force + HalfPoleMassLength * (thetaDotSqrSinTheta - theta_dot_dot * cosTheta) - (CartFriction * Math.Sign(_x_dot))) * TotalMassReciprocal;
 
 			// Update the four state variables using Euler's method.
-			_cartPosX				+= Tau * _cartVelocityX;
-			_cartVelocityX		    += Tau * x_dot_dot;
-			_poleAngle			    += Tau * _poleAngularVelocity;
-			_poleAngularVelocity    += Tau * theta_dot_dot;
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        private static void ClipForce(ref double x)
-        {
-            if(x < -1) x = -1.0;
-            else if(x > 1.0) x = 1.0;
+			_x			+= dt * _x_dot;
+			_x_dot		+= dt * x_dot_dot;
+			_theta		+= dt * _theta_dot;
+			_theta_dot  += dt * theta_dot_dot;
         }
 
         #endregion

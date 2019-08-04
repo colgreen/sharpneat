@@ -21,6 +21,7 @@ namespace SharpNeat.Tasks.SinglePoleBalancingNv
     /// </summary>
     public class SinglePoleBalancingNvEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
+        const double MaxForce = 10.0;                // Maximum force applied to the cart, in Newtons.
 		const double TwelveDegrees = Math.PI / 15.0; //= 0.2094384 radians.
 	
         #region Instance Fields
@@ -77,9 +78,13 @@ namespace SharpNeat.Tasks.SinglePoleBalancingNv
 				// Activate the network.
                 box.Activate();
 
-                // Calculate state at next timestep given the black box's output action (push left or push right).
-                // Non-negative values result in pushing the cart right, negative values push the cart left.
-                physics.Update(box.OutputVector[0] - 0.5);
+                // Read the output to determine the force to be applied to the cart by the controller.
+                double force = box.OutputVector[0] - 0.5;
+                ClipForce(ref force);
+                force *= MaxForce;
+
+                // Calculate model state at next timestep.
+                physics.Update(force);
 
 				// Check for failure state. I.e. has the cart run off the ends of the track, or has the pole
 				// angle exceeded the defined threshold.
@@ -91,6 +96,16 @@ namespace SharpNeat.Tasks.SinglePoleBalancingNv
             // The controller's fitness is defined as the number of timesteps that elapsed before failure.
             double fitness = timestep + (_trackLengthThreshold - Math.Abs(physics.CartPosX)) * 5.0;
             return new FitnessInfo(fitness);
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static void ClipForce(ref double x)
+        {
+            if(x < -1) x = -1.0;
+            else if(x > 1.0) x = 1.0;
         }
 
         #endregion
