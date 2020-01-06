@@ -40,6 +40,7 @@ namespace SharpNeat.Experiments
             // Read the entire contents into a string; we don't ever expect to see large json files here, so this fine.
             string jsonStr = File.ReadAllText(filename);
 
+            // TODO: Switch to System.Text.Json.JsonDocument.
             // Parse the json string.
             var jobj = JObject.Parse(jsonStr);
 
