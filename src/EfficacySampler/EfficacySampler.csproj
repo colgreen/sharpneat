@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>efic</AssemblyName>
-    <!-- Enable server GC. On the .NET framework this had much improved perormance for CPU intensive workloads -->
-    <!-- compared to the client GC (which is optised for responsiveness rather thanoveall throughput. -->
+    <!-- Enable server GC. On the .NET framework this had much improved performance for CPU intensive workloads -->
+    <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
     <ServerGarbageCollection>true</ServerGarbageCollection>
   </PropertyGroup>
 

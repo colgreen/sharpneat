@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <LangVersion>7.3</LangVersion>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <!-- Enable server GC. On the .NET framework this had much improved performance for CPU intensive workloads -->
+    <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
+    <ServerGarbageCollection>true</ServerGarbageCollection>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
     <PackageReference Include="Redzen" Version="9.0.0" />
   </ItemGroup>
 
