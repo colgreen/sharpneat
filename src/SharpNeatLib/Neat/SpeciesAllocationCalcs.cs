@@ -285,6 +285,7 @@ namespace SharpNeat.Neat
             // Special case - zero target size.
             if(stats.TargetSizeInt == 0) 
             {
+                Debug.Assert(!isBestGenomeSpecies, "Zero target size assigned to specie that contains the best genome.");
                 stats.EliteSizeInt = 0;
                 stats.OffspringCount = 0;
                 stats.OffspringAsexualCount = 0;
@@ -305,9 +306,7 @@ namespace SharpNeat.Neat
             // Special case: ensure the species with the best genome preserves that genome. 
             // Note. This is done even for a target size of one, which would mean that no offspring are
             // produced from the best genome, apart from the (usually small) chance of a cross-species mating.
-            if(isBestGenomeSpecies && stats.EliteSizeInt == 0)
-            {
-                Debug.Assert(stats.TargetSizeInt != 0, "Zero target size assigned to specie that contains the best genome.");
+            if(isBestGenomeSpecies && stats.EliteSizeInt == 0) {
                 stats.EliteSizeInt = 1;
             }
 
