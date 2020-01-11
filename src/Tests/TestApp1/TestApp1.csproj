@@ -20,10 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config\single-pole-balancing-nv.config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="config\single-pole-balancing.config.json">
+    <None Update="config\cartpole-singlepole.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="config\xor.config.json">

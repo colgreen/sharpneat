@@ -1,5 +1,5 @@
 ﻿{
-	"description":"Generative Function Regression: Sin(x) evaluated over interval [0, 8*PI]",
+	"description":"Cart and Pole Balancing (Single Pole)",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LogisticSteep",
@@ -25,7 +25,7 @@
 	"connectionWeightScale": 5.0,
 	"complexityRegulationStrategy": {
 		"strategyName": "absolute",
-		"complexityCeiling": 20,
+		"complexityCeiling": 10,
 		"minSimplifcationGenerations": 10
 	},
 	"degreeOfParallelism": 4,
