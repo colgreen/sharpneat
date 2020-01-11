@@ -18,6 +18,8 @@ namespace SharpNeat.Tests.Neat
         [TestCategory("SelectionReproduction")]
         public void TestSpeciesAllocation()
         {
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
+
             NeatEvolutionAlgorithmSettings eaSettings = new NeatEvolutionAlgorithmSettings() {
                 SpeciesCount = 4
             };
@@ -40,7 +42,7 @@ namespace SharpNeat.Tests.Neat
             speciesArr[3].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(800.0));
 
             // Invoke species target size calcs.
-            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
+            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
             SpeciesAllocationCalcs<double>.UpdateSpeciesAllocationSizes(
                 neatPop, eaSettings, RandomDefaults.CreateRandomSource());
 

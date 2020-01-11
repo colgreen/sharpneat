@@ -17,6 +17,8 @@ namespace SharpNeatLib.Tests.Neat
         [TestCategory("NeatPopulationStats")]
         public void TestNeatPopulationStats()
         {
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
+
             // Create test population and apply speciation strategy.
             NeatPopulation<double> neatPop = CreateTestPopulation();
 
@@ -28,7 +30,7 @@ namespace SharpNeatLib.Tests.Neat
             }
 
             // Calc NeatPopulation statistics.
-            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
+            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
 
             // Validate expected mean fitness for each species.
             for(int i=0; i < neatPop.SpeciesArray.Length; i++)
@@ -51,13 +53,13 @@ namespace SharpNeatLib.Tests.Neat
             // containing species.
             InitialiseSpecies(neatPop);
 
-            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
+            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
             Assert.AreEqual(0, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
 
             // Perform the same test again with the best genome in he second species.
             neatPop.SpeciesArray[1].GenomeList[3].FitnessInfo = new FitnessInfo(200.0);
             InitialiseSpecies(neatPop);
-            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
+            neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
             Assert.AreEqual(1, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
         }
 

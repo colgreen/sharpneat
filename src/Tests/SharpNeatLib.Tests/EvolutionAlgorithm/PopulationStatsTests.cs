@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
 
@@ -14,6 +15,8 @@ namespace SharpNeatLib.Tests.EvolutionAlgorithm
         [TestCategory("PopulationStats")]
         public void TestPopulationStats()
         {
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
+
             // Create a test population.
             Population<MockGenome> pop = CreatePopulation(100, 10.0, 2.0);
 
@@ -25,7 +28,7 @@ namespace SharpNeatLib.Tests.EvolutionAlgorithm
             pop.GenomeList[20].Complexity = 1.0;
 
             // Calc/update stats.
-            pop.UpdateStats(PrimaryFitnessInfoComparer.Singleton);
+            pop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
 
             // Validate stats.
             // Fitness stats.
