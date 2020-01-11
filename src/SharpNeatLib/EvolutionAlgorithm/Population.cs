@@ -11,7 +11,8 @@
  */
 using System;
 using System.Collections.Generic;
-using Redzen.Structures;
+using System.Diagnostics;
+using Redzen.Random;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.EvolutionAlgorithm
@@ -22,7 +23,7 @@ namespace SharpNeat.EvolutionAlgorithm
     /// <typeparam name="TGenome">Genome type.</typeparam>
     public class Population<TGenome> where TGenome : IGenome
     {
-        #region Auto Properties
+        #region Auto Properties 
 
         /// <summary>
         /// The list of genomes that make up the population.
@@ -46,6 +47,16 @@ namespace SharpNeat.EvolutionAlgorithm
 
         #endregion
 
+        #region Instance Fields
+
+        /// <summary>
+        /// A reusable/working list. Stores the index of the genome with the best fitness, or multiple indexes when two or more genomes have 
+        /// the best fitness score.
+        /// </summary>
+        private readonly List<int> _fittestGenomeIndexList;
+        
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -61,6 +72,7 @@ namespace SharpNeat.EvolutionAlgorithm
 
             this.PopulationSize = genomeList.Count;
             this.Stats = CreatePopulatonStats();
+            _fittestGenomeIndexList = new List<int>(genomeList.Count);
         }
 
         #endregion
@@ -71,46 +83,75 @@ namespace SharpNeat.EvolutionAlgorithm
         /// Update the population statistics.
         /// </summary>
         /// <param name="fitnessComparer">A genome fitness comparer.</param>
-        public virtual void UpdateStats(IComparer<FitnessInfo> fitnessComparer)
+        /// <param name="rng">Random source.</param>
+        public virtual void UpdateStats(IComparer<FitnessInfo> fitnessComparer, IRandomSource rng)
         {
-            // TODO: Unit test
+            // TODO: Unit tests.
 
-            // Determine best fitness and sum(fitness).
+            // Ensure working list is empty.
+            _fittestGenomeIndexList.Clear();
+
+            // Determine best fitness, sum of PrimaryFitness, and sum of Complexity.
             List<TGenome> genomeList = this.GenomeList;
+            Debug.Assert(genomeList.Count != 0);
 
-            TGenome bestGenome = genomeList[0];
-            int bestGenomeIdx = 0;
-            FitnessInfo bestFitness = bestGenome.FitnessInfo;
-            double bestGenomeComplexity = bestGenome.Complexity;
-            double primaryFitnessSum = bestFitness.PrimaryFitness;
-            double complexitySum = bestGenome.Complexity;
+            // Assume genome zero is the fittest until we find a fitter genome.
+            _fittestGenomeIndexList.Add(0);
+            FitnessInfo bestFitness = genomeList[0].FitnessInfo;
 
+            // Keep a running sum of genome primary fitness and complexity.
+            double primaryFitnessSum = genomeList[0].FitnessInfo.PrimaryFitness;
+            double complexitySum = genomeList[0].Complexity;
+
+            // Loop all other genomes.
             int count = genomeList.Count;
-            for(int i=1; i < count; i++)
+            for(int idx=1; idx < count; idx++)
             {
-                TGenome genome = genomeList[i];
+                TGenome genome = genomeList[idx];
+                int comparisonResult = fitnessComparer.Compare(genome.FitnessInfo, bestFitness);
 
-                if(fitnessComparer.Compare(genome.FitnessInfo, bestFitness) > 0) 
+                if(comparisonResult > 0)
                 {
-                    bestGenomeIdx = i;
-                    bestGenome = genome;
+                    // A new best fitness has been found.
+                    _fittestGenomeIndexList.Clear();
+                    _fittestGenomeIndexList.Add(idx);
                     bestFitness = genome.FitnessInfo;
                 }
+                else if(comparisonResult == 0)
+                {
+                    // Add genome to the list of fittest candidates.
+                    _fittestGenomeIndexList.Add(idx);
+                }
 
+                // Update running sums of genome primary fitness and complexity.
                 primaryFitnessSum += genome.FitnessInfo.PrimaryFitness;
                 complexitySum += genome.Complexity;
             }
 
+            // Select a single best genome; if there are more than one with the highest fitness, then select one at random.
+            int bestGenomeIdx;
+            if(_fittestGenomeIndexList.Count == 1)
+            {   
+                // There is a single fittest genome; select it.
+                bestGenomeIdx = _fittestGenomeIndexList[0];
+            }
+            else
+            {
+                // Select one of the fittest genomes at random.
+                bestGenomeIdx = _fittestGenomeIndexList[rng.Next(_fittestGenomeIndexList.Count)];
+            }
+            TGenome bestGenome = genomeList[bestGenomeIdx];
+
             // Update population stats object.
             PopulationStatistics stats = this.Stats;
 
-            // Fitness stats.
+            // Update fitness stats.
             stats.BestGenomeIndex = bestGenomeIdx;
-            stats.BestFitness = bestFitness;
+            stats.BestFitness = bestGenome.FitnessInfo;
             stats.MeanFitness = primaryFitnessSum / count;
-            stats.BestFitnessHistory.Enqueue(bestFitness.PrimaryFitness);
+            stats.BestFitnessHistory.Enqueue(bestGenome.FitnessInfo.PrimaryFitness);
 
-            // Complexity stats.
+            // Update complexity stats.
             stats.BestComplexity = bestGenome.Complexity;
             double meanComplexity = complexitySum / count;
             stats.MeanComplexity = meanComplexity;
