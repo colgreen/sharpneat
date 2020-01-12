@@ -315,9 +315,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // Integrate offspring into the existing species. 
                 _speciationStrategy.SpeciateAdd(offspringList, _pop.SpeciesArray, _rng);
 
-                // Sort the genomes in each species. Highest fitness first, then secondary sorted by youngest genomes first.
+                // Sort the genomes in each species by primary fitness, highest fitness first.
                 foreach(var species in _pop.SpeciesArray) {
-                    SortUtils.SortUnstable(species.GenomeList, GenomeFitnessAndAgeComparer<T>.Singleton, _rng);
+                    species.SortByPrimaryFitness(_rng);
                 }
             }
 
@@ -327,7 +327,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         private void UpdateStats(ulong evaluationCountDelta)
         {
             // Update population statistics.
-            _pop.UpdateStats(_evaluator.FitnessComparer);
+            _pop.UpdateStats(_evaluator.FitnessComparer, _rng);
 
             // Store the current generation number, and increment.
             _eaStats.Generation = _generationSeq.Peek;

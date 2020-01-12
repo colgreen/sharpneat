@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -15,17 +15,16 @@ using SharpNeat.Neat.Genome;
 namespace SharpNeat.Neat.EvolutionAlgorithm
 {
     /// <summary>
-    /// For sorting genomes, highest fitness first, then secondary sorted by age (youngest first).
-    /// This sort order is used by the selection routines to select the fittest and youngest genomes.
+    /// For sorting genomes by primary fitness, highest to lowest fitness.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class GenomeFitnessAndAgeComparer<T> : IComparer<NeatGenome<T>>
+    public class GenomePrimaryFitnessComparer<T> : IComparer<NeatGenome<T>>
         where T : struct
     {
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public static readonly GenomeFitnessAndAgeComparer<T> Singleton = new GenomeFitnessAndAgeComparer<T>();
+        public static readonly GenomePrimaryFitnessComparer<T> Singleton = new GenomePrimaryFitnessComparer<T>();
 
         /// <summary>
         /// Compares two genomes and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -40,15 +39,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 return -1;
             }
             if(x.FitnessInfo.PrimaryFitness < y.FitnessInfo.PrimaryFitness) {
-                return 1;
-            }
-
-            // Fitnesses are equal.
-            // Secondary sort - youngest first. Younger genomes have a *higher* BirthGeneration.
-            if(x.BirthGeneration > y.BirthGeneration) {
-                return -1;
-            }
-            if(x.BirthGeneration < y.BirthGeneration) {
                 return 1;
             }
 
