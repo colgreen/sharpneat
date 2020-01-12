@@ -10,6 +10,9 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Collections.Generic;
+using Redzen.Random;
+using Redzen.Sorting;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Speciation
@@ -121,6 +124,35 @@ namespace SharpNeat.Neat.Speciation
 
             PendingRemovesList.Clear();
             PendingAddsList.Clear();
+        }
+
+        /// <summary>
+        /// Sort the species genomes by primary fitness, highest fitness first.
+        /// Additionally, shuffle the genomes with the best fitness if there are two or more with the highest fitness, this ensures
+        /// that the first genome (and therefore the single species 'best' genome ) is randomized if there multiple candidates for the best genome.
+        /// </summary>
+        /// <param name="rng">Random source.</param>
+        public void SortByPrimaryFitness(IRandomSource rng)
+        {
+            // Sort the genomes by fitness.
+            this.GenomeList.Sort(GenomePrimaryFitnessComparer<T>.Singleton);
+
+            // If there are two or more genomes with the highest fitness score, then randomly shuffle those genomes; this ensures that the single species
+            // champion (i.e. at index zero) is randomized when there are multiple candidates for species champion.
+            if(this.GenomeList.Count > 1 && this.GenomeList[0].FitnessInfo.PrimaryFitness == this.GenomeList[1].FitnessInfo.PrimaryFitness)
+            {
+                // Scan for the end of the contiguous segment.
+                double champFitness = this.GenomeList[0].FitnessInfo.PrimaryFitness;
+                int count = this.GenomeList.Count;
+                int endIdx = 2;
+                for(; endIdx < count &&   this.GenomeList[endIdx].FitnessInfo.PrimaryFitness == champFitness; endIdx++);
+
+                // endIdx points to the item after the segment's end, so we decrement.
+                endIdx--;
+
+                // Shuffle the champion genome candidates.
+                SortUtils.Shuffle(this.GenomeList, rng, 0, endIdx);
+            }
         }
 
         #endregion

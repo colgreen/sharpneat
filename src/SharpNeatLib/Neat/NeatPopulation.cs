@@ -144,7 +144,7 @@ namespace SharpNeat.Neat
             this.InnovationIdSeq = innovationIdSeq ?? throw new ArgumentNullException(nameof(innovationIdSeq));;
             this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
 
-            // Assert that the ID sequences have a current IDs higher than any existing ID.
+            // Assert that the ID sequence objects represent an ID higher than any existing ID used by the genomes.
             Debug.Assert(ValidateIdSequences(genomeList, genomeIdSeq, innovationIdSeq));
         }
 
@@ -170,9 +170,9 @@ namespace SharpNeat.Neat
             }
             this.SpeciesArray = speciesArr;
 
-            // Sort the genomes in each species. Highest fitness first, then secondary sorted by youngest genomes first.
-            foreach(Species<T> species in speciesArr) {
-                SortUtils.SortUnstable(species.GenomeList, GenomeFitnessAndAgeComparer<T>.Singleton, rng);
+            // Sort the genomes in each species by primary fitness, highest fitness first.
+            foreach(var species in speciesArr) {
+                species.SortByPrimaryFitness(rng);
             }
         }
 
@@ -180,10 +180,13 @@ namespace SharpNeat.Neat
         /// Update the population statistics object.
         /// </summary>
         /// <param name="fitnessComparer">A genome fitness comparer.</param>
-        public override void UpdateStats(IComparer<FitnessInfo> fitnessComparer)
+        /// <param name="rng">Random source.</param>
+        public override void UpdateStats(
+            IComparer<FitnessInfo> fitnessComparer,
+            IRandomSource rng)
         {
             // Update non-NEAT based population stats.
-            base.UpdateStats(fitnessComparer);
+            base.UpdateStats(fitnessComparer, rng);
 
             // Calc NEAT based population stats.
             UpdateNeatPopulationStats(fitnessComparer);
@@ -263,8 +266,8 @@ namespace SharpNeat.Neat
                 if(bestGenomeSpeciesIdx == -1)
                 {
                     // Note. Although the species genomes are sorted by fitness (fittest first), the population best genome may not be at index 0
-                    // if multiple genomes have he best fitness score.
-                    // TODO: We can avoid this if we find the best genome by sorting the species first, and then selecting the best genome from index 0 of each species.
+                    // if multiple genomes have the best fitness score.
+                    // TODO: We can avoid this if we find the best genome by sorting the species first, and then select the best genome from index 0 of each species.
                     for(int j=0; j < species.GenomeList.Count && fitnessComparer.Compare(species.GenomeList[j].FitnessInfo, bestFitness) >= 0; j++)
                     {
                         if(species.GenomeList[j] == bestGenome) {

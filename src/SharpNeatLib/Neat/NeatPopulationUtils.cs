@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Network;
 
 namespace SharpNeat.Neat
 {
@@ -50,15 +51,16 @@ namespace SharpNeat.Neat
         {
             maxGenomeId = 0;
             maxInnovationId = 0;
-            
+
             foreach(var genome in genomeList)
             {
                 maxGenomeId = Math.Max(maxGenomeId, genome.Id);
 
-                for(int i=0; i<genome.ConnectionGenes.Length; i++)
+                DirectedConnection[] connArr =  genome.ConnectionGenes._connArr;
+                for(int i=0; i < genome.ConnectionGenes.Length; i++)
                 {
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].SourceId);
-                    maxInnovationId = Math.Max(maxInnovationId, genome.ConnectionGenes._connArr[i].TargetId);
+                    maxInnovationId = Math.Max(maxInnovationId, connArr[i].SourceId);
+                    maxInnovationId = Math.Max(maxInnovationId, connArr[i].TargetId);
                 }
             }
         }
