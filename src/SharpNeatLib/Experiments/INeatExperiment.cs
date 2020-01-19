@@ -110,7 +110,7 @@ namespace SharpNeat.Experiments
         /// of all vectorized code so as to rule out that code as the source of a problem/bug.
         /// 
         /// Furthermore, enabling hardware acceleration has been observed to often result in slower execution speed,
-        /// probably because NEAT deals with non-homogenous, irregular neural network structures that are generally not 
+        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not 
         /// conducive to the application of vectorized code.
         /// </remarks>
         bool EnableHardwareAcceleratedNeuralNets { get; set; }
@@ -125,7 +125,7 @@ namespace SharpNeat.Experiments
         /// of all vectorized code so as to rule out that code as the source of a problem/bug.
         /// 
         /// Furthermore, enabling hardware acceleration has been observed to often result in slower execution speed,
-        /// probably because NEAT deals with non-homogenous, irregular neural network structures that are generally not 
+        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not 
         /// conducive to the application of vectorized code.
         /// </remarks>
         bool EnableHardwareAcceleratedActivationFunctions { get; set; }
