@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -43,13 +43,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatPopulation<T> _pop;
         readonly IComplexityRegulationStrategy _complexityRegulationStrategy;
         readonly IRandomSource _rng;
+        readonly IComparer<NeatGenome<T>> _genomeComparerDescending;
 
         readonly Int32Sequence _generationSeq;
         readonly NeatReproductionAsexual<T> _reproductionAsexual;
         readonly NeatReproductionSexual<T> _reproductionSexual;
 
         readonly OffspringBuilder<T> _offspringBuilder;
-
         readonly EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
 
         #endregion
@@ -124,6 +124,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             if(reproductionSexualSettings == null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
 
              _rng = rng;
+            _genomeComparerDescending = new GenomeComparerDescending(evaluator.FitnessComparer);
 
             if(eaSettings.SpeciesCount > population.PopulationSize) {
                 throw new ArgumentException("Species count is higher then the population size.");
@@ -183,7 +184,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _evaluator.Evaluate(_pop.GenomeList);
 
             // Initialise species.
-            _pop.InitialiseSpecies(_speciationStrategy, _eaSettingsCurrent.SpeciesCount, _rng);
+            _pop.InitialiseSpecies(
+                _speciationStrategy,
+                _eaSettingsCurrent.SpeciesCount,
+                _genomeComparerDescending,
+                _rng);
 
             // Update population and evolution algorithm statistics.
             UpdateStats(evaluationCountDelta: (ulong)_pop.GenomeList.Count);
@@ -308,7 +313,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 _pop.ClearAllSpecies();
 
                 // Re-initialise the species.
-                _pop.InitialiseSpecies(_speciationStrategy, _eaSettingsCurrent.SpeciesCount, _rng);    
+                _pop.InitialiseSpecies(
+                    _speciationStrategy,
+                    _eaSettingsCurrent.SpeciesCount,
+                    _genomeComparerDescending,
+                    _rng);
             }
             else
             {
@@ -316,8 +325,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 _speciationStrategy.SpeciateAdd(offspringList, _pop.SpeciesArray, _rng);
 
                 // Sort the genomes in each species by primary fitness, highest fitness first.
+                // We use an unstable sort; this ensures that the order of equally fit genomes is randomized, which in turn
+                // randomizes which genomes are in the subset if elite genomes that are preserved for the next generation,
+                // i.e. when many genomes have equally high fitness.
                 foreach(var species in _pop.SpeciesArray) {
-                    species.SortByPrimaryFitness(_rng);
+                    SortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
                 }
             }
 
