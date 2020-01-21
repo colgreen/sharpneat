@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using SharpNeat.Evaluation;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics.Double;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 
 namespace SharpNeatLib.Tests.Neat
@@ -15,12 +17,47 @@ namespace SharpNeatLib.Tests.Neat
 
         [TestMethod]
         [TestCategory("NeatPopulationStats")]
+        public void TestPopulationStats()
+        {
+            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
+
+            // Create a test population.
+            NeatPopulation<double> pop = CreateNeatPopulation(100, 10.0);
+
+            // Modify a few genome fitnesses.
+            pop.GenomeList[10].FitnessInfo = new FitnessInfo(100.0);
+            pop.GenomeList[20].FitnessInfo = new FitnessInfo(0.0);
+
+            // Initialise the NEAT population species; the wider population stats are dependent on this occuring.
+            InitialiseSpecies(pop);
+
+            // Calc/update stats.
+            pop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
+
+            // Validate stats.
+            // Fitness stats.
+            PopulationStatistics stats = pop.Stats;
+            Assert.AreEqual(10, stats.BestGenomeIndex);
+            Assert.AreEqual(100.0, stats.BestFitness.PrimaryFitness);
+            Assert.AreEqual(10.8, stats.MeanFitness);
+            Assert.AreEqual(1, stats.BestFitnessHistory.Length);
+            Assert.AreEqual(100.0, stats.BestFitnessHistory.Total);
+
+            // Complexity stats.
+            Assert.AreEqual(6.0, stats.BestComplexity);
+            Assert.AreEqual(6.0, stats.MeanComplexity);
+            Assert.AreEqual(1, stats.MeanComplexityHistory.Length);
+            Assert.AreEqual(6.0, stats.MeanComplexityHistory.Total);
+        }
+
+        [TestMethod]
+        [TestCategory("NeatPopulationStats")]
         public void TestNeatPopulationStats()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
             // Create test population and apply speciation strategy.
-            NeatPopulation<double> neatPop = CreateTestPopulation();
+            NeatPopulation<double> neatPop = CreateNeatPopulation(30, 10.0);
 
             // Loop the species; assign the same fitness to genomes within each species.
             for(int i=0; i< neatPop.SpeciesArray.Length; i++)
@@ -56,7 +93,7 @@ namespace SharpNeatLib.Tests.Neat
             neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
             Assert.AreEqual(0, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
 
-            // Perform the same test again with the best genome in he second species.
+            // Perform the same test again with the best genome in the second species.
             neatPop.SpeciesArray[1].GenomeList[3].FitnessInfo = new FitnessInfo(200.0);
             InitialiseSpecies(neatPop);
             neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
@@ -67,7 +104,9 @@ namespace SharpNeatLib.Tests.Neat
 
         #region Private Static Methods
 
-        private static NeatPopulation<double> CreateTestPopulation()
+        private static NeatPopulation<double> CreateNeatPopulation(
+            int count,
+            double defaultFitness)
         {
             MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
                 inputNodeCount: 3,
@@ -75,10 +114,17 @@ namespace SharpNeatLib.Tests.Neat
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
-            int count = 30;
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
             Assert.AreEqual(count, neatPop.GenomeList.Count);
             Assert.AreEqual(count, neatPop.GenomeIdSeq.Peek);
+
+            // Assign the default fitness to all genomes.
+            var genomeList = neatPop.GenomeList;
+            for(int i=0; i < count; i++) 
+            {
+                var genome = genomeList[i];
+                genome.FitnessInfo = new FitnessInfo(defaultFitness);
+            }
 
             // Init species.
             InitialiseSpecies(neatPop);
@@ -93,8 +139,9 @@ namespace SharpNeatLib.Tests.Neat
             var speciationStrategy = new SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, 4);
 
             // Apply the speciation strategy.
+            var genomeComparerDescending = new GenomeComparerDescending(PrimaryFitnessInfoComparer.Singleton);
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
-            neatPop.InitialiseSpecies(speciationStrategy, 3, rng);
+            neatPop.InitialiseSpecies(speciationStrategy, 3, genomeComparerDescending, rng);
         }
 
         #endregion
