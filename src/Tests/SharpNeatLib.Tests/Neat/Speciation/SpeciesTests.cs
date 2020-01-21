@@ -1,7 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
+using Redzen.Sorting;
+using SharpNeat.Evaluation;
 using SharpNeat.Neat;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 
@@ -18,6 +21,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
         {
             const double champFitness = 100.0;
 
+            var genomeComparerDescending = new GenomeComparerDescending(PrimaryFitnessInfoComparer.Singleton);
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
             // Run the inner test multiple times, with a different champ genome count each time.
@@ -26,7 +30,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
                 Species<double> species = CreateTestSpecies(10);
 
                 AssignGenomeFitnessScores(species, champGenomeCount, champFitness, rng);
-                species.SortByPrimaryFitness(rng);
+                SortUtils.SortUnstable(species.GenomeList, genomeComparerDescending, rng);
 
                 // Assert that the champ genomes have been sorted to the head of the genome list.
                 int idx = 0;
@@ -55,7 +59,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             foreach(var genome in species.GenomeList)
             { 
                 double fitness = champFitness * rng.NextDouble();
-                genome.FitnessInfo = new SharpNeat.Evaluation.FitnessInfo(fitness);
+                genome.FitnessInfo = new FitnessInfo(fitness);
             }
 
             // Select a random subset to be the champ genomes, and assign them the champ fitness.
@@ -63,7 +67,7 @@ namespace SharpNeatLib.Tests.Neat.Speciation
             foreach(int idx in idxArr)
             {
                 var genome = species.GenomeList[idx];
-                genome.FitnessInfo = new SharpNeat.Evaluation.FitnessInfo(champFitness);
+                genome.FitnessInfo = new FitnessInfo(champFitness);
             }
         }
 
