@@ -111,7 +111,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         #region Public Methods
 
         /// <summary>
-        /// Rest the cart and pole positions and velocities to zero, except for the pole which we set
+        /// Reset the cart and pole positions and velocities to zero, except for the pole which we set
         /// to the given pole angle.
         /// </summary>
         /// <param name="poleAngle">The pole angle in radians.</param>
@@ -134,8 +134,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Calc the cart and pole accelerations for the current/initial state, and store the k1 gradients
             CalcAccelerations(_state, f, out double xa, out double thetaa);
             _k1[0] = _state[1];
-            _k1[1] = _state[3];
-            _k1[2] = xa;
+            _k1[1] = xa;
+            _k1[2] = _state[3];
             _k1[3] = thetaa;
 
             // Project the initial state to new state s2, using the k1 gradients.
@@ -144,8 +144,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Calc the cart and pole accelerations for the s2 state, and store the k2 gradients
             CalcAccelerations(_s, f, out xa, out thetaa);
             _k2[0] = _s[1];
-            _k2[1] = _s[3];
-            _k2[2] = xa;
+            _k2[1] = xa;
+            _k2[2] = _s[3];
             _k2[3] = thetaa;
 
             // Project the initial state to new state s3, using the k2 gradients.
@@ -154,8 +154,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Calc the cart and pole accelerations for the s3 state, and store the k3 gradients
             CalcAccelerations(_s, f, out xa, out thetaa);
             _k3[0] = _s[1];
-            _k3[1] = _s[3];
-            _k3[2] = xa;
+            _k3[1] = xa;
+            _k3[2] = _s[3];
             _k3[3] = thetaa;
 
             // Project the initial state to new state s4, using the k3 gradients.
@@ -164,8 +164,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Calc the cart and pole accelerations for the s4 state, and store the k4 gradients
             CalcAccelerations(_s, f, out xa, out thetaa);
             _k4[0] = _s[1];
-            _k4[1] = _s[3];
-            _k4[2] = xa;
+            _k4[1] = xa;
+            _k4[2] = _s[3];
             _k4[3] = thetaa;
 
             // Project _state to its new state, using a weighted sum over gradients k1, k2, k3, k4.
@@ -184,8 +184,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// </summary>
         /// <param name="state">The cart-pole model state. The model state variables are:
         ///  [0] x-axis coordinate of the cart (metres).
-        ///  [1] Pole angle (radians). Clockwise deviation from the vertical.
-        ///  [2] x-axis velocity of the cart (m/s).
+        ///  [1] x-axis velocity of the cart (m/s).
+        ///  [2] Pole angle (radians). Clockwise deviation from the vertical.
         ///  [3] Pole angular velocity (radians/s). Positive is clockwise.</param>
         /// <param name="f">The external horizontal force applied to the cart.</param>
         /// <param name="xa">Returns the cart's horizontal acceleration.</param>
