@@ -12,6 +12,11 @@ namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
     {
         #region Test Methods
 
+        // TODO: Remove note when Visual Studio bug is fixed.
+        // Note. At time of writing this test fails due to a bug in Visual Studio.
+        // See https://github.com/microsoft/vstest/pull/2274
+        // and https://developercommunity.visualstudio.com/content/problem/738856/could-not-load-file-or-assembly-microsoftintellitr.html
+        // The bug fix is appears to be scheduled release as part of Visual Studio 16.5.
         [TestMethod]
         [TestCategory("ActivationFunctions-Overloads")]
         public void TestOverloads()
