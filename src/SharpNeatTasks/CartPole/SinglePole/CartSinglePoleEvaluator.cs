@@ -85,8 +85,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
 				// Provide model state to the black box inputs (normalised to +-1.0).
                 box.InputVector[0] = 1.0; // Bias input.
                 box.InputVector[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize it to [-1,1].
-                box.InputVector[2] = state[1] * __TwelveDegrees_Reciprocal;   // Pole angle range is +-__PoleAngleThreshold degrees; here we normalize it to [-1,1].
-                box.InputVector[3] = state[2];                                // Cart X axis velocity is typically +- 0.75; no scaling required.
+                box.InputVector[2] = state[1];                                // Cart X axis velocity is typically +- 0.75; no scaling required.
+                box.InputVector[3] = state[2] * __TwelveDegrees_Reciprocal;   // Pole angle range is +-__PoleAngleThreshold degrees; here we normalize it to [-1,1].
                 box.InputVector[4] = state[3];                                // Pole angular velocity is typically within +-1.0 radians; no scaling required.
 
 				// Activate the network.
