@@ -102,7 +102,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
 
 				// Check for failure state. I.e. has the cart run off the ends of the track, or has the pole
 				// angle exceeded the defined threshold.
-				if(Math.Abs(state[0]) > __TrackLengthHalf || Math.Abs(state[1]) > __TwelveDegrees) {
+				if(Math.Abs(state[0]) > __TrackLengthHalf || Math.Abs(state[2]) > __TwelveDegrees) {
 					break;
                 }
 			}
