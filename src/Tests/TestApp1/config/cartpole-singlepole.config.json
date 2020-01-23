@@ -20,12 +20,12 @@
 	"reproductionSexualSettings": {
 		"secondaryParentGeneProbability": 0.1
 	},
-	"populationSize": 150,
+	"populationSize": 200,
 	"initialInterconnectionsProportion": 0.05,
 	"connectionWeightScale": 5.0,
 	"complexityRegulationStrategy": {
 		"strategyName": "absolute",
-		"complexityCeiling": 10,
+		"complexityCeiling": 20,
 		"minSimplifcationGenerations": 10
 	},
 	"degreeOfParallelism": 4,

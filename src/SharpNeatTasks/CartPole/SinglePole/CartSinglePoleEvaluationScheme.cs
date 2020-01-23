@@ -28,7 +28,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <remarks>
         /// The 4 inputs of the single pole balancing task, plus one bias input (input zero).
         /// </remarks>
-        public int InputCount => 5;
+        public int InputCount => 3;
 
         /// <summary>
         /// The number of black box outputs expected/required by the black box evaluation scheme.
@@ -89,7 +89,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return (fitnessInfo.PrimaryFitness >= 4805.98);
+            return (fitnessInfo.PrimaryFitness >= 1448.0);
         }
 
         #endregion
