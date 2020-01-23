@@ -6,7 +6,7 @@
 	"evolutionAlgorithmSettings": {
 		"speciesCount" : 10,
 		"elitismProportion" : 0.2,
-		"selectionProportion" : 0.2,
+		"selectionProportion" : 1.0,
 		"offspringAsexualProportion" : 0.5,
 		"offspringSexualProportion" : 0.5,
 		"interspeciesMatingProportion" : 0.01

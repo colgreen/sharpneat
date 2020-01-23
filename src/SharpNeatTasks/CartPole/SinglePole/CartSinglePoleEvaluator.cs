@@ -113,14 +113,14 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // 1) The number of timesteps that elapsed before the pole angle exceeded the maximum angle threshold. Max score is 1440.
             // 2) Pole angle component. Max fitness of 1.0 for a pole angle of 0 degrees (vertical pole).
             // 3) Pole angular velocity component. Maximum fitness 1.0 for a velocity of zero.
-            // 4) Cart position component. Max fitness of 6.0 when the cart is in the centre of the track range (x=0).
+            // 4) Cart position component. Max fitness of 1.2 when the cart is in the centre of the track range (x=0).
             //
-            // Therefore the maximum possible fitness is 1448, when the pole is perfectly stationary, and the cart is in the middle of the track.
+            // Therefore the maximum possible fitness is 1443.2, when the pole is perfectly stationary, and the cart is in the middle of the track.
             float fitness = 
                 + timestep
                 + (1f - (MathF.Abs(state[2]) * __MaxPoleAngle_Reciprocal)) 
                 + (1f - MathF.Min(MathF.Abs(state[3]), 1f))
-                + (__TrackLengthHalf - MathF.Abs(state[0])) * 5f;
+                + (__TrackLengthHalf - MathF.Abs(state[0]));
 
             return new FitnessInfo(fitness);
         }
