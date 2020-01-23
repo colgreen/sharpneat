@@ -32,42 +32,42 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// caused by gravity (i.e. approximately 9.8 m/s^2 for gravity on Earth). The direction of gravitational acceleration
         /// is taken into account in the formulation of the equations, therefore the sign of g is positive.
         /// </summary>
-        const double g = 9.8;
+        const float g = 9.8f;
         /// <summary>
         /// Mass of the pole (in kilograms).
         /// </summary>
-        const double m = 0.1;
+        const float m = 0.1f;
         /// <summary>
         /// Mass of the cart (in kilograms).
         /// </summary>
-        const double m_c = 1.0;
+        const float m_c = 1f;
         /// <summary>
         /// Length of the pole (in metres). This is the full length of the pole, and not the half length as used widely 
         /// elsewhere in the literature.
         /// </summary>
-        const double l = 1.0;
+        const float l = 1f;
         /// <summary>
         /// Half of the pole's length.
         /// </summary>
-        const double l_hat = l / 2.0;
+        const float l_hat = l / 2.0f;
         /// <summary>
         /// Coefficient of friction between the pole and the cart, i.e. friction at the pole's pivot joint.
         /// </summary>
-        const double mu_p = 0.001;
+        const float mu_p = 0.001f;
         /// <summary>
         /// Coefficient of friction between the cart and the track.
         /// </summary>
-        const double mu_c = 0.1;
+        const float mu_c = 0.1f;
         /// <summary>
         /// Combined mass of the cart and the pole.
         /// </summary>
-        const double M = m + m_c;
+        const float M = m + m_c;
 
         /// <summary>
         /// The timestep increment, e.g. 0.01 for 10 millisecond increments.
         /// </summary>
-        const double tau = 0.0625; // 1/16th of a second.
-        const double tau_half = tau / 2.0;
+        const float tau = 0.0625f; // 1/16th of a second.
+        const float tau_half = tau / 2f;
 
         #endregion
 
@@ -80,16 +80,16 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         ///  [2] Pole angle (radians); deviation from the vertical. Positive is clockwise.
         ///  [3] Pole angular velocity (radians/s). Positive is clockwise.
         /// </summary>
-        readonly double[] _state = new double[4];
+        readonly float[] _state = new float[4];
 
         // Allocate re-usable working arrays to avoid memory allocation and garbage collection overhead.
         // These are the k1 to k4 gradients as defined by the Runge-Kutta 4th order method; and an 
         // intermediate model state s.
-        readonly double[] _k1 = new double[4];
-        readonly double[] _k2 = new double[4];
-        readonly double[] _k3 = new double[4];
-        readonly double[] _k4 = new double[4];
-        readonly double[] _s = new double[4];
+        readonly float[] _k1 = new float[4];
+        readonly float[] _k2 = new float[4];
+        readonly float[] _k3 = new float[4];
+        readonly float[] _k4 = new float[4];
+        readonly float[] _s = new float[4];
 
         #endregion
 
@@ -105,7 +105,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         ///  [2] Pole angle (radians); deviation from the vertical. Positive is clockwise.
         ///  [3] Pole angular velocity (radians/s). Positive is clockwise.
         /// </remarks>
-        public double[] State => _state;
+        public float[] State => _state;
 
         #endregion
 
@@ -116,12 +116,12 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// to the given pole angle.
         /// </summary>
         /// <param name="poleAngle">The pole angle in radians.</param>
-        public void ResetState(double poleAngle)
+        public void ResetState(float poleAngle)
         {
-            _state[0] = 0.0;
-            _state[1] = 0.0;
+            _state[0] = 0f;
+            _state[1] = 0f;
             _state[2] = poleAngle;
-            _state[3] = 0.0;
+            _state[3] = 0f;
         }
 
         /// <summary>
@@ -130,10 +130,10 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <param name="f">The external horizontal force applied to the cart.</param>
         /// <remarks>This implementation of Update() uses classic 4th order Runge-Kutta;  this is considerably more
         /// accurate that Euler's method or 2nd order Runge-Kutta for a given timestep size.</remarks>
-        public void Update(double f)
+        public void Update(float f)
         {
             // Calc the cart and pole accelerations for the current/initial model state.
-            CalcAccelerations(_state, f, out double xa, out double thetaa);
+            CalcAccelerations(_state, f, out float xa, out float thetaa);
 
             // Store a set of model state gradients, e.g. state[0] is the cart x position, therefore gradient[0] is 
             // cart x-axis velocity; and state[1] is cart x-axis velocity, therefore gradient[1] is cart x-axis acceleration, etc.
@@ -177,7 +177,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Project _state to its new state, using a weighted sum over gradients k1, k2, k3, k4.
             for(int i=0; i < _state.Length; i++)
             {
-                _state[i] += (_k1[i] + 2.0*_k2[i] + 2.0*_k3[i] + _k4[i]) * (tau / 6.0);
+                _state[i] += (_k1[i] + 2f*_k2[i] + 2f*_k3[i] + _k4[i]) * (tau / 6f);
             }
         }
 
@@ -193,29 +193,29 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <param name="xa">Returns the cart's horizontal acceleration.</param>
         /// <param name="thetaa">Returns the pole's angular acceleration.</param>
         private static void CalcAccelerations(
-            double[] state,
-            double f,
-            out double xa,
-            out double thetaa)
+            float[] state,
+            float f,
+            out float xa,
+            out float thetaa)
         {
             // Note. This code is primarily written for clarity rather than execution speed, hence it is probably amenable to being optimised somewhat.
 
             // Extract state into named variables.
-            double xv = state[1];
-            double theta = state[2];
-            double thetav = state[3];
+            float xv = state[1];
+            float theta = state[2];
+            float thetav = state[3];
 
             // Precompute some reused values.
-            double sin_theta = Math.Sin(theta);
-            double cos_theta = Math.Cos(theta);
-            double cos_theta_sqr = cos_theta * cos_theta;
-            double thetav_sqr = thetav * thetav;
+            float sin_theta = MathF.Sin(theta);
+            float cos_theta = MathF.Cos(theta);
+            float cos_theta_sqr = cos_theta * cos_theta;
+            float thetav_sqr = thetav * thetav;
 
             // Calc cart horizontal acceleration.
-            xa = (m*g*sin_theta*cos_theta - (7.0/3.0)*(f + m*l_hat * thetav_sqr * sin_theta - mu_c*xv) - (mu_p*thetav*cos_theta)/l_hat) / (m*cos_theta_sqr - (7.0/3.0)*M);
+            xa = (m*g*sin_theta*cos_theta - (7f/3f)*(f + m*l_hat * thetav_sqr * sin_theta - mu_c*xv) - (mu_p*thetav*cos_theta)/l_hat) / (m*cos_theta_sqr - (7f/3f)*M);
 
             // Calc pole angular acceleration.
-            thetaa = (3.0/(7.0*l_hat)) * (g*sin_theta - xa*cos_theta - (mu_p * thetav)/(m*l_hat));
+            thetaa = (3f/(7f*l_hat)) * (g*sin_theta - xa*cos_theta - (mu_p * thetav)/(m*l_hat));
         }
 
         /// <summary>
@@ -226,17 +226,19 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <param name="a">An array to multiple by a scalar.</param>
         /// <param name="scalar">A scalar to multiply array a by.</param>
         private static void MultiplyAdd(
-            double[] dest,
-            double[] add,
-            double[] a,
-            double scalar)
+            float[] dest,
+            float[] add,
+            float[] a,
+            float scalar)
         {
             // ENHANCEMENT: Consider vectorizing.
             // Vectorizing this may not be worth it as there are only 4 values, hence only a single vector op will be executed at most,
             // and if Vector<double>.Count is greater than four then we have to pad our arrays with zeros to match the wider vectors.
-            for(int i=0; i < dest.Length; i++) {
-                dest[i] = add[i] + (a[i] * scalar);
-            }
+            // However, System.Runtime.Intrinsics.X86.Vector128<float> might be a good choice here (for x86 platforms with vector support!).
+            dest[0] = add[0] + (a[0] * scalar);
+            dest[1] = add[1] + (a[1] * scalar);
+            dest[2] = add[2] + (a[2] * scalar);
+            dest[3] = add[3] + (a[3] * scalar);
         }
 
         #endregion
