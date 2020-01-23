@@ -26,9 +26,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         const double __MaxForce = 10.0;
 
         // Some useful angles (in radians).
-		const double __TwelveDegrees = Math.PI / 15.0;
-        const double __SixDegrees = Math.PI / 30.0;
-        const double __TwelveDegrees_Reciprocal = 15.0 / Math.PI;
+		const double __MaxPoleAngle = (16.0 * Math.PI) / 180.0;
+        const double __MaxPoleAngle_Reciprocal = 1.0 / __MaxPoleAngle;
 
         // Track half length (in metres).
         const double __TrackLengthHalf = 1.2;
@@ -48,8 +47,10 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <summary>
         /// Construct evaluator with default task arguments/variables.
         /// </summary>
+        /// <remarks>
+        /// Default to 1440 timesteps, or 1440/16 = 90 seconds of clock time.</remarks>
 		public CartSinglePoleEvaluator() 
-            : this(4800)
+            : this(1440)
 		{}
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // Reset model state.
-            _physics.ResetState(__SixDegrees);
+            _physics.ResetState(DegreesToRadians(6.0));
 
             // Get a local variable ref to the internal model state array.
             double[] state = _physics.State;
@@ -84,9 +85,9 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
 			{
 				// Provide model state to the black box inputs (normalised to +-1.0).
                 box.InputVector[0] = 1.0; // Bias input.
-                box.InputVector[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize it to [-1,1].
+                box.InputVector[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
                 box.InputVector[2] = state[1];                                // Cart X axis velocity is typically +- 0.75; no scaling required.
-                box.InputVector[3] = state[2] * __TwelveDegrees_Reciprocal;   // Pole angle range is +-__PoleAngleThreshold degrees; here we normalize it to [-1,1].
+                box.InputVector[3] = state[2] * __MaxPoleAngle_Reciprocal;    // Pole angle range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
                 box.InputVector[4] = state[3];                                // Pole angular velocity is typically within +-1.0 radians; no scaling required.
 
 				// Activate the network.
@@ -102,13 +103,27 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
 
 				// Check for failure state. I.e. has the cart run off the ends of the track, or has the pole
 				// angle exceeded the defined threshold.
-				if(Math.Abs(state[0]) > __TrackLengthHalf || Math.Abs(state[2]) > __TwelveDegrees) {
+				if(Math.Abs(state[0]) > __TrackLengthHalf || Math.Abs(state[2]) > __MaxPoleAngle) {
 					break;
                 }
 			}
 
             // Fitness is defined as the number of timesteps that elapsed before failure, plus a small bonus fitness for cart proximity to the middle of the track's range (x=0).
-            double fitness = timestep + (__TrackLengthHalf - Math.Abs(state[0])) * 5.0;
+            //double fitness = timestep + (__TrackLengthHalf - Math.Abs(state[0])) * 5.0;
+
+            // Fitness is given by the combination of four fitness components:
+            // 1) The number of timesteps that elapsed before the pole angle exceeded the maximum angle threshold. Max score is 1440.
+            // 2) Pole angle component. Max fitness of 1.0 for a pole angle of 0 degrees (vertical pole).
+            // 3) Pole angular velocity component. Maximum fitness 1.0 for a velocity of zero.
+            // 4) Cart position component. Max fitness of 6.0 when the cart is in the centre of the track range (x=0).
+            //
+            // Therefore the maximum possible fitness is 1448, when the pole is perfectly stationary, and the cart is in the middle of the track.
+            double fitness = 
+                + timestep
+                + (1.0 - (Math.Abs(state[2]) * __MaxPoleAngle_Reciprocal)) 
+                + (1.0 - Math.Min(Math.Abs(state[3]), 1.0))
+                + (__TrackLengthHalf - Math.Abs(state[0])) * 5.0;
+
             return new FitnessInfo(fitness);
         }
 
@@ -118,9 +133,15 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
 
         private static void ClipForce(ref double x)
         {
-            if(x < -1) x = -1.0;
+            if(x < -1.0) x = -1.0;
             else if(x > 1.0) x = 1.0;
         }
+
+        private static double DegreesToRadians(double degrees)
+        {
+            return (Math.PI * degrees) / 180.0;
+        }
+
 
         #endregion
     }

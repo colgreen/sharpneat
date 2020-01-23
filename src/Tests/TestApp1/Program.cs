@@ -7,7 +7,7 @@ namespace TestApp1
         static void Main(string[] args)
         {
             // Create and initialise the evolutionary algorithm.
-            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_Binary11();
+            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_CartSinglePole();
             ea.Initialise();
 
             var neatPop = ea.Population;
@@ -15,9 +15,9 @@ namespace TestApp1
             for(int i = 0; i < 10_000; i++)
             {
                 ea.PerformOneGeneration();
-                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {neatPop.Stats.MeanComplexity} {ea.ComplexityRegulationMode}");
+                Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {neatPop.Stats.MeanComplexity} {ea.ComplexityRegulationMode} {neatPop.Stats.MeanFitness}");
 
-                if(ea.Population.Stats.BestFitness.PrimaryFitness == 4806.0)
+                if(ea.Population.Stats.BestFitness.PrimaryFitness == 1448.0)
                 {
                     break;
                 }
