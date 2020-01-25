@@ -112,8 +112,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         #region Public Methods
 
         /// <summary>
-        /// Reset the cart and pole positions and velocities to zero, except for the pole which we set
-        /// to the given pole angle.
+        /// Reset model state.
         /// </summary>
         /// <param name="cartPos">Cart position on the track.</param>
         /// <param name="poleAngle">Pole angle in radians.</param>
@@ -138,10 +137,10 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
 
             // Store a set of model state gradients, e.g. state[0] is the cart x position, therefore gradient[0] is 
             // cart x-axis velocity; and state[1] is cart x-axis velocity, therefore gradient[1] is cart x-axis acceleration, etc.
-            _k1[0] = _state[1];
-            _k1[1] = xa;
-            _k1[2] = _state[3];
-            _k1[3] = thetaa;
+            _k1[0] = _state[1]; // Cart velocity.
+            _k1[1] = xa;        // Cart acceleration.
+            _k1[2] = _state[3]; // Pole angular velocity.
+            _k1[3] = thetaa;    // Pole angular acceleration.
 
             // Project the initial state to new state s2, using the k1 gradients.
             // I.e. multiply each gradient (which is a rate of change) by a time increment (half tau), to give a model state increment;
@@ -176,7 +175,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             _k4[3] = thetaa;
 
             // Project _state to its new state, using a weighted sum over gradients k1, k2, k3, k4.
-            for(int i=0; i < _state.Length; i++)
+            for(int i=0; i < 4; i++)
             {
                 _state[i] += (_k1[i] + 2f*_k2[i] + 2f*_k3[i] + _k4[i]) * (tau / 6f);
             }
@@ -213,7 +212,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             float thetav_sqr = thetav * thetav;
 
             // Calc cart horizontal acceleration.
-            xa = (m*g*sin_theta*cos_theta - (7f/3f)*(f + m*l_hat * thetav_sqr * sin_theta - mu_c*xv) - (mu_p*thetav*cos_theta)/l_hat) / (m*cos_theta_sqr - (7f/3f)*M);
+            xa = (m*g*sin_theta*cos_theta - (7f/3f)*(f + m*l_hat * thetav_sqr * sin_theta - mu_c*xv) - ((mu_p*thetav*cos_theta)/l_hat)) / (m*cos_theta_sqr - (7f/3f)*M);
 
             // Calc pole angular acceleration.
             thetaa = (3f/(7f*l_hat)) * (g*sin_theta - xa*cos_theta - (mu_p * thetav)/(m*l_hat));
@@ -236,10 +235,14 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Vectorizing this may not be worth it as there are only 4 values, hence only a single vector op will be executed at most,
             // and if Vector<double>.Count is greater than four then we have to pad our arrays with zeros to match the wider vectors.
             // However, System.Runtime.Intrinsics.X86.Vector128<float> might be a good choice here (for x86 platforms with vector support!).
-            dest[0] = add[0] + (a[0] * scalar);
-            dest[1] = add[1] + (a[1] * scalar);
-            dest[2] = add[2] + (a[2] * scalar);
-            dest[3] = add[3] + (a[3] * scalar);
+
+            // Notes. 
+            // A constant bound of 4 is used instead of using the length of one of the arrays; this makes it easier for the JITter to decide
+            // whether to unroll the loop or not. We do not manually unroll the loop because at time of writing that resulting the jitter
+            // generating far more instructions; let's just leave it to the jitter to decide whether to unroll or not.
+            for(int i=0; i < 4; i++) {
+                dest[i] = add[i] + (a[i] * scalar);
+            }
         }
 
         #endregion
