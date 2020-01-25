@@ -17,7 +17,7 @@ namespace TestApp1
                 ea.PerformOneGeneration();
                 Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {neatPop.Stats.MeanComplexity} {ea.ComplexityRegulationMode} {neatPop.Stats.MeanFitness}");
 
-                if(ea.Population.Stats.BestFitness.PrimaryFitness == 1448.0)
+                if(ea.Population.Stats.BestFitness.PrimaryFitness >= 99.9)
                 {
                     break;
                 }

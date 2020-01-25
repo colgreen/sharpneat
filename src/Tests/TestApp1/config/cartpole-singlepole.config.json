@@ -4,9 +4,9 @@
 	"cyclesPerActivation": 1,
 	"activationFnName": "LogisticSteep",
 	"evolutionAlgorithmSettings": {
-		"speciesCount" : 10,
+		"speciesCount" : 16,
 		"elitismProportion" : 0.2,
-		"selectionProportion" : 1.0,
+		"selectionProportion" : 0.9,
 		"offspringAsexualProportion" : 0.5,
 		"offspringSexualProportion" : 0.5,
 		"interspeciesMatingProportion" : 0.01

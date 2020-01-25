@@ -115,10 +115,11 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// Reset the cart and pole positions and velocities to zero, except for the pole which we set
         /// to the given pole angle.
         /// </summary>
-        /// <param name="poleAngle">The pole angle in radians.</param>
-        public void ResetState(float poleAngle)
+        /// <param name="cartPos">Cart position on the track.</param>
+        /// <param name="poleAngle">Pole angle in radians.</param>
+        public void ResetState(float cartPos, float poleAngle)
         {
-            _state[0] = 0f;
+            _state[0] = cartPos;
             _state[1] = 0f;
             _state[2] = poleAngle;
             _state[3] = 0f;

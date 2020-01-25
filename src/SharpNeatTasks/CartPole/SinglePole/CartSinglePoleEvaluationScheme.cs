@@ -89,7 +89,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
         public bool TestForStopCondition(FitnessInfo fitnessInfo)
         {
-            return (fitnessInfo.PrimaryFitness >= 1443.2);
+            return (fitnessInfo.PrimaryFitness >= 100.0);
         }
 
         #endregion
