@@ -75,8 +75,34 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <param name="box">The black box to evaluate.</param>
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
+            // The evaluation consists of four separate trials, each with their own fitness score.
+            // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS 
+            // score ensures that improvements in the worst scoring trial are prioritised (by evolution) over
+            // a similar level of improvement in a better scoring trial. RMS also has the nice quality of giving
+            // a maximum overall fitness that is equal to the max fitness for a single trial.
+
+            // Keep a running sum of the squared fitness scores.
+            float fitnessSqrSum = 0f;
+
             // Trial 1.
-            float fitness = RunTrial(box, 0f, DegreesToRadians(6f));
+            float fitness = RunTrial(box, 0.2f, DegreesToRadians(10f));
+            fitnessSqrSum += fitness * fitness;
+
+            // Trial 2.
+            fitness = RunTrial(box, -0.4f, DegreesToRadians(12f));
+            fitnessSqrSum += fitness * fitness;
+
+            // Trial 3.
+            fitness = RunTrial(box, -0.2f, DegreesToRadians(-6f));
+            fitnessSqrSum += fitness * fitness;
+
+            // Trial 4.
+            fitness = RunTrial(box, -0.6f, DegreesToRadians(-8f));
+            fitnessSqrSum += fitness * fitness;
+
+            // Calculate the final overall fitness score.
+            // Take the mean of the sum of squared fitnesses, and then take the square root.
+            fitness = MathF.Sqrt(fitnessSqrSum / 4f);
             return new FitnessInfo(fitness);
         }
 
