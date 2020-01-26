@@ -4,7 +4,7 @@
 	"cyclesPerActivation": 1,
 	"activationFnName": "LogisticSteep",
 	"evolutionAlgorithmSettings": {
-		"speciesCount" : 16,
+		"speciesCount" : 10,
 		"elitismProportion" : 0.2,
 		"selectionProportion" : 0.9,
 		"offspringAsexualProportion" : 0.5,
@@ -20,12 +20,12 @@
 	"reproductionSexualSettings": {
 		"secondaryParentGeneProbability": 0.1
 	},
-	"populationSize": 200,
+	"populationSize": 150,
 	"initialInterconnectionsProportion": 0.05,
 	"connectionWeightScale": 5.0,
 	"complexityRegulationStrategy": {
 		"strategyName": "absolute",
-		"complexityCeiling": 20,
+		"complexityCeiling": 10,
 		"minSimplifcationGenerations": 10
 	},
 	"degreeOfParallelism": 4,
