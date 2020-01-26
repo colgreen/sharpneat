@@ -144,7 +144,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
                 box.Activate();
 
                 // Read the output to determine the force to be applied to the cart by the controller.
-                float force = (float)(box.OutputVector[0] - 0.5);
+                float force = (float)(box.OutputVector[0] - 0.5) * 2f;
                 ClipForce(ref force);
                 force *= __MaxForce;
 
