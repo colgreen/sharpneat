@@ -1,6 +1,7 @@
 ﻿using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.BinarySixMultiplexer;
+using SharpNeat.Tasks.CartPole.DoublePole;
 using SharpNeat.Tasks.CartPole.SinglePole;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
 using SharpNeat.Tasks.Xor;
@@ -47,6 +48,14 @@ namespace TestApp1
             return Utils.CreateNeatEvolutionAlgorithm(
                 experimentFactory,
                 "config/cartpole-singlepole.config.json");
+        }
+
+        public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_CartDoublePole()
+        {
+            var experimentFactory = new CartDoublePoleExperimentFactory();
+            return Utils.CreateNeatEvolutionAlgorithm(
+                experimentFactory,
+                "config/cartpole-doublepole.config.json");
         }
     }
 }
