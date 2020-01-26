@@ -165,7 +165,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
 
             // Project the initial state to new state s2, using the k1 gradients.
             // I.e. multiply each gradient (which is a rate of change) by a time increment (half tau), to give a model state increment;
-            // and then add the increments to the initial state to get a new state for time t + tau/2.			
+            // and then add the increments to the initial state to get a new state for time t + tau/2.
             MultiplyAdd(_s, _state, _k1, tau_half);
 
             // Calc the cart and pole accelerations for the s2 state, and store the k2 gradients

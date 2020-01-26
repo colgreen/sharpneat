@@ -136,8 +136,8 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
             // they need to be remain unchanged until they have been read by the caller of Activate().
-            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);		
-		
+            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);
+
             // Init vector related variables.
             int width = Vector<double>.Count;
             double[] conInputArr = _conInputArr;
