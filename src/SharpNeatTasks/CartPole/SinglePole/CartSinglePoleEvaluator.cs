@@ -30,7 +30,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         const float __MaxPoleAngle_Reciprocal = 1f / __MaxPoleAngle;
 
         // Track half length (in metres).
-        const float __TrackLengthHalf = 1.2f;
+        const float __TrackLengthHalf = 2.0f;
         const float __TrackLengthHalf_Reciprocal = 1f / __TrackLengthHalf;
 
         #endregion
@@ -122,6 +122,9 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             float cartPos,
             float poleAngle)
         {
+            // Reset black box state.
+            box.ResetState();
+
             // Reset model state.
             _physics.ResetState(cartPos, poleAngle);
 
@@ -158,17 +161,16 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Fitness is given by the combination of four fitness components:
             // 1) Amount of simulation time that elapsed before the pole angle and/or cart position threshold was exceeded. Max score is 80 if the 
             //    end of the trial is reached without exceeding any thresholds.
-            // 2) Pole angle component. Max fitness of 9.5 for a pole angle of 0 degrees (vertical pole).
-            // 3) Pole angular velocity component. Maximum fitness 9.5 for a zero velocity.
-            // 4) Cart position component. Max fitness of 1.0 for a cart position of zero (the car is in the middle of the track range);
-            //    This component is awarded only if the end of the trial was reached.
+            // 2) Cart position component. Max fitness of 1.0 for a cart position of zero (i.e. the cart is in the middle of the track range);
+            // 3) Pole angle component. Max fitness of 9.5 for a pole angle of 0 degrees (vertical pole).
+            // 4) Pole angular velocity component. Maximum fitness 9.5 for a zero velocity.
             //
             // Therefore the maximum possible fitness is 100.0, when the pole is perfectly stationary, and the cart is in the middle of the track.
             float fitness = 
-                + (timestep * _maxTimesteps_Reciprocal) * 80f
+                  (timestep * _maxTimesteps_Reciprocal) * 80f
+                + (1f - (MathF.Min(MathF.Abs(state[0]), __TrackLengthHalf) * __TrackLengthHalf_Reciprocal))
                 + (1f - (MathF.Min(MathF.Abs(state[2]), __MaxPoleAngle) * __MaxPoleAngle_Reciprocal)) * 9.5f
-                + (1f - MathF.Min(MathF.Abs(state[3]), 1f)) * 9.5f
-                + (1f - (MathF.Min(MathF.Abs(state[0]), __TrackLengthHalf) * __TrackLengthHalf_Reciprocal));
+                + (1f - MathF.Min(MathF.Abs(state[3]), 1f)) * 9.5f;
 
             return fitness;
         }

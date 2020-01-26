@@ -26,7 +26,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// The number of black box inputs expected/required by the black box evaluation scheme.
         /// </summary>
         /// <remarks>
-        /// The 4 inputs of the single pole balancing task, plus one bias input (input zero).
+        /// The 2 inputs of the single pole balancing task, plus one bias input (input zero).
         /// </remarks>
         public int InputCount => 3;
 
