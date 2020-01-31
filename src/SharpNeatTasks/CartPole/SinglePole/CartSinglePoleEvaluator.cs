@@ -26,7 +26,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         const float __MaxForce = 10f;
 
         // Some useful angles (in radians).
-		const float __MaxPoleAngle = (16f * MathF.PI) / 180f;
+        const float __MaxPoleAngle = (16f * MathF.PI) / 180f;
         const float __MaxPoleAngle_Reciprocal = 1f / __MaxPoleAngle;
 
         // Track half length (in metres).
@@ -50,19 +50,19 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// </summary>
         /// <remarks>
         /// Default to 960 timesteps, or 960/16 = 60 seconds of clock time.</remarks>
-		public CartSinglePoleEvaluator() 
+        public CartSinglePoleEvaluator() 
             : this(960)
-		{}
+        {}
 
         /// <summary>
         /// Construct evaluator with the provided task arguments/variables.
         /// </summary>
-		public CartSinglePoleEvaluator(int maxTimesteps)
-		{
-			_maxTimesteps = maxTimesteps;
+        public CartSinglePoleEvaluator(int maxTimesteps)
+        {
+            _maxTimesteps = maxTimesteps;
             _maxTimesteps_Reciprocal = 1f / maxTimesteps;
             _physics = new CartSinglePolePhysicsRK4();
-		}
+        }
 
         #endregion
 
@@ -131,16 +131,16 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Get a local variable ref to the internal model state array.
             float[] state = _physics.State;
 
-			// Run the cart-pole simulation.
+            // Run the cart-pole simulation.
             int timestep = 0;
-			for(; timestep < _maxTimesteps; timestep++)
-			{
-				// Provide model state to the black box inputs (normalised to +-1.0).
+            for(; timestep < _maxTimesteps; timestep++)
+            {
+                // Provide model state to the black box inputs (normalised to +-1.0).
                 box.InputVector[0] = 1.0; // Bias input.
                 box.InputVector[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
                 box.InputVector[2] = state[2] * __MaxPoleAngle_Reciprocal;    // Pole angle range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
 
-				// Activate the network.
+                // Activate the network.
                 box.Activate();
 
                 // Read the output to determine the force to be applied to the cart by the controller.
@@ -151,12 +151,12 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
                 // Update model state, i.e. move the model forward by one timestep.
                 _physics.Update(force);
 
-				// Check for failure state. I.e. has the cart run off the ends of the track, or has the pole
-				// angle exceeded the defined threshold.
-				if(MathF.Abs(state[0]) > __TrackLengthHalf || MathF.Abs(state[2]) > __MaxPoleAngle) {
-					break;
+                // Check for failure state. I.e. has the cart run off the ends of the track, or has the pole
+                // angle exceeded the defined threshold.
+                if(MathF.Abs(state[0]) > __TrackLengthHalf || MathF.Abs(state[2]) > __MaxPoleAngle) {
+                    break;
                 }
-			}
+            }
 
             // Fitness is given by the combination of four fitness components:
             // 1) Amount of simulation time that elapsed before the pole angle and/or cart position threshold was exceeded. Max score is 80 if the 
