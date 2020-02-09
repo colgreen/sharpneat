@@ -223,7 +223,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// </summary>
         /// <param name="dest">Destination array. The results are stored in this array.</param>
         /// <param name="add">The elements in this array are pointwise added to the destination array.</param>
-        /// <param name="a">An array to multiple by a scalar.</param>
+        /// <param name="a">An array to multiply by a scalar.</param>
         /// <param name="scalar">A scalar to multiply array a by.</param>
         private static void MultiplyAdd(
             float[] dest,
@@ -241,7 +241,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // whether to unroll the loop or not. We do not manually unroll the loop because at time of writing that resulted in the jitter
             // generating far more instructions; let's just leave it to the jitter to decide whether to unroll or not.
             for(int i=0; i < 4; i++) {
-                dest[i] = add[i] + (a[i] * scalar);
+                dest[i] = MathF.FusedMultiplyAdd(a[i], scalar, add[i]);
             }
         }
 
