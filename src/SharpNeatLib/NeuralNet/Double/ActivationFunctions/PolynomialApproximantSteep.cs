@@ -38,7 +38,7 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
 
         public double Fn(double x)
         {
-            x = x * 4.9;
+            x *= 4.9;
             double x2 = x*x;
             double e = 1.0 + Math.Abs(x) + (x2 * 0.555) + (x2 * x2 * 0.143);
 

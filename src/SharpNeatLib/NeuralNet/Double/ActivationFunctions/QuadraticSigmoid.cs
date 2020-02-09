@@ -32,11 +32,11 @@ namespace SharpNeat.NeuralNet.Double.ActivationFunctions
             double sign = 1;
             if(x < 0)
             {
-                x = x * -1;  
+                x *= -1;  
                 sign = -1;
             }
 
-            double y = 0;
+            double y;
             if(x < t) {
                 y = t - ((x - t) * (x - t));
             }
