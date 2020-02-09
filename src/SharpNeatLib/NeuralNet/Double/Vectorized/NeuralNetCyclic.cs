@@ -167,7 +167,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
 
                 // Loop remaining connections
                 for(; conIdx < _srcIdArr.Length; conIdx++) {
-                    _preActivationArr[_tgtIdArr[conIdx]] += _postActivationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
+                    _preActivationArr[_tgtIdArr[conIdx]] = Math.FusedMultiplyAdd(_postActivationArr[_srcIdArr[conIdx]], _weightArr[conIdx], _preActivationArr[_tgtIdArr[conIdx]]);
                 }
 
                 // Pass the pre-activation levels through the activation function.

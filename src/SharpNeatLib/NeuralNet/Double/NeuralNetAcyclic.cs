@@ -166,7 +166,7 @@ namespace SharpNeat.NeuralNet.Double
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
                 for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
-                    _activationArr[_tgtIdArr[conIdx]] += _activationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
+                    _activationArr[_tgtIdArr[conIdx]] = Math.FusedMultiplyAdd(_activationArr[_srcIdArr[conIdx]], _weightArr[conIdx], _activationArr[_tgtIdArr[conIdx]]);
                 }
 
                 // Activate current layer's nodes.

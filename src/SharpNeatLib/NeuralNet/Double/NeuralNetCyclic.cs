@@ -154,7 +154,7 @@ namespace SharpNeat.NeuralNet.Double
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to 
                 // the pre-activation signal of the target neuron.
                 for(int j=0; j < _srcIdArr.Length; j++) {
-                    _preActivationArr[_tgtIdArr[j]] += _postActivationArr[_srcIdArr[j]] * _weightArr[j];
+                    _preActivationArr[_tgtIdArr[j]] = Math.FusedMultiplyAdd(_postActivationArr[_srcIdArr[j]], _weightArr[j], _preActivationArr[_tgtIdArr[j]]);
                 }
 
                 // Pass the pre-activation levels through the activation function.

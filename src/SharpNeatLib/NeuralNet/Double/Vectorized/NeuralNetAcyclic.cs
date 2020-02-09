@@ -174,7 +174,7 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
 
                 // Loop remaining connections
                 for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
-                    _activationArr[_tgtIdArr[conIdx]] += _activationArr[_srcIdArr[conIdx]] * _weightArr[conIdx];
+                    _activationArr[_tgtIdArr[conIdx]] = Math.FusedMultiplyAdd(_activationArr[_srcIdArr[conIdx]], _weightArr[conIdx], _activationArr[_tgtIdArr[conIdx]]);
                 }
 
                 // Activate current layer's nodes.
