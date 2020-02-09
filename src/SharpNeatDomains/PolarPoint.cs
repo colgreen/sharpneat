@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SharpNeat.Domains
 {
@@ -61,12 +58,12 @@ namespace SharpNeat.Domains
         /// </summary>
         public static PolarPoint FromCartesian(IntPoint p)
         {
-            double r = Math.Sqrt((p._x * p._x) + (p._y * p._y));
-            double t = Math.Atan2(p._x, p._y);
-            if(t<0.0) {
-                t += 2*Math.PI;
+            double radius = Math.Sqrt((p._x * p._x) + (p._y * p._y));
+            double angle = Math.Atan2(p._x, p._y);
+            if(angle < 0.0) {
+                angle += 2.0 * Math.PI;
             }
-            return new PolarPoint(r, t);
+            return new PolarPoint(radius, angle);
         }
 
         #endregion

@@ -20,6 +20,7 @@ using SharpNeat.DistanceMetrics;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
+using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
 
@@ -145,7 +146,11 @@ namespace SharpNeat.Domains.PreyCapture
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             _eaParams.SpecieCount = _specieCount;
+            _eaParams.ElitismProportion = 0.66;
+            _eaParams.SelectionProportion = 0.66;
+
             _neatGenomeParams = new NeatGenomeParameters();
+            _neatGenomeParams.ActivationFn = LeakyReLU.__DefaultInstance;
         }
 
         /// <summary>

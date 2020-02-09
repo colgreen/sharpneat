@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using SharpNeat.Phenomes;
@@ -132,14 +131,14 @@ namespace SharpNeat.Domains.PreyCapture
 
             // Prey gets a head start (simulate world as normal but agent is frozen).
             int t = 0;
-            for(; t<_preyInitMoves; t++)
+            for(; t < _preyInitMoves; t++)
             {
                 SetAgentInputsAndActivate(agent);
                 MovePrey();
             }
 
             // Let the chase begin!
-            for(; t<_maxTimesteps; t++)
+            for(; t < _maxTimesteps; t++)
             {
                 SetAgentInputsAndActivate(agent);
                 MoveAgent(agent);
@@ -154,7 +153,7 @@ namespace SharpNeat.Domains.PreyCapture
                 }
             }
 
-            // Agent failed to capture prey in the alloted time.
+            // Agent failed to capture prey in the allotted time.
             return false;
         }
 
@@ -164,11 +163,11 @@ namespace SharpNeat.Domains.PreyCapture
         /// </summary>
         public void InitPositions()
         {
-            // Random pos at least 4 units away from any wall.
+            // Random position at least 4 units away from any wall.
             _preyPos._x = 4 + _rng.Next(_gridSize - 8);
             _preyPos._y = 4 + _rng.Next(_gridSize - 8);
 
-            // Agent position. Within range of the prey.
+            // Agent position. The angle from the prey is chosen at random, and the distance from the prey is randomly chosen between 2 and 4.
             double t = 2.0 * Math.PI * _rng.NextDouble();   // Random angle.
             double r = 2.0 + _rng.NextDouble() * 2.0;       // Distance between 2 and 4.
             _agentPos._x = _preyPos._x + (int)Math.Floor(Math.Cos(t) * r);
@@ -192,32 +191,32 @@ namespace SharpNeat.Domains.PreyCapture
             if(relPos.Radial <= _sensorRange)
             {
                 // Determine which sensor segment the prey is within - [0,7]. There are eight segments and they are tilted 22.5 degrees (half a segment)
-                // such that due North, East South and West are each in the center of a sensor segment (rather than on a segment boundary).
-                int segmentIdx = (int)Math.Floor((relPos.Theta / PiDiv4) + PiDiv8);
-                if(8==segmentIdx) {
-                    segmentIdx = 0;
-                }
+                // such that due North, East South and West are each in the centre of a sensor segment (rather than on a segment boundary).
+                double thetaAdjusted = relPos.Theta - PiDiv8;
+                if(thetaAdjusted < 0.0) thetaAdjusted += 2.0 * Math.PI;
+                int segmentIdx = (int)Math.Floor(thetaAdjusted / PiDiv4);
+
                 // Set sensor segment's input.
                 agent.InputSignalArray[segmentIdx] = 1.0;
             }
 
             // Prey closeness detector.
-            agent.InputSignalArray[8] = relPos.Radial > 2.0 ? 0.0 : 1.0;
+            agent.InputSignalArray[8] = relPos.Radial <= 2.0 ? 1.0 : 0.0;
 
             // Wall detectors - N,E,S,W.
             // North.
             int d = (_gridSize-1) - _agentPos._y;
-            if(d < 4) { agent.InputSignalArray[9] = (4-d) / 4.0; }
+            if(d <= 4) { agent.InputSignalArray[9] = (4-d) / 4.0; }
 
             // East.
             d = (_gridSize-1) - _agentPos._x;
-            if(d < 4) { agent.InputSignalArray[10] = (4-d) / 4.0; }
+            if(d <= 4) { agent.InputSignalArray[10] = (4-d) / 4.0; }
 
             // South.
-            if(_agentPos._y < 4) { agent.InputSignalArray[11] = (4 - _agentPos._y) / 4.0; }
+            if(_agentPos._y <= 4) { agent.InputSignalArray[11] = (4 - _agentPos._y) / 4.0; }
 
             // West.
-            if(_agentPos._x < 4) { agent.InputSignalArray[12] = (4 - _agentPos._x) / 4.0; }
+            if(_agentPos._x <= 4) { agent.InputSignalArray[12] = (4 - _agentPos._x) / 4.0; }
 
             // Activate agent.
             agent.Activate();
@@ -232,20 +231,21 @@ namespace SharpNeat.Domains.PreyCapture
             double maxSig = agent.OutputSignalArray[0];
             int maxSigIdx = 0;
 
-            for(int i=1; i<4; i++) 
+            for(int i=1; i < 4; i++) 
             {
-                if(agent.OutputSignalArray[i] > maxSig) 
+                double v = agent.OutputSignalArray[i];
+                if(v > maxSig) 
                 {
-                    maxSig = agent.OutputSignalArray[i];
+                    maxSig = v;
                     maxSigIdx = i;
                 }
-                else if(agent.OutputSignalArray[i] == maxSig)
+                else if(v == maxSig)
                 {   // Tie. Two equally high outputs.
                     maxSigIdx = -1;
                 }
             }
 
-            if(-1 == maxSigIdx || maxSig < 0.5) 
+            if(-1 == maxSigIdx || maxSig < 0.1) 
             {   // No action.
                 return;
             }
@@ -253,16 +253,16 @@ namespace SharpNeat.Domains.PreyCapture
             switch(maxSigIdx)
             {
                 case 0: // Move north.
-                    _agentPos._y = Math.Min(_agentPos._y + 1, _gridSize - 1);
+                    if(_agentPos._y < _gridSize-1) _agentPos._y++;
                     break;
                 case 1: // Move east.
-                    _agentPos._x = Math.Min(_agentPos._x + 1, _gridSize - 1);
+                    if(_agentPos._x < _gridSize-1) _agentPos._x++;
                     break;
                 case 2: // Move south.
-                    _agentPos._y = Math.Max(_agentPos._y - 1, 0);
+                    if(_agentPos._y > 0) _agentPos._y--;
                     break;
-                case 3: // Move west (is the best?)
-                    _agentPos._x = Math.Max(_agentPos._x - 1, 0);
+                case 3: // Move west.
+                    if(_agentPos._x > 0) _agentPos._x--;
                     break;
             }
         }
@@ -286,28 +286,28 @@ namespace SharpNeat.Domains.PreyCapture
             // (http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf)
             // Essentially the prey moves randomly but we bias the movements so the prey moves away from the agent, and thus 
             // generally avoids getting eaten through stupidity.
-            double T = MovePrey_T(relPolarPos.Radial);
+            double t = T(relPolarPos.Radial);
             double[] probs = new double[4];
-            probs[0] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI/2.0) / Math.PI) * T * 0.33);    // North.
-            probs[1] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, 0) / Math.PI) * T * 0.33);              // East.
-            probs[2] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI * 1.5) / Math.PI) * T * 0.33);  // South.
-            probs[3] = Math.Exp((CalcAngleDelta(relPolarPos.Theta, Math.PI) / Math.PI) * T * 0.33);        // West.
+            probs[0] = Math.Exp(W(relPolarPos.Theta, Math.PI / 2.0) * t * 0.33);  // North.
+            probs[1] = Math.Exp(W(relPolarPos.Theta, 0) * t * 0.33);              // East.
+            probs[2] = Math.Exp(W(relPolarPos.Theta, Math.PI * 1.5) * t * 0.33);  // South.
+            probs[3] = Math.Exp(W(relPolarPos.Theta, Math.PI) * t * 0.33);        // West.
             
             DiscreteDistribution dist = new DiscreteDistribution(probs);
             int action = DiscreteDistribution.Sample(_rng, dist);
             switch(action)
             {
                  case 0: // Move north.
-                    _preyPos._y = Math.Min(_preyPos._y + 1, _gridSize - 1);
+                    if(_preyPos._y < _gridSize-1) _preyPos._y++;
                     break;
                 case 1: // Move east.
-                    _preyPos._x = Math.Min(_preyPos._x + 1, _gridSize - 1);
+                    if(_preyPos._x < _gridSize-1) _preyPos._x++;
                     break;
                 case 2: // Move south.
-                    _preyPos._y = Math.Max(_preyPos._y - 1, 0);
+                    if(_preyPos._y > 0) _preyPos._y--;
                     break;
-                case 3: // Move west (is the best?)
-                    _preyPos._x = Math.Max(_preyPos._x - 1, 0);
+                case 3: // Move west.
+                    if(_preyPos._x > 0) _preyPos._x--;
                     break;
             }
         }
@@ -322,15 +322,21 @@ namespace SharpNeat.Domains.PreyCapture
 
         #endregion
 
-        #region Private Methods
+        #region Private Static Methods
 
-		private double MovePrey_T(double distance)
+        /// <summary>
+        /// The T function as defined in Appendix A of the paper referenced at the top of this class.
+        /// This is a function on the distance between the agent and the prey, with it's maximum value of 15 when distance is zero,
+        /// and minimum value of 1.0 when distance is greater than 15.
+        /// </summary>
+        /// <param name="distance">Distance between the agent and the prey.</param>
+		private static double T(double distance)
 		{
-			if(distance < 5.0) {
+			if(distance <= 4.0) {
 				return 15.0 - distance;
             }
-            else if(distance < 16.0) {
-				return 9.0 - (distance/2.0);
+            else if(distance <= 15.0) {
+				return 9.0 - (distance / 2.0);
             }
             else {
 				return 1.0;
@@ -338,11 +344,33 @@ namespace SharpNeat.Domains.PreyCapture
 		}
 
         /// <summary>
-        /// Calculates minimum angle between two vectors (specified by angle only).
+        /// The W function as defined in Appendix A of the paper referenced at the top of this class.
         /// </summary>
-        private double CalcAngleDelta(double a, double b)
+        /// <param name="angleA">Angle A (radians).</param>
+        /// <param name="angleB">Angle B (radians).</param>
+        private static double W(double angleA, double angleB)
         {
-            return Math.Min(Math.Abs(a-b), Math.Abs(b-a));
+            return (Math.PI - AngleDelta(angleA, angleB)) / Math.PI;
+        }
+
+        /// <summary>
+        /// Gives the smallest angle between two vectors with the given angles/
+        /// </summary>
+        /// <param name="a">Vector a angle.</param>
+        /// <param name="b">Vector b angle/</param>
+        /// <returns>Smallest angle between a and b.</returns>
+        private static double AngleDelta(double a, double b)
+        {
+            // Calc absolute difference/delta between the two angles.
+            double d = Math.Abs(a-b);
+            
+            // If the difference is greater than 180 degrees, then we want the smaller angle between 
+            // the two vectors, i.e. 360 degrees minus d.
+            if(d > Math.PI)
+            {
+                d = (2.0 * Math.PI) - d;
+            }
+            return d;
         }
 
         #endregion
