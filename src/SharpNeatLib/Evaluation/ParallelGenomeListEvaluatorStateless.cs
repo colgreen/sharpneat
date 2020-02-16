@@ -75,17 +75,17 @@ namespace SharpNeat.Evaluation
         /// </summary>
         /// <remarks>
         /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
-        /// for the same genome, such as scheme is non-deterministic.
+        /// for the same genome, such a scheme is non-deterministic.
         /// </remarks>
         public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
 
         /// <summary>
-        /// Gets a fitness comparer. 
+        /// The evaluation scheme's fitness comparer.
         /// </summary>
         /// <remarks>
-        /// Typically there is a single fitness score whereby a higher score is better, however if there are multiple fitness scores
-        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
-        /// determine which is the better FitenssInfo between any two.
+        /// Typically there is a single fitness score and a higher score is considered better/fitter. However, if there are multiple 
+        /// fitness values assigned to a genome (e.g. where multiple measures of fitness are in use) then we need a task specific 
+        /// comparer to determine the relative fitness between two instances of <see cref="FitnessInfo"/>.
         /// </remarks>
         public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 

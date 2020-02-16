@@ -111,6 +111,7 @@ namespace SharpNeat.Network
         /// <returns>The current object's hash code.</returns>
         public override int GetHashCode()
         {
+            // TODO: Consider using HashCode.Combine() instead (or lift code from that method and use it directly here).
             // Variant on FNV hash taken from: http://stackoverflow.com/a/263416/15703
             unchecked
             {
