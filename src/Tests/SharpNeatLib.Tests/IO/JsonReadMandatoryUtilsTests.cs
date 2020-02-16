@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Text.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using SharpNeat.IO;
 
 namespace SharpNeatLib.Tests.IO
@@ -11,65 +11,65 @@ namespace SharpNeatLib.Tests.IO
         [TestMethod]
         public void ReadBoolMandatory()
         {
-            JObject jobj = JObject.Parse("{'foo':true}");
+            JsonDocument jdoc = JsonDocument.Parse("{\"foo\":true}");
 
             // Test success case.
-            bool val = JsonReadMandatoryUtils.ReadBoolMandatory(jobj, "foo");
+            bool val = JsonReadMandatoryUtils.ReadBoolMandatory(jdoc.RootElement, "foo");
             Assert.AreEqual(true, val);
 
             // Test missing mandatory.
-            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadBoolMandatory(jobj, "bar"));
+            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadBoolMandatory(jdoc.RootElement, "bar"));
 
             // Test invalid value.
-            jobj = JObject.Parse("{'foo':'abc'}");
-            Assert.ThrowsException<FormatException>(() => JsonReadMandatoryUtils.ReadBoolMandatory(jobj, "foo"));
+            jdoc = JsonDocument.Parse("{\"foo\":\"'abc\"}");
+            Assert.ThrowsException<InvalidOperationException>(() => JsonReadMandatoryUtils.ReadBoolMandatory(jdoc.RootElement, "foo"));
         }
 
         [TestMethod]
         public void ReadIntMandatory()
         {
-            JObject jobj = JObject.Parse("{'foo':'1234'}");
+            JsonDocument jdoc = JsonDocument.Parse("{\"foo\":1234}");
 
             // Test success case.
-            int val = JsonReadMandatoryUtils.ReadIntMandatory(jobj, "foo");
+            int val = JsonReadMandatoryUtils.ReadIntMandatory(jdoc.RootElement, "foo");
             Assert.AreEqual(1234, val);
 
             // Test missing mandatory.
-            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadIntMandatory(jobj, "bar"));
+            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadIntMandatory(jdoc.RootElement, "bar"));
 
             // Test invalid value.
-            jobj = JObject.Parse("{'foo':'abc'}");
-            Assert.ThrowsException<FormatException>(() => JsonReadMandatoryUtils.ReadIntMandatory(jobj, "foo"));
+            jdoc = JsonDocument.Parse("{\"foo\":\"abc\"}");
+            Assert.ThrowsException<InvalidOperationException>(() => JsonReadMandatoryUtils.ReadIntMandatory(jdoc.RootElement, "foo"));
         }
 
         [TestMethod]
         public void ReadDoubleMandatory()
         {
-            JObject jobj = JObject.Parse("{'foo':'1234.5'}");
+            JsonDocument jdoc = JsonDocument.Parse("{\"foo\":1234.5}");
 
             // Test success case.
-            double val = JsonReadMandatoryUtils.ReadDoubleMandatory(jobj, "foo");
+            double val = JsonReadMandatoryUtils.ReadDoubleMandatory(jdoc.RootElement, "foo");
             Assert.AreEqual(1234.5, val);
 
             // Test missing mandatory.
-            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadDoubleMandatory(jobj, "bar"));
+            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadDoubleMandatory(jdoc.RootElement, "bar"));
 
             // Test invalid value.
-            jobj = JObject.Parse("{'foo':'abc'}");
-            Assert.ThrowsException<FormatException>(() => JsonReadMandatoryUtils.ReadDoubleMandatory(jobj, "foo"));
+            jdoc = JsonDocument.Parse("{\"foo\":\"abc\"}");
+            Assert.ThrowsException<InvalidOperationException>(() => JsonReadMandatoryUtils.ReadDoubleMandatory(jdoc.RootElement, "foo"));
         }
 
         [TestMethod]
         public void ReadStringMandatory()
         {
-            JObject jobj = JObject.Parse("{'foo':'hello world'}");
+            JsonDocument jdoc = JsonDocument.Parse("{\"foo\":\"hello world\"}");
 
             // Test success case.
-            string val = JsonReadMandatoryUtils.ReadStringMandatory(jobj, "foo");
+            string val = JsonReadMandatoryUtils.ReadStringMandatory(jdoc.RootElement, "foo");
             Assert.AreEqual("hello world", val);
 
             // Test missing mandatory.
-            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadStringMandatory(jobj, "bar"));
+            Assert.ThrowsException<Exception>(() => JsonReadMandatoryUtils.ReadStringMandatory(jdoc.RootElement, "bar"));
         }
     }
 }

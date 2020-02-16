@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -11,7 +11,6 @@
  */
 using System;
 using System.Text.Json;
-using Newtonsoft.Json.Linq;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.NeuralNet;
