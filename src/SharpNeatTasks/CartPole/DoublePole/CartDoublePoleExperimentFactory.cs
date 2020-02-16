@@ -40,7 +40,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             {
                 IsAcyclic = false,
                 CyclesPerActivation = 1,
-                ActivationFnName = ActivationFunctionName.LogisticSteep.ToString()
+                ActivationFnName = ActivationFunctionId.LogisticSteep.ToString()
             };
 
             // Read standard neat experiment json config and use it configure the experiment.

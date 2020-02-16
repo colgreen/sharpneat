@@ -39,7 +39,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             var experiment = new NeatExperiment<double>("Cart and Pole Balancing (Single Pole)", evalScheme)
             {
                 IsAcyclic = true,
-                ActivationFnName = ActivationFunctionName.LogisticSteep.ToString()
+                ActivationFnName = ActivationFunctionId.LogisticSteep.ToString()
             };
 
             // Read standard neat experiment json config and use it configure the experiment.

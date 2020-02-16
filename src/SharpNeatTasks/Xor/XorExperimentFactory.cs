@@ -21,7 +21,7 @@ namespace SharpNeat.Tasks.Xor
     /// </summary>
     public class XorExperimentFactory : INeatExperimentFactory<double>
     {
-        const ActivationFunctionName __DefaultActivationFunctionName = ActivationFunctionName.LeakyReLU;
+        const ActivationFunctionId __DefaultActivationFunctionName = ActivationFunctionId.LeakyReLU;
 
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.

@@ -52,7 +52,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             {
                 IsAcyclic = false,
                 CyclesPerActivation = 1,
-                ActivationFnName = ActivationFunctionName.LeakyReLU.ToString()
+                ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
             };
 
             // Read standard neat experiment json config and use it configure the experiment.

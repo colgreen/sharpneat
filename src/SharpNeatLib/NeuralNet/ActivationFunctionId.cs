@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -15,7 +15,7 @@ namespace SharpNeat.NeuralNet
     /// <summary>
     /// The set of neural network activation functions provided as standard in SharpNEAT.
     /// </summary>
-    public enum ActivationFunctionName
+    public enum ActivationFunctionId
     {
         /// <summary>
         /// The ArcSinH function (inverse hyperbolic sine function).

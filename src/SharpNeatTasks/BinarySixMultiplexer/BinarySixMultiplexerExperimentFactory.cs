@@ -39,7 +39,7 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer
             var experiment = new NeatExperiment<double>("Binary 6-multiplexer", evalScheme)
             {
                 IsAcyclic = true,
-                ActivationFnName = ActivationFunctionName.LeakyReLU.ToString()
+                ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
             };
 
             // Read standard neat experiment json config and use it configure the experiment.
