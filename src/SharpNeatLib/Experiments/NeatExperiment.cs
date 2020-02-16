@@ -46,12 +46,12 @@ namespace SharpNeat.Experiments
         /// A boolean flag that indicates if the genomes that are evolved are acyclic,
         /// i.e. they should have no recurrent/cyclic connection paths.
         /// </summary>
-        public bool IsAcyclic { get; set; }
+        public bool IsAcyclic { get; set; } = false;
 
         /// <summary>
         /// For cyclic neural networks (i.e. if <see cref="IsAcyclic"/> is false) this defines how many timesteps to run the neural net per call to Activate().
         /// </summary>
-        public int CyclesPerActivation { get; set; }
+        public int CyclesPerActivation { get; set; } = 1;
 
         /// <summary>
         /// Name of the neuron activation function to use in evolved networks.
@@ -125,7 +125,7 @@ namespace SharpNeat.Experiments
         /// of all vectorized code so as to rule out that code as the source of a problem/bug.
         /// 
         /// Furthermore, enabling hardware acceleration has been observed to often result in slower execution speed,
-        /// probably because NEAT deals with non-homogenous, irregular neural network structures that are generally not 
+        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not 
         /// conducive to the application of vectorized code.
         /// </remarks>
         public bool EnableHardwareAcceleratedActivationFunctions { get; set; } = false;
@@ -139,21 +139,12 @@ namespace SharpNeat.Experiments
         /// </summary>
         /// <param name="name">Experiment name.</param>
         /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-        /// <param name="activationFnName">Name of the neuron activation function to use in evolved networks.</param>
-        /// <param name="isAcyclic">Indicates if the genomes that are evolved are to be acyclic.</param>
-        /// <param name="cyclesPerActivation">For cyclic neural networks (i.e. if <paramref name="isAcyclic"/> is false) this defines how many timesteps to run the neural net per call to Activate().</param>
-        private NeatExperiment(
+        public NeatExperiment(
             string name,
-            IBlackBoxEvaluationScheme<T> evalScheme,
-            string activationFnName,
-            bool isAcyclic,
-            int cyclesPerActivation)
+            IBlackBoxEvaluationScheme<T> evalScheme)
         {
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
-            this.IsAcyclic = isAcyclic;
-            this.CyclesPerActivation = cyclesPerActivation;
-            this.ActivationFnName = activationFnName ?? throw new ArgumentNullException(nameof(activationFnName));
 
             // Assign a set of default settings.
             this.NeatEvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
@@ -165,44 +156,6 @@ namespace SharpNeat.Experiments
 
             // Assign a default complexity regulation strategy.
             this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
-        }
-
-        #endregion
-
-        #region Public Static Factory Methods
-
-        /// <summary>
-        /// Create a new instance of <see cref="NeatExperiment{T}"/> for experiments with acyclic neural networks, and a set of
-        /// default settings.
-        /// </summary>
-        /// <param name="name">Experiment name.</param>
-        /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-        /// <param name="activationFnName">Name of the neuron activation function to use in evolved networks.</param>
-        /// <returns>A new instance of <see cref="NeatExperiment{T}"/>.</returns>
-        public static NeatExperiment<T> CreateAcyclic(
-            string name,
-            IBlackBoxEvaluationScheme<T> evalScheme,
-            string activationFnName)
-        {
-            return new NeatExperiment<T>(name, evalScheme, activationFnName, true, 0);
-        }
-
-        /// <summary>
-        /// Create a new instance of <see cref="NeatExperiment{T}"/> for experiments with cyclic neural networks, and a set of
-        /// default settings.
-        /// </summary>
-        /// <param name="name">Experiment name.</param>
-        /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-        /// <param name="activationFnName">Name of the neuron activation function to use in evolved networks.</param>
-        /// <param name="cyclesPerActivation">Defines how many timesteps to run the neural net per call to Activate().</param>
-        /// <returns>A new instance of <see cref="NeatExperiment{T}"/>.</returns>
-        public static NeatExperiment<T> CreateCyclic(
-            string name,
-            IBlackBoxEvaluationScheme<T> evalScheme,
-            string activationFnName,
-            int cyclesPerActivation)
-        {
-            return new NeatExperiment<T>(name, evalScheme, activationFnName, false, cyclesPerActivation);
         }
 
         #endregion

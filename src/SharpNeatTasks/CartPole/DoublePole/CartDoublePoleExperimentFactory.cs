@@ -21,8 +21,6 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
     /// </summary>
     public class CartDoublePoleExperimentFactory : INeatExperimentFactory<double>
     {
-        const ActivationFunctionName __DefaultActivationFunctionName = ActivationFunctionName.LogisticSteep;
-
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
         /// </summary>
@@ -36,11 +34,14 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             // Create an evaluation scheme object for the Single Pole Balancing task.
             var evalScheme = new CartDoublePoleEvaluationScheme();
 
-            // Create a NeatExperiment object with the evaluation scheme.
-            var experiment = NeatExperiment<double>.CreateAcyclic(
-                "Cart and Pole Balancing (Double Pole)",
-                evalScheme,
-                __DefaultActivationFunctionName.ToString());
+            // Create a NeatExperiment object with the evaluation scheme,
+            // and assign some default settings (these can be overridden by config).
+            var experiment = new NeatExperiment<double>("Cart and Pole Balancing (Double Pole)", evalScheme)
+            {
+                IsAcyclic = false,
+                CyclesPerActivation = 1,
+                ActivationFnName = ActivationFunctionName.LogisticSteep.ToString()
+            };
 
             // Read standard neat experiment json config and use it configure the experiment.
             if(configJobj != null) { 

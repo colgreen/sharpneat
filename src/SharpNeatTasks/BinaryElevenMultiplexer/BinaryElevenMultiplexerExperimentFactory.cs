@@ -21,8 +21,6 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     /// </summary>
     public class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFactory<double>
     {
-        const ActivationFunctionName __DefaultActivationFunctionName = ActivationFunctionName.LeakyReLU;
-
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
         /// </summary>
@@ -36,11 +34,13 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
             // Create an evaluation scheme object for the binary 11-multiplexer task.
             var evalScheme = new BinaryElevenMultiplexerEvaluationScheme();
 
-            // Create a NeatExperiment object with the evaluation scheme.
-            var experiment = NeatExperiment<double>.CreateAcyclic(
-                "Binary 11-multiplexer",
-                evalScheme,
-                __DefaultActivationFunctionName.ToString());
+            // Create a NeatExperiment object with the evaluation scheme,
+            // and assign some default settings (these can be overridden by config).
+            var experiment = new NeatExperiment<double>("Binary 11-multiplexer", evalScheme)
+            {
+                IsAcyclic = true,
+                ActivationFnName = ActivationFunctionName.LeakyReLU.ToString()
+            };
 
             // Read standard neat experiment json config and use it configure the experiment.
             if(configJobj != null) { 

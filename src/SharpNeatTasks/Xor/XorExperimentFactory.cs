@@ -36,11 +36,14 @@ namespace SharpNeat.Tasks.Xor
             // Create an evaluation scheme object for the XOR task.
             var evalScheme = new XorEvaluationScheme();
 
-            // Create a NeatExperiment object with the evaluation scheme.
-            var experiment = NeatExperiment<double>.CreateAcyclic(
-                "Binary 3-multiplexer",
-                evalScheme,
-                __DefaultActivationFunctionName.ToString());
+
+            // Create a NeatExperiment object with the evaluation scheme,
+            // and assign some default settings (these can be overridden by config).
+            var experiment = new NeatExperiment<double>("XOR (Exclusive OR)", evalScheme)
+            {
+                IsAcyclic = true,
+                ActivationFnName = __DefaultActivationFunctionName.ToString()
+            };
 
             // Read standard neat experiment json config and use it configure the experiment.
             if(configJobj != null) { 

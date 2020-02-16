@@ -23,8 +23,6 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     /// </summary>
     public class GenerativeFnRegressionExperimentFactory : INeatExperimentFactory<double>
     {
-        const ActivationFunctionName __DefaultActivationFunctionName = ActivationFunctionName.LeakyReLU;
-
         #region Public Methods
 
         /// <summary>
@@ -48,12 +46,14 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             // config read from json.
             var evalScheme = new GenerativeFnRegressionEvaluationScheme(fn, paramSamplingInfo, gradientMseWeight);
 
-            // Create a NeatExperiment object with the configured evaluation scheme.
-            var experiment = NeatExperiment<double>.CreateCyclic(
-                "Generative Function Regression",
-                evalScheme,
-                __DefaultActivationFunctionName.ToString(),
-                1);
+            // Create a NeatExperiment object with the evaluation scheme,
+            // and assign some default settings (these can be overridden by config).
+            var experiment = new NeatExperiment<double>("Generative Function Regression", evalScheme)
+            {
+                IsAcyclic = false,
+                CyclesPerActivation = 1,
+                ActivationFnName = ActivationFunctionName.LeakyReLU.ToString()
+            };
 
             // Read standard neat experiment json config and use it configure the experiment.
             NeatExperimentJsonReader<double>.Read(experiment, configJobj);
