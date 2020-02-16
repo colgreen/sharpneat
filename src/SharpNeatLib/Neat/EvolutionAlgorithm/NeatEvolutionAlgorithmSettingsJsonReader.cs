@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using static SharpNeat.IO.JsonReadOptionalUtils;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm
@@ -25,18 +25,18 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// remain unchanged on the target object.
         /// </summary>
         /// <param name="target">The target settings object to store the read values on.</param>
-        /// <param name="jobj">The json object to read from.</param>
+        /// <param name="jelem">The json element to read from.</param>
         public static void Read(
             NeatEvolutionAlgorithmSettings target,
-            JObject jobj)
+            JsonElement jelem)
         {
-            ReadIntOptional(jobj, "speciesCount", x => target.SpeciesCount = x);
-            ReadDoubleOptional(jobj, "elitismProportion", x => target.ElitismProportion = x);
-            ReadDoubleOptional(jobj, "selectionProportion", x => target.SelectionProportion = x);
-            ReadDoubleOptional(jobj, "offspringAsexualProportion", x => target.OffspringAsexualProportion = x);
-            ReadDoubleOptional(jobj, "offspringSexualProportion", x => target.OffspringSexualProportion = x);
-            ReadDoubleOptional(jobj, "interspeciesMatingProportion", x => target.InterspeciesMatingProportion = x);
-            ReadIntOptional(jobj, "statisticsMovingAverageHistoryLength", x => target.StatisticsMovingAverageHistoryLength = x);
+            ReadIntOptional(jelem, "speciesCount", x => target.SpeciesCount = x);
+            ReadDoubleOptional(jelem, "elitismProportion", x => target.ElitismProportion = x);
+            ReadDoubleOptional(jelem, "selectionProportion", x => target.SelectionProportion = x);
+            ReadDoubleOptional(jelem, "offspringAsexualProportion", x => target.OffspringAsexualProportion = x);
+            ReadDoubleOptional(jelem, "offspringSexualProportion", x => target.OffspringSexualProportion = x);
+            ReadDoubleOptional(jelem, "interspeciesMatingProportion", x => target.InterspeciesMatingProportion = x);
+            ReadIntOptional(jelem, "statisticsMovingAverageHistoryLength", x => target.StatisticsMovingAverageHistoryLength = x);
         }
     }
 }

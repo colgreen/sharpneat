@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using System.Text.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using SharpNeat.Neat.ComplexityRegulation;
 
 namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
@@ -13,26 +13,26 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
         [TestMethod]
         public void Read_NullStrategy()
         {
-            JObject jobj = JObject.Parse(
+            JsonDocument jdoc = JsonDocument.Parse(
 @"{
-    'strategyName': 'null'
+    ""strategyName"": ""null""
 }");
 
-            IComplexityRegulationStrategy strategy = ComplexityRegulationStrategyJsonReader.Read(jobj);
+            IComplexityRegulationStrategy strategy = ComplexityRegulationStrategyJsonReader.Read(jdoc.RootElement);
             Assert.AreEqual("NullComplexityRegulationStrategy", strategy.GetType().Name);
         }
 
         [TestMethod]
         public void Read_AbsoluteStrategy()
         {
-            JObject jobj = JObject.Parse(
+            JsonDocument jdoc = JsonDocument.Parse(
 @"{
-    'strategyName': 'absolute',
-    'complexityCeiling': 11,
-    'minSimplifcationGenerations': 12
+    ""strategyName"": ""absolute"",
+    ""complexityCeiling"": 11,
+    ""minSimplifcationGenerations"": 12
 }");
 
-            IComplexityRegulationStrategy strategy = ComplexityRegulationStrategyJsonReader.Read(jobj);
+            IComplexityRegulationStrategy strategy = ComplexityRegulationStrategyJsonReader.Read(jdoc.RootElement);
             Assert.AreEqual("AbsoluteComplexityRegulationStrategy", strategy.GetType().Name);
 
             // Read private variables with reflection.
@@ -47,14 +47,14 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
         [TestMethod]
         public void Read_RelativeStrategy()
         {
-            JObject jobj = JObject.Parse(
+            JsonDocument jdoc = JsonDocument.Parse(
 @"{
-    'strategyName': 'relative',
-    'relativeComplexityCeiling': 13,
-    'minSimplifcationGenerations': 14
+    ""strategyName"": ""relative"",
+    ""relativeComplexityCeiling"": 13,
+    ""minSimplifcationGenerations"": 14
 }");
 
-            IComplexityRegulationStrategy strategy = ComplexityRegulationStrategyJsonReader.Read(jobj);
+            IComplexityRegulationStrategy strategy = ComplexityRegulationStrategyJsonReader.Read(jdoc.RootElement);
             Assert.AreEqual("RelativeComplexityRegulationStrategy", strategy.GetType().Name);
 
             // Read private variables with reflection.

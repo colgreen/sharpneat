@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 using log4net;
 using log4net.Config;
 using SharpNeat.Experiments;
+using SharpNeat.IO;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
 
@@ -101,25 +103,23 @@ namespace EfficacySampler
 
         private static INeatExperiment<double> InitExperiment_BinaryElevenMultiplexer()
         {
-            // Read experiment json config from file.
-            // Note. We read the entire contents into a string; we don't ever expect to see large json files here, so this fine.
-            string jsonStr = File.ReadAllText("config/binary-eleven-multiplexer.config.json");
+            // Load experiment json config from file.
+            JsonDocument configDoc = JsonUtils.LoadUtf8("config/binary-eleven-multiplexer.config.json");
 
             // Create an instance of INeatExperiment for the binary 11-multiplexer task, configured using the supplied json config.
             var experimentFactory = new BinaryElevenMultiplexerExperimentFactory();
-            INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(jsonStr);
+            INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(configDoc.RootElement);
             return neatExperiment;
         }
 
         private static INeatExperiment<double> InitExperiment_Sinewave()
         {
-            // Read experiment json config from file.
-            // Note. We read the entire contents into a string; we don't ever expect to see large json files here, so this fine.
-            string jsonStr = File.ReadAllText("config/generative-sinewave.config.json");
+            // Load experiment json config from file.
+            JsonDocument configDoc = JsonUtils.LoadUtf8("config/generative-sinewave.config.json");
 
             // Create an instance of INeatExperiment for the generative sinewave task, configured using the supplied json config.
             var experimentFactory = new GenerativeFnRegressionExperimentFactory();
-            INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(jsonStr);
+            INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(configDoc.RootElement);
             return neatExperiment;
         }
 

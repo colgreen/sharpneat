@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace SharpNeat.IO
 {
@@ -24,16 +24,15 @@ namespace SharpNeat.IO
         /// <summary>
         /// Read a mandatory boolean property; if not present then an exception is throw
         /// </summary>
-        /// <param name="jobj">The json object to read the property from.</param>
+        /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
         /// <returns>The property value</returns>
         public static bool ReadBoolMandatory(
-            JObject jobj,
+            JsonElement jelem,
             string propertyName)
         {
-            bool? val = (bool?)jobj[propertyName];
-            if(val.HasValue) {
-                return val.Value;
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+                return propElem.GetBoolean();
             }
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }
@@ -41,16 +40,15 @@ namespace SharpNeat.IO
         /// <summary>
         /// Read a mandatory integer property; if not present then an exception is throw
         /// </summary>
-        /// <param name="jobj">The json object to read the property from.</param>
+        /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
         /// <returns>The property value</returns>
         public static int ReadIntMandatory(
-            JObject jobj,
+            JsonElement jelem,
             string propertyName)
         {
-            int? val = (int?)jobj[propertyName];
-            if(val.HasValue) {
-                return val.Value;
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+                return propElem.GetInt32();
             }
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }
@@ -58,16 +56,15 @@ namespace SharpNeat.IO
         /// <summary>
         /// Read a mandatory double precision floating point property; if not present then an exception is throw
         /// </summary>
-        /// <param name="jobj">The json object to read the property from.</param>
+        /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
         /// <returns>The property value</returns>
         public static double ReadDoubleMandatory(
-            JObject jobj,
+            JsonElement jelem,
             string propertyName)
         {
-            double? val = (double?)jobj[propertyName];
-            if(val.HasValue) {
-                return val.Value;
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+                return propElem.GetDouble();
             }
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }
@@ -75,16 +72,15 @@ namespace SharpNeat.IO
         /// <summary>
         /// Read a mandatory string property; if not present then an exception is throw
         /// </summary>
-        /// <param name="jobj">The json object to read the property from.</param>
+        /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
         /// <returns>The property value</returns>
         public static string ReadStringMandatory(
-            JObject jobj,
+            JsonElement jelem,
             string propertyName)
         {
-            string val = (string)jobj[propertyName];
-            if(val != null) {
-                return val;
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+                return propElem.GetString();
             }
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }

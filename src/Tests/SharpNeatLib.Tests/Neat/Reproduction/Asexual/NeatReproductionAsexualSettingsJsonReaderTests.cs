@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
+﻿using System.Text.Json;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Asexual;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual
@@ -10,18 +10,18 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual
         [TestMethod]
         public void Read()
         {
-            JObject jobj = JObject.Parse(
+            JsonDocument jdoc = JsonDocument.Parse(
 @"{
-    'connectionWeightMutationProbability':0.11,
-    'addNodeMutationProbability':0.22,
-    'addConnectionMutationProbability':0.33,
-    'deleteConnectionMutationProbability':0.44,
+    ""connectionWeightMutationProbability"":0.11,
+    ""addNodeMutationProbability"":0.22,
+    ""addConnectionMutationProbability"":0.33,
+    ""deleteConnectionMutationProbability"":0.44
 }");
             // Init a default settings object.
             var settings = new NeatReproductionAsexualSettings();
 
             // Read json properties into the settings object.
-            NeatReproductionAsexualSettingsJsonReader.Read(settings, jobj);
+            NeatReproductionAsexualSettingsJsonReader.Read(settings, jdoc.RootElement);
 
             // Assert the expected values.
             Assert.AreEqual(0.11, settings.ConnectionWeightMutationProbability);

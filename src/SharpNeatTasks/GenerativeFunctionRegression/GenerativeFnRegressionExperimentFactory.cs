@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
@@ -28,16 +29,13 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
         /// </summary>
-        /// <param name="jsonConfig">Experiment config in json format.</param>
+        /// <param name="configElem">Experiment config in json form.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-        public INeatExperiment<double> CreateExperiment(string jsonConfig)
+        public INeatExperiment<double> CreateExperiment(JsonElement configElem)
         {
-            // Parse the json config string.
-            JObject configJobj = JObject.Parse(jsonConfig);
-
             // Read the customEvaluationSchemeConfig section.
             ReadEvaluationSchemeConfig(
-                configJobj,
+                configElem,
                 out Func<double,double> fn,
                 out ParamSamplingInfo paramSamplingInfo,
                 out double gradientMseWeight);
@@ -56,7 +54,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             };
 
             // Read standard neat experiment json config and use it configure the experiment.
-            NeatExperimentJsonReader<double>.Read(experiment, configJobj);
+            NeatExperimentJsonReader<double>.Read(experiment, configElem);
 
             return experiment;
         }
@@ -66,31 +64,30 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         #region Private static Methods
 
         private static void ReadEvaluationSchemeConfig(
-            JObject configJobj,
+            JsonElement configElem,
             out Func<double,double> fn,
             out ParamSamplingInfo paramSamplingInfo,
             out double gradientMseWeight)
         {
             // Get the customEvaluationSchemeConfig section.
-            JObject evalSchemeConfig = (JObject)configJobj["customEvaluationSchemeConfig"];
-            if(evalSchemeConfig == null) {
+            if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem)) {
                 throw new Exception("customEvaluationSchemeConfig not defined.");
             }
 
             // Read function ID.
-            string functionIdStr = JsonReadMandatoryUtils.ReadStringMandatory(evalSchemeConfig, "functionId");
+            string functionIdStr = JsonReadMandatoryUtils.ReadStringMandatory(evalSchemeElem, "functionId");
             FunctionId functionId = (FunctionId)Enum.Parse(typeof(FunctionId), functionIdStr);
             fn = FunctionFactory.GetFunction(functionId);
 
             // Read sample interval min and max, and sample resolution.
-            double sampleIntervalMin = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeConfig, "sampleIntervalMin");
-            double sampleIntervalMax = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeConfig, "sampleIntervalMax");
-            int sampleResolution = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeConfig, "sampleResolution");
+            double sampleIntervalMin = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "sampleIntervalMin");
+            double sampleIntervalMax = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "sampleIntervalMax");
+            int sampleResolution = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "sampleResolution");
             paramSamplingInfo = new ParamSamplingInfo(sampleIntervalMin, sampleIntervalMax, sampleResolution);
 
             // Read the weight to apply to the gradientMse readings in the final fitness score.
             // 0 means don't use the gradient measurements, 1 means give them equal weight to the y position readings at each x sample point.
-            gradientMseWeight = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeConfig, "gradientMseWeight");
+            gradientMseWeight = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "gradientMseWeight");
         }
 
         #endregion

@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -9,7 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Text.Json;
 
 namespace SharpNeat.IO
 {
@@ -19,16 +20,16 @@ namespace SharpNeat.IO
     public static class JsonUtils
     {
         /// <summary>
-        /// Load a Newtonsoft.Json.Linq.JObject from a string that contains JSON.
+        /// Load a UTF8 encoded json file.
         /// </summary>
-        /// <param name="jsonString">The JSON string to parse.</param>
-        /// <returns>A <see cref="JObject"/> that conveys the parsed json data; or null if <paramref name="jsonString"/> was null, the empty string or a whitespace only string.</returns>
-        public static JObject Parse(string jsonString)
+        /// <param name="filename">The name of the file to load.</param>
+        /// <returns>A new instance of <see cref="JsonDocument"/>.</returns>
+        public static JsonDocument LoadUtf8(string filename)
         {
-            if(string.IsNullOrWhiteSpace(jsonString)) {
-                return null;
+            using(FileStream fs = File.OpenRead(filename))
+            {
+                return JsonDocument.Parse(fs);
             }
-            return JObject.Parse(jsonString);
         }
     }
 }

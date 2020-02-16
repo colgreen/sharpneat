@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using static SharpNeat.IO.JsonReadOptionalUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
@@ -25,15 +25,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// remain unchanged on the target object.
         /// </summary>
         /// <param name="target">The target settings object to store the read values on.</param>
-        /// <param name="jobj">The json object to read from.</param>
+        /// <param name="jelem">The json element to read from.</param>
         public static void Read(
             NeatReproductionAsexualSettings target,
-            JObject jobj)
+            JsonElement jelem)
         {
-            ReadDoubleOptional(jobj, "connectionWeightMutationProbability", x => target.ConnectionWeightMutationProbability = x);
-            ReadDoubleOptional(jobj, "addNodeMutationProbability", x => target.AddNodeMutationProbability = x);
-            ReadDoubleOptional(jobj, "addConnectionMutationProbability", x => target.AddConnectionMutationProbability = x);
-            ReadDoubleOptional(jobj, "deleteConnectionMutationProbability", x => target.DeleteConnectionMutationProbability = x);
+            ReadDoubleOptional(jelem, "connectionWeightMutationProbability", x => target.ConnectionWeightMutationProbability = x);
+            ReadDoubleOptional(jelem, "addNodeMutationProbability", x => target.AddNodeMutationProbability = x);
+            ReadDoubleOptional(jelem, "addConnectionMutationProbability", x => target.AddConnectionMutationProbability = x);
+            ReadDoubleOptional(jelem, "deleteConnectionMutationProbability", x => target.DeleteConnectionMutationProbability = x);
         }
     }
 }

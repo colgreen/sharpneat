@@ -9,9 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using SharpNeat.Experiments;
-using SharpNeat.IO;
 using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Tasks.Xor
@@ -26,13 +25,10 @@ namespace SharpNeat.Tasks.Xor
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
         /// </summary>
-        /// <param name="jsonConfig">Experiment config in json format.</param>
+        /// <param name="configElem">Experiment config in json form.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-        public INeatExperiment<double> CreateExperiment(string jsonConfig)
+        public INeatExperiment<double> CreateExperiment(JsonElement configElem)
         {
-            // Parse the json config string.
-            JObject configJobj = JsonUtils.Parse(jsonConfig);
-
             // Create an evaluation scheme object for the XOR task.
             var evalScheme = new XorEvaluationScheme();
 
@@ -46,10 +42,7 @@ namespace SharpNeat.Tasks.Xor
             };
 
             // Read standard neat experiment json config and use it configure the experiment.
-            if(configJobj != null) { 
-                NeatExperimentJsonReader<double>.Read(experiment, configJobj);
-            }
-
+            NeatExperimentJsonReader<double>.Read(experiment, configElem);
             return experiment;
         }
     }

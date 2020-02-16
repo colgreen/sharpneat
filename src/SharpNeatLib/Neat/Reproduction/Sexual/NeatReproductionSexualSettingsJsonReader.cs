@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using static SharpNeat.IO.JsonReadOptionalUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual
@@ -25,12 +25,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         /// remain unchanged on the target object.
         /// </summary>
         /// <param name="target">The target settings object to store the read values on.</param>
-        /// <param name="jobj">The json object to read from.</param>
+        /// <param name="jelem">The json element to read from.</param>
         public static void Read(
             NeatReproductionSexualSettings target,
-            JObject jobj)
+            JsonElement jelem)
         {
-            ReadDoubleOptional(jobj, "secondaryParentGeneProbability", x => target.SecondaryParentGeneProbability = x);
+            ReadDoubleOptional(jelem, "secondaryParentGeneProbability", x => target.SecondaryParentGeneProbability = x);
         }
     }
 }

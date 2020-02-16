@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -10,13 +10,13 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using static SharpNeat.IO.JsonReadMandatoryUtils;
 
 namespace SharpNeat.Neat.ComplexityRegulation
 {
     /// <summary>
-    /// Static utility methods for creating insstances of <see cref="IComplexityRegulationStrategy"/> from json configuration.
+    /// Static utility methods for creating instances of <see cref="IComplexityRegulationStrategy"/> from json configuration.
     /// </summary>
     public static class ComplexityRegulationStrategyJsonReader
     {
@@ -25,11 +25,11 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// <summary>
         /// Create a new instance of <see cref="IComplexityRegulationStrategy"/> based on the provided json configuration.
         /// </summary>
-        /// <param name="jobj">The json object to read from.</param>
+        /// <param name="jelem">The json element to read from.</param>
         /// <returns>A new instance of <see cref="IComplexityRegulationStrategy"/>.</returns>
-        public static IComplexityRegulationStrategy Read(JObject jobj)
+        public static IComplexityRegulationStrategy Read(JsonElement jelem)
         {
-            string strategyName = (string)jobj["strategyName"];
+            string strategyName = jelem.GetProperty("strategyName").GetString();
             switch(strategyName)
             {
                 case "null":
@@ -37,10 +37,10 @@ namespace SharpNeat.Neat.ComplexityRegulation
                     return new NullComplexityRegulationStrategy();
 
                 case "absolute":
-                    return ReadAbsoluteComplexityRegulationStrategy(jobj);
+                    return ReadAbsoluteComplexityRegulationStrategy(jelem);
 
                 case "relative":
-                    return ReadRelativeComplexityRegulationStrategy(jobj);
+                    return ReadRelativeComplexityRegulationStrategy(jelem);
 
                 default:
                     throw new Exception($"Unsupported complexity regulation strategyName [{strategyName}]");
@@ -51,17 +51,17 @@ namespace SharpNeat.Neat.ComplexityRegulation
 
         #region Private Static Methods
 
-        private static AbsoluteComplexityRegulationStrategy ReadAbsoluteComplexityRegulationStrategy(JObject jobj)
+        private static AbsoluteComplexityRegulationStrategy ReadAbsoluteComplexityRegulationStrategy(JsonElement jelem)
         {
-            int complexityCeiling = ReadIntMandatory(jobj, "complexityCeiling");
-            int minSimplifcationGenerations = ReadIntMandatory(jobj, "minSimplifcationGenerations");
+            int complexityCeiling = ReadIntMandatory(jelem, "complexityCeiling");
+            int minSimplifcationGenerations = ReadIntMandatory(jelem, "minSimplifcationGenerations");
             return new AbsoluteComplexityRegulationStrategy(minSimplifcationGenerations, complexityCeiling);
         }
 
-        private static RelativeComplexityRegulationStrategy ReadRelativeComplexityRegulationStrategy(JObject jobj)
+        private static RelativeComplexityRegulationStrategy ReadRelativeComplexityRegulationStrategy(JsonElement jelem)
         {
-            int relativeComplexityCeiling = ReadIntMandatory(jobj, "relativeComplexityCeiling");
-            int minSimplifcationGenerations = ReadIntMandatory(jobj, "minSimplifcationGenerations");
+            int relativeComplexityCeiling = ReadIntMandatory(jelem, "relativeComplexityCeiling");
+            int minSimplifcationGenerations = ReadIntMandatory(jelem, "minSimplifcationGenerations");
             return new RelativeComplexityRegulationStrategy(minSimplifcationGenerations, relativeComplexityCeiling);
         }
 

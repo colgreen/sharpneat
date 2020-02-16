@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Text.Json;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json.Linq;
 using SharpNeat.Evaluation;
 using SharpNeat.Experiments;
 
@@ -12,49 +12,49 @@ namespace SharpNeatLib.Tests.Experiments
         [TestMethod]
         public void Read()
         {
-            JObject jobj = JObject.Parse(
+            JsonDocument jdoc = JsonDocument.Parse(
 @"{
-    'description':'bar description',
-    'isAcyclic':false,
-    'cyclesPerActivation':111,
-    'activationFnName':'bar-activation-fn',
+    ""description"":""bar description"",
+    ""isAcyclic"":false,
+    ""cyclesPerActivation"":111,
+    ""activationFnName"":""bar-activation-fn"",
 
-    'evolutionAlgorithmSettings':
+    ""evolutionAlgorithmSettings"":
     {
-        'speciesCount':1111,
-        'elitismProportion':0.11,
-        'selectionProportion':0.22,
-        'offspringAsexualProportion':0.33,
-        'offspringSexualProportion':0.44,
-        'interspeciesMatingProportion':0.55,
-        'statisticsMovingAverageHistoryLength':2222
+        ""speciesCount"":1111,
+        ""elitismProportion"":0.11,
+        ""selectionProportion"":0.22,
+        ""offspringAsexualProportion"":0.33,
+        ""offspringSexualProportion"":0.44,
+        ""interspeciesMatingProportion"":0.55,
+        ""statisticsMovingAverageHistoryLength"":2222
     },
-    'reproductionAsexualSettings':
+    ""reproductionAsexualSettings"":
     {
-        'connectionWeightMutationProbability':0.11,
-        'addNodeMutationProbability':0.22,
-        'addConnectionMutationProbability':0.33,
-        'deleteConnectionMutationProbability':0.44
+        ""connectionWeightMutationProbability"":0.11,
+        ""addNodeMutationProbability"":0.22,
+        ""addConnectionMutationProbability"":0.33,
+        ""deleteConnectionMutationProbability"":0.44
     },
-    'reproductionSexualSettings':
+    ""reproductionSexualSettings"":
     {
-        'secondaryParentGeneProbability':0.11
-    },
-
-    'populationSize':222,
-    'initialInterconnectionsProportion':0.33,
-    'connectionWeightScale':4.44,
-
-    'complexityRegulationStrategy':
-    {
-        'strategyName': 'absolute',
-        'complexityCeiling': 10,
-        'minSimplifcationGenerations': 10
+        ""secondaryParentGeneProbability"":0.11
     },
 
-    'enableHardwareAcceleratedNeuralNets':true,
-    'enableHardwareAcceleratedActivationFunctions':true,
-    'degreeOfParallelism':6
+    ""populationSize"":222,
+    ""initialInterconnectionsProportion"":0.33,
+    ""connectionWeightScale"":4.44,
+
+    ""complexityRegulationStrategy"":
+    {
+        ""strategyName"": ""absolute"",
+        ""complexityCeiling"": 10,
+        ""minSimplifcationGenerations"": 10
+    },
+
+    ""enableHardwareAcceleratedNeuralNets"":true,
+    ""enableHardwareAcceleratedActivationFunctions"":true,
+    ""degreeOfParallelism"":6
 }");
 
             // Create a mock evaluation scheme.
@@ -64,7 +64,7 @@ namespace SharpNeatLib.Tests.Experiments
             var experiment = new NeatExperiment<double>("foo-experiment", evalScheme.Object);
 
             // Read json properties into the experiment object.
-            NeatExperimentJsonReader<double>.Read(experiment, jobj);
+            NeatExperimentJsonReader<double>.Read(experiment, jdoc.RootElement);
 
             // Assert the expected values.
             Assert.AreEqual("bar description", experiment.Description);
