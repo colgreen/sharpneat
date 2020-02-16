@@ -188,7 +188,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <summary>
         /// Calculate cart acceleration, and pole angular acceleration for a given model state and external horizontal force applied to the cart.
         /// </summary>
-        /// <param name="state">The cart-pole model state.
+        /// <param name="state">The cart-pole model state.</param>
         /// <param name="f">The external horizontal force applied to the cart.</param>
         /// <param name="xa">Returns the cart's horizontal acceleration.</param>
         /// <param name="thetaa">Returns the pole's angular acceleration.</param>

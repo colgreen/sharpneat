@@ -222,6 +222,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         ///  [3] Pole 1 angular velocity (radians/s). Positive is clockwise.
         ///  [4] Pole 2 angle (radians). Clockwise deviation from the vertical.
         ///  [5] Pole 2 angular velocity (radians/s). Positive is clockwise.
+        /// </param>
         /// <param name="f">The external horizontal force applied to the cart.</param>
         /// <param name="xa">Returns the cart's horizontal acceleration.</param>
         /// <param name="thetaa1">Returns pole 1's angular acceleration.</param>
