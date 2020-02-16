@@ -99,7 +99,7 @@ namespace SharpNeat.Neat.Genome.IO
             // For all other extensions we leave them in place. If it isn't .zip then we assume the caller does this with good reason.
             string extension = Path.GetExtension(name);
             if(extension == string.Empty) {
-                name = name + ".zip";
+                name += ".zip";
             }
 
             // Check if the specified population zip archive name exists.
