@@ -59,7 +59,7 @@ namespace SharpNeat.Domains
         public static PolarPoint FromCartesian(IntPoint p)
         {
             double radius = Math.Sqrt((p._x * p._x) + (p._y * p._y));
-            double angle = Math.Atan2(p._x, p._y);
+            double angle = Math.Atan2(p._y, p._x);
             if(angle < 0.0) {
                 angle += 2.0 * Math.PI;
             }

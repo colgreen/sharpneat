@@ -17,8 +17,16 @@ using SharpNeat.Phenomes;
 namespace SharpNeat.Domains.PreyCapture
 {
     /// <summary>
-    /// The prey capture task's grid world. Encapsulates agent's sensor and motor hardware and the prey's simple stochastic movement.
+    /// The prey capture task's grid world, as defined in:
+    /// 
+    ///    [1] Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997)
+    ///    http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf
+    ///
+    /// Encapsulates the agent's sensor and motor hardware and the prey's simple stochastic movement.
     /// </summary>
+    /// <remarks>
+    /// Encapsulates the agent's sensor and motor hardware, and the prey's simple stochastic movement.
+    /// </remarks>
     public class PreyCaptureWorld
     {
         #region Constants
@@ -350,7 +358,23 @@ namespace SharpNeat.Domains.PreyCapture
         /// <param name="angleB">Angle B (radians).</param>
         private static double W(double angleA, double angleB)
         {
-            return (Math.PI - AngleDelta(angleA, angleB)) / Math.PI;
+            // Notes
+            // AngleDelta() returns 0 for equal angles, and PI for angles that are separated by PI radians (180 degrees).
+            // Hence this function returns zero for equal angles, and 1.0 for fully opposing angles. 
+            // However, in [1] the function is described differently:
+            //
+            //    angle = angle between the direction of action A_i and the direction from the prey to the agent,
+            //
+            //    dist = distance between the prey and the agent
+            //
+            //    W(angle) = (180 - |angle|) / 180
+            //
+            // As described the function does not work as intended, i.e. the intention is to give a high probability
+            // for the prey to move away from the agent, but the definition of W given does the opposite. Hence the 
+            // modification here corrects the error to give a function that works as originally intended. This is a 
+            // very obvious error in simulations, because it causes the prey to walk directly into the jaws of the 
+            // predator!
+            return (AngleDelta(angleA, angleB)) / Math.PI;
         }
 
         /// <summary>
