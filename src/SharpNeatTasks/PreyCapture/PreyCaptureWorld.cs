@@ -416,9 +416,20 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <returns>The number e raised to the power x</returns>
         static float Exp(float x) 
         {
+            // This function is based on the following approximation for e^x:
+            //
+            //    e^x ~= (1 + x/n)^n
+            //
+            // Large values of n give better approximations.
+            // The approximation error increases for larger values of x, but here we are concerned with the relatively narrow
+            // interval [0, 2*PI].
+            // We use successive squaring to achieve powers of 2,4,8,16,32 etc. relatively efficiently. Here we have opted for n=32.
+
             // This variable should be 1/32, however, it has been optimised for values of x in the interval [0, 2*PI]
             const float __1_over_29_5 = 1f / 29.5f;
             x = MathF.FusedMultiplyAdd(x, __1_over_29_5, 1f);
+
+            // Calc x to the 32nd power.
             x *= x;
             x *= x;
             x *= x;
