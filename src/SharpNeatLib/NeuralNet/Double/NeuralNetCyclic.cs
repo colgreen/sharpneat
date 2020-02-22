@@ -1,7 +1,7 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -52,11 +52,6 @@ namespace SharpNeat.NeuralNet.Double
         // Node pre- and post-activation signal arrays.
         readonly double[] _preActivationArr;
         readonly double[] _postActivationArr;
-
-        // Wrappers over _postActivationArr that map between input/output vectors and the
-        // corresponding underlying network nodes.
-        readonly VectorSegment<double> _inputVector;
-        readonly IVector<double> _outputVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -111,10 +106,10 @@ namespace SharpNeat.NeuralNet.Double
             _postActivationArr = new double[nodeCount];
 
             // Wrap sub-ranges of the neuron signal arrays as input and output vectors.
-            _inputVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
+            this.InputVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
-            _outputVector = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
+            this.OutputVector = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
         }
 
         #endregion
@@ -134,12 +129,12 @@ namespace SharpNeat.NeuralNet.Double
         /// <summary>
         /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public IVector<double> InputVector => _inputVector;
+        public IVector<double> InputVector { get; }
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public IVector<double> OutputVector => _outputVector;
+        public IVector<double> OutputVector { get; }
 
         /// <summary>
         /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter

@@ -1,7 +1,7 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
  * 
- * Copyright 2004-2019 Colin Green (sharpneat@gmail.com)
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
  * it under the terms of The MIT License (MIT).
@@ -37,11 +37,6 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
 
         // Node activation level array (used for both pre and post activation levels).
         readonly double[] _activationArr;
-
-        // Wrappers over _activationArr that map between input/output vectors to the
-        // corresponding underlying node activation levels.
-        readonly VectorSegment<double> _inputVector;
-        readonly IVector<double> _outputVector;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -93,13 +88,13 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
             _activationArr = new double[digraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            _inputVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
+            this.InputVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
-            _outputVector = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
+            this.OutputVector = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
         }
 
         #endregion
@@ -119,12 +114,12 @@ namespace SharpNeat.NeuralNet.Double.Vectorized
         /// <summary>
         /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public IVector<double> InputVector => _inputVector;
+        public IVector<double> InputVector { get; }
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public IVector<double> OutputVector => _outputVector;
+        public IVector<double> OutputVector { get; }
 
         /// <summary>
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals
