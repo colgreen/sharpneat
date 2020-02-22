@@ -4,6 +4,7 @@ using SharpNeat.Tasks.BinarySixMultiplexer;
 using SharpNeat.Tasks.CartPole.DoublePole;
 using SharpNeat.Tasks.CartPole.SinglePole;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
+using SharpNeat.Tasks.PreyCapture;
 using SharpNeat.Tasks.Xor;
 
 namespace TestApp1
@@ -56,6 +57,14 @@ namespace TestApp1
             return Utils.CreateNeatEvolutionAlgorithm(
                 experimentFactory,
                 "config/cartpole-doublepole.config.json");
+        }
+
+        public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_PreyCapture()
+        {
+            var experimentFactory = new PreyCaptureExperimentFactory();
+            return Utils.CreateNeatEvolutionAlgorithm(
+                experimentFactory,
+                "config/prey-capture.config.json");
         }
     }
 }

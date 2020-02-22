@@ -7,7 +7,7 @@ namespace TestApp1
         static void Main(string[] args)
         {
             // Create and initialise the evolutionary algorithm.
-            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_CartDoublePole();
+            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_PreyCapture();
             ea.Initialise();
 
             var neatPop = ea.Population;
