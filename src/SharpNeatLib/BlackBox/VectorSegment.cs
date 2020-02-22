@@ -202,9 +202,7 @@ namespace SharpNeat.BlackBox
         /// </summary>
         public void Reset()
         {
-            for(int i=_offset; i < _offset + _length; i++) {
-                _innerArr[i] = default;
-            }
+            Array.Clear(_innerArr, _offset, _length);
         }
 
         #endregion
