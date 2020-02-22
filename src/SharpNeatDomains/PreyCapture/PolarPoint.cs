@@ -1,6 +1,16 @@
-﻿using System;
+﻿/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
 
-namespace SharpNeat.Domains
+namespace SharpNeat.Domains.PreyCapture
 {
     /// <summary>
     /// Defines a 2D point in the polar coordinate space.
@@ -8,7 +18,7 @@ namespace SharpNeat.Domains
     public struct PolarPoint
     {
         /// <summary>
-        /// Radial coordinate.
+        /// Radial coordinate squared
         /// </summary>
         double _r;
         /// <summary>
@@ -21,11 +31,11 @@ namespace SharpNeat.Domains
         /// <summary>
         /// Construct with provided coordinate values.
         /// </summary>
-        /// <param name="r">Radial coordinate (distance between points).</param>
+        /// <param name="r">Radial coordinate (distance between points) squared.</param>
         /// <param name="t">Angular coordinate (theta).</param>
-        public PolarPoint(double r, double t)
+        public PolarPoint(double radialSquared, double t)
         {
-            _r = r;
+            _r = radialSquared;
             _t = t;
         }
 
@@ -36,7 +46,7 @@ namespace SharpNeat.Domains
         /// <summary>
         /// Radial coordinate.
         /// </summary>
-        public double Radial
+        public double RadialSquared
         {
             get { return _r; }
         }
@@ -47,23 +57,6 @@ namespace SharpNeat.Domains
         public double Theta
         {
             get { return _t; }
-        }
-
-        #endregion
-
-        #region Static Factory Methods
-
-        /// <summary>
-        /// Create a point in the polar coordinate system from the provided Cartesian coordinates.
-        /// </summary>
-        public static PolarPoint FromCartesian(IntPoint p)
-        {
-            double radius = Math.Sqrt((p._x * p._x) + (p._y * p._y));
-            double angle = Math.Atan2(p._y, p._x);
-            if(angle < 0.0) {
-                angle += 2.0 * Math.PI;
-            }
-            return new PolarPoint(radius, angle);
         }
 
         #endregion

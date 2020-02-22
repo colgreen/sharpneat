@@ -141,7 +141,7 @@
     <Compile Include="NeatGenomeView.Designer.cs">
       <DependentUpon>NeatGenomeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="PolarPoint.cs" />
+    <Compile Include="PreyCapture\PolarPoint.cs" />
     <Compile Include="PreyCapture\PreyCaptureView.cs">
       <SubType>UserControl</SubType>
     </Compile>

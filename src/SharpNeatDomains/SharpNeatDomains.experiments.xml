@@ -499,13 +499,13 @@ This controller uses normalized, continuous inputs rather than discretized input
         <Iters>1</Iters>
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
-      <ComplexityThreshold>10</ComplexityThreshold>
+      <ComplexityThreshold>30</ComplexityThreshold>
       <TrialsPerEvaluation>100</TrialsPerEvaluation>
       <GridSize>24</GridSize>
       <PreyInitMoves>4</PreyInitMoves>
       <PreySpeed>1.0</PreySpeed>
       <SensorRange>4.0</SensorRange>
-      <MaxTimesteps>50</MaxTimesteps>
+      <MaxTimesteps>70</MaxTimesteps>
       <Description>Prey capture within a 24x24 grid. As described in Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997), Adaptive Behavior, 5:317-342, 1997.
 The paper can be found online at http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf
 

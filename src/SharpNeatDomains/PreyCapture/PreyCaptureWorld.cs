@@ -29,10 +29,11 @@ namespace SharpNeat.Domains.PreyCapture
     /// </remarks>
     public class PreyCaptureWorld
     {
-        #region Constants
+        #region Constants / Statics
 
         const double PiDiv4 = Math.PI / 4.0;
 		const double PiDiv8 = Math.PI / 8.0;
+        static readonly double[][] __atan2Lookup;
 
         #endregion
 
@@ -43,6 +44,7 @@ namespace SharpNeat.Domains.PreyCapture
 		readonly int _preyInitMoves;	// Number of initial moves (0 to 4).
 		readonly double _preySpeed;	    // 0 to 1.
 		readonly double _sensorRange;	// Agent's sensor range.
+        readonly double _sensorRangeSquared;	// Agent's sensor range, squared.
         readonly int _maxTimesteps;	    // Length of time agent can survive w/out eating prey.
 
         // World state.
@@ -51,6 +53,23 @@ namespace SharpNeat.Domains.PreyCapture
         
         // Random number generator.
         readonly IRandomSource _rng;
+
+        #endregion
+
+        #region Static Initializer
+
+        static PreyCaptureWorld()
+        {
+            __atan2Lookup = new double[47][];
+            for(int y=0; y < 47; y++)
+            { 
+                __atan2Lookup[y] = new double[47];
+                for(int x=0; x < 47; x++)
+                {
+                    __atan2Lookup[y][x] = Math.Atan2(y-23, x-23);
+                }
+            }
+        }
 
         #endregion
 
@@ -65,6 +84,7 @@ namespace SharpNeat.Domains.PreyCapture
             _preyInitMoves = preyInitMoves;
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
+            _sensorRangeSquared = sensorRange * sensorRange;
             _maxTimesteps = maxTimesteps;
             _rng = RandomDefaults.CreateRandomSource();
         }
@@ -161,7 +181,6 @@ namespace SharpNeat.Domains.PreyCapture
                 }
             }
 
-            // Agent failed to capture prey in the allotted time.
             return false;
         }
 
@@ -178,8 +197,8 @@ namespace SharpNeat.Domains.PreyCapture
             // Agent position. The angle from the prey is chosen at random, and the distance from the prey is randomly chosen between 2 and 4.
             double t = 2.0 * Math.PI * _rng.NextDouble();   // Random angle.
             double r = 2.0 + _rng.NextDouble() * 2.0;       // Distance between 2 and 4.
-            _agentPos._x = _preyPos._x + (int)Math.Floor(Math.Cos(t) * r);
-            _agentPos._y = _preyPos._y + (int)Math.Floor(Math.Sin(t) * r);
+            _agentPos._x = _preyPos._x + (int)Math.Truncate(Math.Cos(t) * r);
+            _agentPos._y = _preyPos._y + (int)Math.Truncate(Math.Sin(t) * r);
         }
 
         /// <summary>
@@ -189,14 +208,14 @@ namespace SharpNeat.Domains.PreyCapture
         public void SetAgentInputsAndActivate(IBlackBox agent)
         {
             // Calc prey's position relative to the agent (in polar coordinate system).
-            PolarPoint relPos = PolarPoint.FromCartesian(_preyPos - _agentPos);
+            PolarPoint relPos = CartesianToPolar(_preyPos - _agentPos);
 
             // Determine agent sensor input values.
             // Reset all inputs.
             agent.InputSignalArray.Reset();
 
             // Test if prey is in sensor range.
-            if(relPos.Radial <= _sensorRange)
+            if(relPos.RadialSquared <= _sensorRangeSquared)
             {
                 // Determine which sensor segment the prey is within - [0,7]. There are eight segments and they are tilted 22.5 degrees (half a segment)
                 // such that due North, East South and West are each in the centre of a sensor segment (rather than on a segment boundary).
@@ -209,7 +228,7 @@ namespace SharpNeat.Domains.PreyCapture
             }
 
             // Prey closeness detector.
-            agent.InputSignalArray[8] = relPos.Radial <= 2.0 ? 1.0 : 0.0;
+            agent.InputSignalArray[8] = relPos.RadialSquared <= 4.0 ? 1.0 : 0.0;
 
             // Wall detectors - N,E,S,W.
             // North.
@@ -287,14 +306,14 @@ namespace SharpNeat.Domains.PreyCapture
             }
 
             // Determine position of agent relative to prey.
-            PolarPoint relPolarPos = PolarPoint.FromCartesian(_agentPos - _preyPos);
+            PolarPoint relPolarPos = CartesianToPolar(_agentPos - _preyPos);
 
 			// Calculate probabilities of moving in each of the four directions. This stochastic strategy is taken from:
             // Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997)
             // (http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf)
             // Essentially the prey moves randomly but we bias the movements so the prey moves away from the agent, and thus 
             // generally avoids getting eaten through stupidity.
-            double t = T(relPolarPos.Radial);
+            double t = T(Math.Sqrt(relPolarPos.RadialSquared));
             double[] probs = new double[4];
             probs[0] = Math.Exp(W(relPolarPos.Theta, Math.PI / 2.0) * t * 0.33);  // North.
             probs[1] = Math.Exp(W(relPolarPos.Theta, 0) * t * 0.33);              // East.
@@ -395,6 +414,17 @@ namespace SharpNeat.Domains.PreyCapture
                 d = (2.0 * Math.PI) - d;
             }
             return d;
+        }
+
+        private static PolarPoint CartesianToPolar(IntPoint p)
+        {
+            double radiusSquared = (p._x * p._x) + (p._y * p._y);
+            double angle = __atan2Lookup[p._y + 23][p._x + 23];
+
+            if(angle < 0.0) {
+                angle += 2.0 * Math.PI;
+            }
+            return new PolarPoint(radiusSquared, angle);
         }
 
         #endregion
