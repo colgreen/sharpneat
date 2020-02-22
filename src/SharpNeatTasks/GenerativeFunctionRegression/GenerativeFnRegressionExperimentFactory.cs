@@ -60,7 +60,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
 
         #endregion
 
-        #region Private static Methods
+        #region Private Static Methods
 
         private static void ReadEvaluationSchemeConfig(
             JsonElement configElem,
