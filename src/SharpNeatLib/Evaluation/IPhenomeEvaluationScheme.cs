@@ -44,7 +44,8 @@ namespace SharpNeat.Evaluation
         IComparer<FitnessInfo> FitnessComparer { get; }
 
         /// <summary>
-        /// Represents the zero or null fitness for the task. E.g. for genomes that utterly fail at the task, or genomes that fail to decode.
+        /// Represents the zero or null fitness for the task. I.e. e.g. for genomes that utterly fail at the task, or genomes that
+        /// fail even to decode (not possible in NEAT).
         /// </summary>
         FitnessInfo NullFitness { get; }
 
