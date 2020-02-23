@@ -407,7 +407,7 @@ namespace SharpNeat.Tasks.PreyCapture
             //    W(angle) = (180 - |angle|) / 180
             //
             // As described the function does not work as intended, i.e. the intention is to give a high probability
-            // for the prey to move away from the agent, but the definition of W given does the opposite. Hence the 
+            // for the prey to move *away* from the agent, but the definition of W given does the opposite. Hence the 
             // modification here corrects the error to give a function that works as originally intended. This is a 
             // very obvious error in simulations, because it causes the prey to walk directly into the jaws of the 
             // predator!
