@@ -16,7 +16,7 @@ namespace SharpNeat.Tasks.PreyCapture
     /// <summary>
     /// An integer Cartesian coordinate.
     /// </summary>
-    internal struct Int32Point
+    public struct Int32Point
     {
         /// <summary>
         /// The x-axis coordinate.

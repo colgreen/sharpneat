@@ -10,7 +10,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
 
         public PreyCaptureWorldBenchmark()
         {
-            _world = new PreyCaptureWorld(24,4,1f,4f,1000);
+            _world = new PreyCaptureWorld(4, 1f, 4f, 1000);
             _agent = new MockPreyCaptureAgent();
         }
 

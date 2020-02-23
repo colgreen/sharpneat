@@ -22,7 +22,6 @@ namespace SharpNeat.Tasks.PreyCapture
     {
         #region Instance Fields
 
-        readonly int _gridSize;
         readonly int _preyInitMoves;
         readonly float _preySpeed;
         readonly float _sensorRange;
@@ -88,14 +87,12 @@ namespace SharpNeat.Tasks.PreyCapture
         /// Construct with the provided task and evaluator parameters.
         /// </summary>
         public PreyCaptureEvaluationScheme(
-            int gridSize,
             int preyInitMoves,
             float preySpeed,
             float sensorRange,
             int maxTimesteps,
             int trialsPerEvaluation)
         {
-            _gridSize = gridSize;
             _preyInitMoves = preyInitMoves;
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
@@ -114,7 +111,6 @@ namespace SharpNeat.Tasks.PreyCapture
         public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
         {
             return new PreyCaptureEvaluator(
-                _gridSize,
                 _preyInitMoves,
                 _preySpeed,
                 _sensorRange,

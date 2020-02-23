@@ -21,19 +21,29 @@ namespace SharpNeat.Tasks.PreyCapture
     ///    Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997)
     ///    http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf
     /// 
-    /// Encapsulates the agent's sensor and motor hardware and the prey's simple stochastic movement.
+    /// Encapsulates the agent's sensor and motor hardware, and the prey's simple stochastic movement.
     /// </summary>
     /// <remarks>
-    /// Encapsulates the agent's sensor and motor hardware, and the prey's simple stochastic movement.
+    /// The grid world's origin, i.e. coordinate (0,0), is at the bottom left of the grid.
     /// </remarks>
     public sealed class PreyCaptureWorld
     {
-        static readonly float[][] __atan2Lookup;
+        #region Statics / Consts
+
+        /// <summary>
+        /// The length of an edge of the square grid world, measured in grid squares. The minimum possible value here is 9, 
+        /// otherwise the initial position of the agent may be outside of the grid world, and also the agent wall detectors 
+        /// would all be always on.
+        /// </summary>
+        const int __gridSize = 24;
+        const int __atan2LookupOffset = __gridSize-1;
+        static readonly float[,] __atan2Lookup;
+
+        #endregion
 
         #region Instance Fields
 
         // World parameters.
-		readonly int _gridSize;         // Minimum of 9 (-> 9x9 grid). 24 is a good value here.
 		readonly int _preyInitMoves;	// Number of initial moves (0 to 4).
 		readonly float _preySpeed;	    // 0 to 1.
 		readonly float _sensorRange;	// Agent's sensor range.
@@ -53,13 +63,25 @@ namespace SharpNeat.Tasks.PreyCapture
 
         static PreyCaptureWorld()
         {
-            __atan2Lookup = new float[47][];
-            for(int y=0; y < 47; y++)
-            { 
-                __atan2Lookup[y] = new float[47];
-                for(int x=0; x < 47; x++)
-                {
-                    __atan2Lookup[y][x] = MathF.Atan2(y-23, x-23);
+            // Calculate the size of the required lookup table. The table is a square matrix, and 'size' here is the 
+            // number of matrix rows and columns. 
+            // The matrix is used to lookup precomputed values of atan2(y, x) for some coordinate on the grid, relative to 
+            // some other coordinate on the grid. Therefore the extremes of relative coordinates are (for a grid of size 24):
+            // 
+            //    (23,23) top right.
+            //    (23,-23) bottom right.
+            //    (-23, -23) bottom left.
+            //    (-23, 23) top left.
+            //
+            // Hence the lookup table size is (2 * gridSize) - 1.
+            //
+            // Note. Given that the array indexes must begin with zero, the lookup table element at index [0,0] represents
+            // relative XY coordinate (-23,-23).
+            int size = (__gridSize * 2) - 1;
+            __atan2Lookup = new float[size,size];
+            for(int y=0; y < size; y++) { 
+                for(int x=0; x < size; x++) {
+                    __atan2Lookup[y,x] = MathF.Atan2(y-__atan2LookupOffset, x-__atan2LookupOffset);
                 }
             }
         }
@@ -71,9 +93,8 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Constructs with the provided world parameter arguments.
         /// </summary>
-        public PreyCaptureWorld(int gridSize, int preyInitMoves, float preySpeed, float sensorRange, int maxTimesteps)
+        public PreyCaptureWorld(int preyInitMoves, float preySpeed, float sensorRange, int maxTimesteps)
         {
-            _gridSize = gridSize;
             _preyInitMoves = preyInitMoves;
             _preySpeed = preySpeed;
             _sensorRange = sensorRange;
@@ -81,6 +102,40 @@ namespace SharpNeat.Tasks.PreyCapture
             _maxTimesteps = maxTimesteps;
             _rng = RandomDefaults.CreateRandomSource();
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the size of the square grid, stated as the number length of an edge measured in grid squares.
+        /// </summary>
+        public int GridSize => __gridSize;
+
+        /// <summary>
+        /// Gets the number of moves the prey is allowed to move before the agent can move.
+        /// </summary>
+        public int PreyInitMoves => _preyInitMoves;
+
+        /// <summary>
+        /// Gets the sensor range of the agent.
+        /// </summary>
+        public float SensorRange => _sensorRange;
+
+        /// <summary>
+        /// Gets the grid square position of the agent.
+        /// </summary>
+        public Int32Point AgentPosition => _agentPos;
+
+        /// <summary>
+        /// Gets the grid square position of the prey.
+        /// </summary>
+        public Int32Point PreyPosition => _preyPos;
+
+        /// <summary>
+        /// Gets the maximum number of simulation timesteps to run without the agent capturing the prey.
+        /// </summary>
+        public int MaxTimesteps => _maxTimesteps;
 
         #endregion
 
@@ -134,8 +189,8 @@ namespace SharpNeat.Tasks.PreyCapture
         public void InitPositions()
         {
             // Random position at least 4 units away from any wall.
-            _preyPos.X = 4 + _rng.Next(_gridSize - 8);
-            _preyPos.Y = 4 + _rng.Next(_gridSize - 8);
+            _preyPos.X = 4 + _rng.Next(__gridSize - 8);
+            _preyPos.Y = 4 + _rng.Next(__gridSize - 8);
 
             // Agent position. The angle from the prey is chosen at random, and the distance from the prey is randomly chosen between 2 and 4.
             float t = 2f * MathF.PI * _rng.NextFloat();   // Random angle.
@@ -186,11 +241,11 @@ namespace SharpNeat.Tasks.PreyCapture
 
             // Wall detectors - N,E,S,W.
             // North.
-            int d = (_gridSize-1) - _agentPos.Y;
+            int d = (__gridSize-1) - _agentPos.Y;
             if(d <= 4) { inputVec[10] = (4-d) * Quarter; }
 
             // East.
-            d = (_gridSize-1) - _agentPos.X;
+            d = (__gridSize-1) - _agentPos.X;
             if(d <= 4) { inputVec[11] = (4-d) * Quarter; }
 
             // South.
@@ -236,10 +291,10 @@ namespace SharpNeat.Tasks.PreyCapture
             switch(maxSigIdx)
             {
                 case 0: // Move north.
-                    if(_agentPos.Y < _gridSize-1) _agentPos.Y++;
+                    if(_agentPos.Y < __gridSize-1) _agentPos.Y++;
                     break;
                 case 1: // Move east.
-                    if(_agentPos.X < _gridSize-1) _agentPos.X++;
+                    if(_agentPos.X < __gridSize-1) _agentPos.X++;
                     break;
                 case 2: // Move south.
                     if(_agentPos.Y > 0) _agentPos.Y--;
@@ -287,10 +342,10 @@ namespace SharpNeat.Tasks.PreyCapture
                 switch(action)
                 {
                     case 0: // Move north.
-                        if(_preyPos.Y < _gridSize-1) _preyPos.Y++;
+                        if(_preyPos.Y < __gridSize-1) _preyPos.Y++;
                         break;
                     case 1: // Move east.
-                        if(_preyPos.X < _gridSize-1) _preyPos.X++;
+                        if(_preyPos.X < __gridSize-1) _preyPos.X++;
                         break;
                     case 2: // Move south.
                         if(_preyPos.Y > 0) _preyPos.Y--;
@@ -349,8 +404,6 @@ namespace SharpNeat.Tasks.PreyCapture
             //
             //    angle = angle between the direction of action A_i and the direction from the prey to the agent,
             //
-            //    dist = distance between the prey and the agent
-            //
             //    W(angle) = (180 - |angle|) / 180
             //
             // As described the function does not work as intended, i.e. the intention is to give a high probability
@@ -399,7 +452,7 @@ namespace SharpNeat.Tasks.PreyCapture
         private static void CartesianToPolar(Int32Point p, out int radiusSqr, out float azimuth)
         {
             radiusSqr = p.X * p.X + p.Y * p.Y;
-            azimuth = __atan2Lookup[p.Y + 23][p.X + 23];
+            azimuth = __atan2Lookup[p.Y + __atan2LookupOffset, p.X + __atan2LookupOffset];
             if(azimuth < 0f) {
                 azimuth += 2f * MathF.PI;
             }

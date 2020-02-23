@@ -34,7 +34,6 @@ namespace SharpNeat.Tasks.PreyCapture
             // Read the customEvaluationSchemeConfig section.
             ReadEvaluationSchemeConfig(
                 configElem,
-                out int gridSize,
                 out int preyInitMoves,
                 out float preySpeed,
                 out float sensorRange,
@@ -43,7 +42,7 @@ namespace SharpNeat.Tasks.PreyCapture
 
             // Create an evaluation scheme object for the prey capture task.
             var evalScheme = new PreyCaptureEvaluationScheme(
-                gridSize, preyInitMoves, preySpeed,
+                preyInitMoves, preySpeed,
                 sensorRange, maxTimesteps, trialsPerEvaluation);
 
             // Create a NeatExperiment object with the evaluation scheme,
@@ -66,7 +65,6 @@ namespace SharpNeat.Tasks.PreyCapture
 
         private static void ReadEvaluationSchemeConfig(
             JsonElement configElem,
-            out int gridSize,
             out int preyInitMoves,
             out float preySpeed,
             out float sensorRange,
@@ -78,7 +76,6 @@ namespace SharpNeat.Tasks.PreyCapture
                 throw new Exception("customEvaluationSchemeConfig not defined.");
             }
 
-            gridSize = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "gridSize");
             preyInitMoves = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "preyInitMoves");
             preySpeed = (float)JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "preySpeed");
             sensorRange = (float)JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "sensorRange");

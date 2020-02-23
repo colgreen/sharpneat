@@ -32,8 +32,6 @@
 	"enableHardwareAcceleratedNeuralNets": false,
 	"enableHardwareAcceleratedActivationFunctions": false,
 	"customEvaluationSchemeConfig": {
-
-		"gridSize": 24,
 		"preyInitMoves": 4,
 		"preySpeed": 1.0,
 		"sensorRange": 4.0,

@@ -28,7 +28,6 @@ namespace SharpNeat.Tasks.PreyCapture
         /// Construct with the provided task and evaluator parameters.
         /// </summary>
         public PreyCaptureEvaluator(
-            int gridSize,
             int preyInitMoves,
             float preySpeed,
             float sensorRange,
@@ -36,7 +35,7 @@ namespace SharpNeat.Tasks.PreyCapture
             int trialsPerEvaluation)
         {
             // Construct a re-usable instance of the prey capture world.
-            _world = new PreyCaptureWorld(gridSize, preyInitMoves, preySpeed, sensorRange, maxTimesteps);
+            _world = new PreyCaptureWorld(preyInitMoves, preySpeed, sensorRange, maxTimesteps);
             _trialsPerEvaluation = trialsPerEvaluation;
         }
 
