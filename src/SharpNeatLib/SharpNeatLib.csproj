@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
-    <Copyright>Copyright © Colin D. Green 2004 - 2020</Copyright>
+    <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
     <Version>4.0.0.0</Version>
     <Authors>Colin D. Green</Authors>
     <Company />
@@ -15,10 +15,6 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <RootNamespace>SharpNeat</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
