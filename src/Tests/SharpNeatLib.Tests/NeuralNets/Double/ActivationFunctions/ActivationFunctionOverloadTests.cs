@@ -77,7 +77,7 @@ namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
 
         private static double[] GetRandomArray(int length, Random rng)
         {
-            double[] v = new double[1000];
+            double[] v = new double[length];
             for(int i=0; i < v.Length; i++) {
                 v[i] = (rng.NextDouble() * 20.0) - 10.0;
             }
