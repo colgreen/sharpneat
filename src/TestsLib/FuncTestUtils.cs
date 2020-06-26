@@ -13,10 +13,13 @@ namespace SharpNeat.Tests
    
             if(strict)
             {
-                // Strictly monotonic text, i.e. must be increasing and not unchanged.
+                // Strictly monotonic test, i.e. must be increasing and not unchanged.
                 for(double x = min + incr; x <= max; x += incr)
                 {
                     double y = fn(x);
+                    if(y <= y_prev) {
+                        return false;
+                    }
                     y_prev = y;
                 }
             }
