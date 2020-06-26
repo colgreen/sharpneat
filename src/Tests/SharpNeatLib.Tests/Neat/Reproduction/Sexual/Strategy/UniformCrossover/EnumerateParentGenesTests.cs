@@ -24,7 +24,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 (6,6), (7,7), (8,8),
                 (9,9), (10,10), (11,11) };
 
-            Assert.IsTrue(ArrayUtils.Equals(expectedArr, geneIndexPairArr));
+            Assert.IsTrue(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 (6,5), (7,6), (8,7),
                 (9,8), (10,9), (11,10) };
 
-            Assert.IsTrue(ArrayUtils.Equals(expectedArr, geneIndexPairArr));
+            Assert.IsTrue(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 (5,6), (6,7), (7,8),
                 (8,9), (9,10), (10,11) };
 
-            Assert.IsTrue(ArrayUtils.Equals(expectedArr, geneIndexPairArr));
+            Assert.IsTrue(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
         }
     }
 }

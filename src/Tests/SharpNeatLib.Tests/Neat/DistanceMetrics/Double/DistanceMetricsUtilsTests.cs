@@ -2,6 +2,7 @@
 using Redzen;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Network;
 
 namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
 {
@@ -54,7 +55,7 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             expected[9] = (4, 5, 80 / 3.0);
             expected[10] = (10, 20, 200 / 3.0);
 
-            Assert.IsTrue(ArrayUtils.Equals(expected._connArr, centroid._connArr));
+            Assert.IsTrue(SpanUtils.ContentEquals<DirectedConnection>(expected._connArr, centroid._connArr));
             Assert.IsTrue(ArrayTestUtils.Equals(expected._weightArr, centroid._weightArr, 1e-6));
         }
     }
