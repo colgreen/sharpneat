@@ -72,9 +72,9 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     ///      to read, understand and maintain, thus increasing the probability of subtle defects.
     ///
     /// Also see:
-    /// <see cref="SharpNeat.Network.Acyclic.CyclicConnectionTest"/>
-    /// <see cref="SharpNeat.Network.Acyclic.AcyclicGraphDepthAnalysis"/>
-    /// <see cref="SharpNeat.Network.CyclicGraphAnalysis"/>
+    /// <see cref="Network.Acyclic.CyclicConnectionTest"/>
+    /// <see cref="Network.Acyclic.AcyclicGraphDepthAnalysis"/>
+    /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
     public class CyclicConnectionTest
     {
@@ -86,14 +86,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// for one source node.
         /// </summary>
-        IntStack _traversalStack = new IntStack(16);    
+        readonly IntStack _traversalStack = new IntStack(17);
 
-        // ENHANCEMENT: Assign an initial capacity when that becomes possible (i.e. possibly in .NET Standard 2.1)
         /// <summary>
         /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
         /// re-traversal of nodes.
         /// </summary>
-        HashSet<int> _visitedNodes = new HashSet<int>();
+        readonly HashSet<int> _visitedNodes = new HashSet<int>(17);
 
         #if DEBUG
         /// <summary>
