@@ -24,7 +24,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual
     public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
         where T : struct
     {
-        readonly NeatReproductionSexualSettings _settings;
         readonly ISexualReproductionStrategy<T> _strategy;
 
         #region Constructor
@@ -44,7 +43,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             Int32Sequence generationSeq,
             NeatReproductionSexualSettings settings)
         {
-            _settings = settings;
             _strategy = new UniformCrossoverReproductionStrategy<T>(
                                 metaNeatGenome.IsAcyclic,
                                 settings.SecondaryParentGeneProbability,
