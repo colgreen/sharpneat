@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
     internal class GeneticKMeansSpeciationInit<T> where T : struct
     {
-        IDistanceMetric<T> _distanceMetric;
+        readonly IDistanceMetric<T> _distanceMetric;
         readonly ParallelOptions _parallelOptions;
 
         #region Constructors
@@ -153,7 +153,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             for(int i=1; i < seedGenomeList.Count; i++) 
             {
                 double distance = _distanceMetric.CalcDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
-                distance = Math.Min(minDistance, distance);
+                minDistance = Math.Min(minDistance, distance);
             }
             return minDistance;
         }
