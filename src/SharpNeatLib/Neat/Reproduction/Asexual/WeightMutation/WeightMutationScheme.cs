@@ -21,12 +21,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
     public class WeightMutationScheme<T> 
         where T : struct
     {
-        #region Instance Fields
-
-        DiscreteDistribution _strategySelectionDist;
-        IWeightMutationStrategy<T>[] _mutationStrategyArr;
-
-        #endregion
+        readonly DiscreteDistribution _strategySelectionDist;
+        readonly IWeightMutationStrategy<T>[] _mutationStrategyArr;
 
         #region Constructor
 

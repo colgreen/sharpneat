@@ -31,12 +31,16 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             int[] connectionIndexMap)
         {
-            // Mandatory ref tests.
+            // Check for mandatory object references.
             Debug.Assert(null != metaNeatGenome);
             Debug.Assert(null != connGenes);
             Debug.Assert(null != hiddenNodeIdArr);
             Debug.Assert(null != nodeIndexByIdMap);
             Debug.Assert(null != digraph);
+
+            // Basic check on ID and birth generation.
+            Debug.Assert(id >= 0);
+            Debug.Assert(birthGeneration >= 0);
 
             // Acyclic graph checks.
             if(metaNeatGenome.IsAcyclic) {
@@ -91,9 +95,7 @@ namespace SharpNeat.Neat.Genome
 
             for(int i=0; i < connGenes._connArr.Length; i++)
             {
-                DirectedConnection connGene = connArr[i];
-
-                // Determine the index of he equivalent connection in the digraph.
+                // Determine the index of the equivalent connection in the digraph.
                 int genomeConnIdx = (null == connectionIndexMap) ? i : connectionIndexMap[i];
 
                 Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].SourceId) == srcIdArr[i]);

@@ -24,12 +24,12 @@ namespace SharpNeat.Tests.Network
         /// <summary>
         /// The directed graph being analysed.
         /// </summary>
-        DirectedGraph _digraph;
+        readonly DirectedGraph _digraph;
 
         /// <summary>
         /// Working array of node depths.
         /// </summary>
-        int[] _nodeDepthByIdx;
+        readonly int[] _nodeDepthByIdx;
 
         #if DEBUG
         readonly CyclicGraphAnalysis _cyclicGraphAnalysis = new CyclicGraphAnalysis();

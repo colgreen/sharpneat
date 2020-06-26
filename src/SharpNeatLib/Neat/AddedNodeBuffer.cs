@@ -24,7 +24,7 @@ namespace SharpNeat.Neat
     /// </summary>
     public class AddedNodeBuffer
     {
-        KeyedCircularBuffer<DirectedConnection,int> _buffer;
+        readonly KeyedCircularBuffer<DirectedConnection,int> _buffer;
         
         #region Constructor
 

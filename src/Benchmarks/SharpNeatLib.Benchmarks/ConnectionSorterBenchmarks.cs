@@ -67,9 +67,11 @@ namespace SharpNeatLib.Benchmarks
                 int[] srcIdArr = CreateRandomInt32Array(length);
                 int[] tgtIdArr = CreateRandomInt32Array(length);
 
-                ConnectionData connData = new ConnectionData();
-                connData._connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
-                connData._weightArr = CreateRandomDoubleArray(length);
+                ConnectionData connData = new ConnectionData
+                {
+                    _connIdArrays = new ConnectionIdArrays(srcIdArr,tgtIdArr),
+                    _weightArr = CreateRandomDoubleArray(length)
+                };
                 _dataArr[i] = connData;
             }
         }

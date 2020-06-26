@@ -133,7 +133,7 @@ namespace SharpNeat.Neat.Genome.IO
             try
             {
                 _sr = sr;    
-                return LoadInner(sr);
+                return LoadInner();
             }
             finally
             {
@@ -145,7 +145,7 @@ namespace SharpNeat.Neat.Genome.IO
 
         #region Private Methods
 
-        private NeatGenome<T> LoadInner(StreamReader sr)
+        private NeatGenome<T> LoadInner()
         {
             // Reset line counter.
             _lineIdx = 0;

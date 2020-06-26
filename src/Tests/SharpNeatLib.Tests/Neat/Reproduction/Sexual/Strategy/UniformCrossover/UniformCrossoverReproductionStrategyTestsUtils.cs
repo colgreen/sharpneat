@@ -6,8 +6,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     public class UniformCrossoverReproductionStrategyTestsUtils
     {
-        static MetaNeatGenome<double> __metaNeatGenome;
-        static INeatGenomeBuilder<double> __genomeBuilder;
+        static readonly MetaNeatGenome<double> __metaNeatGenome;
+        static readonly INeatGenomeBuilder<double> __genomeBuilder;
 
         #region Static Initializer
 

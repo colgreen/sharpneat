@@ -38,8 +38,7 @@ namespace SharpNeat.Network.IO
                     throw new Exception("Invalid network tsv format.");
                 }
 
-                int id;
-                if(!int.TryParse(fieldArr[0], out id)) {
+                if(!int.TryParse(fieldArr[0], out int id)) {
                     throw new Exception("Invalid network tsv format.");
                 }
 
@@ -65,8 +64,7 @@ namespace SharpNeat.Network.IO
                     throw new Exception("Invalid network tsv format.");
                 }
 
-                int nodeId;
-                if(!int.TryParse(fieldArr[0], out nodeId)) {
+                if(!int.TryParse(fieldArr[0], out int nodeId)) {
                     throw new Exception("Invalid network tsv format.");
                 }
 
@@ -99,18 +97,15 @@ namespace SharpNeat.Network.IO
                     throw new Exception("Invalid network tsv format.");
                 }
 
-                int srcNodeId;
-                if(int.TryParse(fieldArr[0], out srcNodeId)) {
+                if(int.TryParse(fieldArr[0], out int srcNodeId)) {
                     throw new Exception("Invalid network tsv format.");
                 }
 
-                int tgtNodeId;
-                if(int.TryParse(fieldArr[1], out tgtNodeId)) {
+                if(int.TryParse(fieldArr[1], out int tgtNodeId)) {
                     throw new Exception("Invalid network tsv format.");
                 }
 
-                double weight;
-                if(double.TryParse(fieldArr[2], out weight)) {
+                if(double.TryParse(fieldArr[2], out double weight)) {
                     throw new Exception("Invalid network tsv format.");
                 }
 

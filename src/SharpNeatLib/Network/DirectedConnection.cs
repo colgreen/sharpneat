@@ -99,8 +99,8 @@ namespace SharpNeat.Network
         /// <returns>true if the objects are equal; otherwise false.</returns>
         public override bool Equals(object obj)
         {
-            if(obj is DirectedConnection) {
-                return this.Equals((DirectedConnection)obj);
+            if(obj is DirectedConnection connection) {
+                return this.Equals(connection);
             }
             return false;
         }

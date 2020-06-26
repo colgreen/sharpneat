@@ -25,8 +25,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         readonly CyclicConnectionTest _cyclicTest;
 
         // Connection gene lists.
-        List<DirectedConnection> _connList;
-        List<T> _weightList;
+        readonly List<DirectedConnection> _connList;
+        readonly List<T> _weightList;
         
         #endregion
 
