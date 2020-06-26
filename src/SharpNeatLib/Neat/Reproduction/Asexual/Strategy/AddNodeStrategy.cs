@@ -269,7 +269,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             if(newInnovationIdsFlag)
             {
                 Array.Copy(parentIdArr, childIdArr, parentIdArr.Length);
-                childIdArr[childIdArr.Length-1] = addedNodeId;
+                childIdArr[^1] = addedNodeId;
                 return childIdArr;
             }
             

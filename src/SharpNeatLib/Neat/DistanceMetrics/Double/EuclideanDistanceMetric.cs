@@ -144,7 +144,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             // Instead of calculating the euclidean distance we calculate distance squared (we skip the final sqrt 
             // part of the formula). If we then square the threshold value this obviates the need to take the square
             // root when comparing our accumulating calculated distance with the threshold.
-            threshold = threshold * threshold;
+            threshold *= threshold;
 
             DirectedConnection[] connArr1 = p1._connArr;
             DirectedConnection[] connArr2 = p2._connArr;

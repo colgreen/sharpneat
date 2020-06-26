@@ -61,8 +61,9 @@ namespace SharpNeat.NeuralNet
         /// </summary>
         public static NetworkActivationScheme CreateAcyclicScheme()
         {
-            NetworkActivationScheme scheme = new NetworkActivationScheme();
-            scheme._acyclicNetwork = true;
+            NetworkActivationScheme scheme = new NetworkActivationScheme {
+                _acyclicNetwork = true
+            };
             return scheme;
         }
 
@@ -71,9 +72,10 @@ namespace SharpNeat.NeuralNet
         /// </summary>
         public static NetworkActivationScheme CreateCyclicScheme(int timestepsPerActivation)
         {
-            NetworkActivationScheme scheme = new NetworkActivationScheme();
-            scheme._acyclicNetwork = false;
-            scheme._timestepsPerActivation = timestepsPerActivation;
+            NetworkActivationScheme scheme = new NetworkActivationScheme {
+                _acyclicNetwork = false,
+                _timestepsPerActivation = timestepsPerActivation
+            };
             return scheme;
         }
 
