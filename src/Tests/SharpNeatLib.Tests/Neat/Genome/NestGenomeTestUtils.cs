@@ -17,14 +17,13 @@ namespace SharpNeat.Tests.Neat.Genome
 
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
-            var genome = CreateNeatGenome(metaNeatGenome, genomeBuilder);
-            var genome2 = CreateNeatGenome2(metaNeatGenome, genomeBuilder);
+            var genome = CreateNeatGenome(genomeBuilder);
+            var genome2 = CreateNeatGenome2(genomeBuilder);
             var genomeList = new List<NeatGenome<double>>() { genome, genome2 };
             return new NeatPopulation<double>(metaNeatGenome, genomeBuilder, genomeList);
         }
 
         public static NeatGenome<double> CreateNeatGenome(
-            MetaNeatGenome<double> metaNeatGenome,
             INeatGenomeBuilder<double> genomeBuilder)
         {
             var connGenes = new ConnectionGenes<double>(12);
@@ -49,7 +48,6 @@ namespace SharpNeat.Tests.Neat.Genome
         }
 
         public static NeatGenome<double> CreateNeatGenome2(
-            MetaNeatGenome<double> metaNeatGenome,
             INeatGenomeBuilder<double> genomeBuilder)
         {
             var connGenes = new ConnectionGenes<double>(12);

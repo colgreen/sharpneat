@@ -27,7 +27,6 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
             for(int i=0; i < 1000; i++)

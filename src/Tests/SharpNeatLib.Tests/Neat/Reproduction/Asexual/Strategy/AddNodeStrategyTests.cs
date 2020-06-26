@@ -37,7 +37,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
             for(int i=0; i < 10_000; i++) {
-                NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
+                CreateAndTestChildGenome(genome, strategy, rng);
             }
         }
 

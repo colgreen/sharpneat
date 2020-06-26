@@ -42,7 +42,7 @@ namespace SharpNeat.Tests.Neat
 
         private static void TestLookupFail(AddedNodeBuffer buff, in DirectedConnection connection)
         {
-            Assert.IsFalse(buff.TryLookup(in connection, out int addedNodeId));
+            Assert.IsFalse(buff.TryLookup(in connection, out _));
         }
 
         #endregion
