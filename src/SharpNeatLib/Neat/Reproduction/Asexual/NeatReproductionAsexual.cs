@@ -76,15 +76,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
 
             // Instantiate reproduction strategies.
-            _mutateWeightsStrategy = new MutateWeightsStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
-            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, generationSeq);
+            _mutateWeightsStrategy = new MutateWeightsStrategy<T>(genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
+            _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(genomeBuilder, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
             if(metaNeatGenome.IsAcyclic) 
             {
                 _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(
                     metaNeatGenome, genomeBuilder,
-                    genomeIdSeq, innovationIdSeq, generationSeq);
+                    genomeIdSeq, generationSeq);
             }
             else 
             {

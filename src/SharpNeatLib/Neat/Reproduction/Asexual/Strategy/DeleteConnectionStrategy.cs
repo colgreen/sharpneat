@@ -28,7 +28,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     public class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
-        readonly MetaNeatGenome<T> _metaNeatGenome;
         readonly INeatGenomeBuilder<T> _genomeBuilder;
         readonly Int32Sequence _genomeIdSeq;
         readonly Int32Sequence _generationSeq;
@@ -38,17 +37,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <summary>
         /// Construct a new instance.
         /// </summary>
-        /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         /// <param name="genomeBuilder">NeatGenome builder.</param>
         /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
         /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
         public DeleteConnectionStrategy(
-            MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
             Int32Sequence genomeIdSeq,
             Int32Sequence generationSeq)
         {
-            _metaNeatGenome = metaNeatGenome;
             _genomeBuilder = genomeBuilder;
             _genomeIdSeq = genomeIdSeq;
             _generationSeq = generationSeq;

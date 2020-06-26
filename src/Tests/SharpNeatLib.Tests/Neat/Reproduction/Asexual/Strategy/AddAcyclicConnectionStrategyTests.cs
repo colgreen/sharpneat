@@ -29,7 +29,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var strategy = new AddAcyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq);
+                pop.GenomeIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
@@ -84,7 +84,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 
             var strategy = new AddAcyclicConnectionStrategy<double>(
                 pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq);
+                pop.GenomeIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 

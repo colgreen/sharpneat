@@ -23,8 +23,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var genome = pop.GenomeList[0];
 
             var strategy = new DeleteConnectionStrategy<double>(
-                pop.MetaNeatGenome, genomeBuilder,
-                pop.GenomeIdSeq, generationSeq);
+                genomeBuilder, pop.GenomeIdSeq, generationSeq);
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
