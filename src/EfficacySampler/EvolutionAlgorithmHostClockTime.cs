@@ -43,7 +43,7 @@ namespace EfficacySampler
                 Priority = ThreadPriority.BelowNormal
             };
 
-            // Start the backgroun EA thread; it will imeediately block on _awaitStartEvent, and wait to be signalled to start proper.
+            // Start the background EA thread; it will immediately block on _awaitStartEvent, and wait to be signalled to start proper.
             _eaThread.Start();
         }
 
@@ -126,9 +126,10 @@ namespace EfficacySampler
         private Sample RecordSample()
         {
             // Copy the required stats into a new Sample instance.
-            Sample sample = new Sample();
-            sample.ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001;
-            sample.GenerationCount = (int)_ea.Stats.Generation;
+            Sample sample = new Sample {
+                ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
+                GenerationCount = _ea.Stats.Generation
+            };
 
             var pop = _ea.Population;
             sample.BestFitness = pop.Stats.BestFitness.PrimaryFitness;
@@ -139,6 +140,7 @@ namespace EfficacySampler
             sample.MeanComplexity = pop.Stats.MeanComplexity;
             sample.EvaluationCount = _ea.Stats.TotalEvaluationCount;
 
+            // Return the sample.
             return sample;
         }
 

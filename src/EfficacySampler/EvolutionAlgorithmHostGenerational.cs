@@ -55,9 +55,10 @@ namespace EfficacySampler
             _stopwatch.Stop();
 
             // Copy the required stats into a new Sample instance.
-            Sample sample = new Sample();
-            sample.ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001;
-            sample.GenerationCount = (int)ea.Stats.Generation;
+            Sample sample = new Sample {
+                ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
+                GenerationCount = ea.Stats.Generation
+            };
 
             var pop = ea.Population;
             sample.BestFitness = pop.Stats.BestFitness.PrimaryFitness;
@@ -69,7 +70,6 @@ namespace EfficacySampler
             sample.EvaluationCount = ea.Stats.TotalEvaluationCount;
 
             // Make some attempts at forcing release of resources (especially RAM) before we hand control back.
-            ea = null;
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
 
             // Return the sample.
