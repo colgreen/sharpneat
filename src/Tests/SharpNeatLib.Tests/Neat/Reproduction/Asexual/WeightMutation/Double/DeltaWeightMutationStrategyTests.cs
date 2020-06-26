@@ -55,7 +55,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
-            int iters = 100_000;
+            const int iters = 100_000;
             double[] weightArr = new double[iters];
             for (int i = 0; i < iters; i++) {
                 weightArr[i] = 1000.0;
@@ -72,6 +72,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
             Assert.IsTrue(hist.Min <= 998.0);
 
             TestMean(weightArr, 1000.0);
+            TestStandardDeviation(weightArr);
         }
 
         #endregion
@@ -81,7 +82,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
         private static void TestMean(double[] sampleArr, double expectedMean)
         {
             double mean = sampleArr.Average();
-            Assert.IsTrue(Math.Abs(mean)-expectedMean < 0.1);
+            Assert.IsTrue(Math.Abs(mean) - expectedMean < 0.1);
         }
 
         private static void TestStandardDeviation(double[] sampleArr)
@@ -97,7 +98,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             double var = sqrSum / sampleArr.Length;
             double stdDev = Math.Sqrt(var);
-            Assert.IsTrue(Math.Abs(stdDev-1.0) < 0.1);
+            Assert.IsTrue(Math.Abs(stdDev - 1.0) < 0.1);
         }
 
         #endregion
