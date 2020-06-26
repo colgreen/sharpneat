@@ -135,7 +135,7 @@ namespace SharpNeat.Tests.Neat.Speciation
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, connectionsProportion, count, RandomDefaults.CreateRandomSource());
             return neatPop;
         }
 
@@ -156,8 +156,9 @@ namespace SharpNeat.Tests.Neat.Speciation
             IDistanceMetric<T> distanceMetric)
         where T : struct
         {
-            var nearestSpeciesList = new List<Species<T>>(4);
-            nearestSpeciesList.Add(speciesArr[0]);
+            var nearestSpeciesList = new List<Species<T>>(4) {
+                speciesArr[0]
+            };
             double nearestDistance = distanceMetric.CalcDistance(genome.ConnectionGenes, speciesArr[0].Centroid);
 
             for(int i=1; i < speciesArr.Length; i++)
