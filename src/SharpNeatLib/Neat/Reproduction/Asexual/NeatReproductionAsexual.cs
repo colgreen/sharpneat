@@ -28,15 +28,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     {
         #region Instance Fields
 
-        readonly NeatReproductionAsexualSettings _settingsComplexifying;
-        readonly NeatReproductionAsexualSettings _settingsSimplifying;
-        NeatReproductionAsexualSettings _settingsCurrent;
-
         readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
         readonly MutationTypeDistributions _mutationTypeDistributionsSimplifying;
         MutationTypeDistributions _mutationTypeDistributionsCurrent;
 
-        // Asexual reproduction strategies..
+        // Asexual reproduction strategies.
         readonly IAsexualReproductionStrategy<T> _mutateWeightsStrategy;
         readonly IAsexualReproductionStrategy<T> _deleteConnectionStrategy;
         readonly IAsexualReproductionStrategy<T> _addConnectionStrategy;
@@ -67,12 +63,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             NeatReproductionAsexualSettings settings,
             WeightMutationScheme<T> weightMutationScheme)
         {
-            _settingsComplexifying = settings;
-            _settingsSimplifying = settings.CreateSimplifyingSettings();
-            _settingsCurrent = _settingsComplexifying;
+            var settingsComplexifying = settings;
+            var settingsSimplifying = settings.CreateSimplifyingSettings();
             
-            _mutationTypeDistributionsComplexifying = new MutationTypeDistributions(_settingsComplexifying);
-            _mutationTypeDistributionsSimplifying = new MutationTypeDistributions(_settingsSimplifying);
+            _mutationTypeDistributionsComplexifying = new MutationTypeDistributions(settingsComplexifying);
+            _mutationTypeDistributionsSimplifying = new MutationTypeDistributions(settingsSimplifying);
             _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
 
             // Instantiate reproduction strategies.
@@ -109,11 +104,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             switch(mode)
             {
                 case ComplexityRegulationMode.Complexifying:
-                    _settingsCurrent = _settingsComplexifying;
                     _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
                     break;
                 case ComplexityRegulationMode.Simplifying:
-                    _settingsCurrent = _settingsSimplifying;
                     _mutationTypeDistributionsCurrent = _mutationTypeDistributionsSimplifying;
                     break;
                 default:
