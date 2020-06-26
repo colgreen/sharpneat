@@ -103,7 +103,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 // Accumulate random mutations for some number of loops.
                 for(int j=0; j < 20;)
                 {
-                    var childGenome = strategy.CreateChildGenome(rootGenome, rng);
+                    var childGenome = strategy.CreateChildGenome(parentGenome, rng);
                 
                     // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                     // test for this and try again. The test will be for N successful mutations rather than N attempts.
@@ -112,10 +112,10 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                     }
 
                     // The child genome should have one more connection than parent.
-                    Assert.AreEqual(rootGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
+                    Assert.AreEqual(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
                     // The child genome's new connection should not be a duplicate of any of the existing/parent connections.
-                    var connSet = GetDirectedConnectionSet(rootGenome);
+                    var connSet = GetDirectedConnectionSet(parentGenome);
                     var childConnSet = GetDirectedConnectionSet(childGenome);
                     var newConnList = new List<DirectedConnection>(childConnSet.Except(connSet));
                     Assert.AreEqual(1, newConnList.Count);
