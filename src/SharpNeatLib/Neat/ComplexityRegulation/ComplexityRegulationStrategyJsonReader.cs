@@ -30,21 +30,14 @@ namespace SharpNeat.Neat.ComplexityRegulation
         public static IComplexityRegulationStrategy Read(JsonElement jelem)
         {
             string strategyName = jelem.GetProperty("strategyName").GetString();
-            switch(strategyName)
+            return strategyName switch
             {
-                case "null":
-                    // The 'null' strategy has been explicitly defined.
-                    return new NullComplexityRegulationStrategy();
-
-                case "absolute":
-                    return ReadAbsoluteComplexityRegulationStrategy(jelem);
-
-                case "relative":
-                    return ReadRelativeComplexityRegulationStrategy(jelem);
-
-                default:
-                    throw new Exception($"Unsupported complexity regulation strategyName [{strategyName}]");
-            }
+                // The 'null' strategy has been explicitly defined.
+                "null" => new NullComplexityRegulationStrategy(),
+                "absolute" => ReadAbsoluteComplexityRegulationStrategy(jelem),
+                "relative" => ReadRelativeComplexityRegulationStrategy(jelem),
+                _ => throw new Exception($"Unsupported complexity regulation strategyName [{strategyName}]"),
+            };
         }
 
         #endregion

@@ -74,17 +74,12 @@ namespace EfficacySampler
             INeatExperiment<double> experiment,
             StopCondition stopCond)
         {
-            switch(stopCond.StopConditionType)
+            return stopCond.StopConditionType switch
             {
-                case StopConditionType.ElapsedClockTime:
-                    return new EvolutionAlgorithmHostClockTime(experiment, stopCond.Value);
-
-                case StopConditionType.GenerationCount:
-                    return new EvolutionAlgorithmHostGenerational(experiment, stopCond.Value);
-
-                default:
-                    throw new ArgumentException(nameof(stopCond));
-            }
+                StopConditionType.ElapsedClockTime => new EvolutionAlgorithmHostClockTime(experiment,stopCond.Value),
+                StopConditionType.GenerationCount => new EvolutionAlgorithmHostGenerational(experiment,stopCond.Value),
+                _ => throw new ArgumentException(nameof(stopCond)),
+            };
         }
 
         private static INeatExperiment<double> InitExperiment(string experimentId)

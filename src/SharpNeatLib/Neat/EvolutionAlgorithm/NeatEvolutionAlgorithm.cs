@@ -369,17 +369,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Notify all objects that need to be notified of the change in mode.
             _reproductionAsexual.NotifyComplexityRegulationMode(mode);
 
-            switch(mode)
+            _eaSettingsCurrent = mode switch
             {
-                case ComplexityRegulationMode.Complexifying:
-                    _eaSettingsCurrent = _eaSettingsComplexifying;
-                    break;
-                case ComplexityRegulationMode.Simplifying:
-                    _eaSettingsCurrent = _eaSettingsSimplifying;
-                    break;
-                default:
-                    throw new ArgumentException("Unexpected complexity regulation mode.");
-            }
+                ComplexityRegulationMode.Complexifying => _eaSettingsComplexifying,
+                ComplexityRegulationMode.Simplifying => _eaSettingsSimplifying,
+                _ => throw new ArgumentException("Unexpected complexity regulation mode."),
+            };
         }
 
         #endregion

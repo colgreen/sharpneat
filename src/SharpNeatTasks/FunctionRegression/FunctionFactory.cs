@@ -25,24 +25,15 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// <returns>An instance of <see cref="Func{T, TResult}"/>.</returns>
         public static Func<double,double> GetFunction(FunctionId fnId)
         {
-            switch(fnId)
+            return fnId switch
             {
-                case FunctionId.Abs:
-                    return (x) => Math.Abs(x);
-
-                case FunctionId.Log:
-                    return (x) => Math.Log(x);
-
-                case FunctionId.Sin:
-                    return (x) => Math.Sin(x);              
-
-                case FunctionId.SinXSquared:
-                    return (x) => (Math.Sin(x * x) * 0.4) + 0.5;
-
-                case FunctionId.Waveform1:
-                    return (x) => Math.Sin(x + Math.Sin(x));
-            }
-            throw new ArgumentException($"Unknown FunctionId type [{fnId}]");
+                FunctionId.Abs => (x) => Math.Abs(x),
+                FunctionId.Log => (x) => Math.Log(x),
+                FunctionId.Sin => (x) => Math.Sin(x),
+                FunctionId.SinXSquared => (x) => (Math.Sin(x * x) * 0.4) + 0.5,
+                FunctionId.Waveform1 => (x) => Math.Sin(x + Math.Sin(x)),
+                _ => throw new ArgumentException($"Unknown FunctionId type [{fnId}]"),
+            };
         }
     }
 }

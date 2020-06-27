@@ -90,15 +90,12 @@ namespace SharpNeat.Neat.ComplexityRegulation
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats)
         {
-            switch(_currentMode)
+            return _currentMode switch
             {
-                case ComplexityRegulationMode.Complexifying:
-                    return DetermineMode_WhileComplexifying(eaStats, popStats);
-
-                case ComplexityRegulationMode.Simplifying:
-                    return DetermineMode_WhileSimplifying(eaStats, popStats);
-            }
-            throw new InvalidOperationException("Unexpected complexity regulation mode.");
+                ComplexityRegulationMode.Complexifying => DetermineMode_WhileComplexifying(eaStats,popStats),
+                ComplexityRegulationMode.Simplifying => DetermineMode_WhileSimplifying(eaStats,popStats),
+                _ => throw new InvalidOperationException("Unexpected complexity regulation mode."),
+            };
         }
 
         #endregion

@@ -291,20 +291,13 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 
         private Func<bool> CreateIsUpdateDueFunction(UpdateScheme updateScheme)
         {
-            switch(updateScheme.UpdateMode)
+            return updateScheme.UpdateMode switch
             {
-                case UpdateMode.None: 
-                    return () => false;
-
-                case UpdateMode.Generational:
-                    return IsUpdateDue_Generational;
-
-                case UpdateMode.Timespan:
-                    return IsUpdateDue_TimeSpan;
-
-                default:
-                    throw new ArgumentException("Unexpected UpdateMode.");
-            }
+                UpdateMode.None => () => false,
+                UpdateMode.Generational => IsUpdateDue_Generational,
+                UpdateMode.Timespan => IsUpdateDue_TimeSpan,
+                _ => throw new ArgumentException("Unexpected UpdateMode."),
+            };
         }
 
         private bool IsUpdateDue_Generational()

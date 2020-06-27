@@ -101,17 +101,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// <param name="mode">The current mode.</param>
         public void NotifyComplexityRegulationMode(ComplexityRegulationMode mode)
         {
-            switch(mode)
+            _mutationTypeDistributionsCurrent = mode switch
             {
-                case ComplexityRegulationMode.Complexifying:
-                    _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
-                    break;
-                case ComplexityRegulationMode.Simplifying:
-                    _mutationTypeDistributionsCurrent = _mutationTypeDistributionsSimplifying;
-                    break;
-                default:
-                    throw new ArgumentException("Unexpected complexity regulation mode.");
-            }
+                ComplexityRegulationMode.Complexifying => _mutationTypeDistributionsComplexifying,
+                ComplexityRegulationMode.Simplifying => _mutationTypeDistributionsSimplifying,
+                _ => throw new ArgumentException("Unexpected complexity regulation mode."),
+            };
         }
 
         #endregion
@@ -152,27 +147,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             MutationType mutationTypeId = (MutationType)DiscreteDistribution.Sample(rng, mutationTypeDist);
 
             // Attempt to create a child genome using the selected mutation type.
-            NeatGenome<T> childGenome;
-
-            switch(mutationTypeId)
+            NeatGenome<T> childGenome = mutationTypeId switch
             {
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
-                case MutationType.ConnectionWeight: 
-                    childGenome = _mutateWeightsStrategy.CreateChildGenome(parent, rng);
-                    break;
-                case MutationType.AddNode: 
-                    childGenome = _addNodeStrategy.CreateChildGenome(parent, rng);
-                    break;
-                case MutationType.AddConnection:
-                    childGenome = _addConnectionStrategy.CreateChildGenome(parent, rng);
-                    break;
-                case MutationType.DeleteConnection:
-                    childGenome = _deleteConnectionStrategy.CreateChildGenome(parent, rng);
-                    break;
-                default: 
-                    throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}].");
-            }
+                MutationType.ConnectionWeight => _mutateWeightsStrategy.CreateChildGenome(parent,rng),
+                MutationType.AddNode => _addNodeStrategy.CreateChildGenome(parent,rng),
+                MutationType.AddConnection => _addConnectionStrategy.CreateChildGenome(parent,rng),
+                MutationType.DeleteConnection => _deleteConnectionStrategy.CreateChildGenome(parent,rng),
+                _ => throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}]."),
+            };
 
             if(null != childGenome) {
                 return childGenome;
