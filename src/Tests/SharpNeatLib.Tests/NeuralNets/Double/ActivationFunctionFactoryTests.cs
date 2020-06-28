@@ -1,60 +1,51 @@
-﻿using System.Numerics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.NeuralNet;
+﻿using SharpNeat.NeuralNet;
+using Xunit;
 
 namespace SharpNeat.Tests.NeuralNets.Double
 {
-    [TestClass]
     public class ActivationFunctionFactoryTests
     {
-        [TestMethod]
-        [TestCategory("ActivationFunctionFactory")]
-        public void Test()
+        [Fact]
+        public void GetActivationFunction()
         {
             var fact = new DefaultActivationFunctionFactory<double>(false);
             var actFn = fact.GetActivationFunction("ReLU");
 
-            Assert.IsNotNull(actFn);
-            Assert.AreEqual("SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU", actFn.GetType().FullName);
+            Assert.NotNull(actFn);
+            Assert.Equal("SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU", actFn.GetType().FullName);
 
             // Requesting the same activation function should yield the same instance.
             var actFn2 = fact.GetActivationFunction("ReLU");
-            Assert.AreSame(actFn, actFn2);
+            Assert.Same(actFn, actFn2);
         }
 
-        [TestMethod]
-        [TestCategory("ActivationFunctionFactory")]
-        public void TestHardwareAccelerated()
+        [Fact]
+        public void GetActivationFunction_Vectorized()
         {
-            if(!Vector.IsHardwareAccelerated) {
-                Assert.Inconclusive("Hardware accelerations not available. Hardware acceleration is available on supporting CPUs only, and only for x64 builds with optimization enabled (i.e. release builds).");
-            }
-
             var fact = new DefaultActivationFunctionFactory<double>(true);
             var actFn = fact.GetActivationFunction("ReLU");
 
-            Assert.IsNotNull(actFn);
-            Assert.AreEqual("SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized.ReLU", actFn.GetType().FullName);
+            Assert.NotNull(actFn);
+            Assert.Equal("SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized.ReLU", actFn.GetType().FullName);
 
             // Requesting the same activation function should yield the same instance.
             var actFn2 = fact.GetActivationFunction("ReLU");
-            Assert.AreSame(actFn, actFn2);
+            Assert.Same(actFn, actFn2);
         }
 
 
-        [TestMethod]
-        [TestCategory("ActivationFunctionFactory")]
-        public void TestCppn()
+        [Fact]
+        public void GetActivationFunction_Cppn()
         {
             var fact = new DefaultActivationFunctionFactory<double>(false);
             var actFn = fact.GetActivationFunction("Gaussian");
 
-            Assert.IsNotNull(actFn);
-            Assert.AreEqual("SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn.Gaussian", actFn.GetType().FullName);
+            Assert.NotNull(actFn);
+            Assert.Equal("SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn.Gaussian", actFn.GetType().FullName);
 
             // Requesting the same activation function should yield the same instance.
             var actFn2 = fact.GetActivationFunction("Gaussian");
-            Assert.AreSame(actFn, actFn2);
+            Assert.Same(actFn, actFn2);
         }
     }
 }

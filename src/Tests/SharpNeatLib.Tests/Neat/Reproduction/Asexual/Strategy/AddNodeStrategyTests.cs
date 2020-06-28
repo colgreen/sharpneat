@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
+using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 {
-    [TestClass]
     public class AddNodeStrategyTests
     {
         #region Public Methods
@@ -20,9 +19,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         /// Apply 'add node' mutations to the same initial genome multiple times.
         /// Note. The mutations are random, therefore this tests different mutations on each loop.
         /// </summary>
-        [TestMethod]
-        [TestCategory("AsexualReproduction")]
-        public void TestAddNode1()
+        [Fact]
+        public void AddNode1()
         {
             var pop = CreateNeatPopulation();
             var generationSeq = new Int32Sequence();
@@ -45,9 +43,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         /// Apply cumulative 'add node' mutations.
         /// This explores more complex genome structures as the mutations accumulate.
         /// </summary>
-        [TestMethod]
-        [TestCategory("AsexualReproduction")]
-        public void TestAddNode2()
+        [Fact]
+        public void AddNode2()
         {
             var pop = CreateNeatPopulation();
             var generationSeq = new Int32Sequence();
@@ -75,9 +72,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
         /// This results in some mutations occurring that have already occurred on one of the other genomes,
         /// and therefore this tests the code paths that handle re-using innovation IDs obtain from the innovation buffers.
         /// </summary>
-        [TestMethod]
-        [TestCategory("AsexualReproduction")]
-        public void TestAddNode3()
+        [Fact]
+        public void AddNode3()
         {
             var pop = CreateNeatPopulation();
             var generationSeq = new Int32Sequence();
@@ -121,31 +117,31 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
             var childGenome = strategy.CreateChildGenome(parentGenome, rng);
 
             // The connection genes should be sorted.
-            Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+            Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
             // The child genome should have one more connection than parent.
-            Assert.AreEqual(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
+            Assert.Equal(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
             // The child genome should have one more node ID than the parent.
             var childNodeIdSet = GetNodeIdSet(childGenome);
             var newNodeIdList = new List<int>(childNodeIdSet.Except(nodeIdSet));
-            Assert.AreEqual(1, newNodeIdList.Count);
+            Assert.Single(newNodeIdList);
             int newNodeId = newNodeIdList[0];
 
             // The child genome's new connections should not be a duplicate of any of the existing/parent connections.
             var childConnSet = GetDirectedConnectionSet(childGenome);
             var newConnList = new List<DirectedConnection>(childConnSet.Except(connSet));
-            Assert.AreEqual(2, newConnList.Count);
+            Assert.Equal(2, newConnList.Count);
 
             // The parent should have one connection that the child does not, i.e. the connection that was replaced.
             var removedConnList = new List<DirectedConnection>(connSet.Except(childConnSet));
-            Assert.AreEqual(1, removedConnList.Count);
+            Assert.Single(removedConnList);
 
             // The two new connections should connect to the new node ID.
             var connRemoved = removedConnList[0];
             var connA = newConnList[0];
             var connB = newConnList[1];
-            Assert.IsTrue(
+            Assert.True(
                     (connA.SourceId == connRemoved.SourceId && connA.TargetId == newNodeId && connB.SourceId == newNodeId && connB.TargetId == connRemoved.TargetId) 
                 ||  (connB.SourceId == connRemoved.SourceId && connB.TargetId == newNodeId && connA.SourceId == newNodeId && connA.TargetId == connRemoved.TargetId));
 

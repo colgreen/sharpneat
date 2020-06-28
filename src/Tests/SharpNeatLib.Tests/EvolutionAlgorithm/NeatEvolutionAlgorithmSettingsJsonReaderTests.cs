@@ -1,13 +1,12 @@
 ﻿using System.Text.Json;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.EvolutionAlgorithm;
+using Xunit;
 
 namespace SharpNeatLib.Tests.EvolutionAlgorithm
 {
-    [TestClass]
     public class NeatEvolutionAlgorithmSettingsJsonReaderTests
     {
-        [TestMethod]
+        [Fact]
         public void Read()
         {
             JsonDocument jdoc = JsonDocument.Parse(
@@ -27,13 +26,13 @@ namespace SharpNeatLib.Tests.EvolutionAlgorithm
             NeatEvolutionAlgorithmSettingsJsonReader.Read(eaSettings, jdoc.RootElement);
 
             // Assert the expected values.
-            Assert.AreEqual(1111, eaSettings.SpeciesCount);
-            Assert.AreEqual(0.11, eaSettings.ElitismProportion);
-            Assert.AreEqual(0.22, eaSettings.SelectionProportion);
-            Assert.AreEqual(0.33, eaSettings.OffspringAsexualProportion);
-            Assert.AreEqual(0.44, eaSettings.OffspringSexualProportion);
-            Assert.AreEqual(0.55, eaSettings.InterspeciesMatingProportion);
-            Assert.AreEqual(2222, eaSettings.StatisticsMovingAverageHistoryLength);
+            Assert.Equal(1111, eaSettings.SpeciesCount);
+            Assert.Equal(0.11, eaSettings.ElitismProportion);
+            Assert.Equal(0.22, eaSettings.SelectionProportion);
+            Assert.Equal(0.33, eaSettings.OffspringAsexualProportion);
+            Assert.Equal(0.44, eaSettings.OffspringSexualProportion);
+            Assert.Equal(0.55, eaSettings.InterspeciesMatingProportion);
+            Assert.Equal(2222, eaSettings.StatisticsMovingAverageHistoryLength);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
@@ -9,18 +8,17 @@ using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.Tests.Network;
+using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 {
-    [TestClass]
     public class AddAcyclicConnectionStrategyTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("AsexualReproduction")]
-        public void TestAddAcyclicConnection()
+        [Fact]
+        public void AddAcyclicConnection()
         {
             var pop = CreateNeatPopulation();
             var generationSeq = new Int32Sequence();
@@ -49,33 +47,32 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 }
 
                 // The child genome should have one more connection than parent.
-                Assert.AreEqual(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
+                Assert.Equal(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
                 // The child genome's new connection should not be a duplicate of any of the existing/parent connections.
                 var childConnSet = GetDirectedConnectionSet(childGenome);
                 var newConnList = new List<DirectedConnection>(childConnSet.Except(connSet));
-                Assert.AreEqual(1, newConnList.Count);
+                Assert.Single(newConnList);
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
-                Assert.IsTrue(nodeIdSet.SetEquals(childNodeIdSet));
+                Assert.True(nodeIdSet.SetEquals(childNodeIdSet));
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
                 var digraph = childGenome.DirectedGraph;
-                Assert.IsFalse(cyclicGraphAnalysis.IsCyclic(digraph));
+                Assert.False(cyclicGraphAnalysis.IsCyclic(digraph));
 
                 // Increment for successful tests only.
                 i++;
             }
         }
 
-        [TestMethod]
-        [TestCategory("AsexualReproduction")]
-        public void TestAddAcyclicConnection_CumulativeAdditions()
+        [Fact]
+        public void AddAcyclicConnection_CumulativeAdditions()
         {
             var pop = CreateNeatPopulation();
             var generationSeq = new Int32Sequence();
@@ -112,25 +109,25 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                     }
 
                     // The child genome should have one more connection than parent.
-                    Assert.AreEqual(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
+                    Assert.Equal(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
                     // The child genome's new connection should not be a duplicate of any of the existing/parent connections.
                     var connSet = GetDirectedConnectionSet(parentGenome);
                     var childConnSet = GetDirectedConnectionSet(childGenome);
                     var newConnList = new List<DirectedConnection>(childConnSet.Except(connSet));
-                    Assert.AreEqual(1, newConnList.Count);
+                    Assert.Single(newConnList);
 
                     // The connection genes should be sorted.
-                    Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                    Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                     // The child genome should have the same set of node IDs as the parent.
                     var childNodeIdSet = GetNodeIdSet(childGenome);
-                    Assert.IsTrue(nodeIdSet.SetEquals(childNodeIdSet));
+                    Assert.True(nodeIdSet.SetEquals(childNodeIdSet));
 
                     // The child genome should describe an acyclic graph, i.e. the new connection should not have
                     // formed a cycle in the graph.
                     var digraph = childGenome.DirectedGraph;
-                    Assert.IsFalse(cyclicGraphAnalysis.IsCyclic(digraph));
+                    Assert.False(cyclicGraphAnalysis.IsCyclic(digraph));
 
                     // Run the acyclic graph depth analysis algorithm.
                     GraphDepthInfo depthInfo = graphDepthAnalysis.CalculateNodeDepths(childGenome.DirectedGraph);
@@ -138,9 +135,9 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                     // Run again with the alternative algorithm (that uses function recursion).
                     GraphDepthInfo depthInfo2 = AcyclicGraphDepthAnalysisByRecursion.CalculateNodeDepths(childGenome.DirectedGraph);
 
-                    Assert.AreEqual(nodeIdSet.Count, depthInfo._nodeDepthArr.Length);
-                    Assert.AreEqual(nodeIdSet.Count, depthInfo2._nodeDepthArr.Length);
-                    ArrayTestUtils.Compare(depthInfo2._nodeDepthArr, depthInfo._nodeDepthArr);
+                    Assert.Equal(nodeIdSet.Count, depthInfo._nodeDepthArr.Length);
+                    Assert.Equal(nodeIdSet.Count, depthInfo2._nodeDepthArr.Length);
+                    Assert.Equal(depthInfo2._nodeDepthArr, depthInfo._nodeDepthArr);
 
                     // Set the child genome to be the new parent, thus we accumulate random new connections over time.
                     parentGenome = childGenome;

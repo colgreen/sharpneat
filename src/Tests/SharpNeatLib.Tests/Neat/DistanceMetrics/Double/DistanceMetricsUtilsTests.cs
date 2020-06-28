@@ -1,17 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen;
+﻿using Redzen;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
 {
-    [TestClass]
     public class DistanceMetricsUtilsTests
     {
-        [TestMethod]
-        [TestCategory("DistanceMetrics")]
-        public void TestCalculateEuclideanCentroid()
+        [Fact]
+        public void CalculateEuclideanCentroid()
         {
             // Init input gene arrays.
             var connGenes1 = new ConnectionGenes<double>(6);
@@ -55,8 +53,8 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             expected[9] = (4, 5, 80 / 3.0);
             expected[10] = (10, 20, 200 / 3.0);
 
-            Assert.IsTrue(SpanUtils.ContentEquals<DirectedConnection>(expected._connArr, centroid._connArr));
-            Assert.IsTrue(ArrayTestUtils.Equals(expected._weightArr, centroid._weightArr, 1e-6));
+            Assert.True(SpanUtils.ContentEquals<DirectedConnection>(expected._connArr, centroid._connArr));
+            Assert.True(ArrayTestUtils.ConponentwiseEqual(expected._weightArr, centroid._weightArr, 1e-6));
         }
     }
 }

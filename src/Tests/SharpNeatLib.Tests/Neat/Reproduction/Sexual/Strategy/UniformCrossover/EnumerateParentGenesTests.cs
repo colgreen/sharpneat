@@ -1,17 +1,15 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
-    [TestClass]
     public class EnumerateParentGenesTests
     {
-        [TestMethod]
-        [TestCategory("SexualReproduction")]
-        public void TestEnumerateParentGenes_CompareWithSelf()
+        [Fact]
+        public void EnumerateParentGenes_CompareWithSelf()
         {
             NeatPopulation<double> pop = UniformCrossoverReproductionStrategyTestsUtils.CreateNeatPopulation(1);
             var genome = pop.GenomeList[0];
@@ -24,12 +22,11 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 (6,6), (7,7), (8,8),
                 (9,9), (10,10), (11,11) };
 
-            Assert.IsTrue(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
+            Assert.True(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
         }
 
-        [TestMethod]
-        [TestCategory("SexualReproduction")]
-        public void TestEnumerateParentGenes_ExcessGeneInParent1()
+        [Fact]
+        public void EnumerateParentGenes_ExcessGeneInParent1()
         {
             NeatPopulation<double> pop = UniformCrossoverReproductionStrategyTestsUtils.CreateNeatPopulation(2);
             var genome1 = pop.GenomeList[0];
@@ -43,12 +40,11 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 (6,5), (7,6), (8,7),
                 (9,8), (10,9), (11,10) };
 
-            Assert.IsTrue(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
+            Assert.True(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
         }
 
-        [TestMethod]
-        [TestCategory("SexualReproduction")]
-        public void TestEnumerateParentGenes_ExcessGeneInParent2()
+        [Fact]
+        public void EnumerateParentGenes_ExcessGeneInParent2()
         {
             NeatPopulation<double> pop = UniformCrossoverReproductionStrategyTestsUtils.CreateNeatPopulation(2);
             var genome1 = pop.GenomeList[1];
@@ -62,7 +58,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 (5,6), (6,7), (7,8),
                 (8,9), (9,10), (10,11) };
 
-            Assert.IsTrue(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
+            Assert.True(SpanUtils.ContentEquals<(int,int)>(expectedArr, geneIndexPairArr));
         }
     }
 }

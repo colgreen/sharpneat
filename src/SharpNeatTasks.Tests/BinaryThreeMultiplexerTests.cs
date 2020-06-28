@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.Genome;
@@ -6,27 +5,25 @@ using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNet;
 using SharpNeat.Tasks.BinaryThreeMultiplexer;
+using Xunit;
 
 namespace SharpNeat.Tasks.Tests
 {
-    [TestClass]
     public class BinaryThreeMultiplexerTests
     {
-        [TestMethod]
-        [TestCategory("BinaryThreeMultiplexer")]
-        public void TestCorrectResponse()
+        [Fact]
+        public void VerifyNeuralNetResponse()
         {
-            TestCorrectResponseInner(false);
+            VerifyNeuralNetResponseInner(false);
         }
 
-        [TestMethod]
-        [TestCategory("BinaryThreeMultiplexer")]
-        public void TestCorrectResponse_EnableHardwareAcceleration()
+        [Fact]
+        public void VerifyNeuralNetResponse_EnableHardwareAcceleration()
         {
-            TestCorrectResponseInner(true);
+            VerifyNeuralNetResponseInner(true);
         }
 
-        private void TestCorrectResponseInner(bool enableHardwareAcceleration)
+        private void VerifyNeuralNetResponseInner(bool enableHardwareAcceleration)
         {
             var activationFnFactory = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
             var metaNeatGenome = new MetaNeatGenome<double>(4, 1, true, activationFnFactory.GetActivationFunction("LeakyReLU"));
@@ -45,7 +42,7 @@ namespace SharpNeat.Tasks.Tests
             // Confirm the expected fitness (to a limited amount of precision to allow for small variations of floating point
             // results that can occur as a result of platform/environmental variations).
             FitnessInfo fitnessInfo = evaluator.Evaluate(blackBox);
-            Assert.AreEqual(107.50554956432657, fitnessInfo.PrimaryFitness, 0.000001);
+            Assert.Equal(107.50554956432657, fitnessInfo.PrimaryFitness, 6);
         }
     }
 }

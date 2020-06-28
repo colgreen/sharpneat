@@ -1,13 +1,12 @@
 ﻿using System.Text.Json;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Asexual;
+using Xunit;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual
 {
-    [TestClass]
     public class NeatReproductionAsexualSettingsJsonReaderTests
     {
-        [TestMethod]
+        [Fact]
         public void Read()
         {
             JsonDocument jdoc = JsonDocument.Parse(
@@ -24,10 +23,10 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual
             NeatReproductionAsexualSettingsJsonReader.Read(settings, jdoc.RootElement);
 
             // Assert the expected values.
-            Assert.AreEqual(0.11, settings.ConnectionWeightMutationProbability);
-            Assert.AreEqual(0.22, settings.AddNodeMutationProbability);
-            Assert.AreEqual(0.33, settings.AddConnectionMutationProbability);
-            Assert.AreEqual(0.44, settings.DeleteConnectionMutationProbability);
+            Assert.Equal(0.11, settings.ConnectionWeightMutationProbability);
+            Assert.Equal(0.22, settings.AddNodeMutationProbability);
+            Assert.Equal(0.33, settings.AddConnectionMutationProbability);
+            Assert.Equal(0.44, settings.DeleteConnectionMutationProbability);
         }
     }
 }

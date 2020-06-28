@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Speciation
 {
     internal static class SpeciationStrategyTestUtils
     {
-        #region Private Methods
+        #region Public Methods
 
         public static void TestSpeciateAll(
             int popSize,
@@ -93,29 +93,29 @@ namespace SharpNeat.Tests.Neat.Speciation
             bool validateNearestSpecies)
         {
             // Confirm correct number of species.
-            Assert.AreEqual(speciesCountExpected, speciesArr.Length);
+            Assert.Equal(speciesCountExpected, speciesArr.Length);
 
             // Confirm no empty species.
             int minSpeciesSize = speciesArr.Select(x => x.GenomeList.Count).Min();
-            Assert.IsTrue(minSpeciesSize > 0);
+            Assert.True(minSpeciesSize > 0);
 
             // Get IDs of all genomes in species.
             var idSet = GetAllGenomeIds(speciesArr);
 
             // Confirm number of IDs equals number of genomes in main population list.
-            Assert.AreEqual(fullGenomeList.Count, idSet.Count);
+            Assert.Equal(fullGenomeList.Count, idSet.Count);
 
             // Confirm the genome list IDs match up with the genomes in the species.
-            fullGenomeList.ForEach(x => Assert.IsTrue(idSet.Contains(x.Id)));
+            fullGenomeList.ForEach(x => Assert.Contains(x.Id,idSet));
 
             // Confirm all species centroids are correct.
-            Array.ForEach(speciesArr, x => Assert.AreEqual(0.0, distanceMetric.CalcDistance(x.Centroid, distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)))));
+            Array.ForEach(speciesArr, x => Assert.Equal(0.0, distanceMetric.CalcDistance(x.Centroid, distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)))));
 
             if(validateNearestSpecies)
             {
                 // Confirm all genomes are in the species with the nearest centroid.
                 // Note. If there are two or more species that are equally near then we test that a genome is in one of those.
-                Array.ForEach(speciesArr, species => species.GenomeList.ForEach(genome => Assert.IsTrue(GetNearestSpeciesList(genome, speciesArr, distanceMetric).Contains(species))));
+                Array.ForEach(speciesArr, species => species.GenomeList.ForEach(genome => Assert.Contains(species, GetNearestSpeciesList(genome, speciesArr, distanceMetric))));
             }
         }
 

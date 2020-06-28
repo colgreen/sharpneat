@@ -1,15 +1,14 @@
 ﻿using System.Text.Json;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SharpNeat.Evaluation;
 using SharpNeat.Experiments;
+using Xunit;
 
 namespace SharpNeatLib.Tests.Experiments
 {
-    [TestClass]
     public class NeatExperimentJsonReaderTests
     {
-        [TestMethod]
+        [Fact]
         public void Read()
         {
             JsonDocument jdoc = JsonDocument.Parse(
@@ -67,39 +66,39 @@ namespace SharpNeatLib.Tests.Experiments
             NeatExperimentJsonReader<double>.Read(experiment, jdoc.RootElement);
 
             // Assert the expected values.
-            Assert.AreEqual("bar description", experiment.Description);
-            Assert.AreEqual(false, experiment.IsAcyclic);
-            Assert.AreEqual(111, experiment.CyclesPerActivation);
-            Assert.AreEqual("bar-activation-fn", experiment.ActivationFnName);
+            Assert.Equal("bar description", experiment.Description);
+            Assert.False(experiment.IsAcyclic);
+            Assert.Equal(111, experiment.CyclesPerActivation);
+            Assert.Equal("bar-activation-fn", experiment.ActivationFnName);
 
             var eaSettings = experiment.NeatEvolutionAlgorithmSettings;
-            Assert.AreEqual(1111, eaSettings.SpeciesCount);
-            Assert.AreEqual(0.11, eaSettings.ElitismProportion);
-            Assert.AreEqual(0.22, eaSettings.SelectionProportion);
-            Assert.AreEqual(0.33, eaSettings.OffspringAsexualProportion);
-            Assert.AreEqual(0.44, eaSettings.OffspringSexualProportion);
-            Assert.AreEqual(0.55, eaSettings.InterspeciesMatingProportion);
-            Assert.AreEqual(2222, eaSettings.StatisticsMovingAverageHistoryLength);
+            Assert.Equal(1111, eaSettings.SpeciesCount);
+            Assert.Equal(0.11, eaSettings.ElitismProportion);
+            Assert.Equal(0.22, eaSettings.SelectionProportion);
+            Assert.Equal(0.33, eaSettings.OffspringAsexualProportion);
+            Assert.Equal(0.44, eaSettings.OffspringSexualProportion);
+            Assert.Equal(0.55, eaSettings.InterspeciesMatingProportion);
+            Assert.Equal(2222, eaSettings.StatisticsMovingAverageHistoryLength);
 
             var asexualSettings = experiment.ReproductionAsexualSettings;
-            Assert.AreEqual(0.11, asexualSettings.ConnectionWeightMutationProbability);
-            Assert.AreEqual(0.22, asexualSettings.AddNodeMutationProbability);
-            Assert.AreEqual(0.33, asexualSettings.AddConnectionMutationProbability);
-            Assert.AreEqual(0.44, asexualSettings.DeleteConnectionMutationProbability);
+            Assert.Equal(0.11, asexualSettings.ConnectionWeightMutationProbability);
+            Assert.Equal(0.22, asexualSettings.AddNodeMutationProbability);
+            Assert.Equal(0.33, asexualSettings.AddConnectionMutationProbability);
+            Assert.Equal(0.44, asexualSettings.DeleteConnectionMutationProbability);
 
             var sexualSettings = experiment.ReproductionSexualSettings;
-            Assert.AreEqual(0.11, sexualSettings.SecondaryParentGeneProbability);
+            Assert.Equal(0.11, sexualSettings.SecondaryParentGeneProbability);
 
-            Assert.AreEqual(222, experiment.PopulationSize);
-            Assert.AreEqual(0.33, experiment.InitialInterconnectionsProportion);
-            Assert.AreEqual(4.44, experiment.ConnectionWeightScale);
+            Assert.Equal(222, experiment.PopulationSize);
+            Assert.Equal(0.33, experiment.InitialInterconnectionsProportion);
+            Assert.Equal(4.44, experiment.ConnectionWeightScale);
 
             var complexityRegulationStrategy = experiment.ComplexityRegulationStrategy;
-            Assert.AreEqual("AbsoluteComplexityRegulationStrategy", complexityRegulationStrategy.GetType().Name);
+            Assert.Equal("AbsoluteComplexityRegulationStrategy", complexityRegulationStrategy.GetType().Name);
 
-            Assert.AreEqual(6, experiment.DegreeOfParallelism);
-            Assert.AreEqual(true, experiment.EnableHardwareAcceleratedNeuralNets);
-            Assert.AreEqual(true, experiment.EnableHardwareAcceleratedActivationFunctions);
+            Assert.Equal(6, experiment.DegreeOfParallelism);
+            Assert.True(experiment.EnableHardwareAcceleratedNeuralNets);
+            Assert.True(experiment.EnableHardwareAcceleratedActivationFunctions);
         }
     }
 }

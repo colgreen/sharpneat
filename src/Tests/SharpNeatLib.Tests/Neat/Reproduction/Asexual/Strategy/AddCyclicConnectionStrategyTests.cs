@@ -1,24 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Network;
+using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
 {
-    [TestClass]
     public class AddCyclicConnectionStrategyTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("AsexualReproduction")]
-        public void TestAddCyclicConnection()
+        [Fact]
+        public void AddCyclicConnection()
         {
             var pop = CreateNeatPopulation();
             var generationSeq = new Int32Sequence();
@@ -49,25 +47,25 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 }
 
                 // The child genome should have one more connection than parent.
-                Assert.AreEqual(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
+                Assert.Equal(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
 
                 // The child genome's new connection should not be a duplicate of any of the existing/parent connections.
                 var childConnSet = GetDirectedConnectionSet(childGenome);
                 var newConnList = new List<DirectedConnection>(childConnSet.Except(connSet));
-                Assert.AreEqual(1, newConnList.Count);
+                Assert.Single(newConnList);
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
-                Assert.IsTrue(nodeIdSet.SetEquals(childNodeIdSet));
+                Assert.True(nodeIdSet.SetEquals(childNodeIdSet));
             }
 
             // nullResponseProportion will typically be 0, with 1.0% being so unlikely
             // it probably will never be observed.
             double nullResponseProportion = nullResponseCount / (double)loops;
-            Assert.IsTrue(nullResponseProportion <= 0.01);
+            Assert.True(nullResponseProportion <= 0.01);
         }
 
         #endregion

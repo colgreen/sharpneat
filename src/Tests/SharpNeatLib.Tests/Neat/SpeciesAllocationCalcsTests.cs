@@ -1,22 +1,20 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat
 {
-    [TestClass]
     public class SpeciesAllocationCalcsTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("SelectionReproduction")]
-        public void TestSpeciesAllocation()
+        [Fact]
+        public void UpdateSpeciesAllocationSizes()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
@@ -50,17 +48,17 @@ namespace SharpNeat.Tests.Neat
             double totalMeanFitness = 1500.0;
             double popSize = 100.0;
 
-            Assert.AreEqual((100.0 / totalMeanFitness) * popSize, speciesArr[0].Stats.TargetSizeReal);
-            Assert.AreEqual((200.0 / totalMeanFitness) * popSize, speciesArr[1].Stats.TargetSizeReal);
-            Assert.AreEqual((400.0 / totalMeanFitness) * popSize, speciesArr[2].Stats.TargetSizeReal);
-            Assert.AreEqual((800.0 / totalMeanFitness) * popSize, speciesArr[3].Stats.TargetSizeReal);
+            Assert.Equal((100.0 / totalMeanFitness) * popSize, speciesArr[0].Stats.TargetSizeReal);
+            Assert.Equal((200.0 / totalMeanFitness) * popSize, speciesArr[1].Stats.TargetSizeReal);
+            Assert.Equal((400.0 / totalMeanFitness) * popSize, speciesArr[2].Stats.TargetSizeReal);
+            Assert.Equal((800.0 / totalMeanFitness) * popSize, speciesArr[3].Stats.TargetSizeReal);
 
             // Note. Discretized target sizes will generally be equal to ceil(TargetSizeReal) or floor(TargetSizeReal),
             // but may not be due to the target size adjustment logic that is used to ensure that sum(TargetSizeInt) is equal
             // to the required population size.
 
             // Check that sum(TargetSizeInt) is equal to the required population size.
-            Assert.AreEqual(speciesArr.Sum(x => x.Stats.TargetSizeInt), neatPop.GenomeList.Count);
+            Assert.Equal(speciesArr.Sum(x => x.Stats.TargetSizeInt), neatPop.GenomeList.Count);
         }
 
         #endregion

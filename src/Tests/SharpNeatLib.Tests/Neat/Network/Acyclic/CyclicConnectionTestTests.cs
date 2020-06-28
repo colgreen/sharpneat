@@ -1,16 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Network.Acyclic
 {
-    [TestClass]
     public class CyclicConnectionTestTests
     {
-        [TestMethod]
-        [TestCategory("CyclicConnectionTestWithIds")]
-        public void TestIsConnectionCyclic1()
+        [Fact]
+        public void IsConnectionCyclic1()
         {
             var cyclicTest = new CyclicConnectionTest();
 
@@ -22,27 +20,26 @@ namespace SharpNeat.Tests.Neat.Network.Acyclic
             DirectedGraph digraph = DirectedGraphBuilder.Create(connArr, 1, 1);
 
             // True tests (cycle).
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(0, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 1)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 2)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 3)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 2)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 2)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 3)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(0,0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(1,1)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(2,2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(3,3)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(2,0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(3,0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(1,0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(3,2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(1,2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(1,3)));
 
             // False tests (no cycle).
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(0, 3)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(0, 1)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 1)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 1)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(0,3)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(0,1)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(2,1)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph,new DirectedConnection(3,1)));
         }
 
-        [TestMethod]
-        [TestCategory("CyclicConnectionTestWithIds")]
-        public void TestIsConnectionCyclic2()
+        [Fact]
+        public void IsConnectionCyclic2()
         {
             var cyclicTest = new CyclicConnectionTest();
 
@@ -60,20 +57,20 @@ namespace SharpNeat.Tests.Neat.Network.Acyclic
             DirectedGraph digraph = DirectedGraphBuilder.Create(connArr, 1, 1);
 
             // True tests (cycle).
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 5)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 4)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 2)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 4)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 5)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(2, 4)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(1, 4)));
+            Assert.True(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 0)));
 
             // False tests (no cycle).
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 1)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(5, 3)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 5)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 2)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 4)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 4)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 1)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(5, 3)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 5)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 2)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(6, 4)));
+            Assert.False(cyclicTest.IsConnectionCyclic(digraph, new DirectedConnection(3, 4)));
         }
     }
 }

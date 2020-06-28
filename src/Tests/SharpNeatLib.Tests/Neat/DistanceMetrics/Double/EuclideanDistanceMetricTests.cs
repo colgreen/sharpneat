@@ -1,15 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
 {
-    [TestClass]
     public class EuclideanDistanceMetricTests
     {
-        [TestMethod]
-        [TestCategory("DistanceMetrics")]
+        [Fact]
         public void TestPythagoras()
         {
             var connGenes1 = new ConnectionGenes<double>(2);
@@ -23,23 +21,22 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new EuclideanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(5.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
-            Assert.AreEqual(5.0, distanceMetric.CalcDistance(connGenes2, connGenes1));
+            Assert.Equal(5.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.Equal(5.0, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 5.01));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, 5.0));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, 1.0));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, 0.0));
+            Assert.True(distanceMetric.TestDistance(connGenes1, connGenes2, 5.01));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, 5.0));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, 1.0));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, 0.0));
 
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes2, connGenes1, 5.01));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes2, connGenes1, 5.0));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes2, connGenes1, 1.0));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes2, connGenes1, 0.0));
+            Assert.True(distanceMetric.TestDistance(connGenes2, connGenes1, 5.01));
+            Assert.False(distanceMetric.TestDistance(connGenes2, connGenes1, 5.0));
+            Assert.False(distanceMetric.TestDistance(connGenes2, connGenes1, 1.0));
+            Assert.False(distanceMetric.TestDistance(connGenes2, connGenes1, 0.0));
         }
 
-        [TestMethod]
-        [TestCategory("DistanceMetrics")]
+        [Fact]
         public void TestMatchingGenomes()
         {
             var connGenes1 = new ConnectionGenes<double>(5);
@@ -59,21 +56,20 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new EuclideanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(0.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
-            Assert.AreEqual(0.0, distanceMetric.CalcDistance(connGenes2, connGenes1));
+            Assert.Equal(0.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.Equal(0.0, distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 1.0));
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, 0.001));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, 0.0));
+            Assert.True(distanceMetric.TestDistance(connGenes1, connGenes2, 1.0));
+            Assert.True(distanceMetric.TestDistance(connGenes1, connGenes2, 0.001));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, 0.0));
 
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes2, connGenes1, 5.0));
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes2, connGenes1, 0.001));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes2, connGenes1, 0.0));            
+            Assert.True(distanceMetric.TestDistance(connGenes2, connGenes1, 5.0));
+            Assert.True(distanceMetric.TestDistance(connGenes2, connGenes1, 0.001));
+            Assert.False(distanceMetric.TestDistance(connGenes2, connGenes1, 0.0));            
         }
 
-        [TestMethod]
-        [TestCategory("DistanceMetrics")]
+        [Fact]
         public void TestPartialMatchGenomes()
         {
             var connGenes1 = new ConnectionGenes<double>(5);
@@ -93,16 +89,15 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new EuclideanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(Math.Sqrt(76), distanceMetric.CalcDistance(connGenes1, connGenes2));
-            Assert.AreEqual(Math.Sqrt(76), distanceMetric.CalcDistance(connGenes2, connGenes1));
+            Assert.Equal(Math.Sqrt(76), distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.Equal(Math.Sqrt(76), distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(76) + 0.001));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(76) - 0.001));
+            Assert.True(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(76) + 0.001));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(76) - 0.001));
         }
 
-        [TestMethod]
-        [TestCategory("DistanceMetrics")]
+        [Fact]
         public void TestMismatchGenomes()
         {
             var connGenes1 = new ConnectionGenes<double>(5);
@@ -122,16 +117,15 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new EuclideanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(Math.Sqrt(110), distanceMetric.CalcDistance(connGenes1, connGenes2));
-            Assert.AreEqual(Math.Sqrt(110), distanceMetric.CalcDistance(connGenes2, connGenes1));
+            Assert.Equal(Math.Sqrt(110), distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.Equal(Math.Sqrt(110), distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(110) + 0.001));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(110) - 0.001));
+            Assert.True(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(110) + 0.001));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(110) - 0.001));
         }
 
-        [TestMethod]
-        [TestCategory("DistanceMetrics")]
+        [Fact]
         public void TestSingleMatchGenomes()
         {
             var connGenes1 = new ConnectionGenes<double>(5);
@@ -147,12 +141,12 @@ namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
             var distanceMetric = new EuclideanDistanceMetric();;
 
             // GetDistance() tests.
-            Assert.AreEqual(Math.Sqrt(255), distanceMetric.CalcDistance(connGenes1, connGenes2));
-            Assert.AreEqual(Math.Sqrt(255), distanceMetric.CalcDistance(connGenes2, connGenes1));
+            Assert.Equal(Math.Sqrt(255), distanceMetric.CalcDistance(connGenes1, connGenes2));
+            Assert.Equal(Math.Sqrt(255), distanceMetric.CalcDistance(connGenes2, connGenes1));
 
             // TestDistance() tests.
-            Assert.IsTrue(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(255) + 0.001));
-            Assert.IsFalse(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(255) - 0.001));
+            Assert.True(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(255) + 0.001));
+            Assert.False(distanceMetric.TestDistance(connGenes1, connGenes2, Math.Sqrt(255) - 0.001));
         }
     }
 }

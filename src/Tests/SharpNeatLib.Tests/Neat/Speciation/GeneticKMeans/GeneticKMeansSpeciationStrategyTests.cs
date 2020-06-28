@@ -1,19 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen.Random;
+﻿using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Speciation.GeneticKMeans;
+using Xunit;
 using static SharpNeat.Tests.Neat.Speciation.SpeciationStrategyTestUtils;
 
 namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
 {
-    [TestClass]
     public class GeneticKMeansSpeciationStrategyTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("Speciation")]
-        public void TestSpeciateAll_Manhattan()
+        [Fact]
+        public void SpeciateAll_Manhattan()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
             var distanceMetric = new ManhattanDistanceMetric();
@@ -24,9 +22,8 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
             TestSpeciateAll(100, 30, 10, 0.1, distanceMetric, speciationStrategy, rng);
         }
 
-        [TestMethod]
-        [TestCategory("Speciation")]
-        public void TestSpeciateAll_Euclidean()
+        [Fact]
+        public void SpeciateAll_Euclidean()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(1);
             var distanceMetric = new EuclideanDistanceMetric();
@@ -37,9 +34,8 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
             TestSpeciateAll(100, 30, 10, 0.1, distanceMetric, speciationStrategy, rng);
         }
 
-        [TestMethod]
-        [TestCategory("Speciation")]
-        public void TestSpeciateAdd_Manhattan()
+        [Fact]
+        public void SpeciateAdd_Manhattan()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(2);
             var distanceMetric = new ManhattanDistanceMetric();
@@ -50,9 +46,8 @@ namespace SharpNeat.Tests.Neat.Speciation.GeneticKMeans
             TestSpeciateAdd(100, 30, 10, 0.1, distanceMetric, speciationStrategy, rng);
         }
 
-        [TestMethod]
-        [TestCategory("Speciation")]
-        public void TestSpeciateAdd_Euclidean()
+        [Fact]
+        public void SpeciateAdd_Euclidean()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(3);
             var distanceMetric = new EuclideanDistanceMetric();

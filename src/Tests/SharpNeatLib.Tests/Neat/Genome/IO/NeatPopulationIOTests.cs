@@ -1,21 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
+using Xunit;
+
 namespace SharpNeat.Tests.Neat.Genome.IO
 {
-    [TestClass]
     public class NeatPopulationIOTests
     {
-        // Note. The test framework sets this auto-property just prior to running the unit test methods.
-        public TestContext TestContext { get; set; }
-
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("NeatPopulationIO")]
+        [Fact]
         public void SaveAndLoadPopulationToFolder()
         {
             // Create a test population.
@@ -44,8 +40,7 @@ namespace SharpNeat.Tests.Neat.Genome.IO
             IOTestUtils.CompareGenomeLists(pop.GenomeList, genomeListLoaded);
         }
 
-        [TestMethod]
-        [TestCategory("NeatPopulationIO")]
+        [Fact]
         public void SaveAndLoadPopulationToZipArchive()
         {
             // Create a test population.

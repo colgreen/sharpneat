@@ -1,42 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.BlackBox;
+using Xunit;
 
 namespace SharpNeat.Tests
 {
     public static class ArrayTestUtils
     {
-        public static void Compare(int[] expectedArr, IVector<int> vec)
+        public static void ConponentwiseEqual(int[] expectedArr, IVector<int> vec)
         {
-            Assert.AreEqual(expectedArr.Length, vec.Length);
-            for(int i=0; i<expectedArr.Length; i++) {
-                Assert.AreEqual(expectedArr[i], vec[i]);
+            Assert.Equal(expectedArr.Length, vec.Length);
+            for(int i=0; i < expectedArr.Length; i++) {
+                Assert.Equal(expectedArr[i], vec[i]);
             }
         }
 
-        public static void Compare<T>(T[] expectedArr, T[] actualArr)
+        public static void ConponentwiseEqual<T>(T[] expectedArr, T[] actualArr, int startIdx, int endIdx)
         {
-            Assert.AreEqual(expectedArr.Length, actualArr.Length);
-            for(int i=0; i<expectedArr.Length; i++) {
-                Assert.AreEqual(expectedArr[i], actualArr[i]);
+            for(int i=startIdx; i < endIdx; i++) {
+                Assert.Equal(expectedArr[i], actualArr[i]);
             }
-        }
-
-        public static void Compare<T>(T[] expectedArr, T[] actualArr, int startIdx, int endIdx)
-        {
-            for(int i=startIdx; i<endIdx; i++) {
-                Assert.AreEqual(expectedArr[i], actualArr[i]);
-            }
-        }
-
-        public static bool AreEqual<T>(T[] expectedArr, T[] actualArr, int startIdx, int endIdx)
-        {
-            for(int i=startIdx; i<endIdx; i++) {
-                if(!expectedArr[i].Equals(actualArr[i])) {
-                    return false;
-                }
-            }
-            return true;
         }
 
         /// <summary>
@@ -44,7 +26,7 @@ namespace SharpNeat.Tests
         /// </summary>
         /// <param name="x">First array.</param>
         /// <param name="y">Second array.</param>
-        public static bool Equals(double[] x, double[] y, double maxdelta)
+        public static bool ConponentwiseEqual(double[] x, double[] y, double maxdelta)
         {
             // x and y are equal if they are the same reference, or both are null.
             if(x == y) {

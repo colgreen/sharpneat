@@ -1,16 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Neat.Genome;
+﻿using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Genome.IO
 {
-    [TestClass]
     public class NeatGenomeLoaderTests
     {
-        [TestMethod]
-        [TestCategory("NeatGenomeLoader")]
-        [DeploymentItem("TestData", "TestData")]  
+        [Fact]
         public void LoadGenome()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());

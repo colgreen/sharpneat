@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Network
 {
-    [TestClass]
     public class DirectedGraphTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("DirectedGraph")]
+        [Fact]
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
@@ -30,11 +27,10 @@ namespace SharpNeat.Tests.Network
             CompareConnectionLists(connList, digraph.ConnectionIdArrays);
 
             // Check the node count.
-            Assert.AreEqual(5, digraph.TotalNodeCount);
+            Assert.Equal(5, digraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("DirectedGraph")]
+        [Fact]
         public void SimpleAcyclic_DefinedNodes()
         {
             // Simple acyclic graph.
@@ -53,11 +49,10 @@ namespace SharpNeat.Tests.Network
             CompareConnectionLists(connList, digraph.ConnectionIdArrays);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.TotalNodeCount);
+            Assert.Equal(15, digraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("DirectedGraph")]
+        [Fact]
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
@@ -84,7 +79,7 @@ namespace SharpNeat.Tests.Network
             CompareConnectionLists(connListExpected, digraph.ConnectionIdArrays);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.TotalNodeCount);
+            Assert.Equal(15, digraph.TotalNodeCount);
         }
 
         #endregion
@@ -96,13 +91,13 @@ namespace SharpNeat.Tests.Network
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
-            Assert.AreEqual(x.Count, srcIdArr.Length);
-            Assert.AreEqual(x.Count, tgtIdArr.Length);
+            Assert.Equal(x.Count, srcIdArr.Length);
+            Assert.Equal(x.Count, tgtIdArr.Length);
 
             for(int i=0; i < x.Count; i++) 
             {
-                Assert.AreEqual(x[i].SourceId, srcIdArr[i]);
-                Assert.AreEqual(x[i].TargetId, tgtIdArr[i]);
+                Assert.Equal(x[i].SourceId, srcIdArr[i]);
+                Assert.Equal(x[i].TargetId, tgtIdArr[i]);
             }
         }
 

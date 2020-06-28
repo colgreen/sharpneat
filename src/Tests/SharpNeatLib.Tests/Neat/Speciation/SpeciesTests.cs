@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen.Numerics.Distributions;
+﻿using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;
@@ -7,16 +6,15 @@ using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
+using Xunit;
 
 namespace SharpNeatLib.Tests.Neat.Speciation
 {
-    [TestClass]
     public class SpeciesTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("Species")]
+        [Fact]
         public void SortByPrimaryFitness()
         {
             const double champFitness = 100.0;
@@ -35,12 +33,12 @@ namespace SharpNeatLib.Tests.Neat.Speciation
                 // Assert that the champ genomes have been sorted to the head of the genome list.
                 int idx = 0;
                 for(; idx < champGenomeCount; idx++) {
-                    Assert.AreEqual(champFitness, species.GenomeList[idx].FitnessInfo.PrimaryFitness);
+                    Assert.Equal(champFitness, species.GenomeList[idx].FitnessInfo.PrimaryFitness);
                 }
 
                 // Assert that all other genomes have a fitness less than the champ fitness.
                 for(; idx < species.GenomeList.Count; idx++) {
-                    Assert.IsTrue(species.GenomeList[idx].FitnessInfo.PrimaryFitness < champFitness);    
+                    Assert.True(species.GenomeList[idx].FitnessInfo.PrimaryFitness < champFitness);    
                 }
             }
         }

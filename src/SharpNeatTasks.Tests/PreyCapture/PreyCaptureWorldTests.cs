@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Tasks.PreyCapture;
+using Xunit;
 
 namespace SharpNeat.Tasks.Tests.PreyCapture
 {
-    [TestClass]
     public class PreyCaptureWorldTests
     {
-        [TestMethod]
+        [Fact]
         public void MoveAgent()
         {
             var world = new PreyCaptureWorld(4, 1f, 4f, 100);
@@ -22,7 +21,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
                 agent.OutputVector[0] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
-                Assert.AreEqual(new Int32Point(0, 1), posDelta);
+                Assert.Equal(new Int32Point(0, 1), posDelta);
             }
 
             // Agent moving east test.
@@ -33,7 +32,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
                 agent.OutputVector[1] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
-                Assert.AreEqual(new Int32Point(1, 0), posDelta);
+                Assert.Equal(new Int32Point(1, 0), posDelta);
             }
 
             // Agent moving south test.
@@ -44,7 +43,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
                 agent.OutputVector[2] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
-                Assert.AreEqual(new Int32Point(0, -1), posDelta);
+                Assert.Equal(new Int32Point(0, -1), posDelta);
             }
 
             // Agent moving west test.
@@ -55,11 +54,11 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
                 agent.OutputVector[3] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
-                Assert.AreEqual(new Int32Point(-1, 0), posDelta);
+                Assert.Equal(new Int32Point(-1, 0), posDelta);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Atan2LookupTable()
         {
             // Use reflection to extract private static fields from the PreyCaptureWorld class; this is not ideal, but preferable
@@ -79,12 +78,12 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             { 
                 for(int y=-(gridSize-1); y < gridSize; y++) 
                 {
-                    Assert.AreEqual(MathF.Atan2(y, x), atan2Lookup[y + atan2LookupOffset, x + atan2LookupOffset]);
+                    Assert.Equal(MathF.Atan2(y, x), atan2Lookup[y + atan2LookupOffset, x + atan2LookupOffset]);
                 }
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void AngleDelta()
         {
             // Use reflection to call the CartesianToPolar() method from the PreyCaptureWorld class; this is not ideal, but preferable
@@ -100,51 +99,51 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             for(float a = 0f; a < 2*MathF.PI; a += 0.1f)
             {
                 // Angle delta between same angle should always be zero.
-                Assert.AreEqual(0f, angleDelta(a, a));
+                Assert.Equal(0f, angleDelta(a, a));
 
                 // Angle delta between a and a + PI should always be PI (but with some error caused by limited floating point precision).
                 float err = Math.Abs(angleDelta(a, a + MathF.PI) - MathF.PI);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a + PI/4
                 err = Math.Abs(angleDelta(a, a + MathF.PI/4f) - MathF.PI/4f);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a - PI/4
                 err = Math.Abs(angleDelta(a, a - MathF.PI/4f) - MathF.PI/4f);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a + PI/2
                 err = Math.Abs(angleDelta(a, a + MathF.PI/2f) - MathF.PI/2f);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a - PI/2
                 err = Math.Abs(angleDelta(a, a - MathF.PI/2f) - MathF.PI/2f);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a + PI
                 err = Math.Abs(angleDelta(a, a + MathF.PI) - MathF.PI);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a - PI
                 err = Math.Abs(angleDelta(a, a - MathF.PI) - MathF.PI);
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a + (5/4)*PI (expected delta is 90 degrees)
                 err = Math.Abs(angleDelta(a, a + MathF.PI*(5f/4f)) - MathF.PI*(3f/4f));
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a + (3/2)*PI (expected delta is 90 degrees)
                 err = Math.Abs(angleDelta(a, a + MathF.PI*(3f/2f)) - MathF.PI*(1f/2f));
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
 
                 // a + 2*PI (expected delta is 0)
                 err = Math.Abs(angleDelta(a, a + MathF.PI*2f));
-                Assert.IsTrue(err < 0.0001);
+                Assert.True(err < 0.0001);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void CartesianToPolar()
         {
             // Use reflection to call the CartesianToPolar() method from the PreyCaptureWorld class; this is not ideal, but preferable
@@ -163,47 +162,47 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             // Test conversion of a spread of integer Cartesian coordinates.
             { 
                 cartesianToPolar(new Int32Point(1,0), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(1, radiusSqr);
-                Assert.AreEqual(0f, azimuth);
+                Assert.Equal(1, radiusSqr);
+                Assert.Equal(0f, azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(2,2), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(8, radiusSqr);
-                Assert.AreEqual(MathF.PI/4f, azimuth);
+                Assert.Equal(8, radiusSqr);
+                Assert.Equal(MathF.PI/4f, azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(0,3), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(9, radiusSqr);
-                Assert.AreEqual(MathF.PI/2f, azimuth);
+                Assert.Equal(9, radiusSqr);
+                Assert.Equal(MathF.PI/2f, azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(-4,4), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(32, radiusSqr);
-                Assert.AreEqual(MathF.PI*(3f/4f), azimuth);
+                Assert.Equal(32, radiusSqr);
+                Assert.Equal(MathF.PI*(3f/4f), azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(-5,0), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(25, radiusSqr);
-                Assert.AreEqual(MathF.PI, azimuth);
+                Assert.Equal(25, radiusSqr);
+                Assert.Equal(MathF.PI, azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(-6,-6), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(72, radiusSqr);
-                Assert.AreEqual(MathF.PI*(5f/4f), azimuth);
+                Assert.Equal(72, radiusSqr);
+                Assert.Equal(MathF.PI*(5f/4f), azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(0,-7), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(49, radiusSqr);
-                Assert.AreEqual(MathF.PI*(3f/2f), azimuth);
+                Assert.Equal(49, radiusSqr);
+                Assert.Equal(MathF.PI*(3f/2f), azimuth);
             }
             { 
                 cartesianToPolar(new Int32Point(8,-8), out int radiusSqr, out float azimuth);
-                Assert.AreEqual(128, radiusSqr);
-                Assert.AreEqual(MathF.PI*(7f/4f), azimuth);
+                Assert.Equal(128, radiusSqr);
+                Assert.Equal(MathF.PI*(7f/4f), azimuth);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpApproximation()
         {
             // Use reflection to call the Exp() method from the PreyCaptureWorld class; this is not ideal, but preferable
@@ -233,7 +232,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             //    f(x) = (1+ x/29.5)**32 
             //    set xrange [0:6.3]
             //    plot f(x) / exp(x)
-            Assert.IsTrue(maxError < 0.1086f);
+            Assert.True(maxError < 0.1086f);
         }
     }
 }

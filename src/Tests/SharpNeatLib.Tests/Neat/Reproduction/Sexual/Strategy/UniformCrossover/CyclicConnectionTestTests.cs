@@ -1,16 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
 {
-    [TestClass]
     public class CyclicConnectionTestTests
     {
-        [TestMethod]
-        [TestCategory("CyclicConnectionTestWithIds")]
-        public void TestIsConnectionCyclic1()
+        [Fact]
+        public void IsConnectionCyclic1()
         {
             var cyclicTest = new CyclicConnectionTest();
 
@@ -20,27 +18,26 @@ namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
             connArr[2] = new DirectedConnection(2, 3);
 
             // True tests (cycle).
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 1)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 2)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 3)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 1)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 1)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 1)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 3)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 1)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 1)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 2)));
 
             // False tests (no cycle).
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 2)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 3)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 3)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 3)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 2)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(0, 3)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 3)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 3)));
         }
 
-        [TestMethod]
-        [TestCategory("CyclicConnectionTestWithIds")]
-        public void TestIsConnectionCyclic2()
+        [Fact]
+        public void IsConnectionCyclic2()
         {
             var cyclicTest = new CyclicConnectionTest();
 
@@ -56,20 +53,20 @@ namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover
             Array.Sort(connArr);
 
             // True tests (cycle).
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 1)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 4)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 2)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 0)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 4)));
-            Assert.IsTrue(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 1)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(2, 4)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 2)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 0)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(5, 4)));
+            Assert.True(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 0)));
 
             // False tests (no cycle).
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 5)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 3)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 1)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 2)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 4)));
-            Assert.IsFalse(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 4)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 5)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(1, 3)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 1)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 2)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(6, 4)));
+            Assert.False(cyclicTest.IsConnectionCyclic(connArr, new DirectedConnection(3, 4)));
         }
     }
 }

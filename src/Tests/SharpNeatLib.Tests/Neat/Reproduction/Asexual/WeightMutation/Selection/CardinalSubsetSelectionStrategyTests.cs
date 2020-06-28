@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
 {
-    [TestClass]
     public class CardinalSubsetSelectionStrategyTests
     {
-        [TestMethod]
-        [TestCategory("CardinalSubsetSelectionStrategy")]
-        public void TestCardinality()
+        [Fact]
+        public void SelectSubset_Cardinality()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
@@ -20,13 +18,12 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
             {
                 int[] idxArr = strategy.SelectSubset(i, rng);
                 int expectedCardinality = Math.Min(30, i);
-                Assert.AreEqual(expectedCardinality, idxArr.Length);
+                Assert.Equal(expectedCardinality, idxArr.Length);
             }
         }
 
-        [TestMethod]
-        [TestCategory("CardinalSubsetSelectionStrategy")]
-        public void TestUniqueness()
+        [Fact]
+        public void SelectSubset_Uniqueness()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
@@ -39,7 +36,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
                 for(int j=0; j < idxArr.Length; j++)
                 {
                     int val = idxArr[j];
-                    Assert.IsFalse(idxSet.Contains(val));
+                    Assert.DoesNotContain(val, idxSet);
                     idxSet.Add(val);
                 }
             }

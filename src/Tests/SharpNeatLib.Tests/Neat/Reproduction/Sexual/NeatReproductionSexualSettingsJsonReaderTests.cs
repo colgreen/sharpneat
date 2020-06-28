@@ -1,13 +1,12 @@
 ﻿using System.Text.Json;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Neat.Reproduction.Sexual;
+using Xunit;
 
 namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual
 {
-    [TestClass]
     public class NeatReproductionSexualSettingsJsonReaderTests
     {
-        [TestMethod]
+        [Fact]
         public void Read()
         {
             JsonDocument jdoc = JsonDocument.Parse(
@@ -21,7 +20,7 @@ namespace SharpNeatLib.Tests.Neat.Reproduction.Sexual
             NeatReproductionSexualSettingsJsonReader.Read(settings, jdoc.RootElement);
 
             // Assert the expected values.
-            Assert.AreEqual(0.11, settings.SecondaryParentGeneProbability);
+            Assert.Equal(0.11, settings.SecondaryParentGeneProbability);
         }
     }
 }

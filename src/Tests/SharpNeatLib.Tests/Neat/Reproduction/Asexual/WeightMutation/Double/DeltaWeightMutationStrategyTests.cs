@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
 using SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 {
-    [TestClass]
     public class DeltaWeightMutationStrategyTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("DeltaWeightMutationStrategy")]
-        public void TestUniformDelta()
+        [Fact]
+        public void UniformDelta()
         {
             double weightScale = 5.0;
             var strategy = DeltaWeightMutationStrategy.CreateUniformDeltaStrategy(
@@ -37,17 +35,16 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             // We expect samples to be approximately evenly distributed over the histogram buckets.
             for (int i = 0; i < hist.FrequencyArray.Length; i++) {
-                Assert.IsTrue(hist.FrequencyArray[i] > (iters / 8) * 0.8);
+                Assert.True(hist.FrequencyArray[i] > (iters / 8) * 0.8);
             }
 
             // We expect min and max to be close to 1000-weightScale and 1000+weightScale respectively.
-            Assert.IsTrue(hist.Max <= (1000 + weightScale) && hist.Max > (1000 + weightScale)-0.1);
-            Assert.IsTrue(hist.Min >= (1000 - weightScale) && hist.Min < (1000 - weightScale)+0.1);
+            Assert.True(hist.Max <= (1000 + weightScale) && hist.Max > (1000 + weightScale)-0.1);
+            Assert.True(hist.Min >= (1000 - weightScale) && hist.Min < (1000 - weightScale)+0.1);
         }
 
-        [TestMethod]
-        [TestCategory("DeltaWeightMutationStrategy")]
-        public void TestGaussianDelta()
+        [Fact]
+        public void GaussianDelta()
         {
             var strategy = DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(
                 new SelectAllStrategy(),
@@ -68,8 +65,8 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             // We expect min and max to be close to be about -995.5 and +1004.5 respectively 
             // (but they could be further from the mean of 1000, with no bound).
-            Assert.IsTrue(hist.Max >= 1002.0);
-            Assert.IsTrue(hist.Min <= 998.0);
+            Assert.True(hist.Max >= 1002.0);
+            Assert.True(hist.Min <= 998.0);
 
             TestMean(weightArr, 1000.0);
             TestStandardDeviation(weightArr);
@@ -82,7 +79,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
         private static void TestMean(double[] sampleArr, double expectedMean)
         {
             double mean = sampleArr.Average();
-            Assert.IsTrue(Math.Abs(mean) - expectedMean < 0.1);
+            Assert.True(Math.Abs(mean) - expectedMean < 0.1);
         }
 
         private static void TestStandardDeviation(double[] sampleArr)
@@ -98,7 +95,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Double
 
             double var = sqrSum / sampleArr.Length;
             double stdDev = Math.Sqrt(var);
-            Assert.IsTrue(Math.Abs(stdDev - 1.0) < 0.1);
+            Assert.True(Math.Abs(stdDev - 1.0) < 0.1);
         }
 
         #endregion

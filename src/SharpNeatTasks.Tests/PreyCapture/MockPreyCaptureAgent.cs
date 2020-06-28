@@ -7,7 +7,6 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
     {
         readonly double[] _inputArr;
         readonly double[] _outputArr;
-        
 
         #region Constructor
 

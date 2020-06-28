@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Tasks.FunctionRegression;
-using SharpNeat.Tests;
+using Xunit;
 
 namespace SharpNeat.Tasks.Tests.FunctionRegression
 {
-
-    [TestClass]
     public class FuncRegressionUtilsTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("FuncRegressionUtils")]
-        public void TestCalcGradients()
+        [Fact]
+        public void CalcGradients()
         {
             const int sampleCount = 100;
             ParamSamplingInfo psi = new ParamSamplingInfo(0, 2 * Math.PI, sampleCount);
@@ -28,17 +22,17 @@ namespace SharpNeat.Tasks.Tests.FunctionRegression
 
             // Calc expected gradients (using simple non-vectorized logic).
             double[] gradientArrExpected = new double[sampleCount]; 
-            CalcGradients(psi, yArr, gradientArrExpected);
+            CalcGradients_IndependentImpl(psi, yArr, gradientArrExpected);
 
             // Compare results.
-            ArrayTestUtils.Compare(gradientArrExpected, gradientArr);
+            Assert.Equal(gradientArrExpected, gradientArr);
         }
 
         #endregion
 
         #region Private Static Methods
 
-        private static void CalcGradients(
+        private static void CalcGradients_IndependentImpl(
             ParamSamplingInfo paramSamplingInfo,
             double[] yArr,
             double[] gradientArr)

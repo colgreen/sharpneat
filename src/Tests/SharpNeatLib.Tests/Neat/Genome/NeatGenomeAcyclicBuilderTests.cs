@@ -1,19 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Neat.Genome;
+﻿using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using Xunit;
 using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;
 
 namespace SharpNeat.Tests.Neat.Genome
 {
-    [TestClass]
     public class NeatGenomeAcyclicBuilderTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("NeatGenomeAcyclicBuilder")]
+        [Fact]
         public void Simple()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
@@ -31,17 +29,16 @@ namespace SharpNeat.Tests.Neat.Genome
 
             // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
             var acyclicDigraph = (DirectedGraphAcyclic)genome.DirectedGraph;
-            Assert.IsNotNull(acyclicDigraph);
+            Assert.NotNull(acyclicDigraph);
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connGenes, acyclicDigraph.ConnectionIdArrays, genome.ConnectionIndexMap);
 
             // Check the node count.
-            Assert.AreEqual(5, acyclicDigraph.TotalNodeCount);
+            Assert.Equal(5, acyclicDigraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("NeatGenomeAcyclicBuilder")]
+        [Fact]
         public void DepthNodeReorderTest()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(2, 2, true, new ReLU());
@@ -61,7 +58,7 @@ namespace SharpNeat.Tests.Neat.Genome
 
             // Note. The genome builder creates a digraph representation of the genome and attaches/caches it on the genome object.
             var acyclicDigraph = (DirectedGraphAcyclic)genome.DirectedGraph;
-            Assert.IsNotNull(acyclicDigraph);
+            Assert.NotNull(acyclicDigraph);
 
             // Simulate the actual weight array that would occur in e.g. a WeightedAcyclicDirectedGraph or AcyclicNeuralNet.
             double[] weightArrActual = new double[connGenes._weightArr.Length];
@@ -89,10 +86,10 @@ namespace SharpNeat.Tests.Neat.Genome
             layerArrExpected[2] = new LayerInfo(4, 4);
             layerArrExpected[3] = new LayerInfo(5, 5);
             layerArrExpected[4] = new LayerInfo(6, 5);
-            Assert.AreEqual(5, acyclicDigraph.LayerArray.Length);
+            Assert.Equal(5, acyclicDigraph.LayerArray.Length);
 
             // Check the node count.
-            Assert.AreEqual(6, acyclicDigraph.TotalNodeCount);
+            Assert.Equal(6, acyclicDigraph.TotalNodeCount);
         }
 
         #endregion

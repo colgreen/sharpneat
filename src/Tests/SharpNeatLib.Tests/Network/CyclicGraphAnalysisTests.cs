@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Network
 {
-    [TestClass]
     public class CyclicGraphAnalysisTests
     {
         #region Test Methods [Acyclic]
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
@@ -30,11 +28,10 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsFalse(isCyclic);
+            Assert.False(isCyclic);
         }
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void SimpleAcyclic_DefinedNodes()
         {
             // Simple acyclic graph.
@@ -54,11 +51,10 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsFalse(isCyclic);
+            Assert.False(isCyclic);
         }
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
@@ -78,11 +74,10 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsFalse(isCyclic);
+            Assert.False(isCyclic);
         }
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void Regression1()
         {
             // Simple acyclic graph.
@@ -110,15 +105,14 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsFalse(isCyclic);
+            Assert.False(isCyclic);
         }
 
         #endregion
 
         #region Test Methods [Cyclic]
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void SimpleCyclic()
         {
             // Simple acyclic graph.
@@ -139,11 +133,10 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsTrue(isCyclic);
+            Assert.True(isCyclic);
         }
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void SimpleCyclic_DefinedNodes()
         {
             // Simple acyclic graph.
@@ -164,11 +157,10 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsTrue(isCyclic);
+            Assert.True(isCyclic);
         }
 
-        [TestMethod]
-        [TestCategory("CyclicGraphAnalysis")]
+        [Fact]
         public void SimpleCyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
@@ -189,7 +181,7 @@ namespace SharpNeat.Tests.Network
             // Test if cyclic.
             var cyclicGraphAnalysis = new CyclicGraphAnalysis();
             bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
-            Assert.IsTrue(isCyclic);
+            Assert.True(isCyclic);
         }
 
         #endregion

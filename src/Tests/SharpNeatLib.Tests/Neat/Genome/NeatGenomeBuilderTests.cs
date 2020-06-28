@@ -1,18 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Neat.Genome;
+﻿using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using Xunit;
 using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;
 
 namespace SharpNeat.Tests.Neat.Genome
 {
-    [TestClass]
     public class NeatGenomeBuilderTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("NeatGenomeBuilder")]
+        [Fact]
         public void Simple()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 0, false, new ReLU());
@@ -35,11 +33,10 @@ namespace SharpNeat.Tests.Neat.Genome
             CompareConnectionLists(connGenes, digraph.ConnectionIdArrays);
 
             // Check the node count.
-            Assert.AreEqual(5, digraph.TotalNodeCount);
+            Assert.Equal(5, digraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("NeatGenomeBuilder")]
+        [Fact]
         public void Simple_DefinedNodes()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
@@ -62,11 +59,10 @@ namespace SharpNeat.Tests.Neat.Genome
             CompareConnectionLists(connGenes, digraph.ConnectionIdArrays);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.TotalNodeCount);
+            Assert.Equal(15, digraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("NeatGenomeBuilder")]
+        [Fact]
         public void Simple_DefinedNodes_NodeIdGap()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
@@ -97,7 +93,7 @@ namespace SharpNeat.Tests.Neat.Genome
             CompareConnectionLists(connArrExpected, digraph.ConnectionIdArrays);
             
             // Check the node count.
-            Assert.AreEqual(15, digraph.TotalNodeCount);
+            Assert.Equal(15, digraph.TotalNodeCount);
         }
 
         #endregion

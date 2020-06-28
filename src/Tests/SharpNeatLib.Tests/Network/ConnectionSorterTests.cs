@@ -1,16 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen.Random;
+﻿using Redzen.Random;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Network
 {
-    [TestClass]
     public class ConnectionSorterTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("ConnectionSorter")]
+        [Fact]
         public void TestConnectionSorter()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
@@ -37,12 +35,12 @@ namespace SharpNeat.Tests.Network
             int srcIdPrev = srcIdArr[0];
             int tgtIdPrev = tgtIdArr[0];
 
-            Assert.AreEqual(weightArr[0], (double)(srcIdArr[0] + tgtIdArr[0]));
+            Assert.Equal(weightArr[0], (double)(srcIdArr[0] + tgtIdArr[0]));
 
             for(int i=0; i < len; i++)
             {
-                Assert.IsTrue(Compare(srcIdPrev, tgtIdPrev, srcIdArr[i], tgtIdArr[i]) <= 0);
-                Assert.AreEqual(weightArr[i], (double)(srcIdArr[i] + tgtIdArr[i]));
+                Assert.True(Compare(srcIdPrev, tgtIdPrev, srcIdArr[i], tgtIdArr[i]) <= 0);
+                Assert.Equal(weightArr[i], (double)(srcIdArr[i] + tgtIdArr[i]));
 
                 srcIdPrev = srcIdArr[i];
                 tgtIdPrev = tgtIdArr[i];

@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.Network;
+using Xunit;
 using static SharpNeat.Tests.Network.NetworkUtils;
 
 namespace SharpNeat.Tests
 {
-    [TestClass]
     public class WeightedDirectedGraphFactoryTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("WeightedDirectedGraphFactory")]
+        [Fact]
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
@@ -30,11 +28,10 @@ namespace SharpNeat.Tests
             CompareConnectionLists(connList, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Check the node count.
-            Assert.AreEqual(5, digraph.TotalNodeCount);
+            Assert.Equal(5, digraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("WeightedDirectedGraphFactory")]
+        [Fact]
         public void SimpleAcyclic_DefinedNodes()
         {
             // Simple acyclic graph.
@@ -53,11 +50,10 @@ namespace SharpNeat.Tests
             CompareConnectionLists(connList, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.TotalNodeCount);
+            Assert.Equal(15, digraph.TotalNodeCount);
         }
 
-        [TestMethod]
-        [TestCategory("WeightedDirectedGraphFactory")]
+        [Fact]
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
@@ -85,7 +81,7 @@ namespace SharpNeat.Tests
             CompareConnectionLists(connListExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
 
             // Check the node count.
-            Assert.AreEqual(15, digraph.TotalNodeCount);
+            Assert.Equal(15, digraph.TotalNodeCount);
         }
 
         #endregion

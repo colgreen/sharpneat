@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.BlackBox;
 using SharpNeat.Network;
 using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNet;
 using SharpNeat.NeuralNet.Double;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using Xunit;
 
 namespace SharpNeat.Tests.NeuralNets.Double
 {
-    [TestClass]
     public class NeuralNetAcyclicTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("AcyclicNeuralNet")]
+        [Fact]
         public void SingleInput_WeightZero()
         {
             var connList = new List<WeightedDirectedConnection<double>> {
@@ -35,8 +33,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             SingleInput_WeightZero_Inner(vnet);
         }
 
-        [TestMethod]
-        [TestCategory("AcyclicNeuralNet")]
+        [Fact]
         public void SingleInput_WeightOne()
         {
             var connList = new List<WeightedDirectedConnection<double>> {
@@ -56,8 +53,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             SingleInput_WeightOne_Inner(vnet, actFn);
         }
 
-        [TestMethod]
-        [TestCategory("AcyclicNeuralNet")]
+        [Fact]
         public void TwoInputs_WeightHalf()
         {
             var connList = new List<WeightedDirectedConnection<double>>
@@ -79,8 +75,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             TwoInputs_WeightHalf_Inner(vnet, actFn);
         }
 
-        [TestMethod]
-        [TestCategory("AcyclicNeuralNet")]
+        [Fact]
         public void HiddenNode()
         {
             var connList = new List<WeightedDirectedConnection<double>>
@@ -103,8 +98,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             HiddenNode_Inner(vnet, actFn);
         }
 
-        [TestMethod]
-        [TestCategory("AcyclicNeuralNet")]
+        [Fact]
         public void Complex_WeightOne()
         {
             var connList = new List<WeightedDirectedConnection<double>>
@@ -130,8 +124,7 @@ namespace SharpNeat.Tests.NeuralNets.Double
             Complex_WeightOne_Inner(vnet, actFn);
         }
 
-        [TestMethod]
-        [TestCategory("AcyclicNeuralNet")]
+        [Fact]
         public void MultipleInputsOutputs()
         {
             var connList = new List<WeightedDirectedConnection<double>>
@@ -165,17 +158,17 @@ namespace SharpNeat.Tests.NeuralNets.Double
             // Activate and test.
             net.InputVector[0] = 100.0;
             net.Activate();
-            Assert.AreEqual(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 0;
             net.Activate();
-            Assert.AreEqual(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = -100;
             net.Activate();
-            Assert.AreEqual(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.OutputVector[0]);
         }
 
         private static void SingleInput_WeightOne_Inner(
@@ -185,17 +178,17 @@ namespace SharpNeat.Tests.NeuralNets.Double
             // Activate and test.
             net.InputVector[0] = 0.0;
             net.Activate();
-            Assert.AreEqual(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 1.0;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(1), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(1), net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 10.0;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(10.0), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(10.0), net.OutputVector[0]);
         }
 
         private static void TwoInputs_WeightHalf_Inner(
@@ -206,19 +199,19 @@ namespace SharpNeat.Tests.NeuralNets.Double
             net.InputVector[0] = 0.0;
             net.InputVector[1] = 0.0;
             net.Activate();
-            Assert.AreEqual(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 1.0;
             net.InputVector[1] = 2.0;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(1.5), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(1.5), net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 10.0;
             net.InputVector[1] = 20.0;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(15.0), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(15.0), net.OutputVector[0]);
         }
 
         private static void HiddenNode_Inner(
@@ -229,13 +222,13 @@ namespace SharpNeat.Tests.NeuralNets.Double
             net.InputVector[0] = 0.0;
             net.InputVector[1] = 0.0;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(1.0), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(1.0), net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 0.5;
             net.InputVector[1] = 0.25;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(actFn.Fn(0.375) * 2.0), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(actFn.Fn(0.375) * 2.0), net.OutputVector[0]);
         }
 
         private static void Complex_WeightOne_Inner(
@@ -248,10 +241,10 @@ namespace SharpNeat.Tests.NeuralNets.Double
             net.Activate();
 
             double output1 = actFn.Fn(actFn.Fn(0.25));
-            Assert.AreEqual(output1, net.OutputVector[1]);
+            Assert.Equal(output1, net.OutputVector[1]);
 
             double output0 = actFn.Fn(actFn.Fn(output1 + 0.5 + 0.25) * 0.9);
-            Assert.AreEqual(output0, net.OutputVector[0]);
+            Assert.Equal(output0, net.OutputVector[0]);
         }
 
         private static void MultipleInputsOutputs_Inner(
@@ -263,9 +256,9 @@ namespace SharpNeat.Tests.NeuralNets.Double
             net.InputVector[1] = 2.0;
             net.InputVector[2] = 3.0;
             net.Activate();
-            Assert.AreEqual(actFn.Fn(2.0), net.OutputVector[0]);
-            Assert.AreEqual(actFn.Fn(3.0), net.OutputVector[1]);
-            Assert.AreEqual(actFn.Fn(1.0), net.OutputVector[2]);
+            Assert.Equal(actFn.Fn(2.0), net.OutputVector[0]);
+            Assert.Equal(actFn.Fn(3.0), net.OutputVector[1]);
+            Assert.Equal(actFn.Fn(1.0), net.OutputVector[2]);
         }
 
         #endregion

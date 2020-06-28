@@ -1,17 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Neat;
+﻿using SharpNeat.Neat;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat
 {
-    [TestClass]
     public class AddedNodeBufferTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("AddedNodeBuffer")]
-        public void TestLookup()
+        [Fact]
+        public void TryLookup()
         {
             AddedNodeBuffer buff = new AddedNodeBuffer(10);
 
@@ -36,13 +34,13 @@ namespace SharpNeat.Tests.Neat
 
         private static void TestLookupSuccess(AddedNodeBuffer buff, in DirectedConnection connection, int expectedAddedNodeId)
         {
-            Assert.IsTrue(buff.TryLookup(in connection, out int addedNodeId));
-            Assert.AreEqual(expectedAddedNodeId, addedNodeId);
+            Assert.True(buff.TryLookup(in connection, out int addedNodeId));
+            Assert.Equal(expectedAddedNodeId, addedNodeId);
         }
 
         private static void TestLookupFail(AddedNodeBuffer buff, in DirectedConnection connection)
         {
-            Assert.IsFalse(buff.TryLookup(in connection, out _));
+            Assert.False(buff.TryLookup(in connection, out _));
         }
 
         #endregion

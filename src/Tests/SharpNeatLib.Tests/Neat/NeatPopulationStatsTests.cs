@@ -1,23 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen.Random;
+﻿using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
+using Xunit;
 
 namespace SharpNeatLib.Tests.Neat
 {
-    [TestClass]
-    [TestCategory("NeatPopulationStats")]
     public class NeatPopulationStatsTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("NeatPopulationStats")]
-        public void TestPopulationStats()
+        [Fact]
+        public void VerifyPopulationStats()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
@@ -28,7 +25,7 @@ namespace SharpNeatLib.Tests.Neat
             pop.GenomeList[10].FitnessInfo = new FitnessInfo(100.0);
             pop.GenomeList[20].FitnessInfo = new FitnessInfo(0.0);
 
-            // Initialise the NEAT population species; the wider population stats are dependent on this occuring.
+            // Initialise the NEAT population species; the wider population stats are dependent on this occurring.
             InitialiseSpecies(pop);
 
             // Calc/update stats.
@@ -37,22 +34,21 @@ namespace SharpNeatLib.Tests.Neat
             // Validate stats.
             // Fitness stats.
             PopulationStatistics stats = pop.Stats;
-            Assert.AreEqual(10, stats.BestGenomeIndex);
-            Assert.AreEqual(100.0, stats.BestFitness.PrimaryFitness);
-            Assert.AreEqual(10.8, stats.MeanFitness);
-            Assert.AreEqual(1, stats.BestFitnessHistory.Length);
-            Assert.AreEqual(100.0, stats.BestFitnessHistory.Total);
+            Assert.Equal(10, stats.BestGenomeIndex);
+            Assert.Equal(100.0, stats.BestFitness.PrimaryFitness);
+            Assert.Equal(10.8, stats.MeanFitness);
+            Assert.Equal(1, stats.BestFitnessHistory.Length);
+            Assert.Equal(100.0, stats.BestFitnessHistory.Total);
 
             // Complexity stats.
-            Assert.AreEqual(6.0, stats.BestComplexity);
-            Assert.AreEqual(6.0, stats.MeanComplexity);
-            Assert.AreEqual(1, stats.MeanComplexityHistory.Length);
-            Assert.AreEqual(6.0, stats.MeanComplexityHistory.Total);
+            Assert.Equal(6.0, stats.BestComplexity);
+            Assert.Equal(6.0, stats.MeanComplexity);
+            Assert.Equal(1, stats.MeanComplexityHistory.Length);
+            Assert.Equal(6.0, stats.MeanComplexityHistory.Total);
         }
 
-        [TestMethod]
-        [TestCategory("NeatPopulationStats")]
-        public void TestNeatPopulationStats()
+        [Fact]
+        public void VerifyNeatPopulationStats()
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
@@ -73,15 +69,15 @@ namespace SharpNeatLib.Tests.Neat
             for(int i=0; i < neatPop.SpeciesArray.Length; i++)
             {
                 double expectedMeanFitness = (i+1) * 10.0;
-                Assert.AreEqual(expectedMeanFitness, neatPop.SpeciesArray[i].Stats.MeanFitness);
+                Assert.Equal(expectedMeanFitness, neatPop.SpeciesArray[i].Stats.MeanFitness);
             }
 
             // Validate SumSpeciesMeanFitness.
             double expectedSumSpeciesMeanFitness = 10.0 + 20.0 + 30.0;
-            Assert.AreEqual(expectedSumSpeciesMeanFitness, neatPop.NeatPopulationStats.SumSpeciesMeanFitness);
+            Assert.Equal(expectedSumSpeciesMeanFitness, neatPop.NeatPopulationStats.SumSpeciesMeanFitness);
 
             // Validate BestGenomeSpeciesIdx.
-            Assert.AreEqual(2, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
+            Assert.Equal(2, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
 
             // Assign a high fitness to one of the genomes, and check that BestGenomeSpeciesIdx is updated accordingly.
             neatPop.SpeciesArray[0].GenomeList[2].FitnessInfo = new FitnessInfo(100.0);
@@ -91,13 +87,13 @@ namespace SharpNeatLib.Tests.Neat
             InitialiseSpecies(neatPop);
 
             neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
-            Assert.AreEqual(0, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
+            Assert.Equal(0, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
 
             // Perform the same test again with the best genome in the second species.
             neatPop.SpeciesArray[1].GenomeList[3].FitnessInfo = new FitnessInfo(200.0);
             InitialiseSpecies(neatPop);
             neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
-            Assert.AreEqual(1, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
+            Assert.Equal(1, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
         }
 
         #endregion
@@ -115,8 +111,8 @@ namespace SharpNeatLib.Tests.Neat
                 activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
 
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
-            Assert.AreEqual(count, neatPop.GenomeList.Count);
-            Assert.AreEqual(count, neatPop.GenomeIdSeq.Peek);
+            Assert.Equal(count, neatPop.GenomeList.Count);
+            Assert.Equal(count, neatPop.GenomeIdSeq.Peek);
 
             // Assign the default fitness to all genomes.
             var genomeList = neatPop.GenomeList;

@@ -1,27 +1,25 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Redzen.Random;
+﻿using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Network;
+using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
-    [TestClass]
     public class UniformCrossoverReproductionStrategyTests
     {
-        [TestMethod]
-        [TestCategory("SexualReproduction")]
-        public void TestCreateGenome()
+        [Fact]
+        public void CreateGenome()
         {
             var metaNeatGenome = new MetaNeatGenome<double>(
                 inputNodeCount: 10,
                 outputNodeCount: 20,
                 isAcyclic: true,
-                activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNet.Double.ActivationFunctions.ReLU());
 
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
@@ -48,19 +46,19 @@ namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 var childGenome = strategy.CreateGenome(genome1, genome2, rng);
 
                 // The connection genes should be sorted.
-                Assert.IsTrue(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
                 var digraph = childGenome.DirectedGraph;
-                Assert.IsFalse(cyclicGraphAnalysis.IsCyclic(digraph));
+                Assert.False(cyclicGraphAnalysis.IsCyclic(digraph));
 
                 // The child genome node IDs should be a superset of those from parent1 + parent2.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
                 var parentIdSet = GetNodeIdSet(genome1);
                 parentIdSet.IntersectWith(GetNodeIdSet(genome2));
 
-                Assert.IsTrue(childNodeIdSet.IsSupersetOf(parentIdSet));                
+                Assert.True(childNodeIdSet.IsSupersetOf(parentIdSet));                
             }
         }
     }

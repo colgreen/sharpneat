@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Text.Json;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpNeat.IO;
+using Xunit;
 
 namespace SharpNeatLib.Tests.IO
 {
-    [TestClass]
     public class JsonReadOptionalUtilsTests
     {
         #region Test Methods
 
-        [TestMethod]
+        [Fact]
         public void ReadBoolOptional()
         {
             JsonDocument jdoc = JsonDocument.Parse("{\"foo\":true}");
@@ -18,19 +17,19 @@ namespace SharpNeatLib.Tests.IO
             // Test success case.
             bool val = false;
             JsonReadOptionalUtils.ReadBoolOptional(jdoc.RootElement, "foo", x => val = x);
-            Assert.AreEqual(true, val);
+            Assert.True(val);
 
             // Test missing optional.
             val = false;
             JsonReadOptionalUtils.ReadBoolOptional(jdoc.RootElement, "bar", x => val = x);
-            Assert.AreEqual(false, val);
+            Assert.False(val);
 
             // Test invalid value.
             jdoc = JsonDocument.Parse("{\"foo\":\"abc\"}");
-            Assert.ThrowsException<InvalidOperationException>(() => JsonReadOptionalUtils.ReadBoolOptional(jdoc.RootElement, "foo", x => val = x));
+            Assert.Throws<InvalidOperationException>(() => JsonReadOptionalUtils.ReadBoolOptional(jdoc.RootElement, "foo", x => val = x));
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadIntOptional()
         {
             JsonDocument jdoc = JsonDocument.Parse("{\"foo\":1234}");
@@ -38,19 +37,19 @@ namespace SharpNeatLib.Tests.IO
             // Test success case.
             int val = -1;
             JsonReadOptionalUtils.ReadIntOptional(jdoc.RootElement, "foo", x => val = x);
-            Assert.AreEqual(1234, val);
+            Assert.Equal(1234, val);
 
             // Test missing optional.
             val = -1;
             JsonReadOptionalUtils.ReadIntOptional(jdoc.RootElement, "bar", x => val = x);
-            Assert.AreEqual(-1, val);
+            Assert.Equal(-1, val);
 
             // Test invalid value.
             jdoc = JsonDocument.Parse("{\"foo\":\"abc\"}");
-            Assert.ThrowsException<InvalidOperationException>(() => JsonReadOptionalUtils.ReadIntOptional(jdoc.RootElement, "foo", x => val = x));
+            Assert.Throws<InvalidOperationException>(() => JsonReadOptionalUtils.ReadIntOptional(jdoc.RootElement, "foo", x => val = x));
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadDoubleOptional()
         {
             JsonDocument jdoc = JsonDocument.Parse("{\"foo\":1234.5}");
@@ -58,19 +57,19 @@ namespace SharpNeatLib.Tests.IO
             // Test success case.
             double val = -1.0;
             JsonReadOptionalUtils.ReadDoubleOptional(jdoc.RootElement, "foo", x => val = x);
-            Assert.AreEqual(1234.5, val);
+            Assert.Equal(1234.5, val);
 
             // Test missing optional.
             val = -1.0;
             JsonReadOptionalUtils.ReadDoubleOptional(jdoc.RootElement, "bar", x => val = x);
-            Assert.AreEqual(-1.0, val);
+            Assert.Equal(-1.0, val);
 
             // Test invalid value.
             jdoc = JsonDocument.Parse("{\"foo\":\"abc\"}");
-            Assert.ThrowsException<InvalidOperationException>(() => JsonReadOptionalUtils.ReadDoubleOptional(jdoc.RootElement, "foo", x => val = x));
+            Assert.Throws<InvalidOperationException>(() => JsonReadOptionalUtils.ReadDoubleOptional(jdoc.RootElement, "foo", x => val = x));
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadStringOptional()
         {
             JsonDocument jdoc = JsonDocument.Parse("{\"foo\":\"abc\"}");
@@ -78,12 +77,12 @@ namespace SharpNeatLib.Tests.IO
             // Test success case.
             string val = string.Empty;
             JsonReadOptionalUtils.ReadStringOptional(jdoc.RootElement, "foo", x => val = x);
-            Assert.AreEqual("abc", val);
+            Assert.Equal("abc", val);
 
             // Test missing optional.
             val = string.Empty;
             JsonReadOptionalUtils.ReadStringOptional(jdoc.RootElement, "bar", x => val = x);
-            Assert.AreEqual(string.Empty, val);
+            Assert.Equal(string.Empty, val);
         }
 
         #endregion

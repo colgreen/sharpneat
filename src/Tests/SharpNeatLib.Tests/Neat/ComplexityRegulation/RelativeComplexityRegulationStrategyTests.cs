@@ -1,16 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.EvolutionAlgorithm;
+﻿using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.ComplexityRegulation;
+using Xunit;
 
 namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
 {
-    [TestClass]
     public class RelativeComplexityRegulationStrategyTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("RelativeComplexityRegulationStrategyTests")]
+        [Fact]
         public void TestInitialisation()
         {
             var strategy = new RelativeComplexityRegulationStrategy(10, 10.0);
@@ -23,12 +21,11 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
             {
                 eaStats.Generation = i;
                 ComplexityRegulationMode mode = strategy.UpdateMode(eaStats, popStats);
-                Assert.AreEqual(ComplexityRegulationMode.Complexifying, mode);
+                Assert.Equal(ComplexityRegulationMode.Complexifying, mode);
             }
         }
 
-        [TestMethod]
-        [TestCategory("RelativeComplexityRegulationStrategyTests")]
+        [Fact]
         public void TestTransitionToSimplifying()
         {
             var strategy = new RelativeComplexityRegulationStrategy(10, 10.0);
@@ -39,13 +36,13 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
 
             // The strategy should initialise to, and remain in, Complexifying mode 
             // while mean population complexity is below the threshold.
-            for (int i = 0; i < 11; i++)
+            for(int i=0; i < 11; i++)
             {
                 eaStats.Generation = i;
                 popStats.MeanComplexity = i;
                 popStats.MeanComplexityHistory.Enqueue(i);
                 mode = strategy.UpdateMode(eaStats, popStats);
-                Assert.AreEqual(ComplexityRegulationMode.Complexifying, mode);
+                Assert.Equal(ComplexityRegulationMode.Complexifying, mode);
             }
 
             // The strategy should switch to simplifying mode when mean complexity
@@ -54,11 +51,10 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
             popStats.MeanComplexity = 10.01;
             popStats.MeanComplexityHistory.Enqueue(10.01);
             mode = strategy.UpdateMode(eaStats, popStats);
-            Assert.AreEqual(ComplexityRegulationMode.Simplifying, mode);
+            Assert.Equal(ComplexityRegulationMode.Simplifying, mode);
         }
 
-        [TestMethod]
-        [TestCategory("RelativeComplexityRegulationStrategyTests")]
+        [Fact]
         public void TestTransitionToComplexifying()
         {
             var strategy = new RelativeComplexityRegulationStrategy(10, 10.0);
@@ -73,7 +69,7 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
             popStats.MeanComplexity = 11.0;
             popStats.MeanComplexityHistory.Enqueue(11.0);
             mode = strategy.UpdateMode(eaStats, popStats);
-            Assert.AreEqual(ComplexityRegulationMode.Simplifying, mode);
+            Assert.Equal(ComplexityRegulationMode.Simplifying, mode);
 
             // Reset the buffer that the moving average is calculated from;
             // This allows us to change the mean to below the threshold and for the
@@ -82,13 +78,13 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
             // {minSimplifcationGenerations} being set to 10.
             popStats.MeanComplexityHistory.Clear();
 
-            for (int i = 0; i < 10; i++)
+            for(int i=0; i < 10; i++)
             {
                 eaStats.Generation = generation++;
                 popStats.MeanComplexity = 2.0;
                 popStats.MeanComplexityHistory.Enqueue(2.0);
                 mode = strategy.UpdateMode(eaStats, popStats);
-                Assert.AreEqual(ComplexityRegulationMode.Simplifying, mode);
+                Assert.Equal(ComplexityRegulationMode.Simplifying, mode);
             }
 
             // Now that {minSimplifcationGenerations} have passed, the strategy should switch
@@ -97,20 +93,20 @@ namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
             popStats.MeanComplexity = 2.0;
             popStats.MeanComplexityHistory.Enqueue(2.0);
             mode = strategy.UpdateMode(eaStats, popStats);
-            Assert.AreEqual(ComplexityRegulationMode.Complexifying, mode);
+            Assert.Equal(ComplexityRegulationMode.Complexifying, mode);
 
             // The threshold should have been set relative to the popStats.MeanComplexity (to 12).
             eaStats.Generation = generation++;
             popStats.MeanComplexity = 11.9;
             popStats.MeanComplexityHistory.Enqueue(11.9);
             mode = strategy.UpdateMode(eaStats, popStats);
-            Assert.AreEqual(ComplexityRegulationMode.Complexifying, mode);
+            Assert.Equal(ComplexityRegulationMode.Complexifying, mode);
 
             eaStats.Generation = generation++;
             popStats.MeanComplexity = 12.01;
             popStats.MeanComplexityHistory.Enqueue(12.01);
             mode = strategy.UpdateMode(eaStats, popStats);
-            Assert.AreEqual(ComplexityRegulationMode.Simplifying, mode);
+            Assert.Equal(ComplexityRegulationMode.Simplifying, mode);
         }
 
         #endregion

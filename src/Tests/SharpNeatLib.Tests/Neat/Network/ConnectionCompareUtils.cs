@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.Neat.Genome;
+﻿using SharpNeat.Neat.Genome;
 using SharpNeat.Network;
+using Xunit;
 
 namespace SharpNeat.Tests.Neat.Network
 {
@@ -13,11 +13,11 @@ namespace SharpNeat.Tests.Neat.Network
             in ConnectionIdArrays yIdArrays)
         {
             int xlen = xConnArr.Length;
-            Assert.AreEqual(xlen, yIdArrays._sourceIdArr.Length);
-            Assert.AreEqual(xlen, yIdArrays._targetIdArr.Length);
+            Assert.Equal(xlen, yIdArrays._sourceIdArr.Length);
+            Assert.Equal(xlen, yIdArrays._targetIdArr.Length);
 
             for(int i=0; i < xlen; i++)  {
-                Assert.IsTrue(AreEqual(xConnArr, yIdArrays, i, i));
+                Assert.True(Equal(xConnArr, yIdArrays, i, i));
             }
         }
 
@@ -26,11 +26,11 @@ namespace SharpNeat.Tests.Neat.Network
             in ConnectionIdArrays yIdArrays)
             where T : struct
         {
-            Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
-            Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays._sourceIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays._targetIdArr.Length);
 
             for(int i=0; i < x.Length; i++)  {
-                Assert.IsTrue(AreEqual(x, yIdArrays, i, i));
+                Assert.True(Equal(x, yIdArrays, i, i));
             }
         }
 
@@ -40,11 +40,11 @@ namespace SharpNeat.Tests.Neat.Network
             int[] connectionIndexMap)
             where T : struct
         {
-            Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
-            Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays._sourceIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays._targetIdArr.Length);
 
             for(int i=0; i < x.Length; i++)  {
-                Assert.IsTrue(AreEqual(x, yIdArrays, i, connectionIndexMap[i]));
+                Assert.True(Equal(x, yIdArrays, i, connectionIndexMap[i]));
             }
         }
 
@@ -58,13 +58,13 @@ namespace SharpNeat.Tests.Neat.Network
             where T : struct
         {
             int xlen = xConnArr.Length;
-            Assert.AreEqual(xlen, xWeightArr.Length);
-            Assert.AreEqual(xlen, yIdArrays._sourceIdArr.Length);
-            Assert.AreEqual(xlen, yIdArrays._targetIdArr.Length);
-            Assert.AreEqual(xlen, yWeightArr.Length);
+            Assert.Equal(xlen, xWeightArr.Length);
+            Assert.Equal(xlen, yIdArrays._sourceIdArr.Length);
+            Assert.Equal(xlen, yIdArrays._targetIdArr.Length);
+            Assert.Equal(xlen, yWeightArr.Length);
 
             for(int i=0; i < xlen; i++)  {
-                Assert.IsTrue(AreEqual(xConnArr, xWeightArr, yIdArrays, yWeightArr, i, i));
+                Assert.True(Equal(xConnArr, xWeightArr, yIdArrays, yWeightArr, i, i));
             }
         }
 
@@ -74,12 +74,12 @@ namespace SharpNeat.Tests.Neat.Network
             T[] yWeightArr)
             where T : struct
         {
-            Assert.AreEqual(x.Length, yIdArrays._sourceIdArr.Length);
-            Assert.AreEqual(x.Length, yIdArrays._targetIdArr.Length);
-            Assert.AreEqual(x.Length, yWeightArr.Length);
+            Assert.Equal(x.Length, yIdArrays._sourceIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.Equal(x.Length, yWeightArr.Length);
 
             for(int i=0; i < x.Length; i++) {
-                Assert.IsTrue(AreEqual(x, yIdArrays, yWeightArr, i, i));
+                Assert.True(Equal(x, yIdArrays, yWeightArr, i, i));
             }
         }
 
@@ -87,19 +87,19 @@ namespace SharpNeat.Tests.Neat.Network
 
         #region Private Static Methods
 
-        private static bool AreEqual<T>(
+        private static bool Equal<T>(
             ConnectionGenes<T> x,
             in ConnectionIdArrays yIdArrays,
             int xIdx, int yIdx)
             where T : struct
         {
-            return AreEqual(
+            return Equal(
                 x._connArr,
                 yIdArrays,
                 xIdx, yIdx);
         }
 
-        private static bool AreEqual(
+        private static bool Equal(
             DirectedConnection[] xConnArr,
             in ConnectionIdArrays yIdArrays,
             int xIdx, int yIdx)
@@ -108,19 +108,19 @@ namespace SharpNeat.Tests.Neat.Network
                &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx];
         }
 
-        private static bool AreEqual<T>(
+        private static bool Equal<T>(
             ConnectionGenes<T> x,
             in ConnectionIdArrays yIdArrays, T[] yWeightArr,
             int xIdx, int yIdx)
             where T : struct
         {
-            return AreEqual(
+            return Equal(
                 x._connArr, x._weightArr,
                 yIdArrays, yWeightArr,
                 xIdx, yIdx);
         }
 
-        private static bool AreEqual<T>(
+        private static bool Equal<T>(
             DirectedConnection[] xConnArr, T[] xWeightArr,
             in ConnectionIdArrays yIdArrays, T[] yWeightArr,
             int xIdx, int yIdx)

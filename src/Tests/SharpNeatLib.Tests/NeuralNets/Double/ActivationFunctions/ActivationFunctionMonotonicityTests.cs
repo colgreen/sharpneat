@@ -1,17 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpNeat.NeuralNet;
+﻿using SharpNeat.NeuralNet;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using Xunit;
 using Vectorized = SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
 {
-    [TestClass]
     public class ActivationFunctionMonotonicityTests
     {
         #region Test Methods
 
-        [TestMethod]
-        [TestCategory("ActivationFunctions-Monotonicity")]
+        [Fact]
         public void TestMonotonicity()
         {
             AssertMonotonic(new ArcSinH(), true);
@@ -55,7 +53,7 @@ namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
 
         private static void AssertMonotonic(IActivationFunction<double> actFn, bool strict)
         {
-            Assert.IsTrue(FuncTestUtils.IsMonotonicIncreasing(actFn.Fn, -6, 6, 0.01, strict));
+            Assert.True(FuncTestUtils.IsMonotonicIncreasing(actFn.Fn, -6, 6, 0.01, strict));
         }
 
         #endregion
