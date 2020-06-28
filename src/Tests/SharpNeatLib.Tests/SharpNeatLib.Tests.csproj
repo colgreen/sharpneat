@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpNeatLib\SharpNeatLib.csproj" />
+    <ProjectReference Include="..\..\SharpNeatLib\SharpNeat.csproj" />
     <ProjectReference Include="..\..\TestsLib\TestsLib.csproj" />
   </ItemGroup>
 
