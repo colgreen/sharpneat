@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SharpNeat\SharpNeat.csproj" />
-    <ProjectReference Include="..\..\SharpNeatTasks\SharpNeat.Tasks.csproj" />
+    <ProjectReference Include="..\..\SharpNeat.Tasks\SharpNeat.Tasks.csproj" />
   </ItemGroup>
 
   <ItemGroup>
