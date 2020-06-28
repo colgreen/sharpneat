@@ -23,7 +23,7 @@ namespace SharpNeatGUI
     /// </summary>
     public partial class ProblemDomainForm : Form
     {
-        AbstractDomainView _domainViewControl;
+        readonly AbstractDomainView _domainViewControl;
         AbstractGenerationalAlgorithm<NeatGenome> _ea;
 
         #region Constructor

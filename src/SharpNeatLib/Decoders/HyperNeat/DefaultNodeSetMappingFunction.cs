@@ -28,24 +28,24 @@ namespace SharpNeat.Decoders.HyperNeat
         /// Maximum distance between connected nodes.
         /// If the distance between two nodes is less than this value then a mapping/connection is generated.
         /// </summary>
-        double? _maximumConnectionDistance;
+        readonly double? _maximumConnectionDistance;
 
         /// <summary>
         /// _maximumConnectionDistance value squared. This allows us to test connection lengths without having to take the 
         /// square root, which is much faster.
         /// </summary>
-        double? _maximumConnectionDistanceSquared;
+        readonly double? _maximumConnectionDistanceSquared;
 
         /// <summary>
         /// If set this fag indicates that connections from a node's output back to its input are generated if the same
         /// nodeset is passed into the GenerateConnections() method as both the source and target nodeset.
         /// </summary>
-        bool _allowLocalRecurrentConnections;
+        readonly bool _allowLocalRecurrentConnections;
 
         /// <summary>
         /// Delegate for testing whether a mapping/connection should be generated between the specified nodes.
         /// </summary>
-        TestNodePair _testNodePair;
+        readonly TestNodePair _testNodePair;
 
         /// <summary>
         /// Definition of a delegate for testing whether a mapping/connection should be generated between the specified nodes.

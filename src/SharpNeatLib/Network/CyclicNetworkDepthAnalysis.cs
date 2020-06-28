@@ -33,7 +33,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Dictionary of node depths keyed by node ID. Working data.
         /// </summary>
-        Dictionary<uint,int> _nodeDepthById = new Dictionary<uint,int>();
+        readonly Dictionary<uint,int> _nodeDepthById = new Dictionary<uint,int>();
 
         #region Public Methods
 

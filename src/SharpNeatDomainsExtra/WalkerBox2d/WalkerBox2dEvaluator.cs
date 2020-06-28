@@ -24,7 +24,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         #region Instance Fields
 
         readonly IRandomSource _rng;
-		int	_maxTimesteps;
+        readonly int	_maxTimesteps;
 
         // Evaluator state.
         ulong _evalCount;

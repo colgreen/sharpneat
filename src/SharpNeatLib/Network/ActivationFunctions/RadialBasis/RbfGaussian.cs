@@ -26,8 +26,8 @@ namespace SharpNeat.Network
         /// </summary>
         public static readonly IActivationFunction __DefaultInstance = new RbfGaussian(0.1, 0.1);
 
-        double _auxArgsMutationSigmaCenter;
-        double _auxArgsMutationSigmaRadius;
+        readonly double _auxArgsMutationSigmaCenter;
+        readonly double _auxArgsMutationSigmaRadius;
 
         #region Constructor
 

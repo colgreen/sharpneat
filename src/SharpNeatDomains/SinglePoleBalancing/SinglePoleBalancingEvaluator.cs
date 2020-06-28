@@ -40,17 +40,16 @@ namespace SharpNeat.Domains.SinglePoleBalancing
 		const double TwelveDegrees		= Math.PI / 15.0;	//= 0.2094384;
 		const double TwentyFourDegrees  = Math.PI / 7.5;	//= 0.2094384;
 		const double ThirtySixDegrees	= Math.PI / 5.0;	//= 0.628329;
-		const double FiftyDegrees		= Math.PI / 3.6;	//= 0.87266;
+		const double FiftyDegrees		= Math.PI / 3.6;    //= 0.87266;
 
-		#endregion
+        #endregion
 
         #region Class Variables
 
         // Domain parameters.
-		double _trackLength;
-		double _trackLengthHalf;
-		int	_maxTimesteps;
-		double _poleAngleThreshold;
+        readonly double _trackLengthHalf;
+        readonly int	_maxTimesteps;
+        readonly double _poleAngleThreshold;
 
         // Evaluator state.
         ulong _evalCount;
@@ -71,7 +70,6 @@ namespace SharpNeat.Domains.SinglePoleBalancing
         /// </summary>
 		public SinglePoleBalancingEvaluator(double trackLength, int maxTimesteps, double poleAngleThreshold)
 		{
-			_trackLength = trackLength;
 			_trackLengthHalf = trackLength / 2.0;
 			_maxTimesteps = maxTimesteps;
 			_poleAngleThreshold = poleAngleThreshold;

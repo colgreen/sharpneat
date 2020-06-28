@@ -17,7 +17,6 @@ using Box2DX.Common;
 using Box2DX.Dynamics;
 using SharpNeat.Core;
 using SharpNeat.Domains;
-using SharpNeat.DomainsExtra.Box2D;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
 using Tao.OpenGl;
@@ -31,7 +30,7 @@ namespace SharpNeat.DomainsExtra.Box2D
     {
         #region Instance Fields
 
-        IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
+        readonly IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
         /// <summary>
         /// The black box controller used by the simulation thread.
         /// </summary>
@@ -39,7 +38,7 @@ namespace SharpNeat.DomainsExtra.Box2D
         /// <summary>
         /// Thread for running simulation.
         /// </summary>
-        Thread _simThread;
+        readonly Thread _simThread;
         /// <summary>
         /// Indicates is a simulation is running. Access is thread synchronised using Interlocked.
         /// </summary>
@@ -47,7 +46,7 @@ namespace SharpNeat.DomainsExtra.Box2D
         /// <summary>
         /// Event that signals simulation thread to start a simulation.
         /// </summary>
-        AutoResetEvent _simStartEvent = new AutoResetEvent(false);
+        readonly AutoResetEvent _simStartEvent = new AutoResetEvent(false);
         /// <summary>
         /// Signal sim thread to stop current simulation.
         /// </summary>

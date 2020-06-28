@@ -36,9 +36,9 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp
 
         #region Instance Fields
 
-		int	_maxTimestepsPhase1;
-        int	_maxTimestepsPhase2;
-        float _poleAngleInitial;
+        readonly int	_maxTimestepsPhase1;
+        readonly int	_maxTimestepsPhase2;
+        readonly float _poleAngleInitial;
 
         // Evaluator state.
         ulong _evalCount;

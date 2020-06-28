@@ -26,10 +26,10 @@ namespace SharpNeatGUI
     public class Logger
     {
         delegate void LogDelegate(string message);
-        static LogDelegate logDelegate = new LogDelegate(Log);
+        static readonly LogDelegate logDelegate = new LogDelegate(Log);
 
         static ListBox __lbxLog;
-        static BindingList<LogItem> __bindingList;
+        static readonly BindingList<LogItem> __bindingList;
 
         #region Static Constructor
 
@@ -86,7 +86,7 @@ namespace SharpNeatGUI
         /// </summary>
         public class LogItem
         {
-            string _message;
+            readonly string _message;
 
             /// <summary>
             /// Construct with the specified log message.

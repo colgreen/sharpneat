@@ -19,7 +19,7 @@ namespace SharpNeat.Network
     public static class ActivationFunctionRegistry
     {
         // The default set of activation functions.
-        private static Dictionary<string, IActivationFunction> __activationFunctionTable = new Dictionary<string, IActivationFunction>()
+        private static readonly Dictionary<string, IActivationFunction> __activationFunctionTable = new Dictionary<string, IActivationFunction>()
         {
             // Bipolar.
             { "BipolarSigmoid", BipolarSigmoid.__DefaultInstance },

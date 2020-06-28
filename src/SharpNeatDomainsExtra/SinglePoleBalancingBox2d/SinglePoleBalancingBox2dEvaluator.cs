@@ -28,15 +28,15 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         const float __MaxForceNewtonsX2 = __MaxForceNewtons * 2f;
         // Some precalced angle constants.
         const float __SixDegrees		= (float)(Math.PI / 30.0);	//= 0.1047192;
-        const float __TwelveDegrees		= (float)(Math.PI / 15.0);	//= 0.2094384;
+        const float __TwelveDegrees		= (float)(Math.PI / 15.0);  //= 0.2094384;
 
         #endregion
 
         #region Instance Fields
 
-		int	_maxTimesteps;
-        float _poleAngleInitial;
-        float _poleAngleThreshold;
+        readonly int	_maxTimesteps;
+        readonly float _poleAngleInitial;
+        readonly float _poleAngleThreshold;
 
         // Evaluator state.
         ulong _evalCount;

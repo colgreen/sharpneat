@@ -45,15 +45,15 @@ namespace SharpNeat.Domains.BoxesVisualDiscrimination
         /// <summary>
         /// The resolution of the visual and output fields.
         /// </summary>
-        int _visualFieldResolution;
+        readonly int _visualFieldResolution;
         /// <summary>
         /// The width and height of a visual field pixel in the real coordinate system.
         /// </summary>
-        double _visualPixelSize;
+        readonly double _visualPixelSize;
         /// <summary>
         /// The X and Y position of the visual field's origin pixel in the real coordinate system (the center position of the origin pixel).
         /// </summary>
-        double _visualOriginPixelXY;
+        readonly double _visualOriginPixelXY;
         /// <summary>
         /// Number of evaluations.
         /// </summary>

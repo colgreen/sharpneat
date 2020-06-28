@@ -19,9 +19,9 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     /// </summary>
     public class NeuralNetController : WalkerController
     {
-        IBlackBox _box;
+        readonly IBlackBox _box;
         int _timestep;
-        double _sineWaveIncr;
+        readonly double _sineWaveIncr;
 
         #region Constructor
 

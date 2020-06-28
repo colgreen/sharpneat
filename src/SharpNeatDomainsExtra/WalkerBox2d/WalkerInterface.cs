@@ -20,9 +20,9 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     public class WalkerInterface
     {
         const float __jointMaxTorque = 1.25f;
-        Body _torsoBody;
-        LegInterface _leftLegIface;
-        LegInterface _rightLegIface;
+        readonly Body _torsoBody;
+        readonly LegInterface _leftLegIface;
+        readonly LegInterface _rightLegIface;
 
         #region Constructor
 

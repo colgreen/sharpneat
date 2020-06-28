@@ -19,8 +19,8 @@ namespace SharpNeat.Network
     /// </summary>
     public class NetworkConnectivityData
     {
-        NodeConnectivityData[] _nodeConnectivityDataArr;
-        Dictionary<uint,NodeConnectivityData> _nodeConnectivityDataById;
+        readonly NodeConnectivityData[] _nodeConnectivityDataArr;
+        readonly Dictionary<uint,NodeConnectivityData> _nodeConnectivityDataById;
 
         #region Constructor
 

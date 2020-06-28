@@ -20,9 +20,9 @@ namespace SharpNeat.Decoders.HyperNeat
     /// </summary>
     public class NodeSetMapping
     {
-        int _srcNodeSetIdx;
-        int _tgtNodeSetIdx;
-        INodeSetMappingFunction _mappingFn;
+        readonly int _srcNodeSetIdx;
+        readonly int _tgtNodeSetIdx;
+        readonly INodeSetMappingFunction _mappingFn;
 
         #region Constructor
 

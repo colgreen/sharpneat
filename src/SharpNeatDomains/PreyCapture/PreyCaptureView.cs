@@ -38,8 +38,8 @@ namespace SharpNeat.Domains.PreyCapture
         readonly Brush _brushAgent = new SolidBrush(Color.Red);
         readonly Brush _brushPrey = new SolidBrush(Color.Green);
 
-        IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
-        PreyCaptureWorld _world;
+        readonly IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
+        readonly PreyCaptureWorld _world;
         /// <summary>
         /// The agent used by the simulation thread.
         /// </summary>
@@ -49,7 +49,7 @@ namespace SharpNeat.Domains.PreyCapture
         /// <summary>
         /// Thread for running simulation.
         /// </summary>
-        Thread _simThread;
+        readonly Thread _simThread;
         /// <summary>
         /// Indicates is a simulation is running. Access is thread synchronised using Interlocked.
         /// </summary>
@@ -57,7 +57,7 @@ namespace SharpNeat.Domains.PreyCapture
         /// <summary>
         /// Event that signals simulation thread to start a simulation.
         /// </summary>
-        AutoResetEvent _simStartEvent = new AutoResetEvent(false);
+        readonly AutoResetEvent _simStartEvent = new AutoResetEvent(false);
 
         #region Constructor
 

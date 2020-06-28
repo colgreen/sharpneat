@@ -26,9 +26,9 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         const float __jointFriction = 0.5f;
         #endregion
 
-        RevoluteJoint _hipJoint;
-        RevoluteJoint _kneeJoint;
-        Body _lowerLegBody;
+        readonly RevoluteJoint _hipJoint;
+        readonly RevoluteJoint _kneeJoint;
+        readonly Body _lowerLegBody;
         float _hipAppliedTorque;
         float _kneeAppliedTorque;
 

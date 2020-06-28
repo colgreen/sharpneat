@@ -21,10 +21,10 @@ namespace SharpNeatGUI
     /// </summary>
     public class ExperimentInfo
     {
-        string _name;
-        string _assemblyPath;
-        string _className;
-        XmlElement _xmlConfig;
+        readonly string _name;
+        readonly string _assemblyPath;
+        readonly string _className;
+        readonly XmlElement _xmlConfig;
 
         #region Constructor
 

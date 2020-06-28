@@ -25,10 +25,10 @@ namespace SharpNeatGUI
     public partial class SummaryGraphForm : Form
     {
         AbstractGenerationalAlgorithm<NeatGenome> _ea;
-        SummaryDataSource[] _dataSourceArray;
+        readonly SummaryDataSource[] _dataSourceArray;
         PointPairList[] _pointPlotArray;
         GraphPane _graphPane;
-        Color[] _plotColorArr = new Color[] { Color.LightSlateGray, Color.LightBlue, Color.LightGreen };
+        readonly Color[] _plotColorArr = new Color[] { Color.LightSlateGray, Color.LightBlue, Color.LightGreen };
 
         #region Constructor
 

@@ -21,11 +21,10 @@ namespace SharpNeat.Domains.FunctionRegression
     /// </summary>
     public class FnRegressionEvaluator : IPhenomeEvaluator<IBlackBox>
     {
-        IFunction _fn;
-        ParamSamplingInfo _paramSamplingInfo;
-        double _gradientMseWeight;
-        double _yMseWeight;
-        IBlackBoxProbe _blackBoxProbe;
+        readonly ParamSamplingInfo _paramSamplingInfo;
+        readonly double _gradientMseWeight;
+        readonly double _yMseWeight;
+        readonly IBlackBoxProbe _blackBoxProbe;
         readonly double[] _yArrTarget;
         readonly double[] _gradientArrTarget;
 
@@ -47,7 +46,6 @@ namespace SharpNeat.Domains.FunctionRegression
         /// </summary>
         public FnRegressionEvaluator(IFunction fn, ParamSamplingInfo paramSamplingInfo, double gradientMseWeight, IBlackBoxProbe blackBoxProbe)
         {
-            _fn = fn;
             _paramSamplingInfo = paramSamplingInfo;
             _gradientMseWeight = gradientMseWeight;
             _yMseWeight = 1.0 - gradientMseWeight;

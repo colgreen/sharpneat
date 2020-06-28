@@ -29,11 +29,11 @@ namespace SharpNeatGUI
         /// </summary>
         public delegate Point2DDouble GetPointDelegate();
 
-        string _name;
-        int _historyLength;
-        int _yAxis;
-        Color _color;
-        GetPointDelegate _getPointDelegate;
+        readonly string _name;
+        readonly int _historyLength;
+        readonly int _yAxis;
+        readonly Color _color;
+        readonly GetPointDelegate _getPointDelegate;
 
         #region Constructor
 

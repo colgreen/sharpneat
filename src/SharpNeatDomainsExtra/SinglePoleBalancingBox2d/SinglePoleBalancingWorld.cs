@@ -24,9 +24,8 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
     {
         #region Instance Fields
 
-        float _initialPoleAngle;
-        float _trackLength;
-        float _trackLengthHalf;
+        readonly float _initialPoleAngle;
+        readonly float _trackLengthHalf;
         Body _cartBody;
         RevoluteJoint _poleJoint;
         PrismaticJoint _cartTrackJoint;
@@ -46,7 +45,6 @@ namespace SharpNeat.DomainsExtra.SinglePoleBalancingBox2d
         /// </summary>
         public SinglePoleBalancingWorld(float trackLength, float initialPoleAngle)
         {
-            _trackLength = trackLength;
             _trackLengthHalf = trackLength * 0.5f;
             _initialPoleAngle = initialPoleAngle;
         }

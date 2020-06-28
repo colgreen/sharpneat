@@ -25,7 +25,7 @@ namespace SharpNeat.View.Graph
         readonly List<GraphNode> _hiddenNodeList;
         float _connectionWeightRange;
         Size _bounds;
-        int _depth;
+        readonly int _depth;
 
         #region Constructors
 

@@ -23,14 +23,14 @@ namespace SharpNeat.Domains.FunctionRegression
     /// </summary>
     public partial class FnRegressionView2D : AbstractDomainView
     {
-        IFunction _fn;
-        ParamSamplingInfo _paramSamplingInfo;
-        bool _generativeMode;
-        IBlackBoxProbe _blackBoxProbe;
+        readonly IFunction _fn;
+        readonly ParamSamplingInfo _paramSamplingInfo;
+        readonly bool _generativeMode;
+        readonly IBlackBoxProbe _blackBoxProbe;
         readonly double[] _yArrTarget;
-        IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
-        PointPairList _plotPointListTarget;
-        PointPairList _plotPointListResponse;
+        readonly IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
+        readonly PointPairList _plotPointListTarget;
+        readonly PointPairList _plotPointListResponse;
 
         #region Constructor
 
@@ -38,7 +38,7 @@ namespace SharpNeat.Domains.FunctionRegression
         /// Constructs with the details of the function regression problem to be visualized. 
         /// </summary>
         /// <param name="fn">The function being regressed.</param>
-        /// <param name="generativeMode">Indicates that blacbox has no inputs; it will generate a waveform as a function of time.</param>
+        /// <param name="generativeMode">Indicates that blackbox has no inputs; it will generate a waveform as a function of time.</param>
         /// <param name="paramSamplingInfo">Parameter sampling info.</param>
         /// <param name="genomeDecoder">Genome decoder.</param>
         public FnRegressionView2D(IFunction fn, ParamSamplingInfo paramSamplingInfo, bool generativeMode, IGenomeDecoder<NeatGenome,IBlackBox> genomeDecoder)
@@ -52,8 +52,8 @@ namespace SharpNeat.Domains.FunctionRegression
             _genomeDecoder = genomeDecoder;
 
             // Determine the mid output value of the function (over the specified sample points) and a scaling factor
-            // to apply the to neural netwkrk response for it to be able to recreate the function (because the neural net
-            // output range is [0,1] when using the logistic function as the neurn activation function).
+            // to apply the to neural network response for it to be able to recreate the function (because the neural net
+            // output range is [0,1] when using the logistic function as the neuron activation function).
             double mid, scale;
             FnRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out mid, out scale);
             if(generativeMode) {

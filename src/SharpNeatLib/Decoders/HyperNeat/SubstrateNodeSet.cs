@@ -20,7 +20,7 @@ namespace SharpNeat.Decoders.HyperNeat
     /// </summary>
     public class SubstrateNodeSet
     {
-        List<SubstrateNode> _nodePosList;
+        readonly List<SubstrateNode> _nodePosList;
 
         #region Constructors
 

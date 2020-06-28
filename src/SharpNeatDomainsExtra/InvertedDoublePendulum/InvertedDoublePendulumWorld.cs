@@ -25,14 +25,13 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         const float __ArmLength = 0.5f;
         const float __TwoDegrees		= (float)(SysMath.PI / 90.0);
         const float __ThreeDegrees		= (float)(SysMath.PI / 60.0);
-        const float __SixDegrees		= (float)(SysMath.PI / 30.0);	//= 0.1047192;
-        
+        const float __SixDegrees		= (float)(SysMath.PI / 30.0);   //= 0.1047192;
+
         #region Instance Fields
 
-        float _cartJointInitialAngle;
-        float _elbowJointInitialAngle;
-        float _trackLength;
-        float _trackLengthHalf;
+        readonly float _cartJointInitialAngle;
+        readonly float _elbowJointInitialAngle;
+        readonly float _trackLengthHalf;
         Body _cartBody;
         Body _arm2Body;
 
@@ -55,7 +54,6 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         /// </summary>
         public InvertedDoublePendulumWorld(float trackLength, float cartJointInitialAngle, float elbowJointInitialAngle)
         {
-            _trackLength = trackLength;
             _trackLengthHalf = trackLength * 0.5f;
             _cartJointInitialAngle = cartJointInitialAngle;
             _elbowJointInitialAngle = elbowJointInitialAngle;

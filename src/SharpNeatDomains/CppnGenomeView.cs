@@ -20,8 +20,8 @@ namespace SharpNeat.Domains
     /// </summary>
     public partial class CppnGenomeView : AbstractGenomeView
     {
-        NetworkGraphFactory _graphFactory = new NetworkGraphFactory();
-        IOGraphViewportPainter _viewportPainter;
+        readonly NetworkGraphFactory _graphFactory = new NetworkGraphFactory();
+        readonly IOGraphViewportPainter _viewportPainter;
 
         #region Constructor
 

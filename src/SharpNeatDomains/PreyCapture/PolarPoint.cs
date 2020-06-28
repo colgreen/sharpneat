@@ -20,11 +20,11 @@ namespace SharpNeat.Domains.PreyCapture
         /// <summary>
         /// Radial coordinate squared
         /// </summary>
-        double _r;
+        readonly double _r;
         /// <summary>
         /// Angular coordinate (theta).
         /// </summary>
-        double _t;
+        readonly double _t;
 
         #region Constructor
 

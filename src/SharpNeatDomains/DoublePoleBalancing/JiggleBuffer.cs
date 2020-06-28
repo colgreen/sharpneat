@@ -22,7 +22,7 @@ namespace SharpNeat.Domains.DoublePoleBalancing
 	/// </summary>
 	public class JiggleBuffer
 	{
-		double[] _buffer;	// The buffer.
+        readonly double[] _buffer;	// The buffer.
 		double _jiggleTotal = 0.0;
 
 		// The index of the previously enqueued item. -1 if buffer is empty.

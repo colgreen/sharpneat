@@ -30,15 +30,15 @@ namespace SharpNeat.DomainsExtra.InvertedDoublePendulum
         const float __TwoDegrees		= (float)(Math.PI / 90.0);
         const float __ThreeDegrees		= (float)(Math.PI / 60.0);
         const float __SixDegrees		= (float)(Math.PI / 30.0);	//= 0.1047192;
-        const float __TwelveDegrees		= (float)(Math.PI / 15.0);	//= 0.2094384;
+        const float __TwelveDegrees		= (float)(Math.PI / 15.0);  //= 0.2094384;
 
         #endregion
 
         #region Instance Fields
 
-		int	_maxTimesteps;
-        float _poleAngleInitial;
-        float _heightThreshold;
+        readonly int	_maxTimesteps;
+        readonly float _poleAngleInitial;
+        readonly float _heightThreshold;
 
         // Evaluator state.
         ulong _evalCount;

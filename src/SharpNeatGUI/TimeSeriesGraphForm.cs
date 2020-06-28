@@ -24,7 +24,7 @@ namespace SharpNeatGUI
     public partial class TimeSeriesGraphForm : Form
     {
         AbstractGenerationalAlgorithm<NeatGenome> _ea;
-        TimeSeriesDataSource[] _dataSourceArray;
+        readonly TimeSeriesDataSource[] _dataSourceArray;
         RollingPointPairList[] _pointPlotArray;
         GraphPane _graphPane;
 

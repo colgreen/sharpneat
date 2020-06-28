@@ -27,8 +27,8 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
         readonly IRandomSource _rng;
 
-        float _trackLength;
-        float _trackLengthHalf;
+        readonly float _trackLength;
+        readonly float _trackLengthHalf;
 
         Body _torsoBody;
         RevoluteJoint _leftHipJoint;

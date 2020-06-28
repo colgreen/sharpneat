@@ -44,11 +44,11 @@ namespace SharpNeat.Network
         /// <summary>
         /// Set of traversal ancestors of current node. 
         /// </summary>
-        HashSet<uint> _ancestorNodeSet = new HashSet<uint>();
+        readonly HashSet<uint> _ancestorNodeSet = new HashSet<uint>();
         /// <summary>
         /// Set of all visited nodes. This allows us to quickly determine if a path should be traversed or not. 
         /// </summary>
-        HashSet<uint> _visitedNodeSet = new HashSet<uint>();
+        readonly HashSet<uint> _visitedNodeSet = new HashSet<uint>();
 
         #endregion
 

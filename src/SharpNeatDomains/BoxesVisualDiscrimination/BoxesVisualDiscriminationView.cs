@@ -32,12 +32,12 @@ namespace SharpNeat.Domains
         readonly Brush _brushBackground = new SolidBrush(Color.Lavender);
 
         IGenomeDecoder<NeatGenome,IBlackBox> _genomeDecoder;
-        TestCaseField _testCaseField;
+        readonly TestCaseField _testCaseField;
         int _largeBoxTestCase;
         Image _image;
         NeatGenome _neatGenome;
         IBlackBox _box;
-        bool _initializing = true;
+        readonly bool _initializing = true;
 
         /// <summary>
         /// The sensor and output pixel array resolution.
@@ -46,7 +46,7 @@ namespace SharpNeat.Domains
         /// <summary>
         /// The experiment class that contains config settings parsed from the experiment config XML.
         /// </summary>
-        BoxesVisualDiscriminationExperiment _experiment;
+        readonly BoxesVisualDiscriminationExperiment _experiment;
         /// <summary>
         /// The width and height of a pixel in the real coordinate system.
         /// </summary>

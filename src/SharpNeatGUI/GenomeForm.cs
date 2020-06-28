@@ -24,7 +24,7 @@ namespace SharpNeatGUI
     /// </summary>
     public partial class GenomeForm : Form
     {
-        AbstractGenomeView _genomeViewControl;
+        readonly AbstractGenomeView _genomeViewControl;
         AbstractGenerationalAlgorithm<NeatGenome> _ea;
 
         #region Constructor

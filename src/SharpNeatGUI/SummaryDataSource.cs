@@ -22,10 +22,10 @@ namespace SharpNeatGUI
         /// <summary>Delegate for obtaining an array of plot points.</summary>
         public delegate Point2DDouble[] GetDataPointArrayDelegate();
 
-        string _name;
-        int _yAxis;
-        Color _color;
-        GetDataPointArrayDelegate _getPointArrayDelegate;
+        readonly string _name;
+        readonly int _yAxis;
+        readonly Color _color;
+        readonly GetDataPointArrayDelegate _getPointArrayDelegate;
 
         #region Constructor
 

@@ -46,13 +46,13 @@ namespace SharpNeatGUI
         NeatEvolutionAlgorithm<NeatGenome> _ea;
         StreamWriter _logFileWriter = null;
         /// <summary>Number format for building filename when saving champ genomes.</summary>
-        NumberFormatInfo _filenameNumberFormatter;
+        readonly NumberFormatInfo _filenameNumberFormatter;
         /// <summary>XmlWriter settings for champ genome saving (format the XML to make it human readable).</summary>
-        XmlWriterSettings _xwSettings;
+        readonly XmlWriterSettings _xwSettings;
         /// <summary>Tracks the best champ fitness observed so far.</summary>
         double _champGenomeFitness;
         /// <summary>Array of 'nice' colors for chart plots.</summary>
-        Color[] _plotColorArr;
+        readonly Color[] _plotColorArr;
 
         #endregion
 
@@ -60,8 +60,8 @@ namespace SharpNeatGUI
 
         GenomeForm _bestGenomeForm;
         ProblemDomainForm _domainForm;
-        List<TimeSeriesGraphForm> _timeSeriesGraphFormList = new List<TimeSeriesGraphForm>();
-        List<SummaryGraphForm> _summaryGraphFormList = new List<SummaryGraphForm>();
+        readonly List<TimeSeriesGraphForm> _timeSeriesGraphFormList = new List<TimeSeriesGraphForm>();
+        readonly List<SummaryGraphForm> _summaryGraphFormList = new List<SummaryGraphForm>();
 
         // Working storage space for graph views.
         static int[] _specieDataArrayInt;

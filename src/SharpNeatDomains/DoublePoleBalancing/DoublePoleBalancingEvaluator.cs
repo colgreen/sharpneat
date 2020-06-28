@@ -48,16 +48,16 @@ namespace SharpNeat.Domains.DoublePoleBalancing
 		protected const double TwentyFourDegrees	= Math.PI / 7.5;	//= 0.4188790;
 		protected const double ThirtySixDegrees	    = Math.PI / 5.0;	//= 0.628329;
 		protected const double FiftyDegrees		    = Math.PI / 3.6;	//= 0.87266;
-		protected const double SeventyTwoDegrees	= Math.PI / 2.5;	//= 1.256637;
+		protected const double SeventyTwoDegrees	= Math.PI / 2.5;    //= 1.256637;
 
-        #pragma warning restore 1591
-		#endregion
+#pragma warning restore 1591
+        #endregion
 
-		#region Class Variables
-        #pragma warning disable 1591
+        #region Class Variables
+#pragma warning disable 1591
 
         // Domain parameters.
-		double _trackLength;
+        readonly double _trackLength;
 		protected double _trackLengthHalf;
 		protected int	_maxTimesteps;
 		protected double _poleAngleThreshold;
