@@ -50,7 +50,7 @@ namespace EfficacySampler
             __streamWriter = InitOutputFile(filename);
             try
             {
-                // Run the main eficay sampling loop until the process is terminated.
+                // Run the main efficacy sampling loop until the process is terminated.
                 for(;;)
                 {
                     Sample s = eaHost.Sample();
