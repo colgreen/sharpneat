@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks", "SharpNea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tests", "Tests\SharpNeat.Tests\SharpNeat.Tests.csproj", "{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Benchmarks", "Benchmarks\SharpNeatLib.Benchmarks\SharpNeat.Benchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Benchmarks", "Benchmarks\SharpNeat.Benchmarks\SharpNeat.Benchmarks.csproj", "{4F98BC33-286F-49DE-9884-D80438DF656D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{858A8951-5952-40D8-8F62-8F6537B89FD3}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks.Tests", "Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{13A413E1-46CC-4497-BFE5-E900D82F10C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks.Benchmarks", "Benchmarks\SharpNeatTasks.Benchmarks\SharpNeat.Tasks.Benchmarks.csproj", "{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks.Benchmarks", "Benchmarks\SharpNeat.Tasks.Benchmarks\SharpNeat.Tasks.Benchmarks.csproj", "{F7007E70-D898-4F93-BBB0-5D7C6A0B55F6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsLib", "Tests\TestsLib\TestsLib.csproj", "{D786F3C3-F391-4568-B512-3B1A4E6F24F5}"
 EndProject
