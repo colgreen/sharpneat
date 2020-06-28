@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpNeatTasks\SharpNeatTasks.csproj" />
+    <ProjectReference Include="..\..\SharpNeatTasks\SharpNeat.Tasks.csproj" />
   </ItemGroup>
 
 </Project>

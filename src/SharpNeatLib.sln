@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat", "SharpNeatLib\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp1", "Tests\TestApp1\TestApp1.csproj", "{03EC1CBF-0266-4CE8-952A-68E67ACBCFB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatTasks", "SharpNeatTasks\SharpNeatTasks.csproj", "{3562605D-7C6B-459C-B116-498DD7A2B078}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks", "SharpNeatTasks\SharpNeat.Tasks.csproj", "{3562605D-7C6B-459C-B116-498DD7A2B078}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeatLib.Tests", "Tests\SharpNeatLib.Tests\SharpNeatLib.Tests.csproj", "{5E3094A9-15D0-4F62-A8C1-170CA0B545D6}"
 EndProject
