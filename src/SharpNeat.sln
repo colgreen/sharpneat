@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat", "SharpNeatLib\SharpNeat.csproj", "{29425503-9A5D-4C86-BB9B-CA17A7742E6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat", "SharpNeat\SharpNeat.csproj", "{29425503-9A5D-4C86-BB9B-CA17A7742E6A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp1", "Tests\TestApp1\TestApp1.csproj", "{03EC1CBF-0266-4CE8-952A-68E67ACBCFB2}"
 EndProject

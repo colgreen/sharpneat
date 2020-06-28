@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpNeatLib\SharpNeat.csproj" />
+    <ProjectReference Include="..\SharpNeat\SharpNeat.csproj" />
   </ItemGroup>
 
 </Project>
