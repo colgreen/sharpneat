@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using Redzen.Numerics.Distributions;
+using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.ComplexityRegulation;

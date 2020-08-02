@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using Redzen.Numerics.Distributions;
+using Redzen.Numerics.Distributions.Double;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {

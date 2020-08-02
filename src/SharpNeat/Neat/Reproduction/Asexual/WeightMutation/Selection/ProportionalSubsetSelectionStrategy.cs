@@ -11,7 +11,7 @@
  */
 using System.Diagnostics;
 using Redzen.Numerics;
-using Redzen.Numerics.Distributions;
+using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection

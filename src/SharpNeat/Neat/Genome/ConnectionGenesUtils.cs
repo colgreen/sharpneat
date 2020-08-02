@@ -70,7 +70,7 @@ namespace SharpNeat.Neat.Genome
 
             // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
             int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, new HashSet<int>());
-            if(!SpanUtils.ContentEquals<int>(idArr, hiddenNodeIdArr)) { 
+            if(!SpanUtils.Equals<int>(idArr, hiddenNodeIdArr)) { 
                 return false;
             }
             return true;

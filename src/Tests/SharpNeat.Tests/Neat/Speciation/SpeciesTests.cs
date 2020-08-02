@@ -1,4 +1,4 @@
-﻿using Redzen.Numerics.Distributions;
+﻿using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;

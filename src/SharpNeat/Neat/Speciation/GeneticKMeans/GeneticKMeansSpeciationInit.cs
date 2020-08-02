@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Redzen.Linq;
-using Redzen.Numerics.Distributions;
+using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
