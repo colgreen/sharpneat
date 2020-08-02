@@ -45,9 +45,9 @@ namespace SharpNeat.Network
         /// <param name="secondaryArr">A secondary array; this will have its items moved such they remain kept aligned with the sorted connections.</param>
         public static void Sort(in ConnectionIdArrays connIdArrays, T[] secondaryArr)
         {
-            Debug.Assert(connIdArrays._sourceIdArr != null);
-            Debug.Assert(connIdArrays._targetIdArr != null);
-            Debug.Assert(secondaryArr != null);
+            Debug.Assert(connIdArrays._sourceIdArr is object);
+            Debug.Assert(connIdArrays._targetIdArr is object);
+            Debug.Assert(secondaryArr is object);
             Debug.Assert(connIdArrays._sourceIdArr.Length == connIdArrays._targetIdArr.Length);
             Debug.Assert(connIdArrays._sourceIdArr.Length == secondaryArr.Length);
 
