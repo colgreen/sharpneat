@@ -45,8 +45,8 @@ namespace SharpNeat.Neat.Genome.IO
             string parentPath,
             string name)
         {
-            if(null == parentPath) throw new ArgumentNullException(nameof(parentPath));
-            if(null == name) throw new ArgumentNullException(nameof(name));
+            if(parentPath is null) throw new ArgumentNullException(nameof(parentPath));
+            if(name is null) throw new ArgumentNullException(nameof(name));
 
             // Check if the specified parent folder exists.
             if(!Directory.Exists(parentPath)) {
@@ -87,8 +87,8 @@ namespace SharpNeat.Neat.Genome.IO
             string name,
             CompressionLevel compressionLevel)
         {
-            if(null == parentPath) throw new ArgumentNullException(nameof(parentPath));
-            if(null == name) throw new ArgumentNullException(nameof(name));
+            if(parentPath is null) throw new ArgumentNullException(nameof(parentPath));
+            if(name is null) throw new ArgumentNullException(nameof(name));
 
             // Check if the specified parent folder exists.
             if(!Directory.Exists(parentPath)) {

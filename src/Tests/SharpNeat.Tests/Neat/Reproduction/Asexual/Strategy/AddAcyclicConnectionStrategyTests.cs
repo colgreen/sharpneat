@@ -42,7 +42,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 
                 // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                 // test for this and try again. The test will be for N successful mutations rather than N attempts.
-                if(null == childGenome) {
+                if(childGenome is null) {
                     continue;
                 }
 
@@ -104,7 +104,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 
                     // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                     // test for this and try again. The test will be for N successful mutations rather than N attempts.
-                    if(null == childGenome) {
+                    if(childGenome is null) {
                         continue;
                     }
 

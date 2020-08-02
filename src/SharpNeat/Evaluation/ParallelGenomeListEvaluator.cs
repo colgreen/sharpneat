@@ -118,7 +118,7 @@ namespace SharpNeat.Evaluation
                 (genome, loopState, evaluator) =>       // Evaluate a single genome.
                 {
                     TPhenome phenome = _genomeDecoder.Decode(genome);
-                    if(null == phenome)
+                    if(phenome is null)
                     {   // Non-viable genome.
                         genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;
                     }

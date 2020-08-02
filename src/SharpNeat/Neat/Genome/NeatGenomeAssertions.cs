@@ -32,11 +32,11 @@ namespace SharpNeat.Neat.Genome
             int[] connectionIndexMap)
         {
             // Check for mandatory object references.
-            Debug.Assert(null != metaNeatGenome);
-            Debug.Assert(null != connGenes);
-            Debug.Assert(null != hiddenNodeIdArr);
-            Debug.Assert(null != nodeIndexByIdMap);
-            Debug.Assert(null != digraph);
+            Debug.Assert(metaNeatGenome is object);
+            Debug.Assert(connGenes is object);
+            Debug.Assert(hiddenNodeIdArr is object);
+            Debug.Assert(nodeIndexByIdMap is object);
+            Debug.Assert(digraph is object);
 
             // Basic check on ID and birth generation.
             Debug.Assert(id >= 0);
@@ -96,7 +96,7 @@ namespace SharpNeat.Neat.Genome
             for(int i=0; i < connGenes._connArr.Length; i++)
             {
                 // Determine the index of the equivalent connection in the digraph.
-                int genomeConnIdx = (null == connectionIndexMap) ? i : connectionIndexMap[i];
+                int genomeConnIdx = (connectionIndexMap is null) ? i : connectionIndexMap[i];
 
                 Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].SourceId) == srcIdArr[i]);
                 Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].TargetId) == tgtIdArr[i]);
@@ -109,14 +109,14 @@ namespace SharpNeat.Neat.Genome
             int[] connectionIndexMap)
         {
             Debug.Assert(digraph is DirectedGraphAcyclic);
-            Debug.Assert(null != connectionIndexMap);
+            Debug.Assert(connectionIndexMap is object);
 
             // Cast to an acyclic digraph.
             var acyclicDigraph = (DirectedGraphAcyclic)digraph;
 
             // Layer info checks.
             LayerInfo[] layerArr = acyclicDigraph.LayerArray;
-            Debug.Assert(null != layerArr && layerArr.Length > 0);
+            Debug.Assert(layerArr is object && layerArr.Length > 0);
 
             // Layer zero is the input layer, thus the number of nodes in this layer should be at least the number of input nodes.
             // Note. Any node with no incoming connections is also assigned to layer zero, therefore there can be non-input nodes in 

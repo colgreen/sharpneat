@@ -120,8 +120,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _pop = population ?? throw new ArgumentNullException(nameof(population));
             _complexityRegulationStrategy = complexityRegulationStrategy ?? throw new ArgumentNullException(nameof(complexityRegulationStrategy));
 
-            if(reproductionAsexualSettings == null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
-            if(reproductionSexualSettings == null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
+            if(reproductionAsexualSettings is null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
+            if(reproductionSexualSettings is null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
 
              _rng = rng;
             _genomeComparerDescending = new GenomeComparerDescending(evaluator.FitnessComparer);

@@ -176,7 +176,7 @@ namespace SharpNeat.Neat
         {
             // Allocate the genomes to species.
             Species<T>[] speciesArr = speciationStrategy.SpeciateAll(this.GenomeList, speciesCount, rng);
-            if(null == speciesArr || speciesArr.Length != speciesCount) {
+            if(speciesArr is null || speciesArr.Length != speciesCount) {
                 throw new Exception("Species array is null or has incorrect length.");
             }
             this.SpeciesArray = speciesArr;

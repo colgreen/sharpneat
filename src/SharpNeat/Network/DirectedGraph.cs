@@ -131,7 +131,7 @@ namespace SharpNeat.Network
         /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
         public int GetFirstConnectionIndex(int srcNodeIdx)
         {
-            if(null == _connIdxBySrcNodeIdx) {
+            if(_connIdxBySrcNodeIdx is null) {
                 _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
             }
             return _connIdxBySrcNodeIdx[srcNodeIdx];

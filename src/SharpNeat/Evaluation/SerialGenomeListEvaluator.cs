@@ -88,7 +88,7 @@ namespace SharpNeat.Evaluation
             {
                 // TODO: Implement phenome caching (to avoid decode cost when re-evaluating with a non-deterministic evaluation scheme).
                 TPhenome phenome = _genomeDecoder.Decode(genome);
-                if(null == phenome)
+                if(phenome is null)
                 {   // Non-viable genome.
                     genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;
                 }

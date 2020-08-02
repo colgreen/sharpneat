@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         public NeatGenomeBuilderCyclic(MetaNeatGenome<T> metaNeatGenome)
         {
-            Debug.Assert(null != metaNeatGenome && !metaNeatGenome.IsAcyclic);
+            Debug.Assert(metaNeatGenome is object && !metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
             _workingIdSet = new HashSet<int>();
         }
@@ -123,7 +123,7 @@ namespace SharpNeat.Neat.Genome
             int[] connectionIndexMap)
         {
             // This should always be null when evolving cyclic genomes/graphs.
-            Debug.Assert(null == connectionIndexMap);
+            Debug.Assert(connectionIndexMap is null);
 
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
         }

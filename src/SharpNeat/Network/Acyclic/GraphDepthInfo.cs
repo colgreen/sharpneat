@@ -36,7 +36,7 @@ namespace SharpNeat.Network.Acyclic
         public GraphDepthInfo(int networkDepth, int[] nodeDepthArr)
         {
             Debug.Assert(networkDepth >= 0);
-            Debug.Assert(null != nodeDepthArr);
+            Debug.Assert(nodeDepthArr is object);
 
             _networkDepth = networkDepth;
             _nodeDepthArr = nodeDepthArr;

@@ -53,8 +53,8 @@ namespace SharpNeat.Neat.Genome
             DirectedConnection[] connArr,
             T[] weightArr)
         {
-            Debug.Assert(null != connArr);
-            Debug.Assert(null != weightArr);
+            Debug.Assert(connArr is object);
+            Debug.Assert(weightArr is object);
             Debug.Assert(connArr.Length == weightArr.Length);
 
             _connArr = connArr;

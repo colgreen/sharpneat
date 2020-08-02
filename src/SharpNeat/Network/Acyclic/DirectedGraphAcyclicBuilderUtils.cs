@@ -165,7 +165,7 @@ namespace SharpNeat.Network.Acyclic
             // Allocate new timsort working arrays, if necessary.
             int timsortWorkArrLength = nodeCount >> 1;
 
-            if(null == timsortWorkArr || timsortWorkArr.Length < timsortWorkArrLength)
+            if(timsortWorkArr is null || timsortWorkArr.Length < timsortWorkArrLength)
             {
                 timsortWorkArr = new int[timsortWorkArrLength];
                 timsortWorkVArr = new int[timsortWorkArrLength];

@@ -126,9 +126,9 @@ namespace SharpNeat.Network.IO
             do {
                 line = sr.ReadLine();
             }
-            while(null != line && line.StartsWith("#"));
+            while(line is object && line.StartsWith("#"));
 
-            if(null != line) {
+            if(line is object) {
                 line = line.TrimEnd();
             }
             return line;

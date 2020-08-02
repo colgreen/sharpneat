@@ -40,7 +40,7 @@ namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
                 var childGenome = strategy.CreateChildGenome(genome, rng);
                 
                 // The strategy may return null if no appropriately connection could be found to add.
-                if(childGenome == null) 
+                if(childGenome is null) 
                 {
                     nullResponseCount++;
                     continue;

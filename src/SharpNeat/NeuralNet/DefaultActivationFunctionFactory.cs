@@ -76,14 +76,14 @@ namespace SharpNeat.NeuralNet
                     actFn = TryCreateVectorized(name);
                 }
 
-                if(null == actFn)
+                if(actFn is null)
                 {   // Attempt to get a non hardware accelerated instance.
                     actFn = TryCreate(name);
                 }
 
                 // TODO: Add ability to register custom functions not defined in the core sharpneat assembly; as per 
                 // pull request https://github.com/colgreen/sharpneat/pull/40
-                if(null != actFn)
+                if(actFn is object)
                 {
                     // Add to the cache for future use.
                     _fnByName.Add(name, actFn);
@@ -108,7 +108,7 @@ namespace SharpNeat.NeuralNet
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
-            if(null != actFn) {
+            if(actFn is object) {
                 return actFn;
             }
 
@@ -127,7 +127,7 @@ namespace SharpNeat.NeuralNet
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
-            if(null != actFn) {
+            if(actFn is object) {
                 return actFn;
             }
 
@@ -142,7 +142,7 @@ namespace SharpNeat.NeuralNet
             Type type = Type.GetType(fullName);
 
             // If no such type found then return null.
-            if(null == type) {
+            if(type is null) {
                 return null;
             }
 

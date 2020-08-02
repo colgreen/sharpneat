@@ -107,7 +107,7 @@ namespace SharpNeat.Neat.Genome.IO
         /// <remarks>This method does not close the Stream.</remarks>
         public NeatGenome<T> Load(Stream stream)
         {
-            if(null == stream) throw new ArgumentNullException(nameof(stream));
+            if(stream is null) throw new ArgumentNullException(nameof(stream));
 
             using(var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, true)) {
                 return Load(sr);
@@ -121,7 +121,7 @@ namespace SharpNeat.Neat.Genome.IO
         /// <remarks>This method does not close the StreamReader.</remarks>
         public NeatGenome<T> Load(StreamReader sr)
         {
-            if(null == sr) throw new ArgumentNullException(nameof(sr));
+            if(sr is null) throw new ArgumentNullException(nameof(sr));
 
             #if DEBUG
             // Check for attempts to re-enter this method.

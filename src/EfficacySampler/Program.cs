@@ -22,14 +22,14 @@ namespace EfficacySampler
             // Intercept termination of the console app, to flush and close the output file stream 
             // (apparently the 'finally' block below is not executed if the app is terminated with Ctrl-C).
             Console.CancelKeyPress += delegate {
-                if(null != __streamWriter) {
+                if(__streamWriter is object) {
                     __streamWriter.Close();
                 }
             };
 
             // Read command line arguments.
             StopCondition stopCond = ArgUtils.ReadArgs(args, out string experimentId, out string filename);
-            if(null == stopCond) {
+            if(stopCond is null) {
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace EfficacySampler
 
             // Create and configure a NEAT experiment instance.
             INeatExperiment<double> experiment = InitExperiment(experimentId);
-            if(null == experiment) {
+            if(experiment is null) {
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace EfficacySampler
             }
             finally
             {
-                if(null != __streamWriter) {
+                if(__streamWriter is object) {
                     __streamWriter.Close();
                 }
             }
