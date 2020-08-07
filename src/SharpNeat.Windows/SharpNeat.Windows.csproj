@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>4.0.0</Version>
+    <Description>SharpNEAT Windows Forms code library.</Description>
+    <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
+    <Authors>Colin D. Green</Authors>
+    <Company />
+    <Product>SharpNEAT - Evolution of Neural Networks.</Product>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
