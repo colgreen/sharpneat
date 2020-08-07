@@ -9,9 +9,10 @@ namespace TestApp1
     internal static class Utils
     {
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
-            INeatExperimentFactory<double> experimentFactory,
-            string jsonConfigFilename)
+            INeatExperimentFactory<double> experimentFactory)
         {
+            string jsonConfigFilename = $"config/{experimentFactory.Id}.config.json";
+
             // Load experiment json config from file.
             JsonDocument configDoc = JsonUtils.LoadUtf8(jsonConfigFilename);
 
@@ -21,6 +22,6 @@ namespace TestApp1
             // Create a NeatEvolutionAlgorithm instance ready to run the experiment.
             var ea = NeatExperimentUtils.CreateNeatEvolutionAlgorithm(neatExperiment);
             return ea;
-        }
+        }        
     }
 }

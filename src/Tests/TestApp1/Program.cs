@@ -7,7 +7,7 @@ namespace TestApp1
         static void Main(string[] args)
         {
             // Create and initialise the evolutionary algorithm.
-            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_PreyCapture();
+            var ea = EvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm_Binary11();
             ea.Initialise();
 
             var neatPop = ea.Population;
@@ -17,7 +17,7 @@ namespace TestApp1
                 ea.PerformOneGeneration();
                 Console.WriteLine($"{ea.Stats.Generation} {neatPop.Stats.BestFitness.PrimaryFitness} {neatPop.Stats.MeanComplexity} {ea.ComplexityRegulationMode} {neatPop.Stats.MeanFitness}");
 
-                if(ea.Population.Stats.BestFitness.PrimaryFitness >= 99.9)
+                if(ea.Population.Stats.BestFitness.PrimaryFitness >= 2048.0)
                 {
                     break;
                 }
