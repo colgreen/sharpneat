@@ -20,6 +20,11 @@ namespace SharpNeat.Experiments
     public interface INeatExperimentFactory<T> where T : struct
     {
         /// <summary>
+        /// Gets a unique human-readable ID for the experiment, e.g. 'binary-11-multiplexer'.
+        /// </summary>
+        string Id { get; }
+
+        /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/> using experiment 
         /// configuration settings from the provided json string.
         /// </summary>

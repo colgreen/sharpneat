@@ -24,7 +24,7 @@ namespace TestApp1
             var experimentFactory = new BinarySixMultiplexerExperimentFactory();
             return Utils.CreateNeatEvolutionAlgorithm(
                 experimentFactory,
-                "config/binary-six-multiplexer.config.json");
+                "config/binary-6-multiplexer.config.json");
         }
 
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_Binary11()
@@ -32,7 +32,7 @@ namespace TestApp1
             var experimentFactory = new BinaryElevenMultiplexerExperimentFactory();
             return Utils.CreateNeatEvolutionAlgorithm(
                 experimentFactory,
-                "config/binary-eleven-multiplexer.config.json");
+                "config/binary-11-multiplexer.config.json");
         }
 
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_GenerativeSinewave()

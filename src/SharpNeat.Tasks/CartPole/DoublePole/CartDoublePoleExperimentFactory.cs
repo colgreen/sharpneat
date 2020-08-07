@@ -21,6 +21,11 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
     public class CartDoublePoleExperimentFactory : INeatExperimentFactory<double>
     {
         /// <summary>
+        /// Gets a unique human-readable ID for the experiment.
+        /// </summary>
+        public string Id => "cartpole-doublepole";
+
+        /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
         /// </summary>
         /// <param name="configElem">Experiment config in json form.</param>

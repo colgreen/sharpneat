@@ -22,6 +22,11 @@ namespace SharpNeat.Tasks.PreyCapture
     /// </summary>
     public class PreyCaptureExperimentFactory : INeatExperimentFactory<double>
     {
+        /// <summary>
+        /// Gets a unique human-readable ID for the experiment.
+        /// </summary>
+        public string Id => "prey-capture";
+
         #region Public Methods
 
         /// <summary>

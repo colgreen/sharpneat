@@ -20,7 +20,10 @@ namespace SharpNeat.Tasks.Xor
     /// </summary>
     public class XorExperimentFactory : INeatExperimentFactory<double>
     {
-        const ActivationFunctionId __DefaultActivationFunctionName = ActivationFunctionId.LeakyReLU;
+        /// <summary>
+        /// Gets a unique human-readable ID for the experiment.
+        /// </summary>
+        public string Id => "xor";
 
         /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
@@ -38,7 +41,7 @@ namespace SharpNeat.Tasks.Xor
             var experiment = new NeatExperiment<double>("XOR (Exclusive OR)", evalScheme)
             {
                 IsAcyclic = true,
-                ActivationFnName = __DefaultActivationFunctionName.ToString()
+                ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
             };
 
             // Read standard neat experiment json config and use it configure the experiment.

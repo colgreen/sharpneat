@@ -21,6 +21,11 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
     public class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFactory<double>
     {
         /// <summary>
+        /// Gets a unique human-readable ID for the experiment.
+        /// </summary>
+        public string Id => "binary-11-multiplexer";
+
+        /// <summary>
         /// Create a new instance of <see cref="INeatExperiment{T}"/>.
         /// </summary>
         /// <param name="configElem">Experiment config in json form.</param>

@@ -34,13 +34,13 @@
     <None Update="config\xor.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\binary-six-multiplexer.config.json">
+    <None Update="config\binary-6-multiplexer.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="config\generative-sinewave.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\binary-eleven-multiplexer.config.json">
+    <None Update="config\binary-11-multiplexer.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

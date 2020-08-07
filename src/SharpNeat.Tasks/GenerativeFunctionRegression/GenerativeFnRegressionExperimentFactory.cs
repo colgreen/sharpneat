@@ -23,6 +23,11 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     /// </summary>
     public class GenerativeFnRegressionExperimentFactory : INeatExperimentFactory<double>
     {
+        /// <summary>
+        /// Gets a unique human-readable ID for the experiment.
+        /// </summary>
+        public string Id => "generative-sinewave";
+
         #region Public Methods
 
         /// <summary>
