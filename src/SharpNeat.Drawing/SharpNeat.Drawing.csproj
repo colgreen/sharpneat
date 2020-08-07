@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>4.0.0</Version>
+    <Description>Graph drawing library.</Description>
+    <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
+    <Authors>Colin D. Green</Authors>
+    <Company />
+    <Product>SharpNEAT - Evolution of Neural Networks.</Product>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.7.20364.11" />
+  </ItemGroup>
+
+</Project>
