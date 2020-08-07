@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>4.0.0</Version>
+    <Description>SharpNEAT Windows Forms application / front-end.</Description>
+    <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
+    <Authors>Colin D. Green</Authors>
+    <Company />
+    <Product>SharpNEAT - Evolution of Neural Networks.</Product>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZedGraph" Version="5.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpNeat.Tasks\SharpNeat.Tasks.csproj" />
+    <ProjectReference Include="..\SharpNeat.Windows\SharpNeat.Windows.csproj" />
+    <ProjectReference Include="..\SharpNeat\SharpNeat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="log4net.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

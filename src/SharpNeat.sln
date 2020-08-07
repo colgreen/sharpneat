@@ -25,9 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsLib", "Tests\TestsLib\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfficacySampler", "EfficacySampler\EfficacySampler.csproj", "{134D2702-EFFE-4782-99CD-1A358190BE28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeat.Drawing", "SharpNeat.Drawing\SharpNeat.Drawing.csproj", "{A1EE3DFF-C983-4812-BA25-141BC980E684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Drawing", "SharpNeat.Drawing\SharpNeat.Drawing.csproj", "{A1EE3DFF-C983-4812-BA25-141BC980E684}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeat.Windows", "SharpNeat.Windows\SharpNeat.Windows.csproj", "{B74065C1-F9C6-41E7-B70D-DCCF1945A80B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Windows", "SharpNeat.Windows\SharpNeat.Windows.csproj", "{B74065C1-F9C6-41E7-B70D-DCCF1945A80B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeat.Windows.App", "SharpNeat.Windows.App\SharpNeat.Windows.App.csproj", "{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{B74065C1-F9C6-41E7-B70D-DCCF1945A80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B74065C1-F9C6-41E7-B70D-DCCF1945A80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B74065C1-F9C6-41E7-B70D-DCCF1945A80B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
