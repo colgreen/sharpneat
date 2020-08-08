@@ -1,29 +1,32 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace SharpNeat.Windows.App
 {
     /// <summary>
-    /// Form for displaying a graph plot of time series data (e.g. best genome fitness per generation).
+    /// Form for displaying a graph plot of summary information (e.g. distribution curves).
     /// </summary>
-    public partial class TimeSeriesGraphForm : Form
+    public partial class SummaryGraphForm : Form
     {
-        readonly TimeSeriesDataSource[] _dataSourceArray;
-        RollingPointPairList[] _pointPlotArray;
+        readonly SummaryDataSource[] _dataSourceArray;
+        PointPairList[] _pointPlotArray;
         GraphPane _graphPane;
+        readonly Color[] _plotColorArr = new Color[] { Color.LightSlateGray, Color.LightBlue, Color.LightGreen };
 
         #region Constructor
 
         /// <summary>
         /// Construct the form with the provided details and data sources.
         /// </summary>
-        public TimeSeriesGraphForm(
-            string title, string xAxisTitle, string y1AxisTitle, string y2AxisTitle,
-            TimeSeriesDataSource[] dataSourceArray)
+        public SummaryGraphForm(
+            string title, string xAxisTitle,
+            string y1AxisTitle, string y2AxisTitle,
+            SummaryDataSource[] dataSourceArray)
         {
             InitializeComponent();
 
-            this.Text = $"SharpNEAT Graph - {title}";
+            this.Text = $"SharpNEAT - {title}";
             _dataSourceArray = dataSourceArray;
             InitGraph(title, xAxisTitle, y1AxisTitle, y2AxisTitle, dataSourceArray);
         }
@@ -52,19 +55,26 @@ namespace SharpNeat.Windows.App
                 return;
             }
                 
-            // For each series, generate a point and add it to that series' point-pair list.
+            // Update plot points for each series in turn.
             int sourceCount = _dataSourceArray.Length;
             for(int i=0; i < sourceCount; i++)
             {
-                TimeSeriesDataSource ds = _dataSourceArray[i];
-                Point2DDouble point  = ds.GetPoint();
-                _pointPlotArray[i].Add(point.X, point.Y);
+                SummaryDataSource ds = _dataSourceArray[i];
+                Point2DDouble[] pointArr = ds.GetPointArray();
+                PointPairList ppl = _pointPlotArray[i];
+                EnsurePointPairListLength(ppl, pointArr.Length);
+
+                for(int j=0; j < pointArr.Length; j++)
+                {
+                    ppl[j].X = pointArr[j].X;
+                    ppl[j].Y = pointArr[j].Y;
+                }
             }
 
             // Trigger graph to redraw.
             zed.AxisChange();
             Refresh();
-        }      
+        }
 
         #endregion
 
@@ -73,7 +83,7 @@ namespace SharpNeat.Windows.App
         private void InitGraph(
             string title, string xAxisTitle,
             string y1AxisTitle, string y2AxisTitle,
-            TimeSeriesDataSource[] dataSourceArray)
+            SummaryDataSource[] dataSourceArray)
         {
             _graphPane = zed.GraphPane;
             _graphPane.Title.Text = title;
@@ -89,13 +99,37 @@ namespace SharpNeat.Windows.App
 
             // Create point-pair lists and bind them to the graph control.
             int sourceCount = dataSourceArray.Length;
-            _pointPlotArray = new RollingPointPairList[sourceCount];
+            _pointPlotArray = new PointPairList[sourceCount];
+
             for(int i=0; i < sourceCount; i++)
             {
-                TimeSeriesDataSource ds = dataSourceArray[i];
-                _pointPlotArray[i] = new RollingPointPairList(ds.HistoryLength);
-                LineItem lineItem = _graphPane.AddCurve(ds.Name,  _pointPlotArray[i], ds.Color, SymbolType.None);
-                lineItem.IsY2Axis = (ds.YAxis == 1);
+                SummaryDataSource ds = dataSourceArray[i];
+                _pointPlotArray[i] =new PointPairList();
+
+                Color color = _plotColorArr[i % 3];
+                BarItem barItem = _graphPane.AddBar(ds.Name, _pointPlotArray[i], color);
+                barItem.Bar.Fill = new Fill(color);
+                _graphPane.BarSettings.MinClusterGap = 0;
+
+                barItem.IsY2Axis = (ds.YAxis == 1);
+            }
+        }
+
+        private static void EnsurePointPairListLength(PointPairList ppl, int length)
+        {
+            int delta = length - ppl.Count;
+            
+            if(delta > 0)
+            {   
+                // Add additional points.
+                for(int i=0; i < delta; i++) {
+                    ppl.Add(0.0, 0.0);
+                }
+            }
+            else if(delta < 0)
+            {   
+                // Remove excess points.
+                ppl.RemoveRange(length, -delta);
             }
         }
 

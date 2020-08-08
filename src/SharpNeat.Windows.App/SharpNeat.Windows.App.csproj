@@ -9,6 +9,8 @@
     <Company />
     <Product>SharpNEAT - Evolution of Neural Networks.</Product>
     <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>SharpNeat.Windows.App.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
