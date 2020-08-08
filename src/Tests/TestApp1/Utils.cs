@@ -11,7 +11,7 @@ namespace TestApp1
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
             INeatExperimentFactory<double> experimentFactory)
         {
-            string jsonConfigFilename = $"config/{experimentFactory.Id}.config.json";
+            string jsonConfigFilename = $"experiments-config/{experimentFactory.Id}.config.json";
 
             // Load experiment json config from file.
             JsonDocument configDoc = JsonUtils.LoadUtf8(jsonConfigFilename);

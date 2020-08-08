@@ -22,25 +22,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config\cartpole-doublepole.config.json">
+    <None Update="experiments-config\cartpole-doublepole.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\cartpole-singlepole.config.json">
+    <None Update="experiments-config\cartpole-singlepole.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\prey-capture.config.json">
+    <None Update="experiments-config\prey-capture.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\xor.config.json">
+    <None Update="experiments-config\xor.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\binary-6-multiplexer.config.json">
+    <None Update="experiments-config\binary-6-multiplexer.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\generative-sinewave.config.json">
+    <None Update="experiments-config\generative-sinewave.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="config\binary-11-multiplexer.config.json">
+    <None Update="experiments-config\binary-11-multiplexer.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
