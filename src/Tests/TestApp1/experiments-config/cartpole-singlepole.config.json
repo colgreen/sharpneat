@@ -1,5 +1,5 @@
 ﻿{
-	"description":"Cart and Pole Balancing (Single Pole)",
+	"name":"Cart and Pole Balancing (Single Pole)",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LogisticSteep",

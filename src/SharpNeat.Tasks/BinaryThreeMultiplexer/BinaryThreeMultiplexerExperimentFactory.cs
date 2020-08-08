@@ -38,7 +38,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
 
             // Create a NeatExperiment object with the evaluation scheme,
             // and assign some default settings (these can be overridden by config).
-            var experiment = new NeatExperiment<double>("Binary 3-multiplexer", evalScheme)
+            var experiment = new NeatExperiment<double>(this.Id, evalScheme)
             {
                 IsAcyclic = true,
                 ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()

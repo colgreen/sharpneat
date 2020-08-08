@@ -28,9 +28,18 @@ namespace SharpNeat.Experiments
         #region Auto Properties
 
         /// <summary>
+        /// A unique human-readoable ID associated with the experiment.
+        /// </summary>
+        /// <remarks>
+        /// This is should normally match the value defined for <see cref="INeatExperimentFactory.Id"/> on the factory 
+        /// used to create the current IExperiment instance.
+        /// </remarks>
+        public string Id { get; }
+
+        /// <summary>
         /// Experiment name.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Experiment description.
@@ -137,13 +146,16 @@ namespace SharpNeat.Experiments
         /// <summary>
         /// Constructs with the provided name and evaluation scheme, and default settings.
         /// </summary>
-        /// <param name="name">Experiment name.</param>
+        /// <param name="id">Experiment ID.</param>
         /// <param name="evalScheme">Experiment evaluation scheme object.</param>
         public NeatExperiment(
-            string name,
+            string id,
             IBlackBoxEvaluationScheme<T> evalScheme)
         {
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.Id = id ?? throw new ArgumentNullException(nameof(id));
+
+            // Use the ID as a value for the Name here, but it may be overriden by a name given in a config file.
+            this.Name = id;
             this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
 
             // Assign a set of default settings.

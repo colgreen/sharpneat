@@ -1,15 +1,15 @@
 ﻿{
-	"description":"Cart and Pole Balancing (Double Pole)",
+	"name": "Cart and Pole Balancing (Double Pole)",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LogisticSteep",
 	"evolutionAlgorithmSettings": {
-		"speciesCount" : 10,
-		"elitismProportion" : 0.2,
-		"selectionProportion" : 0.9,
-		"offspringAsexualProportion" : 0.5,
-		"offspringSexualProportion" : 0.5,
-		"interspeciesMatingProportion" : 0.01
+		"speciesCount": 10,
+		"elitismProportion": 0.2,
+		"selectionProportion": 0.9,
+		"offspringAsexualProportion": 0.5,
+		"offspringSexualProportion": 0.5,
+		"interspeciesMatingProportion": 0.01
 	},
 	"reproductionAsexualSettings": {
 		"connectionWeightMutationProbability": 0.94,

@@ -1,15 +1,16 @@
 ﻿{
-	"description":"Generative Function Regression: Sin(x) evaluated over interval [0, 8*PI]",
+	"name": "Generative Function Regression: Sin(x)",
+	"description": "Generative Function Regression: Sin(x) evaluated over interval [0, 8*PI]",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LeakyReLU",
 	"evolutionAlgorithmSettings": {
-		"speciesCount" : 10,
-		"elitismProportion" : 0.2,
-		"selectionProportion" : 0.2,
-		"offspringAsexualProportion" : 0.5,
-		"offspringSexualProportion" : 0.5,
-		"interspeciesMatingProportion" : 0.01
+		"speciesCount": 10,
+		"elitismProportion": 0.2,
+		"selectionProportion": 0.2,
+		"offspringAsexualProportion": 0.5,
+		"offspringSexualProportion": 0.5,
+		"interspeciesMatingProportion": 0.01
 	},
 	"reproductionAsexualSettings": {
 		"connectionWeightMutationProbability": 0.94,

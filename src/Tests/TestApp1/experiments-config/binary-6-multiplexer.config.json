@@ -1,13 +1,14 @@
 ﻿{
+	"name": "Binary 6-multiplexer",
 	"isAcyclic": true,
 	"activationFnName": "LeakyReLU",
 	"evolutionAlgorithmSettings": {
-		"speciesCount" : 10,
-		"elitismProportion" : 0.2,
-		"selectionProportion" : 0.2,
-		"offspringAsexualProportion" : 0.5,
-		"offspringSexualProportion" : 0.5,
-		"interspeciesMatingProportion" : 0.01
+		"speciesCount": 10,
+		"elitismProportion": 0.2,
+		"selectionProportion": 0.2,
+		"offspringAsexualProportion": 0.5,
+		"offspringSexualProportion": 0.5,
+		"interspeciesMatingProportion": 0.01
 	},
 	"reproductionAsexualSettings": {
 		"connectionWeightMutationProbability": 0.94,
@@ -21,12 +22,11 @@
 	"populationSize": 300,
 	"initialInterconnectionsProportion": 0.05,
 	"connectionWeightScale": 5.0,
-    "complexityRegulationStrategy":
-    {
-        "strategyName": "relative",
-        "relativeComplexityCeiling": 10,
-        "minSimplifcationGenerations": 10
-    },
+	"complexityRegulationStrategy": {
+		"strategyName": "relative",
+		"relativeComplexityCeiling": 10,
+		"minSimplifcationGenerations": 10
+	},
 	"degreeOfParallelism": 4,
 	"enableHardwareAcceleratedNeuralNets": false,
 	"enableHardwareAcceleratedActivationFunctions": false
