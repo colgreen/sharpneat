@@ -36,6 +36,7 @@ namespace SharpNeat.Experiments
         public static void Read(
             INeatExperiment<T> target, JsonElement jelem)
         {
+            ReadStringOptional(jelem, "id", x => target.Id = x);
             ReadStringOptional(jelem, "name", x => target.Name = x);
             ReadStringOptional(jelem, "description", x => target.Description = x);
             ReadBoolOptional(jelem, "isAcyclic", x => target.IsAcyclic = x);

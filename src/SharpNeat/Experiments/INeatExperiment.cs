@@ -27,10 +27,19 @@ namespace SharpNeat.Experiments
         /// A unique human-readoable ID associated with the experiment.
         /// </summary>
         /// <remarks>
-        /// This is should normally match the value defined for <see cref="INeatExperimentFactory.Id"/> on the factory 
-        /// used to create the current IExperiment instance.
+        /// This will often match <see cref="FactoryId"/>, but there could be two or more experiments that are created from the same
+        /// <see cref="INeatExperimentFactory"/> , and differ only by their configuration setings.
         /// </remarks>
-        string Id { get; }
+        string Id { get; set; }
+
+        /// <summary>
+        /// Matches <see cref="INeatExperimentFactory.Id"/> from the experiment factory that created the current experiment instance.
+        /// </summary>
+        /// <remarks>
+        /// It is possible to create <see cref="INeatExperiment{T}"/> without using an <see cref="INeatExperimentFactory"/>, in thoses cases this
+        /// property can be set to null.
+        /// </remarks>
+        string FactoryId { get; }
 
         /// <summary>
         /// Experiment name.

@@ -60,7 +60,8 @@ namespace SharpNeatLib.Tests.Experiments
             var evalScheme = new Mock<IBlackBoxEvaluationScheme<double>>();
 
             // Init a default settings object.
-            var experiment = new NeatExperiment<double>("foo-experiment", evalScheme.Object);
+            var experiment = new NeatExperiment<double>(
+                "foo-experiment", "foo-experiment-factory", evalScheme.Object);
 
             // Read json properties into the experiment object.
             NeatExperimentJsonReader<double>.Read(experiment, jdoc.RootElement);
