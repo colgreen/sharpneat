@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
     /// <summary>
     /// A factory for creating instances of <see cref="INeatExperiment{T}"/> for the cart and double pole balancing task.
     /// </summary>
-    public class CartDoublePoleExperimentFactory : INeatExperimentFactory<double>
+    public class CartDoublePoleExperimentFactory : INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment.

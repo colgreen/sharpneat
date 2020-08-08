@@ -20,7 +20,7 @@ namespace SharpNeat.Tasks.PreyCapture
     /// <summary>
     /// A factory for creating instances of <see cref="INeatExperiment{T}"/> for the prey capture task.
     /// </summary>
-    public class PreyCaptureExperimentFactory : INeatExperimentFactory<double>
+    public class PreyCaptureExperimentFactory : INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment.

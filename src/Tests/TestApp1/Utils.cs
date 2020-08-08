@@ -9,7 +9,7 @@ namespace TestApp1
     internal static class Utils
     {
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
-            INeatExperimentFactory<double> experimentFactory)
+            INeatExperimentFactory experimentFactory)
         {
             string jsonConfigFilename = $"experiments-config/{experimentFactory.Id}.config.json";
 

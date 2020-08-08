@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer
     /// <summary>
     /// A factory for creating instances of <see cref="INeatExperiment{T}"/> for the Binary 6-multiplexer task.
     /// </summary>
-    public class BinarySixMultiplexerExperimentFactory : INeatExperimentFactory<double>
+    public class BinarySixMultiplexerExperimentFactory : INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment.

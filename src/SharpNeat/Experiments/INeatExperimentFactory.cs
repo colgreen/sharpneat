@@ -16,8 +16,7 @@ namespace SharpNeat.Experiments
     /// <summary>
     /// Represents a factory of <see cref="INeatExperiment{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Black box numeric data type.</typeparam>
-    public interface INeatExperimentFactory<T> where T : struct
+    public interface INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment, e.g. 'binary-11-multiplexer'.
@@ -30,6 +29,6 @@ namespace SharpNeat.Experiments
         /// </summary>
         /// <param name="configElem">Experiment config in json form.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-        INeatExperiment<T> CreateExperiment(JsonElement configElem);
+        INeatExperiment<double> CreateExperiment(JsonElement configElem);
     }
 }
