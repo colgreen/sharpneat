@@ -64,6 +64,17 @@ namespace SharpNeat.Tasks.PreyCapture
             return experiment;
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="INeatExperiment{T}"/> using using single-precision
+        /// floating-point number format for the genome and nueral-net connection weights.
+        /// </summary>
+        /// <param name="configElem">Experiment config in json form.</param>
+        /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+        public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Private Static Methods

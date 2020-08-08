@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Text.Json;
 using SharpNeat.Experiments;
 using SharpNeat.NeuralNet;
@@ -46,6 +47,17 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
             // Read standard neat experiment json config and use it configure the experiment.
             NeatExperimentJsonReader<double>.Read(experiment, configElem);
             return experiment;
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="INeatExperiment{T}"/> using using single-precision
+        /// floating-point number format for the genome and nueral-net connection weights.
+        /// </summary>
+        /// <param name="configElem">Experiment config in json form.</param>
+        /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+        public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
+        {
+            throw new NotImplementedException();
         }
     }
 }
