@@ -199,6 +199,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// </summary>
         public void PerformOneGeneration()
         {
+            if(_pop.SpeciesArray is null) {
+                throw new InvalidOperationException("Algorithm is not initialised.");
+            }
+
             // Create offspring.
             List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(_pop.SpeciesArray, _rng);
 
@@ -242,7 +246,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         private void TrimSpeciesBackToElite(out bool emptySpeciesFlag)
         {
             emptySpeciesFlag = false;
-            int speciesCount = _pop.SpeciesArray.Length;
+            int speciesCount = _pop.SpeciesArray!.Length;
 
             for(int i=0; i < speciesCount; i++)
             {
@@ -265,7 +269,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             var genomeList = _pop.GenomeList;
 
             genomeList.Clear();
-            foreach(var species in _pop.SpeciesArray) {
+            foreach(var species in _pop.SpeciesArray!) {
                 genomeList.AddRange(species.GenomeList);
             }
         }
@@ -322,13 +326,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             else
             {
                 // Integrate offspring into the existing species. 
-                _speciationStrategy.SpeciateAdd(offspringList, _pop.SpeciesArray, _rng);
+                _speciationStrategy.SpeciateAdd(offspringList, _pop.SpeciesArray!, _rng);
 
                 // Sort the genomes in each species by primary fitness, highest fitness first.
                 // We use an unstable sort; this ensures that the order of equally fit genomes is randomized, which in turn
                 // randomizes which genomes are in the subset if elite genomes that are preserved for the next generation,
                 // i.e. when many genomes have equally high fitness.
-                foreach(var species in _pop.SpeciesArray) {
+                foreach(var species in _pop.SpeciesArray!) {
                     SortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
                 }
             }

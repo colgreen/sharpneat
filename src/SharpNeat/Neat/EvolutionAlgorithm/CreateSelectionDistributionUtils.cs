@@ -35,7 +35,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public static void CreateSelectionDistributions(
             Species<T>[] speciesArr,
             out DiscreteDistribution speciesDist,
-            out DiscreteDistribution[] genomeDistArr,
+            out DiscreteDistribution?[] genomeDistArr,
             out int nonEmptySpeciesCount)
         {
             // Species selection distribution.
@@ -79,16 +79,24 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             return new DiscreteDistribution(speciesFitnessArr);
         }
 
-        private static DiscreteDistribution[] CreateIntraSpeciesGenomeSelectionDistributions(
+        private static DiscreteDistribution?[] CreateIntraSpeciesGenomeSelectionDistributions(
             Species<T>[] speciesArr)
         {
             int speciesCount = speciesArr.Length;
-            DiscreteDistribution[] distArr = new DiscreteDistribution[speciesCount];
+            DiscreteDistribution?[] distArr = new DiscreteDistribution[speciesCount];
 
             // For each species build a DiscreteDistribution for genome selection within 
             // that species. I.e. fitter genomes have higher probability of selection.
-            for(int i=0; i < speciesCount; i++) {
-                distArr[i] = CreateIntraSpeciesGenomeSelectionDistribution(speciesArr[i]);
+            for(int i=0; i < speciesCount; i++) 
+            {
+                Species<T> species = speciesArr[i];
+
+                distArr[i] = species.Stats.SelectionSizeInt switch
+                    {
+                        0 => null,
+                        1 => DiscreteDistribution.SingleOutcome,
+                        _ => CreateIntraSpeciesGenomeSelectionDistribution(species)
+                    };
             }
 
             return distArr;
@@ -97,13 +105,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         private static DiscreteDistribution CreateIntraSpeciesGenomeSelectionDistribution(
             Species<T> species)
         {
-            // Skip species with a zero target size. These will be ignored by the parent genome selection logic.
-            if(species.Stats.SelectionSizeInt == 0) {
-                return null;
-            }
-
+            var probArr = new double[species.Stats.SelectionSizeInt];
             var genomeList = species.GenomeList;
-            double[] probArr = new double[species.Stats.SelectionSizeInt];
 
             for(int i=0; i < probArr.Length; i++) {
                 probArr[i] = genomeList[i].FitnessInfo.PrimaryFitness;

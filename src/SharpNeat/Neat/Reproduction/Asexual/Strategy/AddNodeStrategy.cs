@@ -77,10 +77,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="parent">The parent genome.</param>
         /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+        public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             if(0 == parent.ConnectionGenes.Length) 
-            {   // No connections to split (nodes are added by splitting an existing connection).
+            {   
+                // No connections to split (nodes are added by splitting an existing connection).
                 return null;
             }
 

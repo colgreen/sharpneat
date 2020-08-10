@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         // Indicates that we are building acyclic networks.
         readonly bool _isAcyclic;
-        readonly CyclicConnectionTest _cyclicTest;
+        readonly CyclicConnectionTest? _cyclicTest;
 
         // Connection gene lists.
         readonly List<DirectedConnection> _connList;
@@ -88,7 +88,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         private bool IsCyclicConnection(in ConnectionGene<T> gene)
         {
-            return _cyclicTest.IsConnectionCyclic(_connList, in gene.Endpoints);
+            return _cyclicTest!.IsConnectionCyclic(_connList, in gene.Endpoints);
         }
 
         #endregion

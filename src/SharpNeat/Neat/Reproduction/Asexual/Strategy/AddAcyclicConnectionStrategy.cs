@@ -80,13 +80,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="parent">The parent genome.</param>
         /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+        public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             Debug.Assert(_metaNeatGenome == parent.MetaNeatGenome, "Parent genome has unexpected MetaNeatGenome.");
 
             // Attempt to find a new connection that we can add to the genome.
             if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))
-            {   // Failed to find a new connection.
+            {   
+                // Failed to find a new connection.
                 return null;
             }
 

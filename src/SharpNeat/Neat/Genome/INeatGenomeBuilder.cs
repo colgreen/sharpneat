@@ -78,6 +78,6 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            int[] connectionIndexMap);
+            int[]? connectionIndexMap);
     }
 }

@@ -58,7 +58,7 @@ namespace SharpNeat.Network
 
         // An array of indexes into _connArr. 
         // For a given node index, gives the index of the first connection with that node as its source.
-        int[] _connIdxBySrcNodeIdx;
+        int[]? _connIdxBySrcNodeIdx;
 
         #endregion
 
@@ -142,6 +142,10 @@ namespace SharpNeat.Network
         /// </summary>
         public ArraySegment<int> GetTargetNodeIndexes(int srcNodeIdx)
         {
+            if(_connIdxBySrcNodeIdx is null) {
+                _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
+            }
+
             int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
             if(-1 == startIdx)
             {   // There are no connections that have the specified node as their source.
@@ -156,6 +160,7 @@ namespace SharpNeat.Network
             int endIdx = startIdx+1;
             for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
+            // TODO: Consider using Memory<T> here instead, which is presumably more efficient (ArraySegment wraps an array and an offset).
             // Return an array segment over the sub-range of the connection array.
             return new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
         }

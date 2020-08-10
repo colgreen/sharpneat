@@ -15,6 +15,8 @@ using System.Linq;
 
 namespace SharpNeat.Network.IO
 {
+    // TODO: Consider if this is dead code.
+
     /// <summary>
     /// Static utility methods for writing network definitions to tab separated file (tsv) format.
     /// </summary>

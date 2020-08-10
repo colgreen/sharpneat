@@ -49,7 +49,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the objects are equal; otherwise false.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Int32Point point 
                 && X == point.X 

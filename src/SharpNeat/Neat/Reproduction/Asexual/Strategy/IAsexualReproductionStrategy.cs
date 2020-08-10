@@ -26,6 +26,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="parent">The parent genome.</param>
         /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng);
+        NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng);
     }
 }

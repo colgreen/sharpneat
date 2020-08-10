@@ -60,7 +60,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <param name="parent">The parent genome.</param>
         /// <param name="rng">Random source.</param>
         /// <returns>A new child genome.</returns>
-        public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+        public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
             // We require at least two connections in the parent, i.e. we avoid creating genomes with
             // no connections, which would be pointless.
@@ -179,13 +179,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             if(!nodeId2.HasValue)
             {
-                if(!IsNodeConnectedTo(childConnArr, nodeId1.Value)) {
+                if(!IsNodeConnectedTo(childConnArr, nodeId1!.Value)) {
                     return (nodeId1.Value, null);
                 }
                 return (null, null);
             }
 
-            (bool, bool) isConnectedTuple = AreNodesConnectedTo(childConnArr, nodeId1.Value, nodeId2.Value);
+            (bool, bool) isConnectedTuple = AreNodesConnectedTo(childConnArr, nodeId1!.Value, nodeId2.Value);
             if(!isConnectedTuple.Item1 && !isConnectedTuple.Item2) {
                 return (nodeId1.Value, nodeId2.Value);
             }

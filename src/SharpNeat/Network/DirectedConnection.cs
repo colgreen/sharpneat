@@ -97,12 +97,9 @@ namespace SharpNeat.Network
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the objects are equal; otherwise false.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if(obj is DirectedConnection connection) {
-                return this.Equals(connection);
-            }
-            return false;
+            return obj is DirectedConnection connection && this.Equals(connection);
         }
 
         /// <summary>

@@ -127,7 +127,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Keep trying until a child genome is created.
             for(;;)
             {
-                NeatGenome<T> childGenome = Create(parent, rng, ref mutationTypeDist);
+                NeatGenome<T>? childGenome = Create(parent, rng, ref mutationTypeDist);
                 if(childGenome is object) {
                     return childGenome;
                 }
@@ -138,7 +138,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #region Private Methods [Create Subroutines]
 
-        private NeatGenome<T> Create(
+        private NeatGenome<T>? Create(
             NeatGenome<T> parent,
             IRandomSource rng,
             ref DiscreteDistribution mutationTypeDist)
@@ -147,7 +147,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             MutationType mutationTypeId = (MutationType)DiscreteDistribution.Sample(rng, mutationTypeDist);
 
             // Attempt to create a child genome using the selected mutation type.
-            NeatGenome<T> childGenome = mutationTypeId switch
+            NeatGenome<T>? childGenome = mutationTypeId switch
             {
                 // Note. These subroutines will return null if they cannot produce a child genome, 
                 // e.g. 'delete connection' will not succeed if there is only one connection.
@@ -167,7 +167,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
             // Sanity test.
             if(0 == mutationTypeDist.Probabilities.Length)
-            {   // This shouldn't be possible, hence this is an exceptional circumstance.
+            {   
+                // This shouldn't be possible, hence this is an exceptional circumstance.
                 // Note. Connection weight and 'add node' mutations should always be possible, because there should 
                 // always be at least one connection.
                 throw new Exception("All types of genome mutation failed.");

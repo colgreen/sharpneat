@@ -66,18 +66,20 @@ namespace SharpNeat.NeuralNet
             lock(_lockObj)
             {
                 // Check for an exiting instance in the activation function cache.
-                if(_fnByName.TryGetValue(name, out IActivationFunction<T> actFn)) {
+                if(_fnByName.TryGetValue(name, out IActivationFunction<T>? actFn)) {
                     return actFn;
                 }
 
                 // No entry in the cache, attempt to create a new instance.
                 if(_enableHardwareAcceleration && Vector.IsHardwareAccelerated)
-                {   // Attempt to get a hardware accelerated instance.
+                {   
+                    // Attempt to get a hardware accelerated instance.
                     actFn = TryCreateVectorized(name);
                 }
 
                 if(actFn is null)
-                {   // Attempt to get a non hardware accelerated instance.
+                {   
+                    // Attempt to get a non hardware-accelerated instance.
                     actFn = TryCreate(name);
                 }
 
@@ -98,7 +100,7 @@ namespace SharpNeat.NeuralNet
 
         #region Private Methods
 
-        private IActivationFunction<T> TryCreate(string name)
+        private IActivationFunction<T>? TryCreate(string name)
         {
             // Get the generic type parameter name (i.e. Float or Double).
             string valueType = this.GetType().GetGenericArguments()[0].Name;
@@ -117,7 +119,7 @@ namespace SharpNeat.NeuralNet
             return TryCreateFromFullName(fullName);
         }
 
-        private IActivationFunction<T> TryCreateVectorized(string name)
+        private IActivationFunction<T>? TryCreateVectorized(string name)
         {
             // Get the generic type parameter name (i.e. Float or Double).
             string valueType = this.GetType().GetGenericArguments()[0].Name;
@@ -136,17 +138,17 @@ namespace SharpNeat.NeuralNet
             return TryCreateFromFullName(fullName);
         }
 
-        private static IActivationFunction<T> TryCreateFromFullName(string fullName)
+        private static IActivationFunction<T>? TryCreateFromFullName(string fullName)
         {
             // Attempt to get an activation type with the specified name.
-            Type type = Type.GetType(fullName);
+            Type? type = Type.GetType(fullName);
 
             // If no such type found then return null.
             if(type is null) {
                 return null;
             }
 
-            return (IActivationFunction<T>)Activator.CreateInstance(type);
+            return (IActivationFunction<T>?)Activator.CreateInstance(type);
         }
 
         #endregion

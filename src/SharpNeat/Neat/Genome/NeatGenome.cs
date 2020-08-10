@@ -112,7 +112,7 @@ namespace SharpNeat.Neat.Genome
         /// is the 'new' index (the digraph index), and the value stored at that position is the 'old' index (the genome 
         /// connection index).
         /// </summary>
-        public int[] ConnectionIndexMap { get; }
+        public int[]? ConnectionIndexMap { get; }
 
         #endregion
 
@@ -129,7 +129,7 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            int[] connectionIndexMap)
+            int[]? connectionIndexMap)
         {
             #if DEBUG
 

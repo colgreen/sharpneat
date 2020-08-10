@@ -36,7 +36,7 @@ namespace SharpNeat.Neat.Genome.IO
         readonly List<T> _weightList;
         readonly List<ActivationFunctionRow> _actFnList;
 
-        StreamReader _sr;
+        StreamReader? _sr;
         int _lineIdx;
         int _genomeId;
 
@@ -99,6 +99,7 @@ namespace SharpNeat.Neat.Genome.IO
                 return Load(sr);
             }
         }
+
         /// <summary>
         /// Load a genome from the given stream.
         /// </summary>
@@ -113,6 +114,7 @@ namespace SharpNeat.Neat.Genome.IO
                 return Load(sr);
             }
         }
+
         /// <summary>
         /// Load a genome from the given stream.
         /// </summary>
@@ -179,7 +181,7 @@ namespace SharpNeat.Neat.Genome.IO
             for(;;)
             {
                 // Read a line.
-                string line = ReadNextLine();
+                string? line = ReadNextLine();
 
                 // Stop reading connections if we detect the end of the section, or end of the file.
                 if(string.IsNullOrEmpty(line)) {
@@ -226,7 +228,7 @@ namespace SharpNeat.Neat.Genome.IO
             for(int expectedFnId=0;; expectedFnId++)
             {
                 // Read a line.
-                string line = ReadNextLine();
+                string? line = ReadNextLine();
 
                 // Stop reading connections if we detect the end of the section, or end of the file.
                 if(string.IsNullOrEmpty(line)) {
@@ -312,27 +314,27 @@ namespace SharpNeat.Neat.Genome.IO
 
         private void ReadEndOfSection()
         {
-            string line = ReadNextLine();
-            if(line != string.Empty) {
+            string? line = ReadNextLine();
+            if(!string.IsNullOrEmpty(line)) {
                 throw new IOException($"End of section expected. Line [{_lineIdx}].");
             }
         }
 
         private string ReadNonEmptyLine()
         {
-            string line = ReadNextLine();
+            string? line = ReadNextLine();
             if(string.IsNullOrEmpty(line)) {
                 throw new IOException($"Expected non-empty line. Line [{_lineIdx}].");
             }
             return line;
         }
 
-        private string ReadNextLine()
+        private string? ReadNextLine()
         {
             for(;;)
             {
                 // Read the next line.
-                string line = _sr.ReadLine();
+                string? line = _sr!.ReadLine();
                 _lineIdx++;
 
                 // Return the line if it is empty (end of a section), null (end of file), 

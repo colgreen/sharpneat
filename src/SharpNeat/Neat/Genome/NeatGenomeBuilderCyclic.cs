@@ -120,7 +120,7 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            int[] connectionIndexMap)
+            int[]? connectionIndexMap)
         {
             // This should always be null when evolving cyclic genomes/graphs.
             Debug.Assert(connectionIndexMap is null);

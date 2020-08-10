@@ -49,9 +49,10 @@ namespace SharpNeat.Network.Acyclic
         /// </summary>
         /// <param name="other">The object to compare with the current object.</param>
         /// <returns>true if the objects are equal; otherwise false.</returns>
-        public bool Equals(GraphDepthInfo other)
+        public bool Equals(GraphDepthInfo? other)
         {
-            return _networkDepth == other._networkDepth
+            return other is object 
+                && _networkDepth == other._networkDepth
                 && _nodeDepthArr.SequenceEqual(other._nodeDepthArr);
         }
 

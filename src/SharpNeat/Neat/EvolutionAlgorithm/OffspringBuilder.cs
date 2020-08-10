@@ -68,7 +68,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             CreateSelectionDistributionUtils<T>.CreateSelectionDistributions(
                 speciesArr,
                 out DiscreteDistribution speciesDist,
-                out DiscreteDistribution[] genomeDistArr,
+                out DiscreteDistribution?[] genomeDistArr,
                 out int populatedSpeciesCount);
 
             // Resolve the interspecies mating proportion.
@@ -92,7 +92,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         private List<NeatGenome<T>> CreateOffspring(
             Species<T>[] speciesArr,
             DiscreteDistribution speciesDist,
-            DiscreteDistribution[] genomeDistArr,
+            DiscreteDistribution?[] genomeDistArr,
             double interspeciesMatingProportion,
             IRandomSource rng)
         {
@@ -108,8 +108,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // Get the current species.
                 Species<T> species = speciesArr[speciesIdx];
                 
+                // Skip species that have been marked to not produce any offspring.
+                if(species.Stats.SelectionSizeInt == 0) {
+                    continue;
+                }
+
                 // Get the DiscreteDistribution for genome selection within the current species.
-                DiscreteDistribution genomeDist = genomeDistArr[speciesIdx];
+                DiscreteDistribution genomeDist = genomeDistArr[speciesIdx]!;
 
                 // Determine how many offspring to create through asexual and sexual reproduction.
                 SpeciesStats stats = species.Stats;
@@ -120,7 +125,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 if(species.Stats.SelectionSizeInt == 1)
                 {
                     // Note. here we assign all the sexual reproduction allocation to asexual reproduction. In principle 
-                    // we could still perform inter species sexual reproduction, but that complicates the code further
+                    // we could still perform inter-species sexual reproduction, but that complicates the code further
                     // for minimal gain.
                     offspringCountAsexual += offspringCountSexual;
                     offspringCountSexual = 0;
@@ -170,7 +175,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             Species<T>[] speciesArr,
             Species<T> species,
             DiscreteDistribution speciesDistUpdated,
-            DiscreteDistribution[] genomeDistArr,
+            DiscreteDistribution?[] genomeDistArr,
             DiscreteDistribution genomeDist,
             int offspringCount,
             List<NeatGenome<T>> offspringList,
@@ -203,13 +208,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 Species<T> speciesB = speciesArr[speciesIdx];
 
                 // Select parent B from species B.
-                DiscreteDistribution genomeDistB = genomeDistArr[speciesIdx];
+                DiscreteDistribution genomeDistB = genomeDistArr[speciesIdx]!;
                 genomeIdx = DiscreteDistribution.Sample(rng, genomeDistB);
                 var parentGenomeB = speciesB.GenomeList[genomeIdx];
 
                 // Ensure parentA is the fittest of the two parents.
                 if(_fitnessComparer.Compare(parentGenomeA.FitnessInfo, parentGenomeB.FitnessInfo) < 0) {
-                    VariableUtils.Swap(ref parentGenomeA, ref parentGenomeB);
+                    VariableUtils.Swap(ref parentGenomeA!, ref parentGenomeB!);
                 }
 
                 // Create a child genome and add it to offspringList.

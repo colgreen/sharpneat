@@ -70,7 +70,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// Species array.
         /// </summary>
-        public Species<T>[] SpeciesArray { get; set; }
+        public Species<T>[]? SpeciesArray { get; set; }
 
         /// <summary>
         /// NeatPopulation statistics.
@@ -237,7 +237,7 @@ namespace SharpNeat.Neat
         /// </summary>
         public void ClearAllSpecies()
         {
-            foreach(var species in this.SpeciesArray) {
+            foreach(var species in this.SpeciesArray!) {
                 species.GenomeList.Clear();
             }
         }
@@ -247,7 +247,7 @@ namespace SharpNeat.Neat
         /// </summary>
         public bool ContainsEmptySpecies()
         {
-            return this.SpeciesArray.Any(x => (x.GenomeList.Count == 0));
+            return this.SpeciesArray!.Any(x => (x.GenomeList.Count == 0));
         }
 
         #endregion
@@ -291,7 +291,7 @@ namespace SharpNeat.Neat
         {
             // Loop the species; calculate the each species' mean fitness, and calc a sum over those mean fitnesses.
             sumMeanFitness = 0.0;
-            Species<T>[] speciesArr = this.SpeciesArray;
+            Species<T>[] speciesArr = this.SpeciesArray!;
             for(int i=0; i < speciesArr.Length; i++)
             {
                 Species<T> species = speciesArr[i];

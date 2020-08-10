@@ -50,7 +50,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// The directed graph being tested.
         /// </summary>
-        DirectedGraph _digraph;
+        DirectedGraph? _digraph;
 
         /// <summary>
         /// A bitmap in which each bit represents a node in the graph. 
@@ -139,7 +139,7 @@ namespace SharpNeat.Network
             }
 
             // Traverse into the node's targets / children (if it has any)
-            int connIdx = _digraph.GetFirstConnectionIndex(nodeIdx);
+            int connIdx = _digraph!.GetFirstConnectionIndex(nodeIdx);
             if(-1 == connIdx) 
             {   // No target nodes to traverse, therefore no cycles on this traversal path.
                 return false;

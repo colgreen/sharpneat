@@ -15,6 +15,7 @@ using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
+using SharpNeat.NeuralNet;
 
 namespace SharpNeat.Experiments
 {
@@ -53,7 +54,7 @@ namespace SharpNeat.Experiments
         /// <summary>
         /// Experiment description.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Experiment evaluation scheme object.
@@ -74,7 +75,7 @@ namespace SharpNeat.Experiments
         /// <summary>
         /// Name of the neuron activation function to use in evolved networks.
         /// </summary>
-        public string ActivationFnName { get; set; } 
+        public string ActivationFnName { get; set; } = ActivationFunctionId.LeakyReLU.ToString();
 
         /// <summary>
         /// The <see cref="NeatEvolutionAlgorithmSettings"/> to be used for the experiment.

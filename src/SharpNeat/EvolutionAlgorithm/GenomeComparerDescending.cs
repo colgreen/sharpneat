@@ -44,11 +44,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// If genome y's fitness is higher then genome x's fitness then returns a negative integer.
         /// If the two genomes have equal fitness then returns zero.
         /// </returns>
-        public int Compare(IGenome x, IGenome y)
+        public int Compare(IGenome? x, IGenome? y)
         {
             // Note. The x and y genome argument order is swapped/reversed; this results in a sorting of genomes
             // based on this IComparer<> sorting in descending order, i.e. highest fitness to lowest fitness.
-            return _fitnessInfoComparer.Compare(y.FitnessInfo, x.FitnessInfo);
+            return _fitnessInfoComparer.Compare(y!.FitnessInfo, x!.FitnessInfo);
         }
     }
 }

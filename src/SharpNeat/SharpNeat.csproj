@@ -13,9 +13,11 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <RootNamespace>SharpNeat</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Network\IO\NetworkTsvReaderUtils.cs" />
     <Compile Remove="Network\IO\NetworkTsvWriterUtils.cs" />
     <Compile Remove="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <Compile Remove="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
@@ -23,10 +25,11 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Redzen" Version="11.0.0" />
+    <PackageReference Include="Redzen" Version="12.0.0-preview1" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Network\IO\NetworkTsvReaderUtils.cs" />
     <None Include="Network\IO\NetworkTsvWriterUtils.cs" />
     <None Include="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <None Include="Network\IO\WeightedDirectedGraphTsvWriter.cs" />

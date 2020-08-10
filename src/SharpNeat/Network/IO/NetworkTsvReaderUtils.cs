@@ -15,6 +15,8 @@ using System.IO;
 
 namespace SharpNeat.Network.IO
 {
+    // TODO: Consider if this is dead code.
+
     /// <summary>
     /// Static utility methods for reading networks stored in a tab separated value (tsv) format.
     /// </summary>

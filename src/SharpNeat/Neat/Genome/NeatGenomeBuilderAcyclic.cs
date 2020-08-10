@@ -31,8 +31,8 @@ namespace SharpNeat.Neat.Genome
         readonly HashSet<int> _workingIdSet;
 
         // Temp working data for timsort. Allocated once and re-used to minimise object allocate and GC overhead.
-        int[] _timesortWorkArr;
-        int[] _timesortWorkVArr;
+        int[]? _timesortWorkArr;
+        int[]? _timesortWorkVArr;
 
         #endregion
 
@@ -172,7 +172,7 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            int[] connectionIndexMap)
+            int[]? connectionIndexMap)
         {
             return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap);
         }

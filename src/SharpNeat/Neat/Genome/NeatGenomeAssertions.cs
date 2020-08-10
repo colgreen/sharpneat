@@ -29,7 +29,7 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             INodeIdMap nodeIndexByIdMap,
             DirectedGraph digraph,
-            int[] connectionIndexMap)
+            int[]? connectionIndexMap)
         {
             // Check for mandatory object references.
             Debug.Assert(metaNeatGenome is object);
@@ -79,7 +79,7 @@ namespace SharpNeat.Neat.Genome
             ConnectionGenes<T> connGenes,
             DirectedGraph digraph,
             INodeIdMap nodeIndexByIdMap,
-            int[] connectionIndexMap)
+            int[]? connectionIndexMap)
         {
             // Connection counts.
             Debug.Assert(connGenes._connArr.Length == digraph.ConnectionIdArrays.Length);
@@ -106,7 +106,7 @@ namespace SharpNeat.Neat.Genome
         private static void AssertAcyclicGraph(
             MetaNeatGenome<T> metaNeatGenome,
             DirectedGraph digraph,
-            int[] connectionIndexMap)
+            int[]? connectionIndexMap)
         {
             Debug.Assert(digraph is DirectedGraphAcyclic);
             Debug.Assert(connectionIndexMap is object);

@@ -48,7 +48,7 @@ namespace SharpNeat.Network.Acyclic
         /// <summary>
         /// Working array of node depths.
         /// </summary>
-        int[] _nodeDepthByIdx;
+        int[]? _nodeDepthByIdx;
 
         #if DEBUG
         /// <summary>
@@ -150,7 +150,7 @@ namespace SharpNeat.Network.Acyclic
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
                 // depth than the current path.
                 int childNodeId = tgtIdArr[currStackFrame.ConnectionIdx];
-                if(_nodeDepthByIdx[childNodeId] >= currStackFrame.Depth) {
+                if(_nodeDepthByIdx![childNodeId] >= currStackFrame.Depth) {
                     continue;
                 }
 
@@ -183,7 +183,7 @@ namespace SharpNeat.Network.Acyclic
             {
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
                 // depth than the current path. 
-                if(_nodeDepthByIdx[tgtIdAr[i]] < depth)
+                if(_nodeDepthByIdx![tgtIdAr[i]] < depth)
                 {   
                     _traversalStack.Poke(new StackFrame(i, depth));
                     return;

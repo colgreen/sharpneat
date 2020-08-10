@@ -65,7 +65,7 @@ namespace SharpNeat.Neat
             {
                 // Calculate the new target size of each species using fitness sharing.
                 double popSizeReal = pop.GenomeList.Count;
-                Species<T>[] speciesArr = pop.SpeciesArray;
+                Species<T>[] speciesArr = pop.SpeciesArray!;
 
                 // The size of each specie is based on its fitness relative to the other species.
                 for(int i=0; i < speciesArr.Length; i++)
@@ -91,7 +91,7 @@ namespace SharpNeat.Neat
         private static int CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(NeatPopulation<T> pop, IRandomSource rng)
         {
             // Assign all species an equal targetSize.
-            Species<T>[] speciesArr = pop.SpeciesArray;
+            Species<T>[] speciesArr = pop.SpeciesArray!;
             double popSizeReal = pop.GenomeList.Count;
             double targetSizeReal = popSizeReal / speciesArr.Length;
 
@@ -132,12 +132,12 @@ namespace SharpNeat.Neat
             if(targetSizeDeltaInt < 0) 
             {
                 // Target size is too low; adjust up.
-                AdjustSpeciesTargetSizesUp(pop.SpeciesArray, targetSizeDeltaInt, rng);
+                AdjustSpeciesTargetSizesUp(pop.SpeciesArray!, targetSizeDeltaInt, rng);
             }
             else if(targetSizeDeltaInt > 0)
             {
                 // Target size is too high; adjust down.
-                AdjustSpeciesTargetSizesDown(pop.SpeciesArray, targetSizeDeltaInt, rng);
+                AdjustSpeciesTargetSizesDown(pop.SpeciesArray!, targetSizeDeltaInt, rng);
             }
 
             // Ensure a non-zero target size for the species that contains the best genome.
@@ -204,7 +204,7 @@ namespace SharpNeat.Neat
         {
             // Test if the best genome is in a species with a zero target size allocation.
             int bestGenomeSpeciesIdx = pop.NeatPopulationStats.BestGenomeSpeciesIdx;
-            Species<T>[] speciesArr = pop.SpeciesArray;
+            Species<T>[] speciesArr = pop.SpeciesArray!;
             if(speciesArr[bestGenomeSpeciesIdx].Stats.TargetSizeInt > 0)
             {
                 // Nothing to do. The best genome is in a species with a non-zero allocation.
@@ -263,7 +263,7 @@ namespace SharpNeat.Neat
             NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
         {
-            Species<T>[] speciesArr = pop.SpeciesArray;
+            Species<T>[] speciesArr = pop.SpeciesArray!;
 
             // Loop the species, calculating and storing the various size/count properties.
             int bestGenomeSpeciesIdx = pop.NeatPopulationStats.BestGenomeSpeciesIdx;

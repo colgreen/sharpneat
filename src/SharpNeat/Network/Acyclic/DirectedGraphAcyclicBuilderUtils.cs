@@ -29,8 +29,8 @@ namespace SharpNeat.Network.Acyclic
             // Timsort working arrays. We only need the variable slot to pass as reference, timsort will allocate them if 
             // necessary and return them, but here we just discard those arrays. To re-use the arrays call the method overload
             // that accepts the two arrays.
-            int[] timsortWorkArr = null;
-            int[] timsortWorkVArr = null;
+            int[]? timsortWorkArr = null;
+            int[]? timsortWorkVArr = null;
 
             return CreateAcyclicDirectedGraph(
                 digraph, depthInfo,
@@ -45,8 +45,8 @@ namespace SharpNeat.Network.Acyclic
             GraphDepthInfo depthInfo,
             out int[] newIdByOldId,
             out int[] connectionIndexMap,
-            ref int[] timsortWorkArr,
-            ref int[] timsortWorkVArr)
+            ref int[]? timsortWorkArr,
+            ref int[]? timsortWorkVArr)
         {
             int inputCount = digraph.InputCount;
             int outputCount = digraph.OutputCount;
@@ -130,8 +130,8 @@ namespace SharpNeat.Network.Acyclic
             GraphDepthInfo depthInfo,
             int nodeCount,
             int inputCount,
-            ref int[] timsortWorkArr,
-            ref int[] timsortWorkVArr)
+            ref int[]? timsortWorkArr,
+            ref int[]? timsortWorkVArr)
         {
             // Create an array of all node IDs in the digraph.
             int[] nodeIdArr = new int[nodeCount];

@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Genome.Double
             // Create a new weight array, and copy in the weights from the genome into their correct positions.
             double[] genomeWeightArr = genome.ConnectionGenes._weightArr;
             double[] neuralNetWeightArr = new double[genomeWeightArr.Length];
-            int[] connIdxMap = genome.ConnectionIndexMap;
+            int[] connIdxMap = genome.ConnectionIndexMap!;
 
             for(int i=0; i < connIdxMap.Length; i++) {
                 neuralNetWeightArr[i] = genomeWeightArr[connIdxMap[i]];

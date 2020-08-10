@@ -32,7 +32,7 @@ namespace SharpNeat.Evaluation
         /// here we allow for multiple fitness values per evaluation to allow for multiple objectives, or
         /// secondary fitness scores for reporting only.
         /// </summary>
-        readonly double[] _auxFitnessScores;
+        readonly double[]? _auxFitnessScores;
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace SharpNeat.Evaluation
         /// <summary>
         /// Gets an array of auxiliary fitness scores.
         /// </summary>
-        public double[] AuxFitnessScores => _auxFitnessScores;
+        public double[]? AuxFitnessScores => _auxFitnessScores;
 
         #endregion
     }
