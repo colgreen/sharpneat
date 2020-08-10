@@ -63,7 +63,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
 
                 // Read output signal.
                 double output = outputVec[0];
-                Clip(ref output);
+                Clamp(ref output);
                 Debug.Assert(output >= 0.0, "Unexpected negative output.");
                 bool trueResponse = (output > 0.5);
 
@@ -108,7 +108,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
 
         #region Private Static Methods
 
-        private static void Clip(ref double x)
+        private static void Clamp(ref double x)
         {
             if(x < 0.0) x = 0.0;
             else if(x > 1.0) x = 1.0;
