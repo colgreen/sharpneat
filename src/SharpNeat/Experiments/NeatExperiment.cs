@@ -28,15 +28,6 @@ namespace SharpNeat.Experiments
         #region Auto Properties
 
         /// <summary>
-        /// A unique human-readoable ID associated with the experiment.
-        /// </summary>
-        /// <remarks>
-        /// This will often match <see cref="FactoryId"/>, but there could be two or more experiments that are created from the same
-        /// <see cref="INeatExperimentFactory"/> , and differ only by their configuration setings.
-        /// </remarks>
-        public string Id { get; set; }
-
-        /// <summary>
         /// Matches <see cref="INeatExperimentFactory.Id"/> from the experiment factory that created the current experiment instance.
         /// </summary>
         /// <remarks>
@@ -44,6 +35,15 @@ namespace SharpNeat.Experiments
         /// property can be set to null.
         /// </remarks>
         public string FactoryId { get; }
+
+        /// <summary>
+        /// A unique human-readoable ID associated with the experiment.
+        /// </summary>
+        /// <remarks>
+        /// This will often match <see cref="FactoryId"/>, but there could be two or more experiments that are created from the same
+        /// <see cref="INeatExperimentFactory"/> , and differ only by their configuration setings.
+        /// </remarks>
+        public string Id { get; set; }
 
         /// <summary>
         /// Experiment name.
@@ -155,20 +155,19 @@ namespace SharpNeat.Experiments
         /// <summary>
         /// Constructs with the provided name and evaluation scheme, and default settings.
         /// </summary>
-        /// <param name="id">Experiment ID.</param>
-        /// <param name="factoryId">Experiment Factory ID (optional).</param>
         /// <param name="evalScheme">Experiment evaluation scheme object.</param>
+        /// <param name="factoryId">Experiment Factory ID (optional).</param>
+        /// <param name="id">Experiment ID.</param>
         public NeatExperiment(
-            string id,
-            string factoryId,
-            IBlackBoxEvaluationScheme<T> evalScheme)
+            IBlackBoxEvaluationScheme<T> evalScheme,
+            string factoryId, string id)
         {
-            this.Id = id ?? throw new ArgumentNullException(nameof(id));
-            this.FactoryId = factoryId;
-
-            // Use the ID as a value for the Name here, but it may be overriden by a name given in a config file.
-            this.Name = factoryId;
             this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
+            this.Id = id ?? throw new ArgumentNullException(nameof(id));
+            this.FactoryId = factoryId ?? throw new ArgumentNullException(nameof(factoryId));
+
+            // Use the id as a default name; however this can be overwritten/set after construction.
+            this.Name = id;
 
             // Assign a set of default settings.
             this.NeatEvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
@@ -180,6 +179,18 @@ namespace SharpNeat.Experiments
 
             // Assign a default complexity regulation strategy.
             this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
+        }
+
+        /// <summary>
+        /// Constructs with the provided name and evaluation scheme, and default settings.
+        /// </summary>
+        /// <param name="evalScheme">Experiment evaluation scheme object.</param>
+        /// <param name="factoryId">Experiment Factory ID (optional).</param>
+        public NeatExperiment(
+            IBlackBoxEvaluationScheme<T> evalScheme,
+            string factoryId)
+            : this(evalScheme, factoryId, factoryId)
+        {
         }
 
         #endregion

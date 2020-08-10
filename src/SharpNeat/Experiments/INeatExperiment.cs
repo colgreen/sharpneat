@@ -24,15 +24,6 @@ namespace SharpNeat.Experiments
     public interface INeatExperiment<T> where T : struct
     {
         /// <summary>
-        /// A unique human-readoable ID associated with the experiment.
-        /// </summary>
-        /// <remarks>
-        /// This will often match <see cref="FactoryId"/>, but there could be two or more experiments that are created from the same
-        /// <see cref="INeatExperimentFactory"/> , and differ only by their configuration setings.
-        /// </remarks>
-        string Id { get; set; }
-
-        /// <summary>
         /// Matches <see cref="INeatExperimentFactory.Id"/> from the experiment factory that created the current experiment instance.
         /// </summary>
         /// <remarks>
@@ -40,6 +31,15 @@ namespace SharpNeat.Experiments
         /// property can be set to null.
         /// </remarks>
         string FactoryId { get; }
+
+        /// <summary>
+        /// A unique human-readoable ID associated with the experiment.
+        /// </summary>
+        /// <remarks>
+        /// This will often match <see cref="FactoryId"/>, but there could be two or more experiments that are created from the same
+        /// <see cref="INeatExperimentFactory"/> , and differ only by their configuration setings.
+        /// </remarks>
+        string Id { get; set; }
 
         /// <summary>
         /// Experiment name.
