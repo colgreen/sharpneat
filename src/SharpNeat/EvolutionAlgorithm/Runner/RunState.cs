@@ -18,10 +18,6 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
     public enum RunState
     {
         /// <summary>
-        /// Not yet initialized.
-        /// </summary>
-        NotReady,
-        /// <summary>
         /// Initialized and ready to start.
         /// </summary>
         Ready,
