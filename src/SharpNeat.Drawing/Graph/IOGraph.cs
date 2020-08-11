@@ -57,6 +57,15 @@ namespace SharpNeat.Drawing.Graph
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the total number of nodes (input, output, and hidden nodes).
+        /// </summary>
+        public int NodeCount => InputNodeList.Count + OutputNodeList.Count + HiddenNodeList.Count;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>

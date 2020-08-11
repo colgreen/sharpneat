@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Drawing;
+using SharpNeat.Drawing.Graph.Painting;
 
 namespace SharpNeat.Drawing.Graph
 {
@@ -24,7 +25,7 @@ namespace SharpNeat.Drawing.Graph
         /// <summary>
         /// Gets or sets the IOGraph to paint.
         /// </summary>
-        public IOGraph IOGraph { get; set; }
+        public IOGraph? IOGraph { get; set; }
 
         #region Constructor
 

@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace SharpNeat.Drawing.Graph
+namespace SharpNeat.Drawing.Graph.Painting
 {
     /// <summary>
     /// Paints IOGraphs to a GDI+ Graphics object.
@@ -21,9 +21,6 @@ namespace SharpNeat.Drawing.Graph
     public class IOGraphPainter
     {
         #region Consts / Statics
-
-        // Diameter of a node in the model coordinate space.
-        const float __NodeDiameterModel = 10;
 
         /// <summary>Font for drawing text on the viewport.</summary>
         protected static readonly Font __fontNodeTag = new Font("Microsoft Sans Serif", 7.0F);
@@ -57,20 +54,10 @@ namespace SharpNeat.Drawing.Graph
             // Create a PaintState object. This holds all temporary state info for the painting routines.
             // Pass the call on to the virtual PaintNetwork. This allows us to override a version of PaintNetwork 
             // that has access to a PaintState object.
-            PaintState state = new PaintState(g, viewportArea, zoomFactor, graph.ConnectionWeightRange);
-            PaintNetwork(graph, state);
-        }
-
-        /// <summary>
-        /// Paints the provided IOGraph onto the current GDI+ Graphics drawing surface.
-        /// </summary>
-        protected virtual void PaintNetwork(IOGraph graph, PaintState state)
-        {
-            // Create per-node state info.
-            int hiddenNodeCount = graph.HiddenNodeList.Count;
-            int inputNodeCount = graph.InputNodeList.Count;
-            int outputNodeCount = graph.OutputNodeList.Count;
-            state._nodeStateDict = new Dictionary<GraphNode,ConnectionPointInfo>(hiddenNodeCount + inputNodeCount + outputNodeCount);
+            PaintState state = new PaintState(
+                g, viewportArea,
+                zoomFactor, graph.ConnectionWeightRange,
+                graph.NodeCount);
 
             // Paint all connections. We do this first and paint nodes on top of the connections. This allows the 
             // slightly messy ends of the connections to be painted over by the nodes.
@@ -86,7 +73,7 @@ namespace SharpNeat.Drawing.Graph
 
         #endregion
 
-        #region Painting Methods / Model Element Painting
+        #region Private Methods [Node and Connection Painting]
 
         private void PaintNodes(IList<GraphNode> nodeList, PaintState state)
         {
@@ -99,11 +86,11 @@ namespace SharpNeat.Drawing.Graph
         private void PaintConnections(IList<GraphNode> nodeList, PaintState state)
         {
             int nodeCount = nodeList.Count;
-            for(int i=0; i<nodeCount; i++)
+            for(int i=0; i < nodeCount; i++)
             {
                 List<GraphConnection> conList = nodeList[i].OutConnectionList;
                 int conCount = conList.Count;
-                for(int j=0; j<conCount; j++) {
+                for(int j=0; j < conCount; j++) {
                     PaintConnection(conList[j], state);
                 }
             }
@@ -196,7 +183,7 @@ namespace SharpNeat.Drawing.Graph
 
             // If the source and target nodes are close on the X-axis then connect to the same side on both
             // nodes. Otherwise connect nodes on their facing sides.
-            if(Math.Abs(tgtPos.X - srcPos.X) <= __NodeDiameterModel) 
+            if(Math.Abs(tgtPos.X - srcPos.X) <= GraphPaintingConsts.NodeDiameterModel) 
             {
                 srcConIdx = srcInfo._lowerLeft++;
                 tgtConIdx = tgtInfo._upperLeft++;
@@ -299,92 +286,6 @@ namespace SharpNeat.Drawing.Graph
                 && (p.Y >= 0) 
                 && (p.X < state._viewportArea.Width) 
                 && (p.Y < state._viewportArea.Height);
-        }
-
-        #endregion
-
-        #region Inner Classes
-
-        /// <summary>
-        /// Represents data required for by painting routines.
-        /// </summary>
-        public class PaintState
-        {
-            // State variables.
-            /// <summary>The current GDI+ painting surface.</summary>
-            public readonly Graphics _g;
-            /// <summary>The area being painted to. Any elements outside of this area are not visible.</summary>
-            public readonly Rectangle _viewportArea;
-            /// <summary>Scales the elements being drawn.</summary>
-            public readonly float _zoomFactor;
-            /// <summary>Range of connections weights. Used to determine width of drawn connections.</summary>
-            public readonly float _connectionWeightRange;
-            /// <summary>Use in conjunction with _connectionWeightRange to draw connections.</summary>
-            public readonly float _connectionWeightRangeHalf;
-            /// <summary>Uses in conjunction with _connectionWeightRange to draw connections.</summary>
-            public readonly float _connectionWeightToWidth;
-
-            // Useful derived values.
-            /// <summary>Diameter of drawn nodes.</summary>
-            public readonly int _nodeDiameter;
-            /// <summary>Used in conjunction with _nodeDiameter to draw nodes.</summary>
-            public readonly int _nodeDiameterHalf;
-            /// <summary>Length of connection legs emanating from the base of nodes when drawing connections
-            /// to nodes above the source node.</summary>
-            public readonly float _backConnectionLegLength;
-
-            /// <summary>
-            /// Dictionary containing temporary painting related state for each graph node.
-            /// </summary>
-            public Dictionary<GraphNode,ConnectionPointInfo> _nodeStateDict;
-
-            /// <summary>
-            /// Construct with the provided Graphics painting surface and state data.
-            /// </summary>
-            public PaintState(Graphics g, Rectangle viewportArea, float zoomFactor, float connectionWeightRange)
-            {
-                // Store state variables.
-                _g = g;
-                _viewportArea = viewportArea;
-                _zoomFactor = zoomFactor;
-                _connectionWeightRange = connectionWeightRange;
-                _connectionWeightRangeHalf = connectionWeightRange * 0.5f;
-                _connectionWeightToWidth = (float)(2.0 / Math.Log10(connectionWeightRange + 1.0));
-
-                // Precalculate some useful derived values.
-                _nodeDiameter = (int)(__NodeDiameterModel * zoomFactor);
-                _nodeDiameterHalf = (int)((__NodeDiameterModel * zoomFactor) * 0.5f);
-                _backConnectionLegLength = _nodeDiameter * 1.6f;
-            }
-
-            /// <summary>
-            /// Gets the state object for a given graph node. Creates the object if it does not yet exist.
-            /// </summary>
-            public ConnectionPointInfo GetNodeStateInfo(GraphNode node)
-            {
-                if(!_nodeStateDict.TryGetValue(node, out ConnectionPointInfo info))
-                {
-                    info = new ConnectionPointInfo();
-                    _nodeStateDict.Add(node, info);
-                }
-                return info;
-            }
-        }
-
-        /// <summary>
-        /// Class used for tracking connection point on nodes when drawing backwards directed 
-        /// connections (target node higher than the source node).
-        /// </summary>
-        public class ConnectionPointInfo
-        {
-            /// <summary>Running connection count for top left of node.</summary>
-            public int _upperLeft  = 0;
-            /// <summary>Running connection count for top right of node.</summary>
-            public int _upperRight = 0;
-            /// <summary>Running connection count for bottom left of node.</summary>
-            public int _lowerLeft  = 0;
-            /// <summary>Running connection count for bottom right of node.</summary>
-            public int _lowerRight = 0;
         }
 
         #endregion

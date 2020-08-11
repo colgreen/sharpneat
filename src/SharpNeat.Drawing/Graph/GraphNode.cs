@@ -34,18 +34,13 @@ namespace SharpNeat.Drawing.Graph
         /// <summary>
         /// Gets or sets an array of auxiliary data.
         /// </summary>
-        public object[] AuxData { get; set; }
+        public object[]? AuxData { get; set; }
 
         /// <summary>
         /// Depth of the node within the network. Input nodes are defined as being at depth zero,
         /// all other nodes are defined by the number of connection hops to reach them from an input node.
         /// </summary>
         public int Depth { get; set; }
-
-        /// <summary>
-        /// Gets the node's list of input connections.
-        /// </summary>
-        public List<GraphConnection> InConnectionList { get; }
 
         /// <summary>
         /// Gets the node's list of output connections.
@@ -73,20 +68,19 @@ namespace SharpNeat.Drawing.Graph
         /// <summary>
         /// Constructs with the provided string tag, position and auxiliary data.
         /// </summary>
-        public GraphNode(string tag, Point position, object[] auxData)
+        public GraphNode(string tag, Point position, object[]? auxData)
             : this(tag, position, auxData, 0)
         {}
 
         /// <summary>
         /// Constructs with the provided string tag, position, auxiliary data and node depth.
         /// </summary>
-        public GraphNode(string tag, Point position, object[] auxData, int depth)
+        public GraphNode(string tag, Point position, object[]? auxData, int depth)
         {
             Tag = tag;
             Position = position;
             AuxData = auxData;
             Depth = depth;
-            InConnectionList = new List<GraphConnection>();
             OutConnectionList = new List<GraphConnection>();
         }
 

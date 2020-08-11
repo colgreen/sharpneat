@@ -9,6 +9,7 @@
     <Company />
     <Product>SharpNEAT - Evolution of Neural Networks.</Product>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
