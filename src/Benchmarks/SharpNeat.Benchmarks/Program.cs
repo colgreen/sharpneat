@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace SharpNeatLib.Benchmarks
+namespace SharpNeat.Benchmarks
 {
     class Program
     {

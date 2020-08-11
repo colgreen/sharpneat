@@ -1,7 +1,7 @@
 ﻿using SharpNeat.NeuralNet;
 using SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized;
 
-namespace SharpNeatLib.Benchmarks
+namespace SharpNeat.Benchmarks
 {
     public class ActivationFunctionsVectorizedDouble
     {

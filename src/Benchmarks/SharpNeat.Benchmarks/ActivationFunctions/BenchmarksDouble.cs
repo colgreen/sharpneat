@@ -2,7 +2,7 @@
 using Redzen.Numerics.Distributions.Double;
 using SharpNeat.NeuralNet;
 
-namespace SharpNeatLib.Benchmarks
+namespace SharpNeat.Benchmarks
 {
     /// <summary>
     /// Double precision activation function benchmarks.
