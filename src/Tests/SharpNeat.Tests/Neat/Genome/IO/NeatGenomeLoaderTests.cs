@@ -1,4 +1,4 @@
-﻿using SharpNeat.NeuralNet.Double.ActivationFunctions;
+﻿using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
 
 namespace SharpNeat.Neat.Genome.IO.Tests

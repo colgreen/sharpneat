@@ -3,7 +3,7 @@ using SharpNeat.Evaluation;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Genome.IO;
-using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.BinaryThreeMultiplexer;
 using Xunit;
 

@@ -11,7 +11,7 @@
  */
 using System.Numerics;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
     /// <summary>
     /// max(-1, x,) function.

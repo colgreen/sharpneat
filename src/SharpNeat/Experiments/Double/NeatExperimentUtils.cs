@@ -21,7 +21,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Speciation;
-using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Experiments
 {

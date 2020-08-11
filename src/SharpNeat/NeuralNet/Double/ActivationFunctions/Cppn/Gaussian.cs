@@ -11,7 +11,7 @@
  */
 using System;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
 {
     /// <summary>
     /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian

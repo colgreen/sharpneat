@@ -11,7 +11,7 @@
  */
 using System;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn
 {
     /// <summary>
     /// Sine activation function with doubled period.

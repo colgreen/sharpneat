@@ -12,13 +12,13 @@
 using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
-using SharpNeat.NeuralNet.Double;
+using SharpNeat.NeuralNets.Double;
 
 namespace SharpNeat.Neat.Genome.Double
 {
     /// <summary>
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically 
-    /// cyclic neural network instances implemented by either <see cref="NeuralNet.Double.NeuralNetCyclic"/>.
+    /// cyclic neural network instances implemented by either <see cref="NeuralNets.Double.NeuralNetCyclic"/>.
     /// </summary>
     public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {

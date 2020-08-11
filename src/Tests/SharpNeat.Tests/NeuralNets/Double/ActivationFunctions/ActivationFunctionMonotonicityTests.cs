@@ -1,8 +1,8 @@
 ﻿using SharpNeat.Tests;
 using Xunit;
-using Vectorized = SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized;
+using Vectorized = SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Tests
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
 {
     public class ActivationFunctionMonotonicityTests
     {

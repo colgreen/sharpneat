@@ -12,7 +12,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// The ArcSinH function (inverse hyperbolic sine function).

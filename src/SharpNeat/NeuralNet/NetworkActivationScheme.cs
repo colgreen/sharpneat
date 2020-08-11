@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNet
+namespace SharpNeat.NeuralNets
 {
     /// <summary>
     /// Represents network activation schemes.

@@ -13,7 +13,7 @@ using System;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs.Acyclic;
 
-namespace SharpNeat.NeuralNet.Double
+namespace SharpNeat.NeuralNets.Double
 {
     // TODO: Revise/update this summary comment...
     /// <summary>

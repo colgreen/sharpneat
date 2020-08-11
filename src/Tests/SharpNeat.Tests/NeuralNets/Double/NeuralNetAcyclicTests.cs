@@ -2,10 +2,10 @@
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
-using SharpNeat.NeuralNet.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
 
-namespace SharpNeat.NeuralNet.Double.Tests
+namespace SharpNeat.NeuralNets.Double.Tests
 {
     public class NeuralNetAcyclicTests
     {
@@ -27,7 +27,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             SingleInput_WeightZero_Inner(net);
 
             // Create vectorized neural net and run tests.
-            var vnet = new NeuralNet.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+            var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
             SingleInput_WeightZero_Inner(vnet);
         }
 
@@ -47,7 +47,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             SingleInput_WeightOne_Inner(net, actFn);
 
             // Create vectorized neural net and run tests.
-            var vnet = new NeuralNet.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+            var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
             SingleInput_WeightOne_Inner(vnet, actFn);
         }
 
@@ -69,7 +69,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             TwoInputs_WeightHalf_Inner(net, actFn);
 
             // Create vectorized neural net and run tests.
-            var vnet = new NeuralNet.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+            var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
             TwoInputs_WeightHalf_Inner(vnet, actFn);
         }
 
@@ -92,7 +92,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             HiddenNode_Inner(net, actFn);
 
             // Create vectorized neural net and run tests.
-            var vnet = new NeuralNet.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+            var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
             HiddenNode_Inner(vnet, actFn);
         }
 
@@ -118,7 +118,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             Complex_WeightOne_Inner(net, actFn);
 
              // Create vectorized neural net and run tests.
-            var vnet = new NeuralNet.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+            var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
             Complex_WeightOne_Inner(vnet, actFn);
         }
 
@@ -141,7 +141,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             MultipleInputsOutputs_Inner(net, actFn);
 
             // Create vectorized neural net and run tests.
-            var vnet = new NeuralNet.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+            var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
             MultipleInputsOutputs_Inner(vnet, actFn);
         }
 

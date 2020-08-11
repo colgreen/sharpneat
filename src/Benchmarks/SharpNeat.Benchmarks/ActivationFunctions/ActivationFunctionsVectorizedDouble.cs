@@ -1,5 +1,5 @@
-﻿using SharpNeat.NeuralNet;
-using SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized;
+﻿using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeat.Benchmarks
 {

@@ -15,7 +15,7 @@ using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Experiments
 {

@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
                 inputNodeCount: 10,
                 outputNodeCount: 20,
                 isAcyclic: true,
-                activationFn: new NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

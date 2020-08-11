@@ -47,7 +47,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
                 inputNodeCount: 1,
                 outputNodeCount: 1,
                 isAcyclic: false,
-                activationFn: new SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
         }
 
         private static NeatGenome<double> CreateNeatGenome1()

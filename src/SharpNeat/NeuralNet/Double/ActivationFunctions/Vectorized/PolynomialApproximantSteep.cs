@@ -12,7 +12,7 @@
 using System;
 using System.Numerics;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
     /// <summary>
     /// A very close approximation of the logistic function that avoids use of exp() and is therefore

@@ -14,7 +14,7 @@ using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 
-namespace SharpNeat.NeuralNet.Double
+namespace SharpNeat.NeuralNets.Double
 {
     /// <summary>
     /// A neural network class that represents a network with recurrent (cyclic) connections. 

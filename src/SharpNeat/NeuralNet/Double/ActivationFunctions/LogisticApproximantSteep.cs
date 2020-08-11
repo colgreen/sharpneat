@@ -12,7 +12,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// The logistic function with a steepened slope, and implemented using a fast to compute approximation of exp().

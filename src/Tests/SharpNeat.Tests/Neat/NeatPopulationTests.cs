@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Tests
                 inputNodeCount: 3,
                 outputNodeCount: 2,
                 isAcyclic: true,
-                activationFn: new NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
             int count = 10;
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
@@ -49,7 +49,7 @@ namespace SharpNeat.Neat.Tests
                 inputNodeCount: 100,
                 outputNodeCount: 200,
                 isAcyclic: true,
-                activationFn: new NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1, RandomDefaults.CreateRandomSource());
             NeatGenome<double> genome = neatPop.GenomeList[0];

@@ -75,7 +75,7 @@ namespace SharpNeat.Neat.Tests
                 inputNodeCount: inputNodeCount,
                 outputNodeCount: outputNodeCount,
                 isAcyclic: true,
-                activationFn: new NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, connectionsProportion, populationSize, RandomDefaults.CreateRandomSource());
             neatPop.SpeciesArray = new Species<double>[speciesCount];

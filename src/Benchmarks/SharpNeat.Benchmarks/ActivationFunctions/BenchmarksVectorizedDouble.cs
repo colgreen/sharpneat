@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Redzen.Numerics.Distributions.Double;
-using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Benchmarks
 {

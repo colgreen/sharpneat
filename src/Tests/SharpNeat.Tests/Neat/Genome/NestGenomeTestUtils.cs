@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.Genome.Tests
                 inputNodeCount: 1,
                 outputNodeCount: 1,
                 isAcyclic: false,
-                activationFn: new NeuralNet.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

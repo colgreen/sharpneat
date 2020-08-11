@@ -11,7 +11,7 @@
  */
 using System;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// Null activation function. Returns zero regardless of input.

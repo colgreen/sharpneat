@@ -4,7 +4,7 @@ using System.Linq;
 using Xunit;
 using static SharpNeat.Tests.ArrayTestUtils;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Tests
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
 {
     public class ActivationFunctionOverloadTests
     {

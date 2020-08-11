@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNet
+namespace SharpNeat.NeuralNets
 {
     /// <summary>
     /// Represents a factory for obtaining instances of <see cref="IActivationFunction{T}"/>.

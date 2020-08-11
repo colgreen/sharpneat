@@ -11,7 +11,7 @@
  */
 using System;
 
-namespace SharpNeat.NeuralNet.Double.ActivationFunctions
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// A very close approximation of the logistic function that avoids use of exp() and is therefore

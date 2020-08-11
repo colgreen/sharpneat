@@ -15,7 +15,7 @@ using System.Numerics;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 
-namespace SharpNeat.NeuralNet.Double.Vectorized
+namespace SharpNeat.NeuralNets.Double.Vectorized
 {
     /// <summary>
     /// A version of <see cref="Double.NeuralNetCyclic"/> that utilises some vectorized operations

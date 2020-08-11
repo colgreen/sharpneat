@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace SharpNeat.NeuralNet.Double.Tests
+namespace SharpNeat.NeuralNets.Double.Tests
 {
     public class ActivationFunctionFactoryTests
     {
@@ -11,7 +11,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             var actFn = fact.GetActivationFunction("ReLU");
 
             Assert.NotNull(actFn);
-            Assert.Equal("SharpNeat.NeuralNet.Double.ActivationFunctions.ReLU", actFn.GetType().FullName);
+            Assert.Equal("SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU", actFn.GetType().FullName);
 
             // Requesting the same activation function should yield the same instance.
             var actFn2 = fact.GetActivationFunction("ReLU");
@@ -25,7 +25,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             var actFn = fact.GetActivationFunction("ReLU");
 
             Assert.NotNull(actFn);
-            Assert.Equal("SharpNeat.NeuralNet.Double.ActivationFunctions.Vectorized.ReLU", actFn.GetType().FullName);
+            Assert.Equal("SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized.ReLU", actFn.GetType().FullName);
 
             // Requesting the same activation function should yield the same instance.
             var actFn2 = fact.GetActivationFunction("ReLU");
@@ -40,7 +40,7 @@ namespace SharpNeat.NeuralNet.Double.Tests
             var actFn = fact.GetActivationFunction("Gaussian");
 
             Assert.NotNull(actFn);
-            Assert.Equal("SharpNeat.NeuralNet.Double.ActivationFunctions.Cppn.Gaussian", actFn.GetType().FullName);
+            Assert.Equal("SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn.Gaussian", actFn.GetType().FullName);
 
             // Requesting the same activation function should yield the same instance.
             var actFn2 = fact.GetActivationFunction("Gaussian");

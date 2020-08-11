@@ -13,7 +13,7 @@ using System;
 using System.Text.Json;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
-using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.FunctionRegression;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression

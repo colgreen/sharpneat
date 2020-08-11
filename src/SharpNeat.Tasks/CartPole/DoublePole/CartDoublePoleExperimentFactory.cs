@@ -12,7 +12,7 @@
 using System;
 using System.Text.Json;
 using SharpNeat.Experiments;
-using SharpNeat.NeuralNet;
+using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Tasks.CartPole.DoublePole
 {
