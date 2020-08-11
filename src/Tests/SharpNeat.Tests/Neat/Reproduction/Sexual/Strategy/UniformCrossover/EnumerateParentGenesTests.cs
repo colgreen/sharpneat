@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using Redzen;
-using SharpNeat.Neat;
-using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
+namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
 {
     public class EnumerateParentGenesTests
     {

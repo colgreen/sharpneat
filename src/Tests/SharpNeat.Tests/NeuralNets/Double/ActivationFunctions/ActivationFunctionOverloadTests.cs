@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SharpNeat.NeuralNet;
 using Xunit;
 using static SharpNeat.Tests.ArrayTestUtils;
 
-namespace SharpNeat.Tests.NeuralNets.Double.ActivationFunctions
+namespace SharpNeat.NeuralNet.Double.ActivationFunctions.Tests
 {
     public class ActivationFunctionOverloadTests
     {

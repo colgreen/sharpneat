@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Genome.IO
+namespace SharpNeat.Neat.Genome.IO.Tests
 {
     public static class IOTestUtils
     {

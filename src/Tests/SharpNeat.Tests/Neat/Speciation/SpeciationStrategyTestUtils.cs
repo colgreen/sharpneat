@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Redzen.Random;
-using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Speciation;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Speciation
+namespace SharpNeat.Neat.Speciation.Tests
 {
     internal static class SpeciationStrategyTestUtils
     {

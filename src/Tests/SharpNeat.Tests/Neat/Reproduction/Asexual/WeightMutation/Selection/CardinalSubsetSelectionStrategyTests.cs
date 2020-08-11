@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Redzen.Random;
-using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection
+namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests
 {
     public class CardinalSubsetSelectionStrategyTests
     {

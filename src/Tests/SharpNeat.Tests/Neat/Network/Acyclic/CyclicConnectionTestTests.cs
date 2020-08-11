@@ -1,9 +1,7 @@
 ﻿using System;
-using SharpNeat.Graphs;
-using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic.Tests
 {
     public class CyclicConnectionTestTests
     {

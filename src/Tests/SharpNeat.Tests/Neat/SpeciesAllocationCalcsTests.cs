@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using Redzen.Random;
 using SharpNeat.Evaluation;
-using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat
+namespace SharpNeat.Neat.Tests
 {
     public class SpeciesAllocationCalcsTests
     {

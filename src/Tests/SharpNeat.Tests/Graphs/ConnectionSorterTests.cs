@@ -1,8 +1,7 @@
 ﻿using Redzen.Random;
-using SharpNeat.Graphs;
 using Xunit;
 
-namespace SharpNeat.Tests.Graph
+namespace SharpNeat.Graphs.Tests
 {
     public class ConnectionSorterTests
     {

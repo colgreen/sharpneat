@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
-using SharpNeat.Neat.EvolutionAlgorithm;
 using Xunit;
 
-namespace SharpNeatLib.Tests.EvolutionAlgorithm
+namespace SharpNeat.Neat.EvolutionAlgorithm.Tests
 {
     public class NeatEvolutionAlgorithmSettingsJsonReaderTests
     {

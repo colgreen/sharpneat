@@ -1,10 +1,9 @@
-﻿using SharpNeat.Neat.Genome;
-using SharpNeat.Graphs;
+﻿using SharpNeat.Graphs;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using Xunit;
-using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;
+using static SharpNeat.Graphs.Tests.ConnectionCompareUtils;
 
-namespace SharpNeat.Tests.Neat.Genome
+namespace SharpNeat.Neat.Genome.Tests
 {
     public class NeatGenomeBuilderTests
     {

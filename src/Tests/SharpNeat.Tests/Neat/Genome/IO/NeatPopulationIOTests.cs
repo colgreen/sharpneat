@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using SharpNeat.Neat;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Genome.IO;
+using SharpNeat.Neat.Genome.Tests;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Genome.IO
+namespace SharpNeat.Neat.Genome.IO.Tests
 {
     public class NeatPopulationIOTests
     {

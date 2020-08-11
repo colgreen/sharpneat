@@ -1,11 +1,10 @@
 ﻿using System;
 using Redzen.Random;
 using Redzen.Sorting;
-using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat
+namespace SharpNeat.Neat.Tests
 {
     public class NeatPopulationTests
     {

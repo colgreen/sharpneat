@@ -2,13 +2,11 @@
 using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;
-using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Speciation;
 using Xunit;
 
-namespace SharpNeatLib.Tests.Neat.Speciation
+namespace SharpNeat.Neat.Speciation.Tests
 {
     public class SpeciesTests
     {

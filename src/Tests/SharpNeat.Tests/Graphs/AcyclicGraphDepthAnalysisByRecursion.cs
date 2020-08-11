@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 
-namespace SharpNeat.Tests.Graph
+namespace SharpNeat.Graphs.Tests
 {
     /// <summary>
     /// An alternative implementation of AcyclicGraphDepthAnalysis that uses function recursion.

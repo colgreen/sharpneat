@@ -1,8 +1,7 @@
 ﻿using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.Neat.ComplexityRegulation;
 using Xunit;
 
-namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
+namespace SharpNeat.Neat.ComplexityRegulation.Tests
 {
     public class RelativeComplexityRegulationStrategyTests
     {

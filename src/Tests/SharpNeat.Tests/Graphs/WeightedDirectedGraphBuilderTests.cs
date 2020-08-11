@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SharpNeat.Graphs;
 using Xunit;
-using static SharpNeat.Tests.Graph.NetworkUtils;
+using static SharpNeat.Graphs.Tests.NetworkUtils;
 
 namespace SharpNeat.Tests
 {

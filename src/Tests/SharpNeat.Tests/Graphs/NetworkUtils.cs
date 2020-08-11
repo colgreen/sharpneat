@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
-namespace SharpNeat.Tests.Graph
+namespace SharpNeat.Graphs.Tests
 {
     public static class NetworkUtils
     {

@@ -1,7 +1,6 @@
 ﻿using SharpNeat.Evaluation;
-using SharpNeat.EvolutionAlgorithm;
 
-namespace SharpNeatLib.Tests.EvolutionAlgorithm
+namespace SharpNeat.EvolutionAlgorithm.Tests
 {
     public class MockGenome : IGenome
     {

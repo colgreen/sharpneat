@@ -1,8 +1,7 @@
-﻿using SharpNeat.Neat.DistanceMetrics.Double;
-using SharpNeat.Neat.Genome;
+﻿using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
+namespace SharpNeat.Neat.DistanceMetrics.Double.Tests
 {
     public class ManhattanDistanceMetricTests
     {

@@ -1,10 +1,10 @@
 ﻿using Redzen;
-using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
 using Xunit;
+using SharpNeat.Tests;
 
-namespace SharpNeat.Tests.Neat.DistanceMetrics.Double
+namespace SharpNeat.Neat.DistanceMetrics.Double.Tests
 {
     public class DistanceMetricsUtilsTests
     {

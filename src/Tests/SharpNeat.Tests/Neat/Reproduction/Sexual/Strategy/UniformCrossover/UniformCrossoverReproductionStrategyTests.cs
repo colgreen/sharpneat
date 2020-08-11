@@ -1,14 +1,12 @@
 ﻿using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
-using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using SharpNeat.Graphs;
 using Xunit;
-using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
+using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
 
-namespace SharpNeat.Tests.Neat.Reproduction.Sexual.Strategy.UniformCrossover
+namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
 {
     public class UniformCrossoverReproductionStrategyTests
     {

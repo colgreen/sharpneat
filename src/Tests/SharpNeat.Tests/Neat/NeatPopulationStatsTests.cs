@@ -1,13 +1,12 @@
 ﻿using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.Neat;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeatLib.Tests.Neat
+namespace SharpNeat.Neat.Tests
 {
     public class NeatPopulationStatsTests
     {

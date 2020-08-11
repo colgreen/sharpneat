@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
-using static SharpNeat.Tests.Graph.NetworkUtils;
+using static SharpNeat.Graphs.Tests.NetworkUtils;
 
-namespace SharpNeat.Tests.Graph
+namespace SharpNeat.Graphs.Tests
 {
     public class WeightedDirectedGraphAcyclicBuilderTests
     {

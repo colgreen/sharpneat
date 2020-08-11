@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 using System.Text.Json;
-using SharpNeat.Neat.ComplexityRegulation;
 using Xunit;
 
-namespace SharpNeatLib.Tests.Neat.ComplexityRegulation
+namespace SharpNeat.Neat.ComplexityRegulation.Tests
 {
     public class ComplexityRegulationStrategyJsonReaderTests
     {

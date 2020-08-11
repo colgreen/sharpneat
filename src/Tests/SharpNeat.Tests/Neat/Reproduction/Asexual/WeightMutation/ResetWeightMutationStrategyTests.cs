@@ -2,11 +2,10 @@
 using System.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
-using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation.Selection;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Reproduction.Asexual.WeightMutation
+namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
 {
     public class ResetWeightMutationStrategyTests
     {

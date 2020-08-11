@@ -1,10 +1,9 @@
 ﻿using System.Text.Json;
 using Moq;
 using SharpNeat.Evaluation;
-using SharpNeat.Experiments;
 using Xunit;
 
-namespace SharpNeatLib.Tests.Experiments
+namespace SharpNeat.Experiments.Tests
 {
     public class NeatExperimentJsonReaderTests
     {

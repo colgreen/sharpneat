@@ -4,12 +4,11 @@ using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Graphs;
 using Xunit;
-using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
+using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
 
-namespace SharpNeat.Tests.Neat.Reproduction.Asexual.Strategy
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 {
     public class AddNodeStrategyTests
     {

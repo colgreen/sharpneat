@@ -1,7 +1,6 @@
-﻿using SharpNeat.Graphs;
-using Xunit;
+﻿using Xunit;
 
-namespace SharpNeat.Tests.Neat.Genome
+namespace SharpNeat.Graphs.Tests
 {
     public class DirectedConnectionUtilsTests
     {

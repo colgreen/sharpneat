@@ -1,10 +1,8 @@
 ﻿using System.IO;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using Xunit;
 
-namespace SharpNeat.Tests.Neat.Genome.IO
+namespace SharpNeat.Neat.Genome.IO.Tests
 {
     public class NeatGenomeIOTests
     {

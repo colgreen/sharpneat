@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
-using SharpNeat.Neat.Reproduction.Asexual;
 using Xunit;
 
-namespace SharpNeatLib.Tests.Neat.Reproduction.Asexual
+namespace SharpNeat.Neat.Reproduction.Asexual.Tests
 {
     public class NeatReproductionAsexualSettingsJsonReaderTests
     {

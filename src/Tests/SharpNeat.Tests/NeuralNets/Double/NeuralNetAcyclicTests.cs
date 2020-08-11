@@ -2,12 +2,10 @@
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
-using SharpNeat.NeuralNet;
-using SharpNeat.NeuralNet.Double;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using Xunit;
 
-namespace SharpNeat.Tests.NeuralNets.Double
+namespace SharpNeat.NeuralNet.Double.Tests
 {
     public class NeuralNetAcyclicTests
     {

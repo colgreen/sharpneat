@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using SharpNeat.BlackBox;
 using Xunit;
 using static SharpNeat.Tests.ArrayTestUtils;
 
-namespace SharpNeat.Tests.BlackBox
+namespace SharpNeat.BlackBox.Tests
 {
     public class VectorSegmentTests
     {

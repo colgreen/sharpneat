@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text.Json;
-using SharpNeat.IO;
 using Xunit;
 
-namespace SharpNeatLib.Tests.IO
+namespace SharpNeat.IO.Tests
 {
     public class JsonReadMandatoryUtilsTests
     {
