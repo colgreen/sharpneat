@@ -2,9 +2,9 @@
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
-using static SharpNeat.Tests.Network.NetworkUtils;
+using static SharpNeat.Tests.Graph.NetworkUtils;
 
-namespace SharpNeat.Tests.Network
+namespace SharpNeat.Tests.Graph
 {
     public class WeightedDirectedGraphAcyclicBuilderTests
     {

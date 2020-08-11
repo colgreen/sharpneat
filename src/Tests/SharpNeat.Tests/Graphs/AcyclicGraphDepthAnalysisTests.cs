@@ -3,7 +3,7 @@ using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
-namespace SharpNeat.Tests.Network
+namespace SharpNeat.Tests.Graph
 {
     public class AcyclicGraphDepthAnalysisTests
     {

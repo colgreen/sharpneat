@@ -7,7 +7,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
-using SharpNeat.Tests.Network;
+using SharpNeat.Tests.Graph;
 using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 

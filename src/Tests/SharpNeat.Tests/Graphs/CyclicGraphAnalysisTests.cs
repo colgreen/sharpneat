@@ -2,7 +2,7 @@
 using SharpNeat.Graphs;
 using Xunit;
 
-namespace SharpNeat.Tests.Network
+namespace SharpNeat.Tests.Graph
 {
     public class CyclicGraphAnalysisTests
     {
