@@ -22,7 +22,7 @@
 	"initialInterconnectionsProportion": 0.05,
 	"connectionWeightScale": 5.0,
 	"complexityRegulationStrategy": {
-		"strategyName": "null",
+		"strategyName": "null"
 	},
 	"degreeOfParallelism": 4,
 	"enableHardwareAcceleratedNeuralNets": false,

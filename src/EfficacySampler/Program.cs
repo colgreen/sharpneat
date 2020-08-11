@@ -13,7 +13,7 @@ namespace EfficacySampler
 {
     class Program
     {
-        static StreamWriter __streamWriter;
+        static StreamWriter? __streamWriter;
 
         #region Main Entry Point
 
@@ -28,8 +28,8 @@ namespace EfficacySampler
             };
 
             // Read command line arguments.
-            StopCondition stopCond = ArgUtils.ReadArgs(args, out string experimentId, out string filename);
-            if(stopCond is null) {
+            StopCondition? stopCond = ArgUtils.ReadArgs(args, out string? experimentId, out string? filename);
+            if(stopCond is null || experimentId is null || filename is null) {
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace EfficacySampler
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.properties"));
 
             // Create and configure a NEAT experiment instance.
-            INeatExperiment<double> experiment = InitExperiment(experimentId);
+            INeatExperiment<double>? experiment = InitExperiment(experimentId);
             if(experiment is null) {
                 return;
             }
@@ -82,7 +82,7 @@ namespace EfficacySampler
             };
         }
 
-        private static INeatExperiment<double> InitExperiment(string experimentId)
+        private static INeatExperiment<double>? InitExperiment(string experimentId)
         {
             switch(experimentId)
             {

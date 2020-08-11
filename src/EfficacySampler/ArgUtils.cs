@@ -4,7 +4,10 @@ namespace EfficacySampler
 {
     public static class ArgUtils
     {
-        public static StopCondition ReadArgs(string[] args, out string experimentId, out string filename)
+        public static StopCondition? ReadArgs(
+            string[] args,
+            out string? experimentId,
+            out string? filename)
         {
             experimentId = null;
             filename = null;
@@ -17,7 +20,7 @@ namespace EfficacySampler
             if(args.Length == 4)
             {
                 experimentId = args[0];
-                StopCondition sc = ReadStopCondition(args[1], args[2]);
+                StopCondition? sc = ReadStopCondition(args[1], args[2]);
 
                 // output filename
                 filename = args[3];
@@ -30,7 +33,7 @@ namespace EfficacySampler
 
         #region Private Static Methods
 
-        private static StopCondition ReadStopCondition(string type, string valStr)
+        private static StopCondition? ReadStopCondition(string type, string valStr)
         {
 
             StopCondition sc = new StopCondition();

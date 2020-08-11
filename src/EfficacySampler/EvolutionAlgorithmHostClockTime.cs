@@ -20,7 +20,7 @@ namespace EfficacySampler
         readonly AutoResetEvent _awaitStopEvent = new AutoResetEvent(false);
         volatile bool _stopFlag = false;
 
-        NeatEvolutionAlgorithm<double> _ea;
+        NeatEvolutionAlgorithm<double>? _ea;
 
         #region Constructor
 
@@ -107,7 +107,7 @@ namespace EfficacySampler
 
                 // We include clock time spent doing initialisation in the recorded stats for each sample;
                 // this is the scientifically robust approach as initialisation might perform a lot of work.
-                _ea.Initialise();
+                _ea!.Initialise();
 
                 // Run the main EA loop until we are signalled to stop.
                 while(!_stopFlag) {
@@ -128,7 +128,7 @@ namespace EfficacySampler
             // Copy the required stats into a new Sample instance.
             Sample sample = new Sample {
                 ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
-                GenerationCount = _ea.Stats.Generation
+                GenerationCount = _ea!.Stats.Generation
             };
 
             var pop = _ea.Population;
