@@ -140,7 +140,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Get an array of all connection target node indexes for the specified source node index.
         /// </summary>
-        public ArraySegment<int> GetTargetNodeIndexes(int srcNodeIdx)
+        public Memory<int> GetTargetNodeIndexes(int srcNodeIdx)
         {
             if(_connIdxBySrcNodeIdx is null) {
                 _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
@@ -150,7 +150,7 @@ namespace SharpNeat.Network
             if(-1 == startIdx)
             {   // There are no connections that have the specified node as their source.
                 // Return an empty array segment.
-                return new ArraySegment<int>();
+                return new Memory<int>();
             }
 
             // Scan for the last connection with the specified source node.
@@ -160,9 +160,8 @@ namespace SharpNeat.Network
             int endIdx = startIdx+1;
             for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
-            // TODO: Consider using Memory<T> here instead, which is presumably more efficient (ArraySegment wraps an array and an offset).
             // Return an array segment over the sub-range of the connection array.
-            return new ArraySegment<int>(connTgtIdArr, startIdx, endIdx - startIdx);
+            return connTgtIdArr.AsMemory(startIdx, endIdx - startIdx);            
         }
 
         #endregion

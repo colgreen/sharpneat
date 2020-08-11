@@ -1,10 +1,14 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using log4net;
 using log4net.Config;
 using log4net.Repository;
+using SharpNeat.Experiments;
 
 namespace SharpNeat.Windows.App
 {
@@ -13,7 +17,8 @@ namespace SharpNeat.Windows.App
     /// </summary>
     public partial class MainForm : Form
     {
-        private static readonly ILog __log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog __log = LogManager.GetLogger(typeof(MainForm));
+        private List<INeatExperimentFactory> _experimentFactoryList;
 
         #region Form Constructor / Initialisation
 
@@ -33,8 +38,41 @@ namespace SharpNeat.Windows.App
 
             ILoggerRepository logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.properties"));
+
+
+
+
+            List<INeatExperimentFactory> experimentFactoryList = AppUtils.ScanAssembliesForNeatExperiments();
+
+
+
         }
 
         #endregion
+
+
+
+
+        ///// <summary>
+        ///// Initialise the problem domain combobox. The list of problem domains is read from an XML file; this 
+        ///// allows changes to be made and new domains to be plugged-in without recompiling binaries.
+        ///// </summary>
+        //private void InitProblemDomainList()
+        //{
+        //    // Find all experiment config data files in the current directory (*.experiments.xml)
+        //    foreach(string filename in Directory.EnumerateFiles(".", "*.experiments.xml"))
+        //    {
+        //        List<ExperimentInfo> expInfoList = ExperimentInfo.ReadExperimentXml(filename);
+        //        foreach(ExperimentInfo expInfo in expInfoList) {
+        //            cmbExperiments.Items.Add(new ListItem(string.Empty, expInfo.Name, expInfo));
+        //        }
+        //    }
+        //    // Pre-select first item.
+        //    cmbExperiments.SelectedIndex = 0;
+        //}
+
+
+
+
     }
 }
