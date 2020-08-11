@@ -17,10 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Network\IO\NetworkTsvReaderUtils.cs" />
-    <Compile Remove="Network\IO\NetworkTsvWriterUtils.cs" />
-    <Compile Remove="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
-    <Compile Remove="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
+    <Compile Remove="Graphs\IO\NetworkTsvReaderUtils.cs" />
+    <Compile Remove="Graphs\IO\NetworkTsvWriterUtils.cs" />
+    <Compile Remove="Graphs\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
+    <Compile Remove="Graphs\IO\WeightedDirectedGraphTsvWriter.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Network\IO\NetworkTsvReaderUtils.cs" />
-    <None Include="Network\IO\NetworkTsvWriterUtils.cs" />
-    <None Include="Network\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
-    <None Include="Network\IO\WeightedDirectedGraphTsvWriter.cs" />
+    <None Include="Graphs\IO\NetworkTsvReaderUtils.cs" />
+    <None Include="Graphs\IO\NetworkTsvWriterUtils.cs" />
+    <None Include="Graphs\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
+    <None Include="Graphs\IO\WeightedDirectedGraphTsvWriter.cs" />
   </ItemGroup>
 
 </Project>
