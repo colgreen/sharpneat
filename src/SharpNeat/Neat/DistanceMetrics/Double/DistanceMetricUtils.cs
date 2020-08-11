@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double
 {

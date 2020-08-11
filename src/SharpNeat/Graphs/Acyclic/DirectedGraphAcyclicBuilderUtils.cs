@@ -14,7 +14,7 @@ using System.Diagnostics;
 using Redzen;
 using Redzen.Sorting;
 
-namespace SharpNeat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic
 {
     internal static class DirectedGraphAcyclicBuilderUtils
     {

@@ -12,7 +12,7 @@
 using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
-using SharpNeat.Network.Acyclic;
+using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNet.Double;
 
 namespace SharpNeat.Neat.Genome.Double

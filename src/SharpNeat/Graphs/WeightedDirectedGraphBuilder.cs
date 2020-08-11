@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using Redzen.Sorting;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// For building instances of <see cref="WeightedDirectedGraph{T}"/>.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     public sealed class ConnectionSorterV1
     {

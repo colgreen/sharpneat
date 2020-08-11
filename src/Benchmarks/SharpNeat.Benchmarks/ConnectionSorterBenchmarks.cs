@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Redzen.Random;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeatLib.Benchmarks
 {

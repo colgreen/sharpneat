@@ -1,5 +1,5 @@
 ﻿using Redzen.Random;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 using Xunit;
 
 namespace SharpNeat.Tests.Network

@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using Redzen.Sorting;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Static class for building instances of <see cref="DirectedGraph"/>.

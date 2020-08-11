@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Represents a connection between two nodes, combined with a connection weight.

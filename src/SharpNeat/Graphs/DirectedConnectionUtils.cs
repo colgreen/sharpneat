@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using Redzen;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Static utility methods related to working with <see cref="DirectedConnection"/>.

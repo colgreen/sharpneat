@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading;
 using Redzen.Collections;
 
-namespace SharpNeat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
     /// An algorithm for calculating the depth of each node in an acyclic graph.

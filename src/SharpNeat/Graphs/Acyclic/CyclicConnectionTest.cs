@@ -15,7 +15,7 @@ using Redzen;
 using Redzen.Collections;
 using Redzen.Structures;
 
-namespace SharpNeat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
     /// For testing if a new connection would form a connectivity cycle in an existing acyclic digraph.

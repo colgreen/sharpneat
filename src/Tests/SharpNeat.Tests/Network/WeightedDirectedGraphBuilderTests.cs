@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 using Xunit;
 using static SharpNeat.Tests.Network.NetworkUtils;
 

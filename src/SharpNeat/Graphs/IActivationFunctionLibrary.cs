@@ -11,7 +11,7 @@
  */
 using SharpNeat.NeuralNet;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Represents a library of activation functions. Primarily for use in HyperNEAT CPPNs which define

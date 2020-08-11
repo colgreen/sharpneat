@@ -10,7 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
     /// Represents a node and connection index that represent the last node and connection in a given layer

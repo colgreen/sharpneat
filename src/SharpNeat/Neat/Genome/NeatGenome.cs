@@ -12,7 +12,7 @@
 using System;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome
 {

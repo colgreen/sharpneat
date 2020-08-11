@@ -5,7 +5,7 @@ using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 

@@ -12,7 +12,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SharpNeat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
     /// For building instances of <see cref="WeightedDirectedGraphAcyclic{T}"/>.

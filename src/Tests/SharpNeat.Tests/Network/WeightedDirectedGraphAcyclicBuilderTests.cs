@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
+using SharpNeat.Graphs;
+using SharpNeat.Graphs.Acyclic;
 using Xunit;
 using static SharpNeat.Tests.Network.NetworkUtils;
 

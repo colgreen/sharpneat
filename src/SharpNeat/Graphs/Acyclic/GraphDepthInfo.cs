@@ -13,7 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace SharpNeat.Network.Acyclic
+namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
     /// Conveys summary information from a network depth analysis.

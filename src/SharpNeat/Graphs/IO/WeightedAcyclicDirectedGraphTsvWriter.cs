@@ -19,7 +19,7 @@ using SharpNeat.Network.Acyclic;
 using SharpNeat.NeuralNets;
 using static SharpNeat.Network.IO.NetworkTsvWriterUtils;
 
-namespace SharpNeat.Network.IO
+namespace SharpNeat.Graphs.IO
 {
     /// <summary>
     /// Writes a WeightedAcyclicDirectedGraph to file in a tab separated value (tsv) format.

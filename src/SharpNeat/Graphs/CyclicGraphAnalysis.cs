@@ -14,7 +14,7 @@ using System.Threading;
 using Redzen;
 using Redzen.Structures;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// An algorithm for testing whether a given graph is cyclic or acyclic, i.e. does a given graph have 

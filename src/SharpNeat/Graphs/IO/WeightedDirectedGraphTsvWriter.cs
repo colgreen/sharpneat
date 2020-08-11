@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using SharpNeat.NeuralNets;
 using static SharpNeat.Network.IO.NetworkTsvWriterUtils;
 
-namespace SharpNeat.Network.IO
+namespace SharpNeat.Graphs.IO
 {
     /// <summary>
     /// Writes a WeightedDirectedGraph to file in a tab separated value (tsv) format.

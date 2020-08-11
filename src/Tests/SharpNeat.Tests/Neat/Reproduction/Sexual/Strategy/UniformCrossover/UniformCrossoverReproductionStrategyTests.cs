@@ -4,7 +4,7 @@ using Redzen.Structures;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 using Xunit;
 using static SharpNeat.Tests.Neat.Genome.NestGenomeTestUtils;
 

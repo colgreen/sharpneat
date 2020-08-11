@@ -1,6 +1,6 @@
 ﻿using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
+using SharpNeat.Graphs;
+using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
 using Xunit;
 using static SharpNeat.Tests.Neat.Network.ConnectionCompareUtils;

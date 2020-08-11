@@ -11,7 +11,7 @@
  */
 using System;
 using System.Diagnostics;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome
 {

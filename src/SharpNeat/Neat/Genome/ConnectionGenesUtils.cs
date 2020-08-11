@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Redzen;
 using Redzen.Sorting;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome
 {

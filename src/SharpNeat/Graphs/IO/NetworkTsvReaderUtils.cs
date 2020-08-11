@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SharpNeat.Network.IO
+namespace SharpNeat.Graphs.IO
 {
     // TODO: Consider if this is dead code.
 

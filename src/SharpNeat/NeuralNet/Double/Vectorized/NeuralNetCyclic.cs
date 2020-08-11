@@ -13,7 +13,7 @@ using System;
 using System.Diagnostics;
 using System.Numerics;
 using SharpNeat.BlackBox;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.NeuralNet.Double.Vectorized
 {

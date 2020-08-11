@@ -11,7 +11,7 @@
  */
 using System.Collections.Generic;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// An <see cref="IComparer{T}"/> for comparing instances of <see cref="WeightedDirectedConnection{T}"/>.

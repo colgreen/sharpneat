@@ -14,7 +14,7 @@ using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy

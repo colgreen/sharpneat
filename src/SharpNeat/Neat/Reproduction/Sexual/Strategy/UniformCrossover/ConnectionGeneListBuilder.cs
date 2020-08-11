@@ -11,7 +11,7 @@
  */
 using System.Collections.Generic;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {

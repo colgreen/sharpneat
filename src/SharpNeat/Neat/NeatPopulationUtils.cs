@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat
 {

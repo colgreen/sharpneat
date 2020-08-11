@@ -11,7 +11,7 @@
  */
 using System;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Represents a directed graph.

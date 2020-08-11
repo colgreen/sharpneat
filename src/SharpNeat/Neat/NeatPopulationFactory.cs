@@ -17,7 +17,7 @@ using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat
 {

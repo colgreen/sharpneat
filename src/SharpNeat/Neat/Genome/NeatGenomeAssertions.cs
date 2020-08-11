@@ -11,8 +11,8 @@
  */
 using System.Diagnostics;
 using Redzen.Sorting;
-using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
+using SharpNeat.Graphs;
+using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {

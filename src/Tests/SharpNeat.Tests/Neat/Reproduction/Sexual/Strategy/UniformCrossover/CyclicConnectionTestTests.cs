@@ -1,6 +1,6 @@
 ﻿using System;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 using Xunit;
 
 namespace SharpNeat.Tests.Sexual.Strategy.UniformCrossover

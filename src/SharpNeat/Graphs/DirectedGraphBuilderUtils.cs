@@ -11,7 +11,7 @@
  */
 using System.Collections.Generic;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Static utility methods for directed graph building.

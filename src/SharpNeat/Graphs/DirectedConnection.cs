@@ -11,7 +11,7 @@
  */
 using System;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that 

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// An INodeIdMap implementation based on a dictionary keyed by node ID and a fixed node count.

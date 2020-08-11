@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Tests.Neat.Genome
 {

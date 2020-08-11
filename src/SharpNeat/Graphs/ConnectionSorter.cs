@@ -11,7 +11,7 @@
  */
 using System.Diagnostics;
 
-namespace SharpNeat.Network
+namespace SharpNeat.Graphs
 {
     /// <summary>
     /// A variant on ArraySortHelper in the core framework:

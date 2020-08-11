@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Redzen.Collections;
-using SharpNeat.Network;
+using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
@@ -72,8 +72,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     ///      to read, understand and maintain, thus increasing the probability of subtle defects.
     ///
     /// Also see:
-    /// <see cref="Network.Acyclic.CyclicConnectionTest"/>
-    /// <see cref="Network.Acyclic.AcyclicGraphDepthAnalysis"/>
+    /// <see cref="Graphs.Acyclic.CyclicConnectionTest"/>
+    /// <see cref="Graphs.Acyclic.AcyclicGraphDepthAnalysis"/>
     /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
     public class CyclicConnectionTest
