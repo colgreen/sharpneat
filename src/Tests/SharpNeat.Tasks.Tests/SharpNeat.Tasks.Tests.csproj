@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RootNamespace>SharpNeat.Tasks.Tests</RootNamespace>
+    <RootNamespace>SharpNeat.Tasks</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
