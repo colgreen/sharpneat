@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SharpNeat.BlackBox;
-using SharpNeat.Network;
-using SharpNeat.Network.Acyclic;
+using SharpNeat.Graphs;
+using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNet;
 using SharpNeat.NeuralNet.Double;
 using SharpNeat.NeuralNet.Double.ActivationFunctions;
