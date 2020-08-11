@@ -48,7 +48,7 @@ namespace SharpNeat.Network
             INodeIdMap nodeIdMap = DirectedGraphBuilderUtils.CompileNodeIdMap(
                 inputOutputCount, hiddenNodeIdArr);
 
-            // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
+            // Extract/copy the neat genome connectivity graph into an ConnectionIdArrays structure.
             // Notes. 
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
@@ -74,7 +74,7 @@ namespace SharpNeat.Network
             var hiddenNodeIdSet = new HashSet<int>();
             
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
-            for(int i=0; i<connList.Count; i++)
+            for(int i=0; i < connList.Count; i++)
             {
                 if(connList[i].SourceId >= inputOutputCount) { 
                     hiddenNodeIdSet.Add(connList[i].SourceId); 

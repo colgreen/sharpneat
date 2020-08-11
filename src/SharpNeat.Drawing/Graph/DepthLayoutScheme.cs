@@ -54,7 +54,7 @@ namespace SharpNeat.Drawing.Graph
             {
                 // Special case. Key all input nodes by depth -1. This places them as the first layer,
                 // and distinct from all other nodes.
-                { -1,graph.InputNodeList }
+                { -1, graph.InputNodeList }
             };
 
             // Stratify hidden nodes into layers.
