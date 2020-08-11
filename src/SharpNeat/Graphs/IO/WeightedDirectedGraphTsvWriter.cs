@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpNeat.NeuralNet;
-using static SharpNeat.Network.IO.NetworkTsvWriterUtils;
+using static SharpNeat.Graphs.IO.NetworkTsvWriterUtils;
 
 namespace SharpNeat.Graphs.IO
 {

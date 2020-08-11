@@ -10,7 +10,7 @@ namespace SharpNeat.Graphs
         // Notes.
         // Array.Sort() can sort a secondary array, but here we need to sort a third array; the below code
         // does this but performs a lot of unnecessary memory allocation and copying. As such this logic was 
-        // replaced (see current implementation of SharpNeat.Network.ConnectionSorter) with a customised sort
+        // replaced (see current implementation of SharpNeat.Graphs.ConnectionSorter) with a customised sort
         // routine that is faster and more efficient w.r.t memory allocations and copying.
     
         public static void Sort<S>(in ConnectionIdArrays connIdArrays, S[] weightArr) where S : struct
