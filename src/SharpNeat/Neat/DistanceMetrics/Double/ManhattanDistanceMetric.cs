@@ -16,6 +16,8 @@ using SharpNeat.Network;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double
 {
+    // TODO: Performance tuning target. E.g. use Math.Fma(), vectorisation, or use single-precision floats for some of the calcs.
+
     /// <summary>
     /// Manhattan distance metric.
     /// 
@@ -287,7 +289,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
                 // Check if we have exhausted one or both of the arrays.
                 if(arr1Idx < 0)
-                {   // Any remaining p2 elements are mismatches.
+                {   
+                    // Any remaining p2 elements are mismatches.
                     for(int i=arr2Idx; i >- 1; i--) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
                     }
@@ -295,7 +298,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 }
 
                 if(arr2Idx < 0)
-                {   // All remaining p1 elements are mismatches.
+                {   
+                    // All remaining p1 elements are mismatches.
                     for(int i=arr1Idx; i > -1; i--) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
                     }
