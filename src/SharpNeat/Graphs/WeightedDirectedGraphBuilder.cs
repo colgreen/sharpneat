@@ -59,7 +59,11 @@ namespace SharpNeat.Graphs
 
             // Construct and return a new WeightedDirectedGraph.
             int totalNodeCount =  inputOutputCount + hiddenNodeIdArr.Length;
-            return new WeightedDirectedGraph<T>(connIdArrays, inputCount, outputCount, totalNodeCount, weightArr);
+            return new WeightedDirectedGraph<T>(
+                inputCount, outputCount,
+                totalNodeCount,
+                connIdArrays,
+                weightArr);
         }
 
         #endregion

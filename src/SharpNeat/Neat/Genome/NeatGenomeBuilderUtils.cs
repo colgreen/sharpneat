@@ -35,10 +35,10 @@ namespace SharpNeat.Neat.Genome
 
             // Construct a new DirectedGraph.
             var digraph = new DirectedGraph(
-                connIdArrays,
                 metaNeatGenome.InputNodeCount,
                 metaNeatGenome.OutputNodeCount,
-                nodeIndexByIdMap.Count);
+                nodeIndexByIdMap.Count,
+                connIdArrays);
 
             return digraph;
         }

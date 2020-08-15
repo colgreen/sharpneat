@@ -47,8 +47,6 @@ namespace SharpNeat.Graphs
     {
         #region Instance Fields
 
-        readonly ConnectionIdArrays _connIdArrays;
-
         // The number of input nodes; these are required to be assigned contiguous IDs starting at zero.
         readonly int _inputCount;
 
@@ -57,6 +55,9 @@ namespace SharpNeat.Graphs
 
         // The total number of nodes in the graph, i.e. input, output and hidden nodes.
         readonly int _totalNodeCount;
+
+        // The connection source and target node IDs.
+        readonly ConnectionIdArrays _connIdArrays;
 
         // An array of indexes into _connArr. 
         // For a given node index, gives the index of the first connection with that node as its source.
@@ -67,15 +68,15 @@ namespace SharpNeat.Graphs
         #region Constructor
 
         internal DirectedGraph(
-            in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
-            int totalNodeCount)
+            int totalNodeCount,
+            in ConnectionIdArrays connIdArrays)
         {
-            _connIdArrays = connIdArrays;
             _inputCount = inputCount;
             _outputCount = outputCount;
             _totalNodeCount = totalNodeCount;
+            _connIdArrays = connIdArrays;
         }
 
         #endregion

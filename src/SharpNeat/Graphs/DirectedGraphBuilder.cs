@@ -55,7 +55,7 @@ namespace SharpNeat.Graphs
 
             // Construct and return a new DirectedGraph.
             int totalNodeCount =  inputOutputCount + hiddenNodeIdArr.Length;
-            return new DirectedGraph(connIdArrays, inputCount, outputCount, totalNodeCount);
+            return new DirectedGraph(inputCount, outputCount, totalNodeCount, connIdArrays);
         }
 
         #endregion

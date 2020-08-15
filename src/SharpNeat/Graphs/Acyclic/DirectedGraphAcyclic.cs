@@ -41,10 +41,10 @@ namespace SharpNeat.Graphs.Acyclic
             in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
-            int nodeCount,
+            int totalNodeCount,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr)
-        : base(in connIdArrays, inputCount, outputCount, nodeCount)
+        : base(inputCount, outputCount, totalNodeCount, in connIdArrays)
         {
             this.LayerArray = layerArr;
             this.OutputNodeIdxArr = outputNodeIdxArr;
