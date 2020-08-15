@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Genome.Tests
             var acyclicDigraph = (DirectedGraphAcyclic)genome.DirectedGraph;
             Assert.NotNull(acyclicDigraph);
 
-            // Simulate the actual weight array that would occur in e.g. a WeightedAcyclicDirectedGraph or AcyclicNeuralNet.
+            // Simulate the actual weight array that would occur in e.g. a WeightedDirectedGraphAcyclic or NeuralNetAcyclic.
             double[] weightArrActual = new double[connGenes._weightArr.Length];
             for(int i=0; i < weightArrActual.Length; i++) {
                 weightArrActual[i] = connGenes._weightArr[genome.ConnectionIndexMap[i]];

@@ -95,7 +95,7 @@ namespace SharpNeat.Neat.Genome
         ///  * Decoding to a neural net object.
         ///  * Finding new connections on acyclic graphs, i.e. detecting if a random new connection would form a cycle.
         ///  
-        /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype AcyclicDirectedGraph.
+        /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype DirectedGraphAcyclic.
         /// </remarks>
         public DirectedGraph DirectedGraph { get; }
 
@@ -103,7 +103,7 @@ namespace SharpNeat.Neat.Genome
         /// Cached info related to acyclic digraphs only.
         /// 
         /// Represents a mapping between genome connection indexes (in NeatGenome.ConnectionGenes), to reordered connections
-        /// based on depth based node index allocations (as utilised in AcyclicDirectedGraph).
+        /// based on depth based node index allocations (as utilised in DirectedGraphAcyclic).
         /// 
         /// This allows for mapping of weights from NeatGenome.ConnectionGenes to the re-ordered weight array used by the neural
         /// net implementation (AcyclicNeuralNet).

@@ -104,7 +104,7 @@ namespace SharpNeat.Neat.Genome
             // Note. This also outputs connectionIndexMap. For each connection in the acyclic graph this gives
             // the index of the same connection in the genome; this is because connections are re-ordered based 
             // on node depth in the acyclic graph.
-            DirectedGraphAcyclic acyclicDigraph = DirectedGraphAcyclicBuilderUtils.CreateAcyclicDirectedGraph(
+            DirectedGraphAcyclic acyclicDigraph = DirectedGraphAcyclicBuilderUtils.CreateDirectedGraphAcyclic(
                 digraph,
                 depthInfo,
                 out int[] newIdByOldId,
@@ -164,7 +164,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="nodeIndexByIdMap">Provides a mapping from node ID to node index.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
         /// <param name="connectionIndexMap">A mapping between genome connection indexes (in NeatGenome.ConnectionGenes), to reordered connections
-        /// based on depth based node index allocations (as utilised in AcyclicDirectedGraph).</param>
+        /// based on depth based node index allocations (as utilised in DirectedGraphAcyclic).</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(
             int id, int birthGeneration,

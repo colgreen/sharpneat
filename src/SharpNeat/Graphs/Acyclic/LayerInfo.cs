@@ -16,7 +16,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// Represents a node and connection index that represent the last node and connection in a given layer
     /// in an acyclic graph.
     /// The nodes and connections on an acyclic graph are ordered by the layer they are in. For more details
-    /// see AcyclicDirectedGraph.
+    /// see <see cref="DirectedGraphAcyclic"/>.
     /// </summary>
     public readonly struct LayerInfo
     {

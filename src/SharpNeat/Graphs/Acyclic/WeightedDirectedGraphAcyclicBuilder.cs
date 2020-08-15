@@ -92,7 +92,7 @@ namespace SharpNeat.Graphs.Acyclic
             GraphDepthInfo depthInfo)
         {
             // Create acyclic digraph.
-            var acyclicDigraph = DirectedGraphAcyclicBuilderUtils.CreateAcyclicDirectedGraph(
+            var acyclicDigraph = DirectedGraphAcyclicBuilderUtils.CreateDirectedGraphAcyclic(
                 digraph,
                 depthInfo,
                 out int[] _,
@@ -106,7 +106,7 @@ namespace SharpNeat.Graphs.Acyclic
                 weightArr[i] = genomeWeightArr[connectionIndexMap[i]];
             }
 
-            // Construct a new WeightedAcyclicDirectedGraph.
+            // Construct a new WeightedDirectedGraphAcyclic.
             return new WeightedDirectedGraphAcyclic<T>(
                 acyclicDigraph.InputCount, 
                 acyclicDigraph.OutputCount,

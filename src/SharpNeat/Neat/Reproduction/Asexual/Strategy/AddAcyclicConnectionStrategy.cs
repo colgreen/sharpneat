@@ -140,7 +140,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        // TODO / ENHANCEMENT: parent.DirectedGraph contains a pre-built AcyclicDirectedGraph, we can probably use this to intelligently select new 
+        // TODO / ENHANCEMENT: parent.DirectedGraph contains a pre-built DirectedGraphAcyclic, we can probably use this to intelligently select new 
         // acyclic connections, instead of the approach here of selecting random connections and testing if they are acyclic or not.
 
         // rather than he current rejection sampling approach.

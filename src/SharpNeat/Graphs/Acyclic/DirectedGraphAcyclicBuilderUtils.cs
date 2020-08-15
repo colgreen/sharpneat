@@ -20,7 +20,7 @@ namespace SharpNeat.Graphs.Acyclic
     {
         #region Public Static Methods
 
-        public static DirectedGraphAcyclic CreateAcyclicDirectedGraph(
+        public static DirectedGraphAcyclic CreateDirectedGraphAcyclic(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,
             out int[] newIdByOldId,
@@ -32,7 +32,7 @@ namespace SharpNeat.Graphs.Acyclic
             int[]? timsortWorkArr = null;
             int[]? timsortWorkVArr = null;
 
-            return CreateAcyclicDirectedGraph(
+            return CreateDirectedGraphAcyclic(
                 digraph, depthInfo,
                 out newIdByOldId,
                 out connectionIndexMap,
@@ -40,7 +40,7 @@ namespace SharpNeat.Graphs.Acyclic
                 ref timsortWorkVArr);
         }
 
-        public static DirectedGraphAcyclic CreateAcyclicDirectedGraph(
+        public static DirectedGraphAcyclic CreateDirectedGraphAcyclic(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,
             out int[] newIdByOldId,
