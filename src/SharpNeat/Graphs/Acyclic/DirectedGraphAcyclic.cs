@@ -38,10 +38,10 @@ namespace SharpNeat.Graphs.Acyclic
         #region Constructor
 
         internal DirectedGraphAcyclic(
-            in ConnectionIdArrays connIdArrays,
             int inputCount,
             int outputCount,
             int totalNodeCount,
+            in ConnectionIdArrays connIdArrays,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr)
         : base(inputCount, outputCount, totalNodeCount, in connIdArrays)

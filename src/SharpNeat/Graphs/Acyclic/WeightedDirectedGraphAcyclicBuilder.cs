@@ -108,10 +108,10 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Construct a new WeightedAcyclicDirectedGraph.
             return new WeightedDirectedGraphAcyclic<T>(
-                acyclicDigraph.ConnectionIdArrays,
                 acyclicDigraph.InputCount, 
                 acyclicDigraph.OutputCount,
                 acyclicDigraph.TotalNodeCount,
+                acyclicDigraph.ConnectionIdArrays,
                 acyclicDigraph.LayerArray,
                 acyclicDigraph.OutputNodeIdxArr,
                 weightArr);

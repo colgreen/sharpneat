@@ -52,7 +52,6 @@ namespace SharpNeat.Graphs
         #region Constructor
 
         internal WeightedDirectedGraph(
-            
             int inputCount,
             int outputCount,
             int totalNodeCount,

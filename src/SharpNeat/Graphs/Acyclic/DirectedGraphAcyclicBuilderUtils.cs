@@ -116,8 +116,8 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Construct and return.
             return new DirectedGraphAcyclic(
-                connIdArrays,
                 inputCount, outputCount, nodeCount,
+                connIdArrays,
                 layerInfoArr,
                 outputNodeIdxArr);
         }
