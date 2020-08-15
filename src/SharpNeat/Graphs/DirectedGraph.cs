@@ -13,6 +13,8 @@ using System;
 
 namespace SharpNeat.Graphs
 {
+    // TODO: Review summary and update / re-write.
+
     /// <summary>
     /// Represents a directed graph.
     /// </summary>
@@ -38,8 +40,8 @@ namespace SharpNeat.Graphs
     /// ---------
     /// The connection array is sorted by sourceIdx and secondary sorted by targetIdx. This means that all
     /// connections from a given node are located in a contiguous segment, the start of which can be efficiently
-    /// located using a binary search. However to improve efficiency further an array of lookup indexes is compiled
-    /// which gives the starting index of a connection span/segment for a given source node index.
+    /// located using a binary search. However to improve efficiency further, an array of lookup indexes is
+    /// compiled, which gives the starting index of a connection span/segment for a each source node index.
     /// </remarks>
     public class DirectedGraph
     {
@@ -147,7 +149,7 @@ namespace SharpNeat.Graphs
             }
 
             int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
-            if(-1 == startIdx)
+            if(startIdx == -1)
             {   // There are no connections that have the specified node as their source.
                 // Return an empty array segment.
                 return new Memory<int>();
@@ -157,7 +159,7 @@ namespace SharpNeat.Graphs
             int[] connSrcIdArr = _connIdArrays._sourceIdArr;
             int[] connTgtIdArr = _connIdArrays._targetIdArr;
 
-            int endIdx = startIdx+1;
+            int endIdx = startIdx + 1;
             for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
             // Return an array segment over the sub-range of the connection array.
@@ -185,7 +187,7 @@ namespace SharpNeat.Graphs
 
             // If no connections then nothing to do.
             int[] srcIdArr = _connIdArrays._sourceIdArr;
-            if(0 == srcIdArr.Length) {
+            if(srcIdArr.Length == 0) {
                 return connIdxBySrcNodeIdx;
             }
 
@@ -196,14 +198,12 @@ namespace SharpNeat.Graphs
             // Loop connections.
             for(int i=1; i < srcIdArr.Length; i++)
             {
-                if (srcIdArr[i] == currentSrcNodeId)
-                {   // Skip.
-                    continue;
+                if(srcIdArr[i] != currentSrcNodeId)
+                {
+                    // We have arrived at the next source node's connections.
+                    currentSrcNodeId = srcIdArr[i];
+                    connIdxBySrcNodeIdx[srcIdArr[i]] = i;
                 }
-
-                // We have arrived at the next source node's connections.
-                currentSrcNodeId = srcIdArr[i];
-                connIdxBySrcNodeIdx[srcIdArr[i]] = i;
             }
 
             return connIdxBySrcNodeIdx;
