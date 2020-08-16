@@ -172,10 +172,14 @@ namespace SharpNeat.Graphs.Acyclic
             }
 
             // Sort the node IDs by depth.
-            TimSort<int,int>.Sort(depthInfo._nodeDepthArr, nodeIdArr, inputCount, nodeCount - inputCount, timsortWorkArr, timsortWorkVArr);
+            TimSort<int,int>.Sort(
+                depthInfo._nodeDepthArr,
+                nodeIdArr,
+                inputCount,
+                nodeCount - inputCount,
+                timsortWorkArr, timsortWorkVArr);
 
-            // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e.
-            // we are re-allocating IDs based on node depth.
+            // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e. we are re-allocating IDs based on node depth.
             // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
             int[] newIdByOldId = new int[nodeCount];
             for(int i=0; i < nodeCount; i++) {
