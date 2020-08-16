@@ -14,6 +14,7 @@ namespace SharpNeat.Drawing.Graph.Painting
 {
     internal class GraphPaintingConsts
     {
+        // TODO: Make configurable.
         // Diameter of a node in the model coordinate space.
         public const float NodeDiameterModel = 10;
     }

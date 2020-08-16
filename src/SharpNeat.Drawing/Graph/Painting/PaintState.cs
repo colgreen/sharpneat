@@ -18,7 +18,7 @@ namespace SharpNeat.Drawing.Graph.Painting
     /// <summary>
     /// Represents data required for by painting routines.
     /// </summary>
-    public class PaintState
+    public sealed class PaintState
     {
         #region Instance Fields
 

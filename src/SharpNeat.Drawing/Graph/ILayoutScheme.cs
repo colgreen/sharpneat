@@ -14,7 +14,7 @@ using System.Drawing;
 namespace SharpNeat.Drawing.Graph
 {
     /// <summary>
-    /// Represents a scheme for assigning nodes in a graph, a position in a 2D rectangle/area.
+    /// Represents a scheme for assigning a 2D position to each node node in a graph.
     /// </summary>
     public interface ILayoutScheme
     {
