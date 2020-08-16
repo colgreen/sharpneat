@@ -9,53 +9,53 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace SharpNeat.Drawing.Graph.Painting
 {
     /// <summary>
-    /// Represents data required for by painting routines.
+    /// A collection of working variables for painting a graph to a GDI+ surface.
     /// </summary>
     public sealed class PaintState
     {
         #region Instance Fields
 
-        /// <summary>The current GDI+ painting surface.</summary>
+        /// <summary>
+        /// The GDI+ painting surface.
+        /// </summary>
         public readonly Graphics _g;
 
-        /// <summary>The area being painted to. Any elements outside of this area are not visible.</summary>
+        /// <summary>
+        /// The area being painted to. Any elements outside of this area are not painted.
+        /// </summary>
         public readonly Rectangle _viewportArea;
 
-        /// <summary>Scales the elements being drawn.</summary>
+        /// <summary>
+        /// Scales the elements being drawn.
+        /// </summary>
         public readonly float _zoomFactor;
 
-        /// <summary>Range of connections weights. Used to determine width of drawn connections.</summary>
-        public readonly float _connectionWeightRange;
-
-        /// <summary>Use in conjunction with _connectionWeightRange to draw connections.</summary>
-        public readonly float _connectionWeightRangeHalf;
-
-        /// <summary>Uses in conjunction with _connectionWeightRange to draw connections.</summary>
-        public readonly float _connectionWeightToWidth;
-
-        // Useful derived values.
-        /// <summary>Diameter of drawn nodes.</summary>
+        /// <summary>
+        /// Diameter of drawn nodes.
+        /// </summary>
         public readonly int _nodeDiameter;
 
-        /// <summary>Used in conjunction with _nodeDiameter to draw nodes.</summary>
+        /// <summary>
+        /// Used in conjunction with _nodeDiameter to draw nodes.
+        /// </summary>
         public readonly int _nodeDiameterHalf;
 
-        /// <summary>Length of connection legs emanating from the base of nodes when drawing connections
-        /// to nodes above the source node.</summary>
+        /// <summary>
+        /// Length of connection legs emanating from the base of nodes when drawing 'back' connections,
+        /// i.e., to to target nodes above the source node.
+        /// </summary>
         public readonly float _backConnectionLegLength;
 
-        // TODO: Key on node ID instead of 'object'.
         /// <summary>
-        /// Dictionary containing temporary painting related state for each graph node.
+        /// Connection point info per node. Used to track how many back-connections have been attached to nodes,
+        /// so that new back-connections can be drawn without overlapping already drawn back-connections.
         /// </summary>
-        public Dictionary<GraphNode,ConnectionPointInfo> _nodeStateDict;
+        public readonly ConnectionPointInfo[] _nodeStateByIdx;
 
         #endregion
 
@@ -66,41 +66,21 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// </summary>
         public PaintState(
             Graphics g, Rectangle viewportArea,
-            float zoomFactor, float connectionWeightRange,
-            int nodeCount)
+            float nodeDiameter,
+            float zoomFactor, int nodeCount)
         {
             // Store state variables.
             _g = g;
             _viewportArea = viewportArea;
             _zoomFactor = zoomFactor;
-            _connectionWeightRange = connectionWeightRange;
-            _connectionWeightRangeHalf = connectionWeightRange * 0.5f;
-            _connectionWeightToWidth = (float)(2.0 / Math.Log10(connectionWeightRange + 1.0));
 
             // Precalculate some useful derived values.
-            _nodeDiameter = (int)(GraphPaintingConsts.NodeDiameterModel * zoomFactor);
-            _nodeDiameterHalf = (int)((GraphPaintingConsts.NodeDiameterModel * zoomFactor) * 0.5f);
+            _nodeDiameter = (int)(nodeDiameter * zoomFactor);
+            _nodeDiameterHalf = (int)((nodeDiameter * zoomFactor) * 0.5f);
             _backConnectionLegLength = _nodeDiameter * 1.6f;
 
             // Create per-node state info map.
-            _nodeStateDict = new Dictionary<GraphNode,ConnectionPointInfo>(nodeCount);
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        /// <summary>
-        /// Gets the state object for a given graph node. Creates the object if it does not yet exist.
-        /// </summary>
-        public ConnectionPointInfo GetNodeStateInfo(GraphNode node)
-        {
-            if(!_nodeStateDict.TryGetValue(node, out ConnectionPointInfo? info))
-            {
-                info = new ConnectionPointInfo();
-                _nodeStateDict.Add(node, info);
-            }
-            return info;
+            _nodeStateByIdx = new ConnectionPointInfo[nodeCount];
         }
 
         #endregion

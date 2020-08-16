@@ -12,20 +12,21 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 
 namespace SharpNeat.Drawing.Graph
 {
     /// <summary>
-    /// An <see cref="ILayoutScheme"/> that arranges and positions nodes into layers, based on their depth in the network.
+    /// An <see cref="IGraphLayoutScheme"/> that arranges/positions nodes into layers, based on their depth in the network.
     /// </summary>
-    public class DepthLayoutScheme : ILayoutScheme
+    public class DepthLayoutScheme : IGraphLayoutScheme
     {
         /// <summary>
         /// Layout nodes based on their depth within the network.
         /// 
         /// Note 1.
-        /// Input nodes are defined as being at layer zero and we position them in their own layer at the 
-        /// top of the layout area. Any other type of node (hidden or output) node not connected to is also
+        /// Input nodes are defined as being at layer zero, and we position them in their own layer at the 
+        /// top of the layout area. Any other type of node (hidden or output) not connected to is also
         /// defined as being at layer zero, if such nodes exist then we place them into their own layout 
         /// layer to visually separate them from the input nodes.
         /// 
@@ -45,125 +46,14 @@ namespace SharpNeat.Drawing.Graph
         /// layout area. Therefore if the only node at a given depth is an output node then the layout layer 
         /// can be empty. To handle this neatly we check for empty layout layers before invoking the layout logic.
         /// </summary>
-        /// <param name="graph">The network/graph structure to be laid out.</param>
-        /// <param name="layoutArea">The area the structure is to be laid out on.</param>
-        public void Layout(IOGraph graph, Size layoutArea)
+        /// <param name="viewModel">The graph view model to be laid out.</param>
+        /// <param name="layoutArea">The area to layout nodes within.</param>
+        public void Layout(DirectedGraphViewModel viewModel, Size layoutArea)
         {
-            //=== Stratify all nodes into layout layers, each layer keyed by depth value.
-            var layersByDepth = new SortedDictionary<int,List<GraphNode>>
-            {
-                // Special case. Key all input nodes by depth -1. This places them as the first layer,
-                // and distinct from all other nodes.
-                { -1, graph.InputNodeList }
-            };
+            // TODO: Implement.
 
-            // Stratify hidden nodes into layers.
-            // Count hidden nodes in each layer.
-            int hiddenCount = graph.HiddenNodeList.Count;
-            int[] hiddenNodeCountByLayerArr = new int[graph.Depth];
 
-            for(int i=0; i < hiddenCount; i++) {
-                hiddenNodeCountByLayerArr[graph.HiddenNodeList[i].Depth]++;
-            }
-
-            // Allocate storage per layer.
-            for(int i=0; i < graph.Depth; i++) 
-            {
-                int nodeCount = hiddenNodeCountByLayerArr[i];
-                if(0 != nodeCount) {
-                    layersByDepth.Add(i, new List<GraphNode>(nodeCount));
-                }
-            }
-
-            // Put hidden nodes into layer lists.
-            for(int i=0; i < hiddenCount; i++) 
-            {
-                GraphNode node = graph.HiddenNodeList[i];
-                layersByDepth[node.Depth].Add(node);
-            }
-
-            // Special case 2. Place output nodes in their own distinct layer at a depth one more than the max
-            // depth of the network. This places them as the last layer and distinct from all other nodes.
-            layersByDepth.Add(graph.Depth, graph.OutputNodeList);
-
-        //=== Layout.
-            // Calculate height of each layer. We divide the layout area height by the number of layers, but also 
-            // define margins at the top and bottom of the view. To make best use of available height the margins 
-            // are defined as a proportion of the layer height. Hence we have:
-            //
-            // ============================
-            // d - network depth.
-            // l - layer height.
-            // m - margin height (same height used for top and bottom margins).
-            // p - proportion of layer height that gives margin height.
-            // H - layout areas height
-            // ============================
-            //
-            // Derivation:
-            // ============================ 
-            // 1) l = (H-2m) / (d-1)
-            //
-            // 2) m = lp, therefore
-            //
-            // 3) l = (H-2pl) / (d-1), solve for l
-            //
-            // 4) l = H/(d-1) - 2pl/(d-1)
-            //
-            // 5) 1 = H/(d-1)l - 2p/(d-1)
-            //
-            // 6) H / (d-1)l = 1 + 2p/(d-1), inverting both sides gives
-            //
-            // 7) (d-1)l / H = 1/[ 1 + 2p/(d-1) ]
-            //
-            // 8)            = (d-1) / ((d-1) + 2p)
-            //
-            // 9)            = (d-1) / (d + 2p - 1), rearranging for l gives
-            //
-            // 10) l = H / (d + 2p - 1)
-            const float p = 2f;
-            const float p2 = 2f * p;
-            // Rounding will produce 'off by one' errors, e.g. all heights may not total height of layout area,
-            // but the effect is probably negligible on the quality of the layout.
-            int layoutLayerCount = layersByDepth.Count;
-            int l = (int)Math.Round((float)layoutArea.Height / ((float)layoutLayerCount + p2 - 1f));
-            int m = (int)Math.Round(l * p);
-
-            // Size struct to keep track of the area that bounds all nodes.
-            Size bounds = new Size(0,0);
-
-            // Assign a position to each node, one layer at a time.
-            int yCurrent = m;
-            foreach(List<GraphNode> layerNodeList in layersByDepth.Values)
-            {
-                // Calculate inter-node gap and margin width (we use the same principle as with the vertical layout of layers, see notes above).
-                int nodeCount = layerNodeList.Count;
-                float xIncr = (float)layoutArea.Width / ((float)nodeCount + p2 - 1f);
-                int xMargin = (int)Math.Round(xIncr * p);
-
-                // Loop nodes in layer; Assign position to each.
-                float xCurrent = xMargin;
-                for(int nodeIdx=0; nodeIdx < nodeCount; nodeIdx++, xCurrent += xIncr) 
-                {
-                    layerNodeList[nodeIdx].Position = new Point((int)xCurrent, yCurrent);
-                    UpdateModelBounds(layerNodeList[nodeIdx], ref bounds);
-                }
-
-                // Increment y coord for next layer.
-                yCurrent += l;
-            }
-
-            // Store the bounds of the graph elements. Useful when drawing the graph.
-            graph.Bounds = bounds;
-        }
-
-        private static void UpdateModelBounds(GraphNode node, ref Size bounds)
-        {
-            if(node.Position.X > bounds.Width) {
-                bounds.Width = node.Position.X;
-            }
-            if(node.Position.Y > bounds.Height) {
-                bounds.Height = node.Position.Y;
-            }
+            throw new NotImplementedException();
         }
     }
 }

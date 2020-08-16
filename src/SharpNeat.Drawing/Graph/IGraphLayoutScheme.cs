@@ -16,13 +16,13 @@ namespace SharpNeat.Drawing.Graph
     /// <summary>
     /// Represents a scheme for assigning a 2D position to each node node in a graph.
     /// </summary>
-    public interface ILayoutScheme
+    public interface IGraphLayoutScheme
     {
         /// <summary>
-        /// Position/layout the nodes of an IOGraph within a specified 2D layout area.
+        /// Position/layout the nodes of a digraph within a specified 2D layout area.
         /// </summary>
-        /// <param name="graph">The network/graph structure to be laid out.</param>
-        /// <param name="layoutArea">The area the structure is to be laid out on.</param>
-        void Layout(IOGraph graph, Size layoutArea);
+        /// <param name="viewModel">The graph view model to be laid out.</param>
+        /// <param name="layoutArea">The area to layout nodes within.</param>
+        void Layout(DirectedGraphViewModel viewModel, Size layoutArea);
     }
 }

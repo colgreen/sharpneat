@@ -16,15 +16,26 @@ namespace SharpNeat.Drawing.Graph.Painting
     /// For tracking connection points on nodes when drawing backwards directed connections, i.e. when the 
     /// connection target node is vertically higher than the source node.
     /// </summary>
-    public sealed class ConnectionPointInfo
+    public class ConnectionPointInfo
     {
-        /// <summary>Running connection count for top left of node.</summary>
+        /// <summary>
+        /// Running connection count for top left of node.
+        /// </summary>
         public int _upperLeft  = 0;
-        /// <summary>Running connection count for top right of node.</summary>
+
+        /// <summary>
+        /// Running connection count for top right of node.
+        /// </summary>
         public int _upperRight = 0;
-        /// <summary>Running connection count for bottom left of node.</summary>
+
+        /// <summary>
+        /// Running connection count for bottom left of node.
+        /// </summary>
         public int _lowerLeft  = 0;
-        /// <summary>Running connection count for bottom right of node.</summary>
+
+        /// <summary>
+        /// Running connection count for bottom right of node.
+        /// </summary>
         public int _lowerRight = 0;
     }
 }
