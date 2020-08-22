@@ -18,7 +18,7 @@ using SharpNeat.Graphs;
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     /// <summary>
-    /// For testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
+    /// For checking/testing if a proposed new connection on a NEAT genome would form a connectivity cycle.
     /// </summary>
     /// <remarks>
     /// This class utilises a depth first graph traversal algorithm to check if a proposed new connection on a given
@@ -76,7 +76,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// <see cref="Graphs.Acyclic.AcyclicGraphDepthAnalysis"/>
     /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
-    public class CyclicConnectionTest
+    public class CyclicConnectionCheck
     {
         #region Instance Fields
 
