@@ -41,7 +41,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         readonly IStatelessSampler<T> _weightSamplerA;
         readonly IStatelessSampler<T> _weightSamplerB;
-        readonly CyclicConnectionTest _cyclicTest;
+        readonly CyclicConnectionCheck _cyclicCheck;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale, true);
             _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale * 0.01, true);
-            _cyclicTest = new CyclicConnectionTest();
+            _cyclicCheck = new CyclicConnectionCheck();
         }
 
         #endregion
@@ -213,7 +213,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             }
 
             // Test if the connection would form a cycle if added to the parent genome.
-            if(_cyclicTest.IsConnectionCyclic(parent.DirectedGraph, DirectedConnectionUtils.CloneAndMap(conn, parent.NodeIndexByIdMap)))
+            if(_cyclicCheck.IsConnectionCyclic(parent.DirectedGraph, DirectedConnectionUtils.CloneAndMap(conn, parent.NodeIndexByIdMap)))
             {
                 conn = default;
                 insertIdx = default;

@@ -18,18 +18,18 @@ using Redzen.Structures;
 namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
-    /// For testing if a new connection would form a connectivity cycle in an existing acyclic digraph.
+    /// For checking/testing if a new connection would form a connectivity cycle in an existing acyclic digraph.
     /// </summary>
     /// <remarks>
     /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
     /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
     /// for more details see the comments on: 
-    /// <see cref="SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
+    /// <see cref="Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionTest"/>.
     /// Also see:
     /// <see cref="AcyclicGraphDepthAnalysis"/>
     /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
-    public class CyclicConnectionTest
+    public class CyclicConnectionCheck
     {
         #region Instance Fields
 

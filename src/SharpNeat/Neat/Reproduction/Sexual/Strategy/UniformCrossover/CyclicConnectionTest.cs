@@ -72,7 +72,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     ///      to read, understand and maintain, thus increasing the probability of subtle defects.
     ///
     /// Also see:
-    /// <see cref="Graphs.Acyclic.CyclicConnectionTest"/>
+    /// <see cref="Graphs.Acyclic.CyclicConnectionCheck"/>
     /// <see cref="Graphs.Acyclic.AcyclicGraphDepthAnalysis"/>
     /// <see cref="CyclicGraphAnalysis"/>
     /// </remarks>
