@@ -31,7 +31,7 @@ namespace SharpNeat.Graphs
     /// 3) A set of visited nodes is maintained. This persists between traversals and allows each traversal 
     /// to avoid traversing into nodes that have already been traversed.
     /// 
-    /// Note. We must traverse from each node rather then just e.g. the input nodes, because the network may 
+    /// Note. We must traverse from each node rather than just e.g. the input nodes, because the network may 
     /// have connectivity dead ends or even isolated connectivity that therefore would not be traversed into 
     /// by following connectivity from the input nodes only, hence we perform a traversal from each node and
     /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
@@ -84,7 +84,7 @@ namespace SharpNeat.Graphs
         {
             #if DEBUG
             // Check for attempts to re-enter this method.
-            if(1 == Interlocked.CompareExchange(ref _reentranceFlag, 1, 0)) {
+            if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
                 throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
             }
             #endif
