@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
-            CyclicGraphAnalysis cyclicGraphAnalysis = new CyclicGraphAnalysis();
+            CyclicGraphCheck cyclicGraphCheck = new CyclicGraphCheck();
 
             for(int i=0; i < 1000;)
             {
@@ -63,7 +63,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.
                 var digraph = childGenome.DirectedGraph;
-                Assert.False(cyclicGraphAnalysis.IsCyclic(digraph));
+                Assert.False(cyclicGraphCheck.IsCyclic(digraph));
 
                 // Increment for successful tests only.
                 i++;
@@ -86,7 +86,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             var nodeIdSet = GetNodeIdSet(rootGenome);
 
-            CyclicGraphAnalysis cyclicGraphAnalysis = new CyclicGraphAnalysis();
+            CyclicGraphCheck cyclicGraphCheck = new CyclicGraphCheck();
 
             AcyclicGraphDepthAnalysis graphDepthAnalysis = new AcyclicGraphDepthAnalysis();
 
@@ -126,7 +126,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
                     // The child genome should describe an acyclic graph, i.e. the new connection should not have
                     // formed a cycle in the graph.
                     var digraph = childGenome.DirectedGraph;
-                    Assert.False(cyclicGraphAnalysis.IsCyclic(digraph));
+                    Assert.False(cyclicGraphCheck.IsCyclic(digraph));
 
                     // Run the acyclic graph depth analysis algorithm.
                     GraphDepthInfo depthInfo = graphDepthAnalysis.CalculateNodeDepths(childGenome.DirectedGraph);

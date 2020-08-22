@@ -32,7 +32,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// <see cref="Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionCheck"/>.
     /// Also see:
     /// <see cref="CyclicConnectionCheck"/>
-    /// <see cref="CyclicGraphAnalysis"/>
+    /// <see cref="CyclicGraphCheck"/>
     /// </remarks>
     public class AcyclicGraphDepthAnalysis
     {
@@ -57,7 +57,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// </summary>
         int _reentranceFlag = 0;
 
-        readonly CyclicGraphAnalysis _cyclicGraphAnalysis = new CyclicGraphAnalysis();
+        readonly CyclicGraphCheck _cyclicGraphCheck = new CyclicGraphCheck();
         #endif
 
         #endregion
@@ -79,7 +79,7 @@ namespace SharpNeat.Graphs.Acyclic
             // Note. In a release build this test is not performed because we expect this method to be called from 
             // code handling acyclic graphs only. If digraph is cyclic then the graph traversal implemented here will
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
-            Debug.Assert(!_cyclicGraphAnalysis.IsCyclic(digraph));
+            Debug.Assert(!_cyclicGraphCheck.IsCyclic(digraph));
             #endif
 
             _nodeDepthByIdx = new int[digraph.TotalNodeCount];

@@ -17,7 +17,7 @@ using Redzen.Structures;
 namespace SharpNeat.Graphs
 {
     /// <summary>
-    /// An algorithm for testing whether a given graph is cyclic or acyclic, i.e. does a given graph have 
+    /// An algorithm for checking/testing whether a given graph is cyclic or acyclic, i.e. does a given graph have 
     /// a connectivity cycle.
     /// 
     /// Method.
@@ -43,7 +43,7 @@ namespace SharpNeat.Graphs
     /// used in the evolutionary algorithm. At time of writing this class is used only in Debug.Assert statements
     /// and unit tests, thus the simpler implementation is more appropriate.
     /// </summary>
-    public class CyclicGraphAnalysis
+    public class CyclicGraphCheck
     {
         #region Instance Fields
 

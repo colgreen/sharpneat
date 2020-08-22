@@ -74,7 +74,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// Also see:
     /// <see cref="Graphs.Acyclic.CyclicConnectionCheck"/>
     /// <see cref="Graphs.Acyclic.AcyclicGraphDepthAnalysis"/>
-    /// <see cref="CyclicGraphAnalysis"/>
+    /// <see cref="CyclicGraphCheck"/>
     /// </remarks>
     public class CyclicConnectionCheck
     {

@@ -25,8 +25,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.False(isCyclic);
         }
 
@@ -48,8 +48,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.False(isCyclic);
         }
 
@@ -71,8 +71,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.False(isCyclic);
         }
 
@@ -102,8 +102,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.False(isCyclic);
         }
 
@@ -130,8 +130,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.True(isCyclic);
         }
 
@@ -154,8 +154,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.True(isCyclic);
         }
 
@@ -178,8 +178,8 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
 
             // Test if cyclic.
-            var cyclicGraphAnalysis = new CyclicGraphAnalysis();
-            bool isCyclic = cyclicGraphAnalysis.IsCyclic(digraph);
+            var cyclicGraphCheck = new CyclicGraphCheck();
+            bool isCyclic = cyclicGraphCheck.IsCyclic(digraph);
             Assert.True(isCyclic);
         }
 
