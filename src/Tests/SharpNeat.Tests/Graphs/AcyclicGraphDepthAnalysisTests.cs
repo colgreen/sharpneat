@@ -37,7 +37,7 @@ namespace SharpNeat.Graphs.Tests
             GraphDepthInfo depthInfo = new AcyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
 
             // Assertions.
-            Assert.Equal(4, depthInfo._networkDepth);
+            Assert.Equal(4, depthInfo._graphDepth);
             Assert.Equal(5, depthInfo._nodeDepthArr.Length);
 
             // Node depths.
@@ -79,7 +79,7 @@ namespace SharpNeat.Graphs.Tests
             GraphDepthInfo depthInfo = new AcyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
 
             // Assertions.
-            Assert.Equal(5, depthInfo._networkDepth);
+            Assert.Equal(5, depthInfo._graphDepth);
             Assert.Equal(6, depthInfo._nodeDepthArr.Length);
 
             // Node depths.
@@ -130,7 +130,7 @@ namespace SharpNeat.Graphs.Tests
             GraphDepthInfo depthInfo = new AcyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
 
             // Assertions.
-            Assert.Equal(9, depthInfo._networkDepth);
+            Assert.Equal(9, depthInfo._graphDepth);
             Assert.Equal(11, depthInfo._nodeDepthArr.Length);
 
             // Node depths.

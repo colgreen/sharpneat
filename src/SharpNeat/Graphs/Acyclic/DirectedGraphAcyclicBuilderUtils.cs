@@ -89,8 +89,8 @@ namespace SharpNeat.Graphs.Acyclic
             // Note. There is guaranteed to be at least one connection with a source at a given depth level, this is
             // because for there to be a layer N there must necessarily be a connection from a node in layer N-1 
             // to a node in layer N.
-            int netDepth = depthInfo._networkDepth;
-            LayerInfo[] layerInfoArr = new LayerInfo[netDepth];
+            int graphDepth = depthInfo._graphDepth;
+            LayerInfo[] layerInfoArr = new LayerInfo[graphDepth];
 
             // Note. Scanning over nodes can start at inputCount instead of zero, because all nodes prior to that index
             // are input nodes and are therefore at depth zero. (input nodes are never the target of a connection,
@@ -102,7 +102,7 @@ namespace SharpNeat.Graphs.Acyclic
             int[] nodeDepthArr = depthInfo._nodeDepthArr;
             int[] srcIdArr = connIdArrays._sourceIdArr;
 
-            for (int currDepth = 0; currDepth < netDepth; currDepth++)
+            for (int currDepth = 0; currDepth < graphDepth; currDepth++)
             {
                 // Scan for last node at the current depth.
                 for (; nodeIdx < nodeCount && nodeDepthArr[nodeIdx] == currDepth; nodeIdx++);
