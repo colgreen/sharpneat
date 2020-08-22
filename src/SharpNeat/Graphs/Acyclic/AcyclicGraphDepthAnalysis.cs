@@ -22,7 +22,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// 
     /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
     /// the maximum number of hops to each node from a depth 0 node. I.e. where multiple paths exist to a
-    /// node (potentially each with a different numbers of hops) the node's depth is defined by the path 
+    /// node (potentially each with a different numbers of hops), the node's depth is defined by the path 
     /// with the most number of hops.
     /// </summary>
     /// <remarks>
@@ -139,7 +139,7 @@ namespace SharpNeat.Graphs.Acyclic
 
                 // Notes.
                 // Before we traverse the current connection, update the stack state to point to the next connection to be
-                // traversed, either from the current node or a parent node. I.e. we modify the stack state  ready for when
+                // traversed, either from the current node or a parent node. I.e. we modify the stack state ready for when
                 // the traversal down into the current connection completes and returns back to the current node.
                 //
                 // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
