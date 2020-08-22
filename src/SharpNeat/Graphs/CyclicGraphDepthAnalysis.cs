@@ -1,49 +1,29 @@
-﻿/* ***************************************************************************
- * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
- * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
- *
- * SharpNEAT is free software; you can redistribute it and/or modify
- * it under the terms of The MIT License (MIT).
- *
- * You should have received a copy of the MIT License
- * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
- */
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using Redzen;
 using Redzen.Structures;
+using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.Graphs
 {
+
+    // TODO: Unit tests.
+
     /// <summary>
-    /// An algorithm for checking/testing whether a given graph is cyclic or acyclic, i.e. does a given graph have 
-    /// a connectivity cycle.
+    /// An algorithm for calculating the depth of each node in an cyclic graph.
     /// 
-    /// Method.
-    /// =======
-    /// 1) We loop over all nodes in the network and perform a depth-first traversal from each node. 
-    /// (Note. the order that the nodes are traversed does not affect the correctness of the method)
-    /// 
-    /// 2) Each traversal keeps track of its ancestor nodes (the path to the current node) at each step
-    /// in the traversal. Thus if the traversal encounters an ancestor node then a cycle has been detected.
-    /// 
-    /// 3) A set of visited nodes is maintained. This persists between traversals and allows each traversal 
-    /// to avoid traversing into nodes that have already been traversed.
-    /// 
-    /// Note. We must traverse from each node rather than just e.g. the input nodes, because the network may 
-    /// have connectivity dead ends or even isolated connectivity that therefore would not be traversed into 
-    /// by following connectivity from the input nodes only, hence we perform a traversal from each node and
-    /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
-    /// traversed into.
+    /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
+    /// the maximum number of hops to each node from an input node. I.e. where multiple paths exist to a
+    /// node (potentially each with a different numbers of hops), the node's depth is defined by the path 
+    /// with the most number of hops.
     /// 
     /// The graph traversal algorithm uses function recursion. A number of other classes in SharpNEAT perform
     /// graph traversal by using a separate traversal stack (stored on the heap); that approach is faster but
     /// more complex, thus this class has not been converted to the faster approach because it is not directly 
-    /// used in the evolutionary algorithm. At time of writing this class is used only in Debug.Assert statements
-    /// and unit tests, thus the simpler implementation is more appropriate.
+    /// used in the evolutionary algorithm. At time of writing this class is used only for graph visualization.
     /// </summary>
-    public class CyclicGraphCheck
+    public class CyclicGraphDepthAnalysis
     {
         #region Instance Fields
 
@@ -59,14 +39,19 @@ namespace SharpNeat.Graphs
         BoolArray _ancestorNodeBitmap = new BoolArray(1024);
 
         /// <summary>
-        /// A bitmap in which each bit represents a node in the graph. 
-        /// The set bits represent the set of nodes that have been visited by either the current traversal,
-        /// or previous traversals starting from a different node.
+        /// An integer array in which each element represents a node in the graph.
+        ///
+        /// The non-zero elements represent the set of nodes that have been visited by either the current traversal,
+        /// or previous traversals (i.e. starting from a different input node).
         /// 
         /// This is used to quickly determine if a given path needs to be traversed or not, i.e. if a path has 
-        /// previously been traversed and no cycle was found, then we do not need to traverse this pathway again.
+        /// previously been traversed, *and* its assigned depth is greater than or equal to the current traversal depth,
+        /// then we do not need to traverse this pathway again.
+        /// 
+        /// The integer values represent the depth of each node. Zeros indicate a node that has no incoming connections,
+        /// therefore input nodes always remain set to zero.
         /// </summary>
-        BoolArray _visitedNodeBitmap = new BoolArray(1024);
+        int[]? _nodeDepthByIdx;
 
         #if DEBUG
         /// <summary>
@@ -81,9 +66,9 @@ namespace SharpNeat.Graphs
         #region Public Methods
 
         /// <summary>
-        /// Returns true if there is at least one connectivity cycle within the provided DirectedGraph.
+        /// Calculate node depths in a cyclic network.
         /// </summary>
-        public bool IsCyclic(DirectedGraph digraph)
+        public GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
             #if DEBUG
             // Check for attempts to re-enter this method.
@@ -97,25 +82,23 @@ namespace SharpNeat.Graphs
 
             try
             {
-                // Loop over all nodes. Take each one in turn as a traversal root node.
-                int nodeCount = _digraph.TotalNodeCount;
-                for(int nodeIdx=0; nodeIdx < nodeCount; nodeIdx++)
+                // Loop over input nodes. Take each one in turn as a traversal root node.
+                int inputCount = _digraph.InputCount;
+                for(int nodeIdx=0; nodeIdx < inputCount; nodeIdx++)
                 {
                     // Determine if the node has already been visited.
-                    if(_visitedNodeBitmap[nodeIdx])
+                    if(_nodeDepthByIdx![nodeIdx] != 0)
                     {   // Already traversed; Skip.
                         continue;
                     }
 
-                    // Traverse into the node. 
-                    if(TraverseNode(nodeIdx))
-                    {   // Cycle detected.
-                        return true;    
-                    }
+                    // Traverse into the current inputs node's target nodes, with the depth value
+                    // to assign to those nodes.
+                    TraverseNode(nodeIdx, 1);
                 }
 
-                // No cycles detected.
-                return false;
+                // Return depth analysis info.
+                return new GraphDepthInfo(_nodeDepthByIdx.Max()+1, _nodeDepthByIdx!);
             }
             finally
             {
@@ -127,49 +110,44 @@ namespace SharpNeat.Graphs
 
         #region Private Methods
 
-        private bool TraverseNode(int nodeIdx)
+        private void TraverseNode(int nodeIdx, int depth)
         {
             // Is the node on the current stack of traversal ancestor nodes?
             if(_ancestorNodeBitmap[nodeIdx])
-            {   // Connectivity cycle detected.
-                return true;
+            {   // Connectivity cycle detected; don't traverse into this pathway.
+                return;
             }
 
-            // Have we already traversed this node?
-            if(_visitedNodeBitmap[nodeIdx])
-            {   // Already visited; Skip.
-                return false;
+            // Have we already traversed this node? And if so, was the depth assigned to it greater than the current traversal depth?
+            // If so we can skip traversal into this node, as we could not assign it, or any of its descendants, a greater depth than
+            // it already has.
+            if(_nodeDepthByIdx![nodeIdx] >= depth) {
+                return;
             }
 
             // Traverse into the node's targets / children (if it has any)
             int connIdx = _digraph!.GetFirstConnectionIndex(nodeIdx);
             if(connIdx == -1) 
-            {   // No target nodes to traverse, therefore no cycles on this traversal path.
-                return false;
+            {   // No target nodes to traverse.
+                return;
             }
 
             // Add node to the set of traversal path nodes.
             _ancestorNodeBitmap[nodeIdx] = true;
 
             // Register the node as having been visited.
-            _visitedNodeBitmap[nodeIdx] = true;
+            _nodeDepthByIdx![nodeIdx] = depth;
 
             // Traverse into target nodes.
             int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
 
             for(; connIdx < srcIdxArr.Length && srcIdxArr[connIdx] == nodeIdx; connIdx++)
             {
-                if(TraverseNode(_digraph.GetTargetNodeIdx(connIdx))) 
-                {   // Cycle detected.
-                    return true;
-                }
+                TraverseNode(_digraph.GetTargetNodeIdx(connIdx), depth + 1);
             }
             
             // Remove node from set of traversal path nodes.
             _ancestorNodeBitmap[nodeIdx] = false;
-
-            // No cycles were detected in the traversal paths from this node.
-            return false;
         }
 
         private void EnsureNodeCapacity(int requiredCapacity)
@@ -182,7 +160,7 @@ namespace SharpNeat.Graphs
 
                 // Allocate new bitmaps with the new capacity.
                 _ancestorNodeBitmap = new BoolArray(requiredCapacity);
-                _visitedNodeBitmap = new BoolArray(requiredCapacity);
+                _nodeDepthByIdx = new int[requiredCapacity];
             }
         }
 
@@ -190,7 +168,7 @@ namespace SharpNeat.Graphs
         {
             _digraph = null;
             _ancestorNodeBitmap.Reset(false);
-            _visitedNodeBitmap.Reset(false);
+            _nodeDepthByIdx = null;
 
             #if DEBUG
             // Reset reentrancy test flag.
