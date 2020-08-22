@@ -62,7 +62,7 @@ namespace SharpNeat.Drawing
         public HSLColor() { }
 
         /// <summary>
-        /// Construct with the givem <see cref="Color"/>.
+        /// Construct with the given <see cref="Color"/>.
         /// </summary>
         /// <param name="color"></param>
         public HSLColor(Color color)

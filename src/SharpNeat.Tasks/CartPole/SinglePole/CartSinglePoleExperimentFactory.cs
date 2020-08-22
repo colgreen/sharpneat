@@ -50,8 +50,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="INeatExperiment{T}"/> using using single-precision
-        /// floating-point number format for the genome and nueral-net connection weights.
+        /// Create a new instance of <see cref="INeatExperiment{T}"/> using single-precision
+        /// floating-point number format for the genome and neural-net connection weights.
         /// </summary>
         /// <param name="configElem">Experiment config in json form.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>

@@ -88,7 +88,7 @@ namespace SharpNeat.Drawing.Graph.Painting
         {
             // Paint all connections, followed by all nodes.
             // This way the slightly 'rough' positioning of the connection endpoints is overpainted by the nodes
-            // to priduce an overall good visual result.
+            // to produce an overall good visual result.
             PaintConnections(viewModel, state);
             PaintNodes(viewModel, state);
         }

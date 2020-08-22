@@ -48,7 +48,7 @@ namespace SharpNeat.Drawing.Graph
         {
             Debug.Assert(nodeIdByIdx.Length == digraphAcyclic.TotalNodeCount);
 
-            // DirectedGraphAcyclic contains depth info, and therfore no further depth analysis of the
+            // DirectedGraphAcyclic contains depth info, and therefore no further depth analysis of the
             // digraph nodes is required here.
 
             // Create a node layer by node index, array.
@@ -99,7 +99,7 @@ namespace SharpNeat.Drawing.Graph
                         layerIdxMap[i]--;
                     }
 
-                    // Set the empty layer's layer index to -1, primarily to mark it as not a vald ID (although we don't actually use this
+                    // Set the empty layer's layer index to -1, primarily to mark it as not a valid ID (although we don't actually use this
                     // anywhere, except maybe for debugging purposes).
                     layerIdxMap[layerIdx] = -1;
 

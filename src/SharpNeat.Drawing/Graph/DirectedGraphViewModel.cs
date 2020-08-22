@@ -31,7 +31,7 @@ namespace SharpNeat.Drawing
 
         /// <summary>
         /// Provides nodes IDs for each node. These can be though of as labels that are assigned to each node, 
-        /// suitable for showing against each node in a visual represetnation of the graph.
+        /// suitable for showing against each node in a visual representation of the graph.
         /// </summary>
         public int[] NodeIdByIdx { get; }
 
@@ -44,7 +44,7 @@ namespace SharpNeat.Drawing
         /// Gets the number of node layers for visualisation purposes.
         /// </summary>
         /// <remarks>
-        /// This may be different to the graph depth because input and output nodes are arranged into thier own visual layers,
+        /// This may be different to the graph depth because input and output nodes are arranged into their own visual layers,
         /// even though output nodes may be at any depth/layer in the logical graph.
         /// </remarks>
         public int LayerCount { get; }

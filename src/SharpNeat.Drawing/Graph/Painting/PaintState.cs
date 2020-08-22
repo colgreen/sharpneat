@@ -47,7 +47,7 @@ namespace SharpNeat.Drawing.Graph.Painting
 
         /// <summary>
         /// Length of connection legs emanating from the base of nodes when drawing 'back' connections,
-        /// i.e., to to target nodes above the source node.
+        /// i.e., to target nodes above the source node.
         /// </summary>
         public readonly float _backConnectionLegLength;
 
