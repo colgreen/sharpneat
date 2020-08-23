@@ -3,7 +3,7 @@ using Xunit;
 
 namespace SharpNeat.Graphs.Tests
 {
-    public class CyclicGraphAnalysisTests
+    public class CyclicGraphCheckTests
     {
         #region Test Methods [Acyclic]
 
