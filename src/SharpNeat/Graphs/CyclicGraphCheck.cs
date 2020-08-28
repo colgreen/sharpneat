@@ -141,7 +141,7 @@ namespace SharpNeat.Graphs
                 return false;
             }
 
-            // Traverse into the node's targets / children (if it has any)
+            // Traverse into the node's targets / children (if it has any).
             int connIdx = _digraph!.GetFirstConnectionIndex(nodeIdx);
             if(connIdx == -1) 
             {   // No target nodes to traverse, therefore no cycles on this traversal path.
