@@ -207,7 +207,7 @@ namespace SharpNeat.Graphs
         private void DetermineFinalNodeDepths()
         {
             // Assign a node depth of zero as a default. Thus, any unconnected nodes will be assigned to depth zero.
-            Array.Fill(_nodeDepthByIdx!, 0);
+            Array.Clear(_nodeDepthByIdx!, 0, _nodeDepthByIdx!.Length);
 
             // Determine a depth for all nodes with one or more recorded depths, by applying an aggregate function over those depths.
             for(int i=0; i < _nodeDepthByIdx!.Length; i++)
