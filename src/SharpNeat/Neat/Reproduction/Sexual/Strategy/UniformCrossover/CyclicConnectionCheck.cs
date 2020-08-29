@@ -117,7 +117,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             #if DEBUG
             // Check for attempts to re-enter this method.
             if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
-                throw new InvalidOperationException("Attempt to re-enter non reentrant method.");
+                throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
             }
             #endif
 
