@@ -8,9 +8,9 @@
     <Company />
     <Description>SharpNEAT - Evolution of Neural Networks.</Description>
     <PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
-    <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
-    <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
-    <PackageReleaseNotes>See https://github.com/colgreen/sharpneat/releases/tag/v2.4.1</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>neuroevolution neuro evolution neural network ai</PackageTags>
+    <PackageReleaseNotes>See https://github.com/colgreen/sharpneat/releases/tag/v2.4.4</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net" Version="2.0.9" />
     <PackageReference Include="Redzen" Version="9.1.1" />
   </ItemGroup>
 

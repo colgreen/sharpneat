@@ -42,9 +42,8 @@
     <StartupObject>SharpNeatGUI.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="log4net, Version=2.0.9.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.9\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Redzen, Version=9.1.1.0, Culture=neutral, PublicKeyToken=182843a4be0a74f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Redzen.9.1.1\lib\netstandard2.0\Redzen.dll</HintPath>
