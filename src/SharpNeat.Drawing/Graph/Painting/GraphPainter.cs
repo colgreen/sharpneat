@@ -101,7 +101,6 @@ namespace SharpNeat.Drawing.Graph.Painting
         protected virtual void PaintNodes(DirectedGraphViewModel viewModel, PaintState state)
         {
             // Loop the nodes, painting each in turn.
-
             for(int i=0; i < viewModel.NodeIdByIdx.Length; i++)
             {
                 int id = viewModel.NodeIdByIdx[i];
