@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Drawing;
 using SharpNeat.Graphs;
 
@@ -30,52 +31,36 @@ namespace SharpNeat.Drawing
         public float[] WeightArr { get; }
 
         /// <summary>
-        /// Provides nodes IDs for each node. These can be though of as labels that are assigned to each node, 
-        /// suitable for showing against each node in a visual representation of the graph.
+        /// Provides a ID/label for each node.
         /// </summary>
         public int[] NodeIdByIdx { get; }
 
         /// <summary>
-        /// Provides a depth/layer for each node. This is used to visually layout the nodes of the graph in a 2D visual space.
+        /// Provides a 2D position for each node.
         /// </summary>
-        public int[] NodeLayerByIdx { get; }
-
-        /// <summary>
-        /// Gets the number of node layers for visualisation purposes.
-        /// </summary>
-        /// <remarks>
-        /// This may be different to the graph depth because input and output nodes are arranged into their own visual layers,
-        /// even though output nodes may be at any depth/layer in the logical graph.
-        /// </remarks>
-        public int LayerCount { get; }
-
-        /// <summary>
-        /// Provides a node 2D position for each node.
-        /// </summary>
-        public Point[]? NodePosByIdx { get; }
+        public Point[] NodePosByIdx { get; }
 
         /// <summary>
         /// Construct with the provided digraph, and supplementary data suitable for producing a 2D visual representation of the graph.
         /// </summary>
         /// <param name="digraph">Directed graph.</param>
         /// <param name="weightArr">Graph connection/vertex weights.</param>
-        /// <param name="nodeIdByIdx">Node IDs/labels.</param>
-        /// <param name="nodeLayerByIdx">Node layer indexes.</param>
-        /// <param name="layerCount">The number of layout layers.</param>
+        /// <param name="nodeIdByIdx">Provides a ID/label for each node.</param>
+        /// <param name="nodePosByIdx">Provides a 2D position for each node.</param>
         public DirectedGraphViewModel(
             DirectedGraph digraph,
             float[] weightArr,
             int[] nodeIdByIdx,
-            int[] nodeLayerByIdx,
-            int layerCount)
+            Point[] nodePosByIdx)
         {
+            if(weightArr.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(weightArr));
+            if(nodeIdByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
+            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
+
             this.DirectedGraph = digraph;
             this.WeightArr = weightArr;
             this.NodeIdByIdx = nodeIdByIdx;
-            this.NodeLayerByIdx = nodeLayerByIdx;
-            this.LayerCount = layerCount;
-
-            // TODO: Validation.
+            this.NodePosByIdx = nodePosByIdx;
         }
     }
 }
