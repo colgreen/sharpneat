@@ -85,6 +85,8 @@ namespace SharpNeat.Graphs
         /// </summary>
         public GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
+            // TODO/FIXME: Consider storing reusable state in a pool, to allow reentrancy from threads. See ArrayPool<T> as a baseline for how to implement, or Redzen.Random.DefaultRandomSeedSource.
+
             #if DEBUG
             // Check for attempts to re-enter this method.
             if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
@@ -206,7 +208,7 @@ namespace SharpNeat.Graphs
 
         private void DetermineFinalNodeDepths()
         {
-            // Assign a node depth of zero as a default. Thus, any unconnected nodes will be assigned to depth zero.
+            // Assign a node depth of zero as a default. Thus, any unconnected nodes will be assigned to depth zero, including output nodes.
             Array.Clear(_nodeDepthByIdx!, 0, _nodeDepthByIdx!.Length);
 
             // Determine a depth for all nodes with one or more recorded depths, by applying an aggregate function over those depths.
@@ -220,8 +222,8 @@ namespace SharpNeat.Graphs
                 }
             }
 
-            // The scheme in use to assign node depths in a cyclic graph may result in some layers being empty, e.g. a node assigned
-            // to layer 2, even though there are none in layer 1. As such, as a final step we adjust node depths to eliminate any empty
+            // The scheme for assigning node depths in a cyclic graph may result in some layers being empty, e.g. a node assigned to
+            // layer 2, even though there are none in layer 1. As such, as a final step we adjust node depths to eliminate any empty
             // layers.
 
             // Calc how many nodes there are in each layer.
