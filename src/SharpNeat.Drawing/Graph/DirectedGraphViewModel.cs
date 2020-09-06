@@ -53,7 +53,7 @@ namespace SharpNeat.Drawing
             int[] nodeIdByIdx,
             Point[] nodePosByIdx)
         {
-            if(weightArr.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(weightArr));
+            if(weightArr.Length != digraph.ConnectionIdArrays.Length) throw new ArgumentException(nameof(weightArr));
             if(nodeIdByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
             if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
 
