@@ -61,18 +61,18 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// <summary>
         /// Paint a directed graph onto the a provided GDI+ surface.
         /// </summary>
-        /// <param name="viewModel">The graph view model to paint.</param>
+        /// <param name="model">The graph view model to paint.</param>
         /// <param name="g">The GDI+ surface to paint on to.</param>
         /// <param name="viewportArea">An area within the GDI+ surface to paint the graph within.</param>
         /// <param name="zoomFactor">Zoom factor.</param>
         public void PaintGraph(
-            DirectedGraphViewModel viewModel,
+            DirectedGraphViewModel model,
             Graphics g,
             Rectangle viewportArea,
             float zoomFactor)
         {
-            PaintState state = new PaintState(g, viewportArea, _settings.NodeDiameter, zoomFactor, viewModel.DirectedGraph.TotalNodeCount);
-            PaintGraph(viewModel, state);
+            PaintState state = new PaintState(g, viewportArea, _settings.NodeDiameter, zoomFactor, model.DirectedGraph.TotalNodeCount);
+            PaintGraph(model, state);
         }
 
         #endregion
@@ -82,29 +82,29 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// <summary>
         /// Paint a directed graph.
         /// </summary>
-        /// <param name="viewModel">The graph view model to paint.</param>
+        /// <param name="model">The graph view model to paint.</param>
         /// <param name="state">A collection of working variables for painting a graph to a GDI+ surface.</param>
-        protected virtual void PaintGraph(DirectedGraphViewModel viewModel, PaintState state)
+        protected virtual void PaintGraph(DirectedGraphViewModel model, PaintState state)
         {
             // Paint all connections, followed by all nodes.
             // This way the slightly 'rough' positioning of the connection endpoints is overpainted by the nodes
             // to produce an overall good visual result.
-            PaintConnections(viewModel, state);
-            PaintNodes(viewModel, state);
+            PaintConnections(model, state);
+            PaintNodes(model, state);
         }
 
         /// <summary>
         /// Paint the nodes of a directed graph.
         /// </summary>
-        /// <param name="viewModel">The graph view model being painted.</param>
+        /// <param name="model">The graph view model being painted.</param>
         /// <param name="state">A collection of working variables for painting a graph to a GDI+ surface.</param>
-        protected virtual void PaintNodes(DirectedGraphViewModel viewModel, PaintState state)
+        protected virtual void PaintNodes(DirectedGraphViewModel model, PaintState state)
         {
             // Loop the nodes, painting each in turn.
-            for(int i=0; i < viewModel.NodeIdByIdx.Length; i++)
+            for(int i=0; i < model.NodeIdByIdx.Length; i++)
             {
-                int id = viewModel.NodeIdByIdx[i];
-                Point pos = viewModel.NodePosByIdx![i];
+                int id = model.NodeIdByIdx[i];
+                Point pos = model.NodePosByIdx![i];
 
                 PaintNode(pos, id, state);
             }
@@ -143,20 +143,20 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// <summary>
         /// Paint the connections of a directed graph.
         /// </summary>
-        /// <param name="viewModel">The graph view model being painted.</param>
+        /// <param name="model">The graph view model being painted.</param>
         /// <param name="state">A collection of working variables for painting a graph to a GDI+ surface.</param>
-        protected virtual void PaintConnections(DirectedGraphViewModel viewModel, PaintState state)
+        protected virtual void PaintConnections(DirectedGraphViewModel model, PaintState state)
         {
             // Loop the connections, painting each in turn.
-            ConnectionIdArrays connIdArrays = viewModel.DirectedGraph.ConnectionIdArrays;
+            ConnectionIdArrays connIdArrays = model.DirectedGraph.ConnectionIdArrays;
             for(int i=0; i < connIdArrays.Length; i++)
             {
                 int srcIdx = connIdArrays._sourceIdArr[i];
                 int tgtIdx = connIdArrays._targetIdArr[i];
-                float weight = viewModel.WeightArr[i];
+                float weight = model.WeightArr[i];
 
-                Point srcPos = viewModel.NodePosByIdx![srcIdx];
-                Point tgtPos = viewModel.NodePosByIdx![tgtIdx];
+                Point srcPos = model.NodePosByIdx![srcIdx];
+                Point tgtPos = model.NodePosByIdx![tgtIdx];
 
                 PaintConnection(
                     srcIdx, tgtIdx,
@@ -235,8 +235,10 @@ namespace SharpNeat.Drawing.Graph.Painting
             const float slopeInit = 0.25f;
             const float slopeIncr = 0.23f;
 
-            ConnectionPointInfo srcInfo = state._nodeStateByIdx[srcIdx];
-            ConnectionPointInfo tgtInfo = state._nodeStateByIdx[tgtIdx];
+            // Note. 'ref' here gives us a pointer to the actual struct data within each array element, as opposed to a copy an element on the local stack. 
+            // As such, modifications to srcInfo and tgtInfo will modify the array elements.
+            ref ConnectionPointInfo srcInfo = ref state._nodeStateByIdx[srcIdx];
+            ref ConnectionPointInfo tgtInfo = ref state._nodeStateByIdx[tgtIdx];
 
             // This is the maximum slope value we get before exceeding the slope threshold of 1.
             float slopeMax = slopeInit + (slopeIncr * MathF.Floor((1f - slopeInit) / slopeIncr));
@@ -249,22 +251,22 @@ namespace SharpNeat.Drawing.Graph.Painting
             // nodes. Otherwise connect nodes on their facing sides.
             if(Math.Abs(tgtPos.X - srcPos.X) <= _settings.NodeDiameter) 
             {
-                srcConIdx = srcInfo._lowerLeft++;
-                tgtConIdx = tgtInfo._upperLeft++;
+                srcConIdx = srcInfo.LowerLeft++;
+                tgtConIdx = tgtInfo.UpperLeft++;
                 srcSide = -1;
                 tgtSide = -1;
             }
             else if(tgtPos.X > srcPos.X) 
             {
-                srcConIdx = srcInfo._lowerRight++;
-                tgtConIdx = tgtInfo._upperLeft++;
+                srcConIdx = srcInfo.LowerRight++;
+                tgtConIdx = tgtInfo.UpperLeft++;
                 srcSide = 1;
                 tgtSide = -1;
             }
             else 
             {
-                srcConIdx = srcInfo._lowerLeft++;
-                tgtConIdx = tgtInfo._upperRight++;
+                srcConIdx = srcInfo.LowerLeft++;
+                tgtConIdx = tgtInfo.UpperRight++;
                 srcSide = -1;
                 tgtSide = 1;
             }
