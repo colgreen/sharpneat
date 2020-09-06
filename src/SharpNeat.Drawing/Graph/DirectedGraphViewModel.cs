@@ -20,6 +20,8 @@ namespace SharpNeat.Drawing
     /// </summary>
     public class DirectedGraphViewModel
     {
+        #region Auto Properties
+
         /// <summary>
         /// Represents the directed graph topology.
         /// </summary>
@@ -40,8 +42,33 @@ namespace SharpNeat.Drawing
         /// </summary>
         public Point[] NodePosByIdx { get; }
 
+        #endregion
+
+        #region Construction
+
         /// <summary>
-        /// Construct with the provided digraph, and supplementary data suitable for producing a 2D visual representation of the graph.
+        /// Construct with the provided digraph, weights, and node IDs.
+        /// The node positions array is allocated, but must be updated with actual positions outside of this constructor.
+        /// </summary>
+        /// <param name="digraph">Directed graph.</param>
+        /// <param name="weightArr">Graph connection/vertex weights.</param>
+        /// <param name="nodeIdByIdx">Provides a ID/label for each node.</param>
+        public DirectedGraphViewModel(
+            DirectedGraph digraph,
+            float[] weightArr,
+            int[] nodeIdByIdx)
+        {
+            if(weightArr.Length != digraph.ConnectionIdArrays.Length) throw new ArgumentException(nameof(weightArr));
+            if(nodeIdByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
+
+            this.DirectedGraph = digraph;
+            this.WeightArr = weightArr;
+            this.NodeIdByIdx = nodeIdByIdx;
+            this.NodePosByIdx = new Point[digraph.TotalNodeCount];
+        }
+
+        /// <summary>
+        /// Construct with the provided digraph, weights, node IDs, and node positions.
         /// </summary>
         /// <param name="digraph">Directed graph.</param>
         /// <param name="weightArr">Graph connection/vertex weights.</param>
@@ -62,5 +89,7 @@ namespace SharpNeat.Drawing
             this.NodeIdByIdx = nodeIdByIdx;
             this.NodePosByIdx = nodePosByIdx;
         }
+
+        #endregion
     }
 }

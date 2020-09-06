@@ -18,9 +18,6 @@ using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.Drawing.Graph
 {
-    // TODO: Run tests. This code is completely new and untested.
-
-
     /// <summary>
     /// An <see cref="IGraphLayoutScheme"/> that arranges/positions nodes into layers, based on their depth in the network.
     /// </summary>
@@ -55,8 +52,6 @@ namespace SharpNeat.Drawing.Graph
     /// </remarks>
     public class DepthLayoutScheme : IGraphLayoutScheme
     {
-        readonly CyclicGraphDepthAnalysis _cyclicDepthAnalysis = new CyclicGraphDepthAnalysis();
-
         #region Public Methods
 
         /// <summary>
@@ -72,20 +67,39 @@ namespace SharpNeat.Drawing.Graph
         {
             if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
 
-            // Build an array that gives the node layer for each node, keyed by node index.
-            int[] nodeLayerByIdx = BuildNodeLayerByIdx(digraph);
+            // Determine depth of each node.
+            List<int>[] nodesByLayer = BuildNodesByLayer(digraph);
 
-            // Group nodes into layers.
-            int layerCount = nodeLayerByIdx.Max() + 1;
-            var nodesByLayer = new List<int>[layerCount];
-            for(int i=0; i < layerCount; i++) {
-                nodesByLayer[i] = new List<int>();
-            }
+            // Layout the nodes within the 2D layout area.
+            LayoutNodes(layoutArea, nodesByLayer, nodePosByIdx);
+        }
 
-            for(int nodeIdx=0; nodeIdx < nodeLayerByIdx.Length; nodeIdx++)
+        /// <summary>
+        /// Layout the nodes of the provided directed in a 2D area specified by <paramref name="layoutArea"/>.
+        /// </summary>
+        /// <param name="digraph">The directed graph to be laid out.</param>
+        /// <param name="layoutArea">The area to layout nodes within.</param>
+        /// <param name="nodePosByIdx">A span that will be populated with a 2D position for each node, within the provided layout area.</param>
+        /// <param name="layoutSchemeData">An optional object that conveys layout data specific to the layout scheme in use.</param>
+        public void Layout(
+            DirectedGraph digraph,
+            Size layoutArea,
+            Span<Point> nodePosByIdx,
+            ref object? layoutSchemeData)
+        {
+            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
+
+            // Use previously determined depth info, if provided; otherwise calculate it and return via layoutSchemeData
+            // parameter for future use.
+            List<int>[] nodesByLayer;
+            if(layoutSchemeData is DepthLayoutSchemeData schemeData)
             {
-                int depth = nodeLayerByIdx[nodeIdx];
-                nodesByLayer[depth].Add(nodeIdx);
+                nodesByLayer = schemeData.NodesByLayer;
+            }
+            else
+            {
+                nodesByLayer = BuildNodesByLayer(digraph);
+                layoutSchemeData = new DepthLayoutSchemeData(nodesByLayer);
             }
 
             // Layout the nodes within the 2D layout area.
@@ -94,7 +108,7 @@ namespace SharpNeat.Drawing.Graph
 
         #endregion
 
-        #region Private Methods (mix of instance and static methods)
+        #region Private Static Methods
 
         private static void LayoutNodes(
             Size layoutArea,
@@ -165,7 +179,31 @@ namespace SharpNeat.Drawing.Graph
             }
         }
 
-        private int[] BuildNodeLayerByIdx(DirectedGraph digraph)
+        #endregion
+
+        #region Private Static Methods [Node Depth Analysis]
+
+        private static List<int>[] BuildNodesByLayer(DirectedGraph digraph)
+        {
+            // Build an array that gives the node layer for each node, keyed by node index.
+            int[] nodeLayerByIdx = BuildNodeLayerByIdx(digraph);
+
+            // Group nodes into layers.
+            int layerCount = nodeLayerByIdx.Max() + 1;
+            var nodesByLayer = new List<int>[layerCount];
+            for(int i=0; i < layerCount; i++) {
+                nodesByLayer[i] = new List<int>();
+            }
+
+            for(int nodeIdx=0; nodeIdx < nodeLayerByIdx.Length; nodeIdx++)
+            {
+                int depth = nodeLayerByIdx[nodeIdx];
+                nodesByLayer[depth].Add(nodeIdx);
+            }
+            return nodesByLayer;
+        }
+
+        private static int[] BuildNodeLayerByIdx(DirectedGraph digraph)
         {
             // Invoke the appropriate subroutine for cyclic/acyclic graphs.
             if(digraph is DirectedGraphAcyclic digraphAcyclic)
@@ -227,10 +265,13 @@ namespace SharpNeat.Drawing.Graph
         /// </summary>
         /// <param name="digraph">The directed cyclic graph.</param>
         /// <returns>A new integer array</returns>
-        private int[] BuildNodeLayerByIdx_Cyclic(DirectedGraph digraph)
+        private static int[] BuildNodeLayerByIdx_Cyclic(DirectedGraph digraph)
         {
             // Perform an analysis on the cyclic graph to assign a depth to each node.
-            GraphDepthInfo depthInfo = _cyclicDepthAnalysis.CalculateNodeDepths(digraph);
+            // TODO: Re-use these instances, by maintaining a pool of them that can be 'rented from' and 'returned to' the pool.
+            CyclicGraphDepthAnalysis cyclicDepthAnalysis = new CyclicGraphDepthAnalysis();
+
+            GraphDepthInfo depthInfo = cyclicDepthAnalysis.CalculateNodeDepths(digraph);
             int[] nodeLayerByIdx = depthInfo._nodeDepthArr;
 
             // Move all nodes up one layer, such that layer 1 is the first/top layer; layer zero will be 
@@ -297,6 +338,20 @@ namespace SharpNeat.Drawing.Graph
             // the empty layers (if any).
             for(int i=0; i < nodeLayerByIdx.Length; i++) {
                 nodeLayerByIdx[i] = layerIdxMap[nodeLayerByIdx[i]];
+            }
+        }
+
+        #endregion
+
+        #region Inner Class
+
+        private class DepthLayoutSchemeData
+        {
+            public List<int>[] NodesByLayer { get; }
+
+            public DepthLayoutSchemeData(List<int>[] nodesByLayer)
+            {
+                this.NodesByLayer = nodesByLayer;
             }
         }
 
