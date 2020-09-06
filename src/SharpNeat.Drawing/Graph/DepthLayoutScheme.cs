@@ -94,7 +94,7 @@ namespace SharpNeat.Drawing.Graph
 
         #endregion
 
-        #region Private Methods (nix of instance and static methods)
+        #region Private Methods (mix of instance and static methods)
 
         private static void LayoutNodes(
             Size layoutArea,
@@ -154,8 +154,9 @@ namespace SharpNeat.Drawing.Graph
 
                 // Loop nodes in layer; Assign position to each.
                 float xCurrent = xMargin;
-                for(int nodeIdx=0; nodeIdx < nodeCount; nodeIdx++, xCurrent += xIncr) 
+                for(int i=0; i < nodeCount; i++, xCurrent += xIncr) 
                 {
+                    int nodeIdx = nodeList[i];
                     nodePosByIdx[nodeIdx] = new Point((int)xCurrent, yCurrent);
                 }
 
