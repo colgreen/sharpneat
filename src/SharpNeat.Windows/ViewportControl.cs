@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -20,8 +19,8 @@ using SharpNeat.Drawing;
 namespace SharpNeat.Windows
 {
     /// <summary>
-    /// A user control that provides a resizable area that can be painted to by an 
-    /// IViewportPainter.
+    /// A user control that provides an area on which content can be drawn (by a <see cref="IViewportPainter"/>.
+    /// Otherwise the control is a simple one, providing no user interaction capability other than resizing.
     /// </summary>
     public class ViewportControl : UserControl
     {
