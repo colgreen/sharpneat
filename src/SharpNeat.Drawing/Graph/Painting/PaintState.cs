@@ -74,7 +74,7 @@ namespace SharpNeat.Drawing.Graph.Painting
             _viewportArea = viewportArea;
             _zoomFactor = zoomFactor;
 
-            // Precalculate some useful derived values.
+            // Pre-calculate some useful derived values.
             _nodeDiameter = (int)(nodeDiameter * zoomFactor);
             _nodeDiameterHalf = (int)((nodeDiameter * zoomFactor) * 0.5f);
             _backConnectionLegLength = _nodeDiameter * 1.6f;
