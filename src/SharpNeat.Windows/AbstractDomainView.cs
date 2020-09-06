@@ -14,6 +14,7 @@ using System.Windows.Forms;
 
 namespace SharpNeat.Windows.App
 {
+    // TODO: Rename to TaskViewControl
     /// <summary>
     /// Abstract class for problem domain visualization.
     /// </summary>
