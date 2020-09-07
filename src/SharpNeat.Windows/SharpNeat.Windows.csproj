@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharpNeat.Drawing\SharpNeat.Drawing.csproj" />
+    <ProjectReference Include="..\SharpNeat\SharpNeat.csproj" />
   </ItemGroup>
 
 </Project>

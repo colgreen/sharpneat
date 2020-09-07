@@ -8,7 +8,9 @@ namespace SharpNeat.Windows.App
     /// </summary>
     public partial class GenomeForm : Form
     {
-        readonly AbstractGenomeView _genomeViewControl;
+
+
+
 
         #region Constructor
 
@@ -16,39 +18,45 @@ namespace SharpNeat.Windows.App
         /// Construct with the provided form title, genome view/renderer and evolution algorithm. We listen to update events
         /// from the evolution algorithm and cleanly detach from it when this form closes.
         /// </summary>
-        public GenomeForm(string title, AbstractGenomeView genomeViewControl)
+        public GenomeForm(string title)
         {
             InitializeComponent();
             this.Text = title;
-
-            _genomeViewControl = genomeViewControl;
-            genomeViewControl.Dock = DockStyle.Fill;
-            this.Controls.Add(genomeViewControl);
         }
 
         #endregion
 
-        #region Public Methods
+        #region Properties
 
         /// <summary>
-        /// Refresh view.
+        /// Gets or sets the genome to render.
         /// </summary>
-        public void RefreshView(object genome)
-        {
-            if(this.InvokeRequired)
-            {
-                RefreshView(genome);
-                return;
-            }
+        //public object Genome 
+        //{ 
+        //    get => _genomeViewControl.Genome;
+        //    set
+        //    {
+        //        // Initial check.
+        //        if(this.IsDisposed) {
+        //            return;
+        //        }
 
-            this.Invoke(new MethodInvoker(delegate()
-            {
-                if(this.IsDisposed) {
-                    return;
-                }
-                _genomeViewControl.RefreshView(genome);
-            }));
-        }
+        //        if(!this.InvokeRequired)
+        //        {
+        //            _genomeViewControl.Genome = value;
+        //            return;
+        //        }
+
+        //        this.Invoke(new MethodInvoker(delegate()
+        //        {
+        //            // Secondary check; the form could have been disposed after the first test of IsDisposed, and the call to Invoke().
+        //            if(this.IsDisposed) {
+        //                return;
+        //            }
+        //            _genomeViewControl.Genome = value;
+        //        }));
+        //    }
+        //}
 
         #endregion
     }

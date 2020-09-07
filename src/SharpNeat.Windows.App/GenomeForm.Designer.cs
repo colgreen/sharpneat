@@ -29,19 +29,35 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenomeForm));
+            this.vptCtrl = new SharpNeat.Windows.ViewportControl();
             this.SuspendLayout();
+            // 
+            // vptCtrl
+            // 
+            this.vptCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vptCtrl.Location = new System.Drawing.Point(0, 0);
+            this.vptCtrl.Name = "vptCtrl";
+            this.vptCtrl.Size = new System.Drawing.Size(397, 366);
+            this.vptCtrl.TabIndex = 0;
+            this.vptCtrl.ViewportPainter = null;
+            this.vptCtrl.ZoomFactor = 1F;
             // 
             // GenomeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 317);
+            this.ClientSize = new System.Drawing.Size(397, 366);
+            this.Controls.Add(this.vptCtrl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "GenomeForm";
             this.Text = "GenericForm";
             this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private ViewportControl vptCtrl;
     }
 }

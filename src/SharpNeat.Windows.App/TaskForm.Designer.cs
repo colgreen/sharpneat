@@ -1,6 +1,6 @@
 ﻿namespace SharpNeat.Windows.App
 {
-    partial class ProblemDomainForm
+    partial class TaskForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProblemDomainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskForm));
             this.SuspendLayout();
             // 
             // ProblemDomainForm
