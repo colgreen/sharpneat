@@ -15,9 +15,9 @@ using SharpNeat.EvolutionAlgorithm;
 namespace SharpNeat.Windows
 {
     /// <summary>
-    /// A user control that displays a genome in some form.
-    /// This is used for displaying a genome's directly (e.g. a neural net structure), or some other type of view that uses the genome 
-    /// (e.g. a task view that shows how the genome performs on the task).
+    /// A user control for genome visualization.
+    /// This is used for displaying a genome's directly (e.g. a neural net structure), or some other type of visualization
+    /// that uses the genome, e.g. a task view that shows how the genome performs on some task.
     /// </summary>
     public partial class GenomeControl : UserControl
     {
