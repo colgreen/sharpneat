@@ -1,5 +1,5 @@
 ﻿{
-	"name": "Cart and Pole Balancing (Double Pole)",
+	"name": "Cart-Pole Balancing (double pole)",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LogisticSteep",

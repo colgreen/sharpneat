@@ -1,5 +1,5 @@
 ﻿{
-	"name": "XOR (Logical Exclusive OR)",
+	"name": "Logical XOR",
 	"isAcyclic": true,
 	"activationFnName": "LeakyReLU",
 	"evolutionAlgorithmSettings": {
