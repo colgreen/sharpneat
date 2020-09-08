@@ -75,7 +75,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IO\" />
+    <EmbeddedResource Include="Resources\license.txt" />
+    <EmbeddedResource Include="Resources\about.txt" />
+    <EmbeddedResource Include="Resources\sharpneat_banner.png" />
   </ItemGroup>
 
 </Project>

@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -90,6 +91,12 @@ namespace SharpNeat.Windows.App
                     MessageBox.Show(description, "Experiment Description");
                 }
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form frmAboutBox = new AboutForm();
+            frmAboutBox.ShowDialog(this);
         }
 
         #endregion
