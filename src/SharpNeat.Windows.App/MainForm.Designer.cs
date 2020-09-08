@@ -772,6 +772,7 @@
             // 
             // cmbExperiments
             // 
+            this.cmbExperiments.DisplayMember = "Name";
             this.cmbExperiments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbExperiments.DropDownWidth = 300;
             this.cmbExperiments.Location = new System.Drawing.Point(9, 18);
@@ -788,7 +789,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.tabPage2.Size = new System.Drawing.Size(603, 419);
+            this.tabPage2.Size = new System.Drawing.Size(603, 478);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Page 2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1085,7 +1086,6 @@
             this.loadSeedGenomeToolStripMenuItem.Name = "loadSeedGenomeToolStripMenuItem";
             this.loadSeedGenomeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadSeedGenomeToolStripMenuItem.Text = "Load Seed Genome";
-            this.loadSeedGenomeToolStripMenuItem.Click += new System.EventHandler(this.loadSeedGenomeToolStripMenuItem_Click);
             // 
             // loadSeedGenomesToolStripMenuItem
             // 

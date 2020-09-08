@@ -1,14 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 using System.Windows.Forms;
 using log4net;
 using log4net.Config;
 using log4net.Repository;
-using SharpNeat.Experiments;
+using SharpNeat.Windows.App.Experiments;
 
 namespace SharpNeat.Windows.App
 {
@@ -18,7 +27,6 @@ namespace SharpNeat.Windows.App
     public partial class MainForm : Form
     {
         private static readonly ILog __log = LogManager.GetLogger(typeof(MainForm));
-        private List<INeatExperimentFactory> _experimentFactoryList;
 
         #region Form Constructor / Initialisation
 
@@ -36,43 +44,37 @@ namespace SharpNeat.Windows.App
             InitializeComponent();
             Logger.SetListBox(lbxLog);
 
+            // Initialise logging.
             ILoggerRepository logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.properties"));
 
-
-
-
-            List<INeatExperimentFactory> experimentFactoryList = AppUtils.ScanAssembliesForNeatExperiments();
-
-
-
+            // Populate the experiments combo-box (drop-down list) with experiment loaded from the experiments.json config file.
+            InitExperimentList();
         }
 
         #endregion
 
+        #region Private Methods
 
+        private void InitExperimentList()
+        {
+            // Load experiments.json from file.
+            // Note. Use of ReadAllText() isn't ideal, but for a small file it's fine, and this avoids the complexities of dealign 
+            // with async code in a synchronous context.
+            string experimentsJson = File.ReadAllText("config/experiments.json");
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            ExperimentRegistry registry = JsonSerializer.Deserialize<ExperimentRegistry>(experimentsJson, options);
 
+            // Populate the combo box.
+            foreach(ExperimentInfo expInfo in registry.Experiments)
+            {
+                cmbExperiments.Items.Add(expInfo);
+            }
 
-        ///// <summary>
-        ///// Initialise the problem domain combobox. The list of problem domains is read from an XML file; this 
-        ///// allows changes to be made and new domains to be plugged-in without recompiling binaries.
-        ///// </summary>
-        //private void InitProblemDomainList()
-        //{
-        //    // Find all experiment config data files in the current directory (*.experiments.xml)
-        //    foreach(string filename in Directory.EnumerateFiles(".", "*.experiments.xml"))
-        //    {
-        //        List<ExperimentInfo> expInfoList = ExperimentInfo.ReadExperimentXml(filename);
-        //        foreach(ExperimentInfo expInfo in expInfoList) {
-        //            cmbExperiments.Items.Add(new ListItem(string.Empty, expInfo.Name, expInfo));
-        //        }
-        //    }
-        //    // Pre-select first item.
-        //    cmbExperiments.SelectedIndex = 0;
-        //}
+            // Pre-select first item.
+            cmbExperiments.SelectedIndex = 0;
+        }
 
-
-
-
+        #endregion
     }
 }
