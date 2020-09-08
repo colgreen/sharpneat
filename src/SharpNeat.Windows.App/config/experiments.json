@@ -1,0 +1,54 @@
+{
+  "experiments": [
+    {
+      "name": "Logical XOR",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.Xor.XorExperimentFactory"
+      },
+      "configFile": "experiments-config/xor.config.json"
+    },
+    {
+      "name": "Prey Capture",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.PreyCapture.PreyCaptureExperimentFactory"
+      }
+    },
+    {
+      "name": "Binary 6-multiplexer",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.BinarySixMultiplexer.BinarySixMultiplexerExperimentFactory"
+      }
+    },
+    {
+      "name": "Binary 11-multiplexer",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperimentFactory"
+      }
+    },
+    {
+      "name": "Cart-Pole Balancing (single pole)",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.CartPole.SinglePole.CartSinglePoleExperimentFactory"
+      }
+    },
+    {
+      "name": "Cart-Pole Balancing (double pole)",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.CartPole.DoublePole.CartDoublePoleExperimentFactory"
+      }
+    },
+    {
+      "name": "Generative Function Regression - Sin(x)",
+      "experimentFactory": {
+        "assembly": "SharpNeat.Tasks",
+        "type": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
+      }
+    }
+  ]
+}

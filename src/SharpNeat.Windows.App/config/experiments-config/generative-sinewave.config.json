@@ -1,12 +1,13 @@
 ﻿{
-	"name": "Cart and Pole Balancing (Double Pole)",
+	"name": "Generative Function Regression - Sin(x)",
+	"description": "Generative Function Regression: Sin(x) evaluated over interval [0, 8*PI]",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
-	"activationFnName": "LogisticSteep",
+	"activationFnName": "LeakyReLU",
 	"evolutionAlgorithmSettings": {
 		"speciesCount": 10,
 		"elitismProportion": 0.2,
-		"selectionProportion": 0.9,
+		"selectionProportion": 0.2,
 		"offspringAsexualProportion": 0.5,
 		"offspringSexualProportion": 0.5,
 		"interspeciesMatingProportion": 0.01
@@ -20,15 +21,22 @@
 	"reproductionSexualSettings": {
 		"secondaryParentGeneProbability": 0.1
 	},
-	"populationSize": 150,
+	"populationSize": 600,
 	"initialInterconnectionsProportion": 0.05,
 	"connectionWeightScale": 5.0,
 	"complexityRegulationStrategy": {
-		"strategyName": "absolute",
-		"complexityCeiling": 20,
+		"strategyName": "relative",
+		"relativeComplexityCeiling": 10,
 		"minSimplifcationGenerations": 10
 	},
 	"degreeOfParallelism": 4,
 	"enableHardwareAcceleratedNeuralNets": false,
-	"enableHardwareAcceleratedActivationFunctions": false
+	"enableHardwareAcceleratedActivationFunctions": false,
+	"customEvaluationSchemeConfig": {
+		"functionId": "Sin",
+		"sampleIntervalMin": 0,
+		"sampleIntervalMax": 25.13274123,
+		"sampleResolution": 80,
+		"gradientMseWeight": 0.9
+	}
 }
