@@ -1,0 +1,17 @@
+﻿Logical exclusive-OR (XOR).
+
+The goal is to reproduce the following logic truth table:
+
+  In1 | In2 | Out
+  -----------------
+  0   | 0   | 0
+  0   | 1   | 1
+  1   | 0   | 1
+  1   | 1   | 0
+
+Each test case is tested in turn.
+
+An output less than 0.5 is interpreted as a 0 (false) response, >= 0.5 is interpreted as a 1 (true) response.
+
+Fitness allocation per test case is on a continuous linear scale in the interval [0,1]; these are summed for all four test cases.
+An additional fitness of 10 is added to the total if all four test cases are passed, giving a maximum possible fitness of 14.

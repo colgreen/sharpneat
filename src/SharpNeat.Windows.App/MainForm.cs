@@ -76,5 +76,22 @@ namespace SharpNeat.Windows.App
         }
 
         #endregion
+
+
+        #region UI Event Handlers
+
+        private void btnExperimentInfo_Click(object sender,System.EventArgs e)
+        {
+            if(cmbExperiments.SelectedItem is ExperimentInfo expInfo)
+            {
+                if(!string.IsNullOrEmpty(expInfo.DescriptionFile) && File.Exists(expInfo.DescriptionFile))
+                {
+                    string description = File.ReadAllText(expInfo.DescriptionFile);
+                    MessageBox.Show(description, "Experiment Description");
+                }
+            }
+        }
+
+        #endregion
     }
 }

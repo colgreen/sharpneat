@@ -769,6 +769,7 @@
             this.btnExperimentInfo.Size = new System.Drawing.Size(22, 27);
             this.btnExperimentInfo.TabIndex = 47;
             this.btnExperimentInfo.Text = "?";
+            this.btnExperimentInfo.Click += new System.EventHandler(this.btnExperimentInfo_Click);
             // 
             // cmbExperiments
             // 

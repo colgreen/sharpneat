@@ -1,0 +1,12 @@
+﻿Cart and Pole Balancing Task, with a Single Pole.
+
+A vertically upright pole is attached via a hinge to a cart on a track that runs horizontally. 
+
+The goal is to keep the pole balanced, i.e., maintain the pole in an upright position, by applying a horizontal force to the cart.
+
+The cart and pole task is a classical benchmark problem in control theory and reinforcement learning, also known as the inverted pendulum, or pole/stick/broom balancing task.
+
+For full details see:
+
+   Green, Colin D (2020) Equations of Motion for the Cart and Pole Control Task
+   https://sharpneat.sourceforge.io/research/cart-pole/cart-pole-equations.html

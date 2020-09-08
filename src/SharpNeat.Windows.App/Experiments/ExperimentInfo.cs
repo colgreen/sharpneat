@@ -17,5 +17,6 @@ namespace SharpNeat.Windows.App.Experiments
         public string Name { get; set; }
         public ExperimentFactoryInfo ExperimentFactory { get; set; }
         public string ConfigFile { get; set; }
+        public string DescriptionFile { get; set; }
     }
 }

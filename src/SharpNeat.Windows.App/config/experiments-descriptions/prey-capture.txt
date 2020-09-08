@@ -1,0 +1,19 @@
+﻿Prey capture within a 24x24 grid; as described in Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997), Adaptive Behavior, 5:317-342, 1997.
+
+The paper can be found online at http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf
+
+A prey and an agent each occupy a single square within a 24x24 grid of squares. The agent must catch the prey.
+
+The prey is controlled by simple stochastic rules, with probability of moving away from the agent increasing with proximity.
+
+The agent is controlled by the evolved neural network, with eight radial sensor inputs for detecting the prey, and four motor outputs for move north, east, south and west.
+
+Each trial consists of a configurable number of timesteps. If the agent catches the prey within the available timesteps it scores 1 and the trial ends, otherwise the trial ends at the last timestep and the agent scores zero.
+
+The agent is trialled N times to achieve a score between 0 and N.
+
+Task difficulty can be varied by adjusting:
+ - Number of 'head start' moves for the prey.
+ - Prey speed.
+ - Max number of timesteps.
+ - Agent sensor range.
