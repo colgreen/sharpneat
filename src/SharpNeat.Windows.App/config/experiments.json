@@ -13,42 +13,48 @@
       "experimentFactory": {
         "assembly": "SharpNeat.Tasks",
         "type": "SharpNeat.Tasks.PreyCapture.PreyCaptureExperimentFactory"
-      }
+      },
+      "configFile": "experiments-config/prey-capture.config.json"
     },
     {
       "name": "Binary 6-multiplexer",
       "experimentFactory": {
         "assembly": "SharpNeat.Tasks",
         "type": "SharpNeat.Tasks.BinarySixMultiplexer.BinarySixMultiplexerExperimentFactory"
-      }
+      },
+      "configFile": "experiments-config/binary-6-multiplexer.config.json"
     },
     {
       "name": "Binary 11-multiplexer",
       "experimentFactory": {
         "assembly": "SharpNeat.Tasks",
         "type": "SharpNeat.Tasks.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperimentFactory"
-      }
+      },
+      "configFile": "experiments-config/binary-11-multiplexer.config.json"
     },
     {
       "name": "Cart-Pole Balancing (single pole)",
       "experimentFactory": {
         "assembly": "SharpNeat.Tasks",
         "type": "SharpNeat.Tasks.CartPole.SinglePole.CartSinglePoleExperimentFactory"
-      }
+      },
+      "configFile": "experiments-config/cartpole-singlepole.config.json"
     },
     {
       "name": "Cart-Pole Balancing (double pole)",
       "experimentFactory": {
         "assembly": "SharpNeat.Tasks",
         "type": "SharpNeat.Tasks.CartPole.DoublePole.CartDoublePoleExperimentFactory"
-      }
+      },
+      "configFile": "experiments-config/cartpole-doublepole.config.json"
     },
     {
       "name": "Generative Function Regression - Sin(x)",
       "experimentFactory": {
         "assembly": "SharpNeat.Tasks",
         "type": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
-      }
+      },
+      "configFile": "experiments-config/generative-sinewave.config.json"
     }
   ]
 }
