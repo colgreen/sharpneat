@@ -34,8 +34,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbxGenomePopulation = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtParamInitialConnectionProportion = new System.Windows.Forms.TextBox();
-            this.txtParamPopulationSize = new System.Windows.Forms.TextBox();
+            this.txtInitialInterconnectionsProportion = new System.Windows.Forms.TextBox();
+            this.txtPopulationSize = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.txtPopulationStatus = new System.Windows.Forms.TextBox();
             this.btnCreateRandomPop = new System.Windows.Forms.Button();
@@ -82,35 +82,33 @@
             this.btnSearchStop = new System.Windows.Forms.Button();
             this.btnSearchStart = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnLoadDomainDefaults = new System.Windows.Forms.Button();
+            this.btnResetExperiment = new System.Windows.Forms.Button();
             this.btnExperimentInfo = new System.Windows.Forms.Button();
             this.cmbExperiments = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.gbxNeatGenomeParameters = new System.Windows.Forms.GroupBox();
-            this.txtParamConnectionWeightRange = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
-            this.txtParamMutateConnectionWeights = new System.Windows.Forms.TextBox();
-            this.txtParamMutateDeleteConnection = new System.Windows.Forms.TextBox();
-            this.txtParamMutateAddConnection = new System.Windows.Forms.TextBox();
+            this.txtConnectionWeightMutationProbability = new System.Windows.Forms.TextBox();
+            this.txtDeleteConnectionMutationProbability = new System.Windows.Forms.TextBox();
+            this.txtAddConnectionMutationProbability = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
-            this.txtParamMutateAddNode = new System.Windows.Forms.TextBox();
+            this.txtAddNodeMutationProbability = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
             this.gbxEAParameters = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.txtParamNumberOfSpecies = new System.Windows.Forms.TextBox();
+            this.txtSpeciesCount = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.txtParamSelectionProportion = new System.Windows.Forms.TextBox();
-            this.txtParamInterspeciesMating = new System.Windows.Forms.TextBox();
-            this.txtParamElitismProportion = new System.Windows.Forms.TextBox();
+            this.txtSelectionProportion = new System.Windows.Forms.TextBox();
+            this.txtInterspeciesMatingProportion = new System.Windows.Forms.TextBox();
+            this.txtElitismProportion = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.txtParamOffspringCrossover = new System.Windows.Forms.TextBox();
+            this.txtOffspringSexualProportion = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
-            this.txtParamOffspringAsexual = new System.Windows.Forms.TextBox();
+            this.txtOffspringAsexualProportion = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadPopulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,8 +215,8 @@
             // gbxGenomePopulation
             // 
             this.gbxGenomePopulation.Controls.Add(this.label1);
-            this.gbxGenomePopulation.Controls.Add(this.txtParamInitialConnectionProportion);
-            this.gbxGenomePopulation.Controls.Add(this.txtParamPopulationSize);
+            this.gbxGenomePopulation.Controls.Add(this.txtInitialInterconnectionsProportion);
+            this.gbxGenomePopulation.Controls.Add(this.txtPopulationSize);
             this.gbxGenomePopulation.Controls.Add(this.label28);
             this.gbxGenomePopulation.Controls.Add(this.txtPopulationStatus);
             this.gbxGenomePopulation.Controls.Add(this.btnCreateRandomPop);
@@ -240,23 +238,23 @@
             this.label1.TabIndex = 54;
             this.label1.Text = "Initial Connections Proportion";
             // 
-            // txtParamInitialConnectionProportion
+            // txtInitialInterconnectionsProportion
             // 
-            this.txtParamInitialConnectionProportion.Location = new System.Drawing.Point(9, 121);
-            this.txtParamInitialConnectionProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamInitialConnectionProportion.Name = "txtParamInitialConnectionProportion";
-            this.txtParamInitialConnectionProportion.Size = new System.Drawing.Size(93, 23);
-            this.txtParamInitialConnectionProportion.TabIndex = 53;
-            this.txtParamInitialConnectionProportion.Text = "0.1";
+            this.txtInitialInterconnectionsProportion.Location = new System.Drawing.Point(9, 121);
+            this.txtInitialInterconnectionsProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtInitialInterconnectionsProportion.Name = "txtInitialInterconnectionsProportion";
+            this.txtInitialInterconnectionsProportion.Size = new System.Drawing.Size(93, 23);
+            this.txtInitialInterconnectionsProportion.TabIndex = 53;
+            this.txtInitialInterconnectionsProportion.Text = "0.1";
             // 
-            // txtParamPopulationSize
+            // txtPopulationSize
             // 
-            this.txtParamPopulationSize.Location = new System.Drawing.Point(9, 91);
-            this.txtParamPopulationSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamPopulationSize.Name = "txtParamPopulationSize";
-            this.txtParamPopulationSize.Size = new System.Drawing.Size(93, 23);
-            this.txtParamPopulationSize.TabIndex = 51;
-            this.txtParamPopulationSize.Text = "150";
+            this.txtPopulationSize.Location = new System.Drawing.Point(9, 91);
+            this.txtPopulationSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtPopulationSize.Name = "txtPopulationSize";
+            this.txtPopulationSize.Size = new System.Drawing.Size(93, 23);
+            this.txtPopulationSize.TabIndex = 51;
+            this.txtPopulationSize.Text = "150";
             // 
             // label28
             // 
@@ -738,7 +736,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnLoadDomainDefaults);
+            this.groupBox5.Controls.Add(this.btnResetExperiment);
             this.groupBox5.Controls.Add(this.btnExperimentInfo);
             this.groupBox5.Controls.Add(this.cmbExperiments);
             this.groupBox5.Location = new System.Drawing.Point(9, 7);
@@ -748,17 +746,18 @@
             this.groupBox5.Size = new System.Drawing.Size(273, 80);
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Domain / Experiment";
+            this.groupBox5.Text = "Experiment / Task";
             // 
-            // btnLoadDomainDefaults
+            // btnResetExperiment
             // 
-            this.btnLoadDomainDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnLoadDomainDefaults.Location = new System.Drawing.Point(8, 46);
-            this.btnLoadDomainDefaults.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnLoadDomainDefaults.Name = "btnLoadDomainDefaults";
-            this.btnLoadDomainDefaults.Size = new System.Drawing.Size(232, 28);
-            this.btnLoadDomainDefaults.TabIndex = 48;
-            this.btnLoadDomainDefaults.Text = "Load Domain Default Parameters";
+            this.btnResetExperiment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnResetExperiment.Location = new System.Drawing.Point(8, 46);
+            this.btnResetExperiment.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnResetExperiment.Name = "btnResetExperiment";
+            this.btnResetExperiment.Size = new System.Drawing.Size(232, 28);
+            this.btnResetExperiment.TabIndex = 48;
+            this.btnResetExperiment.Text = "Reset Experiment Parameters";
+            this.btnResetExperiment.Click += new System.EventHandler(this.btnResetExperiment_Click);
             // 
             // btnExperimentInfo
             // 
@@ -797,139 +796,119 @@
             // 
             // gbxNeatGenomeParameters
             // 
-            this.gbxNeatGenomeParameters.Controls.Add(this.txtParamConnectionWeightRange);
-            this.gbxNeatGenomeParameters.Controls.Add(this.label16);
             this.gbxNeatGenomeParameters.Controls.Add(this.label42);
-            this.gbxNeatGenomeParameters.Controls.Add(this.txtParamMutateConnectionWeights);
-            this.gbxNeatGenomeParameters.Controls.Add(this.txtParamMutateDeleteConnection);
-            this.gbxNeatGenomeParameters.Controls.Add(this.txtParamMutateAddConnection);
+            this.gbxNeatGenomeParameters.Controls.Add(this.txtConnectionWeightMutationProbability);
+            this.gbxNeatGenomeParameters.Controls.Add(this.txtDeleteConnectionMutationProbability);
+            this.gbxNeatGenomeParameters.Controls.Add(this.txtAddConnectionMutationProbability);
             this.gbxNeatGenomeParameters.Controls.Add(this.label34);
             this.gbxNeatGenomeParameters.Controls.Add(this.label36);
-            this.gbxNeatGenomeParameters.Controls.Add(this.txtParamMutateAddNode);
+            this.gbxNeatGenomeParameters.Controls.Add(this.txtAddNodeMutationProbability);
             this.gbxNeatGenomeParameters.Controls.Add(this.label35);
-            this.gbxNeatGenomeParameters.Location = new System.Drawing.Point(315, 7);
+            this.gbxNeatGenomeParameters.Location = new System.Drawing.Point(288, 7);
             this.gbxNeatGenomeParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbxNeatGenomeParameters.Name = "gbxNeatGenomeParameters";
             this.gbxNeatGenomeParameters.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbxNeatGenomeParameters.Size = new System.Drawing.Size(270, 228);
+            this.gbxNeatGenomeParameters.Size = new System.Drawing.Size(306, 156);
             this.gbxNeatGenomeParameters.TabIndex = 52;
             this.gbxNeatGenomeParameters.TabStop = false;
-            this.gbxNeatGenomeParameters.Text = "NEAT Genome Parameters";
-            // 
-            // txtParamConnectionWeightRange
-            // 
-            this.txtParamConnectionWeightRange.Location = new System.Drawing.Point(7, 22);
-            this.txtParamConnectionWeightRange.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamConnectionWeightRange.Name = "txtParamConnectionWeightRange";
-            this.txtParamConnectionWeightRange.Size = new System.Drawing.Size(55, 23);
-            this.txtParamConnectionWeightRange.TabIndex = 50;
-            this.txtParamConnectionWeightRange.Text = "5";
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(68, 25);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(159, 18);
-            this.label16.TabIndex = 51;
-            this.label16.Text = "Connection Weight Range";
+            this.gbxNeatGenomeParameters.Text = "Asexual Reproduction Settings";
             // 
             // label42
             // 
-            this.label42.Location = new System.Drawing.Point(68, 158);
+            this.label42.Location = new System.Drawing.Point(69, 115);
             this.label42.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(177, 18);
             this.label42.TabIndex = 27;
-            this.label42.Text = "p Mutate Delete Connection";
+            this.label42.Text = "Delete Connection (probability)";
             // 
-            // txtParamMutateConnectionWeights
+            // txtConnectionWeightMutationProbability
             // 
-            this.txtParamMutateConnectionWeights.Location = new System.Drawing.Point(7, 65);
-            this.txtParamMutateConnectionWeights.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamMutateConnectionWeights.Name = "txtParamMutateConnectionWeights";
-            this.txtParamMutateConnectionWeights.Size = new System.Drawing.Size(55, 23);
-            this.txtParamMutateConnectionWeights.TabIndex = 24;
-            this.txtParamMutateConnectionWeights.Text = "0.988";
+            this.txtConnectionWeightMutationProbability.Location = new System.Drawing.Point(8, 22);
+            this.txtConnectionWeightMutationProbability.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtConnectionWeightMutationProbability.Name = "txtConnectionWeightMutationProbability";
+            this.txtConnectionWeightMutationProbability.Size = new System.Drawing.Size(55, 23);
+            this.txtConnectionWeightMutationProbability.TabIndex = 24;
+            this.txtConnectionWeightMutationProbability.Text = "0.988";
             // 
-            // txtParamMutateDeleteConnection
+            // txtDeleteConnectionMutationProbability
             // 
-            this.txtParamMutateDeleteConnection.Location = new System.Drawing.Point(7, 155);
-            this.txtParamMutateDeleteConnection.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamMutateDeleteConnection.Name = "txtParamMutateDeleteConnection";
-            this.txtParamMutateDeleteConnection.Size = new System.Drawing.Size(55, 23);
-            this.txtParamMutateDeleteConnection.TabIndex = 26;
-            this.txtParamMutateDeleteConnection.Text = "0.001";
+            this.txtDeleteConnectionMutationProbability.Location = new System.Drawing.Point(8, 112);
+            this.txtDeleteConnectionMutationProbability.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtDeleteConnectionMutationProbability.Name = "txtDeleteConnectionMutationProbability";
+            this.txtDeleteConnectionMutationProbability.Size = new System.Drawing.Size(55, 23);
+            this.txtDeleteConnectionMutationProbability.TabIndex = 26;
+            this.txtDeleteConnectionMutationProbability.Text = "0.001";
             // 
-            // txtParamMutateAddConnection
+            // txtAddConnectionMutationProbability
             // 
-            this.txtParamMutateAddConnection.Location = new System.Drawing.Point(7, 125);
-            this.txtParamMutateAddConnection.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamMutateAddConnection.Name = "txtParamMutateAddConnection";
-            this.txtParamMutateAddConnection.Size = new System.Drawing.Size(55, 23);
-            this.txtParamMutateAddConnection.TabIndex = 20;
-            this.txtParamMutateAddConnection.Text = "0.01";
+            this.txtAddConnectionMutationProbability.Location = new System.Drawing.Point(8, 82);
+            this.txtAddConnectionMutationProbability.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtAddConnectionMutationProbability.Name = "txtAddConnectionMutationProbability";
+            this.txtAddConnectionMutationProbability.Size = new System.Drawing.Size(55, 23);
+            this.txtAddConnectionMutationProbability.TabIndex = 20;
+            this.txtAddConnectionMutationProbability.Text = "0.01";
             // 
             // label34
             // 
-            this.label34.Location = new System.Drawing.Point(68, 128);
+            this.label34.Location = new System.Drawing.Point(69, 85);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(159, 18);
             this.label34.TabIndex = 25;
-            this.label34.Text = "p Mutate Add Connection";
+            this.label34.Text = "Add Connection (probability)";
             // 
             // label36
             // 
-            this.label36.Location = new System.Drawing.Point(68, 68);
+            this.label36.Location = new System.Drawing.Point(69, 25);
             this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(177, 18);
+            this.label36.Size = new System.Drawing.Size(230, 18);
             this.label36.TabIndex = 21;
-            this.label36.Text = "p Mutate Connection Weights";
+            this.label36.Text = "Mutate Weights (probability)";
             // 
-            // txtParamMutateAddNode
+            // txtAddNodeMutationProbability
             // 
-            this.txtParamMutateAddNode.Location = new System.Drawing.Point(7, 95);
-            this.txtParamMutateAddNode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamMutateAddNode.Name = "txtParamMutateAddNode";
-            this.txtParamMutateAddNode.Size = new System.Drawing.Size(55, 23);
-            this.txtParamMutateAddNode.TabIndex = 22;
-            this.txtParamMutateAddNode.Text = "0.001";
+            this.txtAddNodeMutationProbability.Location = new System.Drawing.Point(8, 52);
+            this.txtAddNodeMutationProbability.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtAddNodeMutationProbability.Name = "txtAddNodeMutationProbability";
+            this.txtAddNodeMutationProbability.Size = new System.Drawing.Size(55, 23);
+            this.txtAddNodeMutationProbability.TabIndex = 22;
+            this.txtAddNodeMutationProbability.Text = "0.001";
             // 
             // label35
             // 
-            this.label35.Location = new System.Drawing.Point(68, 98);
+            this.label35.Location = new System.Drawing.Point(69, 55);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(159, 18);
             this.label35.TabIndex = 23;
-            this.label35.Text = "p Mutate Add Neuron";
+            this.label35.Text = "Add Neuron (probability)";
             // 
             // gbxEAParameters
             // 
             this.gbxEAParameters.BackColor = System.Drawing.Color.Transparent;
             this.gbxEAParameters.Controls.Add(this.label21);
-            this.gbxEAParameters.Controls.Add(this.txtParamNumberOfSpecies);
+            this.gbxEAParameters.Controls.Add(this.txtSpeciesCount);
             this.gbxEAParameters.Controls.Add(this.label4);
             this.gbxEAParameters.Controls.Add(this.label15);
             this.gbxEAParameters.Controls.Add(this.label32);
             this.gbxEAParameters.Controls.Add(this.label14);
-            this.gbxEAParameters.Controls.Add(this.txtParamSelectionProportion);
-            this.gbxEAParameters.Controls.Add(this.txtParamInterspeciesMating);
-            this.gbxEAParameters.Controls.Add(this.txtParamElitismProportion);
+            this.gbxEAParameters.Controls.Add(this.txtSelectionProportion);
+            this.gbxEAParameters.Controls.Add(this.txtInterspeciesMatingProportion);
+            this.gbxEAParameters.Controls.Add(this.txtElitismProportion);
             this.gbxEAParameters.Controls.Add(this.label25);
-            this.gbxEAParameters.Controls.Add(this.txtParamOffspringCrossover);
+            this.gbxEAParameters.Controls.Add(this.txtOffspringSexualProportion);
             this.gbxEAParameters.Controls.Add(this.label26);
-            this.gbxEAParameters.Controls.Add(this.txtParamOffspringAsexual);
+            this.gbxEAParameters.Controls.Add(this.txtOffspringAsexualProportion);
             this.gbxEAParameters.Location = new System.Drawing.Point(9, 7);
             this.gbxEAParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbxEAParameters.Name = "gbxEAParameters";
             this.gbxEAParameters.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbxEAParameters.Size = new System.Drawing.Size(288, 228);
+            this.gbxEAParameters.Size = new System.Drawing.Size(262, 228);
             this.gbxEAParameters.TabIndex = 16;
             this.gbxEAParameters.TabStop = false;
-            this.gbxEAParameters.Text = "Evolution Algorithm Parameters";
+            this.gbxEAParameters.Text = "Evolution Algorithm Settings";
             // 
             // label21
             // 
@@ -941,14 +920,14 @@
             this.label21.TabIndex = 57;
             this.label21.Text = "Number of Species";
             // 
-            // txtParamNumberOfSpecies
+            // txtSpeciesCount
             // 
-            this.txtParamNumberOfSpecies.Location = new System.Drawing.Point(7, 25);
-            this.txtParamNumberOfSpecies.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamNumberOfSpecies.Name = "txtParamNumberOfSpecies";
-            this.txtParamNumberOfSpecies.Size = new System.Drawing.Size(55, 23);
-            this.txtParamNumberOfSpecies.TabIndex = 56;
-            this.txtParamNumberOfSpecies.Text = "10";
+            this.txtSpeciesCount.Location = new System.Drawing.Point(7, 25);
+            this.txtSpeciesCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtSpeciesCount.Name = "txtSpeciesCount";
+            this.txtSpeciesCount.Size = new System.Drawing.Size(55, 23);
+            this.txtSpeciesCount.TabIndex = 56;
+            this.txtSpeciesCount.Text = "10";
             // 
             // label4
             // 
@@ -983,72 +962,72 @@
             this.label14.Location = new System.Drawing.Point(65, 198);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(140, 18);
+            this.label14.Size = new System.Drawing.Size(175, 18);
             this.label14.TabIndex = 53;
-            this.label14.Text = "p Interspecies Mating";
+            this.label14.Text = "Interspecies Mating Probability";
             // 
-            // txtParamSelectionProportion
+            // txtSelectionProportion
             // 
-            this.txtParamSelectionProportion.Location = new System.Drawing.Point(7, 85);
-            this.txtParamSelectionProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamSelectionProportion.Name = "txtParamSelectionProportion";
-            this.txtParamSelectionProportion.Size = new System.Drawing.Size(55, 23);
-            this.txtParamSelectionProportion.TabIndex = 23;
-            this.txtParamSelectionProportion.Text = "0.2";
+            this.txtSelectionProportion.Location = new System.Drawing.Point(7, 85);
+            this.txtSelectionProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtSelectionProportion.Name = "txtSelectionProportion";
+            this.txtSelectionProportion.Size = new System.Drawing.Size(55, 23);
+            this.txtSelectionProportion.TabIndex = 23;
+            this.txtSelectionProportion.Text = "0.2";
             // 
-            // txtParamInterspeciesMating
+            // txtInterspeciesMatingProportion
             // 
-            this.txtParamInterspeciesMating.Location = new System.Drawing.Point(7, 195);
-            this.txtParamInterspeciesMating.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamInterspeciesMating.Name = "txtParamInterspeciesMating";
-            this.txtParamInterspeciesMating.Size = new System.Drawing.Size(55, 23);
-            this.txtParamInterspeciesMating.TabIndex = 52;
-            this.txtParamInterspeciesMating.Text = "0.01";
+            this.txtInterspeciesMatingProportion.Location = new System.Drawing.Point(7, 195);
+            this.txtInterspeciesMatingProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtInterspeciesMatingProportion.Name = "txtInterspeciesMatingProportion";
+            this.txtInterspeciesMatingProportion.Size = new System.Drawing.Size(55, 23);
+            this.txtInterspeciesMatingProportion.TabIndex = 52;
+            this.txtInterspeciesMatingProportion.Text = "0.01";
             // 
-            // txtParamElitismProportion
+            // txtElitismProportion
             // 
-            this.txtParamElitismProportion.Location = new System.Drawing.Point(7, 55);
-            this.txtParamElitismProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamElitismProportion.Name = "txtParamElitismProportion";
-            this.txtParamElitismProportion.Size = new System.Drawing.Size(55, 23);
-            this.txtParamElitismProportion.TabIndex = 21;
-            this.txtParamElitismProportion.Text = "0.2";
+            this.txtElitismProportion.Location = new System.Drawing.Point(7, 55);
+            this.txtElitismProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtElitismProportion.Name = "txtElitismProportion";
+            this.txtElitismProportion.Size = new System.Drawing.Size(55, 23);
+            this.txtElitismProportion.TabIndex = 21;
+            this.txtElitismProportion.Text = "0.2";
             // 
             // label25
             // 
             this.label25.Location = new System.Drawing.Point(65, 166);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(140, 18);
+            this.label25.Size = new System.Drawing.Size(175, 18);
             this.label25.TabIndex = 51;
-            this.label25.Text = "p Offspring Crossover";
+            this.label25.Text = "Sexual Offspring Proportion";
             // 
-            // txtParamOffspringCrossover
+            // txtOffspringSexualProportion
             // 
-            this.txtParamOffspringCrossover.Location = new System.Drawing.Point(7, 163);
-            this.txtParamOffspringCrossover.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamOffspringCrossover.Name = "txtParamOffspringCrossover";
-            this.txtParamOffspringCrossover.Size = new System.Drawing.Size(55, 23);
-            this.txtParamOffspringCrossover.TabIndex = 50;
-            this.txtParamOffspringCrossover.Text = "0.5";
+            this.txtOffspringSexualProportion.Location = new System.Drawing.Point(7, 163);
+            this.txtOffspringSexualProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtOffspringSexualProportion.Name = "txtOffspringSexualProportion";
+            this.txtOffspringSexualProportion.Size = new System.Drawing.Size(55, 23);
+            this.txtOffspringSexualProportion.TabIndex = 50;
+            this.txtOffspringSexualProportion.Text = "0.5";
             // 
             // label26
             // 
             this.label26.Location = new System.Drawing.Point(65, 136);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(121, 18);
+            this.label26.Size = new System.Drawing.Size(175, 18);
             this.label26.TabIndex = 49;
-            this.label26.Text = "p Offspring Asexual";
+            this.label26.Text = "Asexual Offspring Proportion";
             // 
-            // txtParamOffspringAsexual
+            // txtOffspringAsexualProportion
             // 
-            this.txtParamOffspringAsexual.Location = new System.Drawing.Point(7, 133);
-            this.txtParamOffspringAsexual.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtParamOffspringAsexual.Name = "txtParamOffspringAsexual";
-            this.txtParamOffspringAsexual.Size = new System.Drawing.Size(55, 23);
-            this.txtParamOffspringAsexual.TabIndex = 48;
-            this.txtParamOffspringAsexual.Text = "0.5";
+            this.txtOffspringAsexualProportion.Location = new System.Drawing.Point(7, 133);
+            this.txtOffspringAsexualProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtOffspringAsexualProportion.Name = "txtOffspringAsexualProportion";
+            this.txtOffspringAsexualProportion.Size = new System.Drawing.Size(55, 23);
+            this.txtOffspringAsexualProportion.TabIndex = 48;
+            this.txtOffspringAsexualProportion.Text = "0.5";
             // 
             // menuStrip1
             // 
@@ -1288,13 +1267,14 @@
             // 
             this.btnCopyLogToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyLogToClipboard.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCopyLogToClipboard.Location = new System.Drawing.Point(474, 1);
+            this.btnCopyLogToClipboard.Location = new System.Drawing.Point(494, 0);
             this.btnCopyLogToClipboard.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnCopyLogToClipboard.Name = "btnCopyLogToClipboard";
             this.btnCopyLogToClipboard.Size = new System.Drawing.Size(117, 25);
             this.btnCopyLogToClipboard.TabIndex = 1;
             this.btnCopyLogToClipboard.Text = "Copy to clipboard";
             this.btnCopyLogToClipboard.UseVisualStyleBackColor = true;
+            this.btnCopyLogToClipboard.Click += new System.EventHandler(this.btnCopyLogToClipboard_Click);
             // 
             // lbxLog
             // 
@@ -1390,20 +1370,18 @@
         private System.Windows.Forms.TextBox txtStatsBest;
         private System.Windows.Forms.GroupBox gbxEAParameters;
         private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.TextBox txtParamSelectionProportion;
-        private System.Windows.Forms.TextBox txtParamElitismProportion;
+        private System.Windows.Forms.TextBox txtSelectionProportion;
+        private System.Windows.Forms.TextBox txtElitismProportion;
         private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.TextBox txtParamMutateDeleteConnection;
+        private System.Windows.Forms.TextBox txtDeleteConnectionMutationProbability;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.TextBox txtParamMutateConnectionWeights;
+        private System.Windows.Forms.TextBox txtConnectionWeightMutationProbability;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.TextBox txtParamMutateAddNode;
+        private System.Windows.Forms.TextBox txtAddNodeMutationProbability;
         private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.TextBox txtParamMutateAddConnection;
+        private System.Windows.Forms.TextBox txtAddConnectionMutationProbability;
         private System.Windows.Forms.GroupBox gbxNeatGenomeParameters;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtParamConnectionWeightRange;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtSpecieChampMean;
         private System.Windows.Forms.Label label7;
@@ -1418,20 +1396,20 @@
         private System.Windows.Forms.TextBox txtStatsTotalOffspringCount;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox txtParamInterspeciesMating;
+        private System.Windows.Forms.TextBox txtInterspeciesMatingProportion;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox txtParamOffspringCrossover;
+        private System.Windows.Forms.TextBox txtOffspringSexualProportion;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox txtParamOffspringAsexual;
+        private System.Windows.Forms.TextBox txtOffspringAsexualProportion;
         private System.Windows.Forms.GroupBox gbxGenomePopulation;
-        private System.Windows.Forms.TextBox txtParamPopulationSize;
+        private System.Windows.Forms.TextBox txtPopulationSize;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox txtPopulationStatus;
         private System.Windows.Forms.Button btnCreateRandomPop;
         private System.Windows.Forms.ToolStripMenuItem populationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtParamInitialConnectionProportion;
+        private System.Windows.Forms.TextBox txtInitialInterconnectionsProportion;
         private System.Windows.Forms.Button btnCopyLogToClipboard;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -1461,7 +1439,7 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox txtStatsAlternativeFitness;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox txtParamNumberOfSpecies;
+        private System.Windows.Forms.TextBox txtSpeciesCount;
         private System.Windows.Forms.ToolStripMenuItem distributionPlotsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specieSizeDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specieFitnessDistributionsToolStripMenuItem;
@@ -1469,5 +1447,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityDistributionToolStripMenuItem;
+        private System.Windows.Forms.Button btnResetExperiment;
     }
 }
