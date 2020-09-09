@@ -44,7 +44,7 @@ namespace SharpNeat.Neat.Genome
         public IActivationFunction<T> ActivationFn { get; }
 
         /// <summary>
-        /// Maximum connection weight scale/magnitude. 
+        /// Maximum connection weight scale/magnitude.
         /// E.g. a value of 5 defines a weight range of -5 to 5.
         /// The weight range is strictly enforced, e.g. when creating new connections and mutating existing ones.
         /// </summary>
@@ -64,6 +64,26 @@ namespace SharpNeat.Neat.Genome
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Construct a new instance.
+        /// </summary>
+        /// <param name="inputNodeCount">Input node count.</param>
+        /// <param name="outputNodeCount">Output node count.</param>
+        /// <param name="isAcyclic">Indicates if the genomes that are evolved are acyclic, i.e. they should have no recurrent/cyclic connection paths.</param>
+        /// <param name="activationFn">The neuron activation function to use in evolved networks. NEAT uses the same activation function at each node.</param>
+        /// <param name="connectionWeightScale">Maximum connection weight scale/magnitude.</param>
+        public MetaNeatGenome(
+            int inputNodeCount, int outputNodeCount, bool isAcyclic,
+            IActivationFunction<T> activationFn,
+            double connectionWeightScale)
+        {
+            this.InputNodeCount = inputNodeCount;
+            this.OutputNodeCount = outputNodeCount;
+            this.IsAcyclic = isAcyclic;
+            this.ActivationFn = activationFn;
+            this.ConnectionWeightScale = connectionWeightScale;
+        }
 
         /// <summary>
         /// Construct a new instance.

@@ -52,7 +52,8 @@ namespace SharpNeat.Experiments
                 inputNodeCount: neatExperiment.EvaluationScheme.InputCount, 
                 outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
                 isAcyclic: neatExperiment.IsAcyclic,
-                activationFn: activationFn);
+                activationFn: activationFn,
+                connectionWeightScale: neatExperiment.ConnectionWeightScale);
 
             // Create an initial population of genomes.
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(
