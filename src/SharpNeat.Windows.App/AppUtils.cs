@@ -12,29 +12,15 @@
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
+using SharpNeat.Experiments;
+using SharpNeat.IO;
+using SharpNeat.Neat.EvolutionAlgorithm;
 
 namespace SharpNeat.Windows.App
 {
     internal static class AppUtils
     {
-        public static string ReadStringResource(string name)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using(Stream inputStream = assembly.GetManifestResourceStream(name))
-            using(var sr = new StreamReader(inputStream))
-            {
-                return sr.ReadToEnd();
-            }
-        }
 
-        public static Bitmap ReadBitmapResource(string name)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using(Stream inputStream = assembly.GetManifestResourceStream(name))
-            using(var sr = new StreamReader(inputStream))
-            {
-                return new Bitmap(inputStream);
-            }
-        }
     }
 }

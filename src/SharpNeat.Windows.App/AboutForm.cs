@@ -27,9 +27,9 @@ namespace SharpNeat.Windows.App
         public AboutForm()
         {
             InitializeComponent();
-            pictureBox1.Image = AppUtils.ReadBitmapResource("SharpNeat.Windows.App.Resources.sharpneat_banner.png");
-            txtAbout.Text = AppUtils.ReadStringResource("SharpNeat.Windows.App.Resources.about.txt");
-            txtLicense.Text = AppUtils.ReadStringResource("SharpNeat.Windows.App.Resources.license.txt");
+            pictureBox1.Image = ResourceUtils.ReadBitmapResource("SharpNeat.Windows.App.Resources.sharpneat_banner.png");
+            txtAbout.Text = ResourceUtils.ReadStringResource("SharpNeat.Windows.App.Resources.about.txt");
+            txtLicense.Text = ResourceUtils.ReadStringResource("SharpNeat.Windows.App.Resources.license.txt");
         }
 
         private void AboutForm_Load(object sender, EventArgs e)

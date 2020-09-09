@@ -14,7 +14,7 @@ namespace SharpNeat.Windows.App.Experiments
 {
     public class ExperimentFactoryInfo
     {
-        public string Assembly { get; set; }
-        public string Type { get; set; }
+        public string AssemblyName { get; set; }
+        public string TypeName { get; set; }
     }
 }

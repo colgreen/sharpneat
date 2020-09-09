@@ -3,8 +3,8 @@
     {
       "name": "Logical XOR",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.Xor.XorExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.Xor.XorExperimentFactory"
       },
       "configFile": "config/experiments-config/xor.config.json",
       "descriptionFile": "config/experiments-descriptions/xor.txt"
@@ -12,8 +12,8 @@
     {
       "name": "Prey Capture",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.PreyCapture.PreyCaptureExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.PreyCapture.PreyCaptureExperimentFactory"
       },
       "configFile": "config/experiments-config/prey-capture.config.json",
       "descriptionFile": "config/experiments-descriptions/prey-capture.txt"
@@ -21,8 +21,8 @@
     {
       "name": "Binary 6-multiplexer",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.BinarySixMultiplexer.BinarySixMultiplexerExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.BinarySixMultiplexer.BinarySixMultiplexerExperimentFactory"
       },
       "configFile": "config/experiments-config/binary-6-multiplexer.config.json",
       "descriptionFile": "config/experiments-descriptions/binary-6-multiplexer.txt"
@@ -30,8 +30,8 @@
     {
       "name": "Binary 11-multiplexer",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperimentFactory"
       },
       "configFile": "config/experiments-config/binary-11-multiplexer.config.json",
       "descriptionFile": "config/experiments-descriptions/binary-11-multiplexer.txt"
@@ -39,8 +39,8 @@
     {
       "name": "Cart-Pole Balancing (single pole)",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.CartPole.SinglePole.CartSinglePoleExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.CartPole.SinglePole.CartSinglePoleExperimentFactory"
       },
       "configFile": "config/experiments-config/cartpole-singlepole.config.json",
       "descriptionFile": "config/experiments-descriptions/cartpole-singlepole.txt"
@@ -48,8 +48,8 @@
     {
       "name": "Cart-Pole Balancing (double pole)",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.CartPole.DoublePole.CartDoublePoleExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.CartPole.DoublePole.CartDoublePoleExperimentFactory"
       },
       "configFile": "config/experiments-config/cartpole-doublepole.config.json",
       "descriptionFile": "config/experiments-descriptions/cartpole-doublepole.txt"
@@ -57,8 +57,8 @@
     {
       "name": "Generative Function Regression - Sin(x)",
       "experimentFactory": {
-        "assembly": "SharpNeat.Tasks",
-        "type": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
       },
       "configFile": "config/experiments-config/generative-sinewave.config.json",
       "descriptionFile": "config/experiments-descriptions/generative-sinewave.txt"
