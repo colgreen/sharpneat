@@ -38,11 +38,6 @@ namespace SharpNeat.Graphs.Acyclic
         #region Instance Fields
 
         /// <summary>
-        /// Enable validation that a provided graph is acyclic, before invoking the depth analysis.
-        /// </summary>
-        readonly bool _validateAcyclic;
-
-        /// <summary>
         /// The graph traversal stack, as required by a depth first graph traversal algorithm.
         /// Each stack entry is an index into a connection list, representing both the current node being traversed 
         /// (the connections's source ID), and the current position in that node's outgoing connections.
@@ -54,15 +49,17 @@ namespace SharpNeat.Graphs.Acyclic
         /// </summary>
         int[]? _nodeDepthByIdx;
 
+        readonly CyclicGraphCheck? _cyclicGraphCheck;
+
         #if DEBUG
         /// <summary>
         /// Indicates if a call to IsConnectionCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
-
-        readonly CyclicGraphCheck _cyclicGraphCheck = new CyclicGraphCheck();
         #endif
+
+        
 
         #endregion
 
@@ -84,7 +81,9 @@ namespace SharpNeat.Graphs.Acyclic
         /// </remarks>
         public AcyclicGraphDepthAnalysis(bool validateAcyclic)
         {
-            _validateAcyclic = validateAcyclic;
+            if(validateAcyclic) {
+                _cyclicGraphCheck = new CyclicGraphCheck();
+            }
         }
 
         #endregion
@@ -108,7 +107,7 @@ namespace SharpNeat.Graphs.Acyclic
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
             // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the 
             // graph is acyclic/
-            if(_validateAcyclic && _cyclicGraphCheck.IsCyclic(digraph)) {
+            if(_cyclicGraphCheck is object && _cyclicGraphCheck.IsCyclic(digraph)) {
                 throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
             }
 
