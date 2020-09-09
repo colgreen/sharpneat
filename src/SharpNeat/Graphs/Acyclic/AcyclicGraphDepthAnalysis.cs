@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Redzen.Collections;
@@ -39,6 +38,11 @@ namespace SharpNeat.Graphs.Acyclic
         #region Instance Fields
 
         /// <summary>
+        /// Enable validation that a provided graph is acyclic, before invoking the depth analysis.
+        /// </summary>
+        readonly bool _validateAcyclic;
+
+        /// <summary>
         /// The graph traversal stack, as required by a depth first graph traversal algorithm.
         /// Each stack entry is an index into a connection list, representing both the current node being traversed 
         /// (the connections's source ID), and the current position in that node's outgoing connections.
@@ -62,6 +66,29 @@ namespace SharpNeat.Graphs.Acyclic
 
         #endregion
 
+        #region Construction
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public AcyclicGraphDepthAnalysis()
+        {}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validateAcyclic"></param>
+        /// <remarks>
+        /// If the caller can guarantee that calles to CalculateNodeDepths() will provide acyclic graphs only, then 
+        /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
+        /// </remarks>
+        public AcyclicGraphDepthAnalysis(bool validateAcyclic)
+        {
+            _validateAcyclic = validateAcyclic;
+        }
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -75,12 +102,15 @@ namespace SharpNeat.Graphs.Acyclic
                 throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
             }
 
-            // Debug assert the graph is acyclic.
-            // Note. In a release build this test is not performed because we expect this method to be called from 
-            // code handling acyclic graphs only. If digraph is cyclic then the graph traversal implemented here will
-            // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
-            Debug.Assert(!_cyclicGraphCheck.IsCyclic(digraph));
             #endif
+
+            // Test that the graph is acyclic; if digraph is cyclic then the graph traversal implemented here will
+            // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
+            // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the 
+            // graph is acyclic/
+            if(_validateAcyclic && _cyclicGraphCheck.IsCyclic(digraph)) {
+                throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
+            }
 
             _nodeDepthByIdx = new int[digraph.TotalNodeCount];
             

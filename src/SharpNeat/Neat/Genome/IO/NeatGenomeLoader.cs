@@ -76,7 +76,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
             _tryParseWeight = tryParseWeight ?? throw new ArgumentNullException(nameof(tryParseWeight));
-            _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
+            _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome, true);
 
             _activationFnName = metaNeatGenome.ActivationFn.GetType().Name;
             _connList = new List<DirectedConnection>(connectionCapacity);
