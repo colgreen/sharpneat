@@ -244,7 +244,6 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             catch(Exception ex)
             {
                 __log.Error($"BackgroundThreadMethod() failed with exception [{ex.Message}]", ex);
-                throw;
             }
         }
 
