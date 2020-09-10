@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using System.Text.Json;
+using SharpNeat;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
+using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
 namespace TestApp1
@@ -20,7 +22,7 @@ namespace TestApp1
             INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(configDoc.RootElement);
 
             // Create a NeatEvolutionAlgorithm instance ready to run the experiment.
-            var ea = NeatExperimentUtils.CreateNeatEvolutionAlgorithm(neatExperiment);
+            var ea = NeatUtils.CreateNeatEvolutionAlgorithm(neatExperiment);
             return ea;
         }        
     }

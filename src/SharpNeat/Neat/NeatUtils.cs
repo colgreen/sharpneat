@@ -13,7 +13,7 @@ using System;
 using Redzen.Random;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
-using SharpNeat.Neat;
+using SharpNeat.Experiments;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
@@ -23,19 +23,57 @@ using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Speciation;
 using SharpNeat.NeuralNets;
 
-namespace SharpNeat.Experiments
+namespace SharpNeat.Neat
 {
+
     /// <summary>
-    /// Static utility methods related to <see cref="INeatExperiment{T}"/>.
+    /// Utility methods for creating and correctly 'wiring up' instances of NeatEvolutionAlgorithm.
     /// </summary>
-    public static class NeatExperimentUtils
+    public static class NeatUtils
     {
         #region Public Static Methods
 
         /// <summary>
+        /// Create a new instance of <see cref="NeatEvolutionAlgorithm{T}"/> for the given neat experiment, and neat population.
+        /// </summary>
+        /// <param name="neatExperiment">A neat experiment instance; this conveys everything required to create a new evolution algorithm instance that is ready to be run.</param>
+        /// <param name="neatPop">A pre constructed/loaded neat population; this must be compatible with the provided neat experiment, otherwise an exception will be thrown.</param>
+        /// <returns>A new instance of <see cref="NeatEvolutionAlgorithm{T}"/>.</returns>
+        public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
+            INeatExperiment<double> neatExperiment,
+            NeatPopulation<double> neatPop)
+        {
+            // Validate MetaNeatGenome and NeatExperiment are compatible; normally the former should have been created based on the latter, but this is not enforced.
+            MetaNeatGenome<double> metaNeatGenome = neatPop.MetaNeatGenome;
+            ValidateCompatible(neatExperiment, metaNeatGenome);
+
+            // Create a genomeList evaluator based on the experiment's configuration settings.
+            var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
+
+            // Create a speciation strategy based on the experiment's configuration settings.
+            var speciationStrategy = CreateSpeciationStrategy(neatExperiment);
+
+            // Create an instance of the default connection weight mutation scheme.
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(neatExperiment.ConnectionWeightScale);
+
+            // Pull all of the parts together into an evolution algorithm instance.
+            var ea = new NeatEvolutionAlgorithm<double>(
+                neatExperiment.NeatEvolutionAlgorithmSettings,
+                genomeListEvaluator,
+                speciationStrategy,
+                neatPop,
+                neatExperiment.ComplexityRegulationStrategy,
+                neatExperiment.ReproductionAsexualSettings,
+                neatExperiment.ReproductionSexualSettings,
+                weightMutationScheme);
+
+            return ea;
+        }
+
+        /// <summary>
         /// Create a new instance of <see cref="NeatEvolutionAlgorithm{T}"/> for the given neat experiment.
         /// </summary>
-        /// <param name="neatExperiment">A neat experiment; conveys everything required to create a new evolution algorithm instance that is ready to be run.</param>
+        /// <param name="neatExperiment">A neat experiment instance; this conveys everything required to create a new evolution algorithm instance that is ready to be run.</param>
         /// <returns>A new instance of <see cref="NeatEvolutionAlgorithm{T}"/>.</returns>
         public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
             INeatExperiment<double> neatExperiment)
@@ -43,17 +81,8 @@ namespace SharpNeat.Experiments
             // Create a genomeList evaluator based on the experiment's configuration settings.
             var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
 
-            // Resolve the configured activation function name to an activation function instance.
-            var actFnFactory = new DefaultActivationFunctionFactory<double>(neatExperiment.EnableHardwareAcceleratedActivationFunctions);
-            var activationFn = actFnFactory.GetActivationFunction(neatExperiment.ActivationFnName);
-
-            // Construct a MetaNeatGenome.
-            var metaNeatGenome = new MetaNeatGenome<double>(
-                inputNodeCount: neatExperiment.EvaluationScheme.InputCount, 
-                outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
-                isAcyclic: neatExperiment.IsAcyclic,
-                activationFn: activationFn,
-                connectionWeightScale: neatExperiment.ConnectionWeightScale);
+            // Create a MetaNeatGenome.
+            var metaNeatGenome = CreateMetaNeatGenome(neatExperiment);
 
             // Create an initial population of genomes.
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(
@@ -80,6 +109,27 @@ namespace SharpNeat.Experiments
                 weightMutationScheme);
 
             return ea;
+        }
+
+        /// <summary>
+        /// Create a <see cref="MetaNeatGenome{T}"/> based on the parameters supplied by an <see cref="INeatExperiment{T}"/>.
+        /// </summary>
+        /// <param name="neatExperiment">The neat experiment.</param>
+        /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
+        public static MetaNeatGenome<double> CreateMetaNeatGenome(INeatExperiment<double> neatExperiment)
+        {
+            // Resolve the configured activation function name to an activation function instance.
+            var actFnFactory = new DefaultActivationFunctionFactory<double>(neatExperiment.EnableHardwareAcceleratedActivationFunctions);
+            var activationFn = actFnFactory.GetActivationFunction(neatExperiment.ActivationFnName);
+
+            var metaNeatGenome = new MetaNeatGenome<double>(
+                inputNodeCount: neatExperiment.EvaluationScheme.InputCount, 
+                outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
+                isAcyclic: neatExperiment.IsAcyclic,
+                activationFn: activationFn,
+                connectionWeightScale: neatExperiment.ConnectionWeightScale);
+
+            return metaNeatGenome;
         }
 
         #endregion
@@ -134,6 +184,20 @@ namespace SharpNeat.Experiments
             
             // Create a parallel (multi-threaded) strategy for degreeOfParallelism > 1.
             return new Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, degreeOfParallelismResolved);
+        }
+
+        #endregion
+
+        #region Private Static Methods [Low Level Helper Methods]
+
+        private static void ValidateCompatible(INeatExperiment<double> neatExperiment, MetaNeatGenome<double> metaNeatGenome)
+        {
+            // Confirm that neatExperiment and metaNeatGenome are compatible with each other.
+            if(neatExperiment.EvaluationScheme.InputCount != metaNeatGenome.InputNodeCount) throw new ArgumentException("InputNodeCount does not match INeatExperiment.", nameof(metaNeatGenome));
+            if(neatExperiment.EvaluationScheme.OutputCount != metaNeatGenome.OutputNodeCount) throw new ArgumentException("OutputNodeCount does not match INeatExperiment.", nameof(metaNeatGenome));
+            if(neatExperiment.IsAcyclic != metaNeatGenome.IsAcyclic) throw new ArgumentException("IsAcyclic does not match INeatExperiment.", nameof(metaNeatGenome));
+            if(neatExperiment.ConnectionWeightScale != metaNeatGenome.ConnectionWeightScale) throw new ArgumentException("ConnectionWeightScale does not match INeatExperiment.", nameof(metaNeatGenome));
+            // Note. neatExperiment.ActivationFnName is not being checked against metaNeatGenome.ActivationFn, as the name information is not present on the ActivationFn object.
         }
 
         private static int ResolveDegreeOfParallelism(INeatExperiment<double> neatExperiment)

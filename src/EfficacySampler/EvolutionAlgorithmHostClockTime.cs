@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using SharpNeat.Experiments;
+using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
 namespace EfficacySampler
@@ -59,7 +60,7 @@ namespace EfficacySampler
         public Sample Sample()
         {
             // Create a new instance of an evolution algorithm.
-            _ea = NeatExperimentUtils.CreateNeatEvolutionAlgorithm(_experiment);
+            _ea = NeatUtils.CreateNeatEvolutionAlgorithm(_experiment);
 
             // Start the stopwatch.
             _stopwatch.Restart();
