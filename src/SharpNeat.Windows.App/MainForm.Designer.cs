@@ -82,7 +82,7 @@
             this.btnSearchStop = new System.Windows.Forms.Button();
             this.btnSearchStart = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnResetExperiment = new System.Windows.Forms.Button();
+            this.btnResetExperimentParameters = new System.Windows.Forms.Button();
             this.btnExperimentInfo = new System.Windows.Forms.Button();
             this.cmbExperiments = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -289,6 +289,7 @@
             this.btnCreateRandomPop.Size = new System.Drawing.Size(257, 28);
             this.btnCreateRandomPop.TabIndex = 49;
             this.btnCreateRandomPop.Text = "Create Random Population";
+            this.btnCreateRandomPop.Click += new System.EventHandler(this.btnCreateRandomPop_Click);
             // 
             // gbxLogging
             // 
@@ -736,7 +737,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnResetExperiment);
+            this.groupBox5.Controls.Add(this.btnResetExperimentParameters);
             this.groupBox5.Controls.Add(this.btnExperimentInfo);
             this.groupBox5.Controls.Add(this.cmbExperiments);
             this.groupBox5.Location = new System.Drawing.Point(9, 7);
@@ -748,16 +749,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Experiment / Task";
             // 
-            // btnResetExperiment
+            // btnResetExperimentParameters
             // 
-            this.btnResetExperiment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnResetExperiment.Location = new System.Drawing.Point(8, 46);
-            this.btnResetExperiment.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnResetExperiment.Name = "btnResetExperiment";
-            this.btnResetExperiment.Size = new System.Drawing.Size(232, 28);
-            this.btnResetExperiment.TabIndex = 48;
-            this.btnResetExperiment.Text = "Reset Experiment Parameters";
-            this.btnResetExperiment.Click += new System.EventHandler(this.btnResetExperiment_Click);
+            this.btnResetExperimentParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnResetExperimentParameters.Location = new System.Drawing.Point(8, 46);
+            this.btnResetExperimentParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnResetExperimentParameters.Name = "btnResetExperimentParameters";
+            this.btnResetExperimentParameters.Size = new System.Drawing.Size(232, 28);
+            this.btnResetExperimentParameters.TabIndex = 48;
+            this.btnResetExperimentParameters.Text = "Reset Experiment Parameters";
+            this.btnResetExperimentParameters.Click += new System.EventHandler(this.btnResetExperimentParameters_Click);
             // 
             // btnExperimentInfo
             // 
@@ -1341,7 +1342,6 @@
         private System.Windows.Forms.Button btnSearchStop;
         private System.Windows.Forms.Button btnSearchStart;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button btnLoadDomainDefaults;
         private System.Windows.Forms.Button btnExperimentInfo;
         private System.Windows.Forms.ComboBox cmbExperiments;
         private System.Windows.Forms.TabPage tabPage2;
@@ -1448,5 +1448,6 @@
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityDistributionToolStripMenuItem;
         private System.Windows.Forms.Button btnResetExperiment;
+        private System.Windows.Forms.Button btnResetExperimentParameters;
     }
 }

@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -17,7 +18,9 @@ using System.Text.Json;
 using System.Windows.Forms;
 using log4net;
 using SharpNeat.Experiments;
+using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
+using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Windows.App.Experiments;
 using static SharpNeat.Windows.App.AppUtils;
@@ -33,6 +36,7 @@ namespace SharpNeat.Windows.App
 
         // The current NEAT experiment.
         private INeatExperiment<double> _neatExperiment;
+        private NeatPopulation<double> _neatPop;
 
 
         #region Form Constructor / Initialisation
@@ -80,7 +84,7 @@ namespace SharpNeat.Windows.App
 
         #endregion
 
-        #region UI Event Handlers
+        #region UI Event Handlers [Buttons]
 
         private void btnExperimentInfo_Click(object sender,System.EventArgs e)
         {
@@ -94,16 +98,25 @@ namespace SharpNeat.Windows.App
             }
         }
 
-        private void btnResetExperiment_Click(object sender,EventArgs e)
+        private void btnResetExperimentParameters_Click(object sender,EventArgs e)
         {
             _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
-            LoadIntoUI(_neatExperiment);
+            SendSettingsToUI(_neatExperiment);
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnCreateRandomPop_Click(object sender,EventArgs e)
         {
-            Form frmAboutBox = new AboutForm();
-            frmAboutBox.ShowDialog(this);
+            INeatExperiment<double> neatExperiment = GetNeatExperiment();
+            MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+
+            // Create an initial population of genomes.
+            _neatPop = NeatPopulationFactory<double>.CreatePopulation(
+                metaNeatGenome,
+                connectionsProportion: neatExperiment.InitialInterconnectionsProportion,
+                popSize: neatExperiment.PopulationSize);
+
+            // Update UI.
+            UpdateUIState();
         }
 
         private void btnCopyLogToClipboard_Click(object sender,EventArgs e)
@@ -120,18 +133,137 @@ namespace SharpNeat.Windows.App
 
         #endregion
 
-        #region Private Methods [Load/Save UI Parameters]
+        #region UI Event Handlers [Menu Items]
 
-        private void LoadIntoUI(INeatExperiment<double> experiment)
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadIntoUI(experiment.NeatEvolutionAlgorithmSettings);
-            LoadIntoUI(experiment.ReproductionAsexualSettings);
+            Form frmAboutBox = new AboutForm();
+            frmAboutBox.ShowDialog(this);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private INeatExperiment<double> GetNeatExperiment()
+        {
+            // Create a new experiment instance if one has not already been created.
+            if(_neatExperiment is null) {
+                _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
+            }
+
+            // Read settings from teh UI into the experiment instance, and return.
+            GetSettingsFromUI(_neatExperiment);
+            return _neatExperiment;
+        }
+
+        #endregion
+
+        #region Private Methods [UpdateUIState]
+
+        private void UpdateUIState()
+        {
+            if(_neatPop is null) {
+                UpdateUIState_NoPopulation();
+            } else {
+                UpdateUIState_PopulationReady();
+            }
+        }
+
+        private void UpdateUIState_NoPopulation()
+        {
+            // Enable experiment selection and initialization buttons.
+            cmbExperiments.Enabled = true;
+            btnResetExperimentParameters.Enabled = true;
+            btnCreateRandomPop.Enabled = true;
+
+            // Display population status (empty).
+            txtPopulationStatus.Text = "Population not initialized";
+            txtPopulationStatus.BackColor = Color.Red;
+
+            // Disable search control buttons.
+            btnSearchStart.Enabled = false;
+            btnSearchStop.Enabled = false;
+            btnSearchReset.Enabled = false;
+
+            // Parameter fields enabled.
+            txtPopulationSize.Enabled = true;
+            txtInitialInterconnectionsProportion.Enabled = true;
+            txtElitismProportion.Enabled = true;
+            txtSelectionProportion.Enabled = true;
+            txtOffspringAsexualProportion.Enabled = true;
+            txtOffspringSexualProportion.Enabled = true;
+            txtInterspeciesMatingProportion.Enabled = true;
+            txtConnectionWeightMutationProbability.Enabled = true;
+            txtAddNodeMutationProbability.Enabled = true;
+            txtAddConnectionMutationProbability.Enabled = true;
+            txtDeleteConnectionMutationProbability.Enabled = true;
+
+            // Logging to file.
+            gbxLogging.Enabled = true;
+
+            // Menu bar (file).
+            loadPopulationToolStripMenuItem.Enabled = true;
+            loadSeedGenomesToolStripMenuItem.Enabled = true;
+            loadSeedGenomeToolStripMenuItem.Enabled = true;
+            savePopulationToolStripMenuItem.Enabled = false;
+            saveBestGenomeToolStripMenuItem.Enabled = false;
+        }
+
+        private void UpdateUIState_PopulationReady()
+        {
+            // Disable anything to do with initialization now that we are initialized.
+            cmbExperiments.Enabled = false;
+            btnResetExperimentParameters.Enabled = false;
+            btnCreateRandomPop.Enabled = false;
+
+            // Display how many genomes & status.
+            txtPopulationStatus.Text = $"{_neatPop.GenomeList.Count:D0} genomes ready";
+            txtPopulationStatus.BackColor = Color.Orange;
+
+            // Enable search control buttons.
+            btnSearchStart.Enabled = true;
+            btnSearchStop.Enabled = false;
+            btnSearchReset.Enabled = true;
+
+            // Parameter fields enabled (apart from population creation params)
+            txtPopulationSize.Enabled = false;
+            txtInitialInterconnectionsProportion.Enabled = false;
+            txtElitismProportion.Enabled = true;
+            txtSelectionProportion.Enabled = true;
+            txtOffspringAsexualProportion.Enabled = true;
+            txtOffspringSexualProportion.Enabled = true;
+            txtInterspeciesMatingProportion.Enabled = true;
+            txtConnectionWeightMutationProbability.Enabled = true;
+            txtAddNodeMutationProbability.Enabled = true;
+            txtAddConnectionMutationProbability.Enabled = true;
+            txtDeleteConnectionMutationProbability.Enabled = true;
+
+            // Logging to file.
+            gbxLogging.Enabled = true;
+
+            // Menu bar (file).
+            loadPopulationToolStripMenuItem.Enabled = false;
+            loadSeedGenomesToolStripMenuItem.Enabled = false;
+            loadSeedGenomeToolStripMenuItem.Enabled = false;
+            savePopulationToolStripMenuItem.Enabled = true;
+            saveBestGenomeToolStripMenuItem.Enabled = false;
+        }
+
+        #endregion
+
+        #region Private Methods [Send Settings to UI]
+
+        private void SendSettingsToUI(INeatExperiment<double> experiment)
+        {
+            SendSettingsToUI(experiment.NeatEvolutionAlgorithmSettings);
+            SendSettingsToUI(experiment.ReproductionAsexualSettings);
 
             SetValue(txtPopulationSize, experiment.PopulationSize);
             SetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
         }
 
-        private void LoadIntoUI(NeatEvolutionAlgorithmSettings settings)
+        private void SendSettingsToUI(NeatEvolutionAlgorithmSettings settings)
         {
             SetValue(txtSpeciesCount, settings.SpeciesCount);
             SetValue(txtElitismProportion, settings.ElitismProportion);
@@ -141,7 +273,7 @@ namespace SharpNeat.Windows.App
             SetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
         }
 
-        private void LoadIntoUI(NeatReproductionAsexualSettings settings)
+        private void SendSettingsToUI(NeatReproductionAsexualSettings settings)
         {
             SetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
             SetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
@@ -149,7 +281,21 @@ namespace SharpNeat.Windows.App
             SetValue(txtDeleteConnectionMutationProbability, settings.DeleteConnectionMutationProbability);
         }
 
-        private void SaveFromUI(NeatEvolutionAlgorithmSettings settings)
+        #endregion
+
+        #region Private Methods [Get Settings from UI]
+
+        private void GetSettingsFromUI(INeatExperiment<double> experiment)
+        {
+            GetSettingsFromUI(experiment.NeatEvolutionAlgorithmSettings);
+            GetSettingsFromUI(experiment.ReproductionAsexualSettings);
+
+            experiment.PopulationSize = GetValue(txtPopulationSize, experiment.PopulationSize);
+            experiment.InitialInterconnectionsProportion = GetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
+        }
+
+
+        private void GetSettingsFromUI(NeatEvolutionAlgorithmSettings settings)
         {
             settings.SpeciesCount = GetValue(txtSpeciesCount, settings.SpeciesCount);
             settings.ElitismProportion = GetValue(txtSpeciesCount, settings.ElitismProportion);
@@ -157,6 +303,14 @@ namespace SharpNeat.Windows.App
             settings.OffspringAsexualProportion = GetValue(txtSpeciesCount, settings.OffspringAsexualProportion);
             settings.OffspringSexualProportion = GetValue(txtSpeciesCount, settings.OffspringSexualProportion);
             settings.InterspeciesMatingProportion = GetValue(txtSpeciesCount, settings.InterspeciesMatingProportion);
+        }
+
+        private void GetSettingsFromUI(NeatReproductionAsexualSettings settings)
+        {
+            settings.ConnectionWeightMutationProbability = GetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
+            settings.AddNodeMutationProbability = GetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
+            settings.AddConnectionMutationProbability = GetValue(txtAddConnectionMutationProbability, settings.AddConnectionMutationProbability);
+            settings.DeleteConnectionMutationProbability = GetValue(txtDeleteConnectionMutationProbability, settings.DeleteConnectionMutationProbability);
         }
 
         #endregion

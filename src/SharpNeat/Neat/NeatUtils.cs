@@ -88,8 +88,7 @@ namespace SharpNeat.Neat
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(
                 metaNeatGenome,
                 connectionsProportion: neatExperiment.InitialInterconnectionsProportion,
-                popSize: neatExperiment.PopulationSize,
-                rng: RandomDefaults.CreateRandomSource());
+                popSize: neatExperiment.PopulationSize);
 
             // Create a speciation strategy based on the experiment's configuration settings.
             var speciationStrategy = CreateSpeciationStrategy(neatExperiment);

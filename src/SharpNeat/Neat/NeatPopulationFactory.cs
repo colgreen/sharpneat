@@ -161,6 +161,23 @@ namespace SharpNeat.Neat
         /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
         public static NeatPopulation<T> CreatePopulation(
             MetaNeatGenome<T> metaNeatGenome,
+            double connectionsProportion, int popSize)
+        {
+            var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion, RandomDefaults.CreateRandomSource());
+            return factory.CreatePopulation(popSize);
+        }
+
+        /// <summary>
+        /// Create a new NeatPopulation with randomly initialised genomes.
+        /// Genomes are randomly initialised by giving each a random subset of all possible connections between the input and output layer.
+        /// </summary>
+        /// <param name="metaNeatGenome">Genome metadata, e.g. the number of input and output nodes that each genome should have.</param>
+        /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
+        /// <param name="popSize">Population size. The number of new genomes to create.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
+        public static NeatPopulation<T> CreatePopulation(
+            MetaNeatGenome<T> metaNeatGenome,
             double connectionsProportion, int popSize,
             IRandomSource rng)
         {
