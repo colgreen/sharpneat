@@ -82,7 +82,7 @@
             this.btnSearchStop = new System.Windows.Forms.Button();
             this.btnSearchStart = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnResetExperimentParameters = new System.Windows.Forms.Button();
+            this.btnLoadExperimentDefaultParameters = new System.Windows.Forms.Button();
             this.btnExperimentInfo = new System.Windows.Forms.Button();
             this.cmbExperiments = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -714,6 +714,7 @@
             this.btnSearchReset.Size = new System.Drawing.Size(82, 40);
             this.btnSearchReset.TabIndex = 2;
             this.btnSearchReset.Text = "Reset";
+            this.btnSearchReset.Click += new System.EventHandler(this.btnSearchReset_Click);
             // 
             // btnSearchStop
             // 
@@ -724,6 +725,7 @@
             this.btnSearchStop.Size = new System.Drawing.Size(82, 40);
             this.btnSearchStop.TabIndex = 1;
             this.btnSearchStop.Text = "Stop / Pause";
+            this.btnSearchStop.Click += new System.EventHandler(this.btnSearchStop_Click);
             // 
             // btnSearchStart
             // 
@@ -734,10 +736,11 @@
             this.btnSearchStart.Size = new System.Drawing.Size(82, 40);
             this.btnSearchStart.TabIndex = 0;
             this.btnSearchStart.Text = "Start / Continue";
+            this.btnSearchStart.Click += new System.EventHandler(this.btnSearchStart_Click);
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnResetExperimentParameters);
+            this.groupBox5.Controls.Add(this.btnLoadExperimentDefaultParameters);
             this.groupBox5.Controls.Add(this.btnExperimentInfo);
             this.groupBox5.Controls.Add(this.cmbExperiments);
             this.groupBox5.Location = new System.Drawing.Point(9, 7);
@@ -749,16 +752,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Experiment / Task";
             // 
-            // btnResetExperimentParameters
+            // btnLoadExperimentParameters
             // 
-            this.btnResetExperimentParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnResetExperimentParameters.Location = new System.Drawing.Point(8, 46);
-            this.btnResetExperimentParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnResetExperimentParameters.Name = "btnResetExperimentParameters";
-            this.btnResetExperimentParameters.Size = new System.Drawing.Size(232, 28);
-            this.btnResetExperimentParameters.TabIndex = 48;
-            this.btnResetExperimentParameters.Text = "Reset Experiment Parameters";
-            this.btnResetExperimentParameters.Click += new System.EventHandler(this.btnResetExperimentParameters_Click);
+            this.btnLoadExperimentDefaultParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnLoadExperimentDefaultParameters.Location = new System.Drawing.Point(8, 46);
+            this.btnLoadExperimentDefaultParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnLoadExperimentDefaultParameters.Name = "btnLoadExperimentParameters";
+            this.btnLoadExperimentDefaultParameters.Size = new System.Drawing.Size(232, 28);
+            this.btnLoadExperimentDefaultParameters.TabIndex = 48;
+            this.btnLoadExperimentDefaultParameters.Text = "Load Experiment Default Parameters";
+            this.btnLoadExperimentDefaultParameters.Click += new System.EventHandler(this.btnLoadExperimentDefaultParameters_Click);
             // 
             // btnExperimentInfo
             // 
@@ -1448,6 +1451,6 @@
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityDistributionToolStripMenuItem;
         private System.Windows.Forms.Button btnResetExperiment;
-        private System.Windows.Forms.Button btnResetExperimentParameters;
+        private System.Windows.Forms.Button btnLoadExperimentDefaultParameters;
     }
 }
