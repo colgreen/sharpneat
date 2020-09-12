@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 
 namespace SharpNeat.EvolutionAlgorithm
 {
@@ -32,5 +33,10 @@ namespace SharpNeat.EvolutionAlgorithm
         /// Running evaluation count total.
         /// </summary>
         public ulong TotalEvaluationCount { get; set; }
+
+        /// <summary>
+        /// The point in clock time that the statistics were recorded.
+        /// </summary>
+        public DateTime SampleTime { get; set; }   
     }
 }

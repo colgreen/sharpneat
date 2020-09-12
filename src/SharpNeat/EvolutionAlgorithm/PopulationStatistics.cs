@@ -58,6 +58,11 @@ namespace SharpNeat.EvolutionAlgorithm
         public double MeanComplexity { get; set; }
 
         /// <summary>
+        /// Max genome complexity for the current population.
+        /// </summary>
+        public double MaxComplexity { get; set; }
+
+        /// <summary>
         /// A trailing history of mean genome complexity at each of the previous N generations.
         /// This object can also provide a mean over the historical values, thus providing
         /// a moving average value.

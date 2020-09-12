@@ -58,7 +58,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #region Public Methods
 
-        public List<NeatGenome<T>> CreateOffspring(Species<T>[] speciesArr, IRandomSource rng)
+        public List<NeatGenome<T>> CreateOffspring(
+            Species<T>[] speciesArr, IRandomSource rng,
+            out int offspringAsexualCount,
+            out int offspringSexualCount,
+            out int offspringInterspeciesCount)
         {
             // Create selection distributions.
             // Notes.
@@ -80,7 +84,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             // Create the offspring.
             var offspringList = CreateOffspring(
                 speciesArr, speciesDist, genomeDistArr,
-                interspeciesMatingProportionResolved, rng);
+                interspeciesMatingProportionResolved, rng,
+                out offspringAsexualCount,
+                out offspringSexualCount,
+                out offspringInterspeciesCount);
 
             return offspringList;
         }
@@ -94,8 +101,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             DiscreteDistribution speciesDist,
             DiscreteDistribution?[] genomeDistArr,
             double interspeciesMatingProportion,
-            IRandomSource rng)
+            IRandomSource rng,
+            out int asexualCount, out int sexualCount,
+            out int interspeciesCount)
         {
+            asexualCount = sexualCount = interspeciesCount = 0;
+
             // Calc total number of offspring to produce for the population as a whole.
             int offspringCount = speciesArr.Sum(x => x.Stats.OffspringCount);
 
@@ -143,7 +154,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                     speciesArr, species, speciesDistUpdated,
                     genomeDistArr, genomeDist,
                     offspringCountSexual, offspringList,
-                    interspeciesMatingProportion, rng);
+                    interspeciesMatingProportion, rng,
+                    out int interspeciesCountTmp);
+
+                // Keep track of how many offspring have been created via asexual and sexual reproduction.
+                asexualCount += offspringCountAsexual;
+                sexualCount += offspringCountSexual;
+                interspeciesCount += interspeciesCountTmp;
             }
 
             return offspringList;
@@ -180,14 +197,15 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             int offspringCount,
             List<NeatGenome<T>> offspringList,
             double interspeciesMatingProportion,
-            IRandomSource rng)
+            IRandomSource rng, 
+            out int offspringInterspeciesCount)
         {
             // Calc the number of offspring to create via inter-species sexual reproduction.
             int offspringCountSexualInter;
             if(interspeciesMatingProportion == 0.0) {
-                offspringCountSexualInter = 0;
+                offspringInterspeciesCount = offspringCountSexualInter = 0;
             } else {
-                offspringCountSexualInter = (int)NumericsUtils.ProbabilisticRound(interspeciesMatingProportion * offspringCount, rng);
+                offspringInterspeciesCount = offspringCountSexualInter = (int)NumericsUtils.ProbabilisticRound(interspeciesMatingProportion * offspringCount, rng);
             }
 
             // Calc the number of offspring to create via intra-species sexual reproduction.
@@ -195,7 +213,26 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Get genome list for the current species.
             var genomeList = species.GenomeList;
-            
+
+            // Produce the required number of offspring from intra-species sexual reproduction.
+            for(int i=0; i < offspringCountSexualIntra; i++)
+            {
+                // Select/sample parent A from the species.
+                int genomeIdx = DiscreteDistribution.Sample(rng, genomeDist);
+                var parentGenomeA = genomeList[genomeIdx];
+
+                // Create a new distribution with parent A removed from the set of possibilities.
+                DiscreteDistribution genomeDistUpdated = genomeDist.RemoveOutcome(genomeIdx);
+
+                // Select/sample parent B from the species.
+                genomeIdx = DiscreteDistribution.Sample(rng, genomeDistUpdated);
+                var parentGenomeB = genomeList[genomeIdx];
+
+                // Create a child genome and add it to offspringList.
+                var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);
+                offspringList.Add(childGenome);
+            }
+
             // Produce the required number of offspring from inter-species sexual reproduction.
             for(int i=0; i < offspringCountSexualInter; i++)
             {
@@ -216,25 +253,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 if(_fitnessComparer.Compare(parentGenomeA.FitnessInfo, parentGenomeB.FitnessInfo) < 0) {
                     VariableUtils.Swap(ref parentGenomeA!, ref parentGenomeB!);
                 }
-
-                // Create a child genome and add it to offspringList.
-                var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);
-                offspringList.Add(childGenome);
-            }
-
-            // Produce the required number of offspring from intra-species sexual reproduction.
-            for(int i=0; i < offspringCountSexualIntra; i++)
-            {
-                // Select/sample parent A from the species.
-                int genomeIdx = DiscreteDistribution.Sample(rng, genomeDist);
-                var parentGenomeA = genomeList[genomeIdx];
-
-                // Create a new distribution with parent A removed from the set of possibilities.
-                DiscreteDistribution genomeDistUpdated = genomeDist.RemoveOutcome(genomeIdx);
-
-                // Select/sample parent B from the species.
-                genomeIdx = DiscreteDistribution.Sample(rng, genomeDistUpdated);
-                var parentGenomeB = genomeList[genomeIdx];
 
                 // Create a child genome and add it to offspringList.
                 var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);

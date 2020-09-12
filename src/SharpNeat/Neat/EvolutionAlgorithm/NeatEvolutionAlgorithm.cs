@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatReproductionSexual<T> _reproductionSexual;
 
         readonly OffspringBuilder<T> _offspringBuilder;
-        readonly EvolutionAlgorithmStatistics _eaStats = new EvolutionAlgorithmStatistics();
+        readonly NeatEvolutionAlgorithmStatistics _eaStats = new NeatEvolutionAlgorithmStatistics();
 
         #endregion
 
@@ -197,7 +197,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 _rng);
 
             // Update population and evolution algorithm statistics.
-            UpdateStats(evaluationCountDelta: (ulong)_pop.GenomeList.Count);
+            UpdateStats(evaluationCountDelta: (ulong)_pop.GenomeList.Count, 0, 0, 0);
         }
 
         /// <summary>
@@ -210,7 +210,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             }
 
             // Create offspring.
-            List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(_pop.SpeciesArray, _rng);
+            List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(
+                _pop.SpeciesArray, _rng,
+                out int offspringAsexualCount,
+                out int offspringSexualCount,
+                out int offspringInterspeciesCount);
 
             // Trim population back to elite genomes only.
             // Note. Returns a flag that indicates if there is at least one empty species following trimming.
@@ -231,7 +235,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
 
             // Update statistics.
-            UpdateStats(evaluationCount);
+            UpdateStats(evaluationCount, offspringAsexualCount, offspringSexualCount, offspringInterspeciesCount);
 
             // Complexity regulation.
             UpdateComplexityRegulationMode();
@@ -346,8 +350,15 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             Debug.Assert(!_pop.ContainsEmptySpecies(), "Speciation resulted in one or more empty species.");
         }
 
-        private void UpdateStats(ulong evaluationCountDelta)
+        private void UpdateStats(
+            ulong evaluationCountDelta,
+            int offspringAsexualCount,
+            int offspringSexualCount,
+            int offspringInterspeciesCount)
         {
+            // Record the point in clock time we entered this method.
+            _eaStats.SampleTime = DateTime.UtcNow;
+
             // Update population statistics.
             _pop.UpdateStats(_evaluator.FitnessComparer, _rng);
 
@@ -360,6 +371,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Update total number of evaluations performed.
             _eaStats.TotalEvaluationCount += evaluationCountDelta;
+
+            // Update total number of offspring genomes produced.
+            _eaStats.TotalOffspringCount += (ulong)(offspringAsexualCount + offspringSexualCount);
+            _eaStats.TotalOffspringAsexualCount += offspringAsexualCount; 
+            _eaStats.TotalOffspringSexualCount += offspringSexualCount;
+            _eaStats.TotalOffspringInterspeciesCount += offspringInterspeciesCount;
 
             // Update species allocation sizes.
             SpeciesAllocationCalcs<T>.UpdateSpeciesAllocationSizes(_pop, _eaSettingsCurrent, _rng);

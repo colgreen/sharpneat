@@ -200,12 +200,13 @@ namespace SharpNeat.Neat
             IRandomSource rng)
         {
             // Calculate some population-wide stats; these are non-NEAT specific.
-            CalcPopulationStats(out double primaryFitnessSum, out double complexitySum);
+            CalcPopulationStats(out double primaryFitnessSum, out double complexitySum, out double maxComplexity);
 
             // Calculate NEAT specific and species based stats.
             CalcNeatPopulationStats(
                 fitnessComparer, rng, 
                 out double sumMeanFitness,
+                out double sumBestFitness,
                 out int bestGenomeIdx,
                 out int bestGenomeSpeciesIdx);
 
@@ -226,10 +227,12 @@ namespace SharpNeat.Neat
             double meanComplexity = complexitySum / genomeCount;
             stats.MeanComplexity = meanComplexity;
             stats.MeanComplexityHistory.Enqueue(meanComplexity);
+            stats.MaxComplexity = maxComplexity;
 
             // Update NeatPopulationStatistics object.
             this.NeatPopulationStats.BestGenomeSpeciesIdx = bestGenomeSpeciesIdx;
             this.NeatPopulationStats.SumSpeciesMeanFitness = sumMeanFitness;
+            this.NeatPopulationStats.AverageSpeciesBestFitness = sumBestFitness / SpeciesArray!.Length;
         }
 
         /// <summary>
@@ -267,18 +270,23 @@ namespace SharpNeat.Neat
 
         #region Private Methods
 
-        private void CalcPopulationStats(out double primaryFitnessSum, out double complexitySum)
+        private void CalcPopulationStats(
+            out double primaryFitnessSum,
+            out double complexitySum,
+            out double maxComplexity)
         {
             // Calc sum of PrimaryFitness, and sum of Complexity.
             List<NeatGenome<T>> genomeList = this.GenomeList;
             primaryFitnessSum = 0.0;
             complexitySum = 0.0;
+            maxComplexity = 0.0;
 
             // Loop all genomes.
             foreach(var genome in genomeList)
             {
                 primaryFitnessSum += genome.FitnessInfo.PrimaryFitness;
                 complexitySum += genome.Complexity;
+                if(genome.Complexity > maxComplexity) { maxComplexity = genome.Complexity; }
             }
         }
 
@@ -286,11 +294,13 @@ namespace SharpNeat.Neat
             IComparer<FitnessInfo> fitnessComparer,
             IRandomSource rng,
             out double sumMeanFitness,
+            out double sumBestFitness,
             out int bestGenomeIdx,
             out int bestGenomeSpeciesIdx)
         {
             // Loop the species; calculate the each species' mean fitness, and calc a sum over those mean fitnesses.
             sumMeanFitness = 0.0;
+            sumBestFitness = 0.0;
             Species<T>[] speciesArr = this.SpeciesArray!;
             for(int i=0; i < speciesArr.Length; i++)
             {
@@ -300,8 +310,9 @@ namespace SharpNeat.Neat
                 double meanFitness = species.GenomeList.Average(x => x.FitnessInfo.PrimaryFitness);
                 species.Stats.MeanFitness = meanFitness;
 
-                // Keep a sum of the mean fitness scores.
+                // Keep a sum of the mean, and best fitness scores.
                 sumMeanFitness += meanFitness;
+                sumBestFitness += species.GenomeList[0].FitnessInfo.PrimaryFitness;
             }
 
             // Select a population-wide best genome.
@@ -315,21 +326,21 @@ namespace SharpNeat.Neat
             _fittestSpeciesIndexList.Clear();
 
             // Initialise the best fitness to the fitness of the best genome in species zero. 
-            FitnessInfo bestFitness = speciesArr[0].GenomeList[0].FitnessInfo;
+            FitnessInfo bestFitnessInfo = speciesArr[0].GenomeList[0].FitnessInfo;
             _fittestSpeciesIndexList.Add(0);
 
             // Loop the remaining species.
             for(int i=1; i < speciesArr.Length; i++)
             {
                 FitnessInfo speciesBestFitness = speciesArr[i].GenomeList[0].FitnessInfo;
-                int comparisonResult = fitnessComparer.Compare(speciesBestFitness, bestFitness);
+                int comparisonResult = fitnessComparer.Compare(speciesBestFitness, bestFitnessInfo);
 
                 if(comparisonResult > 0)
                 {
                     // A new best fitness has been found.
                     _fittestSpeciesIndexList.Clear();
                     _fittestSpeciesIndexList.Add(i);
-                    bestFitness = speciesBestFitness;
+                    bestFitnessInfo = speciesBestFitness;
                 }
                 else if(comparisonResult == 0)
                 {

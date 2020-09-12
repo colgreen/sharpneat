@@ -1,7 +1,19 @@
-﻿using System;
+﻿/* ***************************************************************************
+ * This file is part of SharpNEAT - Evolution of Neural Networks.
+ * 
+ * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
+ *
+ * SharpNEAT is free software; you can redistribute it and/or modify
+ * it under the terms of The MIT License (MIT).
+ *
+ * You should have received a copy of the MIT License
+ * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
+ */
+using System;
 using System.Drawing;
-using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
+using SharpNeat.Neat;
+using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using static SharpNeat.Windows.App.UIAccessUtils;
@@ -10,6 +22,10 @@ namespace SharpNeat.Windows.App
 {
     partial class MainForm
     {
+        // Fields used to calculate evaluations per second, on each successive update.
+        ulong _evalCountPrev;
+        DateTime _evalCountPrevSampleTime = DateTime.MinValue;
+
         #region Private Methods [UpdateUIState Subroutines]
 
         private void UpdateUIState_NoPopulation()
@@ -69,17 +85,9 @@ namespace SharpNeat.Windows.App
             btnSearchReset.Enabled = true;
 
             // Parameter fields enabled (apart from population creation params)
+            SetParameterFieldsEnabledState(true);
             txtPopulationSize.Enabled = false;
             txtInitialInterconnectionsProportion.Enabled = false;
-            txtElitismProportion.Enabled = true;
-            txtSelectionProportion.Enabled = true;
-            txtOffspringAsexualProportion.Enabled = true;
-            txtOffspringSexualProportion.Enabled = true;
-            txtInterspeciesMatingProportion.Enabled = true;
-            txtConnectionWeightMutationProbability.Enabled = true;
-            txtAddNodeMutationProbability.Enabled = true;
-            txtAddConnectionMutationProbability.Enabled = true;
-            txtDeleteConnectionMutationProbability.Enabled = true;
 
             // Logging to file.
             gbxLogging.Enabled = true;
@@ -92,26 +100,6 @@ namespace SharpNeat.Windows.App
             saveBestGenomeToolStripMenuItem.Enabled = false;
         }
 
-        private void UpdateUIState_ResetStats()
-        {
-            txtSearchStatsMode.Text = string.Empty;
-            txtSearchStatsMode.BackColor = Color.LightSkyBlue;
-            txtStatsGeneration.Text = string.Empty;
-            txtStatsBest.Text = string.Empty;
-            txtStatsAlternativeFitness.Text= string.Empty;
-            txtStatsMean.Text = string.Empty;
-            txtSpecieChampMean.Text = string.Empty;
-            txtStatsTotalEvals.Text = string.Empty;
-            txtStatsEvalsPerSec.Text = string.Empty;
-            txtStatsBestGenomeComplx.Text =string.Empty;
-            txtStatsMeanGenomeComplx.Text = string.Empty;
-            txtStatsMaxGenomeComplx.Text = string.Empty;            
-            txtStatsTotalOffspringCount.Text = string.Empty;
-            txtStatsAsexualOffspringCount.Text = string.Empty;
-            txtStatsCrossoverOffspringCount.Text = string.Empty;
-            txtStatsInterspeciesOffspringCount.Text = string.Empty;
-        }
-
         private void UpdateUIState_EaReadyPaused()
         {
             // Disable anything to do with initialization now that we are initialized.
@@ -120,7 +108,7 @@ namespace SharpNeat.Windows.App
             btnCreateRandomPop.Enabled = false;
 
             // Display how many genomes & status.
-            txtPopulationStatus.Text = $"{_neatPop.GenomeList.Count:D0} genomes paused.";
+            txtPopulationStatus.Text = $"{_neatPop.GenomeList.Count:D0} genomes - paused.";
             txtPopulationStatus.BackColor = Color.Orange;
 
             // Search control buttons.
@@ -129,17 +117,7 @@ namespace SharpNeat.Windows.App
             btnSearchReset.Enabled = true;
 
             // Parameter fields (disable).
-            txtPopulationSize.Enabled = false;
-            txtInitialInterconnectionsProportion.Enabled = false;
-            txtElitismProportion.Enabled = false;
-            txtSelectionProportion.Enabled = false;
-            txtOffspringAsexualProportion.Enabled = false;
-            txtOffspringSexualProportion.Enabled = false;
-            txtInterspeciesMatingProportion.Enabled = false;
-            txtConnectionWeightMutationProbability.Enabled = false;
-            txtAddNodeMutationProbability.Enabled = false;
-            txtAddConnectionMutationProbability.Enabled = false;
-            txtDeleteConnectionMutationProbability.Enabled = false;
+            SetParameterFieldsEnabledState(false);
 
             // Logging to file.
             gbxLogging.Enabled = true;
@@ -160,7 +138,7 @@ namespace SharpNeat.Windows.App
             btnCreateRandomPop.Enabled = false;
 
             // Display how many genomes & status.
-            txtPopulationStatus.Text = $"{_neatPop.GenomeList.Count:D0} genomes running";
+            txtPopulationStatus.Text = $"{_neatPop.GenomeList.Count:D0} genomes - running";
             txtPopulationStatus.BackColor = Color.LightGreen;
 
             // Search control buttons.
@@ -169,17 +147,7 @@ namespace SharpNeat.Windows.App
             btnSearchReset.Enabled = false;
 
             // Parameter fields (disable).
-            txtPopulationSize.Enabled = false;
-            txtInitialInterconnectionsProportion.Enabled = false;
-            txtElitismProportion.Enabled = false;
-            txtSelectionProportion.Enabled = false;
-            txtOffspringAsexualProportion.Enabled = false;
-            txtOffspringSexualProportion.Enabled = false;
-            txtInterspeciesMatingProportion.Enabled = false;
-            txtConnectionWeightMutationProbability.Enabled = false;
-            txtAddNodeMutationProbability.Enabled = false;
-            txtAddConnectionMutationProbability.Enabled = false;
-            txtDeleteConnectionMutationProbability.Enabled = false;
+            SetParameterFieldsEnabledState(false);
 
             // Logging to file.
             gbxLogging.Enabled = false;
@@ -190,6 +158,110 @@ namespace SharpNeat.Windows.App
             loadSeedGenomeToolStripMenuItem.Enabled = false;
             savePopulationToolStripMenuItem.Enabled = false;
             saveBestGenomeToolStripMenuItem.Enabled = false;
+        }
+
+        private void SetParameterFieldsEnabledState(bool enabled)
+        {
+            txtPopulationSize.Enabled = enabled;
+            txtInitialInterconnectionsProportion.Enabled = enabled;
+            txtElitismProportion.Enabled = enabled;
+            txtSelectionProportion.Enabled = enabled;
+            txtOffspringAsexualProportion.Enabled = enabled;
+            txtOffspringSexualProportion.Enabled = enabled;
+            txtInterspeciesMatingProportion.Enabled = enabled;
+            txtConnectionWeightMutationProbability.Enabled = enabled;
+            txtAddNodeMutationProbability.Enabled = enabled;
+            txtAddConnectionMutationProbability.Enabled = enabled;
+            txtDeleteConnectionMutationProbability.Enabled = enabled;
+
+        }
+
+        private void UpdateUIState_EaStats()
+        {
+            NeatEvolutionAlgorithmStatistics eaStats = (NeatEvolutionAlgorithmStatistics)_eaRunner.EA.Stats;
+            NeatPopulationStatistics popStats = _neatPop.NeatPopulationStats;
+
+            // Search mode.
+            ComplexityRegulationMode mode = ((NeatEvolutionAlgorithm<double>)_eaRunner.EA).ComplexityRegulationMode;
+            txtSearchStatsMode.Text = mode.ToString();
+            txtSearchStatsMode.BackColor = mode switch
+            {
+                ComplexityRegulationMode.Complexifying => Color.LightSkyBlue,
+                _ => Color.LightSkyBlue
+            };
+
+            txtStatsGeneration.Text = eaStats.Generation.ToString("N0");
+            txtStatsBest.Text = popStats.BestFitness.PrimaryFitness.ToString();
+
+            // Auxiliary fitness info.
+            double[] auxFitnessArr = popStats.BestFitness.AuxFitnessScores;
+            if(auxFitnessArr != null && auxFitnessArr.Length > 0) {
+                txtStatsAlternativeFitness.Text = auxFitnessArr[0].ToString("#.######");
+            } else {
+                txtStatsAlternativeFitness.Text = "";
+            }
+
+            txtStatsMean.Text = popStats.MeanFitness.ToString("#.######");
+            txtSpeciesChampsMean.Text = popStats.AverageSpeciesBestFitness.ToString("#.######");
+            txtStatsTotalEvals.Text = eaStats.TotalEvaluationCount.ToString("N0");
+
+            // Calculate/update evaluations per second stat.
+            // Skip this calc for the first call here, as we need to two successive calls to calc evaluation per sec.
+            if(_evalCountPrevSampleTime == DateTime.MinValue)
+            {
+                // Record the count and sample time ready for the next call to this subroutine.
+                _evalCountPrev = eaStats.TotalEvaluationCount;
+                _evalCountPrevSampleTime = eaStats.SampleTime;
+            }
+            else
+            {
+                // Calc elapsed time since the previous update to this state. If it is less than one second ago then skip the update, 
+                // as the timespan may be very short, thus giving an unrepresentative evals per second value.
+                TimeSpan elapsed = eaStats.SampleTime - _evalCountPrevSampleTime;
+                if(elapsed > TimeSpan.FromSeconds(1))
+                {
+                    double countDelta = eaStats.TotalEvaluationCount - _evalCountPrev;
+                    double evalsPerSec = (countDelta * 1e7) / elapsed.Ticks;
+                    txtStatsEvalsPerSec.Text = evalsPerSec.ToString("##,#.##");
+
+                    // Record the count and sample time ready for the next call to this subroutine.
+                    _evalCountPrev = eaStats.TotalEvaluationCount;
+                    _evalCountPrevSampleTime = eaStats.SampleTime;
+                }
+            }
+
+            txtStatsBestGenomeComplx.Text = popStats.BestComplexity.ToString("N0");
+            txtStatsMeanGenomeComplx.Text = popStats.MeanComplexity.ToString("#.##");
+            txtStatsMaxGenomeComplx.Text = popStats.MaxComplexity.ToString("N0");
+
+            ulong totalOffspringCount = eaStats.TotalOffspringCount;
+            if(totalOffspringCount > 0)
+            { 
+                txtStatsTotalOffspringCount.Text = totalOffspringCount.ToString("N0");
+                txtStatsAsexualOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringAsexualCount, (eaStats.TotalOffspringAsexualCount / (double)totalOffspringCount));
+                txtStatsCrossoverOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringSexualCount, (eaStats.TotalOffspringSexualCount / (double)totalOffspringCount));
+                txtStatsInterspeciesOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringInterspeciesCount, (eaStats.TotalOffspringInterspeciesCount/(double)totalOffspringCount));
+            }
+        }
+
+        private void UpdateUIState_ResetStats()
+        {
+            txtSearchStatsMode.Text = string.Empty;
+            txtSearchStatsMode.BackColor = Color.LightSkyBlue;
+            txtStatsGeneration.Text = string.Empty;
+            txtStatsBest.Text = string.Empty;
+            txtStatsAlternativeFitness.Text= string.Empty;
+            txtStatsMean.Text = string.Empty;
+            txtSpeciesChampsMean.Text = string.Empty;
+            txtStatsTotalEvals.Text = string.Empty;
+            txtStatsEvalsPerSec.Text = string.Empty;
+            txtStatsBestGenomeComplx.Text =string.Empty;
+            txtStatsMeanGenomeComplx.Text = string.Empty;
+            txtStatsMaxGenomeComplx.Text = string.Empty;            
+            txtStatsTotalOffspringCount.Text = string.Empty;
+            txtStatsAsexualOffspringCount.Text = string.Empty;
+            txtStatsCrossoverOffspringCount.Text = string.Empty;
+            txtStatsInterspeciesOffspringCount.Text = string.Empty;
         }
 
         #endregion

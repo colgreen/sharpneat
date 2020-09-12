@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -22,7 +21,6 @@ using SharpNeat.Experiments;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Windows.App.Experiments;
 using static SharpNeat.Windows.App.AppUtils;
 
@@ -38,7 +36,6 @@ namespace SharpNeat.Windows.App
         // The current NEAT experiment.
         private INeatExperiment<double> _neatExperiment;
         private NeatPopulation<double> _neatPop;
-
         private EvolutionAlgorithmRunner _eaRunner;
 
 
@@ -162,6 +159,14 @@ namespace SharpNeat.Windows.App
 
         private void _eaRunner_UpdateEvent(object sender, EventArgs e)
         {
+
+            if(_eaRunner == null || _eaRunner.RunState == RunState.Terminated) {
+                return;
+            }
+
+
+
+
             // Switch to the UI thread, if not already on that thread.
             if(this.InvokeRequired)
             {
@@ -174,13 +179,15 @@ namespace SharpNeat.Windows.App
 
             // TODO: Implement.
 
-
-
             // Update stats fields.
-            //UpdateUIState_EaStats();
+            UpdateUIState_EaStats();
 
             // Write entry to log.
             __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _eaRunner.EA.Stats.Generation, _neatPop.Stats.BestFitness.PrimaryFitness));
+
+            if(_eaRunner.RunState == RunState.Paused) {
+                UpdateUIState_EaReadyPaused();
+            }
         }
 
 
@@ -198,10 +205,22 @@ namespace SharpNeat.Windows.App
 
         private void btnSearchReset_Click(object sender,EventArgs e)
         {
+            // Clear down any EA related state.
+            if(_eaRunner is object)
+            {
+                // Note. Dispose here will wait for the termination of the background thread use to run the EA.
+                _eaRunner.Dispose();
+                _eaRunner = null;
+            }
             _neatPop = null;
+
+            // Reset/update UI state.
             Logger.Clear();
             UpdateUIState();
             UpdateUIState_ResetStats();
+
+            // Take the opportunity to clean-up the heap.
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
         }
 
         private void btnCopyLogToClipboard_Click(object sender,EventArgs e)
@@ -270,8 +289,6 @@ namespace SharpNeat.Windows.App
                         throw new ApplicationException($"Unexpected RunState [{_eaRunner.RunState}]");
                 }
             }
-
-
         }
    
     }

@@ -60,7 +60,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtStatsMaxGenomeComplx = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtSpecieChampMean = new System.Windows.Forms.TextBox();
+            this.txtSpeciesChampsMean = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
             this.txtSearchStatsMode = new System.Windows.Forms.TextBox();
             this.txtStatsEvalsPerSec = new System.Windows.Forms.TextBox();
@@ -379,7 +379,7 @@
             this.gbxCurrentStats.Controls.Add(this.label7);
             this.gbxCurrentStats.Controls.Add(this.txtStatsMaxGenomeComplx);
             this.gbxCurrentStats.Controls.Add(this.label6);
-            this.gbxCurrentStats.Controls.Add(this.txtSpecieChampMean);
+            this.gbxCurrentStats.Controls.Add(this.txtSpeciesChampsMean);
             this.gbxCurrentStats.Controls.Add(this.label38);
             this.gbxCurrentStats.Controls.Add(this.txtSearchStatsMode);
             this.gbxCurrentStats.Controls.Add(this.txtStatsEvalsPerSec);
@@ -521,22 +521,22 @@
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(121, 168);
+            this.label6.Location = new System.Drawing.Point(121, 175);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(121, 35);
+            this.label6.Size = new System.Drawing.Size(171, 27);
             this.label6.TabIndex = 23;
-            this.label6.Text = "Mean Fitness (specie champs)";
+            this.label6.Text = "Mean Fitness (species champs)";
             // 
-            // txtSpecieChampMean
+            // txtSpeciesChampsMean
             // 
-            this.txtSpecieChampMean.Location = new System.Drawing.Point(7, 172);
-            this.txtSpecieChampMean.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtSpecieChampMean.Name = "txtSpecieChampMean";
-            this.txtSpecieChampMean.ReadOnly = true;
-            this.txtSpecieChampMean.Size = new System.Drawing.Size(111, 23);
-            this.txtSpecieChampMean.TabIndex = 22;
-            this.txtSpecieChampMean.TabStop = false;
+            this.txtSpeciesChampsMean.Location = new System.Drawing.Point(7, 172);
+            this.txtSpeciesChampsMean.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.txtSpeciesChampsMean.Name = "txtSpeciesChampsMean";
+            this.txtSpeciesChampsMean.ReadOnly = true;
+            this.txtSpeciesChampsMean.Size = new System.Drawing.Size(111, 23);
+            this.txtSpeciesChampsMean.TabIndex = 22;
+            this.txtSpeciesChampsMean.TabStop = false;
             // 
             // label38
             // 
@@ -1386,7 +1386,7 @@
         private System.Windows.Forms.GroupBox gbxNeatGenomeParameters;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtSpecieChampMean;
+        private System.Windows.Forms.TextBox txtSpeciesChampsMean;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtStatsMaxGenomeComplx;
         private System.Windows.Forms.Label label12;

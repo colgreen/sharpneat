@@ -30,6 +30,11 @@ namespace SharpNeat.Neat
         /// </summary>
         public double SumSpeciesMeanFitness { get; set; }
 
+        /// <summary>
+        /// The average (mean) fitness calculated over all species' best/champ genomes.
+        /// </summary>
+        public double AverageSpeciesBestFitness { get; set; }
+
         #endregion
     }
 }
