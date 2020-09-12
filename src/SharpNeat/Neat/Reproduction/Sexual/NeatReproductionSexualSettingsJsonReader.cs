@@ -31,6 +31,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
             JsonElement jelem)
         {
             ReadDoubleOptional(jelem, "secondaryParentGeneProbability", x => target.SecondaryParentGeneProbability = x);
+            target.Validate();
         }
     }
 }

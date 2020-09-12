@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
@@ -84,6 +85,24 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 DeleteConnectionMutationProbability = 0.4
             };
             return settings;
+        }
+
+        /// <summary>
+        /// Validate the settings, and throw an exception if not valid.
+        /// </summary>
+        /// <remarks>
+        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to 
+        /// allow consumers of a settings object to validate it before using it.
+        /// </remarks>
+        public void Validate()
+        {
+            if(!IsProbability(ConnectionWeightMutationProbability)) throw new InvalidOperationException("ConnectionWeightMutationProbability must be in the interval [0,1].");
+            if(!IsProbability(AddNodeMutationProbability)) throw new InvalidOperationException("AddNodeMutationProbability must be in the interval [0,1].");
+            if(!IsProbability(AddConnectionMutationProbability)) throw new InvalidOperationException("AddConnectionMutationProbability must be in the interval [0,1].");
+            if(!IsProbability(DeleteConnectionMutationProbability)) throw new InvalidOperationException("DeleteConnectionMutationProbability must be in the interval [0,1].");
+            if (Math.Abs((ConnectionWeightMutationProbability + AddNodeMutationProbability + AddConnectionMutationProbability + DeleteConnectionMutationProbability) - 1.0) > 1e-6) throw new InvalidOperationException("Mutation probabilities must sum to 1.0");
+
+            static bool IsProbability(double p) => p >= 0 && p <= 1.0;
         }
 
         #endregion

@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm
 {
@@ -101,6 +102,27 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 OffspringSexualProportion = 0.0
             };
             return settings;
+        }
+
+        /// <summary>
+        /// Validate the settings, and throw an exception if not valid.
+        /// </summary>
+        /// <remarks>
+        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to 
+        /// allow consumers of a settings object to validate it before using it.
+        /// </remarks>
+        public void Validate()
+        {
+            if(SpeciesCount < 1) throw new InvalidOperationException("SpeciesCount must be >= 1.");
+            if(!IsProportion(ElitismProportion)) throw new InvalidOperationException("ElitismProportion must be in the interval [0,1].");
+            if(!IsProportion(SelectionProportion)) throw new InvalidOperationException("SelectionProportion must be in the interval [0,1].");
+            if(!IsProportion(OffspringAsexualProportion)) throw new InvalidOperationException("OffspringAsexualProportion must be in the interval [0,1].");
+            if(!IsProportion(OffspringSexualProportion)) throw new InvalidOperationException("OffspringSexualProportion must be in the interval [0,1].");
+            if(!IsProportion(InterspeciesMatingProportion)) throw new InvalidOperationException("InterspeciesMatingProportion must be in the interval [0,1].");
+            if(StatisticsMovingAverageHistoryLength < 1) throw new InvalidOperationException("StatisticsMovingAverageHistoryLength must be >= 1.");
+            if (Math.Abs((OffspringAsexualProportion + OffspringSexualProportion) - 1.0) > 1e-6) throw new InvalidOperationException("OffspringAsexualProportion and OffspringSexualProportion must sum to 1.0");
+
+            static bool IsProportion(double p) => p >= 0 && p <= 1.0;
         }
 
         #endregion

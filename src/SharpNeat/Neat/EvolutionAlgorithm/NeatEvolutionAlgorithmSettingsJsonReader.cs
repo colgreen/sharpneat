@@ -37,6 +37,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             ReadDoubleOptional(jelem, "offspringSexualProportion", x => target.OffspringSexualProportion = x);
             ReadDoubleOptional(jelem, "interspeciesMatingProportion", x => target.InterspeciesMatingProportion = x);
             ReadIntOptional(jelem, "statisticsMovingAverageHistoryLength", x => target.StatisticsMovingAverageHistoryLength = x);
+            target.Validate();
         }
     }
 }

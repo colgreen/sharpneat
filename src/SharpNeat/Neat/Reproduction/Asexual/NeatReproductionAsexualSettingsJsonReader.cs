@@ -34,6 +34,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             ReadDoubleOptional(jelem, "addNodeMutationProbability", x => target.AddNodeMutationProbability = x);
             ReadDoubleOptional(jelem, "addConnectionMutationProbability", x => target.AddConnectionMutationProbability = x);
             ReadDoubleOptional(jelem, "deleteConnectionMutationProbability", x => target.DeleteConnectionMutationProbability = x);
+            target.Validate();
         }
     }
 }

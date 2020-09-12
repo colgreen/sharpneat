@@ -111,6 +111,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             WeightMutationScheme<T> weightMutationScheme,
             IRandomSource rng)
         {
+            // Perform some basic validation of the provided settings objects.
+            eaSettings.Validate();
+            reproductionAsexualSettings.Validate();
+            reproductionSexualSettings.Validate();
+
+            // Store instance fields, and null check as we go.
             _eaSettingsCurrent = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
             _eaSettingsComplexifying = eaSettings;
             _eaSettingsSimplifying = eaSettings.CreateSimplifyingSettings();
