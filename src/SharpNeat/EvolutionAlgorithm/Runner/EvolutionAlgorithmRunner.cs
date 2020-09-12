@@ -127,6 +127,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                 case RunState.Paused:
                 { 
                     // The runner is paused; resume execution.
+                    _runState = RunState.Running;
                     _awaitRestartEvent.Set();
                     break;
                 }
@@ -211,6 +212,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                 {
                     // Signal the worker thread to terminate, and resume it.
                     _terminateFlag = true;
+                    _runState = RunState.Terminated;
                     _awaitRestartEvent.Set();
                     break;
                 }
@@ -293,13 +295,11 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                     // Test for terminate signal.
                     if(_terminateFlag) 
                     {
-                        _runState = RunState.Terminated;
                         OnUpdateEvent();
                         return;
                     }
 
-                    // Update RunState, and notify any listeners of the state change.
-                    _runState = RunState.Running;
+                    // Notify any listeners of the state change.
                     OnUpdateEvent();
                 }
             }

@@ -195,7 +195,7 @@ namespace SharpNeat.Windows.App
 
         private void btnSearchStop_Click(object sender,EventArgs e)
         {
-
+            _eaRunner.RequestPause();
         }
 
 
