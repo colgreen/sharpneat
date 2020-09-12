@@ -157,7 +157,6 @@ namespace SharpNeat.Neat
         /// <param name="metaNeatGenome">Genome metadata, e.g. the number of input and output nodes that each genome should have.</param>
         /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
         /// <param name="popSize">Population size. The number of new genomes to create.</param>
-        /// <param name="rng">Random source.</param>
         /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
         public static NeatPopulation<T> CreatePopulation(
             MetaNeatGenome<T> metaNeatGenome,

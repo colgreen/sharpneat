@@ -752,12 +752,12 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Experiment / Task";
             // 
-            // btnLoadExperimentParameters
+            // btnLoadExperimentDefaultParameters
             // 
             this.btnLoadExperimentDefaultParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnLoadExperimentDefaultParameters.Location = new System.Drawing.Point(8, 46);
             this.btnLoadExperimentDefaultParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnLoadExperimentDefaultParameters.Name = "btnLoadExperimentParameters";
+            this.btnLoadExperimentDefaultParameters.Name = "btnLoadExperimentDefaultParameters";
             this.btnLoadExperimentDefaultParameters.Size = new System.Drawing.Size(232, 28);
             this.btnLoadExperimentDefaultParameters.TabIndex = 48;
             this.btnLoadExperimentDefaultParameters.Text = "Load Experiment Default Parameters";
@@ -1450,7 +1450,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityDistributionToolStripMenuItem;
-        private System.Windows.Forms.Button btnResetExperiment;
         private System.Windows.Forms.Button btnLoadExperimentDefaultParameters;
     }
 }
