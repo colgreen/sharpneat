@@ -110,6 +110,12 @@ namespace SharpNeat.Drawing.Graph
 
         #region Private Static Methods
 
+        /// <summary>
+        /// Layout nodes based on their depth in the graph, i.e. a layer index that has been pre-calculated.
+        /// </summary>
+        /// <param name="layoutArea">The area to layout nodes within.</param>
+        /// <param name="nodesByLayer">An array of lists. One list per layer, and containing the indexes of the nodes in that layer.</param>
+        /// <param name="nodePosByIdx">A span that will be populated with a 2D position for each node, within the provided layout area.</param>
         private static void LayoutNodes(
             Size layoutArea,
             List<int>[] nodesByLayer,
@@ -151,11 +157,12 @@ namespace SharpNeat.Drawing.Graph
             // 10) l = H / (d + 2p - 1)
             const float p = 2f;
             const float p2 = 2f * p;
+
             // Rounding will produce 'off by one' errors, e.g. all heights may not total height of layout area,
             // but the effect is probably negligible on the quality of the layout.
             int layerCount = nodesByLayer.Length;
-            int l = (int)Math.Round((float)layoutArea.Height / ((float)layerCount + p2 - 1f));
-            int m = (int)Math.Round(l * p);
+            int l = (int)MathF.Round(layoutArea.Height / (layerCount + p2 - 1f));
+            int m = (int)MathF.Round(l * p);
 
             // Assign a position to each node, one layer at a time.
             int yCurrent = m;
@@ -163,8 +170,8 @@ namespace SharpNeat.Drawing.Graph
             {
                 // Calculate inter-node gap and margin width (we use the same principle as with the vertical layout of layers, see notes above).
                 int nodeCount = nodeList.Count;
-                float xIncr = (float)layoutArea.Width / ((float)nodeCount + p2 - 1f);
-                int xMargin = (int)Math.Round(xIncr * p);
+                float xIncr = layoutArea.Width / (nodeCount + p2 - 1f);
+                int xMargin = (int)MathF.Round(xIncr * p);
 
                 // Loop nodes in layer; Assign position to each.
                 float xCurrent = xMargin;
