@@ -40,41 +40,42 @@
             this.txtPopulationStatus = new System.Windows.Forms.TextBox();
             this.btnCreateRandomPop = new System.Windows.Forms.Button();
             this.gbxLogging = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.txtFileLogBaseName = new System.Windows.Forms.TextBox();
             this.chkFileWriteLog = new System.Windows.Forms.CheckBox();
             this.txtFileBaseName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.chkFileSaveGenomeOnImprovement = new System.Windows.Forms.CheckBox();
             this.gbxCurrentStats = new System.Windows.Forms.GroupBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtStatsInterspeciesOffspringCount = new System.Windows.Forms.TextBox();
-            this.txtStatsAlternativeFitness = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtStatsCrossoverOffspringCount = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtStatsAsexualOffspringCount = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtStatsTotalOffspringCount = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtStatsMaxGenomeComplx = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtSpeciesChampsMean = new System.Windows.Forms.TextBox();
-            this.label38 = new System.Windows.Forms.Label();
-            this.txtSearchStatsMode = new System.Windows.Forms.TextBox();
-            this.txtStatsEvalsPerSec = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtStatsInterspeciesOffspringCount = new System.Windows.Forms.TextBox();
+            this.txtStatsAlternativeFitness = new System.Windows.Forms.TextBox();
+            this.txtStatsCrossoverOffspringCount = new System.Windows.Forms.TextBox();
+            this.txtStatsAsexualOffspringCount = new System.Windows.Forms.TextBox();
+            this.txtStatsTotalOffspringCount = new System.Windows.Forms.TextBox();
+            this.txtStatsMaxGenomeComplx = new System.Windows.Forms.TextBox();
+            this.txtSpeciesChampsMean = new System.Windows.Forms.TextBox();
+            this.txtSearchStatsMode = new System.Windows.Forms.TextBox();
+            this.txtStatsEvalsPerSec = new System.Windows.Forms.TextBox();
             this.txtStatsMeanGenomeComplx = new System.Windows.Forms.TextBox();
             this.txtStatsBestGenomeComplx = new System.Windows.Forms.TextBox();
             this.txtStatsTotalEvals = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtStatsGeneration = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtStatsMean = new System.Windows.Forms.TextBox();
             this.txtStatsBest = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -179,8 +180,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.btnCopyLogToClipboard);
             this.splitContainer1.Panel2.Controls.Add(this.lbxLog);
-            this.splitContainer1.Size = new System.Drawing.Size(611, 778);
-            this.splitContainer1.SplitterDistance = 530;
+            this.splitContainer1.Size = new System.Drawing.Size(554, 693);
+            this.splitContainer1.SplitterDistance = 496;
             this.splitContainer1.SplitterWidth = 7;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -193,7 +194,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(611, 506);
+            this.tabControl1.Size = new System.Drawing.Size(554, 472);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -207,7 +208,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.tabPage1.Size = new System.Drawing.Size(603, 478);
+            this.tabPage1.Size = new System.Drawing.Size(546, 444);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Page 1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -220,27 +221,27 @@
             this.gbxGenomePopulation.Controls.Add(this.label28);
             this.gbxGenomePopulation.Controls.Add(this.txtPopulationStatus);
             this.gbxGenomePopulation.Controls.Add(this.btnCreateRandomPop);
-            this.gbxGenomePopulation.Location = new System.Drawing.Point(9, 93);
+            this.gbxGenomePopulation.Location = new System.Drawing.Point(9, 89);
             this.gbxGenomePopulation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbxGenomePopulation.Name = "gbxGenomePopulation";
             this.gbxGenomePopulation.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbxGenomePopulation.Size = new System.Drawing.Size(273, 158);
+            this.gbxGenomePopulation.Size = new System.Drawing.Size(240, 135);
             this.gbxGenomePopulation.TabIndex = 21;
             this.gbxGenomePopulation.TabStop = false;
             this.gbxGenomePopulation.Text = "Genome Population";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(105, 125);
+            this.label1.Location = new System.Drawing.Point(105, 98);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 23);
+            this.label1.Size = new System.Drawing.Size(129, 31);
             this.label1.TabIndex = 54;
             this.label1.Text = "Initial Connections Proportion";
             // 
             // txtInitialInterconnectionsProportion
             // 
-            this.txtInitialInterconnectionsProportion.Location = new System.Drawing.Point(9, 121);
+            this.txtInitialInterconnectionsProportion.Location = new System.Drawing.Point(9, 104);
             this.txtInitialInterconnectionsProportion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtInitialInterconnectionsProportion.Name = "txtInitialInterconnectionsProportion";
             this.txtInitialInterconnectionsProportion.Size = new System.Drawing.Size(93, 23);
@@ -249,7 +250,7 @@
             // 
             // txtPopulationSize
             // 
-            this.txtPopulationSize.Location = new System.Drawing.Point(9, 91);
+            this.txtPopulationSize.Location = new System.Drawing.Point(9, 75);
             this.txtPopulationSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtPopulationSize.Name = "txtPopulationSize";
             this.txtPopulationSize.Size = new System.Drawing.Size(93, 23);
@@ -258,7 +259,7 @@
             // 
             // label28
             // 
-            this.label28.Location = new System.Drawing.Point(105, 95);
+            this.label28.Location = new System.Drawing.Point(105, 76);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(132, 18);
@@ -270,11 +271,11 @@
             this.txtPopulationStatus.BackColor = System.Drawing.Color.Red;
             this.txtPopulationStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtPopulationStatus.ForeColor = System.Drawing.Color.Black;
-            this.txtPopulationStatus.Location = new System.Drawing.Point(9, 22);
+            this.txtPopulationStatus.Location = new System.Drawing.Point(9, 20);
             this.txtPopulationStatus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtPopulationStatus.Name = "txtPopulationStatus";
             this.txtPopulationStatus.ReadOnly = true;
-            this.txtPopulationStatus.Size = new System.Drawing.Size(255, 20);
+            this.txtPopulationStatus.Size = new System.Drawing.Size(223, 20);
             this.txtPopulationStatus.TabIndex = 50;
             this.txtPopulationStatus.TabStop = false;
             this.txtPopulationStatus.Text = "Population not initialized";
@@ -283,411 +284,423 @@
             // btnCreateRandomPop
             // 
             this.btnCreateRandomPop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCreateRandomPop.Location = new System.Drawing.Point(8, 52);
+            this.btnCreateRandomPop.Location = new System.Drawing.Point(8, 45);
             this.btnCreateRandomPop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnCreateRandomPop.Name = "btnCreateRandomPop";
-            this.btnCreateRandomPop.Size = new System.Drawing.Size(257, 28);
+            this.btnCreateRandomPop.Size = new System.Drawing.Size(224, 24);
             this.btnCreateRandomPop.TabIndex = 49;
             this.btnCreateRandomPop.Text = "Create Random Population";
             this.btnCreateRandomPop.Click += new System.EventHandler(this.btnCreateRandomPop_Click);
             // 
             // gbxLogging
             // 
+            this.gbxLogging.Controls.Add(this.label2);
             this.gbxLogging.Controls.Add(this.txtFileLogBaseName);
             this.gbxLogging.Controls.Add(this.chkFileWriteLog);
             this.gbxLogging.Controls.Add(this.txtFileBaseName);
             this.gbxLogging.Controls.Add(this.label13);
-            this.gbxLogging.Controls.Add(this.label8);
             this.gbxLogging.Controls.Add(this.chkFileSaveGenomeOnImprovement);
-            this.gbxLogging.Location = new System.Drawing.Point(9, 339);
+            this.gbxLogging.Location = new System.Drawing.Point(9, 306);
             this.gbxLogging.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbxLogging.Name = "gbxLogging";
             this.gbxLogging.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbxLogging.Size = new System.Drawing.Size(273, 134);
+            this.gbxLogging.Size = new System.Drawing.Size(240, 130);
             this.gbxLogging.TabIndex = 20;
             this.gbxLogging.TabStop = false;
             this.gbxLogging.Text = "File";
             // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(180, 87);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 37);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "filename prefix";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // txtFileLogBaseName
             // 
-            this.txtFileLogBaseName.Location = new System.Drawing.Point(9, 102);
+            this.txtFileLogBaseName.Location = new System.Drawing.Point(9, 95);
             this.txtFileLogBaseName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtFileLogBaseName.Name = "txtFileLogBaseName";
-            this.txtFileLogBaseName.Size = new System.Drawing.Size(206, 23);
+            this.txtFileLogBaseName.Size = new System.Drawing.Size(169, 23);
             this.txtFileLogBaseName.TabIndex = 25;
             this.txtFileLogBaseName.Text = "sharpneat";
             // 
             // chkFileWriteLog
             // 
-            this.chkFileWriteLog.Location = new System.Drawing.Point(9, 74);
+            this.chkFileWriteLog.Location = new System.Drawing.Point(9, 69);
             this.chkFileWriteLog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkFileWriteLog.Name = "chkFileWriteLog";
             this.chkFileWriteLog.Size = new System.Drawing.Size(152, 28);
             this.chkFileWriteLog.TabIndex = 24;
-            this.chkFileWriteLog.Text = "Write Log File (*.log)";
+            this.chkFileWriteLog.Text = "Write log file (*.log)";
             // 
             // txtFileBaseName
             // 
-            this.txtFileBaseName.Location = new System.Drawing.Point(9, 46);
+            this.txtFileBaseName.Location = new System.Drawing.Point(9, 40);
             this.txtFileBaseName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtFileBaseName.Name = "txtFileBaseName";
-            this.txtFileBaseName.Size = new System.Drawing.Size(206, 23);
+            this.txtFileBaseName.Size = new System.Drawing.Size(169, 23);
             this.txtFileBaseName.TabIndex = 1;
             this.txtFileBaseName.Text = "champ";
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(211, 39);
+            this.label13.Location = new System.Drawing.Point(180, 33);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(70, 37);
+            this.label13.Size = new System.Drawing.Size(54, 37);
             this.label13.TabIndex = 23;
-            this.label13.Text = "Filename prefix";
+            this.label13.Text = "filename prefix";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(214, 93);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(70, 37);
-            this.label8.TabIndex = 28;
-            this.label8.Text = "Filename prefix";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // chkFileSaveGenomeOnImprovement
             // 
-            this.chkFileSaveGenomeOnImprovement.Location = new System.Drawing.Point(9, 18);
+            this.chkFileSaveGenomeOnImprovement.Location = new System.Drawing.Point(9, 14);
             this.chkFileSaveGenomeOnImprovement.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkFileSaveGenomeOnImprovement.Name = "chkFileSaveGenomeOnImprovement";
             this.chkFileSaveGenomeOnImprovement.Size = new System.Drawing.Size(272, 28);
             this.chkFileSaveGenomeOnImprovement.TabIndex = 0;
-            this.chkFileSaveGenomeOnImprovement.Text = "Save Genome on Improvement (*.gnm.xml)";
+            this.chkFileSaveGenomeOnImprovement.Text = "Save best genome (*.gnm.json)";
             // 
             // gbxCurrentStats
             // 
-            this.gbxCurrentStats.Controls.Add(this.label17);
-            this.gbxCurrentStats.Controls.Add(this.label12);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsInterspeciesOffspringCount);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsAlternativeFitness);
-            this.gbxCurrentStats.Controls.Add(this.label11);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsCrossoverOffspringCount);
-            this.gbxCurrentStats.Controls.Add(this.label10);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsAsexualOffspringCount);
-            this.gbxCurrentStats.Controls.Add(this.label9);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsTotalOffspringCount);
-            this.gbxCurrentStats.Controls.Add(this.label7);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsMaxGenomeComplx);
-            this.gbxCurrentStats.Controls.Add(this.label6);
-            this.gbxCurrentStats.Controls.Add(this.txtSpeciesChampsMean);
-            this.gbxCurrentStats.Controls.Add(this.label38);
-            this.gbxCurrentStats.Controls.Add(this.txtSearchStatsMode);
-            this.gbxCurrentStats.Controls.Add(this.txtStatsEvalsPerSec);
+            this.gbxCurrentStats.Controls.Add(this.label23);
+            this.gbxCurrentStats.Controls.Add(this.label22);
             this.gbxCurrentStats.Controls.Add(this.label20);
             this.gbxCurrentStats.Controls.Add(this.label19);
             this.gbxCurrentStats.Controls.Add(this.label18);
+            this.gbxCurrentStats.Controls.Add(this.label17);
+            this.gbxCurrentStats.Controls.Add(this.label16);
+            this.gbxCurrentStats.Controls.Add(this.label12);
+            this.gbxCurrentStats.Controls.Add(this.label9);
+            this.gbxCurrentStats.Controls.Add(this.label11);
+            this.gbxCurrentStats.Controls.Add(this.label10);
+            this.gbxCurrentStats.Controls.Add(this.label8);
+            this.gbxCurrentStats.Controls.Add(this.label7);
+            this.gbxCurrentStats.Controls.Add(this.label6);
+            this.gbxCurrentStats.Controls.Add(this.label5);
+            this.gbxCurrentStats.Controls.Add(this.label3);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsInterspeciesOffspringCount);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsAlternativeFitness);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsCrossoverOffspringCount);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsAsexualOffspringCount);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsTotalOffspringCount);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsMaxGenomeComplx);
+            this.gbxCurrentStats.Controls.Add(this.txtSpeciesChampsMean);
+            this.gbxCurrentStats.Controls.Add(this.txtSearchStatsMode);
+            this.gbxCurrentStats.Controls.Add(this.txtStatsEvalsPerSec);
             this.gbxCurrentStats.Controls.Add(this.txtStatsMeanGenomeComplx);
             this.gbxCurrentStats.Controls.Add(this.txtStatsBestGenomeComplx);
             this.gbxCurrentStats.Controls.Add(this.txtStatsTotalEvals);
-            this.gbxCurrentStats.Controls.Add(this.label27);
-            this.gbxCurrentStats.Controls.Add(this.label5);
             this.gbxCurrentStats.Controls.Add(this.txtStatsGeneration);
-            this.gbxCurrentStats.Controls.Add(this.label3);
-            this.gbxCurrentStats.Controls.Add(this.label2);
             this.gbxCurrentStats.Controls.Add(this.txtStatsMean);
             this.gbxCurrentStats.Controls.Add(this.txtStatsBest);
-            this.gbxCurrentStats.Location = new System.Drawing.Point(300, 7);
+            this.gbxCurrentStats.Location = new System.Drawing.Point(257, 7);
             this.gbxCurrentStats.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbxCurrentStats.Name = "gbxCurrentStats";
             this.gbxCurrentStats.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbxCurrentStats.Size = new System.Drawing.Size(292, 474);
+            this.gbxCurrentStats.Size = new System.Drawing.Size(281, 429);
             this.gbxCurrentStats.TabIndex = 19;
             this.gbxCurrentStats.TabStop = false;
             this.gbxCurrentStats.Text = "Current Stats";
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(116, 400);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(166, 15);
+            this.label23.TabIndex = 35;
+            this.label23.Text = "Offspring Count (interspecies)";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(116, 374);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(154, 15);
+            this.label22.TabIndex = 35;
+            this.label22.Text = "Offspring Count (crossover)";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(116, 347);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(143, 15);
+            this.label20.TabIndex = 35;
+            this.label20.Text = "Offspring Count (asexual)";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(116, 319);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(121, 15);
+            this.label19.TabIndex = 35;
+            this.label19.Text = "Total Offspring Count";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(116, 292);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(94, 15);
+            this.label18.TabIndex = 35;
+            this.label18.Text = "Max Complexity";
+            // 
             // label17
             // 
-            this.label17.Location = new System.Drawing.Point(121, 117);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(116, 265);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(164, 18);
+            this.label17.Size = new System.Drawing.Size(101, 15);
             this.label17.TabIndex = 35;
-            this.label17.Text = "Alternative Best Fitness";
+            this.label17.Text = "Mean Complexity";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(116, 238);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(141, 15);
+            this.label16.TabIndex = 35;
+            this.label16.Text = "Best Genome Complexity";
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(121, 448);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(116, 211);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(187, 18);
-            this.label12.TabIndex = 33;
-            this.label12.Text = "Interspecies Offspring Count";
+            this.label12.Size = new System.Drawing.Size(95, 15);
+            this.label12.TabIndex = 35;
+            this.label12.Text = "Evaluations / sec";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(116, 153);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(76, 15);
+            this.label9.TabIndex = 35;
+            this.label9.Text = "Mean Fitness";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(116, 166);
+            this.label11.Name = "label11";
+            this.label11.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label11.Size = new System.Drawing.Size(101, 15);
+            this.label11.TabIndex = 35;
+            this.label11.Text = "(species\' champs)";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(116, 186);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(95, 15);
+            this.label10.TabIndex = 35;
+            this.label10.Text = "Total Evaluations";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(116, 132);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(76, 15);
+            this.label8.TabIndex = 35;
+            this.label8.Text = "Mean Fitness";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(116, 104);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(128, 15);
+            this.label7.TabIndex = 35;
+            this.label7.Text = "Alternative Best Fitness";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(116, 77);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 15);
+            this.label6.TabIndex = 35;
+            this.label6.Text = "Best Fitness";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(116, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 15);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "Generation";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(116, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(119, 15);
+            this.label3.TabIndex = 35;
+            this.label3.Text = "Current Search Mode";
             // 
             // txtStatsInterspeciesOffspringCount
             // 
-            this.txtStatsInterspeciesOffspringCount.Location = new System.Drawing.Point(7, 443);
+            this.txtStatsInterspeciesOffspringCount.Location = new System.Drawing.Point(6, 397);
             this.txtStatsInterspeciesOffspringCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsInterspeciesOffspringCount.Name = "txtStatsInterspeciesOffspringCount";
             this.txtStatsInterspeciesOffspringCount.ReadOnly = true;
-            this.txtStatsInterspeciesOffspringCount.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsInterspeciesOffspringCount.Size = new System.Drawing.Size(108, 23);
             this.txtStatsInterspeciesOffspringCount.TabIndex = 32;
             this.txtStatsInterspeciesOffspringCount.TabStop = false;
             // 
             // txtStatsAlternativeFitness
             // 
-            this.txtStatsAlternativeFitness.Location = new System.Drawing.Point(7, 112);
+            this.txtStatsAlternativeFitness.Location = new System.Drawing.Point(6, 100);
             this.txtStatsAlternativeFitness.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsAlternativeFitness.Name = "txtStatsAlternativeFitness";
             this.txtStatsAlternativeFitness.ReadOnly = true;
-            this.txtStatsAlternativeFitness.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsAlternativeFitness.Size = new System.Drawing.Size(108, 23);
             this.txtStatsAlternativeFitness.TabIndex = 34;
             this.txtStatsAlternativeFitness.TabStop = false;
             // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(121, 418);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(160, 18);
-            this.label11.TabIndex = 31;
-            this.label11.Text = "Crossover Offspring Count";
-            // 
             // txtStatsCrossoverOffspringCount
             // 
-            this.txtStatsCrossoverOffspringCount.Location = new System.Drawing.Point(7, 413);
+            this.txtStatsCrossoverOffspringCount.Location = new System.Drawing.Point(6, 370);
             this.txtStatsCrossoverOffspringCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsCrossoverOffspringCount.Name = "txtStatsCrossoverOffspringCount";
             this.txtStatsCrossoverOffspringCount.ReadOnly = true;
-            this.txtStatsCrossoverOffspringCount.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsCrossoverOffspringCount.Size = new System.Drawing.Size(108, 23);
             this.txtStatsCrossoverOffspringCount.TabIndex = 30;
             this.txtStatsCrossoverOffspringCount.TabStop = false;
             // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(121, 388);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(160, 18);
-            this.label10.TabIndex = 29;
-            this.label10.Text = "Asexual Offspring Count";
-            // 
             // txtStatsAsexualOffspringCount
             // 
-            this.txtStatsAsexualOffspringCount.Location = new System.Drawing.Point(7, 383);
+            this.txtStatsAsexualOffspringCount.Location = new System.Drawing.Point(6, 343);
             this.txtStatsAsexualOffspringCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsAsexualOffspringCount.Name = "txtStatsAsexualOffspringCount";
             this.txtStatsAsexualOffspringCount.ReadOnly = true;
-            this.txtStatsAsexualOffspringCount.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsAsexualOffspringCount.Size = new System.Drawing.Size(108, 23);
             this.txtStatsAsexualOffspringCount.TabIndex = 28;
             this.txtStatsAsexualOffspringCount.TabStop = false;
             // 
-            // label9
-            // 
-            this.label9.Location = new System.Drawing.Point(121, 358);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(160, 18);
-            this.label9.TabIndex = 27;
-            this.label9.Text = "Total Offspring Count";
-            // 
             // txtStatsTotalOffspringCount
             // 
-            this.txtStatsTotalOffspringCount.Location = new System.Drawing.Point(7, 353);
+            this.txtStatsTotalOffspringCount.Location = new System.Drawing.Point(6, 316);
             this.txtStatsTotalOffspringCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsTotalOffspringCount.Name = "txtStatsTotalOffspringCount";
             this.txtStatsTotalOffspringCount.ReadOnly = true;
-            this.txtStatsTotalOffspringCount.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsTotalOffspringCount.Size = new System.Drawing.Size(108, 23);
             this.txtStatsTotalOffspringCount.TabIndex = 26;
             this.txtStatsTotalOffspringCount.TabStop = false;
             // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(121, 328);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 18);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "Max Genome Complexity";
-            // 
             // txtStatsMaxGenomeComplx
             // 
-            this.txtStatsMaxGenomeComplx.Location = new System.Drawing.Point(7, 323);
+            this.txtStatsMaxGenomeComplx.Location = new System.Drawing.Point(6, 289);
             this.txtStatsMaxGenomeComplx.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsMaxGenomeComplx.Name = "txtStatsMaxGenomeComplx";
             this.txtStatsMaxGenomeComplx.ReadOnly = true;
-            this.txtStatsMaxGenomeComplx.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsMaxGenomeComplx.Size = new System.Drawing.Size(108, 23);
             this.txtStatsMaxGenomeComplx.TabIndex = 24;
             this.txtStatsMaxGenomeComplx.TabStop = false;
             // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(121, 175);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(171, 27);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "Mean Fitness (species champs)";
-            // 
             // txtSpeciesChampsMean
             // 
-            this.txtSpeciesChampsMean.Location = new System.Drawing.Point(7, 172);
+            this.txtSpeciesChampsMean.Location = new System.Drawing.Point(6, 154);
             this.txtSpeciesChampsMean.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtSpeciesChampsMean.Name = "txtSpeciesChampsMean";
             this.txtSpeciesChampsMean.ReadOnly = true;
-            this.txtSpeciesChampsMean.Size = new System.Drawing.Size(111, 23);
+            this.txtSpeciesChampsMean.Size = new System.Drawing.Size(108, 23);
             this.txtSpeciesChampsMean.TabIndex = 22;
             this.txtSpeciesChampsMean.TabStop = false;
-            // 
-            // label38
-            // 
-            this.label38.Location = new System.Drawing.Point(121, 27);
-            this.label38.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(131, 18);
-            this.label38.TabIndex = 21;
-            this.label38.Text = "Current Search Mode";
             // 
             // txtSearchStatsMode
             // 
             this.txtSearchStatsMode.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.txtSearchStatsMode.Location = new System.Drawing.Point(7, 22);
+            this.txtSearchStatsMode.Location = new System.Drawing.Point(6, 19);
             this.txtSearchStatsMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtSearchStatsMode.Name = "txtSearchStatsMode";
             this.txtSearchStatsMode.ReadOnly = true;
-            this.txtSearchStatsMode.Size = new System.Drawing.Size(111, 23);
+            this.txtSearchStatsMode.Size = new System.Drawing.Size(108, 23);
             this.txtSearchStatsMode.TabIndex = 20;
             this.txtSearchStatsMode.TabStop = false;
             // 
             // txtStatsEvalsPerSec
             // 
-            this.txtStatsEvalsPerSec.Location = new System.Drawing.Point(7, 233);
+            this.txtStatsEvalsPerSec.Location = new System.Drawing.Point(6, 208);
             this.txtStatsEvalsPerSec.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsEvalsPerSec.Name = "txtStatsEvalsPerSec";
             this.txtStatsEvalsPerSec.ReadOnly = true;
-            this.txtStatsEvalsPerSec.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsEvalsPerSec.Size = new System.Drawing.Size(108, 23);
             this.txtStatsEvalsPerSec.TabIndex = 18;
             this.txtStatsEvalsPerSec.TabStop = false;
             // 
-            // label20
-            // 
-            this.label20.Location = new System.Drawing.Point(121, 237);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(121, 18);
-            this.label20.TabIndex = 19;
-            this.label20.Text = "Evaluations / Sec";
-            // 
-            // label19
-            // 
-            this.label19.Location = new System.Drawing.Point(121, 298);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(160, 18);
-            this.label19.TabIndex = 17;
-            this.label19.Text = "Mean Genome Complexity";
-            // 
-            // label18
-            // 
-            this.label18.Location = new System.Drawing.Point(121, 268);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(160, 18);
-            this.label18.TabIndex = 16;
-            this.label18.Text = "Best Genome\'s Complexity";
-            // 
             // txtStatsMeanGenomeComplx
             // 
-            this.txtStatsMeanGenomeComplx.Location = new System.Drawing.Point(7, 293);
+            this.txtStatsMeanGenomeComplx.Location = new System.Drawing.Point(6, 262);
             this.txtStatsMeanGenomeComplx.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsMeanGenomeComplx.Name = "txtStatsMeanGenomeComplx";
             this.txtStatsMeanGenomeComplx.ReadOnly = true;
-            this.txtStatsMeanGenomeComplx.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsMeanGenomeComplx.Size = new System.Drawing.Size(108, 23);
             this.txtStatsMeanGenomeComplx.TabIndex = 15;
             this.txtStatsMeanGenomeComplx.TabStop = false;
             // 
             // txtStatsBestGenomeComplx
             // 
-            this.txtStatsBestGenomeComplx.Location = new System.Drawing.Point(7, 263);
+            this.txtStatsBestGenomeComplx.Location = new System.Drawing.Point(6, 235);
             this.txtStatsBestGenomeComplx.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsBestGenomeComplx.Name = "txtStatsBestGenomeComplx";
             this.txtStatsBestGenomeComplx.ReadOnly = true;
-            this.txtStatsBestGenomeComplx.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsBestGenomeComplx.Size = new System.Drawing.Size(108, 23);
             this.txtStatsBestGenomeComplx.TabIndex = 14;
             this.txtStatsBestGenomeComplx.TabStop = false;
             // 
             // txtStatsTotalEvals
             // 
-            this.txtStatsTotalEvals.Location = new System.Drawing.Point(7, 203);
+            this.txtStatsTotalEvals.Location = new System.Drawing.Point(6, 181);
             this.txtStatsTotalEvals.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsTotalEvals.Name = "txtStatsTotalEvals";
             this.txtStatsTotalEvals.ReadOnly = true;
-            this.txtStatsTotalEvals.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsTotalEvals.Size = new System.Drawing.Size(108, 23);
             this.txtStatsTotalEvals.TabIndex = 12;
             this.txtStatsTotalEvals.TabStop = false;
             // 
-            // label27
-            // 
-            this.label27.Location = new System.Drawing.Point(121, 208);
-            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(121, 18);
-            this.label27.TabIndex = 13;
-            this.label27.Text = "Total Evaluations";
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(121, 57);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(75, 18);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Generation";
-            // 
             // txtStatsGeneration
             // 
-            this.txtStatsGeneration.Location = new System.Drawing.Point(7, 53);
+            this.txtStatsGeneration.Location = new System.Drawing.Point(6, 46);
             this.txtStatsGeneration.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsGeneration.Name = "txtStatsGeneration";
             this.txtStatsGeneration.ReadOnly = true;
-            this.txtStatsGeneration.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsGeneration.Size = new System.Drawing.Size(108, 23);
             this.txtStatsGeneration.TabIndex = 6;
             this.txtStatsGeneration.TabStop = false;
             // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(121, 145);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 18);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Mean Fitness";
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(121, 87);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 18);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Best Fitness";
-            // 
             // txtStatsMean
             // 
-            this.txtStatsMean.Location = new System.Drawing.Point(7, 142);
+            this.txtStatsMean.Location = new System.Drawing.Point(6, 127);
             this.txtStatsMean.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsMean.Name = "txtStatsMean";
             this.txtStatsMean.ReadOnly = true;
-            this.txtStatsMean.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsMean.Size = new System.Drawing.Size(108, 23);
             this.txtStatsMean.TabIndex = 1;
             this.txtStatsMean.TabStop = false;
             // 
             // txtStatsBest
             // 
-            this.txtStatsBest.Location = new System.Drawing.Point(7, 83);
+            this.txtStatsBest.Location = new System.Drawing.Point(6, 73);
             this.txtStatsBest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtStatsBest.Name = "txtStatsBest";
             this.txtStatsBest.ReadOnly = true;
-            this.txtStatsBest.Size = new System.Drawing.Size(111, 23);
+            this.txtStatsBest.Size = new System.Drawing.Size(108, 23);
             this.txtStatsBest.TabIndex = 0;
             this.txtStatsBest.TabStop = false;
             // 
@@ -696,11 +709,11 @@
             this.groupBox6.Controls.Add(this.btnSearchReset);
             this.groupBox6.Controls.Add(this.btnSearchStop);
             this.groupBox6.Controls.Add(this.btnSearchStart);
-            this.groupBox6.Location = new System.Drawing.Point(9, 258);
+            this.groupBox6.Location = new System.Drawing.Point(9, 230);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox6.Size = new System.Drawing.Size(273, 74);
+            this.groupBox6.Size = new System.Drawing.Size(240, 70);
             this.groupBox6.TabIndex = 18;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Search Control";
@@ -708,10 +721,10 @@
             // btnSearchReset
             // 
             this.btnSearchReset.Enabled = false;
-            this.btnSearchReset.Location = new System.Drawing.Point(183, 22);
+            this.btnSearchReset.Location = new System.Drawing.Point(164, 22);
             this.btnSearchReset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSearchReset.Name = "btnSearchReset";
-            this.btnSearchReset.Size = new System.Drawing.Size(82, 40);
+            this.btnSearchReset.Size = new System.Drawing.Size(70, 38);
             this.btnSearchReset.TabIndex = 2;
             this.btnSearchReset.Text = "Reset";
             this.btnSearchReset.Click += new System.EventHandler(this.btnSearchReset_Click);
@@ -719,10 +732,10 @@
             // btnSearchStop
             // 
             this.btnSearchStop.Enabled = false;
-            this.btnSearchStop.Location = new System.Drawing.Point(96, 22);
+            this.btnSearchStop.Location = new System.Drawing.Point(86, 22);
             this.btnSearchStop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSearchStop.Name = "btnSearchStop";
-            this.btnSearchStop.Size = new System.Drawing.Size(82, 40);
+            this.btnSearchStop.Size = new System.Drawing.Size(70, 38);
             this.btnSearchStop.TabIndex = 1;
             this.btnSearchStop.Text = "Stop / Pause";
             this.btnSearchStop.Click += new System.EventHandler(this.btnSearchStop_Click);
@@ -733,7 +746,7 @@
             this.btnSearchStart.Location = new System.Drawing.Point(8, 22);
             this.btnSearchStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSearchStart.Name = "btnSearchStart";
-            this.btnSearchStart.Size = new System.Drawing.Size(82, 40);
+            this.btnSearchStart.Size = new System.Drawing.Size(70, 38);
             this.btnSearchStart.TabIndex = 0;
             this.btnSearchStart.Text = "Start / Continue";
             this.btnSearchStart.Click += new System.EventHandler(this.btnSearchStart_Click);
@@ -747,7 +760,7 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox5.Size = new System.Drawing.Size(273, 80);
+            this.groupBox5.Size = new System.Drawing.Size(240, 76);
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Experiment / Task";
@@ -755,10 +768,10 @@
             // btnLoadExperimentDefaultParameters
             // 
             this.btnLoadExperimentDefaultParameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnLoadExperimentDefaultParameters.Location = new System.Drawing.Point(8, 46);
+            this.btnLoadExperimentDefaultParameters.Location = new System.Drawing.Point(7, 46);
             this.btnLoadExperimentDefaultParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnLoadExperimentDefaultParameters.Name = "btnLoadExperimentDefaultParameters";
-            this.btnLoadExperimentDefaultParameters.Size = new System.Drawing.Size(232, 28);
+            this.btnLoadExperimentDefaultParameters.Size = new System.Drawing.Size(198, 24);
             this.btnLoadExperimentDefaultParameters.TabIndex = 48;
             this.btnLoadExperimentDefaultParameters.Text = "Load Experiment Default Parameters";
             this.btnLoadExperimentDefaultParameters.Click += new System.EventHandler(this.btnLoadExperimentDefaultParameters_Click);
@@ -766,10 +779,10 @@
             // btnExperimentInfo
             // 
             this.btnExperimentInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnExperimentInfo.Location = new System.Drawing.Point(244, 17);
+            this.btnExperimentInfo.Location = new System.Drawing.Point(212, 15);
             this.btnExperimentInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnExperimentInfo.Name = "btnExperimentInfo";
-            this.btnExperimentInfo.Size = new System.Drawing.Size(22, 27);
+            this.btnExperimentInfo.Size = new System.Drawing.Size(22, 25);
             this.btnExperimentInfo.TabIndex = 47;
             this.btnExperimentInfo.Text = "?";
             this.btnExperimentInfo.Click += new System.EventHandler(this.btnExperimentInfo_Click);
@@ -779,10 +792,10 @@
             this.cmbExperiments.DisplayMember = "Name";
             this.cmbExperiments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbExperiments.DropDownWidth = 300;
-            this.cmbExperiments.Location = new System.Drawing.Point(9, 18);
+            this.cmbExperiments.Location = new System.Drawing.Point(8, 16);
             this.cmbExperiments.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbExperiments.Name = "cmbExperiments";
-            this.cmbExperiments.Size = new System.Drawing.Size(230, 23);
+            this.cmbExperiments.Size = new System.Drawing.Size(199, 23);
             this.cmbExperiments.TabIndex = 36;
             // 
             // tabPage2
@@ -793,7 +806,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.tabPage2.Size = new System.Drawing.Size(603, 478);
+            this.tabPage2.Size = new System.Drawing.Size(532, 444);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Page 2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1042,7 +1055,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(611, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(554, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1112,6 +1125,7 @@
             this.bestGenomeToolStripMenuItem.Name = "bestGenomeToolStripMenuItem";
             this.bestGenomeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.bestGenomeToolStripMenuItem.Text = "Best Genome";
+            this.bestGenomeToolStripMenuItem.Click += new System.EventHandler(this.bestGenomeToolStripMenuItem_Click);
             // 
             // specieChampGenomesToolStripMenuItem
             // 
@@ -1271,7 +1285,7 @@
             // 
             this.btnCopyLogToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopyLogToClipboard.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCopyLogToClipboard.Location = new System.Drawing.Point(494, 0);
+            this.btnCopyLogToClipboard.Location = new System.Drawing.Point(419, 1);
             this.btnCopyLogToClipboard.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnCopyLogToClipboard.Name = "btnCopyLogToClipboard";
             this.btnCopyLogToClipboard.Size = new System.Drawing.Size(117, 25);
@@ -1289,7 +1303,7 @@
             this.lbxLog.Location = new System.Drawing.Point(0, 0);
             this.lbxLog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lbxLog.Name = "lbxLog";
-            this.lbxLog.Size = new System.Drawing.Size(611, 241);
+            this.lbxLog.Size = new System.Drawing.Size(554, 190);
             this.lbxLog.TabIndex = 0;
             // 
             // populationToolStripMenuItem
@@ -1301,7 +1315,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(611, 778);
+            this.ClientSize = new System.Drawing.Size(554, 693);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -1355,20 +1369,12 @@
         private System.Windows.Forms.TextBox txtFileBaseName;
         private System.Windows.Forms.CheckBox chkFileSaveGenomeOnImprovement;
         private System.Windows.Forms.GroupBox gbxCurrentStats;
-        private System.Windows.Forms.Label label38;
         private System.Windows.Forms.TextBox txtSearchStatsMode;
         private System.Windows.Forms.TextBox txtStatsEvalsPerSec;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtStatsMeanGenomeComplx;
         private System.Windows.Forms.TextBox txtStatsBestGenomeComplx;
         private System.Windows.Forms.TextBox txtStatsTotalEvals;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtStatsGeneration;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtStatsMean;
         private System.Windows.Forms.TextBox txtStatsBest;
         private System.Windows.Forms.GroupBox gbxEAParameters;
@@ -1385,17 +1391,11 @@
         private System.Windows.Forms.TextBox txtAddConnectionMutationProbability;
         private System.Windows.Forms.GroupBox gbxNeatGenomeParameters;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtSpeciesChampsMean;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtStatsMaxGenomeComplx;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtStatsInterspeciesOffspringCount;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtStatsCrossoverOffspringCount;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtStatsAsexualOffspringCount;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtStatsTotalOffspringCount;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
@@ -1414,7 +1414,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtInitialInterconnectionsProportion;
         private System.Windows.Forms.Button btnCopyLogToClipboard;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadPopulationToolStripMenuItem;
@@ -1439,7 +1438,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessByRankToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityByRankToolStripMenuItem;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox txtStatsAlternativeFitness;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txtSpeciesCount;
@@ -1451,5 +1449,22 @@
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessDistributionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityDistributionToolStripMenuItem;
         private System.Windows.Forms.Button btnLoadExperimentDefaultParameters;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
     }
 }
