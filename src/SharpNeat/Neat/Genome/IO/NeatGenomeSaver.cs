@@ -59,8 +59,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             // Write input and output node counts.
             sw.WriteLine("# Input and output node counts.");
-            sw.WriteLine(genome.MetaNeatGenome.InputNodeCount);
-            sw.WriteLine(genome.MetaNeatGenome.OutputNodeCount);
+            sw.WriteLine($"{genome.MetaNeatGenome.InputNodeCount} {genome.MetaNeatGenome.OutputNodeCount}");
             sw.WriteLine();
 
             // Write connections.

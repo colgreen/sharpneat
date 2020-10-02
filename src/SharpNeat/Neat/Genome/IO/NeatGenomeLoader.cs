@@ -153,8 +153,7 @@ namespace SharpNeat.Neat.Genome.IO
             _lineIdx = 0;
 
             // Read node counts.
-            int inputCount = ReadInt32Line();
-            int outputCount = ReadInt32Line();
+            ReadInputOutputCounts(out int inputCount, out int outputCount);
             ReadEndOfSection();
             ValidateNodeCounts(inputCount, outputCount);
 
@@ -303,13 +302,22 @@ namespace SharpNeat.Neat.Genome.IO
 
         #region Private Methods [Low Level]
 
-        private int ReadInt32Line()
+        private void ReadInputOutputCounts(out int inputCount, out int outputCount)
         {
             string line = ReadNonEmptyLine();
-            if(!TryParseInt32(line, out int val)) {
-                throw new IOException($"Invalid integer format. Line [{_lineIdx}].");
+
+            string[] fields = line.Split(' ', '\t');
+            if(fields.Length != 2) {
+                throw new IOException($"Invalid input output count line. Line [{_lineIdx}].");
             }
-            return val;
+
+            if(!TryParseInt32(fields[0], out inputCount)) {
+                throw new IOException($"Invalid input count. Line [{_lineIdx}].");
+            }
+
+            if(!TryParseInt32(fields[1], out outputCount)) {
+                throw new IOException($"Invalid output count. Line [{_lineIdx}].");
+            }
         }
 
         private void ReadEndOfSection()
