@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Tests
     ""connectionWeightMutationProbability"":0.11,
     ""addNodeMutationProbability"":0.22,
     ""addConnectionMutationProbability"":0.33,
-    ""deleteConnectionMutationProbability"":0.44
+    ""deleteConnectionMutationProbability"":0.34
 }");
             // Init a default settings object.
             var settings = new NeatReproductionAsexualSettings();
@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Tests
             Assert.Equal(0.11, settings.ConnectionWeightMutationProbability);
             Assert.Equal(0.22, settings.AddNodeMutationProbability);
             Assert.Equal(0.33, settings.AddConnectionMutationProbability);
-            Assert.Equal(0.44, settings.DeleteConnectionMutationProbability);
+            Assert.Equal(0.34, settings.DeleteConnectionMutationProbability);
         }
     }
 }

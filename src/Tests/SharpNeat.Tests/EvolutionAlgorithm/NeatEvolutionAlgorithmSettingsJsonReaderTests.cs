@@ -13,8 +13,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm.Tests
     ""speciesCount"":1111,
     ""elitismProportion"":0.11,
     ""selectionProportion"":0.22,
-    ""offspringAsexualProportion"":0.33,
-    ""offspringSexualProportion"":0.44,
+    ""offspringAsexualProportion"":0.67,
+    ""offspringSexualProportion"":0.33,
     ""interspeciesMatingProportion"":0.55,
     ""statisticsMovingAverageHistoryLength"":2222
 }");
@@ -28,8 +28,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm.Tests
             Assert.Equal(1111, eaSettings.SpeciesCount);
             Assert.Equal(0.11, eaSettings.ElitismProportion);
             Assert.Equal(0.22, eaSettings.SelectionProportion);
-            Assert.Equal(0.33, eaSettings.OffspringAsexualProportion);
-            Assert.Equal(0.44, eaSettings.OffspringSexualProportion);
+            Assert.Equal(0.67, eaSettings.OffspringAsexualProportion);
+            Assert.Equal(0.33, eaSettings.OffspringSexualProportion);
             Assert.Equal(0.55, eaSettings.InterspeciesMatingProportion);
             Assert.Equal(2222, eaSettings.StatisticsMovingAverageHistoryLength);
         }

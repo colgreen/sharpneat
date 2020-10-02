@@ -22,8 +22,8 @@ namespace SharpNeat.Experiments.Tests
         ""speciesCount"":1111,
         ""elitismProportion"":0.11,
         ""selectionProportion"":0.22,
-        ""offspringAsexualProportion"":0.33,
-        ""offspringSexualProportion"":0.44,
+        ""offspringAsexualProportion"":0.39,
+        ""offspringSexualProportion"":0.61,
         ""interspeciesMatingProportion"":0.55,
         ""statisticsMovingAverageHistoryLength"":2222
     },
@@ -32,7 +32,7 @@ namespace SharpNeat.Experiments.Tests
         ""connectionWeightMutationProbability"":0.11,
         ""addNodeMutationProbability"":0.22,
         ""addConnectionMutationProbability"":0.33,
-        ""deleteConnectionMutationProbability"":0.44
+        ""deleteConnectionMutationProbability"":0.34
     },
     ""reproductionSexualSettings"":
     {
@@ -75,8 +75,8 @@ namespace SharpNeat.Experiments.Tests
             Assert.Equal(1111, eaSettings.SpeciesCount);
             Assert.Equal(0.11, eaSettings.ElitismProportion);
             Assert.Equal(0.22, eaSettings.SelectionProportion);
-            Assert.Equal(0.33, eaSettings.OffspringAsexualProportion);
-            Assert.Equal(0.44, eaSettings.OffspringSexualProportion);
+            Assert.Equal(0.39, eaSettings.OffspringAsexualProportion);
+            Assert.Equal(0.61, eaSettings.OffspringSexualProportion);
             Assert.Equal(0.55, eaSettings.InterspeciesMatingProportion);
             Assert.Equal(2222, eaSettings.StatisticsMovingAverageHistoryLength);
 
@@ -84,7 +84,7 @@ namespace SharpNeat.Experiments.Tests
             Assert.Equal(0.11, asexualSettings.ConnectionWeightMutationProbability);
             Assert.Equal(0.22, asexualSettings.AddNodeMutationProbability);
             Assert.Equal(0.33, asexualSettings.AddConnectionMutationProbability);
-            Assert.Equal(0.44, asexualSettings.DeleteConnectionMutationProbability);
+            Assert.Equal(0.34, asexualSettings.DeleteConnectionMutationProbability);
 
             var sexualSettings = experiment.ReproductionSexualSettings;
             Assert.Equal(0.11, sexualSettings.SecondaryParentGeneProbability);
