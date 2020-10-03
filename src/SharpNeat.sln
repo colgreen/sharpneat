@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Windows", "SharpN
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Windows.App", "SharpNeat.Windows.App\SharpNeat.Windows.App.csproj", "{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UISandbox", "Tests\UISandbox\UISandbox.csproj", "{8CDC9EF1-1598-4806-BE43-CC87459B2665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UISandbox", "Tests\UISandbox\UISandbox.csproj", "{8CDC9EF1-1598-4806-BE43-CC87459B2665}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeat.Tasks.Windows", "SharpNeat.Tasks.Windows\SharpNeat.Tasks.Windows.csproj", "{1BCF2975-0397-455A-A1EE-9835A44079AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{8CDC9EF1-1598-4806-BE43-CC87459B2665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CDC9EF1-1598-4806-BE43-CC87459B2665}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CDC9EF1-1598-4806-BE43-CC87459B2665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BCF2975-0397-455A-A1EE-9835A44079AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BCF2975-0397-455A-A1EE-9835A44079AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BCF2975-0397-455A-A1EE-9835A44079AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BCF2975-0397-455A-A1EE-9835A44079AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
