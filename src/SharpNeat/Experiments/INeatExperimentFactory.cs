@@ -24,19 +24,19 @@ namespace SharpNeat.Experiments
         string Id { get; }
 
         /// <summary>
-        /// Create a new instance of <see cref="INeatExperiment{T}"/> using experiment 
-        /// configuration settings from the provided json string.
+        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment 
+        /// configuration settings from the provided json object model.
         /// </summary>
-        /// <param name="configElem">Experiment config in json form.</param>
+        /// <param name="configElem">Experiment config in presented as json object model.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
         INeatExperiment<double> CreateExperiment(JsonElement configElem);
 
         /// <summary>
-        /// Create a new instance of <see cref="INeatExperiment{T}"/> using experiment 
-        /// configuration settings from the provided json string, and using single-precision floating-point
+        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment 
+        /// configuration settings from the provided json object model, and using single-precision floating-point
         /// number format for the genome and nueral-net connection weights.
         /// </summary>
-        /// <param name="configElem">Experiment config in json form.</param>
+        /// <param name="configElem">Experiment config in presented as json object model.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
         INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem);
     }
