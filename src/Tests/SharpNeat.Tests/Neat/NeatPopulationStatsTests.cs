@@ -108,7 +108,7 @@ namespace SharpNeat.Neat.Tests
                 inputNodeCount: 3,
                 outputNodeCount: 2,
                 isAcyclic: true,
-                activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, rng);
             Assert.Equal(count, neatPop.GenomeList.Count);
@@ -132,7 +132,7 @@ namespace SharpNeat.Neat.Tests
         {
             // Create a speciation strategy instance.
             var distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
-            var speciationStrategy = new SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, 4);
+            var speciationStrategy = new Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, 4);
 
             // Apply the speciation strategy.
             var genomeComparerDescending = new GenomeComparerDescending(PrimaryFitnessInfoComparer.Singleton);
