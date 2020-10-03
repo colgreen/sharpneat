@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Tests
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
             // Create a test population.
-            NeatPopulation<double> pop = CreateNeatPopulation(100, 10.0);
+            NeatPopulation<double> pop = CreateNeatPopulation(100, 10.0, rng);
 
             // Modify a few genome fitnesses.
             pop.GenomeList[10].FitnessInfo = new FitnessInfo(100.0);
@@ -52,7 +52,7 @@ namespace SharpNeat.Neat.Tests
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
             // Create test population and apply speciation strategy.
-            NeatPopulation<double> neatPop = CreateNeatPopulation(30, 10.0);
+            NeatPopulation<double> neatPop = CreateNeatPopulation(30, 10.0, rng);
 
             // Loop the species; assign the same fitness to genomes within each species.
             for(int i=0; i< neatPop.SpeciesArray.Length; i++)
@@ -101,7 +101,8 @@ namespace SharpNeat.Neat.Tests
 
         private static NeatPopulation<double> CreateNeatPopulation(
             int count,
-            double defaultFitness)
+            double defaultFitness,
+            IRandomSource rng)
         {
             MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
                 inputNodeCount: 3,
@@ -109,7 +110,7 @@ namespace SharpNeat.Neat.Tests
                 isAcyclic: true,
                 activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
 
-            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
+            NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, rng);
             Assert.Equal(count, neatPop.GenomeList.Count);
             Assert.Equal(count, neatPop.GenomeIdSeq.Peek);
 
