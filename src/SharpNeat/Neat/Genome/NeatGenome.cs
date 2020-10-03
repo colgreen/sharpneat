@@ -95,7 +95,7 @@ namespace SharpNeat.Neat.Genome
         ///  * Decoding to a neural net object.
         ///  * Finding new connections on acyclic graphs, i.e. detecting if a random new connection would form a cycle.
         ///  
-        /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype DirectedGraphAcyclic.
+        /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype <see cref="Graphs.Acyclic.DirectedGraphAcyclic"/> .
         /// </remarks>
         public DirectedGraph DirectedGraph { get; }
 
@@ -160,6 +160,40 @@ namespace SharpNeat.Neat.Genome
         public bool ContainsHiddenNode(int id)
         {
             return Array.BinarySearch(this.HiddenNodeIdArray, id) >= 0;
+        }
+
+        /// <summary>
+        /// Get an array of digraph connection weights.
+        /// For cyclic genomes this is simply the genome's weight array, but for ayclic genomes the digraph and genome 
+        /// represent connections in a different order, thus for acyclic genomes/digraphs this method will return a new
+        /// array with the weights in the digraph order.
+        /// </summary>
+        /// <returns></returns>
+        public T[] GetDigraphWeightArray()
+        {
+            // If the genome represents a cyclic graph then the genome connections are in the same order as the digraph 
+            // connections, and thus the weights are in the same order too, therefore we can just return the genome weight
+            // array as is. We can do this because these arrays are treated as being immutable, i.e., a given genome's weight 
+            // array will never be changed. E.g. Weight mutation occurs on child genomes that have a copy of the parent
+            // genome's weight array.
+            if(!this.MetaNeatGenome.IsAcyclic)
+            {
+                return this.ConnectionGenes._weightArr;
+            }
+
+            // For acyclic genomes the digraph connections are ordered by depth of the source node in graph, and thus the
+            // connection weights are in a different order, therefore we create a new array, copy the weights into their
+            // digraph positions, and return the new array.
+
+            // Create a new weight array, and copy in the weights from the genome into their correct positions.
+            T[] genomeWeightArr = this.ConnectionGenes._weightArr;
+            T[] digraphWeightArr = new T[genomeWeightArr.Length];
+            int[] connIdxMap = this.ConnectionIndexMap!;
+
+            for(int i=0; i < connIdxMap.Length; i++) {
+                digraphWeightArr[i] = genomeWeightArr[connIdxMap[i]];
+            }
+            return digraphWeightArr;
         }
 
         #endregion
