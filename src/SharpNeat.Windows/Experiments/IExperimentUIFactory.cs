@@ -11,7 +11,7 @@
  */
 using System.Text.Json;
 
-namespace SharpNeat.Tasks.Windows
+namespace SharpNeat.Experiments.Windows
 {
     /// <summary>
     /// Represents a factory of <see cref="IExperimentUI"/>.

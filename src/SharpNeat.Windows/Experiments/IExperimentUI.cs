@@ -11,7 +11,7 @@
  */
 using SharpNeat.Windows;
 
-namespace SharpNeat.Tasks.Windows
+namespace SharpNeat.Experiments.Windows
 {
     public interface IExperimentUI
     {
