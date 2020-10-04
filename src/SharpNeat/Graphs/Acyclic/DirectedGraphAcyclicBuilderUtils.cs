@@ -69,7 +69,7 @@ namespace SharpNeat.Graphs.Acyclic
                 connectionIndexMap[i] = i;
             }
 
-            // Sort the connections based on sourceID, TargetId; this will arrange the connections based on the depth 
+            // Sort the connections based on sourceID, targetId; this will arrange the connections based on the depth 
             // of the source nodes.
             // Note. This sort routine will also sort a secondary array, i.e. keep the items in both arrays aligned;
             // here we use this to create connectionIndexMap.
