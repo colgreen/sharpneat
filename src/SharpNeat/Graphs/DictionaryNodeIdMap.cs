@@ -27,7 +27,7 @@ namespace SharpNeat.Graphs
     /// In cyclic networks the output nodes are also fixed, starting directly after the input node IDs.
     /// In acyclic networks the outputs are not fixed, and are therefore mapped by the dictionary.
     /// </remarks>
-    public class DictionaryNodeIdMap : INodeIdMap
+    public sealed class DictionaryNodeIdMap : INodeIdMap
     {
         readonly int _fixedNodeCount;
         readonly Dictionary<int,int> _nodeIdxById;
@@ -63,10 +63,10 @@ namespace SharpNeat.Graphs
         }
 
         /// <summary>
-        /// Map a given node ID
+        /// Map a node ID from the source ID space, to the target ID space.
         /// </summary>
-        /// <param name="id">A node ID.</param>
-        /// <returns>The mapped to ID.</returns>
+        /// <param name="id">A node ID in the source ID space.</param>
+        /// <returns>The mapped to ID from the target ID space.</returns>
         public int Map(int id)
         {
             // Input node IDs are always at the head of the array, and are fixed.
@@ -77,6 +77,28 @@ namespace SharpNeat.Graphs
             }
             // Hidden nodes have mappings stored in a dictionary.
             return _nodeIdxById[id];
+        }
+
+        /// <summary>
+        /// Create a new <see cref="INodeIdMap"/> that represents the inverse of the current mapping.
+        /// </summary>
+        /// <returns>A new <see cref="INodeIdMap"/>.</returns>
+        public INodeIdMap CreateInverseMap()
+        {
+            var nodeIdByIdx = new int[this.Count];
+
+            // The fixed nodes IDs are identity mappings from 0 to _fixedNodeCount-1;
+            for(int i=0; i < _fixedNodeCount; i++) {
+                nodeIdByIdx[i] = i;
+            }
+               
+            // Iterate the dictionary mappings, and reverse the mappings. Noting that each dictionary 
+            // key is an index from a dense/contihuous ID space.
+            foreach(var kvp in _nodeIdxById) {
+                nodeIdByIdx[kvp.Value] = kvp.Key;
+            }
+
+            return new ArrayNodeIdMap(nodeIdByIdx);
         }
 
         #endregion

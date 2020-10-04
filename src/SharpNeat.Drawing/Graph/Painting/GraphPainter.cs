@@ -101,9 +101,9 @@ namespace SharpNeat.Drawing.Graph.Painting
         protected virtual void PaintNodes(DirectedGraphViewModel model, PaintState state)
         {
             // Loop the nodes, painting each in turn.
-            for(int i=0; i < model.NodeIdByIdx.Length; i++)
+            for(int i=0; i < model.NodeIdByIdx.Count; i++)
             {
-                int id = model.NodeIdByIdx[i];
+                int id = model.NodeIdByIdx.Map(i);
                 Point pos = model.NodePosByIdx![i];
 
                 PaintNode(pos, id, state);
