@@ -9,27 +9,33 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using SharpNeat.Windows;
+using SharpNeat.Experiments.Windows;
 
-namespace SharpNeat.Experiments.Windows
+namespace SharpNeat.Windows.Neat
 {
     /// <summary>
-    /// Represents types that can create new User Interfaces (UIs) for visualisation of genomes and tasks.
+    /// Default implementation of <see cref="IExperimentUI"/> for NEAT and NEAT genomes."/>
     /// </summary>
-    public interface IExperimentUI
+    public class NeatExperimentUI : IExperimentUI
     {
         /// <summary>
-        /// Create a new Windows.Forms UI control for direct visualisation of the genomes, i.e. the showing the 
+        /// Create a new Windows.Forms UI control for direct visualisation of the NEAT genomes, i.e. the showing the 
         /// neural net nodes and connections.
         /// </summary>
         /// <returns>A new instance of <see cref="GenomeControl"/>; or null if the experiment does not provide a genome control.</returns>
-        GenomeControl CreateGenomeControl();
+        public GenomeControl CreateGenomeControl()
+        {
+            return new NeatGenomeControl();
+        }
 
         /// <summary>
         /// Create a new Windows.Forms UI control for visualisation of tasks. E.g. for a prey capture task we might
         /// have a UI control that shows the prey capture world, and how the current best genome peforms in that world.
         /// </summary>
         /// <returns>A new instance of <see cref="GenomeControl"/>; or null if the experiment does not provide a task control.</returns>
-        GenomeControl CreateTaskControl();
+        public GenomeControl CreateTaskControl()
+        {
+            return null;
+        }
     }
 }
