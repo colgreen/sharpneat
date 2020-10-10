@@ -340,7 +340,6 @@ namespace SharpNeat.Windows.App
             experiment.InitialInterconnectionsProportion = GetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
         }
 
-
         private void GetSettingsFromUI(NeatEvolutionAlgorithmSettings settings)
         {
             settings.SpeciesCount = GetValue(txtSpeciesCount, settings.SpeciesCount);
@@ -358,7 +357,6 @@ namespace SharpNeat.Windows.App
             settings.AddConnectionMutationProbability = GetValue(txtAddConnectionMutationProbability, settings.AddConnectionMutationProbability);
             settings.DeleteConnectionMutationProbability = GetValue(txtDeleteConnectionMutationProbability, settings.DeleteConnectionMutationProbability);
         }
-
 
         #endregion
     }
