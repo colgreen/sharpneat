@@ -22,33 +22,35 @@ namespace SharpNeat.Drawing.Graph
     /// An <see cref="IGraphLayoutScheme"/> that arranges/positions nodes into layers, based on their depth in the network.
     /// </summary>
     /// <remarks>
-    /// 
-    /// TODO: Revise/edit these remarks.
-    /// 
-    /// Layout nodes based on their depth within the network.
-    /// 
-    /// Note 1.
-    /// Input nodes are defined as being at layer zero, and we position them in their own layer at the 
-    /// top of the layout area. Any other type of node (hidden or output) not connected to is also
-    /// defined as being at layer zero, if such nodes exist then we place them into their own layout 
-    /// layer to visually separate them from the input nodes.
-    /// 
-    /// Note 2.
-    /// Output nodes can be at a range of depths, but for clarity we position them all in their own layer 
-    /// at the bottom of the layout area. A hidden node can have a depth greater than or equal to one or 
-    /// more of the output nodes, to handle this case neatly we ensure that the output nodes are always 
-    /// in a layer by themselves by creating an additional layer in the layout if necessary.
+    /// === Summary/Overview ===
+    /// Lay out nodes based on their depth within the graph/network.
     ///
-    /// Note 3.
-    /// Hidden nodes are positioned into layers between the inputs and outputs based on their depth.
+    /// The nodes of the graph are assigned a node depth. All nodes at the same depth are defined as being in the same layer,
+    /// and the nodes of each layer are positioned in a horizontal row, with the depth zero row being placed at the top of 
+    /// the layout area, and the final layer being positioned at the bottom.
     /// 
-    /// Note 4. 
-    /// Empty layers are not possible in the underlying network because for there to be a layer N node it 
-    /// must have a connection from a layer N-1 node. However, in cyclic networks the output nodes can be
-    /// source nodes, but we also always paint output nodes in their own layout layer at the bottom of the
-    /// layout area. Therefore if the only node at a given depth is an output node then the layout layer 
-    /// can be empty. To handle this neatly we check for empty layout layers before invoking the layout logic.
     /// 
+    /// === Input and Output Layers ===
+    /// The actual layers used are slightly different to the scheme described in the summary. The input nodes and output nodes
+    /// of a graph are always laid out in their own rows at the top and bottom of the layout area, respectively. Hennce, any 
+    /// hidden nodes defined as being at depth zero (i.e. no incoming connections) are actually positioned in the second layer.
+    /// Likewise, hidden nodes with depths greather than or equal to any node in the output layer are psoitioned in he layer 
+    /// before the output layer.
+    /// 
+    /// Essentially there are two 'virtual rows' for input and outputs, and the hidden nodes are arranged in between based on 
+    /// their node depth.
+    /// 
+    /// 
+    /// === Node Depths ===
+    /// For acyclic graphs the node depths are already determined and stored in the DirectedGraph data structure (specifically in
+    /// the the subclass DirectedGraphAcyclic). This depth info is necessary for using the acyclic graphs (i.e. propagating a 
+    /// signal through the graph, from the input nodes through to he output nodes) and is based on the maximim number of hops
+    /// to a given node, starting from the input layer.
+    /// 
+    /// For cyclic graphs this layout scheme calculates node depths using a scheme similar to that used for the acyclic graphs,
+    /// but with modifications to handle cyclic connections. In this scheme the depth of nodes with multiple incoming connections,
+    /// some or all of which may be part of a cycle, is based on the average number of hops to that node. This is essentially a 
+    /// heuristic that aims to place nodes 'naturally', i.e. with connections mostly in nearby layers (on average).
     /// </remarks>
     public class DepthLayoutScheme : IGraphLayoutScheme
     {
@@ -121,68 +123,62 @@ namespace SharpNeat.Drawing.Graph
             List<int>[] nodesByLayer,
             Span<Point> nodePosByIdx)
         {
-            // Layout the nodes.
-            // Calculate height of each layer. We divide the layout area height by the number of layers, but also 
-            // define margins at the top and bottom of the view. To make best use of available height the margins 
-            // are defined as a proportion of the layer height. Hence we have:
-            //
-            // ============================
-            // d - network depth.
-            // l - layer height.
-            // m - margin height (same height used for top and bottom margins).
-            // p - proportion of layer height that gives margin height.
-            // H - layout areas height
             // ============================
             //
-            // Derivation:
-            // ============================ 
-            // 1) l = (H-2m) / (d-1)
+            // Layout variables and method.
+            // ============================
             //
-            // 2) m = lp, therefore
-            //
-            // 3) l = (H-2pl) / (d-1), solve for l
-            //
-            // 4) l = H/(d-1) - 2pl/(d-1)
-            //
-            // 5) 1 = H/(d-1)l - 2p/(d-1)
-            //
-            // 6) H / (d-1)l = 1 + 2p/(d-1), inverting both sides gives
-            //
-            // 7) (d-1)l / H = 1/[ 1 + 2p/(d-1) ]
-            //
-            // 8)            = (d-1) / ((d-1) + 2p)
-            //
-            // 9)            = (d-1) / (d + 2p - 1), rearranging for l gives
-            //
-            // 10) l = H / (d + 2p - 1)
-            const float p = 2f;
-            const float p2 = 2f * p;
+            // my_top     Vertical (y-axis) margin (top)
+            // my_bottom  Vertical (y-axis) margin (bottom)
+            // mx         Horizontal (x-axis) margin (left/right)
+            // 
+            // g    Vertical distance between adjacent horizontal layers.
+            // u    Layout width, minus margins, i.e. the horizontal range that nodes in each layer can occupy.
+            // v    Horizontal distance between adajacent nodes in a horizontal layer.
 
-            // Rounding will produce 'off by one' errors, e.g. all heights may not total height of layout area,
-            // but the effect is probably negligible on the quality of the layout.
+            // Calculate top/bottom margins.
+            // Each margin consiosts of a fixed amount, plus a proportional component based on teh height of the layout area.
+            // The fixed amounts are different because the bottom layer of nodes have connections drawn below them, hence 
+            // additional margin is required there.
+            int my_prop = (int)(layoutArea.Height * 0.05f);
+            int my_top = 5 + my_prop;
+            int my_bottom = 28 + my_prop;
+            int my_total = my_top + my_bottom;
+
+            // Calc left/right margin. This is a fixed amount, as unlike the vertical layout, the leftmost and rightmost 
+            // nodes are not positioned exactly on the margin.
+            const int mx = 10;
+            const int mx2 = 2 * mx;
+            
+            // Calculate g, i.e. the vertical distance between adjacent horizontal layers.
             int layerCount = nodesByLayer.Length;
-            int l = (int)MathF.Round(layoutArea.Height / (layerCount + p2 - 1f));
-            int m = (int)MathF.Round(l * p);
+            int g = (int)MathF.Round((layoutArea.Height - my_total) / (float)(layerCount - 1));
 
-            // Assign a position to each node, one layer at a time.
-            int yCurrent = m;
+            // Define a running y coordinate for positioning of nodes in a horizontal layer. This starts at the top margin
+            int ycurr = my_top;
+
+            // Calculate u, i.e. the horizontal range that nodes in each layer can occupy.
+            float u = layoutArea.Width - mx2;
+
+            // Loop over the graph layers, positioning the nodes in each layer in turn.
             foreach(List<int> nodeList in nodesByLayer)
             {
-                // Calculate inter-node gap and margin width (we use the same principle as with the vertical layout of layers, see notes above).
-                int nodeCount = nodeList.Count;
-                float xIncr = layoutArea.Width / (nodeCount + p2 - 1f);
-                int xMargin = (int)MathF.Round(xIncr * p);
+                // Calculate v, i.e. the horizontal distance between adajacent nodes in the current layer.
+                int n = nodeList.Count;
+                float v = u / (n+1);
 
-                // Loop nodes in layer; Assign position to each.
-                float xCurrent = xMargin;
-                for(int i=0; i < nodeCount; i++, xCurrent += xIncr) 
+                // Define a running x coordinate for positioning of nodes horizontally within the current layer.
+                float xcurr = mx + v;
+
+                // Loop nodes in layer, assigning an (x,y) position to each.                
+                for(int i=0; i < n; i++, xcurr += v) 
                 {
                     int nodeIdx = nodeList[i];
-                    nodePosByIdx[nodeIdx] = new Point((int)xCurrent, yCurrent);
+                    nodePosByIdx[nodeIdx] = new Point((int)xcurr, ycurr);
                 }
 
-                // Increment y coord for next layer.
-                yCurrent += l;
+                // Increment layer y coord, ready for for next layer.
+                ycurr += g;
             }
         }
 
