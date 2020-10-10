@@ -20,17 +20,18 @@ namespace UISandbox
             var graphViewportPainter = new GraphViewportPainter();
             this.viewportControl1.ViewportPainter = graphViewportPainter;
 
-            DirectedGraphViewModel graphViewModel = CreateGraphViewModel(this.viewportControl1.Size);
+            DirectedGraphViewModel graphViewModel = CreateGraphViewModel();
 
             graphViewportPainter.GraphViewModel = graphViewModel;
 
+            this.viewportControl1.RepaintViewport();
             this.viewportControl1.Refresh();
         }
 
 
         #region Private Static Methods
 
-        private static DirectedGraphViewModel CreateGraphViewModel(Size layoutArea)
+        private static DirectedGraphViewModel CreateGraphViewModel()
         {
             // Simple acyclic graph.
             var connList = new List<WeightedDirectedConnection<float>>
