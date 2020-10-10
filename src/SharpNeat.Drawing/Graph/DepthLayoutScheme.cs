@@ -145,10 +145,10 @@ namespace SharpNeat.Drawing.Graph
             int my_bottom = 28 + my_prop;
             int my_total = my_top + my_bottom;
 
-            // Calc left/right margin. This is a fixed amount, as unlike the vertical layout, the leftmost and rightmost 
-            // nodes are not positioned exactly on the margin.
-            const int mx = 10;
-            const int mx2 = 2 * mx;
+            // Calc left/right margins.
+            int mx_prop = (int)(layoutArea.Width * 0.02f);
+            int mx = 20 + mx_prop;
+            int mx2 = 2 * mx;
             
             // Calculate g, i.e. the vertical distance between adjacent horizontal layers.
             int layerCount = nodesByLayer.Length;
@@ -165,10 +165,10 @@ namespace SharpNeat.Drawing.Graph
             {
                 // Calculate v, i.e. the horizontal distance between adajacent nodes in the current layer.
                 int n = nodeList.Count;
-                float v = u / (n+1);
+                float v = u / n;
 
                 // Define a running x coordinate for positioning of nodes horizontally within the current layer.
-                float xcurr = mx + v;
+                float xcurr = mx + (v * 0.5f);
 
                 // Loop nodes in layer, assigning an (x,y) position to each.                
                 for(int i=0; i < n; i++, xcurr += v) 
