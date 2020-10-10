@@ -88,7 +88,7 @@ namespace SharpNeat.Windows.App
 
         #region UI Event Handlers [Buttons]
 
-        private void btnExperimentInfo_Click(object sender,System.EventArgs e)
+        private void btnExperimentInfo_Click(object sender, EventArgs e)
         {
             if(cmbExperiments.SelectedItem is ExperimentInfo expInfo)
             {
@@ -100,13 +100,13 @@ namespace SharpNeat.Windows.App
             }
         }
 
-        private void btnLoadExperimentDefaultParameters_Click(object sender,EventArgs e)
+        private void btnLoadExperimentDefaultParameters_Click(object sender, EventArgs e)
         {
             _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
             SendSettingsToUI(_neatExperiment);
         }
 
-        private void btnCreateRandomPop_Click(object sender,EventArgs e)
+        private void btnCreateRandomPop_Click(object sender, EventArgs e)
         {
             INeatExperiment<double> neatExperiment = GetNeatExperiment();
             MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
@@ -121,7 +121,7 @@ namespace SharpNeat.Windows.App
             UpdateUIState();
         }
 
-        private void btnSearchStart_Click(object sender,EventArgs e)
+        private void btnSearchStart_Click(object sender, EventArgs e)
         {
             if(_eaRunner is object)
             {   // Resume existing EA & update GUI state.
@@ -147,12 +147,12 @@ namespace SharpNeat.Windows.App
             UpdateUIState();
         }
 
-        private void btnSearchStop_Click(object sender,EventArgs e)
+        private void btnSearchStop_Click(object sender, EventArgs e)
         {
             _eaRunner.RequestPause();
         }
 
-        private void btnSearchReset_Click(object sender,EventArgs e)
+        private void btnSearchReset_Click(object sender, EventArgs e)
         {
             // Clear down any EA related state.
             if(_eaRunner is object)
@@ -177,7 +177,7 @@ namespace SharpNeat.Windows.App
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
         }
 
-        private void btnCopyLogToClipboard_Click(object sender,EventArgs e)
+        private void btnCopyLogToClipboard_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
             foreach(Logger.LogItem item in lbxLog.Items) {
@@ -243,7 +243,8 @@ namespace SharpNeat.Windows.App
 
         private void cmbExperiments_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Clear any existing reference, as the UIs are specific to each experiment.
+            // Clear any existing references, as these are specific to each experiment.
+            _neatExperiment = null;
             _experimentUI = null;
 
             // Close the genome form if it is open, as the content of this form is specific to each experiment.
