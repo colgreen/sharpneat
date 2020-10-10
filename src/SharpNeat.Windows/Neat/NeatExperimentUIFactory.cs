@@ -9,15 +9,19 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System.Text.Json;
+using SharpNeat.Experiments.Windows;
 
-namespace SharpNeat.Windows.App.Experiments
+namespace SharpNeat.Windows.Neat
 {
-    public class ExperimentInfo
+    /// <summary>
+    /// Default implementation of <see cref="IExperimentUIFactory"/> for NEAT and NEAT genomes."/>
+    /// </summary>
+    public class NeatExperimentUIFactory : IExperimentUIFactory
     {
-        public string Name { get; set; }
-        public ExperimentFactoryInfo ExperimentFactory { get; set; }
-        public string ConfigFile { get; set; }
-        public string DescriptionFile { get; set; }
-        public ExperimentUIFactoryInfo ExperimentUIFactory { get; set; }
+        public IExperimentUI CreateExperimentUI(JsonElement configElem)
+        {
+            return new NeatExperimentUI();
+        }
     }
 }

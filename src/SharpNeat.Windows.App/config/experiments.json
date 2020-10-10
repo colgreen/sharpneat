@@ -1,5 +1,7 @@
 {
   "experiments": [
+
+    // === Logical XOR ===
     {
       "name": "Logical XOR",
       "experimentFactory": {
@@ -9,6 +11,8 @@
       "configFile": "config/experiments-config/xor.config.json",
       "descriptionFile": "config/experiments-descriptions/xor.txt"
     },
+
+    // === Prey Capture ===
     {
       "name": "Prey Capture",
       "experimentFactory": {
@@ -18,6 +22,8 @@
       "configFile": "config/experiments-config/prey-capture.config.json",
       "descriptionFile": "config/experiments-descriptions/prey-capture.txt"
     },
+
+    // === Binary 6-multiplexer ===
     {
       "name": "Binary 6-multiplexer",
       "experimentFactory": {
@@ -27,6 +33,8 @@
       "configFile": "config/experiments-config/binary-6-multiplexer.config.json",
       "descriptionFile": "config/experiments-descriptions/binary-6-multiplexer.txt"
     },
+
+    // === Binary 11-multiplexer ===
     {
       "name": "Binary 11-multiplexer",
       "experimentFactory": {
@@ -34,8 +42,15 @@
         "typeName": "SharpNeat.Tasks.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperimentFactory"
       },
       "configFile": "config/experiments-config/binary-11-multiplexer.config.json",
-      "descriptionFile": "config/experiments-descriptions/binary-11-multiplexer.txt"
+      "descriptionFile": "config/experiments-descriptions/binary-11-multiplexer.txt",
+      // UI settings.
+      "experimentUIFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+      }
     },
+
+    // === Cart-Pole Balancing (single pole) ===
     {
       "name": "Cart-Pole Balancing (single pole)",
       "experimentFactory": {
@@ -45,6 +60,8 @@
       "configFile": "config/experiments-config/cartpole-singlepole.config.json",
       "descriptionFile": "config/experiments-descriptions/cartpole-singlepole.txt"
     },
+
+    // === Cart-Pole Balancing (double pole) ===
     {
       "name": "Cart-Pole Balancing (double pole)",
       "experimentFactory": {
@@ -54,6 +71,8 @@
       "configFile": "config/experiments-config/cartpole-doublepole.config.json",
       "descriptionFile": "config/experiments-descriptions/cartpole-doublepole.txt"
     },
+
+    // === Generative Function Regression - Sin(x) ===
     {
       "name": "Generative Function Regression - Sin(x)",
       "experimentFactory": {

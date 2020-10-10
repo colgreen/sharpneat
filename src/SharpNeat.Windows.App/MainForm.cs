@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using log4net;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
+using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
@@ -37,7 +38,8 @@ namespace SharpNeat.Windows.App
         private INeatExperiment<double> _neatExperiment;
         private NeatPopulation<double> _neatPop;
         private EvolutionAlgorithmRunner _eaRunner;
-
+        private IExperimentUI _experimentUI;
+        private GenomeForm _bestGenomeForm;
 
         #region Form Constructor / Initialisation
 
@@ -69,7 +71,7 @@ namespace SharpNeat.Windows.App
             // Note. Use of ReadAllText() isn't ideal, but for a small file it's fine, and this avoids the complexities of dealign 
             // with async code in a synchronous context.
             string experimentsJson = File.ReadAllText("config/experiments.json");
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, ReadCommentHandling = JsonCommentHandling.Skip };
             ExperimentRegistry registry = JsonSerializer.Deserialize<ExperimentRegistry>(experimentsJson, options);
 
             // Populate the combo box.
@@ -119,11 +121,6 @@ namespace SharpNeat.Windows.App
             UpdateUIState();
         }
 
-
-
-
-
-
         private void btnSearchStart_Click(object sender,EventArgs e)
         {
             if(_eaRunner is object)
@@ -144,64 +141,16 @@ namespace SharpNeat.Windows.App
 
             // Attach event listeners.
             _eaRunner.UpdateEvent += _eaRunner_UpdateEvent;
-            
-
-
-
-            // TODO: Implement.
-
-
 
             // Start the algorithm & update GUI state.
             _eaRunner.StartOrResume();
             UpdateUIState();
         }
 
-        private void _eaRunner_UpdateEvent(object sender, EventArgs e)
-        {
-
-            if(_eaRunner == null || _eaRunner.RunState == RunState.Terminated) {
-                return;
-            }
-
-
-
-
-            // Switch to the UI thread, if not already on that thread.
-            if(this.InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(delegate()
-                {
-                    _eaRunner_UpdateEvent(sender, e);
-                }));
-                return;
-            }
-
-            // TODO: Implement.
-
-            // Update stats fields.
-            UpdateUIState_EaStats();
-
-            // Write entry to log.
-            __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _eaRunner.EA.Stats.Generation, _neatPop.Stats.BestFitness.PrimaryFitness));
-
-            if(_eaRunner.RunState == RunState.Paused) {
-                UpdateUIState_EaReadyPaused();
-            }
-        }
-
-
-
-
         private void btnSearchStop_Click(object sender,EventArgs e)
         {
             _eaRunner.RequestPause();
         }
-
-
-
-
-
 
         private void btnSearchReset_Click(object sender,EventArgs e)
         {
@@ -218,6 +167,11 @@ namespace SharpNeat.Windows.App
             Logger.Clear();
             UpdateUIState();
             UpdateUIState_ResetStats();
+
+            // Clear the best genome form (if open).
+            if(_bestGenomeForm is object) {
+                _bestGenomeForm.Genome = null;
+            }
 
             // Take the opportunity to clean-up the heap.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
@@ -237,12 +191,86 @@ namespace SharpNeat.Windows.App
 
         #endregion
 
-        #region UI Event Handlers [Menu Items]
+        #region UI Event Handlers [Menu Buttons]
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form frmAboutBox = new AboutForm();
             frmAboutBox.ShowDialog(this);
+        }
+
+        private void bestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IExperimentUI experimentUI = GetExperimentUI();
+            if(experimentUI is null) {
+                return;
+            }
+
+            GenomeControl genomeCtrl = experimentUI.CreateGenomeControl();
+            if(experimentUI is null) {
+                return;
+            }
+
+            // Create form.
+            _bestGenomeForm = new GenomeForm("Best Genome", genomeCtrl);
+
+            // Attach a event handler to update this main form when the genome form is closed.
+            _bestGenomeForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
+            {
+                _bestGenomeForm = null;
+                bestGenomeToolStripMenuItem.Enabled = true;
+            });
+
+            // Prevent creation of more then one instance of the genome form.
+            bestGenomeToolStripMenuItem.Enabled = false;
+
+            // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we 
+            // see a genome right away, regardless of whether the EA is running or not.
+            NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
+                _bestGenomeForm.Genome = neatEa.Population.BestGenome;
+
+            // Show the form.
+            _bestGenomeForm.Show(this);
+        }
+
+        #endregion
+
+        #region Update Event Handler
+
+        private void _eaRunner_UpdateEvent(object sender, EventArgs e)
+        {
+            if(_eaRunner == null || _eaRunner.RunState == RunState.Terminated) {
+                return;
+            }
+
+            // Switch to the UI thread, if not already on that thread.
+            if(this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate()
+                {
+                    _eaRunner_UpdateEvent(sender, e);
+                }));
+                return;
+            }
+
+            // TODO: Implement.
+
+            // Update stats fields.
+            UpdateUIState_EaStats();
+
+            // Update the best genome form (if open).
+            if(_bestGenomeForm is object)
+            { 
+                NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
+                _bestGenomeForm.Genome = neatEa.Population.BestGenome;
+            }
+
+            // Write entry to log.
+            __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _eaRunner.EA.Stats.Generation, _neatPop.Stats.BestFitness.PrimaryFitness));
+
+            if(_eaRunner.RunState == RunState.Paused) {
+                UpdateUIState_EaReadyPaused();
+            }
         }
 
         #endregion
@@ -256,40 +284,21 @@ namespace SharpNeat.Windows.App
                 _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
             }
 
-            // Read settings from teh UI into the experiment instance, and return.
+            // Read settings from the UI into the experiment instance, and return.
             GetSettingsFromUI(_neatExperiment);
             return _neatExperiment;
         }
 
-        #endregion
-
-
-        private void UpdateUIState()
+        private IExperimentUI GetExperimentUI()
         {
-            if(_eaRunner is null)
-            {
-                if(_neatPop is null) {
-                    UpdateUIState_NoPopulation();
-                } else {
-                    UpdateUIState_PopulationReady();
-                }
+            // Create a new experiment instance if one has not already been created.
+            if(_experimentUI is null) {
+                _experimentUI = CreateAndConfigureExperimentUI((ExperimentInfo)cmbExperiments.SelectedItem);
             }
-            else
-            {
-                switch(_eaRunner.RunState)
-                {
-                    case RunState.Ready:
-                    case RunState.Paused:
-                        UpdateUIState_EaReadyPaused();
-                        break;
-                    case RunState.Running:
-                        UpdateUIState_EaRunning();
-                        break;
-                    default:
-                        throw new ApplicationException($"Unexpected RunState [{_eaRunner.RunState}]");
-                }
-            }
+
+            return _experimentUI;
         }
-   
+
+        #endregion
     }
 }

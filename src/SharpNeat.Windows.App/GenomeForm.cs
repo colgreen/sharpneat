@@ -17,7 +17,7 @@ namespace SharpNeat.Windows.App
 {
     /// <summary>
     /// Form for genome visualization.
-    /// This is used for displaying a genome's directly (e.g. a neural net structure), or some other type of visualization
+    /// This is used for displaying genome's directly (e.g. a neural net structure), or some other type of visualization
     /// that uses the genome, e.g. a task view that shows how the genome performs on some task.
     /// </summary>
     public partial class GenomeForm : Form

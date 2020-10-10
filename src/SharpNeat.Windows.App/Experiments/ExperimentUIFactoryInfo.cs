@@ -12,12 +12,9 @@
 
 namespace SharpNeat.Windows.App.Experiments
 {
-    public class ExperimentInfo
+    public class ExperimentUIFactoryInfo
     {
-        public string Name { get; set; }
-        public ExperimentFactoryInfo ExperimentFactory { get; set; }
-        public string ConfigFile { get; set; }
-        public string DescriptionFile { get; set; }
-        public ExperimentUIFactoryInfo ExperimentUIFactory { get; set; }
+        public string AssemblyName { get; set; }
+        public string TypeName { get; set; }
     }
 }

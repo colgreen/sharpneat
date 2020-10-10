@@ -49,19 +49,19 @@ namespace UISandbox
             // Create graph.
             var digraph = WeightedDirectedGraphBuilder<float>.Create(connList, 2, 2);
 
-            
-            int[] nodeIdByIdx = CreateNodeIdByIdx(digraph.TotalNodeCount);
+            // Create graph view model, and return.
+            INodeIdMap nodeIdByIdx = CreateNodeIdByIdx(digraph.TotalNodeCount);
             DirectedGraphViewModel graphViewModel = new DirectedGraphViewModel(digraph, digraph.WeightArray, nodeIdByIdx);
             return graphViewModel;
         }
 
-        private static int[] CreateNodeIdByIdx(int length)
+        private static INodeIdMap CreateNodeIdByIdx(int length)
         {
             var arr = new int[length];
             for(int i=0; i < length; i++) {
                 arr[i] = i;
             }
-            return arr;
+            return new ArrayNodeIdMap(arr);
         }
 
         #endregion

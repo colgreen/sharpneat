@@ -11,6 +11,7 @@
  */
 using System;
 using System.Drawing;
+using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
 using SharpNeat.Neat;
 using SharpNeat.Neat.ComplexityRegulation;
@@ -25,6 +26,37 @@ namespace SharpNeat.Windows.App
         // Fields used to calculate evaluations per second, on each successive update.
         ulong _evalCountPrev;
         DateTime _evalCountPrevSampleTime = DateTime.MinValue;
+
+        #region Private Methods
+
+        private void UpdateUIState()
+        {
+            if(_eaRunner is null)
+            {
+                if(_neatPop is null) {
+                    UpdateUIState_NoPopulation();
+                } else {
+                    UpdateUIState_PopulationReady();
+                }
+            }
+            else
+            {
+                switch(_eaRunner.RunState)
+                {
+                    case RunState.Ready:
+                    case RunState.Paused:
+                        UpdateUIState_EaReadyPaused();
+                        break;
+                    case RunState.Running:
+                        UpdateUIState_EaRunning();
+                        break;
+                    default:
+                        throw new ApplicationException($"Unexpected RunState [{_eaRunner.RunState}]");
+                }
+            }
+        }
+
+        #endregion
 
         #region Private Methods [UpdateUIState Subroutines]
 

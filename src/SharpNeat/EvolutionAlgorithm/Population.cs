@@ -30,6 +30,14 @@ namespace SharpNeat.EvolutionAlgorithm
         public List<TGenome> GenomeList { get; }
 
         /// <summary>
+        /// Gets the current best genome.
+        /// </summary>
+        /// <remarks>
+        /// Note. If the evolution algorithm has not yet been initialised then this will simply return the genome at index zero in the population.
+        /// </remarks>
+        public TGenome BestGenome => this.GenomeList[this.Stats.BestGenomeIndex];
+
+        /// <summary>
         /// The number of genomes in the population.
         /// </summary>
         /// <remarks>

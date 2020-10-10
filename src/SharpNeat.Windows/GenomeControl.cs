@@ -21,7 +21,7 @@ namespace SharpNeat.Windows
     /// </summary>
     public partial class GenomeControl : UserControl
     {
-        IGenome _genome;
+        protected IGenome _genome;
 
         public GenomeControl()
         {
@@ -37,28 +37,15 @@ namespace SharpNeat.Windows
             set
             {
                 _genome = value;
-
-                // TODO: Update/repaint the control.
-                // Initial check.
-                if(this.IsDisposed) {
-                    return;
-                }
-
-                if(!this.InvokeRequired)
-                {
-                    Refresh();
-                    return;
-                }
-
-                this.Invoke(new MethodInvoker(delegate()
-                {
-                    // Secondary check; the form could have been disposed after the first test of IsDisposed, and the call to Invoke().
-                    if(this.IsDisposed) {
-                        return;
-                    }
-                    Refresh();
-                }));
+                OnGenomeUpdated();
             }
+        }
+
+        /// <summary>
+        /// Optional code to run when the genome is updated.
+        /// </summary>
+        public virtual void OnGenomeUpdated()
+        {
         }
     }
 }

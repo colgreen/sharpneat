@@ -35,7 +35,7 @@ namespace SharpNeat.Drawing
         /// <summary>
         /// Provides a ID/label for each node.
         /// </summary>
-        public int[] NodeIdByIdx { get; }
+        public INodeIdMap NodeIdByIdx { get; }
 
         /// <summary>
         /// Provides a 2D position for each node.
@@ -56,10 +56,10 @@ namespace SharpNeat.Drawing
         public DirectedGraphViewModel(
             DirectedGraph digraph,
             float[] weightArr,
-            int[] nodeIdByIdx)
+            INodeIdMap nodeIdByIdx)
         {
             if(weightArr.Length != digraph.ConnectionIdArrays.Length) throw new ArgumentException(nameof(weightArr));
-            if(nodeIdByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
+            if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
 
             this.DirectedGraph = digraph;
             this.WeightArr = weightArr;
@@ -77,11 +77,11 @@ namespace SharpNeat.Drawing
         public DirectedGraphViewModel(
             DirectedGraph digraph,
             float[] weightArr,
-            int[] nodeIdByIdx,
+            INodeIdMap nodeIdByIdx,
             Point[] nodePosByIdx)
         {
             if(weightArr.Length != digraph.ConnectionIdArrays.Length) throw new ArgumentException(nameof(weightArr));
-            if(nodeIdByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
+            if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
             if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
 
             this.DirectedGraph = digraph;

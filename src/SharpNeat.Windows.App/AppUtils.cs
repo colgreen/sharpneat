@@ -12,6 +12,7 @@
 using System;
 using System.Text.Json;
 using SharpNeat.Experiments;
+using SharpNeat.Experiments.Windows;
 using SharpNeat.IO;
 using SharpNeat.Windows.App.Experiments;
 
@@ -22,7 +23,10 @@ namespace SharpNeat.Windows.App
         public static INeatExperiment<double> CreateAndConfigureExperiment(ExperimentInfo expInfo)
         {
             // Create an experiment factory.
-            INeatExperimentFactory factory = (INeatExperimentFactory)Activator.CreateInstance(expInfo.ExperimentFactory.AssemblyName,expInfo.ExperimentFactory.TypeName).Unwrap();
+            INeatExperimentFactory factory = (INeatExperimentFactory)Activator.CreateInstance(
+                expInfo.ExperimentFactory.AssemblyName,
+                expInfo.ExperimentFactory.TypeName)
+                .Unwrap();
 
             // Load experiment json config from file.
             JsonDocument configDoc = JsonUtils.LoadUtf8(expInfo.ConfigFile);
@@ -30,6 +34,26 @@ namespace SharpNeat.Windows.App
             // Create an instance of INeatExperiment, configured using the supplied json config.
             INeatExperiment<double> experiment = factory.CreateExperiment(configDoc.RootElement);
             return experiment;
+        }
+
+        public static IExperimentUI CreateAndConfigureExperimentUI(ExperimentInfo expInfo)
+        {
+            if(expInfo.ExperimentUIFactory is null) {
+                return null;
+            }
+
+            // Create an experimentUI factory.
+            IExperimentUIFactory factory = (IExperimentUIFactory)Activator.CreateInstance(
+                expInfo.ExperimentUIFactory.AssemblyName,
+                expInfo.ExperimentUIFactory.TypeName)
+                .Unwrap();
+
+            // Load experiment json config from file.
+            JsonDocument configDoc = JsonUtils.LoadUtf8(expInfo.ConfigFile);
+
+            // Create an instance of INeatExperiment, configured using the supplied json config.
+            IExperimentUI experimentUI = factory.CreateExperimentUI(configDoc.RootElement);
+            return experimentUI;
         }
     }
 }

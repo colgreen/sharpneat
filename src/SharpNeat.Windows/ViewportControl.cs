@@ -128,7 +128,10 @@ namespace SharpNeat.Windows
 
         #region Public Methods
 
-        public override void Refresh()
+        /// <summary>
+        /// Repaint the viewport.
+        /// </summary>
+        public void RepaintViewport()
         {
             // If a painter has been assigned, then paint the graph.
             if(ViewportPainter is object)
@@ -138,8 +141,6 @@ namespace SharpNeat.Windows
                 g.CompositingQuality = CompositingQuality.AssumeLinear;
                 ViewportPainter.Paint(g, _viewportArea, _zoomFactor);
             }
-
-            base.Refresh();
         }
 
         #endregion
@@ -173,12 +174,16 @@ namespace SharpNeat.Windows
                 pictureBox.Image = _image;
             }
 
-            // Repaint the viewport/control.
+            // Repaint the viewport.
+            RepaintViewport();
+
+            // Update the control/window to show the updated/repainted viewport.
             Refresh();
         }
 
         private void PictureBox_DoubleClick(object sender, EventArgs e)
         {
+            // Propagate the double click event up to the parent control.
             OnDoubleClick(e);
         }
 

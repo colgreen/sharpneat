@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenomeForm));
-            this.genomeCtrl = new SharpNeat.Windows.GenomeControl();
             this.SuspendLayout();
             // 
             // genomeCtrl
