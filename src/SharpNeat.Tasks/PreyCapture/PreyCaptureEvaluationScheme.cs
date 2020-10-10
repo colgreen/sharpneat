@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.PreyCapture
     /// <summary>
     /// Evaluation scheme for the prey capture task.
     /// </summary>
-    public class PreyCaptureEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public sealed class PreyCaptureEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Instance Fields
 

@@ -20,7 +20,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     /// <summary>
     /// Evaluation scheme for the function regression task.
     /// </summary>
-    public class GenerativeFnRegressionEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public sealed class GenerativeFnRegressionEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Instance Fields
 

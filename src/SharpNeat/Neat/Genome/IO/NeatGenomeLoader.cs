@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.Genome.IO
     /// For loading/deserializing instances of <see cref="NeatGenome{T}"/> from file, stream, etc.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class NeatGenomeLoader<T> where T : struct
+    public sealed class NeatGenomeLoader<T> where T : struct
     {
         static readonly char[] __separatorChars = new char[] {' ', '\t' };
 

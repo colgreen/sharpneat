@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
     /// This is the speciation scheme used in SharpNEAT 2.x.
     /// </remarks>
     /// <typeparam name="T">Neural net signal and weight data type.</typeparam>
-    public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
+    public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
         where T : struct
     {
         #region Instance Fields

@@ -19,7 +19,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
     /// <summary>
     /// A factory for creating instances of <see cref="INeatExperiment{T}"/> for the cart and single pole balancing task.
     /// </summary>
-    public class CartSinglePoleExperimentFactory : INeatExperimentFactory
+    public sealed class CartSinglePoleExperimentFactory : INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment.

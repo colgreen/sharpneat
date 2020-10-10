@@ -17,7 +17,7 @@ namespace SharpNeat.Tasks.FunctionRegression
     /// Parameter sampling info.
     /// Describes the value range to sample, the number of samples within that range, and the increment between samples.
     /// </summary>
-    public struct ParamSamplingInfo
+    public readonly struct ParamSamplingInfo
     {
         /// <summary>Sample interval minimum.</summary>
         public double Min { get; }

@@ -22,7 +22,7 @@ namespace SharpNeat.NeuralNets
     /// A factory class for obtaining instances of <see cref="IActivationFunction{T}"/>.
     /// </summary>
     /// <typeparam name="T">Neural net signal and weight data type.</typeparam>
-    public class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
+    public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
         where T : struct
     {
         #region Instance Fields

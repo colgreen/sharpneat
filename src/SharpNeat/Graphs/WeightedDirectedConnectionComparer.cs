@@ -17,7 +17,7 @@ namespace SharpNeat.Graphs
     /// An <see cref="IComparer{T}"/> for comparing instances of <see cref="WeightedDirectedConnection{T}"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class WeightedDirectedConnectionComparer<T> : IComparer<WeightedDirectedConnection<T>>
+    public sealed class WeightedDirectedConnectionComparer<T> : IComparer<WeightedDirectedConnection<T>>
         where T : struct
     {
         /// <summary>

@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Genome.IO
     /// For loading/deserializing a population of <see cref="NeatGenome{T}"/> instances from the local filesystem.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class NeatPopulationLoader<T> where T : struct
+    public sealed class NeatPopulationLoader<T> where T : struct
     {
         readonly NeatGenomeLoader<T> _genomeLoader;
 

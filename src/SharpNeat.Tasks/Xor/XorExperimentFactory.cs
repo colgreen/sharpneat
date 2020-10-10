@@ -19,7 +19,7 @@ namespace SharpNeat.Tasks.Xor
     /// <summary>
     /// A factory for creating instances of <see cref="INeatExperiment{T}"/> for the XOR task.
     /// </summary>
-    public class XorExperimentFactory : INeatExperimentFactory
+    public sealed class XorExperimentFactory : INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment.

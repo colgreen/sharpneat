@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Genome
     /// Element i of each array represents a value relating to the i'th gene.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class ConnectionGenes<T>
+    public sealed class ConnectionGenes<T>
         where T : struct
     {        
         /// <summary>

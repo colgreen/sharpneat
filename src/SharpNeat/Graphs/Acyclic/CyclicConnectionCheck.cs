@@ -29,7 +29,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// <see cref="AcyclicGraphDepthAnalysis"/>
     /// <see cref="CyclicGraphCheck"/>
     /// </remarks>
-    public class CyclicConnectionCheck
+    public sealed class CyclicConnectionCheck
     {
         #region Instance Fields
 

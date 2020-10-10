@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
     /// A complexity regulation strategy that remains fixed in complexifying mode throughout 
     /// the lifetime of the evolution algorithm.
     /// </summary>
-    public class NullComplexityRegulationStrategy : IComplexityRegulationStrategy
+    public sealed class NullComplexityRegulationStrategy : IComplexityRegulationStrategy
     {
         #region IComplexityRegulationStrategy
 

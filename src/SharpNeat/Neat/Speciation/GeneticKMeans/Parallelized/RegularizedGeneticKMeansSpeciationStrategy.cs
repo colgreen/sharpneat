@@ -66,7 +66,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// efficacy in particular in comparison to the standard k-means method.
     /// </remarks>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
-    public class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
+    public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
         where T : struct
     {
         #region Instance Fields

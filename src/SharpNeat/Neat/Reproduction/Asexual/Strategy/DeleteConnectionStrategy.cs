@@ -25,7 +25,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// Offspring genomes are created by taking a clone of a single parent genome and deleting a single 
     /// connection, if possible.
     /// </remarks>
-    public class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
+    public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         readonly INeatGenomeBuilder<T> _genomeBuilder;

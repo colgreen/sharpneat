@@ -76,7 +76,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// <see cref="Graphs.Acyclic.AcyclicGraphDepthAnalysis"/>
     /// <see cref="CyclicGraphCheck"/>
     /// </remarks>
-    public class CyclicConnectionCheck
+    public sealed class CyclicConnectionCheck
     {
         #region Instance Fields
 

@@ -18,7 +18,7 @@ namespace SharpNeat.Drawing
     /// <summary>
     /// Represents a directed graph, with supplementary data suitable for producing a 2D visual representation of the graph.
     /// </summary>
-    public class DirectedGraphViewModel
+    public sealed class DirectedGraphViewModel
     {
         #region Auto Properties
 

@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.Xor
     /// <summary>
     /// Evaluation scheme for the logical XOR task.
     /// </summary>
-    public class XorEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public sealed class XorEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
 

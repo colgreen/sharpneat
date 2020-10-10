@@ -29,7 +29,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
     /// As things stand the problem is difficult enough in its current form, therefore we provide velocity inputs and define two very
     /// different pole lengths.
     /// </remarks>
-    public class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         #region Constants
 

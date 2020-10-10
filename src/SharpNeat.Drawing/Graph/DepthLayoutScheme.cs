@@ -52,7 +52,7 @@ namespace SharpNeat.Drawing.Graph
     /// some or all of which may be part of a cycle, is based on the average number of hops to that node. This is essentially a 
     /// heuristic that aims to place nodes 'naturally', i.e. with connections mostly in nearby layers (on average).
     /// </remarks>
-    public class DepthLayoutScheme : IGraphLayoutScheme
+    public sealed class DepthLayoutScheme : IGraphLayoutScheme
     {
         #region Public Methods
 

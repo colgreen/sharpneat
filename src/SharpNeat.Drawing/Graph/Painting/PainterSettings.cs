@@ -16,7 +16,7 @@ namespace SharpNeat.Drawing.Graph.Painting
     /// <summary>
     /// Graph painter settings.
     /// </summary>
-    public class PainterSettings
+    public sealed class PainterSettings
     {
         /// <summary>
         /// Positive connection weight color.

@@ -33,7 +33,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// <see cref="CyclicConnectionCheck"/>
     /// <see cref="CyclicGraphCheck"/>
     /// </remarks>
-    public class AcyclicGraphDepthAnalysis
+    public sealed class AcyclicGraphDepthAnalysis
     {
         #region Instance Fields
 
@@ -58,8 +58,6 @@ namespace SharpNeat.Graphs.Acyclic
         /// </summary>
         int _reentranceFlag = 0;
         #endif
-
-        
 
         #endregion
 

@@ -29,7 +29,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// Offspring genomes are created by taking a clone of a single parent genome and adding a single acyclic connection,
     /// if possible.
     /// </remarks>
-    public class AddAcyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
+    public sealed class AddAcyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         #region Instance Fields

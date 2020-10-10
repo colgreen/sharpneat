@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer
     /// <summary>
     /// Evaluation scheme for the Binary 6-Multiplexer task.
     /// </summary>
-    public class BinarySixMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public sealed class BinarySixMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
 

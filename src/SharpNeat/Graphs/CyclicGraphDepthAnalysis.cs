@@ -32,7 +32,7 @@ namespace SharpNeat.Graphs
     /// more complex, thus this class has not been converted to the faster approach because it is not directly 
     /// used in the evolutionary algorithm. At time of writing this class is used only for graph visualization.
     /// </summary>
-    public class CyclicGraphDepthAnalysis
+    public sealed class CyclicGraphDepthAnalysis
     {
         #region Instance Fields
 

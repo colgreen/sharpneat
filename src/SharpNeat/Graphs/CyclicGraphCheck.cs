@@ -43,7 +43,7 @@ namespace SharpNeat.Graphs
     /// used in the evolutionary algorithm. At time of writing this class is used only in Debug.Assert statements
     /// and unit tests, thus the simpler implementation is more appropriate.
     /// </summary>
-    public class CyclicGraphCheck
+    public sealed class CyclicGraphCheck
     {
         #region Instance Fields
 

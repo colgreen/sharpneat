@@ -22,7 +22,7 @@ namespace SharpNeat.Neat
     /// Used when adding new nodes to check if an identical node (connection split) has been added to a genome elsewhere 
     /// in the population. This allows re-use of the same innovation ID for like nodes.
     /// </summary>
-    public class AddedNodeBuffer
+    public sealed class AddedNodeBuffer
     {
         readonly KeyedCircularBuffer<DirectedConnection,int> _buffer;
         

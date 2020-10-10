@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     /// Container for <see cref="DiscreteDistribution"/> instances that represent discrete probability distributions 
     /// over the set of possible genome mutation types.
     /// </summary>
-    public class MutationTypeDistributions
+    public sealed class MutationTypeDistributions
     {
         #region Auto Properties [Mutation Type Distributions]
 

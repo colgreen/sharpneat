@@ -17,7 +17,7 @@ namespace SharpNeat.Tasks.PreyCapture
     /// <summary>
     /// Evaluator for the prey capture task.
     /// </summary>
-    public class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         readonly PreyCaptureWorld _world;
         readonly int _trialsPerEvaluation;

@@ -18,7 +18,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// <summary>
     /// Conveys summary information from a network depth analysis.
     /// </summary>
-    public class GraphDepthInfo : IEquatable<GraphDepthInfo>
+    public sealed class GraphDepthInfo : IEquatable<GraphDepthInfo>
     {
         /// <summary>
         /// Indicates the total depth of the network.

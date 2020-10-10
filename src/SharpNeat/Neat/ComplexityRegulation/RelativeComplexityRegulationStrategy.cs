@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
     /// Transitioning from simplifying to complexifying occurs when complexity is no longer falling
     /// *and* complexity is below the ceiling.
     /// </summary>
-    public class RelativeComplexityRegulationStrategy : IComplexityRegulationStrategy
+    public sealed class RelativeComplexityRegulationStrategy : IComplexityRegulationStrategy
     {
         #region Instance Fields
 

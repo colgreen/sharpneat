@@ -35,7 +35,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// however many CPU cores are available.
     /// </remarks>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
-    public class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>,T>
+    public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>,T>
         where T : struct
     {
         #region Instance Fields

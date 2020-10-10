@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.Genome
     /// For building instances of <see cref="NeatGenome{T}"/>. For use when evolving cyclic graphs only.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
+    public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         where T : struct
     {
         readonly MetaNeatGenome<T> _metaNeatGenome;

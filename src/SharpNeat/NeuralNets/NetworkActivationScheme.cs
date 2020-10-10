@@ -15,7 +15,7 @@ namespace SharpNeat.NeuralNets
     /// <summary>
     /// Represents network activation schemes.
     /// </summary>
-    public class NetworkActivationScheme
+    public sealed class NetworkActivationScheme
     {
         bool _acyclicNetwork;
 

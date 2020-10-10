@@ -25,7 +25,7 @@ namespace SharpNeat.Graphs
     /// This functionality can be achieved by using the various sort() methods in the core framework, but less efficiently than 
     /// by this customised class (in terms of both speed, RAM allocations and thus GC overhead).
     /// </summary>
-    public class ConnectionSorter<T>
+    public sealed class ConnectionSorter<T>
     {
         #region Statics / Consts
 

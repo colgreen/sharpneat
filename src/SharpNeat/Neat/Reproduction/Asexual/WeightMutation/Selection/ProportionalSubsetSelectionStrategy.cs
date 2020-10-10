@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
     /// Strategy for selecting a sub-set of items from a superset. 
     /// The number of items to select is a fixed proportion of the superset size.
     /// </summary>
-    public class ProportionSubsetSelectionStrategy : ISubsetSelectionStrategy
+    public sealed class ProportionSubsetSelectionStrategy : ISubsetSelectionStrategy
     {
         readonly double _selectionProportion;
 

@@ -15,7 +15,7 @@ using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
-    internal partial class ConnectionGeneListBuilder<T>
+    internal sealed class ConnectionGeneListBuilder<T>
         where T : struct
     {
         #region Instance Fields

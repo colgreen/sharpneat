@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
     /// <summary>
     /// Evaluation scheme for the Binary 3-Multiplexer task.
     /// </summary>
-    public class BinaryThreeMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
+    public sealed class BinaryThreeMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
     {
         #region Properties
 

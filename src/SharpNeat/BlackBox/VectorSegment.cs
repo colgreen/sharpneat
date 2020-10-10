@@ -39,7 +39,7 @@ namespace SharpNeat.BlackBox
     /// make these tests.
     /// </summary>
     /// <typeparam name="T">Vector data type.</typeparam>
-    public class VectorSegment<T> : IVector<T> where T : struct
+    public sealed class VectorSegment<T> : IVector<T> where T : struct
     {
         readonly T[] _innerArr;
         readonly int _offset;

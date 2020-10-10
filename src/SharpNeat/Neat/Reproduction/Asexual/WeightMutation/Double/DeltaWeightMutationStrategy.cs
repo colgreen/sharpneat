@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
     /// <summary>
     /// A connection weight mutation strategy that applies deltas to existing weights.
     /// </summary>
-    public class DeltaWeightMutationStrategy: IWeightMutationStrategy<double>
+    public sealed class DeltaWeightMutationStrategy: IWeightMutationStrategy<double>
     {
         readonly ISubsetSelectionStrategy _selectionStrategy;
         readonly IStatelessSampler<double> _weightDeltaSampler;

@@ -20,7 +20,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
     /// The number of items to select is a fixed number (the selection cardinality), unless the superset is smaller
     /// in which case all items in the superset are selected.
     /// </summary>
-    public class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
+    public sealed class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
     {
         readonly int _selectCount;
 

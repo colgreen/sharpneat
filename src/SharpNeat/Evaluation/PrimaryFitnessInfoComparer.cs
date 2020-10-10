@@ -16,7 +16,7 @@ namespace SharpNeat.Evaluation
     /// <summary>
     /// For comparing the primary fitness of two <see cref="FitnessInfo"/> instances.
     /// </summary>
-    public class PrimaryFitnessInfoComparer : IComparer<FitnessInfo>
+    public sealed class PrimaryFitnessInfoComparer : IComparer<FitnessInfo>
     {
         /// <summary>
         /// Singleton instance.

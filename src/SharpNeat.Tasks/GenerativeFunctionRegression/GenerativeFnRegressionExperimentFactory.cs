@@ -21,7 +21,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
     /// <summary>
     /// A factory for creating instances of <see cref="INeatExperiment{T}"/> for the generative sinewave task.
     /// </summary>
-    public class GenerativeFnRegressionExperimentFactory : INeatExperimentFactory
+    public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFactory
     {
         /// <summary>
         /// Gets a unique human-readable ID for the experiment.

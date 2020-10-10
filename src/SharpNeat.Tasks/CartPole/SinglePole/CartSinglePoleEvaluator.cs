@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
     /// <summary>
     /// Evaluator for the cart and single pole balancing task.
     /// </summary>
-    public class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+    public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
         #region Constants
 

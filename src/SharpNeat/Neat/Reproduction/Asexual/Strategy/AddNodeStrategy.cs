@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// if possible. A node is added by selecting a connection at random, and splitting it, i.e. replacing
     /// A → B with A → C → B, where A and B are the existing nodes, and C is the new node.
     /// </remarks>
-    public class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
+    public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
         #region Instance Fields

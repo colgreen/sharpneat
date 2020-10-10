@@ -16,7 +16,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
     /// <summary>
     /// Evolution algorithm update scheme.
     /// </summary>
-    public class UpdateScheme
+    public sealed class UpdateScheme
     {
         #region Auto Properties
 

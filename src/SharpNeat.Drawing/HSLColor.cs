@@ -13,7 +13,7 @@ namespace SharpNeat.Drawing
     /// <summary>
     /// For working with the Hue, Saturation, Luminosity (HSL) colour model.
     /// </summary>
-    public class HSLColor
+    public sealed class HSLColor
     {
         private const double scale = 240.0;
 

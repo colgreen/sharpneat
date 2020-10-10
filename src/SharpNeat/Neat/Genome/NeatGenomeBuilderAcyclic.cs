@@ -21,7 +21,7 @@ namespace SharpNeat.Neat.Genome
     /// For building instances of <see cref="NeatGenome{T}"/>. For use when evolving acyclic graphs only.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
+    public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
         where T : struct
     {
         #region Instance Fields
