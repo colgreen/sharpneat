@@ -25,6 +25,8 @@ namespace SharpNeat.Neat.Genome.IO
     /// <typeparam name="T">Connection weight data type.</typeparam>
     public class NeatGenomeLoader<T> where T : struct
     {
+        static readonly char[] __separatorChars = new char[] {' ', '\t' };
+
         #region Instance Fields
 
         readonly MetaNeatGenome<T> _metaNeatGenome;
@@ -188,7 +190,7 @@ namespace SharpNeat.Neat.Genome.IO
                 }
 
                 // Parse the connection fields.
-                string[] fields = line.Split(' ', '\t');
+                string[] fields = line.Split(__separatorChars, StringSplitOptions.RemoveEmptyEntries);
                 if(fields.Length != 3) {
                     throw new IOException($"Invalid connection. Line [{_lineIdx}].");
                 }
@@ -234,7 +236,7 @@ namespace SharpNeat.Neat.Genome.IO
                     break;
                 }
 
-                string[] fields = line.Split(' ', '\t');
+                string[] fields = line.Split(__separatorChars, StringSplitOptions.RemoveEmptyEntries);
                 if(fields.Length != 2) {
                     throw new IOException($"Invalid activation function line. Line [{_lineIdx}].");
                 }
@@ -306,7 +308,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             string line = ReadNonEmptyLine();
 
-            string[] fields = line.Split(' ', '\t');
+            string[] fields = line.Split(__separatorChars, StringSplitOptions.RemoveEmptyEntries);
             if(fields.Length != 2) {
                 throw new IOException($"Invalid input output count line. Line [{_lineIdx}].");
             }

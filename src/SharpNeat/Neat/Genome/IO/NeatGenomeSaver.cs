@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             // Write input and output node counts.
             sw.WriteLine("# Input and output node counts.");
-            sw.WriteLine($"{genome.MetaNeatGenome.InputNodeCount} {genome.MetaNeatGenome.OutputNodeCount}");
+            sw.WriteLine($"{genome.MetaNeatGenome.InputNodeCount}\t{genome.MetaNeatGenome.OutputNodeCount}");
             sw.WriteLine();
 
             // Write connections.
@@ -90,7 +90,7 @@ namespace SharpNeat.Neat.Genome.IO
                 dynamic weight = weightArr[i];
                 string weightStr = weight.ToString("R"); 
 
-                sw.WriteLine($"{conn.SourceId} {conn.TargetId} {weightStr}");
+                sw.WriteLine($"{conn.SourceId}\t{conn.TargetId}\t{weightStr}");
             }
 
             sw.WriteLine();
@@ -99,7 +99,7 @@ namespace SharpNeat.Neat.Genome.IO
         private static void WriteActivationFunction(string name, StreamWriter sw)
         {
             sw.WriteLine("# Activation functions (functionId functionCode).");
-            sw.WriteLine($"0 {name}");
+            sw.WriteLine($"0\t{name}");
             sw.WriteLine();
         }
 
