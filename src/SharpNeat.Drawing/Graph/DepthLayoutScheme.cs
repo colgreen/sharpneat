@@ -279,7 +279,9 @@ namespace SharpNeat.Drawing.Graph
 
             // Move all nodes up one layer, such that layer 1 is the first/top layer; layer zero will be 
             // used later to represent input nodes only.
-            Array.ForEach(nodeLayerByIdx, x => x++);
+            for(int i=digraph.InputCount; i < nodeLayerByIdx.Length; i++) {
+                nodeLayerByIdx[i]++;
+            }
 
             // Assign input nodes to their own layer (layer zero).
             for(int i=0; i < digraph.InputCount; i++) {
