@@ -22,6 +22,7 @@ using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Windows.App.Experiments;
 using static SharpNeat.Windows.App.AppUtils;
 
@@ -191,13 +192,36 @@ namespace SharpNeat.Windows.App
 
         #endregion
 
-        #region UI Event Handlers [Menu Buttons]
+        #region UI Event Handlers [File Menu Items]
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveBestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form frmAboutBox = new AboutForm();
-            frmAboutBox.ShowDialog(this);
+            // Get the current best genome.
+            NeatGenome<double> bestGenome = _neatPop?.BestGenome;
+            if(bestGenome is null) {
+                return;
+            }
+
+            // Ask the user to select a file path and name to save to.
+            string filepath = SelectFileToSave("Save best genome", "genome", "(*.genome)|*.genome");
+            if(string.IsNullOrEmpty(filepath)) {
+                return;
+            }
+
+            // Save the genome.
+            try
+            { 
+                NeatGenomeSaver<double>.Save(bestGenome, filepath);
+            }
+            catch(Exception ex)
+            {
+                __log.ErrorFormat("Error saving genome; [{0}]", ex.Message);
+            }
         }
+
+        #endregion
+
+        #region UI Event Handlers [View Menu Items]
 
         private void bestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -224,17 +248,27 @@ namespace SharpNeat.Windows.App
             // Prevent creation of more then one instance of the genome form.
             bestGenomeToolStripMenuItem.Enabled = false;
 
-            var ea = _eaRunner?.EA;
-            if(ea is object)
+            // Get the current best genome.
+            NeatGenome<double> bestGenome = _neatPop?.BestGenome;
+            if(bestGenome is object)
             {
                 // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we 
                 // see a genome right away, regardless of whether the EA is running or not.
-                NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(ea);
-                _bestGenomeForm.Genome = neatEa.Population.BestGenome;
+                _bestGenomeForm.Genome = bestGenome;
             }
 
             // Show the form.
             _bestGenomeForm.Show(this);
+        }
+
+        #endregion
+
+        #region UI Event Handlers [About Menu Item]
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form frmAboutBox = new AboutForm();
+            frmAboutBox.ShowDialog(this);
         }
 
         #endregion

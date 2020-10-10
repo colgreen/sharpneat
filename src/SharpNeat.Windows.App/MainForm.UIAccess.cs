@@ -129,7 +129,7 @@ namespace SharpNeat.Windows.App
             loadSeedGenomesToolStripMenuItem.Enabled = false;
             loadSeedGenomeToolStripMenuItem.Enabled = false;
             savePopulationToolStripMenuItem.Enabled = true;
-            saveBestGenomeToolStripMenuItem.Enabled = false;
+            saveBestGenomeToolStripMenuItem.Enabled = true;
         }
 
         private void UpdateUIState_EaReadyPaused()
@@ -159,7 +159,7 @@ namespace SharpNeat.Windows.App
             loadSeedGenomesToolStripMenuItem.Enabled = false;
             loadSeedGenomeToolStripMenuItem.Enabled = false;
             savePopulationToolStripMenuItem.Enabled = true;
-            // TODO: saveBestGenomeToolStripMenuItem.Enabled = (_eaRunner.CurrentChampGenome != null);
+            saveBestGenomeToolStripMenuItem.Enabled = true;
         }
 
         private void UpdateUIState_EaRunning()

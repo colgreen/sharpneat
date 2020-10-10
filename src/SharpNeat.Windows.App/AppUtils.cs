@@ -11,6 +11,7 @@
  */
 using System;
 using System.Text.Json;
+using System.Windows.Forms;
 using SharpNeat.Experiments;
 using SharpNeat.Experiments.Windows;
 using SharpNeat.IO;
@@ -55,5 +56,25 @@ namespace SharpNeat.Windows.App
             IExperimentUI experimentUI = factory.CreateExperimentUI(configDoc.RootElement);
             return experimentUI;
         }
+
+		/// <summary>
+		/// Ask the user for a filename / path.
+		/// </summary>
+		public static string SelectFileToSave(string dialogTitle, string fileExtension, string filter)
+		{
+			SaveFileDialog oDialog = new SaveFileDialog();
+			oDialog.AddExtension = true;
+			oDialog.DefaultExt = fileExtension;
+            oDialog.Filter = filter;
+			oDialog.Title = dialogTitle;
+			oDialog.RestoreDirectory = true;
+
+            // Show dialog and block until user selects a file.
+			if(oDialog.ShowDialog() == DialogResult.OK) {
+				return oDialog.FileName;
+            } 
+            // No selection.
+            return null;
+		}
     }
 }

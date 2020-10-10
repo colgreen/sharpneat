@@ -121,7 +121,7 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bestGenomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specieChampGenomesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.problemDomainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeSeriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fitnessBestMeansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1109,13 +1109,14 @@
             this.saveBestGenomeToolStripMenuItem.Name = "saveBestGenomeToolStripMenuItem";
             this.saveBestGenomeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.saveBestGenomeToolStripMenuItem.Text = "Save Best Genome";
+            this.saveBestGenomeToolStripMenuItem.Click += new System.EventHandler(this.saveBestGenomeToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bestGenomeToolStripMenuItem,
             this.specieChampGenomesToolStripMenuItem,
-            this.problemDomainToolStripMenuItem,
+            this.taskToolStripMenuItem,
             this.graphsToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -1137,9 +1138,9 @@
             // 
             // problemDomainToolStripMenuItem
             // 
-            this.problemDomainToolStripMenuItem.Name = "problemDomainToolStripMenuItem";
-            this.problemDomainToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.problemDomainToolStripMenuItem.Text = "Problem Domain";
+            this.taskToolStripMenuItem.Name = "problemDomainToolStripMenuItem";
+            this.taskToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.taskToolStripMenuItem.Text = "Task";
             // 
             // graphsToolStripMenuItem
             // 
@@ -1426,7 +1427,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bestGenomeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specieChampGenomesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem problemDomainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem taskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem graphsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem timeSeriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fitnessBestMeansToolStripMenuItem;
