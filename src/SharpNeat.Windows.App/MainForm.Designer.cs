@@ -797,6 +797,7 @@
             this.cmbExperiments.Name = "cmbExperiments";
             this.cmbExperiments.Size = new System.Drawing.Size(199, 23);
             this.cmbExperiments.TabIndex = 36;
+            this.cmbExperiments.SelectedIndexChanged += new System.EventHandler(this.cmbExperiments_SelectedIndexChanged);
             // 
             // tabPage2
             // 
@@ -806,7 +807,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.tabPage2.Size = new System.Drawing.Size(532, 444);
+            this.tabPage2.Size = new System.Drawing.Size(546, 444);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Page 2";
             this.tabPage2.UseVisualStyleBackColor = true;

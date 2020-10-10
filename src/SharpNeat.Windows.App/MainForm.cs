@@ -214,7 +214,7 @@ namespace SharpNeat.Windows.App
             // Create form.
             _bestGenomeForm = new GenomeForm("Best Genome", genomeCtrl);
 
-            // Attach a event handler to update this main form when the genome form is closed.
+            // Attach an event handler to update this main form when the genome form is closed.
             _bestGenomeForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
             {
                 _bestGenomeForm = null;
@@ -224,10 +224,14 @@ namespace SharpNeat.Windows.App
             // Prevent creation of more then one instance of the genome form.
             bestGenomeToolStripMenuItem.Enabled = false;
 
-            // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we 
-            // see a genome right away, regardless of whether the EA is running or not.
-            NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
+            var ea = _eaRunner?.EA;
+            if(ea is object)
+            {
+                // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we 
+                // see a genome right away, regardless of whether the EA is running or not.
+                NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(ea);
                 _bestGenomeForm.Genome = neatEa.Population.BestGenome;
+            }
 
             // Show the form.
             _bestGenomeForm.Show(this);
@@ -235,7 +239,21 @@ namespace SharpNeat.Windows.App
 
         #endregion
 
-        #region Update Event Handler
+        #region Misc Event Handlers
+
+        private void cmbExperiments_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear any existing reference, as the UIs are specific to each experiment.
+            _experimentUI = null;
+
+            // Close the genome form if it is open, as the content of this form is specific to each experiment.
+            GenomeForm bestGenomeForm = _bestGenomeForm;
+            if(bestGenomeForm is object) 
+            {
+                // Note. This will trigger the FormClosed event which will do further clean-up; Close() will also Dispose() the form.
+                bestGenomeForm.Close();
+            }
+        }
 
         private void _eaRunner_UpdateEvent(object sender, EventArgs e)
         {
