@@ -826,7 +826,7 @@
             this.gbxNeatGenomeParameters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.gbxNeatGenomeParameters.Name = "gbxNeatGenomeParameters";
             this.gbxNeatGenomeParameters.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.gbxNeatGenomeParameters.Size = new System.Drawing.Size(306, 156);
+            this.gbxNeatGenomeParameters.Size = new System.Drawing.Size(254, 156);
             this.gbxNeatGenomeParameters.TabIndex = 52;
             this.gbxNeatGenomeParameters.TabStop = false;
             this.gbxNeatGenomeParameters.Text = "Asexual Reproduction Settings";
@@ -1136,9 +1136,9 @@
             this.specieChampGenomesToolStripMenuItem.Text = "Specie Champ Genomes";
             this.specieChampGenomesToolStripMenuItem.Visible = false;
             // 
-            // problemDomainToolStripMenuItem
+            // taskToolStripMenuItem
             // 
-            this.taskToolStripMenuItem.Name = "problemDomainToolStripMenuItem";
+            this.taskToolStripMenuItem.Name = "taskToolStripMenuItem";
             this.taskToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.taskToolStripMenuItem.Text = "Task";
             // 

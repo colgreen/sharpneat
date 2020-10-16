@@ -77,17 +77,7 @@ namespace SharpNeat.Windows.App
             btnSearchReset.Enabled = false;
 
             // Parameter fields enabled.
-            txtPopulationSize.Enabled = true;
-            txtInitialInterconnectionsProportion.Enabled = true;
-            txtElitismProportion.Enabled = true;
-            txtSelectionProportion.Enabled = true;
-            txtOffspringAsexualProportion.Enabled = true;
-            txtOffspringSexualProportion.Enabled = true;
-            txtInterspeciesMatingProportion.Enabled = true;
-            txtConnectionWeightMutationProbability.Enabled = true;
-            txtAddNodeMutationProbability.Enabled = true;
-            txtAddConnectionMutationProbability.Enabled = true;
-            txtDeleteConnectionMutationProbability.Enabled = true;
+            SetParameterFieldsEnabledState(true);
 
             // Logging to file.
             gbxLogging.Enabled = true;
@@ -196,6 +186,7 @@ namespace SharpNeat.Windows.App
         {
             txtPopulationSize.Enabled = enabled;
             txtInitialInterconnectionsProportion.Enabled = enabled;
+            txtSpeciesCount.Enabled = enabled;
             txtElitismProportion.Enabled = enabled;
             txtSelectionProportion.Enabled = enabled;
             txtOffspringAsexualProportion.Enabled = enabled;
@@ -205,7 +196,6 @@ namespace SharpNeat.Windows.App
             txtAddNodeMutationProbability.Enabled = enabled;
             txtAddConnectionMutationProbability.Enabled = enabled;
             txtDeleteConnectionMutationProbability.Enabled = enabled;
-
         }
 
         private void UpdateUIState_EaStats()
@@ -345,17 +335,53 @@ namespace SharpNeat.Windows.App
             settings.SpeciesCount = GetValue(txtSpeciesCount, settings.SpeciesCount);
             settings.ElitismProportion = GetValue(txtElitismProportion, settings.ElitismProportion);
             settings.SelectionProportion = GetValue(txtSelectionProportion, settings.SelectionProportion);
-            settings.OffspringAsexualProportion = GetValue(txtOffspringAsexualProportion, settings.OffspringAsexualProportion);
-            settings.OffspringSexualProportion = GetValue(txtOffspringSexualProportion, settings.OffspringSexualProportion);
+
+            double offspringAsexualProportion = GetValue(txtOffspringAsexualProportion, settings.OffspringAsexualProportion);
+            double offspringSexualProportion = GetValue(txtOffspringSexualProportion, settings.OffspringSexualProportion);
+
+            Normalize(ref offspringAsexualProportion, ref offspringSexualProportion);
+
+            settings.OffspringAsexualProportion = offspringAsexualProportion;
+            settings.OffspringSexualProportion = offspringSexualProportion;
+
             settings.InterspeciesMatingProportion = GetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
         }
 
         private void GetSettingsFromUI(NeatReproductionAsexualSettings settings)
         {
-            settings.ConnectionWeightMutationProbability = GetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
-            settings.AddNodeMutationProbability = GetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
-            settings.AddConnectionMutationProbability = GetValue(txtAddConnectionMutationProbability, settings.AddConnectionMutationProbability);
-            settings.DeleteConnectionMutationProbability = GetValue(txtDeleteConnectionMutationProbability, settings.DeleteConnectionMutationProbability);
+            double connectionWeightMutationProbability = GetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
+            double addNodeMutationProbability = GetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
+            double addConnectionMutationProbability = GetValue(txtAddConnectionMutationProbability, settings.AddConnectionMutationProbability);
+            double deleteConnectionMutationProbability = GetValue(txtDeleteConnectionMutationProbability, settings.DeleteConnectionMutationProbability);
+
+            Normalize(
+                ref connectionWeightMutationProbability, ref addNodeMutationProbability,
+                ref addConnectionMutationProbability, ref deleteConnectionMutationProbability);
+
+            settings.ConnectionWeightMutationProbability = connectionWeightMutationProbability;
+            settings.AddNodeMutationProbability = addNodeMutationProbability;
+            settings.AddConnectionMutationProbability = addConnectionMutationProbability;
+            settings.DeleteConnectionMutationProbability = deleteConnectionMutationProbability;
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        private static void Normalize(ref double x1, ref double x2)
+        {
+            double sum = x1 + x2;
+            x1 /= sum;
+            x2 /= sum;
+        }
+
+        private static void Normalize(ref double x1, ref double x2, ref double x3, ref double x4)
+        {
+            double sum = x1 + x2 + x3 + x4;
+            x1 /= sum;
+            x2 /= sum;
+            x3 /= sum;
+            x4 /= sum;
         }
 
         #endregion
