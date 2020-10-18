@@ -41,6 +41,7 @@ namespace SharpNeat.Windows.App
         private EvolutionAlgorithmRunner _eaRunner;
         private IExperimentUI _experimentUI;
         private GenomeForm _bestGenomeForm;
+        private FitnessTimeSeriesForm _fitnessTimeSeriesForm;
 
         #region Form Constructor / Initialisation
 

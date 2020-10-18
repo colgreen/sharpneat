@@ -81,24 +81,24 @@ namespace SharpNeat.Windows.App
 
         #endregion
 
-        #region View->Charts Items
+        #region View -> Charts Items
 
         private void fitnessBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
-            Form form = new TimeSeriesForm("Fitness (Best and Mean)", "Generation", "Fitness", "Y2");
+            _fitnessTimeSeriesForm = new FitnessTimeSeriesForm();
 
             // Prevent creating more then one instance of the form.
             fitnessBestMeansToolStripMenuItem.Enabled = false;
 
             // Attach a event handler to update this main form when the child form is closed.
-            form.FormClosed += new FormClosedEventHandler(
+            _fitnessTimeSeriesForm.FormClosed += new FormClosedEventHandler(
                 delegate (object senderObj,FormClosedEventArgs eArgs) {
                     fitnessBestMeansToolStripMenuItem.Enabled = true;
                 });
 
             // Show the form.
-            form.Show(this);
+            _fitnessTimeSeriesForm.Show(this);
         }  
 
         #endregion
