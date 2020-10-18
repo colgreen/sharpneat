@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using ZedGraph;
 
-namespace SharpNeat.Windows.App
+namespace SharpNeat.Windows.App.Forms
 {
     /// <summary>
     /// Form for displaying a graph plot of time series data (e.g. best genome fitness per generation).
