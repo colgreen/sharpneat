@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
+using SharpNeat.Windows.App.Forms;
 using static SharpNeat.Windows.App.AppUtils;
 
 namespace SharpNeat.Windows.App

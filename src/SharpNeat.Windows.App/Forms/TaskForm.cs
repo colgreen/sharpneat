@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace SharpNeat.Windows.App
+namespace SharpNeat.Windows.App.Forms
 {
 
     // TODO: Implement.

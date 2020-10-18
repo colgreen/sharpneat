@@ -23,6 +23,7 @@ using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Windows.App.Experiments;
+using SharpNeat.Windows.App.Forms;
 using static SharpNeat.Windows.App.AppUtils;
 
 namespace SharpNeat.Windows.App

@@ -14,7 +14,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using SharpNeat.Evaluation;
 
-namespace SharpNeat.Windows.App
+namespace SharpNeat.Windows.App.Forms
 {
     /// <summary>
     /// 'About box' form. Displays component version numbers and other info.

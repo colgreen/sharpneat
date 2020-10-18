@@ -13,7 +13,7 @@ using System;
 using System.Windows.Forms;
 using SharpNeat.EvolutionAlgorithm;
 
-namespace SharpNeat.Windows.App
+namespace SharpNeat.Windows.App.Forms
 {
     /// <summary>
     /// Form for genome visualization.

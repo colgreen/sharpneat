@@ -1,4 +1,4 @@
-﻿namespace SharpNeat.Windows.App
+﻿namespace SharpNeat.Windows.App.Forms
 {
     partial class AboutForm
     {
