@@ -1142,15 +1142,15 @@
             this.taskToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.taskToolStripMenuItem.Text = "Task";
             // 
-            // graphsToolStripMenuItem
+            // chartsToolStripMenuItem
             // 
             this.graphsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.timeSeriesToolStripMenuItem,
             this.rankPlotsToolStripMenuItem,
             this.distributionPlotsToolStripMenuItem});
-            this.graphsToolStripMenuItem.Name = "graphsToolStripMenuItem";
+            this.graphsToolStripMenuItem.Name = "chartsToolStripMenuItem";
             this.graphsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.graphsToolStripMenuItem.Text = "Graphs";
+            this.graphsToolStripMenuItem.Text = "Charts";
             // 
             // timeSeriesToolStripMenuItem
             // 
@@ -1167,6 +1167,7 @@
             this.fitnessBestMeansToolStripMenuItem.Name = "fitnessBestMeansToolStripMenuItem";
             this.fitnessBestMeansToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.fitnessBestMeansToolStripMenuItem.Text = "Fitness (Best && Means)";
+            this.fitnessBestMeansToolStripMenuItem.Click += new System.EventHandler(this.fitnessBestMeansToolStripMenuItem_Click);
             // 
             // complexityBestMeansToolStripMenuItem
             // 

@@ -1,6 +1,6 @@
 ﻿namespace SharpNeat.Windows.App
 {
-    partial class TimeSeriesGraphForm
+    partial class TimeSeriesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeSeriesGraphForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeSeriesForm));
             this.zed = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
             // 
