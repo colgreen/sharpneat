@@ -12,6 +12,7 @@
 using System.Drawing;
 using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
+using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
 namespace SharpNeat.Windows.App.Forms
 {
@@ -27,11 +28,12 @@ namespace SharpNeat.Windows.App.Forms
             : base("Complexity (Best and Mean)", "Generation", "Complexity", null)
         {
             _bestPpl = new RollingPointPairList(__HistoryLength);
-            _graphPane.AddCurve("Best",  _bestPpl, Color.Red, SymbolType.None);
+            LineItem lineItem = _graphPane.AddCurve("Best",  _bestPpl, Color.FromArgb(0x00, 0x5b, 0x31), SymbolType.None);
+            ApplyLineStyle(lineItem);
 
             _meanPpl = new RollingPointPairList(__HistoryLength);
-            LineItem lineItem = _graphPane.AddCurve("Mean",  _meanPpl, Color.Black, SymbolType.None);
-            lineItem.IsY2Axis = true;
+            lineItem = _graphPane.AddCurve("Mean",  _meanPpl, Color.FromArgb(0x9c, 0xd0, 0x88), SymbolType.None);
+            ApplyLineStyle(lineItem);
         }
 
         #endregion

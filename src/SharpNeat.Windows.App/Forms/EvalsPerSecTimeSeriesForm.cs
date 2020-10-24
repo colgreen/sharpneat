@@ -12,6 +12,7 @@
 using System.Drawing;
 using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
+using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
 namespace SharpNeat.Windows.App.Forms
 {
@@ -26,7 +27,8 @@ namespace SharpNeat.Windows.App.Forms
             : base("Evaluations per second", "Generation", "Evaluations", null)
         {
             _ppl = new RollingPointPairList(__HistoryLength);
-            _graphPane.AddCurve("Evaluations",  _ppl, Color.Red, SymbolType.None);
+            LineItem lineItem = _graphPane.AddCurve("Evaluations",  _ppl, Color.Black, SymbolType.None);
+            ApplyLineStyle(lineItem);
         }
 
         #endregion
