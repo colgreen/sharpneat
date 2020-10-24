@@ -14,25 +14,20 @@ using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
 using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
-namespace SharpNeat.Windows.App.Forms
+namespace SharpNeat.Windows.App.Forms.TimeSeries
 {
-    public class FitnessTimeSeriesForm : GraphForm
+    public class EvalsPerSecTimeSeriesForm : GraphForm
     {
         const int __HistoryLength = 1_000;
-        readonly RollingPointPairList _bestPpl;
-        readonly RollingPointPairList _meanPpl;
+        readonly RollingPointPairList _ppl;
 
         #region Constructor
 
-        public FitnessTimeSeriesForm()
-            : base("Fitness (Best and Mean)", "Generation", "Fitness", null)
+        public EvalsPerSecTimeSeriesForm()
+            : base("Evaluations per second", "Generation", "Evaluations/sec", null)
         {
-            _bestPpl = new RollingPointPairList(__HistoryLength);
-            LineItem lineItem = _graphPane.AddCurve("Best",  _bestPpl, Color.FromArgb(0xff, 0x1d, 0x26), SymbolType.None);
-            ApplyLineStyle(lineItem);
-
-            _meanPpl = new RollingPointPairList(__HistoryLength);
-            lineItem = _graphPane.AddCurve("Mean",  _meanPpl, Color.FromArgb(0xed, 0x9c, 0x96), SymbolType.None);
+            _ppl = new RollingPointPairList(__HistoryLength);
+            LineItem lineItem = _graphPane.AddCurve("Evaluations/sec",  _ppl, Color.Black, SymbolType.None);
             ApplyLineStyle(lineItem);
         }
 
@@ -49,8 +44,7 @@ namespace SharpNeat.Windows.App.Forms
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats)
         {
-            _bestPpl.Add(eaStats.Generation, popStats.BestFitness.PrimaryFitness);
-            _meanPpl.Add(eaStats.Generation, popStats.MeanFitness);
+            _ppl.Add(eaStats.Generation, eaStats.EvaluationsPerSec);
             RefreshGraph();
         }
 
@@ -59,8 +53,7 @@ namespace SharpNeat.Windows.App.Forms
         /// </summary>
         public override void Clear()
         {
-            _bestPpl.Clear();
-            _meanPpl.Clear();
+            _ppl.Clear();
             RefreshGraph();
         }
 

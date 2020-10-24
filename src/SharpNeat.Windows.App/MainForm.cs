@@ -24,6 +24,7 @@ using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
+using SharpNeat.Windows.App.Forms.TimeSeries;
 using static SharpNeat.Windows.App.AppUtils;
 
 namespace SharpNeat.Windows.App

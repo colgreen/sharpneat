@@ -14,7 +14,7 @@ using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
 using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
-namespace SharpNeat.Windows.App.Forms
+namespace SharpNeat.Windows.App.Forms.TimeSeries
 {
     public class ComplexityTimeSeriesForm : GraphForm
     {
