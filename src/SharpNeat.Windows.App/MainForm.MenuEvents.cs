@@ -112,6 +112,24 @@ namespace SharpNeat.Windows.App
             _fitnessTimeSeriesForm.Show(this);
         }  
 
+        private void complexityBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create form.
+            _complexityTimeSeriesForm = new ComplexityTimeSeriesForm();
+
+            // Prevent creating more then one instance of the form.
+            complexityBestMeansToolStripMenuItem.Enabled = false;
+
+            // Attach a event handler to update this main form when the child form is closed.
+            _complexityTimeSeriesForm.FormClosed += new FormClosedEventHandler(
+                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                    complexityBestMeansToolStripMenuItem.Enabled = true;
+                });
+
+            // Show the form.
+            _complexityTimeSeriesForm.Show(this);
+        }
+
         #endregion
 
         #region About Menu Item

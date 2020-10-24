@@ -1174,6 +1174,7 @@
             this.complexityBestMeansToolStripMenuItem.Name = "complexityBestMeansToolStripMenuItem";
             this.complexityBestMeansToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.complexityBestMeansToolStripMenuItem.Text = "Complexity (Best && Means)";
+            this.complexityBestMeansToolStripMenuItem.Click += new System.EventHandler(this.complexityBestMeansToolStripMenuItem_Click);
             // 
             // evaluationsPerSecToolStripMenuItem
             // 

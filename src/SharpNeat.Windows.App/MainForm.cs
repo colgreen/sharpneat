@@ -42,6 +42,7 @@ namespace SharpNeat.Windows.App
         private IExperimentUI _experimentUI;
         private GenomeForm _bestGenomeForm;
         private FitnessTimeSeriesForm _fitnessTimeSeriesForm;
+        private ComplexityTimeSeriesForm _complexityTimeSeriesForm;
 
         #region Form Constructor / Initialisation
 
@@ -175,6 +176,11 @@ namespace SharpNeat.Windows.App
                 _fitnessTimeSeriesForm.Clear();
             }
 
+            // Clear complexity time series form (if open).
+            if(_complexityTimeSeriesForm is object) {
+                _complexityTimeSeriesForm.Clear();
+            }
+
             // Clear the best genome form (if open).
             if(_bestGenomeForm is object) {
                 _bestGenomeForm.Genome = null;
@@ -239,6 +245,11 @@ namespace SharpNeat.Windows.App
             // Update fitness time series form (if open).
             if(_fitnessTimeSeriesForm is object) {
                 _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+            }
+
+            // Update fitness time series form (if open).
+            if(_complexityTimeSeriesForm is object) {
+                _complexityTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
             // Update the best genome form (if open).
