@@ -16,7 +16,7 @@ using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
 namespace SharpNeat.Windows.App.Forms
 {
-    public class FitnessTimeSeriesForm : TimeSeriesForm
+    public class FitnessTimeSeriesForm : GraphForm
     {
         const int __HistoryLength = 1_000;
         readonly RollingPointPairList _bestPpl;
