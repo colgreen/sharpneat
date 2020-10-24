@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Drawing;
+using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
 
 namespace SharpNeat.Windows.App.Forms
@@ -17,9 +18,10 @@ namespace SharpNeat.Windows.App.Forms
     public class FitnessTimeSeriesForm : TimeSeriesForm
     {
         const int __HistoryLength = 1_000;
+        readonly RollingPointPairList _bestPpl;
+        readonly RollingPointPairList _meanPpl;
 
-        RollingPointPairList _bestPpl;
-        RollingPointPairList _meanPpl;
+        #region Constructor
 
         public FitnessTimeSeriesForm()
             : base("Fitness (Best and Mean)", "Generation", "Fitness", null)
@@ -31,5 +33,35 @@ namespace SharpNeat.Windows.App.Forms
             LineItem lineItem = _graphPane.AddCurve("Mean",  _meanPpl, Color.Black, SymbolType.None);
             lineItem.IsY2Axis = true;
         }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Update the time series data.
+        /// </summary>
+        /// <param name="eaStats">Evolution algorithm statistics object.</param>
+        /// <param name="popStats">Population statistics object.</param>
+        public override void UpdateData(
+            EvolutionAlgorithmStatistics eaStats,
+            PopulationStatistics popStats)
+        {
+            _bestPpl.Add(eaStats.Generation, popStats.BestFitness.PrimaryFitness);
+            _meanPpl.Add(eaStats.Generation, popStats.MeanFitness);
+            RefreshGraph();
+        }
+
+        /// <summary>
+        /// Clear the time series data.
+        /// </summary>
+        public override void Clear()
+        {
+            _bestPpl.Clear();
+            _meanPpl.Clear();
+            RefreshGraph();
+        }
+
+        #endregion
     }
 }

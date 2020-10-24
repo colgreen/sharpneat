@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Windows.Forms;
+using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
 
 namespace SharpNeat.Windows.App.Forms
@@ -57,9 +58,40 @@ namespace SharpNeat.Windows.App.Forms
 
         #region Public Methods
 
-        public void AddDataPoint()
+        // Note. These methods could be defined as abstract, but that would prevent the Window Forms UI designer from working;
+        // so instead they are defined as virtuals method with no implementation.
+
+        /// <summary>
+        /// Update the time series data.
+        /// </summary>
+        /// <param name="eaStats">Evolution algorithm statistics object.</param>
+        /// <param name="popStats">Population statistics object.</param>
+        public virtual void UpdateData(
+            EvolutionAlgorithmStatistics eaStats,
+            PopulationStatistics popStats)
         {
-        }     
+        }
+
+        /// <summary>
+        /// Clear the time series data.
+        /// </summary>
+        public virtual void Clear()
+        {
+
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Recalc the axis scales based on the current data, and call Refresh() to redraw the graph.
+        /// </summary>
+        protected void RefreshGraph()
+        {
+            _graphPane.AxisChange();
+            zed.Refresh();
+        }
 
         #endregion
     }

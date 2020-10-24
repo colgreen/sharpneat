@@ -170,6 +170,11 @@ namespace SharpNeat.Windows.App
             UpdateUIState();
             UpdateUIState_ResetStats();
 
+            // Clear fitness time series form (if open).
+            if(_fitnessTimeSeriesForm is object) {
+                _fitnessTimeSeriesForm.Clear();
+            }
+
             // Clear the best genome form (if open).
             if(_bestGenomeForm is object) {
                 _bestGenomeForm.Genome = null;
@@ -230,6 +235,11 @@ namespace SharpNeat.Windows.App
 
             // Update stats fields.
             UpdateUIState_EaStats();
+
+            // Update fitness time series form (if open).
+            if(_fitnessTimeSeriesForm is object) {
+                _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+            }
 
             // Update the best genome form (if open).
             if(_bestGenomeForm is object)
