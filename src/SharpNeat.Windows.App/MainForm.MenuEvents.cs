@@ -15,6 +15,7 @@ using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Windows.App.Forms;
+using SharpNeat.Windows.App.Forms.Rankings;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 using static SharpNeat.Windows.App.AppUtils;
 
@@ -147,6 +148,24 @@ namespace SharpNeat.Windows.App
 
             // Show the form.
             _evalsPerSecTimeSeriesForm.Show(this);
+        }  
+
+        private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create form.
+            _genomeFitnessRankingForm = new GenomeFitnessRankingForm();
+
+            // Prevent creating more then one instance of the form.
+            genomeFitnessByRankToolStripMenuItem.Enabled = false;
+
+            // Attach a event handler to update this main form when the child form is closed.
+            _genomeFitnessRankingForm.FormClosed += new FormClosedEventHandler(
+                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                    genomeFitnessByRankToolStripMenuItem.Enabled = true;
+                });
+
+            // Show the form.
+            _genomeFitnessRankingForm.Show(this);
         }  
 
         #endregion

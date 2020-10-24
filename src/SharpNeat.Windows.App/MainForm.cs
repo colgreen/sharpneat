@@ -10,6 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Buffers;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -24,6 +26,7 @@ using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
+using SharpNeat.Windows.App.Forms.Rankings;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 using static SharpNeat.Windows.App.AppUtils;
 
@@ -42,9 +45,14 @@ namespace SharpNeat.Windows.App
         private EvolutionAlgorithmRunner _eaRunner;
         private IExperimentUI _experimentUI;
         private GenomeForm _bestGenomeForm;
+
+        // Time series forms.
         private FitnessTimeSeriesForm _fitnessTimeSeriesForm;
         private ComplexityTimeSeriesForm _complexityTimeSeriesForm;
         private EvalsPerSecTimeSeriesForm _evalsPerSecTimeSeriesForm;
+
+        // Rankings forms.
+        private GenomeFitnessRankingForm _genomeFitnessRankingForm;
 
         #region Form Constructor / Initialisation
 
@@ -174,10 +182,15 @@ namespace SharpNeat.Windows.App
             UpdateUIState_ResetStats();
 
             // Clear/reset child forms (those that are open).
+            if(_bestGenomeForm is object) { _bestGenomeForm.Genome = null; }
+
+            // Time series forms.
             if(_fitnessTimeSeriesForm is object) { _fitnessTimeSeriesForm.Clear(); }
             if(_complexityTimeSeriesForm is object) { _complexityTimeSeriesForm.Clear(); }
             if(_evalsPerSecTimeSeriesForm is object) { _evalsPerSecTimeSeriesForm.Clear(); }
-            if(_bestGenomeForm is object) { _bestGenomeForm.Genome = null; }
+
+            // Rankings forms.
+            if(_genomeFitnessRankingForm is object) { _genomeFitnessRankingForm.Clear(); }
 
             // Take the opportunity to clean-up the heap.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
@@ -236,6 +249,13 @@ namespace SharpNeat.Windows.App
             UpdateUIState_EaStats();
 
             // Update child forms (those that are open).
+            if(_bestGenomeForm is object)
+            { 
+                NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
+                _bestGenomeForm.Genome = neatEa.Population.BestGenome;
+            }
+
+            // Time series forms.
             if(_fitnessTimeSeriesForm is object) {
                 _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
@@ -248,10 +268,16 @@ namespace SharpNeat.Windows.App
                 _evalsPerSecTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
-            if(_bestGenomeForm is object)
-            { 
-                NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
-                _bestGenomeForm.Genome = neatEa.Population.BestGenome;
+            // Rankings forms.
+            if(_genomeFitnessRankingForm is object)
+            {
+                double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
+                try {
+                    _genomeFitnessRankingForm.UpdateData(genomeFitnessByRank.AsSpan(0, genomeCount));
+                }
+                finally {
+                    ArrayPool<double>.Shared.Return(genomeFitnessByRank);
+                }
             }
 
             // Write entry to log.
@@ -286,6 +312,34 @@ namespace SharpNeat.Windows.App
             }
 
             return _experimentUI;
+        }
+
+        #endregion
+
+        #region Private Methods [Child Form Update Subroutines]
+
+        private double[] GetGenomeFitnessByRank(out int count)
+        {
+            var genList = _neatPop.GenomeList;
+            count = genList.Count;
+            double[] genomeFitnessByRank = ArrayPool<double>.Shared.Rent(count);
+
+            for(int i=0; i < count; i++) {
+                genomeFitnessByRank[i] = genList[i].FitnessInfo.PrimaryFitness;
+            }
+
+            // Sort fitness values (highest values first).
+            Array.Sort(
+                genomeFitnessByRank, 0, count,
+                Comparer<double>.Create(
+                    delegate(double x, double y)
+                    {
+                        if(x > y) { return -1; }
+                        if(x < y) { return 1; }
+                        return 0;
+                    })
+                );
+            return genomeFitnessByRank;
         }
 
         #endregion

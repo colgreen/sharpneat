@@ -1224,6 +1224,7 @@
             this.genomeFitnessByRankToolStripMenuItem.Name = "genomeFitnessByRankToolStripMenuItem";
             this.genomeFitnessByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
             this.genomeFitnessByRankToolStripMenuItem.Text = "Genome Fitness by Rank";
+            this.genomeFitnessByRankToolStripMenuItem.Click += new System.EventHandler(this.genomeFitnessByRankToolStripMenuItem_Click);
             // 
             // genomeComplexityByRankToolStripMenuItem
             // 
