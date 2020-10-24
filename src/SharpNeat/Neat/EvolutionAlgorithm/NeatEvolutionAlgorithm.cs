@@ -52,6 +52,11 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly OffspringBuilder<T> _offspringBuilder;
         readonly NeatEvolutionAlgorithmStatistics _eaStats = new NeatEvolutionAlgorithmStatistics();
 
+        // Fields used to calculate the evaluations per second statistic, on each successive update.
+        static readonly TimeSpan __oneSec = TimeSpan.FromSeconds(1);
+        ulong _evalCountPrev;
+        DateTime _evalCountPrevSampleTime = DateTime.MinValue;
+
         #endregion
 
         #region Constructors
@@ -371,6 +376,30 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Update total number of evaluations performed.
             _eaStats.TotalEvaluationCount += evaluationCountDelta;
+
+            // Calculate/update evaluations per second stat.
+            // Skip this calc for the first call here, as we need to two successive calls to calc evaluation per sec.
+            if(_evalCountPrevSampleTime == DateTime.MinValue)
+            {
+                // Record the count and sample time ready for the next call to this subroutine.
+                _evalCountPrev = _eaStats.TotalEvaluationCount;
+                _evalCountPrevSampleTime = _eaStats.SampleTime;
+            }
+            else
+            {
+                // Calc elapsed time since the previous update to this state. If it is less than one second ago then skip the update, 
+                // as the timespan may be very short, thus giving an unrepresentative evals per second value.
+                TimeSpan elapsed = _eaStats.SampleTime - _evalCountPrevSampleTime;
+                if(elapsed > __oneSec)
+                {
+                    double countDelta = _eaStats.TotalEvaluationCount - _evalCountPrev;
+                    _eaStats.EvaluationsPerSec = (countDelta * 1e7) / elapsed.Ticks;
+
+                    // Record the count and sample time ready for the next call to this subroutine.
+                    _evalCountPrev = _eaStats.TotalEvaluationCount;
+                    _evalCountPrevSampleTime = _eaStats.SampleTime;
+                }
+            }
 
             // Update total number of offspring genomes produced.
             _eaStats.TotalOffspringCount += (ulong)(offspringAsexualCount + offspringSexualCount);

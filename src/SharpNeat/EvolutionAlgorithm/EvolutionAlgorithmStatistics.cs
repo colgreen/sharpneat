@@ -35,6 +35,14 @@ namespace SharpNeat.EvolutionAlgorithm
         public ulong TotalEvaluationCount { get; set; }
 
         /// <summary>
+        /// Evaluations per second.
+        /// </summary>
+        /// <remarks>
+        /// Based on the difference in <see cref="TotalEvaluationCount"/> abd <see cref="SampleTime"/> between the last two generations.
+        /// </remarks>
+        public double EvaluationsPerSec { get; set; } 
+
+        /// <summary>
         /// The point in clock time that the statistics were recorded.
         /// </summary>
         public DateTime SampleTime { get; set; }   

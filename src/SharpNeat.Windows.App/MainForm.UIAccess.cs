@@ -23,10 +23,6 @@ namespace SharpNeat.Windows.App
 {
     partial class MainForm
     {
-        // Fields used to calculate evaluations per second, on each successive update.
-        ulong _evalCountPrev;
-        DateTime _evalCountPrevSampleTime = DateTime.MinValue;
-
         #region Private Methods
 
         private void UpdateUIState()
@@ -226,32 +222,7 @@ namespace SharpNeat.Windows.App
             txtStatsMean.Text = popStats.MeanFitness.ToString("#.######");
             txtSpeciesChampsMean.Text = popStats.AverageSpeciesBestFitness.ToString("#.######");
             txtStatsTotalEvals.Text = eaStats.TotalEvaluationCount.ToString("N0");
-
-            // Calculate/update evaluations per second stat.
-            // Skip this calc for the first call here, as we need to two successive calls to calc evaluation per sec.
-            if(_evalCountPrevSampleTime == DateTime.MinValue)
-            {
-                // Record the count and sample time ready for the next call to this subroutine.
-                _evalCountPrev = eaStats.TotalEvaluationCount;
-                _evalCountPrevSampleTime = eaStats.SampleTime;
-            }
-            else
-            {
-                // Calc elapsed time since the previous update to this state. If it is less than one second ago then skip the update, 
-                // as the timespan may be very short, thus giving an unrepresentative evals per second value.
-                TimeSpan elapsed = eaStats.SampleTime - _evalCountPrevSampleTime;
-                if(elapsed > TimeSpan.FromSeconds(1))
-                {
-                    double countDelta = eaStats.TotalEvaluationCount - _evalCountPrev;
-                    double evalsPerSec = (countDelta * 1e7) / elapsed.Ticks;
-                    txtStatsEvalsPerSec.Text = evalsPerSec.ToString("##,#.##");
-
-                    // Record the count and sample time ready for the next call to this subroutine.
-                    _evalCountPrev = eaStats.TotalEvaluationCount;
-                    _evalCountPrevSampleTime = eaStats.SampleTime;
-                }
-            }
-
+            txtStatsEvalsPerSec.Text = eaStats.EvaluationsPerSec.ToString("##,#.##");
             txtStatsBestGenomeComplx.Text = popStats.BestComplexity.ToString("N0");
             txtStatsMeanGenomeComplx.Text = popStats.MeanComplexity.ToString("#.##");
             txtStatsMaxGenomeComplx.Text = popStats.MaxComplexity.ToString("N0");
