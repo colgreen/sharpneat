@@ -18,7 +18,7 @@ namespace SharpNeat.Windows.App.Forms
     /// <summary>
     /// Form for displaying a graph plot of time series data (e.g. best genome fitness per generation).
     /// </summary>
-    public partial class TimeSeriesForm : Form
+    public partial class GraphForm : Form
     {
         readonly protected GraphPane _graphPane;
 
@@ -27,7 +27,7 @@ namespace SharpNeat.Windows.App.Forms
         /// <summary>
         /// Construct the form with the provided details and data sources.
         /// </summary>
-        public TimeSeriesForm(
+        public GraphForm(
             string title,
             string xAxisTitle,
             string y1AxisTitle,
