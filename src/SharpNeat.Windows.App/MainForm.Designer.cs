@@ -1200,19 +1200,19 @@
             // 
             this.specieSizeByRankToolStripMenuItem.Name = "specieSizeByRankToolStripMenuItem";
             this.specieSizeByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.specieSizeByRankToolStripMenuItem.Text = "Specie Size by Rank";
+            this.specieSizeByRankToolStripMenuItem.Text = "Species Size by Rank";
             // 
             // specieChampFitnessByRankToolStripMenuItem
             // 
             this.specieChampFitnessByRankToolStripMenuItem.Name = "specieChampFitnessByRankToolStripMenuItem";
             this.specieChampFitnessByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.specieChampFitnessByRankToolStripMenuItem.Text = "Specie Fitness by Rank (Champs && Mean)";
+            this.specieChampFitnessByRankToolStripMenuItem.Text = "Species Fitness by Rank (Best && Mean)";
             // 
             // specieChampComplexityByRankToolStripMenuItem
             // 
             this.specieChampComplexityByRankToolStripMenuItem.Name = "specieChampComplexityByRankToolStripMenuItem";
             this.specieChampComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.specieChampComplexityByRankToolStripMenuItem.Text = "Specie Complexity by Rank (Champs && Mean)";
+            this.specieChampComplexityByRankToolStripMenuItem.Text = "Species Complexity by Rank (Best && Mean)";
             // 
             // toolStripSeparator3
             // 
