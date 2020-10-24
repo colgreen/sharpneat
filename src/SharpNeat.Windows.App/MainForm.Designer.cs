@@ -1180,7 +1180,8 @@
             // 
             this.evaluationsPerSecToolStripMenuItem.Name = "evaluationsPerSecToolStripMenuItem";
             this.evaluationsPerSecToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.evaluationsPerSecToolStripMenuItem.Text = "Evaluations per Sec";
+            this.evaluationsPerSecToolStripMenuItem.Text = "Evaluations per second";
+            this.evaluationsPerSecToolStripMenuItem.Click += new System.EventHandler(this.evaluationsPerSecToolStripMenuItem_Click);
             // 
             // rankPlotsToolStripMenuItem
             // 

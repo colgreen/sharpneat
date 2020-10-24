@@ -43,6 +43,7 @@ namespace SharpNeat.Windows.App
         private GenomeForm _bestGenomeForm;
         private FitnessTimeSeriesForm _fitnessTimeSeriesForm;
         private ComplexityTimeSeriesForm _complexityTimeSeriesForm;
+        private EvalsPerSecTimeSeriesForm _evalsPerSecTimeSeriesForm;
 
         #region Form Constructor / Initialisation
 
@@ -171,20 +172,11 @@ namespace SharpNeat.Windows.App
             UpdateUIState();
             UpdateUIState_ResetStats();
 
-            // Clear fitness time series form (if open).
-            if(_fitnessTimeSeriesForm is object) {
-                _fitnessTimeSeriesForm.Clear();
-            }
-
-            // Clear complexity time series form (if open).
-            if(_complexityTimeSeriesForm is object) {
-                _complexityTimeSeriesForm.Clear();
-            }
-
-            // Clear the best genome form (if open).
-            if(_bestGenomeForm is object) {
-                _bestGenomeForm.Genome = null;
-            }
+            // Clear/reset child forms (those that are open).
+            if(_fitnessTimeSeriesForm is object) { _fitnessTimeSeriesForm.Clear(); }
+            if(_complexityTimeSeriesForm is object) { _complexityTimeSeriesForm.Clear(); }
+            if(_evalsPerSecTimeSeriesForm is object) { _evalsPerSecTimeSeriesForm.Clear(); }
+            if(_bestGenomeForm is object) { _bestGenomeForm.Genome = null; }
 
             // Take the opportunity to clean-up the heap.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
@@ -242,17 +234,19 @@ namespace SharpNeat.Windows.App
             // Update stats fields.
             UpdateUIState_EaStats();
 
-            // Update fitness time series form (if open).
+            // Update child forms (those that are open).
             if(_fitnessTimeSeriesForm is object) {
                 _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
-            // Update fitness time series form (if open).
             if(_complexityTimeSeriesForm is object) {
                 _complexityTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
-            // Update the best genome form (if open).
+            if(_evalsPerSecTimeSeriesForm is object) {
+                _evalsPerSecTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+            }
+
             if(_bestGenomeForm is object)
             { 
                 NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);

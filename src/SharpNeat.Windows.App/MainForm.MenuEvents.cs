@@ -130,6 +130,24 @@ namespace SharpNeat.Windows.App
             _complexityTimeSeriesForm.Show(this);
         }
 
+        private void evaluationsPerSecToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create form.
+            _evalsPerSecTimeSeriesForm = new EvalsPerSecTimeSeriesForm();
+
+            // Prevent creating more then one instance of the form.
+            evaluationsPerSecToolStripMenuItem.Enabled = false;
+
+            // Attach a event handler to update this main form when the child form is closed.
+            _evalsPerSecTimeSeriesForm.FormClosed += new FormClosedEventHandler(
+                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                    evaluationsPerSecToolStripMenuItem.Enabled = true;
+                });
+
+            // Show the form.
+            _evalsPerSecTimeSeriesForm.Show(this);
+        }  
+
         #endregion
 
         #region About Menu Item
