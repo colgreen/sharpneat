@@ -35,7 +35,7 @@ namespace SharpNeat.Windows.App.Forms
             _graphPane.XAxis.Type = AxisType.Linear;
             _graphPane.BarSettings.ClusterScaleWidth = 2f;
 
-            BarItem barItem = _graphPane.AddBar(seriesName, _ppl, Color.LightGreen);
+            BarItem barItem = _graphPane.AddBar(seriesName, _ppl, Color.LightBlue);
 
             barItem.Bar.Fill.Type = FillType.Solid;
             barItem.Bar.Border.IsVisible = true;
