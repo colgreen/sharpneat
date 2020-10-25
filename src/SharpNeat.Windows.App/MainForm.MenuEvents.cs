@@ -149,23 +149,41 @@ namespace SharpNeat.Windows.App
             _evalsPerSecTimeSeriesForm.Show(this);
         }  
 
+        private void specieSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create form.
+            _speciesSizeRankForm = new RankGraphForm("Species Size by Rank", "Rank", "Size", null);
+
+            // Prevent creating more then one instance of the form.
+            specieSizeByRankToolStripMenuItem.Enabled = false;
+
+            // Attach a event handler to update this main form when the child form is closed.
+            _speciesSizeRankForm.FormClosed += new FormClosedEventHandler(
+                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                    specieSizeByRankToolStripMenuItem.Enabled = true;
+                });
+
+            // Show the form.
+            _speciesSizeRankForm.Show(this);
+        }
+
         private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
-            _genomeFitnessRankingForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", null);
+            _genomeFitnessRankForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", null);
 
             // Prevent creating more then one instance of the form.
             genomeFitnessByRankToolStripMenuItem.Enabled = false;
 
             // Attach a event handler to update this main form when the child form is closed.
-            _genomeFitnessRankingForm.FormClosed += new FormClosedEventHandler(
+            _genomeFitnessRankForm.FormClosed += new FormClosedEventHandler(
                 delegate (object senderObj,FormClosedEventArgs eArgs) {
                     genomeFitnessByRankToolStripMenuItem.Enabled = true;
                 });
 
             // Show the form.
-            _genomeFitnessRankingForm.Show(this);
-        }  
+            _genomeFitnessRankForm.Show(this);
+        }
 
         #endregion
 

@@ -1201,6 +1201,7 @@
             this.specieSizeByRankToolStripMenuItem.Name = "specieSizeByRankToolStripMenuItem";
             this.specieSizeByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
             this.specieSizeByRankToolStripMenuItem.Text = "Species Size by Rank";
+            this.specieSizeByRankToolStripMenuItem.Click += new System.EventHandler(this.specieSizeByRankToolStripMenuItem_Click);
             // 
             // specieChampFitnessByRankToolStripMenuItem
             // 

@@ -51,7 +51,8 @@ namespace SharpNeat.Windows.App
         private EvalsPerSecTimeSeriesForm _evalsPerSecTimeSeriesForm;
 
         // Rankings forms.
-        private RankGraphForm _genomeFitnessRankingForm;
+        private RankGraphForm _speciesSizeRankForm;
+        private RankGraphForm _genomeFitnessRankForm;
 
         #region Form Constructor / Initialisation
 
@@ -189,7 +190,8 @@ namespace SharpNeat.Windows.App
             if(_evalsPerSecTimeSeriesForm is object) { _evalsPerSecTimeSeriesForm.Clear(); }
 
             // Rankings forms.
-            if(_genomeFitnessRankingForm is object) { _genomeFitnessRankingForm.Clear(); }
+            if(_speciesSizeRankForm is object) { _speciesSizeRankForm.Clear(); }
+            if(_genomeFitnessRankForm is object) { _genomeFitnessRankForm.Clear(); }
 
             // Take the opportunity to clean-up the heap.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
@@ -268,11 +270,22 @@ namespace SharpNeat.Windows.App
             }
 
             // Rankings forms.
-            if(_genomeFitnessRankingForm is object)
+            if(_speciesSizeRankForm is object)
+            {
+                double[] speciesSizeByRank = GetSpeciesSizeByRank(out int speciesCount);
+                try {
+                    _speciesSizeRankForm.UpdateData(speciesSizeByRank.AsSpan(0, speciesCount));
+                }
+                finally {
+                    ArrayPool<double>.Shared.Return(speciesSizeByRank);
+                }
+            }
+
+            if(_genomeFitnessRankForm is object)
             {
                 double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
                 try {
-                    _genomeFitnessRankingForm.UpdateData(genomeFitnessByRank.AsSpan(0, genomeCount));
+                    _genomeFitnessRankForm.UpdateData(genomeFitnessByRank.AsSpan(0, genomeCount));
                 }
                 finally {
                     ArrayPool<double>.Shared.Return(genomeFitnessByRank);
@@ -316,6 +329,31 @@ namespace SharpNeat.Windows.App
         #endregion
 
         #region Private Methods [Child Form Update Subroutines]
+
+        private double[] GetSpeciesSizeByRank(out int count)
+        {
+            var speciesArr = _neatPop.SpeciesArray;
+            count = speciesArr.Length;
+
+            double[] speciesSizeByRank = ArrayPool<double>.Shared.Rent(count);
+
+            for(int i=0; i < count; i++) {
+                speciesSizeByRank[i] = speciesArr[i].GenomeList.Count;
+            }
+
+            // Sort size values (highest values first).
+            Array.Sort(
+                speciesSizeByRank, 0, count,
+                Comparer<double>.Create(
+                    delegate(double x, double y)
+                    {
+                        if(x > y) { return -1; }
+                        if(x < y) { return 1; }
+                        return 0;
+                    })
+                );
+            return speciesSizeByRank;
+        }
 
         private double[] GetGenomeFitnessByRank(out int count)
         {
