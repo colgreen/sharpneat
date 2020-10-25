@@ -152,7 +152,7 @@ namespace SharpNeat.Windows.App
         private void specieSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
-            _speciesSizeRankForm = new RankGraphForm("Species Size by Rank", "Rank", "Size", null);
+            _speciesSizeRankForm = new RankGraphForm("Species Size by Rank", "Rank", "Size", "Species Size");
 
             // Prevent creating more then one instance of the form.
             specieSizeByRankToolStripMenuItem.Enabled = false;
@@ -167,10 +167,28 @@ namespace SharpNeat.Windows.App
             _speciesSizeRankForm.Show(this);
         }
 
+        private void specieFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create form.
+            _speciesFitnessRankForm = new RankPairGraphForm("Species Fitness by Rank (Best & Mean)", "Rank", "Fitness", "Best Fitness", "Mean Fitness");
+
+            // Prevent creating more then one instance of the form.
+            specieFitnessByRankToolStripMenuItem.Enabled = false;
+
+            // Attach a event handler to update this main form when the child form is closed.
+            _speciesFitnessRankForm.FormClosed += new FormClosedEventHandler(
+                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                    specieFitnessByRankToolStripMenuItem.Enabled = true;
+                });
+
+            // Show the form.
+            _speciesFitnessRankForm.Show(this);
+        }
+
         private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
-            _genomeFitnessRankForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", null);
+            _genomeFitnessRankForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", "Genome Fitness");
 
             // Prevent creating more then one instance of the form.
             genomeFitnessByRankToolStripMenuItem.Enabled = false;
@@ -188,7 +206,7 @@ namespace SharpNeat.Windows.App
         private void genomeComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
-            _genomeComplexityRankForm = new RankGraphForm("Genome Complexity by Rank", "Rank", "Complexity", null);
+            _genomeComplexityRankForm = new RankGraphForm("Genome Complexity by Rank", "Rank", "Complexity", "Genome Complexity");
 
             // Prevent creating more then one instance of the form.
             genomeComplexityByRankToolStripMenuItem.Enabled = false;

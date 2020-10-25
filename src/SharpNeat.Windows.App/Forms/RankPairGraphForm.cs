@@ -16,27 +16,32 @@ using ZedGraph;
 namespace SharpNeat.Windows.App.Forms
 {
     /// <summary>
-    /// Form for displaying a live graph of values by rank.
+    /// Form for displaying a live graph of values by rank, and a secondary set of values at each rank.
     /// </summary>
-    public class RankGraphForm : GraphForm
+    public class RankPairGraphForm : GraphForm
     {
         readonly PointPairList _ppl;
+        readonly PointPairList _ppl2;
 
         #region Constructor
 
-        public RankGraphForm(
+        public RankPairGraphForm(
             string title,
             string xAxisTitle,
             string y1AxisTitle,
-            string seriesName)
+            string seriesName,
+            string seriesName2)
             : base(title, xAxisTitle, y1AxisTitle, null)
         {
             _ppl = new PointPairList();
+            _ppl2 = new PointPairList();
             _graphPane.XAxis.Type = AxisType.Linear;
-            _graphPane.BarSettings.ClusterScaleWidth = 2f;
 
-            BarItem barItem = _graphPane.AddBar(seriesName, _ppl, Color.LightGreen);
+            BarItem barItem = _graphPane.AddBar(seriesName, _ppl, Color.Blue);
+            barItem.Bar.Fill.Type = FillType.Solid;
+            barItem.Bar.Border.IsVisible = true;
 
+            barItem = _graphPane.AddBar(seriesName2, _ppl2, Color.LightBlue);
             barItem.Bar.Fill.Type = FillType.Solid;
             barItem.Bar.Border.IsVisible = true;
         }
@@ -49,12 +54,16 @@ namespace SharpNeat.Windows.App.Forms
         /// Update the graph rank data.
         /// </summary>
         /// <param name="valueByRank">The new data values, by order of rank (with rank 1 at element zero).</param>
-        public void UpdateData(Span<double> valueByRank)
+        /// <param name="secondaryValues">Secondary data series.</param>
+        public void UpdateData(Span<double> valueByRank, Span<double> secondaryValues)
         {
             _ppl.Clear();
+            _ppl2.Clear();
 
-            for(int i=0; i < valueByRank.Length; i++) {
+            for(int i=0; i < valueByRank.Length; i++) 
+            {
                 _ppl.Add(i + 1, valueByRank[i]);
+                _ppl2.Add(i + 1, secondaryValues[i]);
             }
 
             RefreshGraph();
@@ -66,6 +75,7 @@ namespace SharpNeat.Windows.App.Forms
         public override void Clear()
         {
             _ppl.Clear();
+            _ppl2.Clear();
             RefreshGraph();
         }
 
