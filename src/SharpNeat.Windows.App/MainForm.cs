@@ -53,6 +53,7 @@ namespace SharpNeat.Windows.App
         // Rankings forms.
         private RankGraphForm _speciesSizeRankForm;
         private RankGraphForm _genomeFitnessRankForm;
+        private RankGraphForm _genomeComplexityRankForm;
 
         #region Form Constructor / Initialisation
 
@@ -192,6 +193,7 @@ namespace SharpNeat.Windows.App
             // Rankings forms.
             if(_speciesSizeRankForm is object) { _speciesSizeRankForm.Clear(); }
             if(_genomeFitnessRankForm is object) { _genomeFitnessRankForm.Clear(); }
+            if(_genomeComplexityRankForm is object) { _genomeComplexityRankForm.Clear(); }
 
             // Take the opportunity to clean-up the heap.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
@@ -292,6 +294,17 @@ namespace SharpNeat.Windows.App
                 }
             }
 
+            if(_genomeComplexityRankForm is object)
+            {
+                double[] genomeComplexityByRank = GetGenomeComplexityByRank(out int genomeCount);
+                try {
+                    _genomeComplexityRankForm.UpdateData(genomeComplexityByRank.AsSpan(0, genomeCount));
+                }
+                finally {
+                    ArrayPool<double>.Shared.Return(genomeComplexityByRank);
+                }
+            }
+
             // Write entry to log.
             __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _eaRunner.EA.Stats.Generation, _neatPop.Stats.BestFitness.PrimaryFitness));
 
@@ -377,6 +390,30 @@ namespace SharpNeat.Windows.App
                     })
                 );
             return genomeFitnessByRank;
+        }
+
+        private double[] GetGenomeComplexityByRank(out int count)
+        {
+            var genList = _neatPop.GenomeList;
+            count = genList.Count;
+            double[] genomeComplexityByRank = ArrayPool<double>.Shared.Rent(count);
+
+            for(int i=0; i < count; i++) {
+                genomeComplexityByRank[i] = genList[i].Complexity;
+            }
+
+            // Sort fitness values (highest values first).
+            Array.Sort(
+                genomeComplexityByRank, 0, count,
+                Comparer<double>.Create(
+                    delegate(double x, double y)
+                    {
+                        if(x > y) { return -1; }
+                        if(x < y) { return 1; }
+                        return 0;
+                    })
+                );
+            return genomeComplexityByRank;
         }
 
         #endregion

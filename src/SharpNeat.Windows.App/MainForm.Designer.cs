@@ -1232,6 +1232,7 @@
             this.genomeComplexityByRankToolStripMenuItem.Name = "genomeComplexityByRankToolStripMenuItem";
             this.genomeComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
             this.genomeComplexityByRankToolStripMenuItem.Text = "Genome Complexity by Rank";
+            this.genomeComplexityByRankToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityByRankToolStripMenuItem_Click);
             // 
             // distributionPlotsToolStripMenuItem
             // 
