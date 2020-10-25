@@ -18,6 +18,13 @@ namespace SharpNeat.Windows.App.Forms
     /// </summary>
     public class StatsGraphForm : GraphForm
     {
+        /// <summary>
+        /// Construct with the given titles.
+        /// </summary>
+        /// <param name="title">Graph title.</param>
+        /// <param name="xAxisTitle">X-axis title.</param>
+        /// <param name="y1AxisTitle">Y-axis title.</param>
+        /// <param name="y2AxisTitle">Y2-axis title (optional).</param>
         public StatsGraphForm(
             string title,
             string xAxisTitle,

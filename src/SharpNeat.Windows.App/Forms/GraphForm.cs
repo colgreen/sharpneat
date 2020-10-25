@@ -24,8 +24,12 @@ namespace SharpNeat.Windows.App.Forms
         #region Constructor
 
         /// <summary>
-        /// Construct the form with the provided details and data sources.
+        /// Construct with the given titles.
         /// </summary>
+        /// <param name="title">Graph title.</param>
+        /// <param name="xAxisTitle">X-axis title.</param>
+        /// <param name="y1AxisTitle">Y-axis title.</param>
+        /// <param name="y2AxisTitle">Y2-axis title (optional).</param>
         public GraphForm(
             string title,
             string xAxisTitle,
