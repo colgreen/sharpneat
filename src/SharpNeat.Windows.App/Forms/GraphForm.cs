@@ -10,13 +10,12 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Windows.Forms;
-using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
 
 namespace SharpNeat.Windows.App.Forms
 {
     /// <summary>
-    /// Form for displaying a graph plot of time series data (e.g. best genome fitness per generation).
+    /// Form for displaying a live graph.
     /// </summary>
     public partial class GraphForm : Form
     {
@@ -58,26 +57,13 @@ namespace SharpNeat.Windows.App.Forms
 
         #region Public Methods
 
-        // Note. These methods could be defined as abstract, but that would prevent the Window Forms UI designer from working;
-        // so instead they are defined as virtuals method with no implementation.
-
-        /// <summary>
-        /// Update the time series data.
-        /// </summary>
-        /// <param name="eaStats">Evolution algorithm statistics object.</param>
-        /// <param name="popStats">Population statistics object.</param>
-        public virtual void UpdateData(
-            EvolutionAlgorithmStatistics eaStats,
-            PopulationStatistics popStats)
-        {
-        }
-
         /// <summary>
         /// Clear the time series data.
         /// </summary>
         public virtual void Clear()
         {
-
+            // Note. This method could be defined as abstract, but that would prevent the Window Forms UI designer from working;
+            // therefore instead it is defined as virtual with no implementation.
         }
 
         #endregion

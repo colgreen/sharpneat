@@ -15,7 +15,6 @@ using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Windows.App.Forms;
-using SharpNeat.Windows.App.Forms.Rankings;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 using static SharpNeat.Windows.App.AppUtils;
 
@@ -153,7 +152,7 @@ namespace SharpNeat.Windows.App
         private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
-            _genomeFitnessRankingForm = new GenomeFitnessRankingForm();
+            _genomeFitnessRankingForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", null);
 
             // Prevent creating more then one instance of the form.
             genomeFitnessByRankToolStripMenuItem.Enabled = false;

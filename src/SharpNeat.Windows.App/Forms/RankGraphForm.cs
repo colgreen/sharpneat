@@ -13,25 +13,32 @@ using System;
 using System.Drawing;
 using ZedGraph;
 
-namespace SharpNeat.Windows.App.Forms.Rankings
+namespace SharpNeat.Windows.App.Forms
 {
-    public class GenomeFitnessRankingForm : GraphForm
+    /// <summary>
+    /// Form for displaying a live graph of data taken from the standard statistics objects.
+    /// </summary>
+    public class RankGraphForm : GraphForm
     {
         readonly PointPairList _ppl;
 
         #region Constructor
 
-        public GenomeFitnessRankingForm()
-            : base("Genome Fitness by Rank", "Rank", "Fitness", null)
+        public RankGraphForm(
+            string title,
+            string xAxisTitle,
+            string y1AxisTitle,
+            string y2AxisTitle)
+            : base(title, xAxisTitle, y1AxisTitle, y2AxisTitle)
         {
             _ppl = new PointPairList();
             _graphPane.XAxis.Type = AxisType.Linear;
             _graphPane.BarSettings.ClusterScaleWidth = 2f;
 
-            BarItem barItem = _graphPane.AddBar("Genome Fitness by Rank", _ppl, Color.Orange);
+            BarItem barItem = _graphPane.AddBar("Rank", _ppl, Color.LightGray);
 
             barItem.Bar.Fill.Type = FillType.Solid;
-            barItem.Bar.Border.IsVisible = false;
+            barItem.Bar.Border.IsVisible = true;
         }
 
         #endregion
@@ -41,12 +48,12 @@ namespace SharpNeat.Windows.App.Forms.Rankings
         /// <summary>
         /// Update the time series data.
         /// </summary>
-        public void UpdateData(Span<double> genomeFitnessByRank)
+        public void UpdateData(Span<double> valueByRank)
         {
             _ppl.Clear();
 
-            for(int i=0; i < genomeFitnessByRank.Length; i++) {
-                _ppl.Add(i + 1, genomeFitnessByRank[i]);
+            for(int i=0; i < valueByRank.Length; i++) {
+                _ppl.Add(i + 1, valueByRank[i]);
             }
 
             RefreshGraph();
