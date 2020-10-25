@@ -123,6 +123,34 @@ namespace SharpNeat.Neat.Speciation
             PendingAddsList.Clear();
         }
 
+        /// <summary>
+        /// Calculates the total complexity of all genomes within the species.
+        /// </summary>
+        /// <remarks>
+        /// Implemented as a method rather than a property as an indication that this method does significant
+        /// work to calculate the value.
+        /// </remarks>
+        public double CalcTotalComplexity()
+        {
+            double total = 0.0;
+            foreach(var genome in GenomeList) {
+                total += genome.Complexity;
+            }
+            return total;
+        }
+
+        /// <summary>
+        /// Calculates the mean complexity of genomes within the species.    
+        /// </summary>
+        /// <remarks>
+        /// Implemented as a method rather than a property as an indication that this method does significant
+        /// work to calculate the value.
+        /// </remarks>
+        public double CalcMeanComplexity()
+        {
+            return CalcTotalComplexity() / GenomeList.Count;
+        }
+
         #endregion
     }
 }

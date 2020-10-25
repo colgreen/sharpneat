@@ -130,7 +130,7 @@
             this.rankPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specieSizeByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specieFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.specieChampComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.specieComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.genomeFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.genomeComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1188,7 +1188,7 @@
             this.rankPlotsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.specieSizeByRankToolStripMenuItem,
             this.specieFitnessByRankToolStripMenuItem,
-            this.specieChampComplexityByRankToolStripMenuItem,
+            this.specieComplexityByRankToolStripMenuItem,
             this.toolStripSeparator3,
             this.genomeFitnessByRankToolStripMenuItem,
             this.genomeComplexityByRankToolStripMenuItem});
@@ -1212,9 +1212,10 @@
             // 
             // specieChampComplexityByRankToolStripMenuItem
             // 
-            this.specieChampComplexityByRankToolStripMenuItem.Name = "specieChampComplexityByRankToolStripMenuItem";
-            this.specieChampComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
-            this.specieChampComplexityByRankToolStripMenuItem.Text = "Species Complexity by Rank (Best && Mean)";
+            this.specieComplexityByRankToolStripMenuItem.Name = "specieComplexityByRankToolStripMenuItem";
+            this.specieComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(318, 22);
+            this.specieComplexityByRankToolStripMenuItem.Text = "Species Complexity by Rank (Best && Mean)";
+            this.specieComplexityByRankToolStripMenuItem.Click += new System.EventHandler(this.specieComplexityByRankToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -1443,7 +1444,7 @@
         private System.Windows.Forms.ToolStripMenuItem rankPlotsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specieSizeByRankToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specieFitnessByRankToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem specieChampComplexityByRankToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem specieComplexityByRankToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem genomeFitnessByRankToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem genomeComplexityByRankToolStripMenuItem;

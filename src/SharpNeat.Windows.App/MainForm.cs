@@ -54,6 +54,7 @@ namespace SharpNeat.Windows.App
         // Rankings forms.
         private RankGraphForm _speciesSizeRankForm;
         private RankPairGraphForm _speciesFitnessRankForm;
+        private RankPairGraphForm _speciesComplexityRankForm;
         private RankGraphForm _genomeFitnessRankForm;
         private RankGraphForm _genomeComplexityRankForm;
 
@@ -197,6 +198,7 @@ namespace SharpNeat.Windows.App
             // Rankings forms.
             if(_speciesSizeRankForm is object) { _speciesSizeRankForm.Clear(); }
             if(_speciesFitnessRankForm is object) { _speciesFitnessRankForm.Clear(); }
+            if(_speciesComplexityRankForm is object) { _speciesComplexityRankForm.Clear(); }
             if(_genomeFitnessRankForm is object) { _genomeFitnessRankForm.Clear(); }
             if(_genomeComplexityRankForm is object) { _genomeComplexityRankForm.Clear(); }
 
@@ -300,6 +302,18 @@ namespace SharpNeat.Windows.App
                 }
             }
 
+            if(_speciesComplexityRankForm is object)
+            {
+                GetSpeciesComplexityByRank(out double[] bestComplexityByRank, out double[] meanComplexitySeries, out int speciesCount);
+                try {
+                    _speciesComplexityRankForm.UpdateData(bestComplexityByRank.AsSpan(0, speciesCount), meanComplexitySeries.AsSpan(0, speciesCount));
+                }
+                finally {
+                    ArrayPool<double>.Shared.Return(bestComplexityByRank);
+                    ArrayPool<double>.Shared.Return(meanComplexitySeries);
+                }
+            }
+
             if(_genomeFitnessRankForm is object)
             {
                 double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
@@ -395,6 +409,27 @@ namespace SharpNeat.Windows.App
 
             // Sort best fitness values (highest values first).
             Array.Sort(bestFitnessByRank, meanFitnessSeries, 0, count, Utils.ComparerDesc);
+        }
+
+        private void GetSpeciesComplexityByRank(
+            out double[] bestComplexityByRank,
+            out double[] meanComplexitySeries,
+            out int count)
+        {
+            var speciesArr = _neatPop.SpeciesArray;
+            count = speciesArr.Length;
+
+            bestComplexityByRank = ArrayPool<double>.Shared.Rent(count);
+            meanComplexitySeries = ArrayPool<double>.Shared.Rent(count);
+
+            for(int i=0; i < count; i++) 
+            {
+                bestComplexityByRank[i] = speciesArr[i].GenomeList[0].Complexity;
+                meanComplexitySeries[i] = speciesArr[i].CalcMeanComplexity();
+            }
+
+            // Sort best fitness values (highest values first).
+            Array.Sort(bestComplexityByRank, meanComplexitySeries, 0, count, Utils.ComparerDesc);
         }
 
         private double[] GetGenomeFitnessByRank(out int count)

@@ -185,6 +185,24 @@ namespace SharpNeat.Windows.App
             _speciesFitnessRankForm.Show(this);
         }
 
+        private void specieComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create form.
+            _speciesComplexityRankForm = new RankPairGraphForm("Species Complexity by Rank (Best & Mean)", "Rank", "Complexity", "Best Genome Complexity", "Mean Complexity");
+
+            // Prevent creating more then one instance of the form.
+            specieComplexityByRankToolStripMenuItem.Enabled = false;
+
+            // Attach a event handler to update this main form when the child form is closed.
+            _speciesComplexityRankForm.FormClosed += new FormClosedEventHandler(
+                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                    specieComplexityByRankToolStripMenuItem.Enabled = true;
+                });
+
+            // Show the form.
+            _speciesComplexityRankForm.Show(this);
+        }
+
         private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create form.
