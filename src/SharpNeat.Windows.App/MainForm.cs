@@ -38,6 +38,8 @@ namespace SharpNeat.Windows.App
     {
         private static readonly ILog __log = LogManager.GetLogger(typeof(MainForm));
 
+        #region Instance Fields
+
         // The current NEAT experiment.
         private INeatExperiment<double> _neatExperiment;
         private NeatPopulation<double> _neatPop;
@@ -54,6 +56,8 @@ namespace SharpNeat.Windows.App
         private RankGraphForm _speciesSizeRankForm;
         private RankGraphForm _genomeFitnessRankForm;
         private RankGraphForm _genomeComplexityRankForm;
+
+        #endregion
 
         #region Form Constructor / Initialisation
 
@@ -355,16 +359,7 @@ namespace SharpNeat.Windows.App
             }
 
             // Sort size values (highest values first).
-            Array.Sort(
-                speciesSizeByRank, 0, count,
-                Comparer<double>.Create(
-                    delegate(double x, double y)
-                    {
-                        if(x > y) { return -1; }
-                        if(x < y) { return 1; }
-                        return 0;
-                    })
-                );
+            Array.Sort(speciesSizeByRank, 0, count, Utils.ComparerDesc);
             return speciesSizeByRank;
         }
 
@@ -379,16 +374,7 @@ namespace SharpNeat.Windows.App
             }
 
             // Sort fitness values (highest values first).
-            Array.Sort(
-                genomeFitnessByRank, 0, count,
-                Comparer<double>.Create(
-                    delegate(double x, double y)
-                    {
-                        if(x > y) { return -1; }
-                        if(x < y) { return 1; }
-                        return 0;
-                    })
-                );
+            Array.Sort(genomeFitnessByRank, 0, count, Utils.ComparerDesc);
             return genomeFitnessByRank;
         }
 
@@ -403,16 +389,7 @@ namespace SharpNeat.Windows.App
             }
 
             // Sort fitness values (highest values first).
-            Array.Sort(
-                genomeComplexityByRank, 0, count,
-                Comparer<double>.Create(
-                    delegate(double x, double y)
-                    {
-                        if(x > y) { return -1; }
-                        if(x < y) { return 1; }
-                        return 0;
-                    })
-                );
+            Array.Sort(genomeComplexityByRank, 0, count, Utils.ComparerDesc);
             return genomeComplexityByRank;
         }
 
