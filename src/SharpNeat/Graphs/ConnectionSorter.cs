@@ -13,6 +13,8 @@ using System.Diagnostics;
 
 namespace SharpNeat.Graphs
 {
+    // TODO: Update with improvements from: https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/Collections/Generic/ArraySortHelper.cs
+
     /// <summary>
     /// A variant on ArraySortHelper in the core framework:
     /// 
