@@ -372,6 +372,7 @@ namespace SharpNeatGUI
             // Parameter fields enabled.
             txtParamPopulationSize.Enabled = true;
             txtParamInitialConnectionProportion.Enabled = true;
+            txtParamNumberOfSpecies.Enabled = true;
             txtParamElitismProportion.Enabled = true;
             txtParamSelectionProportion.Enabled = true;
             txtParamOffspringAsexual.Enabled = true;
@@ -413,6 +414,7 @@ namespace SharpNeatGUI
             // Parameter fields enabled (apart from population creation params)
             txtParamPopulationSize.Enabled = false;
             txtParamInitialConnectionProportion.Enabled = false;
+            txtParamNumberOfSpecies.Enabled = true;
             txtParamElitismProportion.Enabled = true;
             txtParamSelectionProportion.Enabled = true;
             txtParamOffspringAsexual.Enabled = true;
@@ -457,6 +459,7 @@ namespace SharpNeatGUI
             // Parameter fields (disable).
             txtParamPopulationSize.Enabled = false;
             txtParamInitialConnectionProportion.Enabled = false;
+            txtParamNumberOfSpecies.Enabled = false;
             txtParamElitismProportion.Enabled = false;
             txtParamSelectionProportion.Enabled = false;
             txtParamOffspringAsexual.Enabled = false;
@@ -501,6 +504,7 @@ namespace SharpNeatGUI
             // Parameter fields (disable).
             txtParamPopulationSize.Enabled = false;
             txtParamInitialConnectionProportion.Enabled = false;
+            txtParamNumberOfSpecies.Enabled = false;
             txtParamElitismProportion.Enabled = false;
             txtParamSelectionProportion.Enabled = false;
             txtParamOffspringAsexual.Enabled = false;
@@ -817,45 +821,55 @@ namespace SharpNeatGUI
             if(null == _ea) return;
 
             // Create data sources.
-            List<TimeSeriesDataSource> _dsList = new List<TimeSeriesDataSource>();
+            List<TimeSeriesDataSource> dsList = new List<TimeSeriesDataSource>();
 
 
-            _dsList.Add(new TimeSeriesDataSource("Best", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Red, delegate() 
-                                                            {
-                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._maxFitness);
-                                                            }));
+            dsList.Add(
+                new TimeSeriesDataSource(
+                    "Best", 
+                    TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Red,
+                    delegate() {
+                        return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._maxFitness);
+                    }));
 
-            _dsList.Add(new TimeSeriesDataSource("Mean", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Black, delegate() 
-                                                            {
-                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._meanFitness);
-                                                            }));
+            dsList.Add(new TimeSeriesDataSource(
+                "Mean",
+                TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Black,
+                delegate() {
+                    return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._meanFitness);
+                }));
 
-            _dsList.Add(new TimeSeriesDataSource("Best (Moving Average)", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Orange, delegate() 
-                                                            {
-                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._bestFitnessMA.Mean);
-                                                            }));
+            dsList.Add(new TimeSeriesDataSource(
+                "Best (Moving Average)",
+                TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Orange,
+                delegate() {
+                    return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._bestFitnessMA.Mean);
+                }));
 
-            // Create a data sources for any auxiliary fitness info.
+            // Create data sources for any auxiliary fitness info.
             AuxFitnessInfo[] auxFitnessArr = _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr;
             if(null != auxFitnessArr)
             {
-                for(int i=0; i<auxFitnessArr.Length; i++)
+                for(int i=0; i < auxFitnessArr.Length; i++)
                 {
                     // 'Capture' the value of i in a locally defined variable that has scope specific to each delegate creation (below). If capture 'i' instead then it will always have
                     // its last value in each delegate (which happens to be one past the end of the array).
                     int ii = i;
-                    _dsList.Add(new TimeSeriesDataSource(_ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr[i]._name, TimeSeriesDataSource.DefaultHistoryLength, 0, _plotColorArr[i % _plotColorArr.Length], delegate() 
-                                                                    {   
-                                                                        return new Point2DDouble(_ea.CurrentGeneration, _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr[ii]._value);
-                                                                    }));
+                    dsList.Add(
+                        new TimeSeriesDataSource(
+                            _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr[i]._name,
+                            TimeSeriesDataSource.DefaultHistoryLength, 0, _plotColorArr[i % _plotColorArr.Length],
+                            delegate() {   
+                                return new Point2DDouble(_ea.CurrentGeneration, _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr[ii]._value);
+                            }));
                 }
             }
 
             // Create form.
-            TimeSeriesGraphForm graphForm = new TimeSeriesGraphForm("Fitness (Best and Mean)", "Generation", "Fitness", string.Empty, _dsList.ToArray(), _ea);
+            TimeSeriesGraphForm graphForm = new TimeSeriesGraphForm("Fitness (Best and Mean)", "Generation", "Fitness", string.Empty, dsList.ToArray(), _ea);
             _timeSeriesGraphFormList.Add(graphForm);
 
-            // Attach a event handler to update this main form when the graph form is closed.
+            // Attach an event handler to update this main form when the graph form is closed.
             graphForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
             {
                 _timeSeriesGraphFormList.Remove(senderObj as TimeSeriesGraphForm);
@@ -1697,7 +1711,6 @@ namespace SharpNeatGUI
         /// </summary>
         private void UpdateRankedDataPoints(double[] valArr, ref Point2DDouble[] pointArr)
         {
-
             // Sort values (largest first).
             Array.Sort(valArr, delegate(double x, double y)
             {
