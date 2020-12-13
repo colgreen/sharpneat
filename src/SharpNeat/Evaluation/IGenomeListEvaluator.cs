@@ -38,7 +38,8 @@ namespace SharpNeat.Evaluation
         /// </remarks>
         IComparer<FitnessInfo> FitnessComparer { get; }
 
-        // TODO: Consider changing this to accept an IList<TGenome>, to allow indexed access to the list (also the parameter currently has the wrong name as it is nto a list!).
+        // TODO: Consider changing this to accept an IList<TGenome> (or Span<T>, ReadOnlySpan<T>, etc.), to allow indexed access to the list
+        // (also the parameter currently has the wrong name as it is not a list!).
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.
         /// </summary>
