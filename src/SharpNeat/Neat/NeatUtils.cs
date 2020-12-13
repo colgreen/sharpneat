@@ -135,6 +135,7 @@ namespace SharpNeat.Neat
 
         // TODO: Creation of an IGenomeListEvaluator needs to be the responsibility of INeatExperimentFactory (or the evaluation scheme),
         // to allow for tasks that require the entire population to be evaluated as a whole, e.g. simulated life/worlds.
+        // Furthermore, a new interface IPhenomeListEvaluator will be needed to allow the code for those types of task to be abstracted away from the type of genome in use.
         private static IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
             INeatExperiment<double> neatExperiment)
         {
