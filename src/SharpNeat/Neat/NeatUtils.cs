@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using Redzen.Random;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 using SharpNeat.Experiments;
@@ -25,7 +24,6 @@ using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Neat
 {
-
     /// <summary>
     /// Utility methods for creating and correctly 'wiring up' instances of NeatEvolutionAlgorithm.
     /// </summary>
@@ -135,6 +133,8 @@ namespace SharpNeat.Neat
 
         #region Private Static Methods
 
+        // TODO: Creation of an IGenomeListEvaluator needs to be the responsibility of INeatExperimentFactory (or the evaluation scheme),
+        // to allow for tasks that require the entire population to be evaluated as a whole, e.g. simulated life/worlds.
         private static IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
             INeatExperiment<double> neatExperiment)
         {
