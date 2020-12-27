@@ -34,10 +34,10 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
                 y = x;
             }
             else if(x <= tl) {
-                y = tl + (x - tl) * a;
+                y = tl + ((x - tl) * a);
             }
             else {
-                y = tr + (x - tr) * a;
+                y = tr + ((x - tr) * a);
             }
 
             return y;

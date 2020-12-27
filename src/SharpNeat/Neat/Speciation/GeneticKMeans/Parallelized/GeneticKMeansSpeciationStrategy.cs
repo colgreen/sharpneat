@@ -150,7 +150,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits);
-                if(0 == reallocCount)
+                if(reallocCount == 0)
                 {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
@@ -170,7 +170,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             // Note. The nested parallel loop here is intentional and should give good thread concurrency in the general case.
             // For more info see: "Is it ok to use nested Parallel.For loops?"
             // https://blogs.msdn.microsoft.com/pfxteam/2012/03/14/is-it-ok-to-use-nested-parallel-for-loops/
-            //
+
             Parallel.For(0, speciesArr.Length, _parallelOptions, (speciesIdx) =>
             {
                 var species = speciesArr[speciesIdx];
@@ -232,7 +232,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         {
             // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
-            var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
+            var emptySpeciesArr = speciesArr.Where(x => x.GenomeById.Count == 0).ToArray();
             if(emptySpeciesArr.Length != 0) {
                 SpeciationUtilsParallel.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
             }

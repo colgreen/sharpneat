@@ -59,7 +59,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static double ExpApprox(double val)
         {
-            long tmp = (long)(1512775 * val + (1072693248 - 60801));
+            long tmp = (long)((1512775 * val) + (1072693248 - 60801));
             return BitConverter.Int64BitsToDouble(tmp << 32);
         }
     }

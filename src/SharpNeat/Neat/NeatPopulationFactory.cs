@@ -76,7 +76,6 @@ namespace SharpNeat.Neat
 
             // Init random connection weight source.
             _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(_metaNeatGenome.ConnectionWeightScale, true);
-
         }
 
         #endregion

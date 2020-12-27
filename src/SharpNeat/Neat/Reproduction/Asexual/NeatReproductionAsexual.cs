@@ -166,7 +166,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             mutationTypeDist = mutationTypeDist.RemoveOutcome((int)mutationTypeId);
 
             // Sanity test.
-            if(0 == mutationTypeDist.Probabilities.Length)
+            if(mutationTypeDist.Probabilities.Length == 0)
             {
                 // This shouldn't be possible, hence this is an exceptional circumstance.
                 // Note. Connection weight and 'add node' mutations should always be possible, because there should

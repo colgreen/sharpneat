@@ -45,13 +45,13 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             int length2 = connArr2.Length;
 
             // Test for special cases.
-            if(0 == length1 && 0 == length2)
+            if(length1 == 0 && length2 == 0)
             {   // Both arrays are empty. No disparities, therefore the distance is zero.
                 return 0.0;
             }
 
             double distance = 0.0;
-            if(0 == length1)
+            if(length1 == 0)
             {   // All p2 genes are mismatches.
                 for(int i=0; i < length2; i++) {
                     distance += weightArr2[i] * weightArr2[i];
@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 return Math.Sqrt(distance);
             }
 
-            if(0 == length2)
+            if(length2 == 0)
             {   // All p1 elements are mismatches.
                 for(int i=0; i < length1; i++) {
                     distance += weightArr1[i] * weightArr1[i];
@@ -156,14 +156,14 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             int length2 = connArr2.Length;
 
             // Test for special cases.
-            if(0 == length1 && 0 == length2)
+            if(length1 == 0 && length2 == 0)
             {
                 // Both arrays are empty. No disparities, therefore the distance is zero.
-                return 0.0 < threshold;
+                return threshold > 0.0;
             }
 
             double distance = 0.0;
-            if(0 == length1)
+            if(length1 == 0)
             {
                 // All p2 elements are mismatches.
                 // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
@@ -173,7 +173,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 return distance < threshold;
             }
 
-            if(0 == length2)
+            if(length2 == 0)
             {
                 // All p1 elements are mismatches.
                 // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.

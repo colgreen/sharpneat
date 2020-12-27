@@ -109,8 +109,7 @@ namespace SharpNeat.Evaluation
                     {
                         genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome);
                     }
-                }
-            );
+                });
         }
 
         /// <summary>

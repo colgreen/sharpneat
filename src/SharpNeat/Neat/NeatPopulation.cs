@@ -150,7 +150,7 @@ namespace SharpNeat.Neat
             this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
             this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
             this.GenomeIdSeq = genomeIdSeq ?? throw new ArgumentNullException(nameof(genomeIdSeq));
-            this.InnovationIdSeq = innovationIdSeq ?? throw new ArgumentNullException(nameof(innovationIdSeq));;
+            this.InnovationIdSeq = innovationIdSeq ?? throw new ArgumentNullException(nameof(innovationIdSeq));
             this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
 
             // Assert that the ID sequence objects represent an ID higher than any existing ID used by the genomes.

@@ -131,8 +131,7 @@ namespace SharpNeat.Evaluation
                     // this is useful for struct based partition state, but here we're just passing an object ref around.
                     return evaluator;
                 },
-                (evaluator) => _evaluatorPool.ReleaseEvaluator(evaluator)   // Release this partition's phenome evaluator back into pool.
-            );
+                (evaluator) => _evaluatorPool.ReleaseEvaluator(evaluator)); // Release this partition's phenome evaluator back into pool.
         }
 
         /// <summary>

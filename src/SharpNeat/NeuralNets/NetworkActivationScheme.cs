@@ -28,9 +28,7 @@ namespace SharpNeat.NeuralNets
         /// Private constructor to restrict construction to static factory methods.
         /// </summary>
         private NetworkActivationScheme()
-        {
-
-        }
+        {}
 
         #endregion
 

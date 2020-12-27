@@ -57,7 +57,7 @@ namespace SharpNeat.Neat
 
             // Handle specific case where all genomes/species have a zero fitness.
             // Assign all species an equal targetSize.
-            if(0.0 == totalMeanFitness)
+            if(totalMeanFitness == 0.0)
             {
                 totalTargetSizeInt = CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
             }

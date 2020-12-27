@@ -334,7 +334,6 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             return (_ea.Stats.Generation - _prevUpdateGeneration) >= _updateScheme.Generations;
         }
 
-
         private bool IsUpdateDue_TimeSpan()
         {
             return (DateTime.UtcNow.Ticks - _prevUpdateTimeTick) >= _updateScheme.TimeSpan.Ticks;

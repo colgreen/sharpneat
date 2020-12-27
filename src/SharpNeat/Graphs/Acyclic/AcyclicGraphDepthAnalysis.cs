@@ -116,7 +116,7 @@ namespace SharpNeat.Graphs.Acyclic
                 CalculateNodeDepthsInner(digraph);
 
                 // Determine the maximum depth of the graph.
-                int maxDepth = (0 == _nodeDepthByIdx.Length) ? 0 : _nodeDepthByIdx.Max();
+                int maxDepth = (_nodeDepthByIdx.Length == 0) ? 0 : _nodeDepthByIdx.Max();
 
                 // Return depth analysis info.
                 return new GraphDepthInfo(maxDepth+1, _nodeDepthByIdx);
@@ -159,7 +159,7 @@ namespace SharpNeat.Graphs.Acyclic
             int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
 
             // While there are entries on the stack.
-            while (0 != _traversalStack.Count)
+            while (_traversalStack.Count != 0)
             {
                 // Get the connection index from the top of stack; this indicates next connection to be traversed.
                 StackFrame currStackFrame = _traversalStack.Peek();

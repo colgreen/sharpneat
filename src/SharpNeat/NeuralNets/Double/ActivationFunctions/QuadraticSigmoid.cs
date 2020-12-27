@@ -42,7 +42,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             }
             else //if (x >= t)
             {
-                y = t + (x - t) * a;
+                y = t + ((x - t) * a);
             }
 
             return (y * sign * 0.5) + 0.5;

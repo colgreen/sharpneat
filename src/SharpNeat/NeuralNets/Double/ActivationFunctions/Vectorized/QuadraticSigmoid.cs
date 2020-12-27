@@ -44,7 +44,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             }
             else //if (x >= t)
             {
-                y = t + (x - t) * a;
+                y = t + ((x - t) * a);
             }
 
             return (y * sign * 0.5) + 0.5;
@@ -86,7 +86,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 var vec_inner = vec_t - (vec_x_minus_t * vec_x_minus_t);
 
                 // Handle abs values outside of the interval [0,t).
-                var vec_outer = vec_t + vec_x_minus_t * vec_a;
+                var vec_outer = vec_t + (vec_x_minus_t * vec_a);
 
                 // Select a value from vec_inner or vec_outer.
                 var vec_select_inner = Vector.LessThan(vec_abs, vec_t);

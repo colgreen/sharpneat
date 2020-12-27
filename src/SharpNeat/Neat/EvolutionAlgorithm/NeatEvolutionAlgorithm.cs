@@ -270,7 +270,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 int removeCount = species.GenomeList.Count - eliteSizeInt;
                 species.GenomeList.RemoveRange(eliteSizeInt, removeCount);
 
-                if(0 == eliteSizeInt) {
+                if(eliteSizeInt == 0) {
                     emptySpeciesFlag = true;
                 }
             }

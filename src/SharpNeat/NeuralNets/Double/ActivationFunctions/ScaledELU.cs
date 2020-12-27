@@ -38,7 +38,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
                 y = scale * x;
             }
             else {
-                y = scale * (alpha * Math.Exp(x) - alpha);
+                y = scale * ((alpha * Math.Exp(x)) - alpha);
             }
 
             return y;

@@ -39,7 +39,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             // Special case. One item in list, therefore it is the centroid.
             int count = coordList.Count();
 
-            if(1 == count) {
+            if(count == 1) {
                 return coordList.First();
             }
 
@@ -90,7 +90,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             IDistanceMetric<double> distanceMetric, IList<ConnectionGenes<double>> coordList)
         {
             // Special case. One item in list, therefore it is the centroid.
-            if(1 == coordList.Count) {
+            if(coordList.Count == 1) {
                 return coordList[0];
             }
 

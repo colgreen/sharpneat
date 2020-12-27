@@ -174,7 +174,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits, populationCount, maxIntraSpeciesDistance);
-                if(0 == reallocCount)
+                if(reallocCount == 0)
                 {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
@@ -197,7 +197,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits, populationCount, maxIntraSpeciesDistance);
-                if(0 == reallocCount)
+                if(reallocCount == 0)
                 {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
@@ -280,7 +280,6 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
                 }
             }
             return nearestSpeciesIdx;
-
         }
 
         /// <summary>
@@ -336,7 +335,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         {
             // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
-            var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
+            var emptySpeciesArr = speciesArr.Where(x => x.GenomeById.Count == 0).ToArray();
             if(emptySpeciesArr.Length != 0) {
                 SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
             }

@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
     /// <summary>
     /// A connection weight mutation strategy that applies deltas to existing weights.
     /// </summary>
-    public sealed class DeltaWeightMutationStrategy: IWeightMutationStrategy<double>
+    public sealed class DeltaWeightMutationStrategy : IWeightMutationStrategy<double>
     {
         readonly ISubsetSelectionStrategy _selectionStrategy;
         readonly IStatelessSampler<double> _weightDeltaSampler;
@@ -79,7 +79,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double
         // TODO: Consider Laplacian distribution.
 
         /// <summary>
-        ///  Create a weight mutation strategy that applies deltas to a random subset of weights, with deltas sampled from a gaussian distribution.
+        ///  Create a weight mutation strategy that applies deltas to a random subset of weights, with deltas sampled from a Gaussian distribution.
         /// </summary>
         /// <param name="selectionStrategy">Weight selection strategy.</param>
         /// <param name="stdDev">Gaussian standard deviation.</param>

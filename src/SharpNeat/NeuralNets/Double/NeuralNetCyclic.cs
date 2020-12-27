@@ -69,7 +69,7 @@ namespace SharpNeat.NeuralNets.Double
             WeightedDirectedGraph<double> digraph,
             VecFnSegment2<double> activationFn,
             int cyclesPerActivation)
-        :this(
+        : this(
              digraph,
              digraph.WeightArray,
              activationFn,

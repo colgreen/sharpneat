@@ -287,7 +287,7 @@ namespace SharpNeat.Neat.Genome.IO
         private void ValidateActivationFunctions()
         {
             // For NEAT each node uses the same activation function, and this is defined on MetaNeatGenome.
-            if(0 == _actFnList.Count) {
+            if(_actFnList.Count == 0) {
                 throw new IOException("No activation function defined for genome.");
             }
 

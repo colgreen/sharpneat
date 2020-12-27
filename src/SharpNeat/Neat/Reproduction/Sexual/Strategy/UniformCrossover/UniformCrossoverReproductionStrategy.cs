@@ -137,7 +137,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             IRandomSource rng)
         {
             // Select gene at random if it is present on both parents.
-            if(-1 != idx1 && -1 != idx2)
+            if(idx1 != -1 && idx2 != -1)
             {
                 if(rng.NextBool()) {
                     return CreateConnectionGene(connGenes1, idx1);
@@ -147,7 +147,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             }
 
             // Use the primary parent's gene if it has one.
-            if(-1 != idx1) {
+            if(idx1 != -1) {
                 return CreateConnectionGene(connGenes1, idx1);
             }
 

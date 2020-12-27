@@ -14,7 +14,6 @@ namespace SharpNeat.NeuralNets
 {
     // TODO: Convert to use Span<T> instead of T[].
 
-
     /// <summary>
     /// Vectorized activation function.
     /// </summary>

@@ -178,8 +178,7 @@ namespace SharpNeat.Neat.Genome
                     // if the target node is also unreachable from an input node (i.e. via another connectivity path).
                     Debug.Assert(
                             (layerIdx == 0 && (srcId >= digraph.InputCount || nodeDepthArr[tgtId] > 0))
-                        ||  (layerIdx > 0 && nodeDepthArr[tgtId] > layerIdx)
-                    );
+                        ||  (layerIdx > 0 && nodeDepthArr[tgtId] > layerIdx));
                 }
             }
         }
@@ -211,7 +210,7 @@ namespace SharpNeat.Neat.Genome
         private static bool IsSortedAscending(
             in ConnectionIdArrays connIdArrays)
         {
-            if(0 == connIdArrays.Length) {
+            if(connIdArrays.Length == 0) {
                 return true;
             }
 

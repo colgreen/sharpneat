@@ -79,7 +79,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <returns>A new child genome.</returns>
         public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
-            if(0 == parent.ConnectionGenes.Length)
+            if(parent.ConnectionGenes.Length == 0)
             {
                 // No connections to split (nodes are added by splitting an existing connection).
                 return null;
@@ -174,7 +174,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 childIdx += copyLen;
 
                 // Test what to do at the stopIdx.
-                if(-1 == newConIdx)
+                if(newConIdx == -1)
                 {   // We are at the parent connection to be skipped.
                     parentIdx++;
                     continue;

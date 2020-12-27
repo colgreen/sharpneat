@@ -195,7 +195,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         private bool TraverseGraph(IList<DirectedConnection> connList, int terminalNodeId)
         {
             // While there are entries on the stack.
-            while(0 != _traversalStack.Count)
+            while(_traversalStack.Count != 0)
             {
                 // Get the connection index from the top of stack; this is the next connection to be traversed.
                 int currConnIdx = _traversalStack.Peek();
