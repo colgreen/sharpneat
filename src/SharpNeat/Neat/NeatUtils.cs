@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -120,7 +120,7 @@ namespace SharpNeat.Neat
             var activationFn = actFnFactory.GetActivationFunction(neatExperiment.ActivationFnName);
 
             var metaNeatGenome = new MetaNeatGenome<double>(
-                inputNodeCount: neatExperiment.EvaluationScheme.InputCount, 
+                inputNodeCount: neatExperiment.EvaluationScheme.InputCount,
                 outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
                 isAcyclic: neatExperiment.IsAcyclic,
                 activationFn: activationFn,
@@ -157,7 +157,7 @@ namespace SharpNeat.Neat
         private static IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> CreateGenomeDecoder(
             INeatExperiment<double> neatExperiment)
         {
-            if(neatExperiment.IsAcyclic) 
+            if(neatExperiment.IsAcyclic)
             {
                 return NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic(
                     neatExperiment.EnableHardwareAcceleratedNeuralNets);
@@ -181,7 +181,7 @@ namespace SharpNeat.Neat
             if(degreeOfParallelismResolved == 1) {
                 return new Neat.Speciation.GeneticKMeans.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
             }
-            
+
             // Create a parallel (multi-threaded) strategy for degreeOfParallelism > 1.
             return new Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, degreeOfParallelismResolved);
         }

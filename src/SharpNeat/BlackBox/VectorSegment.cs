@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,20 +17,20 @@ namespace SharpNeat.BlackBox
     /// <summary>
     /// Wraps a native array along with an offset into that array. The resulting VectorSegment
     /// provides offset indexed access to the underlying native array.
-    /// 
+    ///
     /// VectorSegment minimizes the amount of value copying required when setting input signal values to, and
-    /// reading output values from an IBlackBox. E.g. CyclicNeuralNet requires all input, output and 
-    /// hidden node activation values to be stored in a single array. This class allows us to handle direct 
+    /// reading output values from an IBlackBox. E.g. CyclicNeuralNet requires all input, output and
+    /// hidden node activation values to be stored in a single array. This class allows us to handle direct
     /// access to the input and output values through their own VectorSegment, thus we can set individual values
     /// in the underlying native array directly without having knowledge of that array's structure. An alternative
     /// would be to pass arrays to SetInputs() and SetOutput() methods, requiring us to copy the complete contents
     /// of the arrays into the IBlackBox's working array on each call.
-    /// 
+    ///
     /// This class is effectively a substitute for array pointer manipulation as is possible in C++, e.g. in
     /// C++ you might do something like:
     /// <code>
     /// double[] allSignals = new double[100];
-    /// double[] inputSignals = &amp;allSignals; 
+    /// double[] inputSignals = &amp;allSignals;
     /// double[] outputSignals = &amp;allSignals + 10;  // Skip input neurons.
     /// </code>
     /// In the above example access to the real items outside of the bounds of the sub-ranges is
@@ -73,22 +73,22 @@ namespace SharpNeat.BlackBox
         /// Gets or sets the single value at the specified index.
         /// </summary>
         /// <remarks>
-        /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance, 
-        /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of 
+        /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance,
+        /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of
         /// the test in release builds was deemed a reasonable choice here.
         /// </remarks>
         public T this[int index]
         {
             // ENHANCEMENT: Consider adding ref keyword to make this return a variable rather than a value (this feature is new to C#7)
-            get 
+            get
             {
                 Debug.Assert(index > -1 && index < _length);
-                return _innerArr[_offset + index]; 
+                return _innerArr[_offset + index];
             }
             set
             {
                 Debug.Assert(index > -1 && index < _length);
-                _innerArr[_offset + index] = value; 
+                _innerArr[_offset + index] = value;
             }
         }
 
@@ -102,8 +102,8 @@ namespace SharpNeat.BlackBox
         #region Public Methods [CopyTo*]
 
         /// <summary>
-        /// Copies all elements from the current VectorSegment to the specified target array starting 
-        /// at the specified target Array index. 
+        /// Copies all elements from the current VectorSegment to the specified target array starting
+        /// at the specified target Array index.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
@@ -111,10 +111,10 @@ namespace SharpNeat.BlackBox
         {
             Array.Copy(_innerArr, _offset, targetArray, targetIndex, _length);
         }
-        
+
         /// <summary>
         /// Copies <paramref name="length"/> elements from the current VectorSegment to the specified target
-        /// array starting at the specified target Array index. 
+        /// array starting at the specified target Array index.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which storing begins.</param>
@@ -157,7 +157,7 @@ namespace SharpNeat.BlackBox
         /// <param name="targetIndex">The index into the current VectorSegment at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || targetIndex + sourceArray.Length > _length) {
                 throw new ArgumentException("Invalid copy operation.");
             }
@@ -165,7 +165,7 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current VectorSegment 
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current VectorSegment
         /// starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
@@ -173,7 +173,7 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || targetIndex + length > _length) {
                 throw new ArgumentException("Invalid copy operation.");
             }
@@ -190,7 +190,7 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || targetIndex + length > _length) {
                 throw new ArgumentException("Invalid copy operation.");
             }

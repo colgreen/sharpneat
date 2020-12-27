@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
             for(int i=0; i < iters; i++) {
                 weightArr[i] = 123.0;
             }
-            
+
             strategy.Invoke(weightArr, rng);
 
             // Construct a histogram on the array of weights.
@@ -35,7 +35,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
             // We expect samples to be approximately evenly distributed over the histogram buckets.
             for(int i=0; i < hist.FrequencyArray.Length; i++) {
                 Assert.True(hist.FrequencyArray[i] > (iters / 8) * 0.8);
-            }            
+            }
 
             // We expect min and max to be close to -weightScale and +weightScale respectively.
             double delta = weightScale - hist.Max;
@@ -62,13 +62,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
             for(int i=0; i<iters; i++) {
                 weightArr[i] = 123.0;
             }
-            
+
             strategy.Invoke(weightArr, rng);
 
             // Construct a histogram on the array of weights.
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
 
-            // We expect min and max to be close to be about -4.5 and +4.5 respectively 
+            // We expect min and max to be close to be about -4.5 and +4.5 respectively
             // (but they could be higher in magnitude, with no bound).
             Assert.True(hist.Max >= 3.8);
             Assert.True(hist.Min <= -3.8);

@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,21 +17,21 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// <summary>
     /// A very close approximation of the logistic function that avoids use of exp() and is therefore
     /// typically much faster to compute, while giving an almost identical sigmoid curve.
-    /// 
+    ///
     /// This function was obtained from:
     ///    http://stackoverflow.com/a/34448562/15703
-    /// 
-    /// 
+    ///
+    ///
     /// This might be based on the Pade approximant:
     ///   https://en.wikipedia.org/wiki/Pad%C3%A9_approximant
     ///   https://math.stackexchange.com/a/107666
-    /// 
+    ///
     /// Or perhaps the maple minimax approximation:
     ///   http://www.maplesoft.com/support/helpJP/Maple/view.aspx?path=numapprox/minimax
-    ///   
+    ///
     /// This is a variant that has a steeper slope at and around the origin that is intended to be a similar
     /// slope to that of LogisticFunctionSteep.
-    ///   
+    ///
     /// </summary>
     public sealed class PolynomialApproximantSteep : IActivationFunction<double>
     {

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,29 +17,29 @@ using Redzen.Structures;
 namespace SharpNeat.Graphs
 {
     /// <summary>
-    /// An algorithm for checking/testing whether a given graph is cyclic or acyclic, i.e. does a given graph have 
+    /// An algorithm for checking/testing whether a given graph is cyclic or acyclic, i.e. does a given graph have
     /// a connectivity cycle.
-    /// 
+    ///
     /// Method.
     /// =======
-    /// 1) We loop over all nodes in the network and perform a depth-first traversal from each node. 
+    /// 1) We loop over all nodes in the network and perform a depth-first traversal from each node.
     /// (Note. the order that the nodes are traversed does not affect the correctness of the method)
-    /// 
+    ///
     /// 2) Each traversal keeps track of its ancestor nodes (the path to the current node) at each step
     /// in the traversal. Thus if the traversal encounters an ancestor node then a cycle has been detected.
-    /// 
-    /// 3) A set of visited nodes is maintained. This persists between traversals and allows each traversal 
+    ///
+    /// 3) A set of visited nodes is maintained. This persists between traversals and allows each traversal
     /// to avoid traversing into nodes that have already been traversed.
-    /// 
-    /// Note. We must traverse from each node rather than just e.g. the input nodes, because the network may 
-    /// have connectivity dead ends or even isolated connectivity that therefore would not be traversed into 
+    ///
+    /// Note. We must traverse from each node rather than just e.g. the input nodes, because the network may
+    /// have connectivity dead ends or even isolated connectivity that therefore would not be traversed into
     /// by following connectivity from the input nodes only, hence we perform a traversal from each node and
-    /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been 
+    /// attempt to maintain algorithmic efficiency by avoiding traversal into nodes that have already been
     /// traversed into.
-    /// 
+    ///
     /// The graph traversal algorithm uses function recursion. A number of other classes in SharpNEAT perform
     /// graph traversal by using a separate traversal stack (stored on the heap); that approach is faster but
-    /// more complex, thus this class has not been converted to the faster approach because it is not directly 
+    /// more complex, thus this class has not been converted to the faster approach because it is not directly
     /// used in the evolutionary algorithm. At time of writing this class is used only in Debug.Assert statements
     /// and unit tests, thus the simpler implementation is more appropriate.
     /// </summary>
@@ -53,24 +53,24 @@ namespace SharpNeat.Graphs
         DirectedGraph? _digraph;
 
         /// <summary>
-        /// A bitmap in which each bit represents a node in the graph. 
+        /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
         BoolArray _ancestorNodeBitmap = new BoolArray(1024);
 
         /// <summary>
-        /// A bitmap in which each bit represents a node in the graph. 
+        /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of nodes that have been visited by either the current traversal,
         /// or previous traversals starting from a different node.
-        /// 
-        /// This is used to quickly determine if a given path needs to be traversed or not, i.e. if a path has 
+        ///
+        /// This is used to quickly determine if a given path needs to be traversed or not, i.e. if a path has
         /// previously been traversed and no cycle was found, then we do not need to traverse this pathway again.
         /// </summary>
         BoolArray _visitedNodeBitmap = new BoolArray(1024);
 
         #if DEBUG
         /// <summary>
-        /// Indicates if a call to IsCyclic() is currently in progress. 
+        /// Indicates if a call to IsCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
@@ -107,10 +107,10 @@ namespace SharpNeat.Graphs
                         continue;
                     }
 
-                    // Traverse into the node. 
+                    // Traverse into the node.
                     if(TraverseNode(nodeIdx))
                     {   // Cycle detected.
-                        return true;    
+                        return true;
                     }
                 }
 
@@ -143,7 +143,7 @@ namespace SharpNeat.Graphs
 
             // Traverse into the node's targets / children (if it has any).
             int connIdx = _digraph!.GetFirstConnectionIndex(nodeIdx);
-            if(connIdx == -1) 
+            if(connIdx == -1)
             {   // No target nodes to traverse, therefore no cycles on this traversal path.
                 return false;
             }
@@ -159,12 +159,12 @@ namespace SharpNeat.Graphs
 
             for(; connIdx < srcIdxArr.Length && srcIdxArr[connIdx] == nodeIdx; connIdx++)
             {
-                if(TraverseNode(_digraph.GetTargetNodeIdx(connIdx))) 
+                if(TraverseNode(_digraph.GetTargetNodeIdx(connIdx)))
                 {   // Cycle detected.
                     return true;
                 }
             }
-            
+
             // Remove node from set of traversal path nodes.
             _ancestorNodeBitmap[nodeIdx] = false;
 

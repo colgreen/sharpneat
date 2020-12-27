@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -108,7 +108,7 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Construct a new WeightedDirectedGraphAcyclic.
             return new WeightedDirectedGraphAcyclic<T>(
-                acyclicDigraph.InputCount, 
+                acyclicDigraph.InputCount,
                 acyclicDigraph.OutputCount,
                 acyclicDigraph.TotalNodeCount,
                 acyclicDigraph.ConnectionIdArrays,

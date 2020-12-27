@@ -19,7 +19,7 @@ namespace EfficacySampler
 
         static void Main(string[] args)
         {
-            // Intercept termination of the console app, to flush and close the output file stream 
+            // Intercept termination of the console app, to flush and close the output file stream
             // (apparently the 'finally' block below is not executed if the app is terminated with Ctrl-C).
             Console.CancelKeyPress += delegate {
                 if(__streamWriter is object) {
@@ -130,7 +130,7 @@ namespace EfficacySampler
                 // Append to existing file.
                 return new StreamWriter(filename, true);
             }
-            
+
             // Create new file and write a CSV header row.
             StreamWriter sw = new StreamWriter(filename);
             sw.WriteLine("secs,gens,bestfitness,meanfitness,maxcomplexity,meancomplexity,evalcount");

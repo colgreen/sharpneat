@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -45,7 +45,7 @@ namespace SharpNeat.Neat.Genome.IO
         /// <remarks>This method does not close the Stream.</remarks>
         public static void Save(NeatGenome<T> genome, Stream stream)
         {
-            using(var sw = new StreamWriter(stream, __utf8Encoding, 1024, true)) {    
+            using(var sw = new StreamWriter(stream, __utf8Encoding, 1024, true)) {
                 Save(genome, sw);
             }
         }
@@ -85,10 +85,10 @@ namespace SharpNeat.Neat.Genome.IO
                 var conn = connArr[i];
 
                 // Use runtime binding to access ToString(string) on the weight type,
-                // which will be either double or float. This is slow but this is not performance 
+                // which will be either double or float. This is slow but this is not performance
                 // critical code.
                 dynamic weight = weightArr[i];
-                string weightStr = weight.ToString("R"); 
+                string weightStr = weight.ToString("R");
 
                 sw.WriteLine($"{conn.SourceId}\t{conn.TargetId}\t{weightStr}");
             }

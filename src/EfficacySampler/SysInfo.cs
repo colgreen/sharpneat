@@ -27,7 +27,7 @@ namespace EfficacySampler
                 Console.WriteLine($"   Name: {cpuInfo.Name}");
                 Console.WriteLine($"   Architecture: {cpuInfo.Architecture}");
                 Console.WriteLine($"   Cores: {cpuInfo.Cores}");
-                Console.WriteLine($"   Frequency: {cpuInfo.Frequency}");                    
+                Console.WriteLine($"   Frequency: {cpuInfo.Frequency}");
                 idx++;
             }
 

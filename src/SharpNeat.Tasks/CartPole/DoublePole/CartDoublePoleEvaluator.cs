@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -21,11 +21,11 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
     /// <remarks>
     /// This task is solvable by SharpNEAT, but not on every run. This is likely due to 'deceptive' local maxima in the fitness landscape.
     /// As such this task would be a reasonable choice for research into addressing the problem of fitness landscape deception.
-    /// 
+    ///
     /// This task can be made more difficult by not providing the velocity information (the cart and the two pole angular velocities)
     /// to the neural network. Difficulty can be further increases by making the two pole lengths increasingly similar, with the task
     /// becoming impossible when the poles have the same length.
-    /// 
+    ///
     /// As things stand the problem is difficult enough in its current form, therefore we provide velocity inputs and define two very
     /// different pole lengths.
     /// </remarks>
@@ -61,7 +61,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// </summary>
         /// <remarks>
         /// Default to 960 timesteps, or 960/16 = 60 seconds of clock time.</remarks>
-        public CartDoublePoleEvaluator() 
+        public CartDoublePoleEvaluator()
             : this(960)
         {}
 
@@ -87,7 +87,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // The evaluation consists of four separate trials, each with their own fitness score.
-            // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS 
+            // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS
             // score ensures that improvements in the worst scoring trial are prioritised (by evolution) over
             // a similar level of improvement in a better scoring trial. RMS also has the nice quality of giving
             // a maximum overall fitness that is equal to the max fitness for a single trial.
@@ -176,7 +176,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             }
 
             // Fitness is given by the combination of two fitness components:
-            // 1) Amount of simulation time that elapsed before the pole angle and/or cart position threshold was exceeded. Max score is 99 if the 
+            // 1) Amount of simulation time that elapsed before the pole angle and/or cart position threshold was exceeded. Max score is 99 if the
             //    end of the trial is reached without exceeding any thresholds.
             // 2) Cart position component. Max fitness of 1.0 for a cart position of zero (i.e. the cart is in the middle of the track range);
             //

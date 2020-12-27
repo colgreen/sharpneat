@@ -14,7 +14,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             var agent = new MockPreyCaptureAgent();
 
             // Agent moving north test.
-            { 
+            {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
                 agent.OutputVector.Reset();
@@ -25,7 +25,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             }
 
             // Agent moving east test.
-            { 
+            {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
                 agent.OutputVector.Reset();
@@ -36,7 +36,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             }
 
             // Agent moving south test.
-            { 
+            {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
                 agent.OutputVector.Reset();
@@ -47,7 +47,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             }
 
             // Agent moving west test.
-            { 
+            {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
                 agent.OutputVector.Reset();
@@ -74,9 +74,9 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
 
 
             // Iterate over all possible relative grid coordinates, and compare the cached atan2 result with the value returned by MathF.Atan2().
-            for(int x=-(gridSize-1); x < gridSize; x++) 
-            { 
-                for(int y=-(gridSize-1); y < gridSize; y++) 
+            for(int x=-(gridSize-1); x < gridSize; x++)
+            {
+                for(int y=-(gridSize-1); y < gridSize; y++)
                 {
                     Assert.Equal(MathF.Atan2(y, x), atan2Lookup[y + atan2LookupOffset, x + atan2LookupOffset]);
                 }
@@ -151,7 +151,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             MethodInfo methodInfo = typeof(PreyCaptureWorld).GetMethod("CartesianToPolar", BindingFlags.Static | BindingFlags.NonPublic);
 
             // Define a local function that calls on the PreyCaptureWorld.Exp() via reflection.
-            void cartesianToPolar(Int32Point p, out int radiusSqr, out float azimuth) 
+            void cartesianToPolar(Int32Point p, out int radiusSqr, out float azimuth)
             {
                 var args = new object[] { p, null, null };
                 methodInfo.Invoke(null, args);
@@ -160,42 +160,42 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             }
 
             // Test conversion of a spread of integer Cartesian coordinates.
-            { 
+            {
                 cartesianToPolar(new Int32Point(1,0), out int radiusSqr, out float azimuth);
                 Assert.Equal(1, radiusSqr);
                 Assert.Equal(0f, azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(2,2), out int radiusSqr, out float azimuth);
                 Assert.Equal(8, radiusSqr);
                 Assert.Equal(MathF.PI/4f, azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(0,3), out int radiusSqr, out float azimuth);
                 Assert.Equal(9, radiusSqr);
                 Assert.Equal(MathF.PI/2f, azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(-4,4), out int radiusSqr, out float azimuth);
                 Assert.Equal(32, radiusSqr);
                 Assert.Equal(MathF.PI*(3f/4f), azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(-5,0), out int radiusSqr, out float azimuth);
                 Assert.Equal(25, radiusSqr);
                 Assert.Equal(MathF.PI, azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(-6,-6), out int radiusSqr, out float azimuth);
                 Assert.Equal(72, radiusSqr);
                 Assert.Equal(MathF.PI*(5f/4f), azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(0,-7), out int radiusSqr, out float azimuth);
                 Assert.Equal(49, radiusSqr);
                 Assert.Equal(MathF.PI*(3f/2f), azimuth);
             }
-            { 
+            {
                 cartesianToPolar(new Int32Point(8,-8), out int radiusSqr, out float azimuth);
                 Assert.Equal(128, radiusSqr);
                 Assert.Equal(MathF.PI*(7f/4f), azimuth);
@@ -216,7 +216,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
 
             float maxError = 0f;
 
-            // Loop over a range of test input values in the interval [0, 2*PI], as this is the range that PreyCaptureWorld.Exp() 
+            // Loop over a range of test input values in the interval [0, 2*PI], as this is the range that PreyCaptureWorld.Exp()
             // is designed to give reasonable approximations for.
             for(float x=0f; x < 2f*MathF.PI; x += 0.001f)
             {
@@ -228,8 +228,8 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             }
 
             // Confirm no more than a 10.86% error; this max percentage error has been confirmed using gnuplot with:
-            // 
-            //    f(x) = (1+ x/29.5)**32 
+            //
+            //    f(x) = (1+ x/29.5)**32
             //    set xrange [0:6.3]
             //    plot f(x) / exp(x)
             Assert.True(maxError < 0.1086f);

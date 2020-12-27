@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// From:
     ///    https://en.wikipedia.org/wiki/Activation_function
     ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
-    ///    
+    ///
     /// </summary>
     public sealed class SReLUShifted : IActivationFunction<double>
     {

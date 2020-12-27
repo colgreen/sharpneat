@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.ComplexityRegulation.Tests
             var popStats = new PopulationStatistics();
             ComplexityRegulationMode mode;
 
-            // The strategy should initialise to, and remain in, Complexifying mode 
+            // The strategy should initialise to, and remain in, Complexifying mode
             // while mean population complexity is below the threshold.
             for(int i=0; i < 11; i++)
             {
@@ -72,7 +72,7 @@ namespace SharpNeat.Neat.ComplexityRegulation.Tests
 
             // Reset the buffer that the moving average is calculated from;
             // This allows us to change the mean to below the threshold and for the
-            // moving average to start rising immediately; that would ordinarily cause 
+            // moving average to start rising immediately; that would ordinarily cause
             // an immediate switch back to complexifying mode, but that is prevented by
             // {minSimplifcationGenerations} being set to 10.
             popStats.MeanComplexityHistory.Clear();

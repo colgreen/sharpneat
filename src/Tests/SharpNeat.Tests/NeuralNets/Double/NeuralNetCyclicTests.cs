@@ -60,7 +60,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
         }
 
         /// <summary>
-        /// One input and output, a single connection between them, and another connection 
+        /// One input and output, a single connection between them, and another connection
         /// from the output node back to itself, thus forming the simplest possible cyclic network.
         /// </summary>
         [Fact]
@@ -163,7 +163,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             // Activate and test.
             net.InputVector[0] = 0.0;
             for(int i=0; i < 10; i++)
-            {    
+            {
                 net.Activate();
                 Assert.Equal(0.5, net.OutputVector[0]);
             }
@@ -171,7 +171,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             // Activate and test.
             net.InputVector[0] = 1.0;
             for(int i=0; i < 10; i++)
-            {    
+            {
                 net.Activate();
                 Assert.Equal(actFn.Fn(1), net.OutputVector[0]);
             }
@@ -179,7 +179,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             // Activate and test.
             net.InputVector[0] = 10.0;
             for(int i=0; i < 10; i++)
-            {    
+            {
                 net.Activate();
                 Assert.Equal(actFn.Fn(10), net.OutputVector[0]);
             }
@@ -193,7 +193,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             const double input = 0.1;
             double inputVal = input;
             net.InputVector[0] = inputVal;
-            
+
             for(int i=0; i < 10; i++)
             {
                 net.Activate();
@@ -223,7 +223,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
                 postArr[2] = actFn.Fn(preArr[2]);
 
                 net.Activate();
-                
+
                 Assert.Equal(postArr[1], net.OutputVector[0]);
             }
 
@@ -247,7 +247,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
                 postArr[2] = actFn.Fn(preArr[2]);
 
                 net.Activate();
-                
+
                 Assert.Equal(postArr[1], net.OutputVector[0]);
             }
         }

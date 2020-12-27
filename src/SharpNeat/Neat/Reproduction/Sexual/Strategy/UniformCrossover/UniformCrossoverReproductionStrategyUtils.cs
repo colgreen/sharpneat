@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     internal class UniformCrossoverReproductionStrategyUtils
     {
         /// <summary>
-        /// Performs a 'parallel walk' over the connection genes of parent1 and parent2. 
+        /// Performs a 'parallel walk' over the connection genes of parent1 and parent2.
         /// </summary>
         /// <typeparam name="T">Connection weight data type.</typeparam>
         /// <param name="parent1">Parent 1.</param>
@@ -39,7 +39,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             }
 
             // Handle scenarios where one of the ID arrays is empty.
-            if(0 == parent1.Length) 
+            if(0 == parent1.Length)
             {
                 for(int i=0; i < parent2.Length; i++) {
                     yield return ValueTuple.Create(-1, i);
@@ -47,7 +47,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 yield break;
             }
 
-            if(0 == parent2.Length) 
+            if(0 == parent2.Length)
             {
                 for(int i=0; i < parent1.Length; i++) {
                     yield return ValueTuple.Create(i, -1);
@@ -65,7 +65,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 DirectedConnection conn2 = parent2._connArr[idx2];
 
                 if(conn2 < conn1)
-                {   
+                {
                     // conn2 is disjoint.
                     yield return ValueTuple.Create(-1, idx2);
 
@@ -90,11 +90,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                     idx1++;
                 }
 
-                // Check if we have reached the end of one (or both) of the lists. If we have reached the end of both then 
-                // although we enter the first 'if' block it doesn't matter because the contained loop is not entered if both 
+                // Check if we have reached the end of one (or both) of the lists. If we have reached the end of both then
+                // although we enter the first 'if' block it doesn't matter because the contained loop is not entered if both
                 // lists have been exhausted.
                 if(parent1.Length == idx1)
-                {   
+                {
                     // All remaining list2 genes are excess.
                     for(; idx2 < parent2.Length; idx2++) {
                         yield return ValueTuple.Create(-1, idx2);
@@ -103,7 +103,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 }
 
                 if(parent2.Length == idx2)
-                {   
+                {
                     // All remaining list1 genes are excess.
                     for(; idx1 < parent1.Length; idx1++) {
                         yield return ValueTuple.Create(idx1, -1);

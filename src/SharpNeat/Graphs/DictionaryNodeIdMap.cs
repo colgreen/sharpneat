@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ namespace SharpNeat.Graphs
     /// The fixed nodes count defines the identity mapping (i.e. x maps to x) for IDs from 0 to count-1,
     /// i.e. it's a cheap way of describing those mappings rather than including them in the dictionary,
     /// which is relatively expensive to populate and query.
-    /// 
+    ///
     /// Input nodes are *always* fixed, i.e. they exist in a contiguous run of IDs starting at zero.
     /// In cyclic networks the output nodes are also fixed, starting directly after the input node IDs.
     /// In acyclic networks the outputs are not fixed, and are therefore mapped by the dictionary.
@@ -40,7 +40,7 @@ namespace SharpNeat.Graphs
         /// <param name="fixedNodeCount">Fixed node count.</param>
         /// <param name="nodeIdxById">A pre-built dictionary of node ID to index mappings.</param>
         public DictionaryNodeIdMap(
-            int fixedNodeCount, 
+            int fixedNodeCount,
             Dictionary<int,int> nodeIdxById)
         {
             // The dictionary should not contain any mappings from IDs in the fixed ID range.
@@ -91,8 +91,8 @@ namespace SharpNeat.Graphs
             for(int i=0; i < _fixedNodeCount; i++) {
                 nodeIdByIdx[i] = i;
             }
-               
-            // Iterate the dictionary mappings, and reverse the mappings. Noting that each dictionary 
+
+            // Iterate the dictionary mappings, and reverse the mappings. Noting that each dictionary
             // key is an index from a dense/contihuous ID space.
             foreach(var kvp in _nodeIdxById) {
                 nodeIdByIdx[kvp.Value] = kvp.Key;

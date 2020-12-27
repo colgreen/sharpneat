@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -21,21 +21,21 @@ namespace SharpNeat.Graphs
     /// <remarks>
     /// Overview
     /// --------
-    /// Represents a directed graph. The graph is described by an array of connections, each with a 
+    /// Represents a directed graph. The graph is described by an array of connections, each with a
     /// source and target node ID.
-    /// 
+    ///
     /// The node IDs are actually node indexes, i.e. if there are N unique IDs referred to in the
     /// connection array then the indexes run from 0 to N-1.
-    /// 
+    ///
     /// Elsewhere in sharpneat (e.g. in a NeatGenome) graph node IDs are not necessarily contiguous,
     /// and thus any such graph representation must have its non-contiguous node IDs mapped to zero
     /// based node indexes to be represented by this class. Such node ID mapping is outside the scope
     /// of this class.
-    /// 
-    /// This class can represent both cyclic or acyclic graphs, however, SharpNEAT uses it in the 
-    /// conversion of cyclic NeatGenomes only; a specialized class is used for acyclic graphs that 
+    ///
+    /// This class can represent both cyclic or acyclic graphs, however, SharpNEAT uses it in the
+    /// conversion of cyclic NeatGenomes only; a specialized class is used for acyclic graphs that
     /// gives improved runtime performance for acyclic networks.
-    /// 
+    ///
     /// Specifics
     /// ---------
     /// The connection array is sorted by sourceIdx and secondary sorted by targetIdx. This means that all
@@ -59,7 +59,7 @@ namespace SharpNeat.Graphs
         // The connection source and target node IDs.
         readonly ConnectionIdArrays _connIdArrays;
 
-        // An array of indexes into _connArr. 
+        // An array of indexes into _connArr.
         // For a given node index, gives the index of the first connection with that node as its source.
         int[]? _connIdxBySrcNodeIdx;
 
@@ -164,7 +164,7 @@ namespace SharpNeat.Graphs
             for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
             // Return an array segment over the sub-range of the connection array.
-            return connTgtIdArr.AsMemory(startIdx, endIdx - startIdx);            
+            return connTgtIdArr.AsMemory(startIdx, endIdx - startIdx);
         }
 
         #endregion

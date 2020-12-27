@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -20,25 +20,25 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
     /// <summary>
     /// Manhattan distance metric.
-    /// 
-    /// The Manhattan distance is simply the sum total of all of the distances in each dimension. 
+    ///
+    /// The Manhattan distance is simply the sum total of all of the distances in each dimension.
     /// Also known as the taxicab distance, rectilinear distance, L1 distance or L1 norm.
-    /// 
+    ///
     /// Use the default constructor for classical Manhattan Distance.
     /// Optionally the constructor can be provided with a two coefficients and a constant that can be used to modify/distort
     /// distance measures. These are:
-    /// 
-    /// matchDistanceCoeff: When comparing two positions in the same dimension the distance between those two position is 
+    ///
+    /// matchDistanceCoeff: When comparing two positions in the same dimension the distance between those two position is
     /// multiplied by this coefficient.
-    /// 
-    /// mismatchDistanceCoeff, mismatchDistanceConstant: When comparing two coordinates where one describes a position in a given 
+    ///
+    /// mismatchDistanceCoeff, mismatchDistanceConstant: When comparing two coordinates where one describes a position in a given
     /// dimension and the other does not then the second coordinate is assumed to be at position zero in that dimension. However,
-    /// the resulting distance is multiplied by this coefficient and mismatchDistanceConstant is added, therefore allowing matches and 
+    /// the resulting distance is multiplied by this coefficient and mismatchDistanceConstant is added, therefore allowing matches and
     /// mismatches to be weighted differently, e.g. more emphasis can be placed on mismatches (and therefore network topology).
     /// If mismatchDistanceCoeff is zero and mismatchDistanceConstant is non-zero then the distance of mismatches is a fixed value.
-    /// 
+    ///
     /// The two coefficients and constant allow the following schemes:
-    /// 
+    ///
     /// 1) Classical Manhattan distance.
     /// 2) Topology only distance metric (ignore connections weights).
     /// 3) Equivalent of genome distance in Original NEAT (O-NEAT). This is actually a mix of (1) and (2).
@@ -47,7 +47,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
     {
         #region Instance Fields
 
-        // A coefficient to applied to the distance obtained from two coordinates that both 
+        // A coefficient to applied to the distance obtained from two coordinates that both
         // describe a position in a given dimension.
         readonly double _matchDistanceCoeff;
 
@@ -55,7 +55,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         // a position in a given dimension. The other point is taken to be at position zero in that dimension.
         readonly double _mismatchDistanceCoeff;
 
-        // A constant that is added to the distance where only one of the coordinates describes a position in a given 
+        // A constant that is added to the distance where only one of the coordinates describes a position in a given
         // dimension. This adds extra emphasis to distance when comparing coordinates that exist in different dimensions.
         readonly double _mismatchDistanceConstant;
 
@@ -73,7 +73,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// <summary>
         /// Constructs using the provided weightings for comparisons on matching and mismatching dimensions.
         /// </summary>
-        /// <param name="matchDistanceCoeff">A coefficient to applied to the distance obtained from two coordinates that both 
+        /// <param name="matchDistanceCoeff">A coefficient to applied to the distance obtained from two coordinates that both
         /// describe a position in a given dimension.</param>
         /// <param name="mismatchDistanceCoeff">A coefficient applied to the distance obtained from two coordinates where only one of the coordinates describes
         /// a position in a given dimension. The other point is taken to be at position zero in that dimension.</param>
@@ -102,7 +102,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             DirectedConnection[] connArr2 = p2._connArr;
             double[] weightArr1 = p1._weightArr;
             double[] weightArr2 = p2._weightArr;
-            
+
             // Store these heavily used values locally.
             int length1 = connArr1.Length;
             int length2 = connArr2.Length;
@@ -115,7 +115,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
             double distance = 0.0;
             if(0 == length1)
-            {   
+            {
                 // All p2 genes are mismatches.
                 for(int i=0; i < length2; i++) {
                     distance += Math.Abs(weightArr2[i]);
@@ -124,7 +124,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             if(0 == length2)
-            {   
+            {
                 // All p1 elements are mismatches.
                 for(int i=0; i < length1; i++) {
                     distance += Math.Abs(weightArr1[i]);
@@ -132,7 +132,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 return (_mismatchDistanceConstant * length1) + (distance * _mismatchDistanceCoeff);
             }
 
-            // Both arrays contain elements. 
+            // Both arrays contain elements.
             int arr1Idx = 0;
             int arr2Idx = 0;
             DirectedConnection conn1 = connArr1[arr1Idx];
@@ -170,7 +170,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
                 // Check if we have exhausted one or both of the arrays.
                 if(arr1Idx == length1)
-                {   
+                {
                     // All remaining p2 elements are mismatches.
                     for(int i=arr2Idx; i < length2; i++) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
@@ -179,7 +179,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 }
 
                 if(arr2Idx == length2)
-                {   
+                {
                     // All remaining p1 elements are mismatches.
                     for(int i=arr1Idx; i < connArr1.Length; i++) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
@@ -196,12 +196,12 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
         /// <summary>
         /// Tests if the distance between two positions is less than some threshold.
-        /// 
+        ///
         /// A simple way of implementing this method would be to calculate the distance between the
         /// two coordinates and test if it is less than the threshold. However, that approach requires that all of the
         /// elements in both CoordinateVectors be fully compared. We can improve performance in the general case
         /// by testing if the threshold has been passed after each vector element comparison thus allowing an early exit
-        /// from the method for many calls. Further to this, we can begin comparing from the ends of the vectors where 
+        /// from the method for many calls. Further to this, we can begin comparing from the ends of the vectors where
         /// differences are most likely to occur.
         /// </summary>
         public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
@@ -210,7 +210,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             DirectedConnection[] connArr2 = p2._connArr;
             double[] weightArr1 = p1._weightArr;
             double[] weightArr2 = p2._weightArr;
-            
+
             // Store these heavily used values locally.
             int length1 = connArr1.Length;
             int length2 = connArr2.Length;
@@ -223,7 +223,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
             double distance = 0.0;
             if(0 == length1)
-            {   
+            {
                 // All p2 elements are mismatches.
                 // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
                 for(int i=0;  i < length2; i++) {
@@ -234,7 +234,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             if(0 == length2)
-            {   
+            {
                 // All p1 elements are mismatches.
                 // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
                 for(int i=0; i < length1; i++) {
@@ -245,7 +245,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             // Both arrays contain elements. Compare the contents starting from the ends where the greatest discrepancies
-            // between coordinates are expected to occur. In the general case this should result in less element comparisons 
+            // between coordinates are expected to occur. In the general case this should result in less element comparisons
             // before the threshold is passed and we exit the method.
             int arr1Idx = length1 - 1;
             int arr2Idx = length2 - 1;
@@ -282,14 +282,14 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                     arr2Idx--;
                 }
 
-                // Test the threshold.  
+                // Test the threshold.
                 if(distance >= threshold) {
                     return false;
                 }
 
                 // Check if we have exhausted one or both of the arrays.
                 if(arr1Idx < 0)
-                {   
+                {
                     // Any remaining p2 elements are mismatches.
                     for(int i=arr2Idx; i >- 1; i--) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
@@ -298,7 +298,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 }
 
                 if(arr2Idx < 0)
-                {   
+                {
                     // All remaining p1 elements are mismatches.
                     for(int i=arr1Idx; i > -1; i--) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);

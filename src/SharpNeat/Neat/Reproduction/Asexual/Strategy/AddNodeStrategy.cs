@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -79,8 +79,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <returns>A new child genome.</returns>
         public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
         {
-            if(0 == parent.ConnectionGenes.Length) 
-            {   
+            if(0 == parent.ConnectionGenes.Length)
+            {
                 // No connections to split (nodes are added by splitting an existing connection).
                 return null;
             }
@@ -89,12 +89,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int splitConnIdx = rng.Next(parent.ConnectionGenes.Length);
             var splitConn = parent.ConnectionGenes._connArr[splitConnIdx];
 
-            // The selected connection will be replaced with a new node and two new connections; 
+            // The selected connection will be replaced with a new node and two new connections;
             // get an innovation ID for the new node.
             int addedNodeId = GetInnovationID(splitConn, parent, out bool newInnovationIdsFlag);
 
             // Create the two new connections.
-            var newConnArr = new DirectedConnection[] { 
+            var newConnArr = new DirectedConnection[] {
                 new DirectedConnection(splitConn.SourceId, addedNodeId),
                 new DirectedConnection(addedNodeId, splitConn.TargetId)
             };
@@ -105,13 +105,13 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // ENHANCEMENT: Consider a better choice of weights for the new connections; this scheme has been
             // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
-            var newWeightArr = new T[] { 
+            var newWeightArr = new T[] {
                 parent.ConnectionGenes._weightArr[splitConnIdx],
                 (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightScale, typeof(T))
             };
 
             // Ensure newConnArr is sorted.
-            // Later on we'll determine their insertion indexes into the connection array, therefore this ensures that 
+            // Later on we'll determine their insertion indexes into the connection array, therefore this ensures that
             // the insert indexes will be sorted correctly.
             if(newConnArr[0].CompareTo(newConnArr[1]) > 0)
             {
@@ -124,8 +124,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 newWeightArr[1] = tmpWeight;
             }
 
-            // Create a new connection gene array that consists of the parent connection genes, 
-            // with the connection that was split removed, and the two new connection genes that 
+            // Create a new connection gene array that consists of the parent connection genes,
+            // with the connection that was split removed, and the two new connection genes that
             // replace it inserted at the correct (sorted) positions.
             var parentConnArr = parent.ConnectionGenes._connArr;
             var parentWeightArr = parent.ConnectionGenes._weightArr;
@@ -204,7 +204,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             return _genomeBuilder.Create(
-                _genomeIdSeq.Next(), 
+                _genomeIdSeq.Next(),
                 _generationSeq.Peek,
                 connGenes,
                 hiddenNodeIdArr);
@@ -224,7 +224,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             {
                 // Found existing matching structure.
                 // However we can only re-use the ID from that structure if it isn't already present in the current genome;
-                // this can happen if a connection was split previously, and now another connection between the same source 
+                // this can happen if a connection was split previously, and now another connection between the same source
                 // and target nodes exists and is also being split.
                 if(!parent.ContainsHiddenNode(addedNodeId))
                 {
@@ -273,7 +273,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
                 childIdArr[^1] = addedNodeId;
                 return childIdArr;
             }
-            
+
             // Determine the insertion index for the new node ID.
             int insertIdx = ~Array.BinarySearch(parentIdArr, addedNodeId);
 
@@ -283,7 +283,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Insert the added node ID.
             childIdArr[insertIdx] = addedNodeId;
 
-            // Copy all remaining IDs after the index. 
+            // Copy all remaining IDs after the index.
             Array.Copy(parentIdArr, insertIdx, childIdArr, insertIdx+1, parentIdArr.Length - insertIdx);
 
             return childIdArr;

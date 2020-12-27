@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@ namespace SharpNeat.Evaluation
     /// A pool of phenome evaluators.
     /// </summary>
     /// <remarks>
-    /// Used when the phenome evaluators have state, which is expensive to allocate, therefore we wish to 
+    /// Used when the phenome evaluators have state, which is expensive to allocate, therefore we wish to
     /// maintain a pool or re-usable evaluators instead of constructing and discarding a new evaluator for
     /// each evaluation (or more accurately, each Parallel.For partition).
     /// </remarks>
@@ -28,7 +28,7 @@ namespace SharpNeat.Evaluation
         /// </summary>
         /// <returns>An evaluator instance.</returns>
         IPhenomeEvaluator<TPhenome> GetEvaluator();
-        
+
         /// <summary>
         /// Releases an evaluator back into the pool.
         /// </summary>

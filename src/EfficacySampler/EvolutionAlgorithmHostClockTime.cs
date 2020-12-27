@@ -34,7 +34,7 @@ namespace EfficacySampler
             _stopwatch = new Stopwatch();
 
             _eaThread = new Thread(EAThreadMethod)
-            { 
+            {
                 // A background thread will be stopped when the process terminates; otherwise it will keep running and prevent
                 // the process from terminating.
                 IsBackground = true,
@@ -79,7 +79,7 @@ namespace EfficacySampler
 
             // Record the sample without waiting for the EA to stop.
             // The EA may be within a PerformOneGeneration() call for some time, so we prefer to record the sample
-            // at the exact required point in time (or very close to it) rather than some arbitrary point in time 
+            // at the exact required point in time (or very close to it) rather than some arbitrary point in time
             // after the last generation has completed.
             Sample sample = RecordSample();
 
@@ -102,7 +102,7 @@ namespace EfficacySampler
         {
             // Keep entering the EA loop forever (until the process is terminated with ctrl-C!).
             for(;;)
-            { 
+            {
                 // Wait until signalled to start the EA loop.
                 _awaitStartEvent.WaitOne();
 
@@ -122,7 +122,7 @@ namespace EfficacySampler
 
         #endregion
 
-        #region Private Methods 
+        #region Private Methods
 
         private Sample RecordSample()
         {
@@ -153,14 +153,14 @@ namespace EfficacySampler
             {
                 double remainingMs = (timespan - _stopwatch.Elapsed).TotalMilliseconds;
 
-                // There's no point in calling Thread.Sleep() for very short durations, so just return 
+                // There's no point in calling Thread.Sleep() for very short durations, so just return
                 // if the remaining time is almost zero.
                 if(remainingMs <= thresholdMs) {
                     return;
                 }
 
-                // Wait for slightly less time than is remaining, to increase the chances of waiting the correct amount of time 
-                // (at time of writing Thread.Sleep does not appear to have especially accurate timing, due to how kernel task 
+                // Wait for slightly less time than is remaining, to increase the chances of waiting the correct amount of time
+                // (at time of writing Thread.Sleep does not appear to have especially accurate timing, due to how kernel task
                 // scheduling works).
                 remainingMs = Math.Max(0, remainingMs - thresholdMs);
                 Thread.Sleep((int)remainingMs);

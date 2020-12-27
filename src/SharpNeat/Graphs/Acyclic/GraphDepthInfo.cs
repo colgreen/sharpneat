@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -51,7 +51,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// <returns>true if the objects are equal; otherwise false.</returns>
         public bool Equals(GraphDepthInfo? other)
         {
-            return other is object 
+            return other is object
                 && _graphDepth == other._graphDepth
                 && _nodeDepthArr.SequenceEqual(other._nodeDepthArr);
         }

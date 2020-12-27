@@ -32,9 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SummaryGraphForm));
             this.zed = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
-            // 
+            //
             // zed
-            // 
+            //
             this.zed.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zed.Location = new System.Drawing.Point(0, 0);
             this.zed.Name = "zed";
@@ -48,9 +48,9 @@
             this.zed.Size = new System.Drawing.Size(561, 324);
             this.zed.TabIndex = 0;
             this.zed.UseExtendedPrintDialog = true;
-            // 
+            //
             // SummaryGraphForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(561, 324);

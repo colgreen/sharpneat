@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ namespace SharpNeat.Graphs
         /// If srcNodeId is not found and is less than one or more elements in array, the negative number returned is
         /// the bitwise complement of the index of the first connection that is larger than srcNodeId.
         /// If value is not found and value is greater than all connections in array, the negative number returned is the
-        /// bitwise complement of the index of the last element plus 1. 
+        /// bitwise complement of the index of the last element plus 1.
         /// </remarks>
         public static int GetConnectionIndexBySourceNodeId(IList<DirectedConnection> connList, int srcNodeId)
         {
@@ -38,15 +38,15 @@ namespace SharpNeat.Graphs
                 (DirectedConnection conn, int nodeId) => conn.SourceId.CompareTo(nodeId));
 
             // Test for no match, i.e. no connections with the given source node ID.
-            if(connIdx < 0) {   
+            if(connIdx < 0) {
                 return connIdx;
             }
 
-            // Note. if there are multiple connections with the given source ID then BinarySearch() will 
+            // Note. if there are multiple connections with the given source ID then BinarySearch() will
             // return the index of one of them, but makes no guarantee regarding which one. As such we scan
             // in reverse for the first connection.
             for(; connIdx > 0 && connList[connIdx-1].SourceId == srcNodeId; connIdx--);
-            
+
             return connIdx;
         }
 

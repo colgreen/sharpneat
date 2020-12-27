@@ -119,7 +119,7 @@ namespace SharpNeat.BlackBox.Tests
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 11, 2));
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 12, 1));
 
-         //--- Four param tests.         
+         //--- Four param tests.
             // Copy beyond end of vecSeg.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 0, 1, 3));
 
@@ -209,7 +209,7 @@ namespace SharpNeat.BlackBox.Tests
 
             // Invalid target index.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, -1));
-            
+
          //--- Three param tests.
 
             // Copy length longer than srcArr.
@@ -227,7 +227,7 @@ namespace SharpNeat.BlackBox.Tests
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 4, 1));
 
          // Four param tests.
-            
+
             // Copy beyond end of srcArr.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 0, 4));
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 1, 0, 3));
@@ -237,7 +237,7 @@ namespace SharpNeat.BlackBox.Tests
             // Copy beyond the end of vecSeg.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 3, 2));
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 2, 3));
-            
+
             // Invalid source and target indexes.
             Assert.Throws<ArgumentOutOfRangeException>(() => vecSeg.CopyFrom(srcArr, -1, 0, 1));
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, -1, 1));

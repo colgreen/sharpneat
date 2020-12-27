@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@ namespace SharpNeat.Drawing.Graph
     /// Paints graphs to a viewport.
     /// </summary>
     /// <remarks>
-    /// Graph painting involves two main high level steps 
+    /// Graph painting involves two main high level steps
     /// 1) laying out the nodes of the graph within the specified paint area.
     /// 2) Painting the nodes and connections based on the node positions assigned in step 1.
     /// </remarks>
@@ -65,8 +65,8 @@ namespace SharpNeat.Drawing.Graph
         /// <summary>
         /// Gets or sets the graph view model to paint.
         /// </summary>
-        public DirectedGraphViewModel? GraphViewModel 
-        { 
+        public DirectedGraphViewModel? GraphViewModel
+        {
             get => _graphViewModel;
             set
             {
@@ -99,11 +99,11 @@ namespace SharpNeat.Drawing.Graph
             var model = this.GraphViewModel;
 
             // Skip painting if nothing to paint.
-            if(model is null) { 
+            if(model is null) {
                 return;
             }
 
-            // Determine if the graph requires laying out within the specified viewportArea, i.e. if the previous call to Paint() 
+            // Determine if the graph requires laying out within the specified viewportArea, i.e. if the previous call to Paint()
             // supplied the same viewportArea, then we can just use the layout positions determined previously.
             if(viewportArea != _viewportArea)
             {

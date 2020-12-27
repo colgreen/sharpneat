@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -140,7 +140,7 @@ namespace SharpNeat.Neat.Speciation
         }
 
         /// <summary>
-        /// Calculates the mean complexity of genomes within the species.    
+        /// Calculates the mean complexity of genomes within the species.
         /// </summary>
         /// <remarks>
         /// Implemented as a method rather than a property as an indication that this method does significant

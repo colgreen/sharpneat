@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,10 +17,10 @@ namespace SharpNeat.Tasks.PreyCapture
 {
     /// <summary>
     /// The prey capture task's grid world, as defined in:
-    /// 
+    ///
     ///    Incremental Evolution Of Complex General Behavior, Faustino Gomez and Risto Miikkulainen (1997)
     ///    http://nn.cs.utexas.edu/downloads/papers/gomez.adaptive-behavior.pdf
-    /// 
+    ///
     /// Encapsulates the agent's sensor and motor hardware, and the prey's simple stochastic movement.
     /// </summary>
     /// <remarks>
@@ -31,8 +31,8 @@ namespace SharpNeat.Tasks.PreyCapture
         #region Statics / Consts
 
         /// <summary>
-        /// The length of an edge of the square grid world, measured in grid squares. The minimum possible value here is 9, 
-        /// otherwise the initial position of the agent may be outside of the grid world, and also the agent wall detectors 
+        /// The length of an edge of the square grid world, measured in grid squares. The minimum possible value here is 9,
+        /// otherwise the initial position of the agent may be outside of the grid world, and also the agent wall detectors
         /// would all be always on.
         /// </summary>
         const int __gridSize = 24;
@@ -63,11 +63,11 @@ namespace SharpNeat.Tasks.PreyCapture
 
         static PreyCaptureWorld()
         {
-            // Calculate the size of the required lookup table. The table is a square matrix, and 'size' here is the 
-            // number of matrix rows and columns. 
-            // The matrix is used to lookup precomputed values of atan2(y, x) for some coordinate on the grid, relative to 
+            // Calculate the size of the required lookup table. The table is a square matrix, and 'size' here is the
+            // number of matrix rows and columns.
+            // The matrix is used to lookup precomputed values of atan2(y, x) for some coordinate on the grid, relative to
             // some other coordinate on the grid. Therefore the extremes of relative coordinates are (for a grid of size 24):
-            // 
+            //
             //    (23,23) top right.
             //    (23,-23) bottom right.
             //    (-23, -23) bottom left.
@@ -79,7 +79,7 @@ namespace SharpNeat.Tasks.PreyCapture
             // relative XY coordinate (-23,-23).
             int size = (__gridSize * 2) - 1;
             __atan2Lookup = new float[size,size];
-            for(int y=0; y < size; y++) { 
+            for(int y=0; y < size; y++) {
                 for(int x=0; x < size; x++) {
                     __atan2Lookup[y,x] = MathF.Atan2(y-__atan2LookupOffset, x-__atan2LookupOffset);
                 }
@@ -172,7 +172,7 @@ namespace SharpNeat.Tasks.PreyCapture
                 }
 
                 MovePrey();
-                if(IsPreyCaptured()) 
+                if(IsPreyCaptured())
                 {   // The prey walked directly into the agent.
                     return true;
                 }
@@ -269,10 +269,10 @@ namespace SharpNeat.Tasks.PreyCapture
             double maxSig = outputVec[0];
             int maxSigIdx = 0;
 
-            for(int i=1; i < 4; i++) 
+            for(int i=1; i < 4; i++)
             {
                 double v = outputVec[i];
-                if(v > maxSig) 
+                if(v > maxSig)
                 {
                     maxSig = v;
                     maxSigIdx = i;
@@ -283,7 +283,7 @@ namespace SharpNeat.Tasks.PreyCapture
                 }
             }
 
-            if(-1 == maxSigIdx || maxSig < 0.1) 
+            if(-1 == maxSigIdx || maxSig < 0.1)
             {   // No action.
                 return;
             }
@@ -313,7 +313,7 @@ namespace SharpNeat.Tasks.PreyCapture
         {
             // Determine if prey will move in this timestep. (Speed is simulated stochastically)
             if(_preySpeed == 1f || _rng.NextFloat() < _preySpeed)
-            { 
+            {
                 // Determine position of agent relative to prey, in polar coordinates.
                 CartesianToPolar(
                     _agentPos - _preyPos,
@@ -322,7 +322,7 @@ namespace SharpNeat.Tasks.PreyCapture
 
                 // Calculate the probability of moving in each of the four directions (north, east, south, west).
 		        // This stochastic strategy is taken from the paper referenced at the top of this class.
-                // Essentially, the prey moves randomly he movements are biased such that the prey is more likely to move away the agent the nearer it is to the agent , and thus 
+                // Essentially, the prey moves randomly he movements are biased such that the prey is more likely to move away the agent the nearer it is to the agent , and thus
                 // generally avoids getting eaten 'by accident'.
                 float t = T(MathF.Sqrt(relPosRadiusSqr)) * 0.33f;
 
@@ -399,7 +399,7 @@ namespace SharpNeat.Tasks.PreyCapture
 
             // Notes
             // AngleDelta() returns 0 for equal angles, and PI for angles that are separated by PI radians (180 degrees).
-            // Hence this function returns zero for equal angles, and 1.0 for fully opposing angles. 
+            // Hence this function returns zero for equal angles, and 1.0 for fully opposing angles.
             // However, in [1] the function is described differently:
             //
             //    angle = angle between the direction of action A_i and the direction from the prey to the agent,
@@ -407,9 +407,9 @@ namespace SharpNeat.Tasks.PreyCapture
             //    W(angle) = (180 - |angle|) / 180
             //
             // As described the function does not work as intended, i.e. the intention is to give a high probability
-            // for the prey to move *away* from the agent, but the definition of W given does the opposite. Hence the 
-            // modification here corrects the error to give a function that works as originally intended. This is a 
-            // very obvious error in simulations, because it causes the prey to walk directly into the jaws of the 
+            // for the prey to move *away* from the agent, but the definition of W given does the opposite. Hence the
+            // modification here corrects the error to give a function that works as originally intended. This is a
+            // very obvious error in simulations, because it causes the prey to walk directly into the jaws of the
             // predator!
             return AngleDelta(angleA, angleB) * One_over_PI;
         }
@@ -424,8 +424,8 @@ namespace SharpNeat.Tasks.PreyCapture
         {
             // Calc absolute difference/delta between the two angles.
             float d = Math.Abs(a-b);
-            
-            // If the difference is greater than 180 degrees, then we want the smaller angle between 
+
+            // If the difference is greater than 180 degrees, then we want the smaller angle between
             // the two vectors, i.e. 360 degrees minus d.
             if(d > MathF.PI)
             {
@@ -442,11 +442,11 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <param name="azimuth">Returns the azimuth; the anticlockwise angle from the polar axis.</param>
         /// <remarks>
         /// The radius coordinate is returned as the *square* of the radius. This is because normally we want to compare the radius
-        /// with some threshold, and it's faster to avoid a square root operation to calculate the radius, and instead to compare 
+        /// with some threshold, and it's faster to avoid a square root operation to calculate the radius, and instead to compare
         /// squared radii.
-        /// 
-        /// By convention the polar axis is horizontal and to the right, and a positive azimuth represents an anticlockwise 
-        /// rotation. Therefore an azimuth of zero degrees represents due east (note. this same angle is never represented by 
+        ///
+        /// By convention the polar axis is horizontal and to the right, and a positive azimuth represents an anticlockwise
+        /// rotation. Therefore an azimuth of zero degrees represents due east (note. this same angle is never represented by
         /// +360 degrees), and an angle of +90 degrees represents due north.
         /// </remarks>
         private static void CartesianToPolar(Int32Point p, out int radiusSqr, out float azimuth)
@@ -467,7 +467,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// </remarks>
         /// <param name="x">A number specifying a power.</param>
         /// <returns>The number e raised to the power x</returns>
-        static float Exp(float x) 
+        static float Exp(float x)
         {
             // This function is based on the following approximation for e^x:
             //
@@ -500,7 +500,7 @@ namespace SharpNeat.Tasks.PreyCapture
             // Obtain a random threshold value by sampling uniformly from interval [0,1).
             float thresh = _rng.NextFloat();
 
-            // Loop through the discrete probabilities, accumulating as we go and stopping once 
+            // Loop through the discrete probabilities, accumulating as we go and stopping once
             // the accumulator is greater than the random sample.
             float acc = 0f;
             for(int i=0; i < probs.Length; i++)
@@ -511,8 +511,8 @@ namespace SharpNeat.Tasks.PreyCapture
                 }
             }
 
-            // We might get here through floating point arithmetic rounding issues. 
-            // e.g. acc == thresh. 
+            // We might get here through floating point arithmetic rounding issues.
+            // e.g. acc == thresh.
             // For simplicity just return the last option, and accept any small bias this might result in.
             return probs.Length-1;
         }

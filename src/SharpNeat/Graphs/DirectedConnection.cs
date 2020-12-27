@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -14,7 +14,7 @@ using System;
 namespace SharpNeat.Graphs
 {
     /// <summary>
-    /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that 
+    /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that
     /// uniquely identifies connections by their end points.
     /// </summary>
     public readonly struct DirectedConnection : IEquatable<DirectedConnection>, IComparable<DirectedConnection>
@@ -63,7 +63,7 @@ namespace SharpNeat.Graphs
         /// <returns>true if the objects are equal; otherwise false.</returns>
         public bool Equals(DirectedConnection other)
         {
-            return (this.SourceId == other.SourceId) 
+            return (this.SourceId == other.SourceId)
                 && (this.TargetId == other.TargetId);
         }
 
@@ -77,8 +77,8 @@ namespace SharpNeat.Graphs
             // Notes.
             // The comparison here uses subtraction rather than comparing IDs, this eliminates a number of branches
             // which gives better performance. The code works and is safe because the source and target node IDs are
-            // always have non-negative values, and therefore have a possible range of [0, (2^31)-1]. And if we 
-            // subtract the largest possible value from zero we get -(2^31)-1 which is still within the range of 
+            // always have non-negative values, and therefore have a possible range of [0, (2^31)-1]. And if we
+            // subtract the largest possible value from zero we get -(2^31)-1 which is still within the range of
             // and Int32, i.e. the result of that subtraction does not overflow and is therefore a negative value
             // as required (to give a valid comparison result).
             int v = this.SourceId - other.SourceId;
@@ -127,7 +127,7 @@ namespace SharpNeat.Graphs
         /// <returns>true if the two <see cref="DirectedConnection"/>s are equal; otherwise false.</returns>
         public static bool operator ==(in DirectedConnection x, in DirectedConnection y)
         {
-            return (x.SourceId == y.SourceId) 
+            return (x.SourceId == y.SourceId)
                 && (x.TargetId == y.TargetId);
         }
 
@@ -139,7 +139,7 @@ namespace SharpNeat.Graphs
         /// <returns>true if the two <see cref="DirectedConnection"/>s are different; otherwise false.</returns>
         public static bool operator !=(in DirectedConnection x, in DirectedConnection y)
         {
-            return (x.SourceId != y.SourceId) 
+            return (x.SourceId != y.SourceId)
                 || (x.TargetId != y.TargetId);
         }
 

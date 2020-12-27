@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
     /// <summary>
     /// Uniform crossover.
-    /// 
+    ///
     /// The genes of the two parent genomes are aligned by innovation ID. The new child genome
     /// takes genes from each of the parents with a given probability (e.g. 50%).
     /// </summary>
@@ -120,7 +120,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             // Create and return a new genome.
             return _genomeBuilder.Create(
-                _genomeIdSeq.Next(), 
+                _genomeIdSeq.Next(),
                 _generationSeq.Peek,
                 connGenes);
         }

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Genome
     /// <typeparam name="T">Connection weight data type.</typeparam>
     public sealed class ConnectionGenes<T>
         where T : struct
-    {        
+    {
         /// <summary>
         /// Array of directed connections; this describes the network structure.
         /// </summary>

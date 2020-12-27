@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -87,7 +87,7 @@ namespace SharpNeat.Windows.App
         private void InitExperimentList()
         {
             // Load experiments.json from file.
-            // Note. Use of ReadAllText() isn't ideal, but for a small file it's fine, and this avoids the complexities of dealign 
+            // Note. Use of ReadAllText() isn't ideal, but for a small file it's fine, and this avoids the complexities of dealign
             // with async code in a synchronous context.
             string experimentsJson = File.ReadAllText("config/experiments.json");
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, ReadCommentHandling = JsonCommentHandling.Skip };
@@ -230,7 +230,7 @@ namespace SharpNeat.Windows.App
 
             // Close the genome form if it is open, as the content of this form is specific to each experiment.
             GenomeForm bestGenomeForm = _bestGenomeForm;
-            if(bestGenomeForm is object) 
+            if(bestGenomeForm is object)
             {
                 // Note. This will trigger the FormClosed event which will do further clean-up; Close() will also Dispose() the form.
                 bestGenomeForm.Close();
@@ -260,7 +260,7 @@ namespace SharpNeat.Windows.App
 
             // Update child forms (those that are open).
             if(_bestGenomeForm is object)
-            { 
+            {
                 NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
                 _bestGenomeForm.Genome = neatEa.Population.BestGenome;
             }
@@ -401,7 +401,7 @@ namespace SharpNeat.Windows.App
             bestFitnessByRank = ArrayPool<double>.Shared.Rent(count);
             meanFitnessSeries = ArrayPool<double>.Shared.Rent(count);
 
-            for(int i=0; i < count; i++) 
+            for(int i=0; i < count; i++)
             {
                 bestFitnessByRank[i] = speciesArr[i].GenomeList[0].FitnessInfo.PrimaryFitness;
                 meanFitnessSeries[i] = speciesArr[i].Stats.MeanFitness;
@@ -422,7 +422,7 @@ namespace SharpNeat.Windows.App
             bestComplexityByRank = ArrayPool<double>.Shared.Rent(count);
             meanComplexitySeries = ArrayPool<double>.Shared.Rent(count);
 
-            for(int i=0; i < count; i++) 
+            for(int i=0; i < count; i++)
             {
                 bestComplexityByRank[i] = speciesArr[i].GenomeList[0].Complexity;
                 meanComplexitySeries[i] = speciesArr[i].CalcMeanComplexity();

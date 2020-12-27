@@ -10,7 +10,7 @@ namespace SharpNeat.Tests
         public static bool IsMonotonicIncreasing(Func<double,double> fn, double min, double max, double incr, bool strict)
         {
             double y_prev = fn(min);
-   
+
             if(strict)
             {
                 // Strictly monotonic test, i.e. must be increasing and not unchanged.

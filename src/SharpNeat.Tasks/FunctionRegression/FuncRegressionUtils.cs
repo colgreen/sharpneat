@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -39,18 +39,18 @@ namespace SharpNeat.Tasks.FunctionRegression
             double[] gradientArr)
         {
             // Notes.
-            // The gradient at a sample point is approximated by taking the gradient of the line between the two 
-            // sample points either side of that point. For the first and last sample points we take the gradient 
-            // of the line between the sample point and its single adjacent sample point (as an alternative we could 
+            // The gradient at a sample point is approximated by taking the gradient of the line between the two
+            // sample points either side of that point. For the first and last sample points we take the gradient
+            // of the line between the sample point and its single adjacent sample point (as an alternative we could
             // sample an additional point at each end that doesn't get used for the function regression evaluation.
             //
-            // This approach is rather crude, but fast. A better approach might be to do a polynomial regression on 
+            // This approach is rather crude, but fast. A better approach might be to do a polynomial regression on
             // the sample point and its nearest two adjacent samples, and then take the gradient of the polynomial
             // regression at the required point; obviously that would required more computational work to do so may
             // not be beneficial in the overall context of an evolutionary algorithm.
             //
             // Furthermore, the difference between this gradient approximation and the true gradient decreases with
-            // increases sample density, therefore this is a reasonable approach *if* the sample density is 
+            // increases sample density, therefore this is a reasonable approach *if* the sample density is
             // sufficiently high.
 
             // Handle the end points as special cases.
@@ -61,7 +61,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             // Intermediate points.
             int width = Vector<double>.Count;
             int i=1;
-            for(; i < xArr.Length - width - 1; i += width) 
+            for(; i < xArr.Length - width - 1; i += width)
             {
                 // Calc a block of x deltas.
                 var vecLeft = new Vector<double>(xArr, i - 1);

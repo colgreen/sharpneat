@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
     /// <remarks>
-    /// Offspring genomes are created by taking a clone of a single parent genome and deleting a single 
+    /// Offspring genomes are created by taking a clone of a single parent genome and deleting a single
     /// connection, if possible.
     /// </remarks>
     public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
@@ -93,7 +93,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Create and return a new genome.
             return _genomeBuilder.Create(
-                _genomeIdSeq.Next(), 
+                _genomeIdSeq.Next(),
                 _generationSeq.Peek,
                 connGenes,
                 hiddenNodeIdArr);
@@ -144,7 +144,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <summary>
         /// Determine the set of hidden node IDs that have been deleted as a result of a connection deletion.
         /// I.e. a node only exists if a connection connects to it, therefore if there are no other connections
-        /// referring to a node then it has been deleted, with the exception of input and output nodes that 
+        /// referring to a node then it has been deleted, with the exception of input and output nodes that
         /// always exist.
         /// </summary>
         private static (int?, int?) GetDeletedNodeIds(
@@ -226,14 +226,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             foreach(var conn in connArr)
             {
-                if(conn.SourceId == nodeId1 || conn.TargetId == nodeId1) 
+                if(conn.SourceId == nodeId1 || conn.TargetId == nodeId1)
                 {
                     id1Used = true;
                     if(id2Used) {
                         break;
                     }
                 }
-                if(conn.SourceId == nodeId2 || conn.TargetId == nodeId2) 
+                if(conn.SourceId == nodeId2 || conn.TargetId == nodeId2)
                 {
                     id2Used = true;
                     if(id1Used) {

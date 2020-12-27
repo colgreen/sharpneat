@@ -118,7 +118,7 @@ namespace SharpNeat.Benchmarks
                 arr[i] = _rng.NextDouble();
             }
         }
-        
+
         #endregion
 
         private class ConnectionData

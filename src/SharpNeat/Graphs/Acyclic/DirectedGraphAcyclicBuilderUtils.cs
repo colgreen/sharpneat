@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@ namespace SharpNeat.Graphs.Acyclic
             out int[] newIdByOldId,
             out int[] connectionIndexMap)
         {
-            // Timsort working arrays. We only need the variable slot to pass as reference, timsort will allocate them if 
+            // Timsort working arrays. We only need the variable slot to pass as reference, timsort will allocate them if
             // necessary and return them, but here we just discard those arrays. To re-use the arrays call the method overload
             // that accepts the two arrays.
             int[]? timsortWorkArr = null;
@@ -69,7 +69,7 @@ namespace SharpNeat.Graphs.Acyclic
                 connectionIndexMap[i] = i;
             }
 
-            // Sort the connections based on sourceID, targetId; this will arrange the connections based on the depth 
+            // Sort the connections based on sourceID, targetId; this will arrange the connections based on the depth
             // of the source nodes.
             // Note. This sort routine will also sort a secondary array, i.e. keep the items in both arrays aligned;
             // here we use this to create connectionIndexMap.
@@ -87,7 +87,7 @@ namespace SharpNeat.Graphs.Acyclic
             // but not necessarily if there is a dead end pathway with a high number of hops).
             //
             // Note. There is guaranteed to be at least one connection with a source at a given depth level, this is
-            // because for there to be a layer N there must necessarily be a connection from a node in layer N-1 
+            // because for there to be a layer N there must necessarily be a connection from a node in layer N-1
             // to a node in layer N.
             int graphDepth = depthInfo._graphDepth;
             LayerInfo[] layerInfoArr = new LayerInfo[graphDepth];
@@ -140,12 +140,12 @@ namespace SharpNeat.Graphs.Acyclic
             }
 
             // Sort nodeIdArr based on the depth of the nodes.
-            // Notes. 
-            // We skip the input nodes because these all have depth zero and therefore remain at fixed 
-            // positions. 
+            // Notes.
+            // We skip the input nodes because these all have depth zero and therefore remain at fixed
+            // positions.
             //
-            // The remaining nodes (output and hidden nodes) are sorted by depth, noting that typically 
-            // there will be multiple nodes at a given depth. Here we apply the TimSort algorithm; this 
+            // The remaining nodes (output and hidden nodes) are sorted by depth, noting that typically
+            // there will be multiple nodes at a given depth. Here we apply the TimSort algorithm; this
             // has very good performance when there are pre-sorted sub-spans, either in the correct
             // direction or in reverse, as is typical of much real world data, and is likely the case here
             // too.
@@ -154,9 +154,9 @@ namespace SharpNeat.Graphs.Acyclic
             // Array.Sort employs introsort, which is not stable), thus avoids unnecessary shuffling of nodes
             // that are at the same depth. However the use of a stable sort is not a strict requirement here.
             //
-            // Regarding timsort temporary working data. 
+            // Regarding timsort temporary working data.
             // Depending on the data being sorted, timsort may use a temp array with up to N/2 elements. Here
-            // we ensure that the maximum possible size is allocated, and we re-use these arrays in future 
+            // we ensure that the maximum possible size is allocated, and we re-use these arrays in future
             // calls. If instead we pass null or an array that is too short, then timsort will allocate a new
             // array internally, per sort, so we want to avoid that cost.
 
@@ -196,7 +196,7 @@ namespace SharpNeat.Graphs.Acyclic
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
-            for(int i=0; i < srcIdArr.Length; i++) 
+            for(int i=0; i < srcIdArr.Length; i++)
             {
                 srcIdArr[i] = newIdByOldId[srcIdArr[i]];
                 tgtIdArr[i] = newIdByOldId[tgtIdArr[i]];

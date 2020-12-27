@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
     /// </summary>
     /// <remarks>
     /// This cart-pole physics code is based on code from https://github.com/colgreen/cartpole-physics
-    /// which in turn is based on the cart-pole equations from this paper: 
+    /// which in turn is based on the cart-pole equations from this paper:
     ///    "Equations of Motion for the Cart and Pole Control Task"
     ///    https://sharpneat.sourceforge.io/research/cart-pole/cart-pole-equations.html
     /// </remarks>
@@ -46,7 +46,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// </summary>
         const float m_c = 1f;
         /// <summary>
-        /// Length of pole 1 (in metres). This is the full length of the pole, and not the half length as used widely 
+        /// Length of pole 1 (in metres). This is the full length of the pole, and not the half length as used widely
         /// elsewhere in the literature.
         /// </summary>
         const float l = 1f;
@@ -55,7 +55,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// </summary>
         const float l_hat = l / 2f;
         /// <summary>
-        /// Length of pole 2 (in metres). This is the full length of the pole, and not the half length as used widely 
+        /// Length of pole 2 (in metres). This is the full length of the pole, and not the half length as used widely
         /// elsewhere in the literature.
         /// </summary>
         const float l2 = 0.1f;
@@ -98,7 +98,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         readonly float[] _state = new float[6];
 
         // Allocate re-usable working arrays to avoid memory allocation and garbage collection overhead.
-        // These are the k1 to k4 gradients as defined by the Runge-Kutta 4th order method; and an 
+        // These are the k1 to k4 gradients as defined by the Runge-Kutta 4th order method; and an
         // intermediate model state s.
         readonly float[] _k1 = new float[6];
         readonly float[] _k2 = new float[6];
@@ -154,7 +154,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         {
             // Calc the cart and pole accelerations for the current/initial model state.
             CalcAccelerations(_state, f, out float xa, out float thetaa1, out float thetaa2);
-            // Store a set of model state gradients, e.g. state[0] is the cart x position, therefore gradient[0] is 
+            // Store a set of model state gradients, e.g. state[0] is the cart x position, therefore gradient[0] is
             // cart x-axis velocity; and state[1] is cart x-axis velocity, therefore gradient[1] is cart x-axis acceleration, etc.
             _k1[0] = _state[1]; // Cart velocity.
             _k1[1] = xa;        // Cart acceleration.
@@ -286,7 +286,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             // and if Vector<double>.Count is greater than four then we have to pad our arrays with zeros to match the wider vectors.
             // However, System.Runtime.Intrinsics.X86.Vector128<float> might be a good choice here (for x86 platforms with vector support!).
 
-            // Notes. 
+            // Notes.
             // A constant bound of 6 is used instead of using the length of one of the arrays; this makes it easier for the JITter to decide
             // whether to unroll the loop or not. We do not manually unroll the loop because at time of writing that resulted in the jitter
             // generating far more instructions; let's just leave it to the jitter to decide whether to unroll or not.

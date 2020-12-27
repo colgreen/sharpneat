@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var genome = pop.GenomeList[0];
 
             var strategy = new AddNodeStrategy<double>(
-                pop.MetaNeatGenome, genomeBuilder, 
+                pop.MetaNeatGenome, genomeBuilder,
                 pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq,
                 pop.AddedNodeBuffer);
 
@@ -51,7 +51,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var genome = pop.GenomeList[0];
 
             var strategy = new AddNodeStrategy<double>(
-                pop.MetaNeatGenome, genomeBuilder, 
+                pop.MetaNeatGenome, genomeBuilder,
                 pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq,
                 pop.AddedNodeBuffer);
 
@@ -80,7 +80,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var genome = pop.GenomeList[0];
 
             var strategy = new AddNodeStrategy<double>(
-                pop.MetaNeatGenome, genomeBuilder, 
+                pop.MetaNeatGenome, genomeBuilder,
                 pop.GenomeIdSeq, pop.InnovationIdSeq, generationSeq,
                 pop.AddedNodeBuffer);
 
@@ -141,7 +141,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var connA = newConnList[0];
             var connB = newConnList[1];
             Assert.True(
-                    (connA.SourceId == connRemoved.SourceId && connA.TargetId == newNodeId && connB.SourceId == newNodeId && connB.TargetId == connRemoved.TargetId) 
+                    (connA.SourceId == connRemoved.SourceId && connA.TargetId == newNodeId && connB.SourceId == newNodeId && connB.TargetId == connRemoved.TargetId)
                 ||  (connB.SourceId == connRemoved.SourceId && connB.TargetId == newNodeId && connA.SourceId == newNodeId && connA.TargetId == connRemoved.TargetId));
 
             return childGenome;

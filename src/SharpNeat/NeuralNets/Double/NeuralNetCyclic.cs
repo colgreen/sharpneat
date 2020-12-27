@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,24 +17,24 @@ using SharpNeat.Graphs;
 namespace SharpNeat.NeuralNets.Double
 {
     /// <summary>
-    /// A neural network class that represents a network with recurrent (cyclic) connections. 
-    /// 
+    /// A neural network class that represents a network with recurrent (cyclic) connections.
+    ///
     /// This class contains performance improvements described in the following report/post:
-    /// 
+    ///
     ///     http://sharpneat.sourceforge.net/research/network-optimisations.html
-    /// 
+    ///
     /// A speed-up over a previous 'naive' implementation was achieved by compactly storing all required data in arrays
-    /// in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches. 
-    /// 
+    /// in a way that maximizes in-order memory accesses; this allows for good utilisation of CPU caches.
+    ///
     /// Algorithm Overview.
     /// 1) Loop connections. Each connection gets its input signal from its source node, multiplies this signal by its
-    /// weight, and adds the result to its target node's pre-activation variable. Connections are ordered by source node 
-    /// index, thus all memory reads here are sequential, but the memory writes to node pre-activation variables are 
+    /// weight, and adds the result to its target node's pre-activation variable. Connections are ordered by source node
+    /// index, thus all memory reads here are sequential, but the memory writes to node pre-activation variables are
     /// non-sequential.
-    /// 
-    /// 2) Loop nodes. Pass each node's pre-activation signal through the activation function and set its 
-    /// post-activation signal value. 
-    /// 
+    ///
+    /// 2) Loop nodes. Pass each node's pre-activation signal through the activation function and set its
+    /// post-activation signal value.
+    ///
     /// The activation loop is now complete and we can go back to (1) or stop.
     /// </summary>
     public sealed class NeuralNetCyclic : IBlackBox<double>
@@ -45,7 +45,7 @@ namespace SharpNeat.NeuralNets.Double
         readonly int[] _srcIdArr;
         readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
-        
+
         // Activation function.
         readonly VecFnSegment2<double> _activationFn;
 
@@ -146,7 +146,7 @@ namespace SharpNeat.NeuralNets.Double
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _cyclesPerActivation; i++)
             {
-                // Loop connections. Get each connection's input signal, apply the weight and add the result to 
+                // Loop connections. Get each connection's input signal, apply the weight and add the result to
                 // the pre-activation signal of the target neuron.
                 for(int j=0; j < _srcIdArr.Length; j++) {
                     _preActivationArr[_tgtIdArr[j]] = Math.FusedMultiplyAdd(_postActivationArr[_srcIdArr[j]], _weightArr[j], _preActivationArr[_tgtIdArr[j]]);
@@ -155,7 +155,7 @@ namespace SharpNeat.NeuralNets.Double
                 // Pass the pre-activation levels through the activation function.
                 // Note. the post-activation levels are stored in _postActivationArray.
                 // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
-                // post-activation values and are never activated. 
+                // post-activation values and are never activated.
                 _activationFn(_preActivationArr, _postActivationArr, _inputCount, _preActivationArr.Length);
 
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
@@ -170,7 +170,7 @@ namespace SharpNeat.NeuralNets.Double
         {
             // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.
-            // Note. Connection signal state is not reset as this gets overwritten on each iteration.   
+            // Note. Connection signal state is not reset as this gets overwritten on each iteration.
             Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length - _inputCount);
             Array.Clear(_postActivationArr, _inputCount, _postActivationArr.Length - _inputCount);
         }

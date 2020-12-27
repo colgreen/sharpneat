@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@ namespace SharpNeat.NeuralNets
     /// </summary>
     /// <param name="v">A vector of pre-activation levels to pass through the function.
     /// The resulting post-activation levels are written back to this array/vector.</param>
-    public delegate void VecFn<T>(T[] v) 
+    public delegate void VecFn<T>(T[] v)
         where T : struct;
 
     /// <summary>
@@ -30,11 +30,11 @@ namespace SharpNeat.NeuralNets
     /// The resulting post-activation levels are written back to this array/vector.</param>
     /// <param name="startIdx">Start index.</param>
     /// <param name="endIdx">End index (exclusive).</param>
-    public delegate void VecFnSegment<T>(double[] v, int startIdx, int endIdx) 
+    public delegate void VecFnSegment<T>(double[] v, int startIdx, int endIdx)
         where T : struct;
 
     /// <summary>
-    /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector, 
+    /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector,
     /// and post-activation levels stored in a separate supplied vector.
     /// </summary>
     /// <param name="v">A vector of pre-activation levels to pass through the function.
@@ -42,7 +42,7 @@ namespace SharpNeat.NeuralNets
     /// The resulting post-activation levels are written back to this array/vector.</param>
     /// <param name="startIdx">Start index.</param>
     /// <param name="endIdx">End index (exclusive).</param>
-    public delegate void VecFnSegment2<T>(double[] v, double[] w, int startIdx, int endIdx) 
+    public delegate void VecFnSegment2<T>(double[] v, double[] w, int startIdx, int endIdx)
         where T : struct;
 
     /// <summary>
@@ -74,7 +74,7 @@ namespace SharpNeat.NeuralNets
         void Fn(T[] v, int startIdx, int endIdx);
 
         /// <summary>
-        /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector, 
+        /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector,
         /// and post-activation levels stored in a separate supplied vector.
         /// </summary>
         /// <param name="v">A vector of pre-activation levels to pass through the function.

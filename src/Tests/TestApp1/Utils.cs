@@ -24,6 +24,6 @@ namespace TestApp1
             // Create a NeatEvolutionAlgorithm instance ready to run the experiment.
             var ea = NeatUtils.CreateNeatEvolutionAlgorithm(neatExperiment);
             return ea;
-        }        
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace SharpNeat.Windows.App
         public static void SetValue(TextBox txtBox, double val)
         {
             txtBox.Text = val.ToString(CultureInfo.InvariantCulture);
-        }        
+        }
 
         public static int GetValue(TextBox txtBox, int defaultVal)
         {

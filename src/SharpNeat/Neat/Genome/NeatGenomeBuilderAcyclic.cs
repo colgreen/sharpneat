@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -44,7 +44,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         /// <param name="validateAcyclic">Enable acyclic graph validation.</param>
         /// <remarks>
-        /// If the caller can guarantee that calles to Create() will provide acyclic graphs only, then 
+        /// If the caller can guarantee that calles to Create() will provide acyclic graphs only, then
         /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
         /// </remarks>
         public NeatGenomeBuilderAcyclic(MetaNeatGenome<T> metaNeatGenome, bool validateAcyclic)
@@ -67,7 +67,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(
-            int id, 
+            int id,
             int birthGeneration,
             ConnectionGenes<T> connGenes)
         {
@@ -107,7 +107,7 @@ namespace SharpNeat.Neat.Genome
 
             // Create a weighted acyclic digraph.
             // Note. This also outputs connectionIndexMap. For each connection in the acyclic graph this gives
-            // the index of the same connection in the genome; this is because connections are re-ordered based 
+            // the index of the same connection in the genome; this is because connections are re-ordered based
             // on node depth in the acyclic graph.
             DirectedGraphAcyclic acyclicDigraph = DirectedGraphAcyclicBuilderUtils.CreateDirectedGraphAcyclic(
                 digraph,
@@ -120,7 +120,7 @@ namespace SharpNeat.Neat.Genome
             // TODO: Write unit tests to cover this!
             // Update nodeIdxById with the new depth based node index allocations.
             // Notes.
-            // The current nodeIndexByIdMap maps node IDs (also know as innovation IDs in NEAT) to a compact 
+            // The current nodeIndexByIdMap maps node IDs (also know as innovation IDs in NEAT) to a compact
             // ID space in which any gaps have been removed, i.e. a compacted set of IDs that can be used as indexes,
             // i.e. if there are N nodes in total then the highest node ID will be N-1.
             //
@@ -154,7 +154,7 @@ namespace SharpNeat.Neat.Genome
             INodeIdMap nodeIndexByIdMap)
         {
             // Note. Not required for acyclic graphs.
-            // In acyclic graphs nodeIndexByIdMap is so closely related/tied to digraph and connectionIndexMap that 
+            // In acyclic graphs nodeIndexByIdMap is so closely related/tied to digraph and connectionIndexMap that
             // these three objects exist as a logical unit, i.e. we get all three or none at all.
             throw new NotImplementedException();
         }
@@ -216,14 +216,14 @@ namespace SharpNeat.Neat.Genome
             int[] hiddenNodeIdArr,
             int[] newIdxByOldIdx)
         {
-            // Note. This method essentially repeats the logic in BuildNodeIndexById() but 
+            // Note. This method essentially repeats the logic in BuildNodeIndexById() but
             // the values placed into the dictionary are mapped to different values, and
             // we are updating existing dictionary entries rather than inserting new ones.
             //
             // This still requires dictionary lookups and so can be optimised further with
-            // a customised dictionary implementation that allows direct access and updating 
+            // a customised dictionary implementation that allows direct access and updating
             // of the keyed values. We could do that here by wrapping each entry in an object
-            // reference (i.e. boxing), but that creates additional overhead (object header 
+            // reference (i.e. boxing), but that creates additional overhead (object header
             // allocation, heap allocation, garbage collection, etc.).
             int inputCount = _metaNeatGenome.InputNodeCount;
             int inputOutputCount = _metaNeatGenome.InputOutputNodeCount;

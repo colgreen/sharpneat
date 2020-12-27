@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -23,11 +23,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 {
     /// <summary>
     /// GeneticKMeansSpeciationStrategy initialisation.
-    /// 
+    ///
     /// This class handles initialising the k-means clusters (species), i.e. it takes a population of genomes
     /// and forms an initial set of k-means clusters with which to begin running the k-means iterations upon.
     /// upon.
-    /// 
+    ///
     /// Note. this implementation applies a modified version of the k-means++ initialisation method.
     /// </summary>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
@@ -51,7 +51,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             int speciesCount,
             IRandomSource rng)
         {
-            // Create an array of seed genomes, i.e. each of these genomes will become the initial 
+            // Create an array of seed genomes, i.e. each of these genomes will become the initial
             // seed/centroid of one species.
             var seedGenomeList = new List<NeatGenome<T>>(speciesCount);
 
@@ -75,7 +75,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             int initialCapacity = (genomeList.Count * 2) / speciesCount;
 
             var speciesArr = new Species<T>[speciesCount];
-            for(int i=0; i < speciesCount; i++) 
+            for(int i=0; i < speciesCount; i++)
             {
                 var seedGenome = seedGenomeList[i];
                 speciesArr[i] = new Species<T>(i, seedGenome.ConnectionGenes, initialCapacity);
@@ -97,7 +97,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         #endregion
 
-        #region Private Methods 
+        #region Private Methods
 
         private NeatGenome<T> GetSeedGenome(
             List<NeatGenome<T>> seedGenomeList,
@@ -107,16 +107,16 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             // Select from a random subset of remainingGenomes rather than the full set, otherwise
             // k-means will have something like O(n^2) scalability
             int subsetCount;
-            
+
             // For 10 or fewer genomes just select all of them.
             if(remainingGenomes.Count <= 10) {
                 subsetCount = remainingGenomes.Count;
             }
-            else 
+            else
             {   // For more than ten remainingGenomes we choose a subset size proportional to log(count).
                 subsetCount = (int)(Math.Log10(remainingGenomes.Count) * 10.0);
             }
-                        
+
             // Get the indexes of a random subset of remainingGenomes.
             int[] genomeIdxArr = EnumerableUtils.RangeRandomOrder(0, remainingGenomes.Count, rng).Take(subsetCount).ToArray();
 
@@ -126,8 +126,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             for(int i=0; i < subsetCount; i++)
             {
                 // Note. k-means++ assigns a probability that is the squared distance to the nearest existing centroid.
-                double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[genomeIdxArr[i]]); 
-                pArr[i] = distance * distance; 
+                double distance = GetDistanceFromNearestSeed(seedGenomeList, remainingGenomes[genomeIdxArr[i]]);
+                pArr[i] = distance * distance;
             }
 
             // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
@@ -139,7 +139,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         {
             double minDistance = _distanceMetric.CalcDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
 
-            for(int i=1; i < seedGenomeList.Count; i++) 
+            for(int i=1; i < seedGenomeList.Count; i++)
             {
                 double distance = _distanceMetric.CalcDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
                 minDistance = Math.Min(minDistance, distance);

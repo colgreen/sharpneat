@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -27,11 +27,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         // Connection gene lists.
         readonly List<DirectedConnection> _connList;
         readonly List<T> _weightList;
-        
+
         #endregion
 
         #region Constructor
-        
+
         public ConnectionGeneListBuilder(bool isAcyclic, int capacity)
         {
             _isAcyclic = isAcyclic;

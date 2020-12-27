@@ -9,13 +9,13 @@ namespace SharpNeat.Graphs.Tests
     ///
     /// This version is used for testing only. The main implementation uses a number of optimizations, one of
     /// which is to use it own graph traversal stack instead of using function recursion. However, those
-    /// optimizations make the code harder to read/understand, and therefore that code has a higher 
+    /// optimizations make the code harder to read/understand, and therefore that code has a higher
     /// chance of containing defects.
-    /// 
-    /// As part of the unit testing of AcyclicGraphDepthAnalysis we use this implementation in parallel with 
+    ///
+    /// As part of the unit testing of AcyclicGraphDepthAnalysis we use this implementation in parallel with
     /// the optimized version, and check that both versions give the same results for any given graph.
     /// </summary>
-    /// 
+    ///
     public class AcyclicGraphDepthAnalysisByRecursion
     {
         #region Instance Fields
@@ -58,7 +58,7 @@ namespace SharpNeat.Graphs.Tests
         {
             #if DEBUG
             // Debug assert the graph is acyclic.
-            // Note. In a release build this test is not performed because we expect this method to be called from 
+            // Note. In a release build this test is not performed because we expect this method to be called from
             // code handling acyclic graphs only. If digraph is cyclic then the graph traversal implemented here will
             // cause a stack overflow, so at the very least there isn't a silent error.
             Debug.Assert(!_cyclicGraphCheck.IsCyclic(_digraph));
@@ -101,7 +101,7 @@ namespace SharpNeat.Graphs.Tests
 
             // Traverse into the current node's target nodes.
             int connIdx = _digraph.GetFirstConnectionIndex(nodeIdx);
-            if(-1 == connIdx) 
+            if(-1 == connIdx)
             {   // No target nodes to traverse.
                 return;
             }

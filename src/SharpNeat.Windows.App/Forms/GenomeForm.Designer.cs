@@ -30,18 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenomeForm));
             this.SuspendLayout();
-            // 
+            //
             // genomeCtrl
-            // 
+            //
             this.genomeCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.genomeCtrl.Genome = null;
             this.genomeCtrl.Location = new System.Drawing.Point(0, 0);
             this.genomeCtrl.Name = "genomeCtrl";
             this.genomeCtrl.Size = new System.Drawing.Size(397, 366);
             this.genomeCtrl.TabIndex = 0;
-            // 
+            //
             // GenomeForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(397, 366);

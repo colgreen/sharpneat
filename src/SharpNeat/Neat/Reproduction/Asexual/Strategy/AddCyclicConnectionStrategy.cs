@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -80,7 +80,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         {
             // Attempt to find a new connection that we can add to the genome.
             if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))
-            {   
+            {
                 // Failed to find a new connection.
                 return null;
             }
@@ -119,10 +119,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             Array.Copy(parentWeightArr, insertIdx, weightArr, insertIdx+1, parentLen-insertIdx);
 
             // Create and return a new genome.
-            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use 
+            // Note. The set of hidden node IDs remains unchanged from the parent, therefore we are able to re-use
             // both parent.HiddenNodeIdArray and NodeIndexByIdMap.
             return _genomeBuilder.Create(
-                _genomeIdSeq.Next(), 
+                _genomeIdSeq.Next(),
                 _generationSeq.Peek,
                 connGenes,
                 parent.HiddenNodeIdArray,
@@ -173,12 +173,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int tgtId = GetNodeIdFromIndex(parent, inputCount + rng.Next(outputHiddenCount));
 
             // Test if the chosen connection already exists.
-            // Note. Connection genes are always sorted by sourceId then targetId, so we can use a binary search to 
+            // Note. Connection genes are always sorted by sourceId then targetId, so we can use a binary search to
             // find an existing connection in O(log(n)) time.
             conn = new DirectedConnection(srcId, tgtId);
 
             if((insertIdx = Array.BinarySearch(parent.ConnectionGenes._connArr, conn)) < 0)
-            {   
+            {
                 // The proposed new connection does not already exist, therefore we can use it.
                 // Get the position in parent.ConnectionGeneArray that the new connection should be inserted at (to maintain sort order).
                 insertIdx = ~insertIdx;

@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -15,7 +15,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// The softsign sigmoid.
-    /// This is a variant of softsign that has a steeper slope at and around the origin that 
+    /// This is a variant of softsign that has a steeper slope at and around the origin that
     /// is intended to be a similar slope to that of LogisticFunctionSteep.
     /// </summary>
     public sealed class SoftSignSteep : IActivationFunction<double>

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -64,7 +64,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             double[] speciesFitnessArr = new double[speciesCount];
             nonEmptySpeciesCount = 0;
 
-            for(int i=0; i < speciesCount; i++) 
+            for(int i=0; i < speciesCount; i++)
             {
                 int selectionSizeInt = speciesArr[i].Stats.SelectionSizeInt;
                 speciesFitnessArr[i] = selectionSizeInt;
@@ -74,7 +74,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             }
 
             // Note. Here we pass an array of SelectionSizeInt to the constructor of DiscreteDistribution.
-            // DiscreteDistribution will normalise these values such that they sum o 1.0, thus, the probability 
+            // DiscreteDistribution will normalise these values such that they sum o 1.0, thus, the probability
             // a given species will be selected is proportional to its SelectionSizeInt value.
             return new DiscreteDistribution(speciesFitnessArr);
         }
@@ -85,9 +85,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             int speciesCount = speciesArr.Length;
             DiscreteDistribution?[] distArr = new DiscreteDistribution[speciesCount];
 
-            // For each species build a DiscreteDistribution for genome selection within 
+            // For each species build a DiscreteDistribution for genome selection within
             // that species. I.e. fitter genomes have higher probability of selection.
-            for(int i=0; i < speciesCount; i++) 
+            for(int i=0; i < speciesCount; i++)
             {
                 Species<T> species = speciesArr[i];
 

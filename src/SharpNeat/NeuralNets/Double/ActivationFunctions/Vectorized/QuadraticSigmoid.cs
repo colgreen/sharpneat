@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
     /// <summary>
     /// A sigmoid formed by two sub-sections of the y=x^2 curve.
-    /// 
-    /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to 
+    ///
+    /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to
     /// ensure there is at least a gradient to follow at the extremes.
     /// </summary>
     public sealed class QuadraticSigmoid : IActivationFunction<double>
@@ -29,12 +29,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             const double t = 0.999;
             const double a = 0.00001;
 
-            // Calc abs(x) and sign(x) with just a single conditional branch 
+            // Calc abs(x) and sign(x) with just a single conditional branch
             // (calling those functions individually results in two conditional branches).
             double sign = 1;
             if(x < 0)
             {
-                x *= -1;  
+                x *= -1;
                 sign = -1;
             }
 
@@ -42,7 +42,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             if(x < t) {
                 y = t - ((x - t) * (x - t));
             }
-            else //if (x >= t) 
+            else //if (x >= t)
             {
                 y = t + (x - t) * a;
             }

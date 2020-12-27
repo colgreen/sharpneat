@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -35,9 +35,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
 
         #endregion
-        
+
         #region Constructor
-        
+
         /// <summary>
         /// Construct a new instance.
         /// </summary>
@@ -55,7 +55,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         #region Public Methods
 
         /// <summary>
-        /// Initialise a new set of species based on the provided population of genomes and the 
+        /// Initialise a new set of species based on the provided population of genomes and the
         /// speciation method in use.
         /// </summary>
         /// <param name="genomeList">The genomes to speciate.</param>
@@ -122,8 +122,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits);
-                if(0 == reallocCount) 
-                {   
+                if(0 == reallocCount)
+                {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
                 }
@@ -187,7 +187,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         {
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from 
+            // removal from a list can have O(N) complexity because removing an item from
             // a list requires shuffling up of items to fill the gap.
             foreach(var species in speciesArr) {
                 species.LoadWorkingDictionary();
@@ -196,7 +196,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         private void KMeansComplete(Species<T>[] speciesArr)
         {
-            // Check for empty species (this can happen with k-means), and if there are any then 
+            // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
             if(emptySpeciesArr.Length != 0) {

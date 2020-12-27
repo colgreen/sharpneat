@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -37,7 +37,7 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public GraphPainter() 
+        public GraphPainter()
             : this(new PainterSettings())
         {}
 
@@ -176,7 +176,7 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// <param name="state">A collection of working variables for painting a graph to a GDI+ surface.</param>
         protected virtual void PaintConnection(
             int srcIdx, int tgtIdx,
-            Point srcPos, Point tgtPos, float weight, 
+            Point srcPos, Point tgtPos, float weight,
             PaintState state)
         {
             srcPos = ModelToViewport(srcPos, state);
@@ -203,12 +203,12 @@ namespace SharpNeat.Drawing.Graph.Painting
 
             // Draw the connection line.
             if(tgtPos.Y > srcPos.Y)
-            {   
+            {
                 // Target is below the source. Draw a straight line.
-                state._g.DrawLine(pen, srcPos, tgtPos);                
+                state._g.DrawLine(pen, srcPos, tgtPos);
             }
             else
-            {   
+            {
                 // Target is above source. Draw a back-connection.
                 PaintBackConnection(
                     srcIdx, tgtIdx,
@@ -235,7 +235,7 @@ namespace SharpNeat.Drawing.Graph.Painting
             const float slopeInit = 0.25f;
             const float slopeIncr = 0.23f;
 
-            // Note. 'ref' here gives us a pointer to the actual struct data within each array element, as opposed to a copy an element on the local stack. 
+            // Note. 'ref' here gives us a pointer to the actual struct data within each array element, as opposed to a copy an element on the local stack.
             // As such, modifications to srcInfo and tgtInfo will modify the array elements.
             ref ConnectionPointInfo srcInfo = ref state._nodeStateByIdx[srcIdx];
             ref ConnectionPointInfo tgtInfo = ref state._nodeStateByIdx[tgtIdx];
@@ -249,21 +249,21 @@ namespace SharpNeat.Drawing.Graph.Painting
 
             // If the source and target nodes are close on the X-axis then connect to the same side on both
             // nodes. Otherwise connect nodes on their facing sides.
-            if(Math.Abs(tgtPos.X - srcPos.X) <= _settings.NodeDiameter) 
+            if(Math.Abs(tgtPos.X - srcPos.X) <= _settings.NodeDiameter)
             {
                 srcConIdx = srcInfo.LowerLeft++;
                 tgtConIdx = tgtInfo.UpperLeft++;
                 srcSide = -1;
                 tgtSide = -1;
             }
-            else if(tgtPos.X > srcPos.X) 
+            else if(tgtPos.X > srcPos.X)
             {
                 srcConIdx = srcInfo.LowerRight++;
                 tgtConIdx = tgtInfo.UpperLeft++;
                 srcSide = 1;
                 tgtSide = -1;
             }
-            else 
+            else
             {
                 srcConIdx = srcInfo.LowerLeft++;
                 tgtConIdx = tgtInfo.UpperRight++;
@@ -282,16 +282,16 @@ namespace SharpNeat.Drawing.Graph.Painting
             // Leg length.
             float lenAB = state._backConnectionLegLength;
             float slope = slopePre;
-            if(slope > slopeMax)  
-            {   
+            if(slope > slopeMax)
+            {
                 // Increase length in fractions of _backConnectionLegLength.
                 lenAB += (slopePre-slopeMax) * state._backConnectionLegLength;
                 slope = 1f;
             }
 
-            // Calculate position of B as relative to A. 
-            // Note. Length is taken to be L1 length (Manhattan distance). This means that the successive B positions 
-            // describe a straight line (rather than the circle you get with L2/Euclidean distance) which in turn 
+            // Calculate position of B as relative to A.
+            // Note. Length is taken to be L1 length (Manhattan distance). This means that the successive B positions
+            // describe a straight line (rather than the circle you get with L2/Euclidean distance) which in turn
             // ensures that the BC segments of successive connections are evenly spaced out.
             int xDelta = (int)(lenAB * (1f - slope)) * srcSide;
             int yDelta = (int)(lenAB * slope);
@@ -309,8 +309,8 @@ namespace SharpNeat.Drawing.Graph.Painting
             // Leg length.
             float lenEF = state._backConnectionLegLength;
             slope = slopePre;
-            if(slope > slopeMax)  
-            {   
+            if(slope > slopeMax)
+            {
                 // Increase length in fractions of _backConnectionLegLength.
                 lenEF += (slopePre-slopeMax) * state._backConnectionLegLength;
                 slope = 1f;
@@ -348,9 +348,9 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// </summary>
         private static bool IsPointWithinViewport(Point p, PaintState state)
         {
-            return (p.X >= 0) 
-                && (p.Y >= 0) 
-                && (p.X < state._viewportArea.Width) 
+            return (p.X >= 0)
+                && (p.Y >= 0)
+                && (p.X < state._viewportArea.Width)
                 && (p.Y < state._viewportArea.Height);
         }
 

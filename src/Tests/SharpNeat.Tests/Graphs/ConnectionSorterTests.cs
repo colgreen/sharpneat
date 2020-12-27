@@ -23,7 +23,7 @@ namespace SharpNeat.Graphs.Tests
             for(int i=0; i < len; i++) {
                 weightArr[i] = srcIdArr[i] + tgtIdArr[i];
             }
-            
+
             // Package up the source and target ID arrays.
             ConnectionIdArrays connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
 
@@ -58,7 +58,7 @@ namespace SharpNeat.Graphs.Tests
             }
             return arr;
         }
-       
+
         private static int Compare(int srcIdA, int tgtIdA, int srcIdB, int tgtIdB)
         {
             if(srcIdA < srcIdB) {

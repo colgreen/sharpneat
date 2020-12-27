@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -66,8 +66,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         {
             // Create selection distributions.
             // Notes.
-            // speciesDist is for selecting species when performing inter-species sexual reproduction, i.e. selecting parent genomes 
-            // from two separate species. 
+            // speciesDist is for selecting species when performing inter-species sexual reproduction, i.e. selecting parent genomes
+            // from two separate species.
             // genomeDistArr is an array of distributions, one per species; this is for selecting genomes for intra-species reproduction.
             CreateSelectionDistributionUtils<T>.CreateSelectionDistributions(
                 speciesArr,
@@ -118,7 +118,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             {
                 // Get the current species.
                 Species<T> species = speciesArr[speciesIdx];
-                
+
                 // Skip species that have been marked to not produce any offspring.
                 if(species.Stats.SelectionSizeInt == 0) {
                     continue;
@@ -135,7 +135,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // Special case: A species with a single genome marked for selection, cannot perform intra-species sexual reproduction.
                 if(species.Stats.SelectionSizeInt == 1)
                 {
-                    // Note. here we assign all the sexual reproduction allocation to asexual reproduction. In principle 
+                    // Note. here we assign all the sexual reproduction allocation to asexual reproduction. In principle
                     // we could still perform inter-species sexual reproduction, but that complicates the code further
                     // for minimal gain.
                     offspringCountAsexual += offspringCountSexual;
@@ -197,7 +197,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             int offspringCount,
             List<NeatGenome<T>> offspringList,
             double interspeciesMatingProportion,
-            IRandomSource rng, 
+            IRandomSource rng,
             out int offspringInterspeciesCount)
         {
             // Calc the number of offspring to create via inter-species sexual reproduction.

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual
         /// Validate the settings, and throw an exception if not valid.
         /// </summary>
         /// <remarks>
-        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to 
+        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to
         /// allow consumers of a settings object to validate it before using it.
         /// </remarks>
         public void Validate()

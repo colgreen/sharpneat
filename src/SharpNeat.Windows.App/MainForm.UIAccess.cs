@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -229,7 +229,7 @@ namespace SharpNeat.Windows.App
 
             ulong totalOffspringCount = eaStats.TotalOffspringCount;
             if(totalOffspringCount > 0)
-            { 
+            {
                 txtStatsTotalOffspringCount.Text = totalOffspringCount.ToString("N0");
                 txtStatsAsexualOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringAsexualCount, (eaStats.TotalOffspringAsexualCount / (double)totalOffspringCount));
                 txtStatsCrossoverOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringSexualCount, (eaStats.TotalOffspringSexualCount / (double)totalOffspringCount));
@@ -250,7 +250,7 @@ namespace SharpNeat.Windows.App
             txtStatsEvalsPerSec.Text = string.Empty;
             txtStatsBestGenomeComplx.Text =string.Empty;
             txtStatsMeanGenomeComplx.Text = string.Empty;
-            txtStatsMaxGenomeComplx.Text = string.Empty;            
+            txtStatsMaxGenomeComplx.Text = string.Empty;
             txtStatsTotalOffspringCount.Text = string.Empty;
             txtStatsAsexualOffspringCount.Text = string.Empty;
             txtStatsCrossoverOffspringCount.Text = string.Empty;

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -65,7 +65,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         {
             var settingsComplexifying = settings;
             var settingsSimplifying = settings.CreateSimplifyingSettings();
-            
+
             _mutationTypeDistributionsComplexifying = new MutationTypeDistributions(settingsComplexifying);
             _mutationTypeDistributionsSimplifying = new MutationTypeDistributions(settingsSimplifying);
             _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
@@ -75,19 +75,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(genomeBuilder, genomeIdSeq, generationSeq);
 
             // Add connection mutation; select acyclic/cyclic strategy as appropriate.
-            if(metaNeatGenome.IsAcyclic) 
+            if(metaNeatGenome.IsAcyclic)
             {
                 _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(
                     metaNeatGenome, genomeBuilder,
                     genomeIdSeq, generationSeq);
             }
-            else 
+            else
             {
                 _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(
                     metaNeatGenome, genomeBuilder,
                     genomeIdSeq, generationSeq);
-            }      
-            
+            }
+
             _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
         }
 
@@ -149,7 +149,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Attempt to create a child genome using the selected mutation type.
             NeatGenome<T>? childGenome = mutationTypeId switch
             {
-                // Note. These subroutines will return null if they cannot produce a child genome, 
+                // Note. These subroutines will return null if they cannot produce a child genome,
                 // e.g. 'delete connection' will not succeed if there is only one connection.
                 MutationType.ConnectionWeight => _mutateWeightsStrategy.CreateChildGenome(parent,rng),
                 MutationType.AddNode => _addNodeStrategy.CreateChildGenome(parent,rng),
@@ -167,9 +167,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
             // Sanity test.
             if(0 == mutationTypeDist.Probabilities.Length)
-            {   
+            {
                 // This shouldn't be possible, hence this is an exceptional circumstance.
-                // Note. Connection weight and 'add node' mutations should always be possible, because there should 
+                // Note. Connection weight and 'add node' mutations should always be possible, because there should
                 // always be at least one connection.
                 throw new Exception("All types of genome mutation failed.");
             }
@@ -178,11 +178,11 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         #endregion
 
-        #region Private Methods 
+        #region Private Methods
 
         private DiscreteDistribution GetMutationTypeDistribution(NeatGenome<T> parent)
         {
-            // If there is only one connection then avoid destructive mutations to avoid the 
+            // If there is only one connection then avoid destructive mutations to avoid the
             // creation of genomes with no connections.
             DiscreteDistribution dist = (parent.ConnectionGenes.Length < 2) ?
                   _mutationTypeDistributionsCurrent.MutationTypeDistributionNonDestructive

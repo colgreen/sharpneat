@@ -35,7 +35,7 @@ namespace SharpNeat.Graphs.Tests
             idx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, 0);
             Assert.Equal(~0, idx);
         }
-        
+
         #endregion
     }
 }

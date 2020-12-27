@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -40,11 +40,11 @@ namespace SharpNeat.EvolutionAlgorithm
         /// <remarks>
         /// Based on the difference in <see cref="TotalEvaluationCount"/> abd <see cref="SampleTime"/> between the last two generations.
         /// </remarks>
-        public double EvaluationsPerSec { get; set; } 
+        public double EvaluationsPerSec { get; set; }
 
         /// <summary>
         /// The point in clock time that the statistics were recorded.
         /// </summary>
-        public DateTime SampleTime { get; set; }   
+        public DateTime SampleTime { get; set; }
     }
 }

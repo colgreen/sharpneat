@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -20,8 +20,8 @@ namespace SharpNeat.Neat.Genome.IO
     /// For saving/serializing a population of <see cref="NeatGenome{T}"/> instances to the local filesystem.
     /// </summary>
     /// <remarks>
-    /// A population is a collection of genomes. The genomes are each serialized individually, as when saving a single genome. 
-    /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single 
+    /// A population is a collection of genomes. The genomes are each serialized individually, as when saving a single genome.
+    /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single
     /// zip archive file.
     /// </remarks>
     /// <typeparam name="T">Connection weight data type.</typeparam>
@@ -36,8 +36,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <param name="parentPath">Path to an existing folder to create the new population folder.</param>
         /// <param name="name">The name to assign to the population folder.</param>
         /// <remarks>
-        /// A population is a collection of genomes. The genomes each serialized individually as when saving a single genome. 
-        /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single 
+        /// A population is a collection of genomes. The genomes each serialized individually as when saving a single genome.
+        /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single
         /// zip archive file.
         /// </remarks>
         public static void SaveToFolder(

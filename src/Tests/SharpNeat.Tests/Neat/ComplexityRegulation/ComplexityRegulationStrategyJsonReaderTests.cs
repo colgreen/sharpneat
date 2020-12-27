@@ -71,7 +71,7 @@ namespace SharpNeat.Neat.ComplexityRegulation.Tests
         #region Private Static Methods
 
         private static object GetInstanceField<T>(T instance, string fieldName)
-        {                
+        {
             BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.NonPublic;
             FieldInfo field = typeof(T).GetField(fieldName, bindFlags);
             return field.GetValue(instance);

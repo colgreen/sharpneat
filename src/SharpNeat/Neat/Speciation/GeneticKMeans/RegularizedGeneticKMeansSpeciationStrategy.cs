@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -23,43 +23,43 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
     /// </summary>
     /// <remarks>
     /// This class applies a regularized k-means method as described in this paper:
-    ///    "REGULARISED k-MEANS CLUSTERING FOR DIMENSION REDUCTION APPLIED TO SUPERVISED CLASSIFICATION", 
+    ///    "REGULARISED k-MEANS CLUSTERING FOR DIMENSION REDUCTION APPLIED TO SUPERVISED CLASSIFICATION",
     ///    Vladimir Nikulin, Geoffrey J. McLachlan, Department of Mathematics, University of Queensland, Brisbane, Australia.
     ///    https://people.smp.uq.edu.au/GeoffMcLachlan/cibb/nm_cibb09.pdf
-    /// 
-    /// The intent of regularization is to discourage formation of large dominating clusters (species), and instead to 
+    ///
+    /// The intent of regularization is to discourage formation of large dominating clusters (species), and instead to
     /// encourage more even distribution of genomes amongst clusters, and also the formation of more stable clusters.
-    /// 
+    ///
     /// Regularization works as follows. In standard k-means the genomes are allocated to species who's centroid they are
-    /// nearest to, the regularization method in use here adjusts the calculated genome-centroid distances to include an 
+    /// nearest to, the regularization method in use here adjusts the calculated genome-centroid distances to include an
     /// additional regularization term, like so:
-    /// 
+    ///
     ///     adjustedDistance = distance + regularitationTerm
-    ///     
+    ///
     /// The regularization term (r) is calculated as follows:
-    /// 
+    ///
     ///     r = (c/populationSize) * L * alpha
-    ///     
+    ///
     /// Where:
     ///     c is a cluster size (species size).
     ///     alpha is a constant scaling factor.
     ///     L is the maximum distance between any two species centroid.
-    ///     
+    ///
     /// Thus, the term (c/populationSize) is a proportion ranging over the interval [0,1], where small clusters are
     /// near to zero and large cluster are nearer 1. As such the regularization term will be higher for larger clusters
     /// and therefore any genomes on he edges of a large cluster may be allocated to a nearby smaller cluster instead.
-    /// 
-    /// L is intended to represent the magnitudes of the distances being dealt with, i.e. it makes the regularization 
+    ///
+    /// L is intended to represent the magnitudes of the distances being dealt with, i.e. it makes the regularization
     /// method as a whole 'scale free'. The calculation for L used in this class differs from that used in the paper
     /// referred to above, but the intention is the same, i.e. to obtain some stable value that is representative of
     /// the magnitude of the distances being dealt with.
-    /// 
-    /// In the referred to paper L is taken to be the maximum distance between any genome and any specie centroid. In 
+    ///
+    /// In the referred to paper L is taken to be the maximum distance between any genome and any specie centroid. In
     /// this class we take the maximum distance between any two species centroids, this should result in a scale free
     /// distance that serves the same purpose, but that is faster to compute. This version of L will tend to be smaller
     /// that the version used in the paper, but we can adjust alpha (the constant scaling factor) accordingly.
-    /// 
-    /// At time of writing this class is experimental and has not been scientifically examined for suitability or 
+    ///
+    /// At time of writing this class is experimental and has not been scientifically examined for suitability or
     /// efficacy in particular in comparison to the standard k-means method.
     /// </remarks>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
@@ -74,9 +74,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
 
         #endregion
-        
+
         #region Constructor
-        
+
         /// <summary>
         /// Construct with the provided distance metric and k-means settings.
         /// </summary>
@@ -99,7 +99,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         #region Public Methods
 
         /// <summary>
-        /// Initialise a new set of species based on the provided population of genomes and the 
+        /// Initialise a new set of species based on the provided population of genomes and the
         /// speciation method in use.
         /// </summary>
         /// <param name="genomeList">The genomes to speciate.</param>
@@ -174,8 +174,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits, populationCount, maxIntraSpeciesDistance);
-                if(0 == reallocCount) 
-                {   
+                if(0 == reallocCount)
+                {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
                 }
@@ -197,8 +197,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits, populationCount, maxIntraSpeciesDistance);
-                if(0 == reallocCount) 
-                {   
+                if(0 == reallocCount)
+                {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
                 }
@@ -321,11 +321,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from 
+            // removal from a list can have O(N) complexity because removing an item from
             // a list requires shuffling up of items to fill the gap.
             populationCount = 0;
 
-            foreach(var species in speciesArr) 
+            foreach(var species in speciesArr)
             {
                 populationCount += species.GenomeList.Count;
                 species.LoadWorkingDictionary();
@@ -334,7 +334,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         private void KMeansComplete(Species<T>[] speciesArr)
         {
-            // Check for empty species (this can happen with k-means), and if there are any then 
+            // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
             if(emptySpeciesArr.Length != 0) {
@@ -382,7 +382,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from 
+            // removal from a list can have O(N) complexity because removing an item from
             // a list requires shuffling up of items to fill the gap.
             populationCount = 0;
 

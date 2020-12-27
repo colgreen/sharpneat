@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -81,7 +81,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
         public ComplexityRegulationMode CurrentMode => _currentMode;
 
         /// <summary>
-        /// Determine the complexity regulation mode that the evolution algorithm search should be in given the 
+        /// Determine the complexity regulation mode that the evolution algorithm search should be in given the
         /// provided evolution algorithm statistics object.
         /// </summary>
         /// <param name="eaStats">Evolution algorithm statistics.</param>
@@ -109,7 +109,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
             // Currently complexifying.
             // Test if the complexity ceiling has been reached.
             if(popStats.MeanComplexity > _complexityCeiling)
-            {   
+            {
                 // Switch to simplifying mode.
                 _currentMode = ComplexityRegulationMode.Simplifying;
                 _lastTransitionGeneration = eaStats.Generation;
@@ -123,7 +123,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats)
         {
-            // Currently simplifying. 
+            // Currently simplifying.
             // Test if simplification (ongoing reduction in complexity) has stalled.
 
             // We allow simplification to progress for a few generations before testing of it has stalled, this allows
@@ -133,7 +133,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
                 ((eaStats.Generation - _lastTransitionGeneration) > _minSimplifcationGenerations)
                 && (popStats.MeanComplexity < _complexityCeiling)
                 && ((popStats.MeanComplexityHistory.Mean - _prevMeanMovingAverage) >= 0.0))
-            {   
+            {
                 // Simplification has stalled; switch back to complexification.
                 _currentMode = ComplexityRegulationMode.Complexifying;
                 _lastTransitionGeneration = eaStats.Generation;

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -21,8 +21,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// Layer information for the acyclic graph.
         /// </summary>
         /// <remarks>
-        /// The nodes of the graph are arranged into layers, where the layer index (or depth) for a node is defined as the longest path 
-        /// (number of node to node hops) to arrive at that node from an input node, thus input nodes are defined as being in layer zero 
+        /// The nodes of the graph are arranged into layers, where the layer index (or depth) for a node is defined as the longest path
+        /// (number of node to node hops) to arrive at that node from an input node, thus input nodes are defined as being in layer zero
         /// (depth 0).
         /// </remarks>
         public LayerInfo[] LayerArray { get; }

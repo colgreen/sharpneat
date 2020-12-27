@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -76,7 +76,7 @@ namespace SharpNeat.Neat.Genome.IO
         {
             if(!File.Exists(path)) {
                 throw new IOException($"File does not exist [{path}]");
-            }            
+            }
 
             using(ZipArchive zipArchive = ZipFile.OpenRead(path))
             {
@@ -92,7 +92,7 @@ namespace SharpNeat.Neat.Genome.IO
                     }
 
                     using(Stream zipEntryStream = zipEntry.Open())
-                    { 
+                    {
                         NeatGenome<T> genome = _genomeLoader.Load(zipEntryStream);
                         genomeList.Add(genome);
                     }

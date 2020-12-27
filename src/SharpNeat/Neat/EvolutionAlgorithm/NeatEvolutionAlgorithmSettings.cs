@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         public int SpeciesCount { get; set; } = 10;
 
         /// <summary>
-        /// Elitism proportion. 
+        /// Elitism proportion.
         /// We sort species genomes by fitness and keep the top N%, the other genomes are
         /// removed to make way for the offspring.
         /// </summary>
@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         /// <summary>
         /// Selection proportion.
-        /// We sort species genomes by fitness and select parent genomes for producing offspring from 
+        /// We sort species genomes by fitness and select parent genomes for producing offspring from
         /// the top N%. Selection is performed prior to elitism being applied, therefore selecting from more
         /// genomes than will be made elite is possible.
         /// </summary>
@@ -89,7 +89,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         #region Public Methods
 
         /// <summary>
-        /// Creates a new settings object based on the current settings object but modified to be suitable for use when 
+        /// Creates a new settings object based on the current settings object but modified to be suitable for use when
         /// the evolution algorithm is in simplifying mode.
         /// </summary>
         /// <returns></returns>
@@ -97,7 +97,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         {
             // Clone the current settings object.
             var settings = new NeatEvolutionAlgorithmSettings(this)
-            { 
+            {
                 OffspringAsexualProportion = 1.0,
                 OffspringSexualProportion = 0.0
             };
@@ -108,7 +108,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// Validate the settings, and throw an exception if not valid.
         /// </summary>
         /// <remarks>
-        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to 
+        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to
         /// allow consumers of a settings object to validate it before using it.
         /// </remarks>
         public void Validate()

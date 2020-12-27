@@ -90,7 +90,7 @@ namespace SharpNeat.Neat.Genome.Tests
 
             // The graph should be unchanged from the input connections.
             CompareConnectionLists(connArrExpected, digraph.ConnectionIdArrays);
-            
+
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);
         }

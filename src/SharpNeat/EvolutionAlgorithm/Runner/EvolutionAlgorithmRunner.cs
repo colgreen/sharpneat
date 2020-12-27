@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -81,7 +81,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// <summary>
         /// The underlying <see cref="IEvolutionAlgorithm"/>.
         /// </summary>
-        public IEvolutionAlgorithm EA => _ea; 
+        public IEvolutionAlgorithm EA => _ea;
 
         /// <summary>
         /// Gets or sets the runner's update scheme.
@@ -111,10 +111,10 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             switch(_runState)
             {
                 case RunState.Ready:
-                { 
+                {
                     // Create a background thread for running the algorithm.
                     _algorithmThread = new Thread(BackgroundThreadMethod)
-                    { 
+                    {
                         IsBackground = true,
                         Priority = ThreadPriority.BelowNormal
                     };
@@ -125,14 +125,14 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                     break;
                 }
                 case RunState.Paused:
-                { 
+                {
                     // The runner is paused; resume execution.
                     _runState = RunState.Running;
                     _awaitRestartEvent.Set();
                     break;
                 }
                 case RunState.Running:
-                { 
+                {
                     // Already running. Log a warning.
                     __log.Warn("StartContinue() called but algorithm is already running.");
                     break;
@@ -146,16 +146,16 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// Requests that the runner pauses, but doesn't wait it to do so.
         /// </summary>
         /// <remarks>
-        /// The runner will pause once the worker thread completes execution of the current generation. 
+        /// The runner will pause once the worker thread completes execution of the current generation.
         /// However, this method returns immediately and does not wait for the worker thread to stop.
         /// </remarks>
         public void RequestPause()
         {
-            if(_runState == RunState.Running) 
+            if(_runState == RunState.Running)
             {   // Set a flag that tells the worker thread to enter the paused state, but do not wait for the bacground thread to pause.
                 _pauseRequestFlag = true;
-            } 
-            else  
+            }
+            else
             {
                 __log.Warn("RequestPause() called, but the algorithm is not running.");
             }
@@ -170,14 +170,14 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// </remarks>
         public void RequestPauseAndWait()
         {
-            if(_runState == RunState.Running) 
+            if(_runState == RunState.Running)
             {
-                // Set a flag that tells the worker thread to enter the paused state, 
+                // Set a flag that tells the worker thread to enter the paused state,
                 // and wait for a signal that tells us the worker thread has paused.
                 _pauseRequestFlag = true;
                 _awaitPauseEvent.WaitOne();
             }
-            else 
+            else
             {
                 __log.Warn("RequestPauseAndWait() called but algorithm is not running.");
             }
@@ -267,8 +267,8 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                     _prevUpdateTimeTick = DateTime.UtcNow.Ticks;
                     OnUpdateEvent();
                 }
-                
-                // Check if a pause has been requested. 
+
+                // Check if a pause has been requested.
                 // Note. Access to the flag is not thread synchronized, but it doesn't really matter if
                 // we miss it being set and perform one other generation before pausing.
                 if(_pauseRequestFlag || _ea.Stats.StopConditionSatisfied)
@@ -277,7 +277,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                     _awaitPauseEvent.Set();
 
                     // Test for terminate signal.
-                    if(_terminateFlag) 
+                    if(_terminateFlag)
                     {
                         _runState = RunState.Terminated;
                         OnUpdateEvent();
@@ -293,7 +293,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
                     _awaitRestartEvent.WaitOne();
 
                     // Test for terminate signal.
-                    if(_terminateFlag) 
+                    if(_terminateFlag)
                     {
                         OnUpdateEvent();
                         return;

@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         readonly int[] _srcIdArr;
         readonly int[] _tgtIdArr;
         readonly double[] _weightArr;
-        
+
         // Activation function.
         readonly VecFnSegment2<double> _activationFn;
 
@@ -137,10 +137,10 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _cyclesPerActivation; i++)
             {
-                // Loop connections. Get each connection's input signal, apply the weight and add the result to 
+                // Loop connections. Get each connection's input signal, apply the weight and add the result to
                 // the pre-activation signal of the target neuron.
                 int conIdx=0;
-                for(; conIdx <= _srcIdArr.Length - width; conIdx += width) 
+                for(; conIdx <= _srcIdArr.Length - width; conIdx += width)
                 {
                     // Load source node output values into a vector.
                     for(int k=0; k<width; k++) {
@@ -168,7 +168,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 // Pass the pre-activation levels through the activation function.
                 // Note. the post-activation levels are stored in _postActivationArray.
                 // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
-                // post-activation values and are never activated. 
+                // post-activation values and are never activated.
                 _activationFn(_preActivationArr, _postActivationArr, _inputCount, _preActivationArr.Length);
 
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
@@ -181,9 +181,9 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void ResetState()
         {
-            // Reset the elements of _preActivationArray and _postActivationArr that represent the 
+            // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.
-            // Note. Connection signal state is not reset as this gets overwritten on each iteration.   
+            // Note. Connection signal state is not reset as this gets overwritten on each iteration.
             Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length - _inputCount);
             Array.Clear(_postActivationArr, _inputCount, _postActivationArr.Length - _inputCount);
         }

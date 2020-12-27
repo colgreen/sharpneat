@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -51,8 +51,8 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <returns>true if the objects are equal; otherwise false.</returns>
         public override bool Equals(object? obj)
         {
-            return obj is Int32Point point 
-                && X == point.X 
+            return obj is Int32Point point
+                && X == point.X
                 && Y == point.Y;
         }
 

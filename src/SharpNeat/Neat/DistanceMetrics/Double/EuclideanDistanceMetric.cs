@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -19,10 +19,10 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
     // TODO: Include coefficients and constant present on ManhattanDistance metric.
     /// <summary>
     /// Euclidean distance metric.
-    /// 
+    ///
     /// The Euclidean distance is given by sqrt(sum(delta^2))
     /// Where [delta] is the absolute position difference in a given dimension (on a given axis).
-    /// 
+    ///
     /// There may be good reasons to not use this distance metric in NEAT; see this link for some discussion of this:
     ///   https://stats.stackexchange.com/questions/99171/why-is-euclidean-distance-not-a-good-metric-in-high-dimensions
     /// </summary>
@@ -67,7 +67,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 return Math.Sqrt(distance);
             }
 
-            // Both arrays contain elements. 
+            // Both arrays contain elements.
             int arr1Idx = 0;
             int arr2Idx = 0;
             DirectedConnection conn1 = connArr1[arr1Idx];
@@ -106,7 +106,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
                 // Check if we have exhausted one or both of the arrays.
                 if(arr1Idx == length1)
-                {   
+                {
                     // All remaining p2 elements are mismatches.
                     for(int i=arr2Idx; i < length2; i++) {
                         distance += weightArr2[i] * weightArr2[i];
@@ -131,17 +131,17 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
         /// <summary>
         /// Tests if the distance between two positions is less than some threshold.
-        /// 
+        ///
         /// A simple way of implementing this method would be to calculate the distance between the
         /// two coordinates and test if it is less than the threshold. However, that approach requires that all of the
         /// elements in both CoordinateVectors be fully compared. We can improve performance in the general case
         /// by testing if the threshold has been passed after each vector element comparison thus allowing an early exit
-        /// from the method for many calls. Further to this, we can begin comparing from the ends of the vectors where 
+        /// from the method for many calls. Further to this, we can begin comparing from the ends of the vectors where
         /// differences are most likely to occur.
         /// </summary>
         public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
         {
-            // Instead of calculating the euclidean distance we calculate distance squared (we skip the final sqrt 
+            // Instead of calculating the euclidean distance we calculate distance squared (we skip the final sqrt
             // part of the formula). If we then square the threshold value this obviates the need to take the square
             // root when comparing our accumulating calculated distance with the threshold.
             threshold *= threshold;
@@ -150,21 +150,21 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             DirectedConnection[] connArr2 = p2._connArr;
             double[] weightArr1 = p1._weightArr;
             double[] weightArr2 = p2._weightArr;
-            
+
             // Store these heavily used values locally.
             int length1 = connArr1.Length;
             int length2 = connArr2.Length;
 
             // Test for special cases.
             if(0 == length1 && 0 == length2)
-            {   
+            {
                 // Both arrays are empty. No disparities, therefore the distance is zero.
                 return 0.0 < threshold;
             }
 
             double distance = 0.0;
             if(0 == length1)
-            {   
+            {
                 // All p2 elements are mismatches.
                 // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
                 for(int i=0; i < length2; i++) {
@@ -174,7 +174,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             if(0 == length2)
-            {   
+            {
                 // All p1 elements are mismatches.
                 // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
                 for(int i=0; i < length1; i++) {
@@ -184,7 +184,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             }
 
             // Both arrays contain elements. Compare the contents starting from the ends where the greatest discrepancies
-            // between coordinates are expected to occur. Generally this should result in less element comparisons 
+            // between coordinates are expected to occur. Generally this should result in less element comparisons
             // before the threshold is passed and we exit the method.
             int arr1Idx = length1 - 1;
             int arr2Idx = length2 - 1;
@@ -223,7 +223,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                     arr2Idx--;
                 }
 
-                // Test the threshold.  
+                // Test the threshold.
                 if(distance >= threshold) {
                     return false;
                 }

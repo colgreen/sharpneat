@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,53 +22,53 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// </summary>
     /// <remarks>
     /// This class utilises a depth first graph traversal algorithm to check if a proposed new connection on a given
-    /// graph would form a cycle, as such it is assumed that the graph as given is acyclic, if it isn't then the graph 
-    /// traversal stack will grown to infinity, ultimately resulting in an OutOfMemory exception. 
-    /// 
+    /// graph would form a cycle, as such it is assumed that the graph as given is acyclic, if it isn't then the graph
+    /// traversal stack will grown to infinity, ultimately resulting in an OutOfMemory exception.
+    ///
     /// The algorithm will perform a full depth first traversal of the graph starting at the proposed new connection's
-    /// target node, and if that connection's source node is encountered then it would form a cycle if it were added 
+    /// target node, and if that connection's source node is encountered then it would form a cycle if it were added
     /// to the graph.
-    /// 
+    ///
     /// Each instance of this class allocates a stack and a hashset for use by the traversal algorithm, and these
     /// are cleared and re-used for each call to IsConnectionCyclic(). This avoids memory re-allocation and garbage
     /// collection overhead, but the side effect is that IsConnectionCyclic() is not reentrant, i.e. can only be in
     /// use by one execution thread at a given point in time. A reentrancy check will throw an exception if reentrancy
     /// is attempted.
-    /// 
-    /// 
+    ///
+    ///
     /// Implementation Details / Notes
     /// ----------------------
     /// This class is optimized for speed and efficiency and as such is tightly coupled with the connection gene list
-    /// data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal 
-    /// algorithm using function recursion. However this is essentially a depth first graph traversal algorithm that 
+    /// data structure, and is perhaps not as easy to read/understand as a traditional depth first graph traversal
+    /// algorithm using function recursion. However this is essentially a depth first graph traversal algorithm that
     /// utilises its own stack instead of using the call stack.
-    /// 
+    ///
     /// The traversal stack is a stack of Int32(s), each of which is an index into connList (the list of connections
     /// that make up the graph, ordered by sourceId and then targetId). Thus, each stack entry points to a connection,
     /// and represents traversal of that connection's source node and also which of that node's child connections/nodes
-    /// is the current traversal position/path from that node (note. this works because the connections are sorted by 
+    /// is the current traversal position/path from that node (note. this works because the connections are sorted by
     /// sourceId first).
-    /// 
+    ///
     /// As such this algorithm has a far more compact stack frame than the equivalent algorithm implemented as a
     /// recursive function, and avoids any other method call overhead as a further performance benefit (i.e. overhead
     /// other than stack frame initialisation).
     ///
     /// The main optimizations then are:
-    /// 
+    ///
     ///    * No method call overhead from recursive method calls.
-    ///    
+    ///
     ///    * Each stack frame is a single int32 and thus the stack as a whole is highly compact; this improves CPU cache
     ///      locality and hit rate, and also keeps the max size of the stack for any given traversal at a minimum.
-    ///      
-    ///    * The stack and a visitedNodes HashSet are allocated for each class instance and are cleared and re-used for each 
+    ///
+    ///    * The stack and a visitedNodes HashSet are allocated for each class instance and are cleared and re-used for each
     ///      call to IsConnectionCyclic(), therefore minimizing memory allocation and garbage collection overhead.
-    /// 
+    ///
     ///    * Using a stack on the heap also avoids any potential for a stack overflow on very deep graphs, which could occur
     ///      if using method call recursion.
-    /// 
+    ///
     /// Problems with the approach of this class are:
-    /// 
-    ///    * The code is more complex than the same algorithm written as a recursive function; this makes the code harder 
+    ///
+    ///    * The code is more complex than the same algorithm written as a recursive function; this makes the code harder
     ///      to read, understand and maintain, thus increasing the probability of subtle defects.
     ///
     /// Also see:
@@ -82,7 +82,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         /// <summary>
         /// The graph traversal stack, as required by a depth first graph traversal algorithm.
-        /// Each stack entry is an index into a connection list, representing both the current node being traversed 
+        /// Each stack entry is an index into a connection list, representing both the current node being traversed
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// for one source node.
         /// </summary>
@@ -96,7 +96,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #if DEBUG
         /// <summary>
-        /// Indicates if a call to IsConnectionCyclic() is currently in progress. 
+        /// Indicates if a call to IsConnectionCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
@@ -121,12 +121,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             }
             #endif
 
-            try 
+            try
             {
                 return IsConnectionCyclicInner(connList, in newConn);
             }
-            finally 
-            {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for 
+            finally
+            {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for
                 // re-use on the next call.
                 Cleanup();
             }
@@ -181,7 +181,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             // Push connIdx onto the stack.
             _traversalStack.Push(connIdx);
 
-            // Add the current node to the set of visited nodes; this prevents the traversal algorithm from re-entering this node 
+            // Add the current node to the set of visited nodes; this prevents the traversal algorithm from re-entering this node
             // (it's on the stack thus it is in the process of being traversed).
             _visitedNodes.Add(startNodeId);
         }
@@ -205,7 +205,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 // traversed, either from the current node or a parent node. I.e. we modify the stack state ready for when
                 // the traversal down into the current connection completes and returns back to the current node.
                 //
-                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
+                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It
                 // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
                 // point in time, since some of the path may no longer be on the stack.
                 MoveForward(connList, currConnIdx);
@@ -228,7 +228,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connList, childNodeId);
                 if(connIdx >= 0)
                 {   // childNodeId has outgoing connections; push the first connection onto the stack to mark it for traversal.
-                    _traversalStack.Push(connIdx);    
+                    _traversalStack.Push(connIdx);
                 }
             }
 
@@ -255,7 +255,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             }
 
             // No more connections for the current node; pop/remove the current node from the top of the stack.
-            // Traversal will thus continue from its traversal parent node's current position, or will terminate 
+            // Traversal will thus continue from its traversal parent node's current position, or will terminate
             // if the stack is now empty.
             _traversalStack.Pop();
         }

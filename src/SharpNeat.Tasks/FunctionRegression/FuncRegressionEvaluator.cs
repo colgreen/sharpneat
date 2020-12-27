@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@ namespace SharpNeat.Tasks.FunctionRegression
 {
     /// <summary>
     /// Evaluator for the Function Regression task.
-    /// 
+    ///
     /// One continuous valued input maps to one continuous valued output.
     ///
     /// Evaluation consists of querying the provided black box for a number of distinct values over the range of the
@@ -45,7 +45,7 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// Construct a new instance.
         /// </summary>
         /// <param name="paramSamplingInfo">Parameter sampling info.</param>
-        /// <param name="gradientMseWeight">Fitness weighting to apply to the gradient fitness score.</param> 
+        /// <param name="gradientMseWeight">Fitness weighting to apply to the gradient fitness score.</param>
         /// <param name="yArrTarget">Array of target y values (function output values).</param>
         /// <param name="gradientArrTarget">Array of target gradient values.</param>
         /// <param name="blackBoxProbe">Black box probe. For obtaining the y value response array from an instance of <see cref="IBlackBox{T}"/>.</param>
@@ -96,8 +96,8 @@ namespace SharpNeat.Tasks.FunctionRegression
             double gradientMse = MathSpanUtils.MeanSquaredDelta(_gradientArr, _gradientArrTarget);
             gradientMse *= _gradientMseWeight;
 
-            // Calc fitness as the inverse of MSE (higher value is fitter). 
-            // Add a constant to avoid divide by zero, and to constrain the fitness range between bad and good solutions; 
+            // Calc fitness as the inverse of MSE (higher value is fitter).
+            // Add a constant to avoid divide by zero, and to constrain the fitness range between bad and good solutions;
             // this allows the selection strategy to select solutions that are mediocre and therefore helps preserve diversity.
             double fitness = 20.0 / (yMse + gradientMse + 0.02);
 

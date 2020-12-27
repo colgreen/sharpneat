@@ -5,8 +5,7 @@
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
+        private System.ComponentModel.IContainer components = null;
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -18,10 +17,8 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
+        }
+        #region Windows Form Designer generated code
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -42,9 +39,9 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.InitialImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(8, 8);
@@ -53,10 +50,10 @@
             this.pictureBox1.Size = new System.Drawing.Size(494, 137);
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
-            // 
+            //
             // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            //
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 446);
@@ -65,11 +62,11 @@
             this.label1.Size = new System.Drawing.Size(69, 15);
             this.label1.TabIndex = 8;
             this.label1.Text = "Version Info";
-            // 
+            //
             // tabControl1
-            // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            //
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -79,9 +76,9 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(494, 292);
             this.tabControl1.TabIndex = 9;
-            // 
+            //
             // tabPage1
-            // 
+            //
             this.tabPage1.Controls.Add(this.txtAbout);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -91,9 +88,9 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "About";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
+            //
             // txtAbout
-            // 
+            //
             this.txtAbout.BackColor = System.Drawing.Color.White;
             this.txtAbout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -105,9 +102,9 @@
             this.txtAbout.TabIndex = 10;
             this.txtAbout.Text = "";
             this.txtAbout.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtAbout_LinkClicked);
-            // 
+            //
             // tabPage2
-            // 
+            //
             this.tabPage2.Controls.Add(this.txtLicense);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -117,9 +114,9 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "License";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
+            //
             // txtLicense
-            // 
+            //
             this.txtLicense.BackColor = System.Drawing.Color.White;
             this.txtLicense.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtLicense.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -130,10 +127,10 @@
             this.txtLicense.Size = new System.Drawing.Size(478, 174);
             this.txtLicense.TabIndex = 6;
             this.txtLicense.Text = "";
-            // 
+            //
             // txtVersionInfo
-            // 
-            this.txtVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            //
+            this.txtVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtVersionInfo.BackColor = System.Drawing.Color.White;
             this.txtVersionInfo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -144,9 +141,9 @@
             this.txtVersionInfo.Size = new System.Drawing.Size(486, 110);
             this.txtVersionInfo.TabIndex = 11;
             this.txtVersionInfo.Text = "";
-            // 
+            //
             // AboutForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(512, 586);

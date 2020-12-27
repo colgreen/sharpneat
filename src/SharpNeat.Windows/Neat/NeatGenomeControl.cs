@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -51,7 +51,7 @@ namespace SharpNeat.Windows.Neat
             {
                 DirectedGraphViewModel graphViewModel = CreateGraphViewModel(genome);
                 _graphViewportPainter.GraphViewModel = graphViewModel;
-                
+
             }
 
             // Repaint the viewport.
@@ -101,9 +101,9 @@ namespace SharpNeat.Windows.Neat
         {
             this.viewportControl1 = new SharpNeat.Windows.ViewportControl();
             this.SuspendLayout();
-            // 
+            //
             // viewportControl1
-            // 
+            //
             this.viewportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewportControl1.Location = new System.Drawing.Point(0,0);
             this.viewportControl1.Name = "viewportControl1";
@@ -111,9 +111,9 @@ namespace SharpNeat.Windows.Neat
             this.viewportControl1.TabIndex = 0;
             this.viewportControl1.ViewportPainter = null;
             this.viewportControl1.ZoomFactor = 1F;
-            // 
+            //
             // NeatGenomeControl
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F,15F);
             this.Controls.Add(this.viewportControl1);
             this.Name = "NeatGenomeControl";

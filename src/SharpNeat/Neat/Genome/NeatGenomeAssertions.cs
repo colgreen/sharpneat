@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@ namespace SharpNeat.Neat.Genome
     {
         #region Public Static Methods
 
-        public static void AssertIsValid(            
+        public static void AssertIsValid(
             MetaNeatGenome<T> metaNeatGenome,
             int id,
             int birthGeneration,
@@ -119,7 +119,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(layerArr is object && layerArr.Length > 0);
 
             // Layer zero is the input layer, thus the number of nodes in this layer should be at least the number of input nodes.
-            // Note. Any node with no incoming connections is also assigned to layer zero, therefore there can be non-input nodes in 
+            // Note. Any node with no incoming connections is also assigned to layer zero, therefore there can be non-input nodes in
             // this layer too.
             Debug.Assert(layerArr[0].EndNodeIdx >= metaNeatGenome.InputNodeCount);
 
@@ -129,7 +129,7 @@ namespace SharpNeat.Neat.Genome
                 Debug.Assert(layerArr[i-1].EndNodeIdx < layerArr[i].EndNodeIdx);
             }
 
-            // EndConnectionIdx is strictly increasing, except for the last layer which has no connections by definition (if 
+            // EndConnectionIdx is strictly increasing, except for the last layer which has no connections by definition (if
             // there was a connection it would result in one more layer!).
             for(int i=1; i < layerArr.Length-1; i++) {
                 Debug.Assert(layerArr[i-1].EndConnectionIdx < layerArr[i].EndConnectionIdx);
@@ -139,7 +139,7 @@ namespace SharpNeat.Neat.Genome
             // Note. In principle there can be a single layer, i.e. a bunch of nodes with no connections between them;
             // it's nonsensical, but it's not disallowed.
             int lastLayerIdx = layerArr.Length-1;
-            if(lastLayerIdx > 0) { 
+            if(lastLayerIdx > 0) {
                 Debug.Assert(layerArr[lastLayerIdx].EndConnectionIdx == layerArr[lastLayerIdx-1].EndConnectionIdx);
             }
 
@@ -162,22 +162,22 @@ namespace SharpNeat.Neat.Genome
 
                 // Loop the connections in the current layer.
                 for(; connIdx < layerInfo.EndConnectionIdx; connIdx++)
-                {                    
+                {
                     int srcId = srcIdArr[connIdx];
                     int tgtId = tgtIdArr[connIdx];
 
                     // The connections in the current layer should all have a source node in this layer.
                     Debug.Assert(nodeDepthArr[srcId] == layerIdx);
-                    
+
                     // The target node should normally be in a higher layer. However, layer zero is a special case because it
                     // contains not only the input nodes, but can also contain hidden nodes that are not reachable from an input node.
                     //
                     // Thus, the connections in layer zero should have either:
                     // a) an input source node in this layer, and a target node in a layer with a higher layer index, or,
                     // b) a hidden source node in this layer, and a target node that can be in any layer, including layer zero
-                    // if the target node is also unreachable from an input node (i.e. via another connectivity path).                    
+                    // if the target node is also unreachable from an input node (i.e. via another connectivity path).
                     Debug.Assert(
-                            (layerIdx == 0 && (srcId >= digraph.InputCount || nodeDepthArr[tgtId] > 0)) 
+                            (layerIdx == 0 && (srcId >= digraph.InputCount || nodeDepthArr[tgtId] > 0))
                         ||  (layerIdx > 0 && nodeDepthArr[tgtId] > layerIdx)
                     );
                 }

@@ -47,7 +47,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
 
             // Wrap in a genome.
             NeatGenome<double> genome = genomeBuilder.Create(0, 0, connGenes);
-            
+
             return genome;
         }
 

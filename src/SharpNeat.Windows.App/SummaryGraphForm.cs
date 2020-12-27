@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ namespace SharpNeat.Windows.App
         {
             if(this.InvokeRequired)
             {
-                // Note. Must use Invoke(). BeginInvoke() will execute asynchronously and the evolution algorithm therefore 
+                // Note. Must use Invoke(). BeginInvoke() will execute asynchronously and the evolution algorithm therefore
                 // may have moved on and will be in an intermediate and indeterminate (between generations) state.
                 this.Invoke(new MethodInvoker(delegate()
                 {
@@ -65,7 +65,7 @@ namespace SharpNeat.Windows.App
             if(this.IsDisposed) {
                 return;
             }
-                
+
             // Update plot points for each series in turn.
             int sourceCount = _dataSourceArray.Length;
             for(int i=0; i < sourceCount; i++)
@@ -129,16 +129,16 @@ namespace SharpNeat.Windows.App
         private static void EnsurePointPairListLength(PointPairList ppl, int length)
         {
             int delta = length - ppl.Count;
-            
+
             if(delta > 0)
-            {   
+            {
                 // Add additional points.
                 for(int i=0; i < delta; i++) {
                     ppl.Add(0.0, 0.0);
                 }
             }
             else if(delta < 0)
-            {   
+            {
                 // Remove excess points.
                 ppl.RemoveRange(length, -delta);
             }

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -88,28 +88,28 @@ namespace SharpNeat.Neat.Genome
         /// </summary>
         /// <remarks>
         /// This digraph mirrors the graph described by <see cref="ConnectionGenes"/>; this object represents the
-        /// graph structure only, not the weights, and is therefore re-used when spawning genomes with the same structure 
+        /// graph structure only, not the weights, and is therefore re-used when spawning genomes with the same structure
         /// (i.e. a child that is the result of connection weight mutations only).
         /// The DirectedGraph class provides an efficient means of working with graphs and is therefore made available
         /// on this class to provide improved performance for:
         ///  * Decoding to a neural net object.
         ///  * Finding new connections on acyclic graphs, i.e. detecting if a random new connection would form a cycle.
-        ///  
+        ///
         /// Note. When MetaNeatGenome.IsAcyclic is true then the object stored here will be of the subtype <see cref="Graphs.Acyclic.DirectedGraphAcyclic"/> .
         /// </remarks>
         public DirectedGraph DirectedGraph { get; }
 
         /// <summary>
         /// Cached info related to acyclic digraphs only.
-        /// 
+        ///
         /// Represents a mapping between genome connection indexes (in NeatGenome.ConnectionGenes), to reordered connections
         /// based on depth based node index allocations (as utilised in DirectedGraphAcyclic).
-        /// 
+        ///
         /// This allows for mapping of weights from NeatGenome.ConnectionGenes to the re-ordered weight array used by the neural
         /// net implementation (AcyclicNeuralNet).
-        /// 
+        ///
         /// The mapping is in the form of an array of indexes into NeatGenome.ConnectionGenes, i.e. the position in the index
-        /// is the 'new' index (the digraph index), and the value stored at that position is the 'old' index (the genome 
+        /// is the 'new' index (the digraph index), and the value stored at that position is the 'old' index (the genome
         /// connection index).
         /// </summary>
         public int[]? ConnectionIndexMap { get; }
@@ -164,16 +164,16 @@ namespace SharpNeat.Neat.Genome
 
         /// <summary>
         /// Get an array of digraph connection weights.
-        /// For cyclic genomes this is simply the genome's weight array, but for ayclic genomes the digraph and genome 
+        /// For cyclic genomes this is simply the genome's weight array, but for ayclic genomes the digraph and genome
         /// represent connections in a different order, thus for acyclic genomes/digraphs this method will return a new
         /// array with the weights in the digraph order.
         /// </summary>
         /// <returns></returns>
         public T[] GetDigraphWeightArray()
         {
-            // If the genome represents a cyclic graph then the genome connections are in the same order as the digraph 
+            // If the genome represents a cyclic graph then the genome connections are in the same order as the digraph
             // connections, and thus the weights are in the same order too, therefore we can just return the genome weight
-            // array as is. We can do this because these arrays are treated as being immutable, i.e., a given genome's weight 
+            // array as is. We can do this because these arrays are treated as being immutable, i.e., a given genome's weight
             // array will never be changed. E.g. Weight mutation occurs on child genomes that have a copy of the parent
             // genome's weight array.
             if(!this.MetaNeatGenome.IsAcyclic)

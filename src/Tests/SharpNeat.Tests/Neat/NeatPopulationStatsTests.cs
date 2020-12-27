@@ -116,7 +116,7 @@ namespace SharpNeat.Neat.Tests
 
             // Assign the default fitness to all genomes.
             var genomeList = neatPop.GenomeList;
-            for(int i=0; i < count; i++) 
+            for(int i=0; i < count; i++)
             {
                 var genome = genomeList[i];
                 genome.FitnessInfo = new FitnessInfo(defaultFitness);

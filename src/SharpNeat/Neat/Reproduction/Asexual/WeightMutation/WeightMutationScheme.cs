@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
     /// Connection weight mutation scheme.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class WeightMutationScheme<T> 
+    public sealed class WeightMutationScheme<T>
         where T : struct
     {
         readonly DiscreteDistribution _strategySelectionDist;

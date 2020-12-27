@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ namespace SharpNeat.Neat.Genome
         /// Create a sorted array of hidden node IDs.
         /// </summary>
         public static int[] CreateHiddenNodeIdArray(
-            DirectedConnection[] connArr, 
+            DirectedConnection[] connArr,
             int inputOutputCount,
             HashSet<int> workingIdSet)
         {
@@ -70,7 +70,7 @@ namespace SharpNeat.Neat.Genome
 
             // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
             int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, new HashSet<int>());
-            if(!SpanUtils.Equals<int>(idArr, hiddenNodeIdArr)) { 
+            if(!SpanUtils.Equals<int>(idArr, hiddenNodeIdArr)) {
                 return false;
             }
             return true;

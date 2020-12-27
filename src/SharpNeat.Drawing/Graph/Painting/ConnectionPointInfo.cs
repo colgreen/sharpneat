@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -13,7 +13,7 @@
 namespace SharpNeat.Drawing.Graph.Painting
 {
     /// <summary>
-    /// For tracking connection points on nodes when drawing backwards directed connections, i.e. when the 
+    /// For tracking connection points on nodes when drawing backwards directed connections, i.e. when the
     /// connection target node is vertically higher than the source node.
     /// </summary>
     public struct ConnectionPointInfo

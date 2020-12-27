@@ -103,7 +103,7 @@ namespace SharpNeat.Graphs.Tests
             in ConnectionIdArrays yIdArrays,
             int xIdx, int yIdx)
         {
-            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx] 
+            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx]
                &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx];
         }
 
@@ -125,8 +125,8 @@ namespace SharpNeat.Graphs.Tests
             int xIdx, int yIdx)
             where T : struct
         {
-            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx] 
-               &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx] 
+            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx]
+               &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx]
                &&  xWeightArr[xIdx].Equals(yWeightArr[yIdx]);
         }
 

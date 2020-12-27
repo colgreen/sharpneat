@@ -62,7 +62,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double.Tests
             // Construct a histogram on the array of weights.
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
 
-            // We expect min and max to be close to be about -995.5 and +1004.5 respectively 
+            // We expect min and max to be close to be about -995.5 and +1004.5 respectively
             // (but they could be further from the mean of 1000, with no bound).
             Assert.True(hist.Max >= 1002.0);
             Assert.True(hist.Min <= 998.0);

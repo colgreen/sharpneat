@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,11 +17,11 @@ namespace SharpNeat.Tasks.Xor
 {
     /// <summary>
     /// Evaluator for the logical XOR task.
-    /// 
+    ///
     /// Two inputs supply the two XOR input values.
-    /// 
+    ///
     /// The correct response for the single output is input1 XOR input2.
-    /// 
+    ///
     /// Evaluation consists of querying the provided black box for all possible input combinations (2^2 = 4).
     /// </summary>
     public sealed class XorEvaluator : IPhenomeEvaluator<IBlackBox<double>>

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@ namespace SharpNeat.EvolutionAlgorithm
     public interface IGenome
     {
         /// <summary>
-        /// Gets the genome's unique ID. IDs are unique across all genomes created from a single 
+        /// Gets the genome's unique ID. IDs are unique across all genomes created from a single
         /// IGenomeFactory.
         /// </summary>
         int Id { get; }

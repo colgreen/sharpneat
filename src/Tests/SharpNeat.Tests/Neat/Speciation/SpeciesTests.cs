@@ -22,7 +22,7 @@ namespace SharpNeat.Neat.Speciation.Tests
 
             // Run the inner test multiple times, with a different champ genome count each time.
             for(int champGenomeCount=1; champGenomeCount <= 10; champGenomeCount++)
-            { 
+            {
                 Species<double> species = CreateTestSpecies(10);
 
                 AssignGenomeFitnessScores(species, champGenomeCount, champFitness, rng);
@@ -36,7 +36,7 @@ namespace SharpNeat.Neat.Speciation.Tests
 
                 // Assert that all other genomes have a fitness less than the champ fitness.
                 for(; idx < species.GenomeList.Count; idx++) {
-                    Assert.True(species.GenomeList[idx].FitnessInfo.PrimaryFitness < champFitness);    
+                    Assert.True(species.GenomeList[idx].FitnessInfo.PrimaryFitness < champFitness);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace SharpNeat.Neat.Speciation.Tests
         {
             // Assign a fitness less than the champ fitness to all genomes.
             foreach(var genome in species.GenomeList)
-            { 
+            {
                 double fitness = champFitness * rng.NextDouble();
                 genome.FitnessInfo = new FitnessInfo(fitness);
             }

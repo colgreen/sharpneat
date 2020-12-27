@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -44,7 +44,7 @@ namespace SharpNeat.Neat.Genome.IO
 
         #if DEBUG
         /// <summary>
-        /// Indicates if a call to Load() is currently in progress. 
+        /// Indicates if a call to Load() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
@@ -136,7 +136,7 @@ namespace SharpNeat.Neat.Genome.IO
 
             try
             {
-                _sr = sr;    
+                _sr = sr;
                 return LoadInner();
             }
             finally
@@ -278,7 +278,7 @@ namespace SharpNeat.Neat.Genome.IO
             if(_metaNeatGenome.InputNodeCount != inputCount) {
                 throw new IOException($"Incorrect input count. Line [{_lineIdx}].");
             }
-            
+
             if(_metaNeatGenome.OutputNodeCount != outputCount) {
                 throw new IOException($"Incorrect output count. Line [{_lineIdx}].");
             }
@@ -347,7 +347,7 @@ namespace SharpNeat.Neat.Genome.IO
                 string? line = _sr!.ReadLine();
                 _lineIdx++;
 
-                // Return the line if it is empty (end of a section), null (end of file), 
+                // Return the line if it is empty (end of a section), null (end of file),
                 // or is not a comment line (starts with a hash character).
                 if(string.IsNullOrEmpty(line) || line[0] != '#') {
                     return line;

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -52,7 +52,7 @@ namespace SharpNeat.Windows
         {
             get => _zoomFactor;
             set
-            {   
+            {
                 _zoomFactor = value;
                 Refresh();
             }
@@ -75,11 +75,11 @@ namespace SharpNeat.Windows
             _viewportArea = new Rectangle(0, 0, width, height);
 
             // Create a bitmap for the picturebox.
-            _image = new Bitmap(width, height, __viewportPixelFormat);           
+            _image = new Bitmap(width, height, __viewportPixelFormat);
             pictureBox.Image = _image;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         protected override void Dispose(bool disposing)
@@ -96,17 +96,17 @@ namespace SharpNeat.Windows
 
         #region Component Designer Generated Code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.pictureBox = new PictureBox();
             this.SuspendLayout();
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox.Dock = DockStyle.Fill;
             this.pictureBox.Location = new Point(0, 0);
             this.pictureBox.Name = "pbx1";
@@ -115,9 +115,9 @@ namespace SharpNeat.Windows
             this.pictureBox.TabStop = false;
             this.pictureBox.SizeChanged += new EventHandler(this.PictureBox_SizeChanged);
             this.pictureBox.DoubleClick += new EventHandler(this.PictureBox_DoubleClick);
-            // 
+            //
             // Viewport
-            // 
+            //
             this.Controls.Add(this.pictureBox);
             this.Name = "vpt1";
             this.Size = new Size(100, 100);
@@ -161,12 +161,12 @@ namespace SharpNeat.Windows
                 return;
             }
 
-            // If the viewport has grown beyond the size of the image, then create a new image. 
-            // Note. If the viewport shrinks we just paint on the existing (larger) image, this prevents unnecessary 
+            // If the viewport has grown beyond the size of the image, then create a new image.
+            // Note. If the viewport shrinks we just paint on the existing (larger) image, this prevents unnecessary
             // and expensive construction/destruction of Image objects.
-            if(width > _image.Width || height > _image.Height) 
-            {   
-                // Reset the image's size. We round up the nearest __imageSizeChangeDelta. This prevents unnecessary 
+            if(width > _image.Width || height > _image.Height)
+            {
+                // Reset the image's size. We round up the nearest __imageSizeChangeDelta. This prevents unnecessary
                 // and expensive construction/destruction of Image objects as the viewport is resized multiple times.
                 int imageWidth = (int)(MathF.Ceiling(width / ImageSizeChangeDelta) * ImageSizeChangeDelta);
                 int imageHeight = (int)(MathF.Ceiling(height / ImageSizeChangeDelta) * ImageSizeChangeDelta);

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -29,8 +29,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// set of points.
         /// </summary>
         /// <remarks>
-        /// The euclidean centroid is a central position within a set of points that minimizes the sum of the squared 
-        /// distance between each of those points and the centroid. As such it can also be thought of as being an exemplar 
+        /// The euclidean centroid is a central position within a set of points that minimizes the sum of the squared
+        /// distance between each of those points and the centroid. As such it can also be thought of as being an exemplar
         /// for a set of points.
         /// </remarks>
         public static ConnectionGenes<double> CalculateEuclideanCentroid(
@@ -46,7 +46,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             // ENHANCEMENT: Obtain dictionary from a pool to avoid allocation and initialisation cost on each call to this method.
 
             // Each coordinate element has an ID. Here we calculate the total for each ID across all CoordinateVectors,
-            // then divide the totals by the number of CoordinateVectors to get the average for each ID. That is, we 
+            // then divide the totals by the number of CoordinateVectors to get the average for each ID. That is, we
             // calculate the componentwise mean.
             var coordElemTotals = new Dictionary<DirectedConnection,double>(64);
 
@@ -64,7 +64,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
                     // ENHANCEMENT: Updating an existing entry here requires a second lookup; in principle this could be avoided,
                     // e.g. by using a custom dictionary implementation with InsertOrSum() method.
-                    
+
                     // If the ID has previously been encountered then add the current element value to it, otherwise
                     // add a new entry to the dictionary.
                     if(coordElemTotals.TryGetValue(conn, out double weightAcc)) {
@@ -81,7 +81,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         }
 
         /// <summary>
-        /// Find medoid by comparing each coordinate with every other coordinate. The coord with the lowest 
+        /// Find medoid by comparing each coordinate with every other coordinate. The coord with the lowest
         /// average distance from all other coords is the most central coord (the medoid).
         /// This method uses an inefficient N*N comparison of coords to find a medoid. It is provided only as a last
         /// resort for distance metrics for which no means exist to calculate a centroid.
@@ -105,7 +105,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             {
                 double distance = CalculateMeanDistanceFromCoords(distanceMetric, coordList, i);
                 if(distance < medoidDistance)
-                {   
+                {
                     // We have a new centroid candidate.
                     medoidDistance = distance;
                     medoidIdx = i;

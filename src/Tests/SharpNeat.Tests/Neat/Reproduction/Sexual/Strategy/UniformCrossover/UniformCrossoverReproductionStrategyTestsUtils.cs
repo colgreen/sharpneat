@@ -25,10 +25,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
             var genomeList = new List<NeatGenome<double>>();
             switch(size)
             {
-                case 1: 
+                case 1:
                     genomeList.Add(CreateNeatGenome1());
                     break;
-                case 2: 
+                case 2:
                     genomeList.Add(CreateNeatGenome1());
                     genomeList.Add(CreateNeatGenome2());
                     break;
@@ -60,7 +60,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
             connGenes[3] =   (3, 6, 0.4);
             connGenes[4] =   (4, 7, 0.5);
             connGenes[5] =   (5, 8, 0.6);
- 
+
             connGenes[6] =   (6, 9, 0.7);
             connGenes[7] =   (7, 10, 0.8);
             connGenes[8] =   (8, 11, 0.9);

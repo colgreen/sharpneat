@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -26,11 +26,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
     /// </summary>
     /// <remarks>
     /// This is the speciation scheme used in SharpNEAT 2.x.
-    /// 
-    /// This is a multi-threaded equivalent of GeneticKMeansSpeciationStrategy, i.e. when calling the speciation methods 
+    ///
+    /// This is a multi-threaded equivalent of GeneticKMeansSpeciationStrategy, i.e. when calling the speciation methods
     /// SpeciateAll() and SpeciateAdd(), this class will distribute workload to multiple threads to allow utilisation
     /// of multiple CPU cores if available.
-    /// 
+    ///
     /// Multi-threading is achieved using the .NET framework's Parallel classes, and thus by default will adjust to utilise
     /// however many CPU cores are available.
     /// </remarks>
@@ -46,9 +46,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
 
         #endregion
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// Construct a new instance.
         /// </summary>
@@ -63,7 +63,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             _distanceMetric = distanceMetric;
             _maxKMeansIters = maxKMeansIters;
 
-            // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time 
+            // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
             // this constructor is invoked, and 1 is nonsensical for a parallel strategy.
             if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
 
@@ -79,7 +79,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         #region Public Methods
 
         /// <summary>
-        /// Initialise a new set of species based on the provided population of genomes and the 
+        /// Initialise a new set of species based on the provided population of genomes and the
         /// speciation method in use.
         /// </summary>
         /// <param name="genomeList">The genomes to speciate.</param>
@@ -150,8 +150,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             for(int iter=0; iter < _maxKMeansIters; iter++)
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits);
-                if(0 == reallocCount) 
-                {   
+                if(0 == reallocCount)
+                {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
                 }
@@ -168,10 +168,10 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
             // Loop species.
             // Note. The nested parallel loop here is intentional and should give good thread concurrency in the general case.
-            // For more info see: "Is it ok to use nested Parallel.For loops?" 
+            // For more info see: "Is it ok to use nested Parallel.For loops?"
             // https://blogs.msdn.microsoft.com/pfxteam/2012/03/14/is-it-ok-to-use-nested-parallel-for-loops/
             //
-            Parallel.For(0, speciesArr.Length, _parallelOptions, (speciesIdx) => 
+            Parallel.For(0, speciesArr.Length, _parallelOptions, (speciesIdx) =>
             {
                 var species = speciesArr[speciesIdx];
 
@@ -222,15 +222,15 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         private void KMeansInit(Species<T>[] speciesArr)
         {
             // Transfer all genomes from GenomeList to GenomeById.
-            // Notes. moving genomes between species is more efficient when using dictionaries; 
-            // removal from a list can have O(N) complexity because removing an item from 
+            // Notes. moving genomes between species is more efficient when using dictionaries;
+            // removal from a list can have O(N) complexity because removing an item from
             // a list requires shuffling up of items to fill the gap.
             Parallel.ForEach(speciesArr, _parallelOptions, species => species.LoadWorkingDictionary());
         }
 
         private void KMeansComplete(Species<T>[] speciesArr)
         {
-            // Check for empty species (this can happen with k-means), and if there are any then 
+            // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => 0 == x.GenomeById.Count).ToArray();
             if(emptySpeciesArr.Length != 0) {
@@ -246,7 +246,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
             {
                 var species = speciesArr[i];
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes)); 
+                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
             });
         }
 
@@ -255,7 +255,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
             {
                 var species = speciesArr[i];
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes)); 
+                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
             });
         }
 

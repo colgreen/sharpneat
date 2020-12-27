@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -86,7 +86,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Attempt to find a new connection that we can add to the genome.
             if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))
-            {   
+            {
                 // Failed to find a new connection.
                 return null;
             }
@@ -140,7 +140,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
         #region Private Methods
 
-        // TODO / ENHANCEMENT: parent.DirectedGraph contains a pre-built DirectedGraphAcyclic, we can probably use this to intelligently select new 
+        // TODO / ENHANCEMENT: parent.DirectedGraph contains a pre-built DirectedGraphAcyclic, we can probably use this to intelligently select new
         // acyclic connections, instead of the approach here of selecting random connections and testing if they are acyclic or not.
 
         // rather than he current rejection sampling approach.
@@ -174,7 +174,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int hiddenCount = parent.HiddenNodeIdArray.Length;
 
             // Select a source node at random.
-            
+
             // Note. Valid source nodes are input and hidden nodes. Output nodes are not source node candidates
             // for acyclic nets, because that can prevent future connections from targeting the output if it would
             // create a cycle.
@@ -193,19 +193,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Test for simplest cyclic connectivity - node connects to itself.
             if(srcId == tgtId)
-            {   
+            {
                 conn = default;
                 insertIdx = default;
                 return false;
             }
 
             // Test if the chosen connection already exists.
-            // Note. Connection genes are always sorted by sourceId then targetId, so we can use a binary search to 
+            // Note. Connection genes are always sorted by sourceId then targetId, so we can use a binary search to
             // find an existing connection in O(log(n)) time.
             conn = new DirectedConnection(srcId, tgtId);
 
             if((insertIdx = Array.BinarySearch(parent.ConnectionGenes._connArr, conn)) >= 0)
-            {   
+            {
                 // The proposed new connection already exists.
                 conn = default;
                 insertIdx = default;

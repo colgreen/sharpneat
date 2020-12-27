@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -27,10 +27,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// <remarks>
         /// The scheme currently in use is taken from SharpNEAT version 2.x, i.e. this is the long standing default scheme
         /// in sharpneat. There has been little to no exploration of what schemes are good and whether this scheme in particular
-        /// is good, as such this is a candidate for future research and improvements. 
-        /// 
-        /// At time of writing it was thought wise to adopt the scheme from SharpNEAT 2.x because the code base is being 
-        /// rewritten/refactored and it is therefore useful to keep schemes such as this as close to the previous version as 
+        /// is good, as such this is a candidate for future research and improvements.
+        ///
+        /// At time of writing it was thought wise to adopt the scheme from SharpNEAT 2.x because the code base is being
+        /// rewritten/refactored and it is therefore useful to keep schemes such as this as close to the previous version as
         /// possible to assist in debugging and testing of the new code base by comparing performance/results, etc. with the 2.x
         /// code base.
         /// </remarks>
@@ -57,7 +57,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
             strategyArr[3] = CreateCardinalUniformResetStrategy(1, weightScale);
             strategyArr[4] = CreateCardinalUniformResetStrategy(2, weightScale);
             strategyArr[5] = CreateCardinalUniformResetStrategy(3, weightScale);
-            
+
             return new WeightMutationScheme<double>(probabilityArr, strategyArr);
         }
 

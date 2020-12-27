@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -14,9 +14,9 @@ namespace SharpNeat.Neat.ComplexityRegulation
 {
     /// <summary>
     /// Complexity regulation modes.
-    /// 
+    ///
     /// Represents two variations in the overall search strategy - complexifying and simplifying.
-    /// That is, allowing genomes to complexify, and reducing their complexity to trim away excess 
+    /// That is, allowing genomes to complexify, and reducing their complexity to trim away excess
     /// and/or redundant structure in the population to reinvigorate a search.
     ///
     /// For more information see:

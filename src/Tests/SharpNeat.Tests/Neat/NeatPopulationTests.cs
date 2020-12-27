@@ -32,7 +32,7 @@ namespace SharpNeat.Neat.Tests
             Assert.Equal(5, neatPop.InnovationIdSeq.Peek);
 
             // Loop the created genomes.
-            for(int i=0; i < count; i++) 
+            for(int i=0; i < count; i++)
             {
                 var genome = neatPop.GenomeList[i];
                 Assert.Equal(i, genome.Id);
@@ -87,7 +87,7 @@ namespace SharpNeat.Neat.Tests
             double total = weightArr[0];
             min = total;
             max = total;
-            
+
             for(int i=1; i<weightArr.Length; i++)
             {
                 double weight = weightArr[i];

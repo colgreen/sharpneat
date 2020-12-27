@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -20,11 +20,11 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
 
     /// <summary>
     /// Evaluator for the Binary 3-Multiplexer task.
-    /// 
-    /// One binary input selects which of two other binary inputs to output. 
+    ///
+    /// One binary input selects which of two other binary inputs to output.
     /// The correct response is the selected input's input signal (0 or 1).
     ///
-    /// Evaluation consists of querying the provided black box for all possible input combinations (2^3 = 8). 
+    /// Evaluation consists of querying the provided black box for all possible input combinations (2^3 = 8).
     /// </summary>
     public sealed class BinaryThreeMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     {
@@ -41,7 +41,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
             bool success = true;
             IVector<double> inputVec = box.InputVector;
             IVector<double> outputVec = box.OutputVector;
-            
+
             // 8 test cases.
             for(int i=0; i < 8; i++)
             {
@@ -49,14 +49,14 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
                 inputVec[0] = 1.0;
 
                 // Apply bitmask to i and shift left to generate the input signals.
-                // Note. We could eliminate all the boolean logic by pre-building a table of test 
+                // Note. We could eliminate all the boolean logic by pre-building a table of test
                 // signals and correct responses.
-                for(int tmp = i, j=1; j < 4; j++) 
-                {   
+                for(int tmp = i, j=1; j < 4; j++)
+                {
                     inputVec[j] = tmp & 0x1;
                     tmp >>= 1;
                 }
-                                
+
                 // Activate the black box.
                 box.Activate();
 
@@ -69,7 +69,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
                 // Determine the correct answer with somewhat cryptic bit manipulation.
                 // The condition is true if the correct answer is true (1.0).
                 if(((1 << (1 + (i & 0x1))) &i) != 0)
-                {   
+                {
                     // correct answer: true.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
@@ -80,7 +80,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
                     success &= trueResponse;
                 }
                 else
-                {   
+                {
                     // correct answer: false.
                     // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                     // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
@@ -88,7 +88,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
                     fitness += 1.0 - (output * output);
 
                     // Reset success flag if at least one response is wrong.
-                    success &= !trueResponse; 
+                    success &= !trueResponse;
                 }
 
                 // Reset black box ready for next test case.

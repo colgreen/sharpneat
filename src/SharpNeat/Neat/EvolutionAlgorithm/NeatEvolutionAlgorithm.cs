@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     /// The NEAT  evolution algorithm.
     /// </summary>
     /// <typeparam name="T">Connection weight data type.</typeparam>
-    public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm 
+    public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         where T : struct
     {
         #region Instance Fields
@@ -177,8 +177,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <summary>
         /// Gets the current complexity regulation mode.
         /// </summary>
-        public ComplexityRegulationMode ComplexityRegulationMode 
-        { 
+        public ComplexityRegulationMode ComplexityRegulationMode
+        {
             get => _complexityRegulationStrategy.CurrentMode;
         }
 
@@ -229,7 +229,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             RebuildGenomeList();
 
             // Append offspring genomes to the elite genomes in _pop.GenomeList. We do this before calling the
-            // _genomeListEvaluator.Evaluate() because some evaluation schemes re-evaluate the elite genomes 
+            // _genomeListEvaluator.Evaluate() because some evaluation schemes re-evaluate the elite genomes
             // (otherwise we could just evaluate offspringList).
             _pop.GenomeList.AddRange(offspringList);
 
@@ -300,23 +300,23 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         {
             // TODO: Review this. We don't necessarily want to re-evaluate genomes even if the evaluation scheme is non-deterministic.
 
-            // If the evaluation scheme is deterministic then we only need to evaluate genome that have not been evaluated yet, i.e. 
-            // the offspring genomes; the elite genomes that remain in the population from the previous generation have already been 
+            // If the evaluation scheme is deterministic then we only need to evaluate genome that have not been evaluated yet, i.e.
+            // the offspring genomes; the elite genomes that remain in the population from the previous generation have already been
             // evaluated and assigned a fitness score, so we can avoid the effort of re-evaluating those. If however the evaluation scheme
             // is non-deterministic, then we must re-evaluate all genomes in the population, both old and new genome.
-            if(_evaluator.IsDeterministic) 
+            if(_evaluator.IsDeterministic)
             {
                 _evaluator.Evaluate(offspringList);
                 evaluationCount = (ulong)offspringList.Count;
             }
-            else 
+            else
             {
                 _evaluator.Evaluate(_pop.GenomeList);
                 evaluationCount = (ulong)_pop.GenomeList.Count;
             }
 
             // Note. In future _evaluator may return an evaluation count, as it may apply a strategy that determines
-            // which genomes to evaluate. For now we just evaluate all genomes in the chosen genome list 
+            // which genomes to evaluate. For now we just evaluate all genomes in the chosen genome list
             // (offspringList or _pop.GenomeList) and return the length of that chosen list.
         }
 
@@ -324,8 +324,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         {
             // Handle special case of one or more species having a zero target size (dead species).
             if(emptySpeciesFlag)
-            {   
-                // There are one or more terminated species. Therefore we need to fully re-speciate all genomes 
+            {
+                // There are one or more terminated species. Therefore we need to fully re-speciate all genomes
                 // to evenly divide them between the required number of species.
 
                 // Clear all genomes from species (note. we still have all genomes in _pop.GenomeList).
@@ -340,7 +340,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             }
             else
             {
-                // Integrate offspring into the existing species. 
+                // Integrate offspring into the existing species.
                 _speciationStrategy.SpeciateAdd(offspringList, _pop.SpeciesArray!, _rng);
 
                 // Sort the genomes in each species by primary fitness, highest fitness first.
@@ -387,7 +387,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             }
             else
             {
-                // Calc elapsed time since the previous update to this state. If it is less than one second ago then skip the update, 
+                // Calc elapsed time since the previous update to this state. If it is less than one second ago then skip the update,
                 // as the timespan may be very short, thus giving an unrepresentative evals per second value.
                 TimeSpan elapsed = _eaStats.SampleTime - _evalCountPrevSampleTime;
                 if(elapsed > __oneSec)
@@ -403,7 +403,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Update total number of offspring genomes produced.
             _eaStats.TotalOffspringCount += (ulong)(offspringAsexualCount + offspringSexualCount);
-            _eaStats.TotalOffspringAsexualCount += offspringAsexualCount; 
+            _eaStats.TotalOffspringAsexualCount += offspringAsexualCount;
             _eaStats.TotalOffspringSexualCount += offspringSexualCount;
             _eaStats.TotalOffspringInterspeciesCount += offspringInterspeciesCount;
 

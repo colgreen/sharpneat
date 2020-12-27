@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -14,7 +14,7 @@ using SharpNeat.BlackBox;
 namespace SharpNeat.Evaluation
 {
     /// <summary>
-    /// Black box evaluation scheme, i.e. an <see cref="IPhenomeEvaluationScheme{TPhenome}"/> in which the 
+    /// Black box evaluation scheme, i.e. an <see cref="IPhenomeEvaluationScheme{TPhenome}"/> in which the
     /// phenome type is an <see cref="IBlackBox{T}"/>.
     /// </summary>
     /// <typeparam name="T">Black box numeric data type.</typeparam>

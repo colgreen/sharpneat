@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -18,26 +18,26 @@ namespace SharpNeat.NeuralNets.Double
     // TODO: Revise/update this summary comment...
     /// <summary>
     /// A neural network implementation for acyclic networks.
-    /// 
-    /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by 
+    ///
+    /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by
     /// propagating a signal 'wave' from the input nodes through each layer to the output nodes, thus each node
-    /// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and 
+    /// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and
     /// (b) have a scheme that defines when to stop activating the network.
-    /// 
+    ///
     /// Algorithm Overview.
-    /// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple 
+    /// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple
     /// paths to a node exist the longest path determines the node's depth.
-    /// 
+    ///
     /// 2) Connections are similarly assigned a depth value which is defined as the depth of a connection's source node.
-    /// 
+    ///
     /// Note. Steps 1 and 2 are actually performed by AcyclicNetworkFactory.
-    /// 
+    ///
     /// 3) Reset all node activation values to zero. This resets any state from a previous activation.
-    /// 
+    ///
     /// 4) Each layer of the network can now be activated in turn to propagate the signals on the input nodes through the network.
-    /// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0), 
-    /// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest 
-    /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now 
+    /// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0),
+    /// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest
+    /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now
     /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
     /// </summary>
     public sealed class NeuralNetAcyclic : IBlackBox<double>
@@ -50,7 +50,7 @@ namespace SharpNeat.NeuralNets.Double
         readonly double[] _weightArr;
 
         // Array of layer information.
-        readonly LayerInfo[] _layerInfoArr;        
+        readonly LayerInfo[] _layerInfoArr;
 
         // Node activation function.
         readonly VecFnSegment<double> _activationFn;
@@ -143,7 +143,7 @@ namespace SharpNeat.NeuralNets.Double
         /// to OutputSignalArray.
         /// </summary>
         public void Activate()
-        {   
+        {
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence

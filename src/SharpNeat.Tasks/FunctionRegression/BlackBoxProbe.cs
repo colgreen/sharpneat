@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -65,7 +65,7 @@ namespace SharpNeat.Tasks.FunctionRegression
                 box.Activate();
 
                 // Get the black box's output value.
-                // TODO: Review this scheme. This replicates the behaviour in SharpNEAT 2.x but not sure if it's ideal, 
+                // TODO: Review this scheme. This replicates the behaviour in SharpNEAT 2.x but not sure if it's ideal,
                 // for one it depends on the output range of the neural net activation function in use.
                 double output = box.OutputVector[0];
                 Clip(ref output);

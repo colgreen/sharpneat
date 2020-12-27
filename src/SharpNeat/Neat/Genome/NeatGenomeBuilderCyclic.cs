@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="connGenes">Connection genes.</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(
-            int id, 
+            int id,
             int birthGeneration,
             ConnectionGenes<T> connGenes)
         {
@@ -111,7 +111,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
         /// <param name="nodeIndexByIdMap">Provides a mapping from node ID to node index.</param>
         /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-        /// <param name="connectionIndexMap">Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based 
+        /// <param name="connectionIndexMap">Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based
         /// node index allocations.</param>
         /// <returns>A new NeatGenome instance.</returns>
         public NeatGenome<T> Create(

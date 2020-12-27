@@ -93,7 +93,7 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(x.Count, srcIdArr.Length);
             Assert.Equal(x.Count, tgtIdArr.Length);
 
-            for(int i=0; i < x.Count; i++) 
+            for(int i=0; i < x.Count; i++)
             {
                 Assert.Equal(x[i].SourceId, srcIdArr[i]);
                 Assert.Equal(x[i].TargetId, tgtIdArr[i]);

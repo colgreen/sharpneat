@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@ namespace SharpNeat.Graphs
         #region Public Static Methods
 
         /// <summary>
-        /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of input/output 
+        /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of input/output
         /// node IDs defined as being in a contiguous sequence starting at ID zero.
         /// </summary>
         /// <remarks>
@@ -47,7 +47,7 @@ namespace SharpNeat.Graphs
                 inputOutputCount, hiddenNodeIdArr);
 
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
-            // Notes. 
+            // Notes.
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
@@ -68,15 +68,15 @@ namespace SharpNeat.Graphs
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
             var hiddenNodeIdSet = new HashSet<int>();
-            
+
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
             for(int i=0; i<connectionList.Count; i++)
             {
-                if(connectionList[i].SourceId >= inputOutputCount) { 
-                    hiddenNodeIdSet.Add(connectionList[i].SourceId); 
+                if(connectionList[i].SourceId >= inputOutputCount) {
+                    hiddenNodeIdSet.Add(connectionList[i].SourceId);
                 }
-                if(connectionList[i].TargetId >= inputOutputCount) { 
-                    hiddenNodeIdSet.Add(connectionList[i].TargetId); 
+                if(connectionList[i].TargetId >= inputOutputCount) {
+                    hiddenNodeIdSet.Add(connectionList[i].TargetId);
                 }
             }
 
@@ -93,11 +93,11 @@ namespace SharpNeat.Graphs
             int [] srcIdArr = new int[count];
             int [] tgtIdArr = new int[count];
 
-            for(int i=0; i<connectionList.Count; i++) 
+            for(int i=0; i<connectionList.Count; i++)
             {
                 srcIdArr[i] = nodeIdMap.Map(connectionList[i].SourceId);
-                tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);    
-            }            
+                tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);
+            }
 
             return new ConnectionIdArrays(srcIdArr, tgtIdArr);
         }

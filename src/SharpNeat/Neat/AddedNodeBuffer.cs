@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -16,16 +16,16 @@ namespace SharpNeat.Neat
 {
     // ENHANCEMENT: Consider moving the most recently used structure to the head of the buffer to increase its lifespan.
     /// <summary>
-    /// Stores a history of previously added nodes, keyed by the connection that was split to create the node (i.e. 
+    /// Stores a history of previously added nodes, keyed by the connection that was split to create the node (i.e.
     /// the source and target node IDs of the connection).
     ///
-    /// Used when adding new nodes to check if an identical node (connection split) has been added to a genome elsewhere 
+    /// Used when adding new nodes to check if an identical node (connection split) has been added to a genome elsewhere
     /// in the population. This allows re-use of the same innovation ID for like nodes.
     /// </summary>
     public sealed class AddedNodeBuffer
     {
         readonly KeyedCircularBuffer<DirectedConnection,int> _buffer;
-        
+
         #region Constructor
 
         /// <summary>

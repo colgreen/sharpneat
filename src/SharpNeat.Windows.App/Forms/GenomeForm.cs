@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -45,8 +45,8 @@ namespace SharpNeat.Windows.App.Forms
         /// <summary>
         /// Gets or sets the genome to render.
         /// </summary>
-        public IGenome Genome 
-        { 
+        public IGenome Genome
+        {
             get => this.genomeCtrl.Genome;
             set => this.genomeCtrl.Genome = value;
         }

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -82,11 +82,11 @@ namespace SharpNeat.Neat
         #region Instance Fields
 
         /// <summary>
-        /// A reusable/working list. 
+        /// A reusable/working list.
         /// Stores the index of the species with the fittest genome, or multiple indexes when two or more species are tied at first place.
         /// </summary>
         private readonly List<int> _fittestSpeciesIndexList = new List<int>();
-        
+
         #endregion
 
         #region Constructors
@@ -100,7 +100,7 @@ namespace SharpNeat.Neat
         public NeatPopulation(
             MetaNeatGenome<T> metaNeatGenome,
             INeatGenomeBuilder<T> genomeBuilder,
-            List<NeatGenome<T>> genomeList) 
+            List<NeatGenome<T>> genomeList)
             : base(genomeList)
         {
             GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
@@ -109,7 +109,7 @@ namespace SharpNeat.Neat
             this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
             this.GenomeIdSeq = new Int32Sequence(maxGenomeId + 1);
             this.InnovationIdSeq = new Int32Sequence(maxInnovationId + 1);
-            this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);            
+            this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace SharpNeat.Neat
         {}
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="metaNeatGenome">NeatGenome metadata.</param>
         /// <param name="genomeBuilder">NeatGenome builder.</param>
@@ -204,7 +204,7 @@ namespace SharpNeat.Neat
 
             // Calculate NEAT specific and species based stats.
             CalcNeatPopulationStats(
-                fitnessComparer, rng, 
+                fitnessComparer, rng,
                 out double sumMeanFitness,
                 out double sumBestFitness,
                 out int bestGenomeIdx,
@@ -318,14 +318,14 @@ namespace SharpNeat.Neat
             // Select a population-wide best genome.
             // Notes.
             // We choose the population champion genome from the subset of genomes made up from the first genome in each species.
-            // Genome index zero in each species is the best genome in that species, and the species genomes are sorted with a 
+            // Genome index zero in each species is the best genome in that species, and the species genomes are sorted with a
             // perfectly unstable sort, therefore if there are multiple genomes in equal first place then the genome at index zero
             // is random within the set of first place (tied) genomes.
 
             // Ensure this reusable working list is empty/reset.
             _fittestSpeciesIndexList.Clear();
 
-            // Initialise the best fitness to the fitness of the best genome in species zero. 
+            // Initialise the best fitness to the fitness of the best genome in species zero.
             FitnessInfo bestFitnessInfo = speciesArr[0].GenomeList[0].FitnessInfo;
             _fittestSpeciesIndexList.Add(0);
 

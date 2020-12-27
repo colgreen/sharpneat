@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ namespace SharpNeat.Graphs.Acyclic
             in ConnectionIdArrays connIdArrays,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr,
-            T[] weightArr) 
+            T[] weightArr)
         : base(inputCount, outputCount, nodeCount, in connIdArrays, layerArr, outputNodeIdxArr)
         {
             this.WeightArray = weightArr;

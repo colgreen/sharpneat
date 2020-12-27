@@ -17,11 +17,11 @@ namespace SharpNeat.Tasks.Tests.FunctionRegression
             FuncRegressionUtils.Probe((x) => Math.Sin(x), psi, yArr);
 
             // Calc gradients.
-            double[] gradientArr = new double[sampleCount];    
+            double[] gradientArr = new double[sampleCount];
             FuncRegressionUtils.CalcGradients(psi, yArr, gradientArr);
 
             // Calc expected gradients (using simple non-vectorized logic).
-            double[] gradientArrExpected = new double[sampleCount]; 
+            double[] gradientArrExpected = new double[sampleCount];
             CalcGradients_IndependentImpl(psi, yArr, gradientArrExpected);
 
             // Compare results.

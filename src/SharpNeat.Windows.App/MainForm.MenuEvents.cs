@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ namespace SharpNeat.Windows.App
 
             // Save the genome.
             try
-            { 
+            {
                 NeatGenomeSaver<double>.Save(bestGenome, filepath);
             }
             catch(Exception ex)
@@ -82,7 +82,7 @@ namespace SharpNeat.Windows.App
             NeatGenome<double> bestGenome = _neatPop?.BestGenome;
             if(bestGenome is object)
             {
-                // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we 
+                // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we
                 // see a genome right away, regardless of whether the EA is running or not.
                 _bestGenomeForm.Genome = bestGenome;
             }
@@ -111,7 +111,7 @@ namespace SharpNeat.Windows.App
 
             // Show the form.
             _fitnessTimeSeriesForm.Show(this);
-        }  
+        }
 
         private void complexityBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -147,7 +147,7 @@ namespace SharpNeat.Windows.App
 
             // Show the form.
             _evalsPerSecTimeSeriesForm.Show(this);
-        }  
+        }
 
         private void specieSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
         {

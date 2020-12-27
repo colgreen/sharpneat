@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="validateAcyclic">Enable acyclic graph validation.</param>
         /// <returns>A new instance of <see cref="INeatGenomeBuilder{T}"/>.</returns>
         /// <remarks>
-        /// If the caller can guarantee that calles to Create() will provide acyclic graphs only when metaNeatGenome.IsAcyclic is true, then 
+        /// If the caller can guarantee that calles to Create() will provide acyclic graphs only when metaNeatGenome.IsAcyclic is true, then
         /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
         /// </remarks>
         public static INeatGenomeBuilder<T> Create(

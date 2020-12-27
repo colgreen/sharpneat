@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// </summary>
         /// <remarks>
         /// Default to 960 timesteps, or 960/16 = 60 seconds of clock time.</remarks>
-        public CartSinglePoleEvaluator() 
+        public CartSinglePoleEvaluator()
             : this(960)
         {}
 
@@ -76,7 +76,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // The evaluation consists of four separate trials, each with their own fitness score.
-            // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS 
+            // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS
             // score ensures that improvements in the worst scoring trial are prioritised (by evolution) over
             // a similar level of improvement in a better scoring trial. RMS also has the nice quality of giving
             // a maximum overall fitness that is equal to the max fitness for a single trial.
@@ -159,14 +159,14 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             }
 
             // Fitness is given by the combination of four fitness components:
-            // 1) Amount of simulation time that elapsed before the pole angle and/or cart position threshold was exceeded. Max score is 80 if the 
+            // 1) Amount of simulation time that elapsed before the pole angle and/or cart position threshold was exceeded. Max score is 80 if the
             //    end of the trial is reached without exceeding any thresholds.
             // 2) Cart position component. Max fitness of 1.0 for a cart position of zero (i.e. the cart is in the middle of the track range);
             // 3) Pole angle component. Max fitness of 9.5 for a pole angle of 0 degrees (vertical pole).
             // 4) Pole angular velocity component. Maximum fitness 9.5 for a zero velocity.
             //
             // Therefore the maximum possible fitness is 100.0, when the pole is perfectly stationary, and the cart is in the middle of the track.
-            float fitness = 
+            float fitness =
                   (timestep * _maxTimesteps_Reciprocal) * 80f
                 + (1f - (MathF.Min(MathF.Abs(state[0]), __TrackLengthHalf) * __TrackLengthHalf_Reciprocal))
                 + (1f - (MathF.Min(MathF.Abs(state[2]), __MaxPoleAngle) * __MaxPoleAngle_Reciprocal)) * 9.5f

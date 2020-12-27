@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ namespace SharpNeat.EvolutionAlgorithm
     /// <typeparam name="TGenome">Genome type.</typeparam>
     public abstract class Population<TGenome> where TGenome : IGenome
     {
-        #region Auto Properties 
+        #region Auto Properties
 
         /// <summary>
         /// The list of genomes that make up the population.

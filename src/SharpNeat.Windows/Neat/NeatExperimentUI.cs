@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@ namespace SharpNeat.Windows.Neat
     public class NeatExperimentUI : IExperimentUI
     {
         /// <summary>
-        /// Create a new Windows.Forms UI control for direct visualisation of the NEAT genomes, i.e. the showing the 
+        /// Create a new Windows.Forms UI control for direct visualisation of the NEAT genomes, i.e. the showing the
         /// neural net nodes and connections.
         /// </summary>
         /// <returns>A new instance of <see cref="GenomeControl"/>; or null if the experiment does not provide a genome control.</returns>

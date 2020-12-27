@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         readonly double[] _weightArr;
 
         // Array of layer information.
-        readonly LayerInfo[] _layerInfoArr;        
+        readonly LayerInfo[] _layerInfoArr;
 
         // Node activation function.
         readonly VecFnSegment<double> _activationFn;
@@ -126,7 +126,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// to OutputSignalArray.
         /// </summary>
         public void Activate()
-        {   
+        {
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
@@ -147,7 +147,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx <= layerInfo.EndConnectionIdx - width; conIdx += width) 
+                for(; conIdx <= layerInfo.EndConnectionIdx - width; conIdx += width)
                 {
                     // Load source node output values into a vector.
                     for(int k=0; k < width; k++) {
@@ -160,7 +160,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
 
                     // Multiply connection source inputs and connection weights.
                     var conOutputVec = conInputVec * weightVec;
-                    
+
                     // Save/accumulate connection output values onto the connection target nodes.
                     for(int k=0; k < width; k++) {
                         _activationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];

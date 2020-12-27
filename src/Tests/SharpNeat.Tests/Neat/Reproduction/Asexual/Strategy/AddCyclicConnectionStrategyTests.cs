@@ -30,16 +30,16 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
-            
+
             const int loops = 1000;
             int nullResponseCount = 0;
 
             for(int i=0; i < loops; i++)
             {
                 var childGenome = strategy.CreateChildGenome(genome, rng);
-                
+
                 // The strategy may return null if no appropriately connection could be found to add.
-                if(childGenome is null) 
+                if(childGenome is null)
                 {
                     nullResponseCount++;
                     continue;

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ namespace SharpNeat.BlackBox
         public MappingVector(T[] innerArray, int[] map)
         {
             // Note. This test is a debug assert to allow for checking of code validity in debug builds,
-            // and avoiding the cost of the test in release builds. 
+            // and avoiding the cost of the test in release builds.
             Debug.Assert(ValidateMapIndexes(innerArray, map));
 
             _innerArr = innerArray;
@@ -46,21 +46,21 @@ namespace SharpNeat.BlackBox
         /// Gets or sets the single value at the specified index.
         /// </summary>
         /// <remarks>
-        /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance, 
-        /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of 
+        /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance,
+        /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of
         /// the test in release builds was deemed a reasonable choice here.
         /// </remarks>
         public T this[int index]
         {
-            get 
+            get
             {
                 Debug.Assert(index > -1 && index < _map.Length);
-                return _innerArr[_map[index]]; 
+                return _innerArr[_map[index]];
             }
             set
             {
                 Debug.Assert(index > -1 && index < _map.Length);
-                _innerArr[_map[index]] = value; 
+                _innerArr[_map[index]] = value;
             }
         }
 
@@ -74,14 +74,14 @@ namespace SharpNeat.BlackBox
         #region Public Methods
 
         /// <summary>
-        /// Copies all elements from the current MappingVector to the specified target array starting 
-        /// at the specified target Array index. 
+        /// Copies all elements from the current MappingVector to the specified target array starting
+        /// at the specified target Array index.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
         public void CopyTo(T[] targetArray, int targetIndex)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || targetIndex + _map.Length > targetArray.Length) {
                 throw new ArgumentException("Invalid copy operation.");
             }
@@ -93,16 +93,16 @@ namespace SharpNeat.BlackBox
 
         /// <summary>
         /// Copies <paramref name="length"/> elements from the current MappingVector to the specified target
-        /// array starting at the specified target Array index. 
+        /// array starting at the specified target Array index.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which storing begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || length < 0
-                || length > _map.Length 
+                || length > _map.Length
                 || targetIndex + length > targetArray.Length) {
                 throw new ArgumentException("Invalid copy operation.");
             }
@@ -123,8 +123,8 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
-            if(    targetIndex < 0 
-                || sourceIndex < 0 
+            if(    targetIndex < 0
+                || sourceIndex < 0
                 || length < 0
                 || targetIndex + length > targetArray.Length
                 || sourceIndex + length > _map.Length) {
@@ -144,7 +144,7 @@ namespace SharpNeat.BlackBox
         /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || targetIndex + sourceArray.Length > _map.Length) {
                 throw new ArgumentException("Invalid copy operation.");
             }
@@ -155,7 +155,7 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current MappingVector 
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current MappingVector
         /// starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
@@ -163,7 +163,7 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            if(    targetIndex < 0 
+            if(    targetIndex < 0
                 || length < 0
                 || length > sourceArray.Length
                 || targetIndex + length > _map.Length) {
@@ -186,7 +186,7 @@ namespace SharpNeat.BlackBox
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
             if(    sourceIndex < 0
-                || targetIndex < 0 
+                || targetIndex < 0
                 || length < 0
                 || sourceIndex + length > sourceArray.Length
                 || targetIndex + length > _map.Length) {

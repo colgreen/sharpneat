@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@ using Redzen.Random;
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
 {
     /// <summary>
-    /// Strategy for selecting a sub-set of items from a superset. 
+    /// Strategy for selecting a sub-set of items from a superset.
     /// The number of items to select is a fixed proportion of the superset size.
     /// </summary>
     public sealed class ProportionSubsetSelectionStrategy : ISubsetSelectionStrategy
@@ -40,7 +40,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection
         #endregion
 
         #region Public Methods
-        
+
         /// <summary>
         /// Select a subset of items from a superset of a given size.
         /// </summary>

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -54,7 +54,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Copy constructor.
         /// </summary>
         public NeatReproductionAsexualSettings(NeatReproductionAsexualSettings copyFrom)
-        { 
+        {
             this.ConnectionWeightMutationProbability = copyFrom.ConnectionWeightMutationProbability;
             this.AddNodeMutationProbability = copyFrom.AddNodeMutationProbability;
             this.AddConnectionMutationProbability = copyFrom.AddConnectionMutationProbability;
@@ -66,7 +66,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         #region Public Methods
 
         /// <summary>
-        /// Creates a new settings object based on the current settings object but modified to be suitable for use when 
+        /// Creates a new settings object based on the current settings object but modified to be suitable for use when
         /// the evolution algorithm is in simplifying mode.
         /// </summary>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             // Invoke the copy constructor with the current object.
             //
             // Note. Currently all of the settings are modified, therefore it's not necessary to use the copy constructor
-            // however, if additional settings are added to the settings class then they will be handled automatically here 
+            // however, if additional settings are added to the settings class then they will be handled automatically here
             // without having to update this code, so this is a slightly safer approach.
             var settings = new NeatReproductionAsexualSettings(this)
             {
@@ -91,7 +91,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Validate the settings, and throw an exception if not valid.
         /// </summary>
         /// <remarks>
-        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to 
+        /// As a 'simple' collection of properties there is no construction time check that can be performed, therefore this method is supplied to
         /// allow consumers of a settings object to validate it before using it.
         /// </remarks>
         public void Validate()

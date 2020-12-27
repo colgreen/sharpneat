@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -15,14 +15,14 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// Scaled Exponential Linear Unit (SELU).
-    /// 
+    ///
     /// From:
     ///     Self-Normalizing Neural Networks
     ///     https://arxiv.org/abs/1706.02515
-    /// 
+    ///
     /// Original source code (including parameter values):
     ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
-    ///    
+    ///
     /// </summary>
     public sealed class ScaledELU : IActivationFunction<double>
     {
@@ -36,7 +36,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             double y;
             if(x >= 0) {
                 y = scale * x;
-            } 
+            }
             else {
                 y = scale * (alpha * Math.Exp(x) - alpha);
             }

@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ using SharpNeat.Neat.Speciation;
 namespace SharpNeat.Neat
 {
     /// <summary>
-    /// Static method(s) for calculating species target size allocations. 
+    /// Static method(s) for calculating species target size allocations.
     /// </summary>
     /// <typeparam name="T">Neural net numeric data type.</typeparam>
     internal static class SpeciesAllocationCalcs<T> where T : struct
@@ -37,8 +37,8 @@ namespace SharpNeat.Neat
             NeatPopulation<T> pop,
             NeatEvolutionAlgorithmSettings eaSettings,
             IRandomSource rng)
-        {            
-            // Calculate the new target size of each species using fitness sharing. 
+        {
+            // Calculate the new target size of each species using fitness sharing.
             UpdateSpeciesTargetSizes(pop, rng);
 
             // Calculate elite, selection and offspring counts, per species.
@@ -55,9 +55,9 @@ namespace SharpNeat.Neat
             double totalMeanFitness = pop.NeatPopulationStats.SumSpeciesMeanFitness;
             int totalTargetSizeInt = 0;
 
-            // Handle specific case where all genomes/species have a zero fitness. 
+            // Handle specific case where all genomes/species have a zero fitness.
             // Assign all species an equal targetSize.
-            if(0.0 == totalMeanFitness) 
+            if(0.0 == totalMeanFitness)
             {
                 totalTargetSizeInt = CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(pop, rng);
             }
@@ -86,7 +86,7 @@ namespace SharpNeat.Neat
         }
 
         /// <summary>
-        /// Handle specific case where all genomes/species have a zero fitness. 
+        /// Handle specific case where all genomes/species have a zero fitness.
         /// </summary>
         private static int CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(NeatPopulation<T> pop, IRandomSource rng)
         {
@@ -99,7 +99,7 @@ namespace SharpNeat.Neat
             // required target population size due to rounding of each real valued target size.
             int totalTargetSizeInt = 0;
 
-            for(int i=0; i < speciesArr.Length; i++) 
+            for(int i=0; i < speciesArr.Length; i++)
             {
                 SpeciesStats stats = speciesArr[i].Stats;
                 stats.TargetSizeReal = targetSizeReal;
@@ -124,12 +124,12 @@ namespace SharpNeat.Neat
             int totalTargetSizeInt,
             IRandomSource rng)
         {
-            // Discretized target sizes may total up to a value that is not equal to the required population size. 
+            // Discretized target sizes may total up to a value that is not equal to the required population size.
             // Here we check this and if the total does not match the required population size then we adjust the
             // species' targetSizeInt values to compensate for the difference.
             int targetSizeDeltaInt = totalTargetSizeInt - pop.PopulationSize;
 
-            if(targetSizeDeltaInt < 0) 
+            if(targetSizeDeltaInt < 0)
             {
                 // Target size is too low; adjust up.
                 AdjustSpeciesTargetSizesUp(pop.SpeciesArray!, targetSizeDeltaInt, rng);
@@ -151,7 +151,7 @@ namespace SharpNeat.Neat
             Species<T>[] speciesArr,
             int targetSizeDeltaInt,
             IRandomSource rng)
-        { 
+        {
             // We are short of the required populationSize; add the required number of additional allocations to compensate.
             while(targetSizeDeltaInt < 0)
             {
@@ -164,8 +164,8 @@ namespace SharpNeat.Neat
                     }
                 }
 
-                // If we have looped through all species, but the number of target allocations is still too low, 
-                // then go through species loop again. 
+                // If we have looped through all species, but the number of target allocations is still too low,
+                // then go through species loop again.
                 // This is probably a rare execution path, but it's theoretically possible so we cover it.
             }
         }
@@ -193,8 +193,8 @@ namespace SharpNeat.Neat
                     }
                 }
 
-                // If we have looped through all species, but the number of target allocations is still too high, 
-                // then go through species loop again. 
+                // If we have looped through all species, but the number of target allocations is still too high,
+                // then go through species loop again.
                 // This is probably a rare execution path, but it's theoretically possible so we cover it.
             }
         }
@@ -215,7 +215,7 @@ namespace SharpNeat.Neat
             speciesArr[bestGenomeSpeciesIdx].Stats.TargetSizeInt++;
 
             // Adjust down the target size of one of the other species to compensate.
-            // Pick a species at random (but not the champ species). Note that this may result in a species with a zero 
+            // Pick a species at random (but not the champ species). Note that this may result in a species with a zero
             // target size, this is OK at this stage. We handle allocations of zero elsewhere.
 
             // Create an array of shuffled indexes to select from, i.e. all of the species except for the one with the best genome in it.
@@ -234,7 +234,7 @@ namespace SharpNeat.Neat
             bool success = false;
             foreach(int speciesIdx in speciesIdxArr)
             {
-                if(speciesArr[speciesIdx].Stats.TargetSizeInt > 0) 
+                if(speciesArr[speciesIdx].Stats.TargetSizeInt > 0)
                 {
                     speciesArr[speciesIdx].Stats.TargetSizeInt--;
                     success = true;
@@ -283,7 +283,7 @@ namespace SharpNeat.Neat
             SpeciesStats stats = species.Stats;
 
             // Special case - zero target size.
-            if(stats.TargetSizeInt == 0) 
+            if(stats.TargetSizeInt == 0)
             {
                 Debug.Assert(!isBestGenomeSpecies, "Zero target size assigned to specie that contains the best genome.");
                 stats.EliteSizeInt = 0;
@@ -299,11 +299,11 @@ namespace SharpNeat.Neat
             double eliteSizeReal = species.GenomeList.Count * eaSettings.ElitismProportion;
             int eliteSizeInt = (int)NumericsUtils.ProbabilisticRound(eliteSizeReal, rng);
 
-            // Ensure eliteSizeInt is no larger than the current target size. (I.e. the value was 
+            // Ensure eliteSizeInt is no larger than the current target size. (I.e. the value was
             // calculated as a proportion of the current size, not the new target size).
             stats.EliteSizeInt = Math.Min(eliteSizeInt, stats.TargetSizeInt);
 
-            // Special case: ensure the species with the best genome preserves that genome. 
+            // Special case: ensure the species with the best genome preserves that genome.
             // Note. This is done even for a target size of one, which would mean that no offspring are
             // produced from the best genome, apart from the (usually small) chance of a cross-species mating.
             if(isBestGenomeSpecies && stats.EliteSizeInt == 0) {
@@ -319,10 +319,10 @@ namespace SharpNeat.Neat
             stats.OffspringAsexualCount = (int)NumericsUtils.ProbabilisticRound(offspringAsexualCountReal, rng);
             stats.OffspringSexualCount = stats.OffspringCount - stats.OffspringAsexualCount;
 
-            // Calculate the selectionSize. The number of the species' fittest genomes that are selected from 
+            // Calculate the selectionSize. The number of the species' fittest genomes that are selected from
             // to create offspring.
             // We ensure this is at least one; if TargetSizeInt is zero then it doesn't matter because no genomes will be
-            // selected from this species to produce offspring, except for cross-species mating, hence the minimum of one is 
+            // selected from this species to produce offspring, except for cross-species mating, hence the minimum of one is
             // a useful general approach.
             double selectionSizeReal = species.GenomeList.Count * eaSettings.SelectionProportion;
             stats.SelectionSizeInt = Math.Max(1, (int)NumericsUtils.ProbabilisticRound(selectionSizeReal, rng));

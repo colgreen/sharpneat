@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
                 var parentIdSet = GetNodeIdSet(genome1);
                 parentIdSet.IntersectWith(GetNodeIdSet(genome2));
 
-                Assert.True(childNodeIdSet.IsSupersetOf(parentIdSet));                
+                Assert.True(childNodeIdSet.IsSupersetOf(parentIdSet));
             }
         }
     }

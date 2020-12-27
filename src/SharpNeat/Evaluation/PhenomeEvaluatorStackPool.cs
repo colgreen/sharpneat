@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -47,14 +47,14 @@ namespace SharpNeat.Evaluation
 
             // Create the stack with the spare capacity; to avoid re-alloc overhead if we require additional capacity.
             _evaluatorStack = new LightweightStack<IPhenomeEvaluator<TPhenome>>(initialPoolSize * 2);
-            
+
             // Pre-populate with evaluators.
             for(int i=0; i < initialPoolSize; i++) {
                 _evaluatorStack.Push(phenomeEvaluationScheme.CreateEvaluator());
             }
 
             // Enable thread tracking only if the debugger is attached; it adds non-trivial overhead to Enter/Exit.
-            _spinLock = new SpinLock(Debugger.IsAttached); 
+            _spinLock = new SpinLock(Debugger.IsAttached);
         }
 
         #endregion

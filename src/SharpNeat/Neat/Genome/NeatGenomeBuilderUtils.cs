@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ namespace SharpNeat.Neat.Genome
             where T : struct
         {
             // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
-            // Notes. 
+            // Notes.
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.Genome
             int[] srcIdArr = new int[count];
             int[] tgtIdArr = new int[count];
 
-            for(int i=0; i < count; i++) 
+            for(int i=0; i < count; i++)
             {
                 srcIdArr[i] = nodeIdMap.Map(connArr[i].SourceId);
                 tgtIdArr[i] = nodeIdMap.Map(connArr[i].TargetId);

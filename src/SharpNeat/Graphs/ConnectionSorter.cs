@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,14 +17,14 @@ namespace SharpNeat.Graphs
 
     /// <summary>
     /// A variant on ArraySortHelper in the core framework:
-    /// 
+    ///
     ///    https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/ArraySortHelper.cs
-    ///    
-    /// This version is customised for sorting network connections. I.e. sort order is based on both source and target node IDs 
-    /// (which are held in separate arrays), and a separate array of weights is re-ordered to keep the weights at the same array 
+    ///
+    /// This version is customised for sorting network connections. I.e. sort order is based on both source and target node IDs
+    /// (which are held in separate arrays), and a separate array of weights is re-ordered to keep the weights at the same array
     /// index as their respective source and target IDs.
-    /// 
-    /// This functionality can be achieved by using the various sort() methods in the core framework, but less efficiently than 
+    ///
+    /// This functionality can be achieved by using the various sort() methods in the core framework, but less efficiently than
     /// by this customised class (in terms of both speed, RAM allocations and thus GC overhead).
     /// </summary>
     public sealed class ConnectionSorter<T>
@@ -37,7 +37,7 @@ namespace SharpNeat.Graphs
         const int __introsortSizeThreshold = 17;
 
         #endregion
-        
+
         #region Public Static Methods
 
         /// <summary>
@@ -86,12 +86,12 @@ namespace SharpNeat.Graphs
                     if (partitionSize == 1) {
                         return;
                     }
-                    if (partitionSize == 2) 
+                    if (partitionSize == 2)
                     {
                         SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
                         return;
                     }
-                    if (partitionSize == 3) 
+                    if (partitionSize == 3)
                     {
                         SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi - 1);
                         SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi);
@@ -118,7 +118,7 @@ namespace SharpNeat.Graphs
         }
 
         private static int PickPivotAndPartition(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int lo, int hi)
-        {   
+        {
             Debug.Assert(lo >= 0);
             Debug.Assert(hi > lo);
             Debug.Assert(hi < srcIdArr.Length);
@@ -171,8 +171,8 @@ namespace SharpNeat.Graphs
 
                 T w = secondaryArr[a];
                 secondaryArr[a] = secondaryArr[b];
-                secondaryArr[b] = w;        
-            }   
+                secondaryArr[b] = w;
+            }
         }
 
         private static void Swap(int[] srcIdArr, int[] tgtIdArr, T[] secondaryArr, int i, int j)
@@ -207,7 +207,7 @@ namespace SharpNeat.Graphs
             int srcId;
             int tgtId;
             T weight;
-            
+
             for (i = lo; i < hi; i++)
             {
                 j = i;

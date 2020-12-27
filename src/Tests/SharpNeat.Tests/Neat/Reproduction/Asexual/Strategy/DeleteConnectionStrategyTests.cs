@@ -29,7 +29,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             for(int i=0; i < 1000; i++)
             {
                 var childGenome = strategy.CreateChildGenome(genome, rng);
-                
+
                 // The child genome should have one less connection than the parent.
                 Assert.Equal(genome.ConnectionGenes.Length - 1, childGenome.ConnectionGenes.Length);
 

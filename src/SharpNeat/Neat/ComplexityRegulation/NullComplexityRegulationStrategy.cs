@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -14,7 +14,7 @@ using SharpNeat.EvolutionAlgorithm;
 namespace SharpNeat.Neat.ComplexityRegulation
 {
     /// <summary>
-    /// A complexity regulation strategy that remains fixed in complexifying mode throughout 
+    /// A complexity regulation strategy that remains fixed in complexifying mode throughout
     /// the lifetime of the evolution algorithm.
     /// </summary>
     public sealed class NullComplexityRegulationStrategy : IComplexityRegulationStrategy

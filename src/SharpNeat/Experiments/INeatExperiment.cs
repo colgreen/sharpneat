@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -70,7 +70,7 @@ namespace SharpNeat.Experiments
         /// <summary>
         /// Name of the neuron activation function to use in evolved networks.
         /// </summary>
-        string ActivationFnName { get; set; } 
+        string ActivationFnName { get; set; }
 
         /// <summary>
         /// The <see cref="NeatEvolutionAlgorithmSettings"/> to be used for the experiment.
@@ -86,7 +86,7 @@ namespace SharpNeat.Experiments
         /// The sexual reproduction settings to use for the experiment.
         /// </summary>
         NeatReproductionSexualSettings ReproductionSexualSettings { get; }
-  
+
         /// <summary>
         /// The population size to use for the experiment.
         /// </summary>
@@ -94,14 +94,14 @@ namespace SharpNeat.Experiments
 
         /// <summary>
         /// The initial interconnections proportion. This is the proportion of possible
-        /// direct connections from the input nodes to the output nodes that are to be created in 
-        /// each initial genome. The connections to create are selected at random (using a 
+        /// direct connections from the input nodes to the output nodes that are to be created in
+        /// each initial genome. The connections to create are selected at random (using a
         /// select-without-replacement method).
         /// </summary>
         double InitialInterconnectionsProportion { get; set; }
 
         /// <summary>
-        /// The maximum connection weight scale/magnitude. 
+        /// The maximum connection weight scale/magnitude.
         /// E.g. a value of 5 defines a weight range of -5 to 5.
         /// The weight range is strictly enforced, e.g. when creating new connections and mutating existing ones.
         /// </summary>
@@ -119,16 +119,16 @@ namespace SharpNeat.Experiments
         int DegreeOfParallelism { get; set; }
 
         /// <summary>
-        /// Enable use of hardware accelerated neural network implementations, i.e. alternate implementations that use 
+        /// Enable use of hardware accelerated neural network implementations, i.e. alternate implementations that use
         /// CPU SIMD/vector instructions.
         /// </summary>
         /// <remarks>
         /// The vectorized code is provided by alternative classes, and these classes tend to be more complex than their
         /// 'baseline' non-vectorized equivalents. Therefore when debugging a problem it is often useful to disable use
         /// of all vectorized code so as to rule out that code as the source of a problem/bug.
-        /// 
+        ///
         /// Furthermore, enabling hardware acceleration has been observed to often result in slower execution speed,
-        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not 
+        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not
         /// conducive to the application of vectorized code.
         /// </remarks>
         bool EnableHardwareAcceleratedNeuralNets { get; set; }
@@ -141,9 +141,9 @@ namespace SharpNeat.Experiments
         /// The vectorized code is provided by alternative classes, and these classes tend to be more complex than their
         /// 'baseline' non-vectorized equivalents. Therefore when debugging a problem it is often useful to disable use
         /// of all vectorized code so as to rule out that code as the source of a problem/bug.
-        /// 
+        ///
         /// Furthermore, enabling hardware acceleration has been observed to often result in slower execution speed,
-        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not 
+        /// probably because NEAT deals with non-homogeneous, irregular neural network structures that are generally not
         /// conducive to the application of vectorized code.
         /// </remarks>
         bool EnableHardwareAcceleratedActivationFunctions { get; set; }

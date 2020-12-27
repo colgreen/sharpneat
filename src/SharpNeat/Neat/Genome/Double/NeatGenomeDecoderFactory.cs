@@ -21,7 +21,7 @@ namespace SharpNeat.Neat.Genome.Double
         {
             if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
             {
-                return new Vectorized.NeatGenomeDecoderCyclic(cyclesPerActivation);    
+                return new Vectorized.NeatGenomeDecoderCyclic(cyclesPerActivation);
             }
             // else
             return new NeatGenomeDecoderCyclic(cyclesPerActivation);
@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.Genome.Double
         {
             if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
             {
-                return new Vectorized.NeatGenomeDecoderAcyclic();    
+                return new Vectorized.NeatGenomeDecoderAcyclic();
             }
             // else
             return new NeatGenomeDecoderAcyclic();

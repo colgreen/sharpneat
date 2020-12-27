@@ -84,7 +84,7 @@ namespace SharpNeat.Neat.Speciation.Tests
         }
 
         public static void ValidationTests(
-            Species<double>[] speciesArr, 
+            Species<double>[] speciesArr,
             IDistanceMetric<double> distanceMetric,
             int speciesCountExpected,
             List<NeatGenome<double>> fullGenomeList,
@@ -118,7 +118,7 @@ namespace SharpNeat.Neat.Speciation.Tests
         }
 
         #endregion
-        
+
         #region Private Static Methods [Utility Methods]
 
         private static NeatPopulation<double> CreateNeatPopulation(

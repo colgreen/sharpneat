@@ -32,7 +32,7 @@ namespace SharpNeat.Neat.Genome.Tests
             connGenes[3] =   (3, 6, 0.4);
             connGenes[4] =   (4, 7, 0.5);
             connGenes[5] =   (5, 8, 0.6);
- 
+
             connGenes[6] =   (6, 9, 0.7);
             connGenes[7] =   (7, 10, 0.8);
             connGenes[8] =   (8, 11, 0.9);
@@ -56,7 +56,7 @@ namespace SharpNeat.Neat.Genome.Tests
             connGenes[3] =   (3, 6, 3.6);
             connGenes[4] =   (4, 7, 4.7);
             connGenes[5] =   (5, 8, 5.8);
- 
+
             connGenes[6] =   (6, 9, 6.9);
             connGenes[7] =   (7, 10, 7.1);
             connGenes[8] =   (8, 11, 8.11);

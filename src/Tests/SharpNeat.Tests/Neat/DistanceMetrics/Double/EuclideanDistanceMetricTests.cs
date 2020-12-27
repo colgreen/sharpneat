@@ -65,7 +65,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double.Tests
 
             Assert.True(distanceMetric.TestDistance(connGenes2, connGenes1, 5.0));
             Assert.True(distanceMetric.TestDistance(connGenes2, connGenes1, 0.001));
-            Assert.False(distanceMetric.TestDistance(connGenes2, connGenes1, 0.0));            
+            Assert.False(distanceMetric.TestDistance(connGenes2, connGenes1, 0.0));
         }
 
         [Fact]

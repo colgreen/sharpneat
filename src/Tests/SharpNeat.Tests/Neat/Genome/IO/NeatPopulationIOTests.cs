@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
                 Directory.Delete(parentPath, true);
             }
 
-            // Create an empty parent folder to save populations into.            
+            // Create an empty parent folder to save populations into.
             Directory.CreateDirectory(parentPath);
 
             // Save the population to the unit test output folder.
@@ -52,7 +52,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
                 Directory.Delete(parentPath, true);
             }
 
-            // Create an empty parent folder to save populations into.            
+            // Create an empty parent folder to save populations into.
             Directory.CreateDirectory(parentPath);
 
             // Save the population to the unit test output folder.

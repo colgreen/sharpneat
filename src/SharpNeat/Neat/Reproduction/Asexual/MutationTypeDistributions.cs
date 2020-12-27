@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -14,7 +14,7 @@ using Redzen.Numerics.Distributions.Double;
 namespace SharpNeat.Neat.Reproduction.Asexual
 {
     /// <summary>
-    /// Container for <see cref="DiscreteDistribution"/> instances that represent discrete probability distributions 
+    /// Container for <see cref="DiscreteDistribution"/> instances that represent discrete probability distributions
     /// over the set of possible genome mutation types.
     /// </summary>
     public sealed class MutationTypeDistributions
@@ -59,9 +59,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         private static DiscreteDistribution CreateMutationTypeDiscreteDistribution(
             NeatReproductionAsexualSettings settings)
         {
-            double[] probabilities = new double[] 
+            double[] probabilities = new double[]
                 {
-                    settings.ConnectionWeightMutationProbability, 
+                    settings.ConnectionWeightMutationProbability,
                     settings.AddNodeMutationProbability,
                     settings.AddConnectionMutationProbability,
                     settings.DeleteConnectionMutationProbability
@@ -71,7 +71,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
 
         /// <summary>
         /// Create a new instance of <see cref="DiscreteDistribution"/> that represents a subset of the possible
-        /// genome mutation types, and their relative probabilities. The subset consists of mutation types that 
+        /// genome mutation types, and their relative probabilities. The subset consists of mutation types that
         /// are non-destructive (i.e. weight mutation, add node mutation, add connection mutation).
         /// </summary>
         /// <param name="settings">Asexual reproduction settings.</param>
@@ -79,9 +79,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         private static DiscreteDistribution CreateMutationTypeDiscreteDistribution_NonDestructive(
             NeatReproductionAsexualSettings settings)
         {
-            double[] probabilities = new double[] 
+            double[] probabilities = new double[]
                 {
-                    settings.ConnectionWeightMutationProbability, 
+                    settings.ConnectionWeightMutationProbability,
                     settings.AddNodeMutationProbability,
                     settings.AddConnectionMutationProbability
                 };

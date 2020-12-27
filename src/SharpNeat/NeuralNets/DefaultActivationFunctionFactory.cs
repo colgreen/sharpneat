@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@ namespace SharpNeat.NeuralNets
 {
     /// <summary>
     /// Default implementation of <see cref="IActivationFunctionFactory{T}"/>.
-    /// 
+    ///
     /// A factory class for obtaining instances of <see cref="IActivationFunction{T}"/>.
     /// </summary>
     /// <typeparam name="T">Neural net signal and weight data type.</typeparam>
@@ -72,18 +72,18 @@ namespace SharpNeat.NeuralNets
 
                 // No entry in the cache, attempt to create a new instance.
                 if(_enableHardwareAcceleration && Vector.IsHardwareAccelerated)
-                {   
+                {
                     // Attempt to get a hardware accelerated instance.
                     actFn = TryCreateVectorized(name);
                 }
 
                 if(actFn is null)
-                {   
+                {
                     // Attempt to get a non hardware-accelerated instance.
                     actFn = TryCreate(name);
                 }
 
-                // TODO: Add ability to register custom functions not defined in the core sharpneat assembly; as per 
+                // TODO: Add ability to register custom functions not defined in the core sharpneat assembly; as per
                 // pull request https://github.com/colgreen/sharpneat/pull/40
                 if(actFn is object)
                 {

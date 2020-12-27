@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.Speciation
         where TWeight : struct
     {
         /// <summary>
-        /// Initialise a new set of species based on the provided population of genomes and the 
+        /// Initialise a new set of species based on the provided population of genomes and the
         /// speciation method in use.
         /// </summary>
         /// <param name="genomeList">The genomes to speciate.</param>

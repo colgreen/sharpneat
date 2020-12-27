@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -26,30 +26,30 @@ namespace SharpNeat.Drawing.Graph
     /// Lay out nodes based on their depth within the graph/network.
     ///
     /// The nodes of the graph are assigned a node depth. All nodes at the same depth are defined as being in the same layer,
-    /// and the nodes of each layer are positioned in a horizontal row, with the depth zero row being placed at the top of 
+    /// and the nodes of each layer are positioned in a horizontal row, with the depth zero row being placed at the top of
     /// the layout area, and the final layer being positioned at the bottom.
-    /// 
-    /// 
+    ///
+    ///
     /// === Input and Output Layers ===
     /// The actual layers used are slightly different to the scheme described in the summary. The input nodes and output nodes
-    /// of a graph are always laid out in their own rows at the top and bottom of the layout area, respectively. Hennce, any 
+    /// of a graph are always laid out in their own rows at the top and bottom of the layout area, respectively. Hennce, any
     /// hidden nodes defined as being at depth zero (i.e. no incoming connections) are actually positioned in the second layer.
-    /// Likewise, hidden nodes with depths greather than or equal to any node in the output layer are psoitioned in he layer 
+    /// Likewise, hidden nodes with depths greather than or equal to any node in the output layer are psoitioned in he layer
     /// before the output layer.
-    /// 
-    /// Essentially there are two 'virtual rows' for input and outputs, and the hidden nodes are arranged in between based on 
+    ///
+    /// Essentially there are two 'virtual rows' for input and outputs, and the hidden nodes are arranged in between based on
     /// their node depth.
-    /// 
-    /// 
+    ///
+    ///
     /// === Node Depths ===
     /// For acyclic graphs the node depths are already determined and stored in the DirectedGraph data structure (specifically in
-    /// the the subclass DirectedGraphAcyclic). This depth info is necessary for using the acyclic graphs (i.e. propagating a 
+    /// the the subclass DirectedGraphAcyclic). This depth info is necessary for using the acyclic graphs (i.e. propagating a
     /// signal through the graph, from the input nodes through to he output nodes) and is based on the maximim number of hops
     /// to a given node, starting from the input layer.
-    /// 
+    ///
     /// For cyclic graphs this layout scheme calculates node depths using a scheme similar to that used for the acyclic graphs,
     /// but with modifications to handle cyclic connections. In this scheme the depth of nodes with multiple incoming connections,
-    /// some or all of which may be part of a cycle, is based on the average number of hops to that node. This is essentially a 
+    /// some or all of which may be part of a cycle, is based on the average number of hops to that node. This is essentially a
     /// heuristic that aims to place nodes 'naturally', i.e. with connections mostly in nearby layers (on average).
     /// </remarks>
     public sealed class DepthLayoutScheme : IGraphLayoutScheme
@@ -131,14 +131,14 @@ namespace SharpNeat.Drawing.Graph
             // my_top     Vertical (y-axis) margin (top)
             // my_bottom  Vertical (y-axis) margin (bottom)
             // mx         Horizontal (x-axis) margin (left/right)
-            // 
+            //
             // g    Vertical distance between adjacent horizontal layers.
             // u    Layout width, minus margins, i.e. the horizontal range that nodes in each layer can occupy.
             // v    Horizontal distance between adajacent nodes in a horizontal layer.
 
             // Calculate top/bottom margins.
             // Each margin consiosts of a fixed amount, plus a proportional component based on teh height of the layout area.
-            // The fixed amounts are different because the bottom layer of nodes have connections drawn below them, hence 
+            // The fixed amounts are different because the bottom layer of nodes have connections drawn below them, hence
             // additional margin is required there.
             int my_prop = (int)(layoutArea.Height * 0.05f);
             int my_top = 5 + my_prop;
@@ -149,7 +149,7 @@ namespace SharpNeat.Drawing.Graph
             int mx_prop = (int)(layoutArea.Width * 0.02f);
             int mx = 20 + mx_prop;
             int mx2 = 2 * mx;
-            
+
             // Calculate g, i.e. the vertical distance between adjacent horizontal layers.
             int layerCount = nodesByLayer.Length;
             int g = (int)MathF.Round((layoutArea.Height - my_total) / (float)(layerCount - 1));
@@ -170,8 +170,8 @@ namespace SharpNeat.Drawing.Graph
                 // Define a running x coordinate for positioning of nodes horizontally within the current layer.
                 float xcurr = mx + (v * 0.5f);
 
-                // Loop nodes in layer, assigning an (x,y) position to each.                
-                for(int i=0; i < n; i++, xcurr += v) 
+                // Loop nodes in layer, assigning an (x,y) position to each.
+                for(int i=0; i < n; i++, xcurr += v)
                 {
                     int nodeIdx = nodeList[i];
                     nodePosByIdx[nodeIdx] = new Point((int)xcurr, ycurr);
@@ -232,7 +232,7 @@ namespace SharpNeat.Drawing.Graph
             int[] nodeLayerByIdx = new int[nodeCount];
 
             // Use a restricted scope for the loop variables.
-            { 
+            {
                 // The first layer is layer 1; layer zero will be used later to represent input nodes only.
                 int layerIdx = 1;
                 int nodeIdx = 0;
@@ -277,7 +277,7 @@ namespace SharpNeat.Drawing.Graph
             GraphDepthInfo depthInfo = cyclicDepthAnalysis.CalculateNodeDepths(digraph);
             int[] nodeLayerByIdx = depthInfo._nodeDepthArr;
 
-            // Move all nodes up one layer, such that layer 1 is the first/top layer; layer zero will be 
+            // Move all nodes up one layer, such that layer 1 is the first/top layer; layer zero will be
             // used later to represent input nodes only.
             for(int i=digraph.InputCount; i < nodeLayerByIdx.Length; i++) {
                 nodeLayerByIdx[i]++;
@@ -299,7 +299,7 @@ namespace SharpNeat.Drawing.Graph
 
             // Remove empty layers (if any), by adjusting the depth values in nodeLayerByIdx.
             RemoveEmptyLayers(nodeLayerByIdx, outputLayerIdx + 1);
-            
+
             // Return the constructed node layer lookup table.
             return nodeLayerByIdx;
         }

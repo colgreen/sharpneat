@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ namespace SharpNeat.Neat
 
         readonly IRandomSource _rng;
         readonly Int32Sequence _genomeIdSeq;
-        readonly Int32Sequence _innovationIdSeq;        
+        readonly Int32Sequence _innovationIdSeq;
         readonly IStatelessSampler<T> _connWeightDist;
 
         #endregion
@@ -62,7 +62,7 @@ namespace SharpNeat.Neat
             // Thus, because all of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are always fixed.
             int firstOutputNodeId = inputCount;
 
-            for(int srcId=0, i=0; srcId < inputCount; srcId++) {    
+            for(int srcId=0, i=0; srcId < inputCount; srcId++) {
                 for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++) {
                     _connectionDefArr[i++] = new DirectedConnection(srcId, firstOutputNodeId + tgtIdx);
                 }
@@ -96,7 +96,7 @@ namespace SharpNeat.Neat
         private List<NeatGenome<T>> CreateGenomeList(int count)
         {
             List<NeatGenome<T>> genomeList = new List<NeatGenome<T>>(count);
-            for(int i=0; i < count; i++) 
+            for(int i=0; i < count; i++)
             {
                 NeatGenome<T> genome = CreateGenome();
                 genomeList.Add(genome);

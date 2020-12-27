@@ -1,8 +1,8 @@
 ﻿/* ***************************************************************************
  * HSLColor Class.
- * 
+ *
  * Richard Newman.
- * 
+ *
  * http://richnewman.wordpress.com/hslcolor-class/
  */
 using System;
@@ -126,14 +126,14 @@ namespace SharpNeat.Drawing
             if (hslColor._luminosity != 0)
             {
                 if (hslColor._saturation == 0)
-                { 
+                {
                     r = g = b = hslColor._luminosity;
                 }
                 else
                 {
                     double temp2 = GetTemp2(hslColor);
                     double temp1 = 2.0 * hslColor._luminosity - temp2;
-  
+
                     r = GetColorComponent(temp1, temp2, hslColor._hue + 1.0 / 3.0);
                     g = GetColorComponent(temp1, temp2, hslColor._hue);
                     b = GetColorComponent(temp1, temp2, hslColor._hue - 1.0 / 3.0);
@@ -150,7 +150,7 @@ namespace SharpNeat.Drawing
         {
             HSLColor hslColor = new HSLColor
             {
-                _hue = color.GetHue() / 360.0, // we store hue as [0,1] as opposed to 0-360. 
+                _hue = color.GetHue() / 360.0, // we store hue as [0,1] as opposed to 0-360.
                 _luminosity = color.GetBrightness(),
                 _saturation = color.GetSaturation()
             };
@@ -192,7 +192,7 @@ namespace SharpNeat.Drawing
                 temp2 = hslColor._luminosity + hslColor._saturation - (hslColor._luminosity * hslColor._saturation);
             return temp2;
         }
-  
+
         #endregion
      }
 }

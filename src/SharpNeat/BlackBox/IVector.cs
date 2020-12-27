@@ -1,6 +1,6 @@
 /* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@ namespace SharpNeat.BlackBox
     public interface IVector<T> where T : struct
     {
         #region Indexer / Properties
-        
+
         /// <summary>
         /// Gets or sets the signal value at the specified index.
         /// </summary>
@@ -36,16 +36,16 @@ namespace SharpNeat.BlackBox
         #region Methods
 
         /// <summary>
-        /// Copies all elements from the current SignalArray to the specified target array starting 
-        /// at the specified target Array index. 
+        /// Copies all elements from the current SignalArray to the specified target array starting
+        /// at the specified target Array index.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
         void CopyTo(T[] targetArray, int targetIndex);
-        
+
         /// <summary>
         /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
-        /// array starting at the specified target Array index. 
+        /// array starting at the specified target Array index.
         /// </summary>
         /// <param name="targetArray">The array to copy elements to.</param>
         /// <param name="targetIndex">The targetArray index at which storing begins.</param>
@@ -72,7 +72,7 @@ namespace SharpNeat.BlackBox
         void CopyFrom(T[] sourceArray, int targetIndex);
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current SignalArray 
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current SignalArray
         /// starting at the specified targetIndex.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>

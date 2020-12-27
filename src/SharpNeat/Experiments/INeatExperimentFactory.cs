@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ namespace SharpNeat.Experiments
         string Id { get; }
 
         /// <summary>
-        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment 
+        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment
         /// configuration settings from the provided json object model.
         /// </summary>
         /// <param name="configElem">Experiment config in presented as json object model.</param>
@@ -32,7 +32,7 @@ namespace SharpNeat.Experiments
         INeatExperiment<double> CreateExperiment(JsonElement configElem);
 
         /// <summary>
-        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment 
+        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment
         /// configuration settings from the provided json object model, and using single-precision floating-point
         /// number format for the genome and nueral-net connection weights.
         /// </summary>

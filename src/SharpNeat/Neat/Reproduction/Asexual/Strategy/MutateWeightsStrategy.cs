@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -72,7 +72,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             _weightMutationScheme.MutateWeights(weightArr, rng);
 
             // Create the child genome's ConnectionGenes object.
-            // Note. The parent genome's connection arrays are re-used; these remain unchanged because we are mutating 
+            // Note. The parent genome's connection arrays are re-used; these remain unchanged because we are mutating
             // connection *weights* only, so we can avoid the cost of cloning these arrays.
             var connGenes = new ConnectionGenes<T>(
                 parent.ConnectionGenes._connArr,
@@ -82,7 +82,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Note. The parent's ConnectionIndexArray and HiddenNodeIdArray can be re-used here because the new genome
             // has the same set of connections (same neural net structure).
             return _genomeBuilder.Create(
-                _genomeIdSeq.Next(), 
+                _genomeIdSeq.Next(),
                 _generationSeq.Peek,
                 connGenes,
                 parent.HiddenNodeIdArray,

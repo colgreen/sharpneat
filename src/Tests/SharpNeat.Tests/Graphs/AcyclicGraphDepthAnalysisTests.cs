@@ -9,7 +9,7 @@ namespace SharpNeat.Graphs.Tests
         #region Test Methods
 
         /// <summary>
-        /// Input 1 has a connection coming into it; although this is not allowed in NeatGenome, it is 
+        /// Input 1 has a connection coming into it; although this is not allowed in NeatGenome, it is
         /// is allowed by DirectedGraph, so we test it works as expected.
         /// </summary>
         [Fact]
@@ -51,7 +51,7 @@ namespace SharpNeat.Graphs.Tests
         /// <summary>
         /// An output has both a short and a long path connecting to it.
         /// It's depth should be the number of hops in the long path.
-        /// A second output has a single connection from the first, so should have 
+        /// A second output has a single connection from the first, so should have
         /// a depth one higher.
         /// </summary>
         [Fact]

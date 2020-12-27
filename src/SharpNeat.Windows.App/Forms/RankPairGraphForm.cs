@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -60,7 +60,7 @@ namespace SharpNeat.Windows.App.Forms
             _ppl.Clear();
             _ppl2.Clear();
 
-            for(int i=0; i < valueByRank.Length; i++) 
+            for(int i=0; i < valueByRank.Length; i++)
             {
                 _ppl.Add(i + 1, valueByRank[i]);
                 _ppl2.Add(i + 1, secondaryValues[i]);

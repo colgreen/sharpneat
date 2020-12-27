@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -18,16 +18,16 @@ namespace SharpNeat.Graphs.Acyclic
 {
     /// <summary>
     /// An algorithm for calculating the depth of each node in an acyclic graph.
-    /// 
-    /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as 
+    ///
+    /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as
     /// the maximum number of hops to each node from an input node. I.e. where multiple paths exist to a
-    /// node (potentially each with a different numbers of hops), the node's depth is defined by the path 
+    /// node (potentially each with a different numbers of hops), the node's depth is defined by the path
     /// with the most number of hops.
     /// </summary>
     /// <remarks>
     /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
     /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
-    /// for more details see the comments on: 
+    /// for more details see the comments on:
     /// <see cref="Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionCheck"/>.
     /// Also see:
     /// <see cref="CyclicConnectionCheck"/>
@@ -39,7 +39,7 @@ namespace SharpNeat.Graphs.Acyclic
 
         /// <summary>
         /// The graph traversal stack, as required by a depth first graph traversal algorithm.
-        /// Each stack entry is an index into a connection list, representing both the current node being traversed 
+        /// Each stack entry is an index into a connection list, representing both the current node being traversed
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// </summary>
         readonly LightweightStack<StackFrame> _traversalStack = new LightweightStack<StackFrame>(16);
@@ -70,11 +70,11 @@ namespace SharpNeat.Graphs.Acyclic
         {}
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="validateAcyclic"></param>
         /// <remarks>
-        /// If the caller can guarantee that calles to CalculateNodeDepths() will provide acyclic graphs only, then 
+        /// If the caller can guarantee that calles to CalculateNodeDepths() will provide acyclic graphs only, then
         /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
         /// </remarks>
         public AcyclicGraphDepthAnalysis(bool validateAcyclic)
@@ -103,14 +103,14 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Test that the graph is acyclic; if digraph is cyclic then the graph traversal implemented here will
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
-            // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the 
+            // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the
             // graph is acyclic/
             if(_cyclicGraphCheck is object && _cyclicGraphCheck.IsCyclic(digraph)) {
                 throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
             }
 
             _nodeDepthByIdx = new int[digraph.TotalNodeCount];
-            
+
             try
             {
                 CalculateNodeDepthsInner(digraph);
@@ -144,7 +144,7 @@ namespace SharpNeat.Graphs.Acyclic
                     _traversalStack.Push(new StackFrame(connIdx, 1));
                 }
             }
-             
+
             // Run the graph traversal algorithm.
             TraverseGraph(digraph);
         }
@@ -169,7 +169,7 @@ namespace SharpNeat.Graphs.Acyclic
                 // traversed, either from the current node or a parent node. I.e. we modify the stack state ready for when
                 // the traversal down into the current connection completes and returns back to the current node.
                 //
-                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It 
+                // This approach results in tail call optimisation and thus will result in a shallower stack on average. It
                 // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
                 // point in time, since some of the path may no longer be on the stack.
                 MoveForward(srcIdArr, tgtIdArr, currStackFrame);
@@ -201,7 +201,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// <returns>The current connection to traverse down.</returns>
         private void MoveForward(int[] srcIdArr, int[] tgtIdAr, in StackFrame currStackFrame)
         {
-            // If the current node has at least one more visitable outgoing connection then update the node's entry 
+            // If the current node has at least one more visitable outgoing connection then update the node's entry
             // on the top of the stack to point to said connection.
             int currConnIdx = currStackFrame.ConnectionIdx;
             int depth = currStackFrame.Depth;
@@ -209,16 +209,16 @@ namespace SharpNeat.Graphs.Acyclic
             for(int i=currConnIdx + 1; i < srcIdArr.Length && (srcIdArr[currConnIdx] == srcIdArr[i]); i++)
             {
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
-                // depth than the current path. 
+                // depth than the current path.
                 if(_nodeDepthByIdx![tgtIdAr[i]] < depth)
-                {   
+                {
                     _traversalStack.Poke(new StackFrame(i, depth));
                     return;
                 }
             }
 
             // No more connections for the current node; pop/remove the current node from the top of the stack.
-            // Traversal will thus continue from its traversal parent node's current position, or will terminate 
+            // Traversal will thus continue from its traversal parent node's current position, or will terminate
             // if the stack is now empty.
             _traversalStack.Pop();
         }

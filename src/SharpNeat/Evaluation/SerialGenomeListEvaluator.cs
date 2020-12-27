@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@ namespace SharpNeat.Evaluation
     /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
     /// <remarks>
     /// Single threaded evaluation can be useful in various scenarios e.g. when debugging.
-    /// 
+    ///
     /// Genome decoding is performed by a provided IGenomeDecoder.
     /// Phenome evaluation is performed by a provided IPhenomeEvaluator.
     /// </remarks>
@@ -62,17 +62,17 @@ namespace SharpNeat.Evaluation
         /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
         /// </summary>
         /// <remarks>
-        /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation 
+        /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation
         /// for the same genome. Such a scheme is non-deterministic.
         /// </remarks>
         public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
 
         /// <summary>
-        /// Gets a fitness comparer. 
+        /// Gets a fitness comparer.
         /// </summary>
         /// <remarks>
         /// Typically there is a single fitness score whereby a higher score is better, however if there are multiple fitness scores
-        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to 
+        /// per genome then we need a more general purpose comparer to determine an ordering on FitnessInfo(s), i.e. to be able to
         /// determine which is the better FitenssInfo between any two.
         /// </remarks>
         public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
@@ -91,8 +91,8 @@ namespace SharpNeat.Evaluation
                 {   // Non-viable genome.
                     genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;
                 }
-                else 
-                {   
+                else
+                {
                     genome.FitnessInfo = _phenomeEvaluator.Evaluate(phenome);
                 }
             }

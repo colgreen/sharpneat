@@ -1,6 +1,6 @@
 ﻿/* ***************************************************************************
  * This file is part of SharpNEAT - Evolution of Neural Networks.
- * 
+ *
  * Copyright 2004-2020 Colin Green (sharpneat@gmail.com)
  *
  * SharpNEAT is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@ namespace SharpNeat.Windows.App.Forms
     // TODO: Implement.
 
     /// <summary>
-    /// Generic form for task visualization. 
+    /// Generic form for task visualization.
     /// </summary>
     public partial class TaskForm : Form
     {
@@ -51,7 +51,7 @@ namespace SharpNeat.Windows.App.Forms
         {
             //if(this.InvokeRequired)
             //{
-            //    // Note. Must use Invoke(). BeginInvoke() will execute asynchronously and the evolution algorithm therefore 
+            //    // Note. Must use Invoke(). BeginInvoke() will execute asynchronously and the evolution algorithm therefore
             //    // may have moved on and will be in an intermediate and indeterminate (between generations) state.
             //    this.Invoke(new MethodInvoker(delegate()
             //    {

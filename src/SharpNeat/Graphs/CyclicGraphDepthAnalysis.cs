@@ -10,26 +10,26 @@ namespace SharpNeat.Graphs
 {
     /// <summary>
     /// An algorithm for calculating the depth of each node in an cyclic graph.
-    /// 
-    /// Input nodes are defined as being at depth 0, and the depth of all other nodes is a determined as per the 
+    ///
+    /// Input nodes are defined as being at depth 0, and the depth of all other nodes is a determined as per the
     /// following scheme:
-    /// 
+    ///
     /// Multiple separate traversals of the graph are made, one starting at each input node. Each traversal assigns
     /// a depth value to the visited nodes, and where a node is on multiple paths, the highest depth value is recorded.
-    /// 
+    ///
     /// Once all traversal are complete, the average of all depths recorded against each node is calculated and rounded
     /// up to the nearest integer. Finally, if the scheme has resulted in empty layers (e.g. a node allocated to depth 2,
     /// but no nodes at depth 1) then the depth values are adjusted to remove the empty layer(s).
-    /// 
-    /// The motivation for this slightly convoluted scheme is to create 'balanced' depth allocations when large cyclic 
+    ///
+    /// The motivation for this slightly convoluted scheme is to create 'balanced' depth allocations when large cyclic
     /// loops might assign nodes very high depth values that might not be warranted, e.g. if most connections to a node
     /// would assign it a low depth, but a single cycle assigns it a high depth. Use of a mean/average depth is a
     /// compromise on the depth allocation of such a node. Median, min, or max could also be used, or indeed any aggregate
     /// function.
-    /// 
+    ///
     /// The graph traversal algorithm uses function recursion. A number of other classes in SharpNEAT perform
     /// graph traversal by using a separate traversal stack (stored on the heap); that approach is faster but
-    /// more complex, thus this class has not been converted to the faster approach because it is not directly 
+    /// more complex, thus this class has not been converted to the faster approach because it is not directly
     /// used in the evolutionary algorithm. At time of writing this class is used only for graph visualization.
     /// </summary>
     public sealed class CyclicGraphDepthAnalysis
@@ -42,15 +42,15 @@ namespace SharpNeat.Graphs
         DirectedGraph? _digraph;
 
         /// <summary>
-        /// A bitmap in which each bit represents a node in the graph. 
+        /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
         BoolArray _ancestorNodeBitmap = new BoolArray(1024);
 
         /// <summary>
         /// An integer array in which each element represents a node in the graph.
-        /// 
-        /// The array elements are initialised to -1. An element that remains set to -1 after graph traversal indicates a node that 
+        ///
+        /// The array elements are initialised to -1. An element that remains set to -1 after graph traversal indicates a node that
         /// was not visited by the traversal. All other values indicate that a node was visited, and the traversal depth when the node
         /// was visited. If the node is visited multiple times in a single traversal (i.e. there are multiple routes to the node from
         /// a single input node) then the maximum depth value of all the depths is used.
@@ -59,10 +59,10 @@ namespace SharpNeat.Graphs
 
         /// <summary>
         /// A matrix of node depths.
-        /// 
+        ///
         /// [nodeIdx][] gives a list of node depth values for a single node; one depth per traversal (based on multiple traversals being
         /// performed, one starting from each input node).
-        /// 
+        ///
         /// The final depth allocated to a node is some aggregate function over all node depths assigned to it, e.g. mean, median, min,
         /// max, etc.
         /// </summary>
@@ -70,7 +70,7 @@ namespace SharpNeat.Graphs
 
         #if DEBUG
         /// <summary>
-        /// Indicates if a call to IsCyclic() is currently in progress. 
+        /// Indicates if a call to IsCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
@@ -176,7 +176,7 @@ namespace SharpNeat.Graphs
 
             // Traverse into the node's targets / children (if it has any).
             int connIdx = _digraph!.GetFirstConnectionIndex(nodeIdx);
-            if(connIdx == -1) 
+            if(connIdx == -1)
             {   // No target nodes to traverse.
                 return;
             }
@@ -191,7 +191,7 @@ namespace SharpNeat.Graphs
             {
                 TraverseNode(_digraph.GetTargetNodeIdx(connIdx), depth + 1);
             }
-            
+
             // Remove node from set of traversal path nodes.
             _ancestorNodeBitmap[nodeIdx] = false;
         }
