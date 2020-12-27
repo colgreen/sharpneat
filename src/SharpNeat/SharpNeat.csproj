@@ -24,15 +24,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.11" />
-    <PackageReference Include="Redzen" Version="12.0.0-preview1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Graphs\IO\NetworkTsvReaderUtils.cs" />
     <None Include="Graphs\IO\NetworkTsvWriterUtils.cs" />
     <None Include="Graphs\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
     <None Include="Graphs\IO\WeightedDirectedGraphTsvWriter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.11" />
+    <PackageReference Include="Redzen" Version="12.0.0-preview1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Windows.App", "Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UISandbox", "Tests\UISandbox\UISandbox.csproj", "{8CDC9EF1-1598-4806-BE43-CC87459B2665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNeat.Tasks.Windows", "SharpNeat.Tasks.Windows\SharpNeat.Tasks.Windows.csproj", "{1BCF2975-0397-455A-A1EE-9835A44079AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks.Windows", "SharpNeat.Tasks.Windows\SharpNeat.Tasks.Windows.csproj", "{1BCF2975-0397-455A-A1EE-9835A44079AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D6A68275-17B3-40BF-98E4-3FCB5DD50CB6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
