@@ -39,9 +39,10 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized
         #region Public Methods
 
         /// <summary>
-        /// Decode a genome into a working neural network.
+        /// Decodes a NEAT genome into a working neural network.
         /// </summary>
         /// <param name="genome">The genome to decode.</param>
+        /// <returns>An <see cref="IBlackBox{T}"/>.</returns>
         public IBlackBox<double> Decode(NeatGenome<double> genome)
         {
             // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but standard sharpneat behaviour is not to support this.
