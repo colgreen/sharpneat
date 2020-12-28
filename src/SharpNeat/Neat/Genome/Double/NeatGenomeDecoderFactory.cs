@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// </summary>
         /// <param name="cyclesPerActivation">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
         /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network) implementations.</param>
-        /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
+        /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.</returns>
         public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderCyclic(
             int cyclesPerActivation,
             bool enableHardwareAcceleration = false)
@@ -31,7 +31,7 @@ namespace SharpNeat.Neat.Genome.Double
         /// Create a genome decoder that decodes to an acyclic neural network implementation.
         /// </summary>
         /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network) implementations.</param>
-        /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/></returns>
+        /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.</returns>
         public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderAcyclic(
             bool enableHardwareAcceleration = false)
         {

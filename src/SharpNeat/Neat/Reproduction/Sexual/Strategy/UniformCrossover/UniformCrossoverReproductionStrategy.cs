@@ -23,6 +23,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// The genes of the two parent genomes are aligned by innovation ID. The new child genome
     /// takes genes from each of the parents with a given probability (e.g. 50%).
     /// </summary>
+    /// <typeparam name="T">Neural network numeric data type.</typeparam>
     public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductionStrategy<T>
         where T : struct
     {

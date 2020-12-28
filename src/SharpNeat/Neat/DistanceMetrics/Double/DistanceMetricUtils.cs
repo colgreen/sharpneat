@@ -11,8 +11,8 @@
  */
 using System.Collections.Generic;
 using System.Linq;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double
 {

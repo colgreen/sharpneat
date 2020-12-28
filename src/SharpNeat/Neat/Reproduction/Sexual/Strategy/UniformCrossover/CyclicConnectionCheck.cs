@@ -74,7 +74,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
     /// Also see:
     /// <see cref="Graphs.Acyclic.CyclicConnectionCheck"/>
     /// <see cref="Graphs.Acyclic.AcyclicGraphDepthAnalysis"/>
-    /// <see cref="CyclicGraphCheck"/>
+    /// <see cref="CyclicGraphCheck"/>.
     /// </remarks>
     public sealed class CyclicConnectionCheck
     {
@@ -240,7 +240,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <summary>
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
-        /// <returns>The current connection to traverse down.</returns>
         private void MoveForward(IList<DirectedConnection> connList, int currConnIdx)
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,

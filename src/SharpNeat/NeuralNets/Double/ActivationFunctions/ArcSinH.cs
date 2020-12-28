@@ -55,7 +55,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
         #region Private Static Methods
 
         /// <summary>
-        /// Hyperbolic Area Sine
+        /// Hyperbolic Area Sine.
         /// </summary>
         /// <param name="value">The real value.</param>
         /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>

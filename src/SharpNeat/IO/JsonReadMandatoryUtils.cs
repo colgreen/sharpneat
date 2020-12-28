@@ -22,11 +22,11 @@ namespace SharpNeat.IO
         #region Public Static Methods [Read Mandatory Properties]
 
         /// <summary>
-        /// Read a mandatory boolean property; if not present then an exception is throw
+        /// Read a mandatory boolean property; if not present then an exception is thrown.
         /// </summary>
         /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
-        /// <returns>The property value</returns>
+        /// <returns>The property value.</returns>
         public static bool ReadBoolMandatory(
             JsonElement jelem,
             string propertyName)
@@ -38,11 +38,11 @@ namespace SharpNeat.IO
         }
 
         /// <summary>
-        /// Read a mandatory integer property; if not present then an exception is throw
+        /// Read a mandatory integer property; if not present then an exception is thrown.
         /// </summary>
         /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
-        /// <returns>The property value</returns>
+        /// <returns>The property value.</returns>
         public static int ReadIntMandatory(
             JsonElement jelem,
             string propertyName)
@@ -54,11 +54,11 @@ namespace SharpNeat.IO
         }
 
         /// <summary>
-        /// Read a mandatory double precision floating point property; if not present then an exception is throw
+        /// Read a mandatory double precision floating point property; if not present then an exception is thrown.
         /// </summary>
         /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
-        /// <returns>The property value</returns>
+        /// <returns>The property value.</returns>
         public static double ReadDoubleMandatory(
             JsonElement jelem,
             string propertyName)
@@ -70,11 +70,11 @@ namespace SharpNeat.IO
         }
 
         /// <summary>
-        /// Read a mandatory string property; if not present then an exception is throw
+        /// Read a mandatory string property; if not present then an exception is thrown.
         /// </summary>
         /// <param name="jelem">The json element to read the property from.</param>
         /// <param name="propertyName">The name of the json property to read.</param>
-        /// <returns>The property value</returns>
+        /// <returns>The property value.</returns>
         public static string ReadStringMandatory(
             JsonElement jelem,
             string propertyName)

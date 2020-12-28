@@ -56,7 +56,7 @@ namespace SharpNeat.Neat
         /// </summary>
         /// <param name="conn">The connection to look-up.</param>
         /// <param name="addedNodeId">Returns a node innovation ID, if one was found.</param>
-        /// <returns>True if a node was found, otherwise false</returns>
+        /// <returns>True if a node was found, otherwise false.</returns>
         public bool TryLookup(in DirectedConnection conn, out int addedNodeId)
         {
             return _buffer.TryGetValue(in conn, out addedNodeId);

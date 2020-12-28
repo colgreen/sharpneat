@@ -21,7 +21,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     ///     https://arxiv.org/abs/1706.02515
     ///
     /// Original source code (including parameter values):
-    ///     https://github.com/bioinf-jku/SNNs/blob/master/selu.py
+    ///     <see href="https://github.com/bioinf-jku/SNNs/blob/master/selu.py"/>.
     ///
     /// </summary>
     public sealed class ScaledELU : IActivationFunction<double>

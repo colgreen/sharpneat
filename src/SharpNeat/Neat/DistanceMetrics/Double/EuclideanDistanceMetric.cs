@@ -11,8 +11,8 @@
  */
 using System;
 using System.Collections.Generic;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double
 {
@@ -24,7 +24,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
     /// Where [delta] is the absolute position difference in a given dimension (on a given axis).
     ///
     /// There may be good reasons to not use this distance metric in NEAT; see this link for some discussion of this:
-    ///   https://stats.stackexchange.com/questions/99171/why-is-euclidean-distance-not-a-good-metric-in-high-dimensions
+    ///   https://stats.stackexchange.com/questions/99171/why-is-euclidean-distance-not-a-good-metric-in-high-dimensions .
     /// </summary>
     public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
     {

@@ -67,6 +67,13 @@ namespace SharpNeat.Graphs
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given node counts, and connection data.
+        /// </summary>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <param name="totalNodeCount">Total node count.</param>
+        /// <param name="connIdArrays">The connection source and target node IDs.</param>
         internal DirectedGraph(
             int inputCount,
             int outputCount,
@@ -130,7 +137,7 @@ namespace SharpNeat.Graphs
         /// <summary>
         /// Get the index of the first connection with the given sourceNodeIdx.
         /// </summary>
-        /// <param name="srcNodeIdx"></param>
+        /// <param name="srcNodeIdx">Source node index.</param>
         /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
         public int GetFirstConnectionIndex(int srcNodeIdx)
         {
@@ -141,9 +148,11 @@ namespace SharpNeat.Graphs
         }
 
         /// <summary>
-        /// Get an array of all connection target node indexes for the specified source node index.
+        /// Get a span of all connection target node indexes for the specified source node index.
         /// </summary>
-        public Memory<int> GetTargetNodeIndexes(int srcNodeIdx)
+        /// <param name="srcNodeIdx">Source node index.</param>
+        /// <returns>A span of target nodes indexes. </returns>
+        public Span<int> GetTargetNodeIndexes(int srcNodeIdx)
         {
             if(_connIdxBySrcNodeIdx is null) {
                 _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
@@ -153,7 +162,7 @@ namespace SharpNeat.Graphs
             if(startIdx == -1)
             {   // There are no connections that have the specified node as their source.
                 // Return an empty array segment.
-                return new Memory<int>();
+                return Span<int>.Empty;
             }
 
             // Scan for the last connection with the specified source node.
@@ -163,8 +172,8 @@ namespace SharpNeat.Graphs
             int endIdx = startIdx + 1;
             for(; endIdx < connSrcIdArr.Length && connSrcIdArr[endIdx] == srcNodeIdx; endIdx++);
 
-            // Return an array segment over the sub-range of the connection array.
-            return connTgtIdArr.AsMemory(startIdx, endIdx - startIdx);
+            // Return a span over the sub-range of the connection array.
+            return connTgtIdArr.AsSpan(startIdx..endIdx);
         }
 
         #endregion

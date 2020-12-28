@@ -11,8 +11,8 @@
  */
 using System;
 using System.Collections.Generic;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double
 {
@@ -51,7 +51,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         // describe a position in a given dimension.
         readonly double _matchDistanceCoeff;
 
-        //A coefficient applied to the distance obtained from two coordinates where only one of the coordinates describes
+        // A coefficient applied to the distance obtained from two coordinates where only one of the coordinates describes
         // a position in a given dimension. The other point is taken to be at position zero in that dimension.
         readonly double _mismatchDistanceCoeff;
 
@@ -291,7 +291,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 if(arr1Idx < 0)
                 {
                     // Any remaining p2 elements are mismatches.
-                    for(int i=arr2Idx; i >- 1; i--) {
+                    for(int i=arr2Idx; i > -1; i--) {
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
                     }
                     return distance < threshold;

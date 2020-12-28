@@ -12,8 +12,8 @@
 using System;
 using System.Collections.Generic;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat
 {

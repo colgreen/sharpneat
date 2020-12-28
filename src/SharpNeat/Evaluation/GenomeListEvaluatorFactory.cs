@@ -27,7 +27,7 @@ namespace SharpNeat.Evaluation
         /// <param name="genomeDecoder">Genome decoder, for decoding a genome to a phenome.</param>
         /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
         /// <param name="degreeOfParallelism">The number of CPU threads to distribute work to.</param>
-        /// <returns>A new instance of <see cref="IGenomeListEvaluator{TGenome}"/></returns>
+        /// <returns>A new instance of <see cref="IGenomeListEvaluator{TGenome}"/>.</returns>
         public static IGenomeListEvaluator<TGenome> CreateEvaluator<TGenome,TPhenome>(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,

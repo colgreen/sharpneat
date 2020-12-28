@@ -52,7 +52,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// <summary>
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
         /// </summary>
-        /// <param name="digraph">Network structure definition</param>
+        /// <param name="digraph">Network structure definition.</param>
         /// <param name="activationFn">Node activation function.</param>
         public NeuralNetAcyclic(
             WeightedDirectedGraphAcyclic<double> digraph,
@@ -63,7 +63,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// <summary>
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
         /// </summary>
-        /// <param name="digraph">Network structure definition</param>
+        /// <param name="digraph">Network structure definition.</param>
         /// <param name="weightArr">Connection weights array.</param>
         /// <param name="activationFn">Node activation function.</param>
         public NeuralNetAcyclic(

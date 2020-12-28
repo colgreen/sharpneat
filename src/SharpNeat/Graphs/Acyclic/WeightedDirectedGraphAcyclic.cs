@@ -15,6 +15,7 @@ namespace SharpNeat.Graphs.Acyclic
     /// <summary>
     /// Represents a weighted acyclic directed graph.
     /// </summary>
+    /// <typeparam name="T">Weight data type.</typeparam>
     public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
         where T : struct
     {

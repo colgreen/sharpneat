@@ -27,6 +27,7 @@ namespace SharpNeat.Graphs
     /// This functionality can be achieved by using the various sort() methods in the core framework, but less efficiently than
     /// by this customised class (in terms of both speed, RAM allocations and thus GC overhead).
     /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     public sealed class ConnectionSorter<T>
     {
         #region Statics / Consts
@@ -131,7 +132,7 @@ namespace SharpNeat.Graphs
             SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, lo, hi);      // swap the low with the high
             SwapIfGreaterWithItems(srcIdArr, tgtIdArr, secondaryArr, middle, hi);  // swap the middle with the high
 
-            //TKey pivot = keys[middle];
+            // TKey pivot = keys[middle];
             int pivotSrcId = srcIdArr[middle];
             int pivotTgtId = tgtIdArr[middle];
 

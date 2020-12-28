@@ -22,7 +22,7 @@ namespace SharpNeat.Graphs.Acyclic
     {
         /// <summary>
         /// Indicates the total depth of the network.
-        /// This is the highest value within _nodeDepths + 1 (because the first layer is layer 0)
+        /// This is the highest value within _nodeDepths + 1 (because the first layer is layer 0).
         /// </summary>
         public readonly int _graphDepth;
         /// <summary>

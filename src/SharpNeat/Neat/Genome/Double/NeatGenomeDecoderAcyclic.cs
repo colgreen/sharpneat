@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.Genome.Double
 {
     /// <summary>
     /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically
-    /// acyclic neural network instances implemented by <see cref="NeuralNets.Double.NeuralNetAcyclic"/>
+    /// acyclic neural network instances implemented by <see cref="NeuralNets.Double.NeuralNetAcyclic"/>.
     /// </summary>
     public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
     {

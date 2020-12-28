@@ -129,7 +129,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         /// Merge new genomes into an existing set of species.
         /// </summary>
         /// <param name="genomeList">A list of genomes that have not yet been assigned a species.</param>
-        /// <param name="speciesArr">An array of pre-existing species</param>
+        /// <param name="speciesArr">An array of pre-existing species.</param>
         /// <param name="rng">Random source.</param>
         public void SpeciateAdd(
             IList<NeatGenome<T>> genomeList,

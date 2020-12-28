@@ -12,15 +12,15 @@
 using System;
 using Redzen.Random;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
     /// <summary>
     /// A NEAT genome asexual reproduction strategy based on adding a single node.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Neural network numeric data type.</typeparam>
     /// <remarks>
     /// Offspring genomes are created by taking a clone of a single parent genome and adding a single node,
     /// if possible. A node is added by selecting a connection at random, and splitting it, i.e. replacing
@@ -142,7 +142,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // and -1 for the split index (the connection to be removed)
             int insertIdx1 = ~Array.BinarySearch(parent.ConnectionGenes._connArr, newConnArr[0]);
             int insertIdx2 = ~Array.BinarySearch(parent.ConnectionGenes._connArr, newConnArr[1]);
-            (int,int)[] stopIdxArr = new []
+            (int,int)[] stopIdxArr = new[]
             {
                 (splitConnIdx, -1),
                 (insertIdx1, 0),

@@ -213,10 +213,9 @@ namespace SharpNeat.BlackBox
         #region Private Static Methods
 
         /// <summary>
-        /// Validate the indexes within _map.
-        /// Returns true if they are all valid (within the indexable range of _wrappedArray)
+        /// Validate the indexes within <paramref name="map"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if the mapping indexes are all valid (i.e., within the indexable range of <paramref name="wrappedArray"/>); otherwise false.</returns>
         private static bool ValidateMapIndexes(T[] wrappedArray, int[] map)
         {
             for(int i=0; i < map.Length; i++)

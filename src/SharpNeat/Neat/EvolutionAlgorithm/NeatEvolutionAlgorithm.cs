@@ -134,7 +134,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             if(reproductionAsexualSettings is null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
             if(reproductionSexualSettings is null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
 
-             _rng = rng;
+            _rng = rng;
             _genomeComparerDescending = new GenomeComparerDescending(evaluator.FitnessComparer);
 
             if(eaSettings.SpeciesCount > population.PopulationSize) {
@@ -388,7 +388,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             else
             {
                 // Calc elapsed time since the previous update to this state. If it is less than one second ago then skip the update,
-                // as the timespan may be very short, thus giving an unrepresentative evals per second value.
+                // as the timespan may be very short, thus giving an unrepresentative evaluations per second value.
                 TimeSpan elapsed = _eaStats.SampleTime - _evalCountPrevSampleTime;
                 if(elapsed > __oneSec)
                 {

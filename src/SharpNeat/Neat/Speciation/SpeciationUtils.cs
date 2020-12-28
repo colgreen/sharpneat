@@ -25,6 +25,11 @@ namespace SharpNeat.Neat.Speciation
         /// <summary>
         /// Get the index of the species with a centroid that is nearest to the provided genome.
         /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="genome">The genome.</param>
+        /// <param name="speciesArr">An array of species to compare the genome with.</param>
+        /// <typeparam name="T">Connection weight data type.</typeparam>
+        /// <returns>The index of the species that is nearest to <paramref name="genome"/>.</returns>
         public static int GetNearestSpecies<T>(
             IDistanceMetric<T> distanceMetric,
             NeatGenome<T> genome,

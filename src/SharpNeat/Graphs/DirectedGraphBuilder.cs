@@ -90,8 +90,8 @@ namespace SharpNeat.Graphs
             INodeIdMap nodeIdMap)
         {
             int count = connectionList.Count;
-            int [] srcIdArr = new int[count];
-            int [] tgtIdArr = new int[count];
+            int[] srcIdArr = new int[count];
+            int[] tgtIdArr = new int[count];
 
             for(int i=0; i<connectionList.Count; i++)
             {

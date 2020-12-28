@@ -17,8 +17,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// S-shaped rectified linear activation unit (SReLU).
     /// From:
     ///    https://en.wikipedia.org/wiki/Activation_function
-    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units]
-    ///
+    ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units].
     /// </summary>
     public sealed class SReLUShifted : IActivationFunction<double>
     {

@@ -14,9 +14,9 @@ using System.Diagnostics;
 using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
+using SharpNeat.Neat.Genome;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
@@ -189,7 +189,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Select a target node at random.
             // Note. Valid target nodes are all hidden and output nodes (cannot be an input node).
             int outputHiddenCount = outputCount + hiddenCount;
-            int tgtId = GetNodeIdFromIndex(parent, inputCount + rng.Next(outputHiddenCount));;
+            int tgtId = GetNodeIdFromIndex(parent, inputCount + rng.Next(outputHiddenCount));
 
             // Test for simplest cyclic connectivity - node connects to itself.
             if(srcId == tgtId)

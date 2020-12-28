@@ -15,7 +15,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
     /// <summary>
     /// The logistic function.
-    /// <see href="http://en.wikipedia.org/wiki/Logistic_function"/>
+    /// <see href="http://en.wikipedia.org/wiki/Logistic_function"/>.
     /// </summary>
     public sealed class Logistic : IActivationFunction<double>
     {

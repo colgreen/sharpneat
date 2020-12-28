@@ -16,14 +16,14 @@ namespace SharpNeat.Graphs
     /// <summary>
     /// An <see cref="IComparer{T}"/> for comparing instances of <see cref="WeightedDirectedConnection{T}"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Connection weight numeric data type.</typeparam>
     public sealed class WeightedDirectedConnectionComparer<T> : IComparer<WeightedDirectedConnection<T>>
         where T : struct
     {
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public readonly static WeightedDirectedConnectionComparer<T> Default = new WeightedDirectedConnectionComparer<T>();
+        public static readonly WeightedDirectedConnectionComparer<T> Default = new WeightedDirectedConnectionComparer<T>();
 
         /// <summary>
         /// Compares two instances of <see cref="WeightedDirectedConnection{T}"/> and returns a value indicating

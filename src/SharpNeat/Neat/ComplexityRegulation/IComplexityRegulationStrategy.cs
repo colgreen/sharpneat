@@ -23,7 +23,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
     ///
     /// Complexity regulation is also known as 'Phased Search'. For more information see:
     /// Phased Searching with NEAT: Alternating Between Complexification And Simplification, Colin Green, 2004
-    /// (http://sharpneat.sourceforge.net/phasedsearch.html)
+    /// (http://sharpneat.sourceforge.net/phasedsearch.html).
     /// </summary>
     public interface IComplexityRegulationStrategy
     {

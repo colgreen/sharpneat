@@ -106,7 +106,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// Merge new genomes into an existing set of species.
         /// </summary>
         /// <param name="genomeList">A list of genomes that have not yet been assigned a species.</param>
-        /// <param name="speciesArr">An array of pre-existing species</param>
+        /// <param name="speciesArr">An array of pre-existing species.</param>
         /// <param name="rng">Random source.</param>
         public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr, IRandomSource rng)
         {
@@ -168,7 +168,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
             // Loop species.
             // Note. The nested parallel loop here is intentional and should give good thread concurrency in the general case.
-            // For more info see: "Is it ok to use nested Parallel.For loops?"
+            // For more info see: "Is it OK to use nested Parallel.For loops?"
             // https://blogs.msdn.microsoft.com/pfxteam/2012/03/14/is-it-ok-to-use-nested-parallel-for-loops/
 
             Parallel.For(0, speciesArr.Length, _parallelOptions, (speciesIdx) =>

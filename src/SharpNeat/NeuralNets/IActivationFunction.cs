@@ -49,7 +49,7 @@ namespace SharpNeat.NeuralNets
     /// <summary>
     /// Represents the node/neuron activation function of a neural network.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="T">Activation function numeric data type.</typeparam>
     public interface IActivationFunction<T> where T : struct
     {
         /// <summary>

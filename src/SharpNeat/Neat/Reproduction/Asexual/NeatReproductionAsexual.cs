@@ -23,6 +23,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
     /// <summary>
     /// Creation of offspring given a single parent (asexual reproduction).
     /// </summary>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
         where T : struct
     {
