@@ -44,7 +44,7 @@ namespace SharpNeat.Evaluation
         /// Evaluates a list of genomes, assigning fitness info to each.
         /// </summary>
         /// <param name="genomeList">The list of genomes to evaluate.</param>
-        void Evaluate(ICollection<TGenome> genomeList);
+        void Evaluate(IList<TGenome> genomeList);
 
         /// <summary>
         /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean

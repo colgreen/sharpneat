@@ -104,7 +104,7 @@ namespace SharpNeat.Evaluation
         /// Evaluates a collection of genomes and assigns fitness info to each.
         /// </summary>
         /// <param name="genomeList">The list of genomes to evaluate.</param>
-        public void Evaluate(ICollection<TGenome> genomeList)
+        public void Evaluate(IList<TGenome> genomeList)
         {
             // Decode and evaluate genomes in parallel.
             // Notes.
