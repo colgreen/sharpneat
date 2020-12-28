@@ -164,7 +164,7 @@ namespace SharpNeat.Neat.Genome
 
         /// <summary>
         /// Get an array of digraph connection weights.
-        /// For cyclic genomes this is simply the genome's weight array, but for ayclic genomes the digraph and genome
+        /// For cyclic genomes this is simply the genome's weight array, but for acyclic genomes the digraph and genome
         /// represent connections in a different order, thus for acyclic genomes/digraphs this method will return a new
         /// array with the weights in the digraph order.
         /// </summary>

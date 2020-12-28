@@ -38,7 +38,8 @@ namespace SharpNeat.EvolutionAlgorithm
         /// Evaluations per second.
         /// </summary>
         /// <remarks>
-        /// Based on the difference in <see cref="TotalEvaluationCount"/> abd <see cref="SampleTime"/> between the last two generations.
+        /// Based on the difference in <see cref="TotalEvaluationCount"/> and <see cref="SampleTime"/>,
+        /// between the last two generations.
         /// </remarks>
         public double EvaluationsPerSec { get; set; }
 

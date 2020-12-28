@@ -32,9 +32,9 @@ namespace SharpNeat.Drawing.Graph
     ///
     /// === Input and Output Layers ===
     /// The actual layers used are slightly different to the scheme described in the summary. The input nodes and output nodes
-    /// of a graph are always laid out in their own rows at the top and bottom of the layout area, respectively. Hennce, any
+    /// of a graph are always laid out in their own rows at the top and bottom of the layout area, respectively. Hence, any
     /// hidden nodes defined as being at depth zero (i.e. no incoming connections) are actually positioned in the second layer.
-    /// Likewise, hidden nodes with depths greather than or equal to any node in the output layer are psoitioned in he layer
+    /// Likewise, hidden nodes with depths greater than or equal to any node in the output layer are positioned in he layer
     /// before the output layer.
     ///
     /// Essentially there are two 'virtual rows' for input and outputs, and the hidden nodes are arranged in between based on
@@ -43,8 +43,8 @@ namespace SharpNeat.Drawing.Graph
     ///
     /// === Node Depths ===
     /// For acyclic graphs the node depths are already determined and stored in the DirectedGraph data structure (specifically in
-    /// the the subclass DirectedGraphAcyclic). This depth info is necessary for using the acyclic graphs (i.e. propagating a
-    /// signal through the graph, from the input nodes through to he output nodes) and is based on the maximim number of hops
+    /// the subclass DirectedGraphAcyclic). This depth info is necessary for using the acyclic graphs (i.e. propagating a
+    /// signal through the graph, from the input nodes through to he output nodes) and is based on the maximum number of hops
     /// to a given node, starting from the input layer.
     ///
     /// For cyclic graphs this layout scheme calculates node depths using a scheme similar to that used for the acyclic graphs,
@@ -134,10 +134,10 @@ namespace SharpNeat.Drawing.Graph
             //
             // g    Vertical distance between adjacent horizontal layers.
             // u    Layout width, minus margins, i.e. the horizontal range that nodes in each layer can occupy.
-            // v    Horizontal distance between adajacent nodes in a horizontal layer.
+            // v    Horizontal distance between adjacent nodes in a horizontal layer.
 
             // Calculate top/bottom margins.
-            // Each margin consiosts of a fixed amount, plus a proportional component based on teh height of the layout area.
+            // Each margin consists of a fixed amount, plus a proportional component based on the height of the layout area.
             // The fixed amounts are different because the bottom layer of nodes have connections drawn below them, hence
             // additional margin is required there.
             int my_prop = (int)(layoutArea.Height * 0.05f);
@@ -163,7 +163,7 @@ namespace SharpNeat.Drawing.Graph
             // Loop over the graph layers, positioning the nodes in each layer in turn.
             foreach(List<int> nodeList in nodesByLayer)
             {
-                // Calculate v, i.e. the horizontal distance between adajacent nodes in the current layer.
+                // Calculate v, i.e. the horizontal distance between adjacent nodes in the current layer.
                 int n = nodeList.Count;
                 float v = u / n;
 
@@ -177,7 +177,7 @@ namespace SharpNeat.Drawing.Graph
                     nodePosByIdx[nodeIdx] = new Point((int)xcurr, ycurr);
                 }
 
-                // Increment layer y coord, ready for for next layer.
+                // Increment layer y coord, ready for the next layer.
                 ycurr += g;
             }
         }

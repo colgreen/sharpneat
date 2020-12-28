@@ -65,7 +65,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         #region Public Static Methods
 
         /// <summary>
-        /// Create a weight mutation strategy that replaces a random subset of weights, with new weights sampled from a uniform distribution.
+        /// Create a weight mutation strategy that replaces a random subset of weights, with new weights sampled
+        /// from a uniform distribution.
         /// </summary>
         /// <param name="selectionStrategy">Weight selection strategy.</param>
         /// <param name="weightScale">The uniform distribution scale.</param>
@@ -81,7 +82,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         // TODO: Consider Laplacian distribution.
 
         /// <summary>
-        /// Create a weight mutation strategy that replaces a random subset of weights, with new weights sampled from a gaussian distribution.
+        /// Create a weight mutation strategy that replaces a random subset of weights, with new weights sampled
+        /// from a Gaussian distribution.
         /// </summary>
         /// <param name="selectionStrategy">Weight selection strategy.</param>
         /// <param name="stdDev">Gaussian standard deviation.</param>

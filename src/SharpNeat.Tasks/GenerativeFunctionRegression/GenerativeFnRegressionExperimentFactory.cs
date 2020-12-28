@@ -31,7 +31,8 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         #region Public Methods
 
         /// <summary>
-        /// Create a new instance of <see cref="INeatExperiment{T}"/>.
+        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
+        /// from the provided json object model.
         /// </summary>
         /// <param name="configElem">Experiment config in json form.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
@@ -64,8 +65,9 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="INeatExperiment{T}"/> using single-precision
-        /// floating-point number format for the genome and neural-net connection weights.
+        /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
+        /// from the provided json object model, and using single-precision floating-point number format for the
+        /// genome and neural-net connection weights.
         /// </summary>
         /// <param name="configElem">Experiment config in json form.</param>
         /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>

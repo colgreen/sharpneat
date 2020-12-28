@@ -152,7 +152,8 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         public void RequestPause()
         {
             if(_runState == RunState.Running)
-            {   // Set a flag that tells the worker thread to enter the paused state, but do not wait for the bacground thread to pause.
+            {   // Set a flag that tells the worker thread to enter the paused state,
+                // but do not wait for the background thread to pause.
                 _pauseRequestFlag = true;
             }
             else
