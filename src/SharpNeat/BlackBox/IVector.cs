@@ -22,12 +22,13 @@ namespace SharpNeat.BlackBox
         #region Indexer / Properties
 
         /// <summary>
-        /// Gets or sets the signal value at the specified index.
+        /// Gets or sets the element at the specified index.
         /// </summary>
+        /// <param name="index">The index of the element to get or set.</param>
         T this[int index] { get; set; }
 
         /// <summary>
-        /// Gets the length of the signal array.
+        /// Gets the length of the vector.
         /// </summary>
         int Length { get; }
 
@@ -36,44 +37,44 @@ namespace SharpNeat.BlackBox
         #region Methods
 
         /// <summary>
-        /// Copies all elements from the current SignalArray to the specified target array starting
-        /// at the specified target Array index.
+        /// Copies all elements from the current vector to the specified target array, starting
+        /// at the specified target array index.
         /// </summary>
-        /// <param name="targetArray">The array to copy elements to.</param>
-        /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
+        /// <param name="targetArray">The target array to copy elements in to.</param>
+        /// <param name="targetIndex">The index in <paramref name="targetArray"/> at which copying to begins.</param>
         void CopyTo(T[] targetArray, int targetIndex);
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
-        /// array starting at the specified target Array index.
+        /// Copies <paramref name="length"/> elements from the current vector to the specified target
+        /// array, starting at the specified target array index.
         /// </summary>
-        /// <param name="targetArray">The array to copy elements to.</param>
-        /// <param name="targetIndex">The targetArray index at which storing begins.</param>
+        /// <param name="targetArray">The target array to copy elements in to.</param>
+        /// <param name="targetIndex">The index in <paramref name="targetArray"/> at which copying to begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         void CopyTo(T[] targetArray, int targetIndex, int length);
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current SignalArray to the specified target
-        /// starting from <paramref name="targetIndex"/> on the target array and <paramref name="sourceIndex"/>
-        /// on the current source SignalArray.
+        /// Copies <paramref name="length"/> elements from the current vector to the specified target
+        /// array, starting from <paramref name="targetIndex"/> on the target array and
+        /// <paramref name="sourceIndex"/> in the current vector..
         /// </summary>
-        /// <param name="targetArray">The array to copy elements to.</param>
-        /// <param name="targetIndex">The targetArray index at which copying begins.</param>
-        /// <param name="sourceIndex">The index into the current SignalArray at which copying begins.</param>
+        /// <param name="targetArray">The target array to copy elements in to.</param>
+        /// <param name="targetIndex">The index in <paramref name="targetArray"/> at which copying to begins.</param>
+        /// <param name="sourceIndex">The index into the current vector  at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length);
 
         /// <summary>
-        /// Copies all elements from the source array writing them into the current SignalArray starting
-        /// at the specified targetIndex.
+        /// Copies all elements from the source array writing them into the current vector starting at
+        /// <paramref name="targetIndex"/>.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         void CopyFrom(T[] sourceArray, int targetIndex);
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current SignalArray
-        /// starting at the specified targetIndex.
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current vector
+        /// starting at <paramref name="targetIndex"/>.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
@@ -81,8 +82,8 @@ namespace SharpNeat.BlackBox
         void CopyFrom(T[] sourceArray, int targetIndex, int length);
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements starting from sourceIndex on sourceArray to the current
-        /// SignalArray starting at the specified targetIndex.
+        /// Copies <paramref name="length"/> elements starting from <paramref name="sourceIndex"/> in
+        /// <paramref name="sourceArray"/>, to the current vector, starting at <paramref name="targetIndex"/>.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="sourceIndex">The sourceArray index at which copying begins.</param>

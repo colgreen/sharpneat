@@ -15,9 +15,9 @@ using System.Diagnostics;
 namespace SharpNeat.BlackBox
 {
     /// <summary>
-    /// Wraps a native array along with an indirection/mapping array.
+    /// Wraps a native array and a second 'mapping' array that maps vector indexes to indexes within the array.
     /// </summary>
-    /// <typeparam name="T">Vector data type.</typeparam>
+    /// <typeparam name="T">Vector element type.</typeparam>
     public sealed class MappingVector<T> : IVector<T> where T : struct
     {
         readonly T[] _innerArr;
@@ -26,8 +26,10 @@ namespace SharpNeat.BlackBox
         #region Constructor
 
         /// <summary>
-        /// Construct a MappingVector that wraps the provided wrappedArray.
+        /// Construct a mapping vector that wraps the provided array and mapping array.
         /// </summary>
+        /// <param name="innerArray">An array that contains the elements of the vector.</param>
+        /// <param name="map">An array that maps vector indexes to indexes within <paramref name="innerArray"/>.</param>
         public MappingVector(T[] innerArray, int[] map)
         {
             // Note. This test is a debug assert to allow for checking of code validity in debug builds,
@@ -43,8 +45,9 @@ namespace SharpNeat.BlackBox
         #region Indexer / Properties
 
         /// <summary>
-        /// Gets or sets the single value at the specified index.
+        /// Gets or sets the element at the specified index.
         /// </summary>
+        /// <param name="index">The index of the element to get or set.</param>
         /// <remarks>
         /// Debug asserts are used to check the index value, this avoids the check in release builds thus improving performance,
         /// but includes the check in debug builds. Tasks will typically access this indexer heavily, therefore the removal of
@@ -65,7 +68,7 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Gets the length of the signal array.
+        /// Gets the length of the vector.
         /// </summary>
         public int Length => _map.Length;
 
@@ -74,11 +77,11 @@ namespace SharpNeat.BlackBox
         #region Public Methods
 
         /// <summary>
-        /// Copies all elements from the current MappingVector to the specified target array starting
-        /// at the specified target Array index.
+        /// Copies all elements from the current vector to the specified target array, starting
+        /// at the specified target array index.
         /// </summary>
-        /// <param name="targetArray">The array to copy elements to.</param>
-        /// <param name="targetIndex">The targetArray index at which copying to begins.</param>
+        /// <param name="targetArray">The target array to copy elements in to.</param>
+        /// <param name="targetIndex">The index in <paramref name="targetArray"/> at which copying to begins.</param>
         public void CopyTo(T[] targetArray, int targetIndex)
         {
             if(    targetIndex < 0
@@ -92,11 +95,11 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current MappingVector to the specified target
-        /// array starting at the specified target Array index.
+        /// Copies <paramref name="length"/> elements from the current vector to the specified target
+        /// array, starting at the specified target array index.
         /// </summary>
-        /// <param name="targetArray">The array to copy elements to.</param>
-        /// <param name="targetIndex">The targetArray index at which storing begins.</param>
+        /// <param name="targetArray">The target array to copy elements in to.</param>
+        /// <param name="targetIndex">The index in <paramref name="targetArray"/> at which copying to begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
@@ -113,13 +116,13 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the current MappingVector to the specified target array
-        /// starting from <paramref name="targetIndex"/> on the target array and <paramref name="sourceIndex"/>
-        /// on the current source MappingVector.
+        /// Copies <paramref name="length"/> elements from the current vector to the specified target
+        /// array, starting from <paramref name="targetIndex"/> on the target array and
+        /// <paramref name="sourceIndex"/> in the current vector..
         /// </summary>
-        /// <param name="targetArray">The array to copy elements to.</param>
-        /// <param name="targetIndex">The targetArray index at which copying begins.</param>
-        /// <param name="sourceIndex">The index into the current MappingVector at which copying begins.</param>
+        /// <param name="targetArray">The target array to copy elements in to.</param>
+        /// <param name="targetIndex">The index in <paramref name="targetArray"/> at which copying to begins.</param>
+        /// <param name="sourceIndex">The index into the current vector  at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
@@ -137,11 +140,11 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies all elements from the source array writing them into the current MappingVector starting
-        /// at the specified targetIndex.
+        /// Copies all elements from the source array writing them into the current vector starting at
+        /// <paramref name="targetIndex"/>.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
-        /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
             if(    targetIndex < 0
@@ -155,11 +158,11 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements from the source array writing them to the current MappingVector
-        /// starting at the specified targetIndex.
+        /// Copies <paramref name="length"/> elements from the source array writing them to the current vector
+        /// starting at <paramref name="targetIndex"/>.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
-        /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
@@ -176,12 +179,12 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Copies <paramref name="length"/> elements starting from sourceIndex on sourceArray to the current
-        /// MappingVector starting at the specified targetIndex.
+        /// Copies <paramref name="length"/> elements starting from <paramref name="sourceIndex"/> in
+        /// <paramref name="sourceArray"/>, to the current vector, starting at <paramref name="targetIndex"/>.
         /// </summary>
         /// <param name="sourceArray">The array to copy elements from.</param>
         /// <param name="sourceIndex">The sourceArray index at which copying begins.</param>
-        /// <param name="targetIndex">The index into the current MappingVector at which copying begins.</param>
+        /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
@@ -199,7 +202,7 @@ namespace SharpNeat.BlackBox
         }
 
         /// <summary>
-        /// Reset all array elements to zero.
+        /// Reset all vector elements to zero.
         /// </summary>
         public void Reset()
         {

@@ -121,6 +121,15 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Constructs with the provided ID, birth generation and gene arrays.
         /// </summary>
+        /// <param name="metaNeatGenome">Meta NEAT genome.</param>
+        /// <param name="id">Genome ID.</param>
+        /// <param name="birthGeneration">Genome birth generation.</param>
+        /// <param name="connGenes">Genome connection genes.</param>
+        /// <param name="hiddenNodeIdArr">Array of hidden node IDs.</param>
+        /// <param name="nodeIndexByIdMap">A mapping from node IDs to node indexes.</param>
+        /// <param name="digraph">A directed graph that represents the neural network structure.</param>
+        /// <param name="connectionIndexMap">A mapping between genome connection indexes (in <paramref name="connGenes"/>),
+        /// to reordered connections based on depth based node index allocations (optional, acyclic genomes only).</param>
         internal NeatGenome(
             MetaNeatGenome<T> metaNeatGenome,
             int id,
@@ -157,18 +166,22 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// Tests if the genome contains a connection that refers to the given hidden node ID.
         /// </summary>
+        /// <param name="id">Node ID.</param>
+        /// <returns>True if the genome contains a hidden node with the specified ID; otherwise false.</returns>
         public bool ContainsHiddenNode(int id)
         {
             return Array.BinarySearch(this.HiddenNodeIdArray, id) >= 0;
         }
 
         /// <summary>
-        /// Get an array of digraph connection weights.
+        /// Gets an array of connection weights, ordered to match the connections of <see cref="DirectedGraph"/>.
+        /// </summary>
+        /// <returns>An array of connection weights.</returns>
+        /// <remarks>
         /// For cyclic genomes this is simply the genome's weight array, but for acyclic genomes the digraph and genome
         /// represent connections in a different order, thus for acyclic genomes/digraphs this method will return a new
         /// array with the weights in the digraph order.
-        /// </summary>
-        /// <returns></returns>
+        /// </remarks>
         public T[] GetDigraphWeightArray()
         {
             // If the genome represents a cyclic graph then the genome connections are in the same order as the digraph

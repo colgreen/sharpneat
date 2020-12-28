@@ -26,16 +26,16 @@ namespace SharpNeat.Graphs.Acyclic
         /// <summary>
         /// Create with the provided list of connections, and input/output node counts.
         /// </summary>
-        /// <param name="connectionList">A list of weighted connections that describe the graph.</param>
+        /// <param name="connections">A list of weighted connections that describe the graph.</param>
         /// <param name="inputCount">Input node count.</param>
         /// <param name="outputCount">Output node count.</param>
         /// <returns>A new instance of <see cref="WeightedDirectedGraphAcyclic{T}"/>.</returns>
         public static WeightedDirectedGraphAcyclic<T> Create(
-            IList<WeightedDirectedConnection<T>> connectionList,
+            IList<WeightedDirectedConnection<T>> connections,
             int inputCount, int outputCount)
         {
             // Convert the set of connections to a standardised graph representation.
-            WeightedDirectedGraph<T> digraph = WeightedDirectedGraphBuilder<T>.Create(connectionList, inputCount, outputCount);
+            WeightedDirectedGraph<T> digraph = WeightedDirectedGraphBuilder<T>.Create(connections, inputCount, outputCount);
 
             // Invoke factory logic specific to acyclic graphs.
             return Create(digraph);

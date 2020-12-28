@@ -28,19 +28,23 @@ namespace SharpNeat.Graphs
         /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of input/output
         /// node IDs defined as being in a contiguous sequence starting at ID zero.
         /// </summary>
+        /// <param name="connections">The connections that define the structure and weights of the weighted directed graph.</param>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <returns>A new instance of <see cref="DirectedGraph"/>.</returns>
         /// <remarks>
-        /// connectionList is required to be sorted by sourceID, TargetID.
+        /// <paramref name="connections"/> is required to be sorted by sourceId, TargetId.
         /// </remarks>
         public static DirectedGraph Create(
-            IList<DirectedConnection> connectionList,
+            IList<DirectedConnection> connections,
             int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
-            Debug.Assert(SortUtils.IsSortedAscending(connectionList));
+            Debug.Assert(SortUtils.IsSortedAscending(connections));
 
             // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;
-            var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
+            var hiddenNodeIdArr = GetHiddenNodeIdArray(connections, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
             INodeIdMap nodeIdMap = DirectedGraphBuilderUtils.CompileNodeIdMap(
@@ -51,7 +55,7 @@ namespace SharpNeat.Graphs
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            ConnectionIdArrays connIdArrays = CopyAndMapIds(connectionList, nodeIdMap);
+            ConnectionIdArrays connIdArrays = CopyAndMapIds(connections, nodeIdMap);
 
             // Construct and return a new DirectedGraph.
             int totalNodeCount =  inputOutputCount + hiddenNodeIdArr.Length;

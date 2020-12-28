@@ -21,8 +21,8 @@ namespace SharpNeat.Graphs.Acyclic
     public sealed class GraphDepthInfo : IEquatable<GraphDepthInfo>
     {
         /// <summary>
-        /// Indicates the total depth of the network.
-        /// This is the highest value within _nodeDepths + 1 (because the first layer is layer 0).
+        /// The total depth of the graph.
+        /// This is the highest value within _nodeDepths, + 1 (because the first layer is layer 0).
         /// </summary>
         public readonly int _graphDepth;
         /// <summary>
@@ -33,6 +33,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// <summary>
         /// Construct with the provided info.
         /// </summary>
+        /// <param name="graphDepth">The total depth of the graph.</param>
+        /// <param name="nodeDepthArr">An array containing the depth of each node in the digraph.</param>
         public GraphDepthInfo(int graphDepth, int[] nodeDepthArr)
         {
             Debug.Assert(graphDepth >= 0);

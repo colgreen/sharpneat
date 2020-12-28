@@ -33,16 +33,20 @@ namespace SharpNeat.Graphs
         /// to allow for the allocation of NeatGenome input and output nodes, which are defined with fixed IDs but aren't
         /// necessarily connected to.
         /// </summary>
+        /// <param name="connections">The connections that define the structure and weights of the weighted directed graph.</param>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <returns>A new instance of <see cref="WeightedDirectedGraph{T}"/>.</returns>
         public static WeightedDirectedGraph<T> Create(
-            IList<WeightedDirectedConnection<T>> connectionList,
+            IList<WeightedDirectedConnection<T>> connections,
             int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
-            Debug.Assert(SortUtils.IsSortedAscending(connectionList, WeightedDirectedConnectionComparer<T>.Default));
+            Debug.Assert(SortUtils.IsSortedAscending(connections, WeightedDirectedConnectionComparer<T>.Default));
 
             // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;
-            var hiddenNodeIdArr = GetHiddenNodeIdArray(connectionList, inputOutputCount);
+            var hiddenNodeIdArr = GetHiddenNodeIdArray(connections, inputOutputCount);
 
             // Compile a mapping from current nodeIDs to new IDs (i.e. removing gaps in the ID space).
             INodeIdMap nodeIdMap = DirectedGraphBuilderUtils.CompileNodeIdMap(
@@ -53,7 +57,7 @@ namespace SharpNeat.Graphs
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
-            CopyAndMapIds(connectionList, nodeIdMap,
+            CopyAndMapIds(connections, nodeIdMap,
                 out ConnectionIdArrays connIdArrays,
                 out T[] weightArr);
 

@@ -256,7 +256,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
         /// <summary>
         /// Get an array of hidden node IDs in the child genome.
         /// </summary>
-        public static int[] GetHiddenNodeIdArray(
+        private static int[] GetHiddenNodeIdArray(
             NeatGenome<T> parent,
             int addedNodeId,
             bool newInnovationIdsFlag)
