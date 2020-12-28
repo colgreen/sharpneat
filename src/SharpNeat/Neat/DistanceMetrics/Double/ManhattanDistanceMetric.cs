@@ -96,6 +96,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// <summary>
         /// Calculates the distance between two positions.
         /// </summary>
+        /// <param name="p1">Position one.</param>
+        /// <param name="p2">Position two.</param>
+        /// <returns>The distance between <paramref name="p1"/> and <paramref name="p2"/>.</returns>
         public double CalcDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
         {
             DirectedConnection[] connArr1 = p1._connArr;
@@ -196,14 +199,14 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
         /// <summary>
         /// Tests if the distance between two positions is less than some threshold.
-        ///
-        /// A simple way of implementing this method would be to calculate the distance between the
-        /// two coordinates and test if it is less than the threshold. However, that approach requires that all of the
-        /// elements in both CoordinateVectors be fully compared. We can improve performance in the general case
-        /// by testing if the threshold has been passed after each vector element comparison thus allowing an early exit
-        /// from the method for many calls. Further to this, we can begin comparing from the ends of the vectors where
-        /// differences are most likely to occur.
         /// </summary>
+        /// <param name="p1">Position one.</param>
+        /// <param name="p2">Position two.</param>
+        /// <param name="threshold">Distance threshold.</param>
+        /// <returns>
+        /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than 
+        /// <paramref name="threshold"/>.
+        /// </returns>
         public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
         {
             DirectedConnection[] connArr1 = p1._connArr;

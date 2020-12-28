@@ -44,7 +44,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         /// <param name="validateAcyclic">Enable acyclic graph validation.</param>
         /// <remarks>
-        /// If the caller can guarantee that calles to Create() will provide acyclic graphs only, then
+        /// If the caller can guarantee that calls to Create() will provide acyclic graphs only, then
         /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
         /// </remarks>
         public NeatGenomeBuilderAcyclic(MetaNeatGenome<T> metaNeatGenome, bool validateAcyclic)

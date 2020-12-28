@@ -21,13 +21,17 @@ namespace SharpNeat.Neat.Genome
     /// <summary>
     /// Static utility methods related to connection genes.
     /// </summary>
-    public static class ConnectionGenesUtils
+    internal static class ConnectionGenesUtils
     {
         #region Public Static Methods
 
         /// <summary>
         /// Create a sorted array of hidden node IDs.
         /// </summary>
+        /// <param name="connArr">An array of directed connections from which to extract/determine the hidden node IDs.</param>
+        /// <param name="inputOutputCount">The number of input and output nodes. Hidden node IDs start after these nodes.</param>
+        /// <param name="workingIdSet">A working/reusable hashset. This is cleared and re-populated with the hidden nodes IDs before returning.</param>
+        /// <returns>A new array that contains all of the hidden node IDs, sorted in ascending order.</returns>
         public static int[] CreateHiddenNodeIdArray(
             DirectedConnection[] connArr,
             int inputOutputCount,
