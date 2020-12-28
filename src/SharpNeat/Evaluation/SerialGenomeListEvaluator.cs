@@ -40,9 +40,10 @@ namespace SharpNeat.Evaluation
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided <see cref="IGenomeDecoder{TGenome,TPhenome}"/> and <see cref="IPhenomeEvaluator{TPhenome}"/>.
-        /// Phenome caching is enabled by default.
+        /// Construct with the provided genome decoder and phenome evaluator.
         /// </summary>
+        /// <param name="genomeDecoder">Genome decoder.</param>
+        /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
         public SerialGenomeListEvaluator(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme)
@@ -78,8 +79,9 @@ namespace SharpNeat.Evaluation
         public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 
         /// <summary>
-        /// Evaluates a collection of genomes and assigns fitness info to each.
+        /// Evaluates a list of genomes, assigning fitness info to each.
         /// </summary>
+        /// <param name="genomeList">The list of genomes to evaluate.</param>
         public void Evaluate(ICollection<TGenome> genomeList)
         {
             // Decode and evaluate each genome in turn.

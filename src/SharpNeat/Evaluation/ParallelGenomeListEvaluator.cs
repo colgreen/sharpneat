@@ -44,23 +44,26 @@ namespace SharpNeat.Evaluation
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided IGenomeDecoder and IPhenomeEvaluator.
+        /// Construct with the provided genome decoder and phenome evaluator.
         /// </summary>
+        /// <param name="genomeDecoder">Genome decoder.</param>
+        /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
+        /// <param name="degreeOfParallelism">The desired degree of parallelism.</param>
         public ParallelGenomeListEvaluator(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
-            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluatorScheme,
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
             int degreeOfParallelism)
         {
             // This class should only be used with evaluation schemes that use evaluators with state,
             // otherwise ParallelGenomeListEvaluatorStateless should be used.
-            if(!phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
+            if(!phenomeEvaluationScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluationScheme));
 
             // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
             // this constructor is invoked, and 1 is nonsensical for a parallel evaluator.
             if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
 
             _genomeDecoder = genomeDecoder;
-            _phenomeEvaluationScheme = phenomeEvaluatorScheme;
+            _phenomeEvaluationScheme = phenomeEvaluationScheme;
             _parallelOptions = new ParallelOptions {
                  MaxDegreeOfParallelism = degreeOfParallelism
             };
@@ -70,7 +73,7 @@ namespace SharpNeat.Evaluation
             // degreeOfParallelism. We don't expect the pool to be asked for more than this number of
             // evaluators at any given point in time.
             _evaluatorPool = new PhenomeEvaluatorStackPool<TPhenome>(
-                phenomeEvaluatorScheme,
+                phenomeEvaluationScheme,
                 degreeOfParallelism);
         }
 
@@ -100,6 +103,7 @@ namespace SharpNeat.Evaluation
         /// <summary>
         /// Evaluates a collection of genomes and assigns fitness info to each.
         /// </summary>
+        /// <param name="genomeList">The list of genomes to evaluate.</param>
         public void Evaluate(ICollection<TGenome> genomeList)
         {
             // Decode and evaluate genomes in parallel.

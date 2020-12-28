@@ -37,6 +37,8 @@ namespace SharpNeat.Graphs
         /// <summary>
         /// Construct with the provided source and target node IDs.
         /// </summary>
+        /// <param name="srcId">Connection source node ID.</param>
+        /// <param name="tgtId">Connection target node ID.</param>
         public DirectedConnection(int srcId, int tgtId)
         {
             this.SourceId = srcId;
@@ -44,8 +46,9 @@ namespace SharpNeat.Graphs
         }
 
         /// <summary>
-        /// Construct with the provided source and target node IDs.
+        /// Copy constructor.
         /// </summary>
+        /// <param name="copyFrom">The directed connection to copy.</param>
         public DirectedConnection(in DirectedConnection copyFrom)
         {
             this.SourceId = copyFrom.SourceId;

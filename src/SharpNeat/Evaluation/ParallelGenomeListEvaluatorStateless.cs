@@ -44,23 +44,26 @@ namespace SharpNeat.Evaluation
         #region Constructor
 
         /// <summary>
-        /// Construct with the provided IGenomeDecoder and IPhenomeEvaluator.
+        /// Construct with the provided genome decoder and phenome evaluator.
         /// </summary>
+        /// <param name="genomeDecoder">Genome decoder.</param>
+        /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
+        /// <param name="degreeOfParallelism">The desired degree of parallelism.</param>
         public ParallelGenomeListEvaluatorStateless(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
-            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluatorScheme,
+            IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
             int degreeOfParallelism)
         {
             // This class can only accept an evaluation scheme that uses a stateless evaluator.
-            if(phenomeEvaluatorScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluatorScheme));
+            if(phenomeEvaluationScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluationScheme));
 
             // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
             // this constructor is invoked, and 1 is nonsensical for a parallel evaluator.
             if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
 
             _genomeDecoder = genomeDecoder;
-            _phenomeEvaluationScheme = phenomeEvaluatorScheme;
-            _phenomeEvaluator = phenomeEvaluatorScheme.CreateEvaluator();
+            _phenomeEvaluationScheme = phenomeEvaluationScheme;
+            _phenomeEvaluator = phenomeEvaluationScheme.CreateEvaluator();
             _parallelOptions = new ParallelOptions {
                  MaxDegreeOfParallelism = degreeOfParallelism
             };
@@ -90,8 +93,9 @@ namespace SharpNeat.Evaluation
         public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 
         /// <summary>
-        /// Evaluates a collection of genomes and assigns fitness info to each.
+        /// Evaluates a list of genomes, assigning fitness info to each.
         /// </summary>
+        /// <param name="genomeList">The list of genomes to evaluate.</param>
         public void Evaluate(ICollection<TGenome> genomeList)
         {
             // Decode and evaluate genomes in parallel.

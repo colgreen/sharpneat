@@ -12,6 +12,8 @@
 
 namespace SharpNeat.NeuralNets
 {
+    // TODO: Review class, as it doesn't appear to be used currently.
+
     /// <summary>
     /// Represents network activation schemes.
     /// </summary>
@@ -19,8 +21,8 @@ namespace SharpNeat.NeuralNets
     {
         bool _acyclicNetwork;
 
-        // Cyclic network specific
-        int _timestepsPerActivation;
+        // Cyclic network specific.
+        int _cyclesPerActivation;
 
         #region Constructors
 
@@ -43,11 +45,12 @@ namespace SharpNeat.NeuralNets
         }
 
         /// <summary>
-        /// Gets a fixed number of activation timesteps.
+        /// Gets the number of activation cycles to perform per overall activation of
+        /// a cyclic network. Used for cyclic networks only.
         /// </summary>
-        public int TimestepsPerActivation
+        public int CyclesPerActivation
         {
-            get { return _timestepsPerActivation; }
+            get { return _cyclesPerActivation; }
         }
 
         #endregion
@@ -57,6 +60,7 @@ namespace SharpNeat.NeuralNets
         /// <summary>
         /// Create an activation scheme for acyclic networks.
         /// </summary>
+        /// <returns>A new instance of <see cref="NetworkActivationScheme"/>.</returns>
         public static NetworkActivationScheme CreateAcyclicScheme()
         {
             NetworkActivationScheme scheme = new NetworkActivationScheme {
@@ -66,13 +70,16 @@ namespace SharpNeat.NeuralNets
         }
 
         /// <summary>
-        /// Create an activation scheme with a fixed number of activation timesteps (suitable for cyclic networks only).
+        /// Create an activation scheme for cyclic networks.
         /// </summary>
-        public static NetworkActivationScheme CreateCyclicScheme(int timestepsPerActivation)
+        /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of
+        /// the cyclic network.</param>
+        /// <returns>A new instance of <see cref="NetworkActivationScheme"/>.</returns>
+        public static NetworkActivationScheme CreateCyclicScheme(int cyclesPerActivation)
         {
             NetworkActivationScheme scheme = new NetworkActivationScheme {
                 _acyclicNetwork = false,
-                _timestepsPerActivation = timestepsPerActivation
+                _cyclesPerActivation = cyclesPerActivation
             };
             return scheme;
         }

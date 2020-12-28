@@ -33,6 +33,9 @@ namespace SharpNeat.Neat
         /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
         /// Then calc and store the elite, selection and offspring allocations/counts, per species.
         /// </summary>
+        /// <param name="pop">The NEAT population to update species allocation sizes for.</param>
+        /// <param name="eaSettings">Evolution algorithm settings object.</param>
+        /// <param name="rng">Random source.</param>
         public static void UpdateSpeciesAllocationSizes(
             NeatPopulation<T> pop,
             NeatEvolutionAlgorithmSettings eaSettings,
@@ -255,9 +258,9 @@ namespace SharpNeat.Neat
         /// For each species, allocate the EliteSizeInt, OffspringCount (broken down into OffspringAsexualCount and OffspringSexualCount),
         /// and SelectionSizeInt values.
         /// </summary>
-        /// <param name="pop"></param>
-        /// <param name="eaSettings"></param>
-        /// <param name="rng"></param>
+        /// <param name="pop">The NEAT population to update species allocation sizes for.</param>
+        /// <param name="eaSettings">Evolution algorithm settings object.</param>
+        /// <param name="rng">Random source.</param>
         private static void UpdateEliteSelectionOffspringCounts(
             NeatPopulation<T> pop,
             NeatEvolutionAlgorithmSettings eaSettings,

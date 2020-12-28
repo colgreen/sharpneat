@@ -41,8 +41,9 @@ namespace SharpNeat.Evaluation
         // TODO: Consider changing this to accept an IList<TGenome> (or Span<T>, ReadOnlySpan<T>, etc.), to allow indexed access to the list
         // (also the parameter currently has the wrong name as it is not a list!).
         /// <summary>
-        /// Evaluates a collection of genomes and assigns fitness info to each.
+        /// Evaluates a list of genomes, assigning fitness info to each.
         /// </summary>
+        /// <param name="genomeList">The list of genomes to evaluate.</param>
         void Evaluate(ICollection<TGenome> genomeList);
 
         /// <summary>
