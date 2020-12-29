@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Speciation.Parallelized;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 {
@@ -223,8 +222,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         {
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from
-            // a list requires shuffling up of items to fill the gap.
+            // removal from a list has O(N) complexity, because removing an item from a list requires
+            // shuffling items to fill the gap.
             Parallel.ForEach(speciesArr, _parallelOptions, species => species.LoadWorkingDictionary());
         }
 
@@ -234,7 +233,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => x.GenomeById.Count == 0).ToArray();
             if(emptySpeciesArr.Length != 0) {
-                SpeciationUtilsParallel.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
+                SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
             }
 
             // Transfer all genomes from GenomeById to GenomeList.
@@ -243,20 +242,34 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, bool[] updateBits)
         {
-            Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
-            {
-                var species = speciesArr[i];
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
-            });
+            Parallel.ForEach(
+                Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]),
+                _parallelOptions,
+                () => new List<ConnectionGenes<T>>(),
+                (speciesIdx, loopState, connGenesList) =>
+                {
+                    var species = speciesArr[speciesIdx];
+                    SpeciationUtils.ExtractConnectionGenes(connGenesList, species.GenomeById);
+                    species.Centroid = _distanceMetric.CalculateCentroid(connGenesList);
+                    return connGenesList;
+                },
+                (connGenesList) => connGenesList.Clear());
         }
 
         private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, bool[] updateBits)
         {
-            Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
-            {
-                var species = speciesArr[i];
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
-            });
+            Parallel.ForEach(
+                Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]),
+                _parallelOptions,
+                () => new List<ConnectionGenes<T>>(),
+                (speciesIdx, loopState, connGenesList) =>
+                {
+                    var species = speciesArr[speciesIdx];
+                    SpeciationUtils.ExtractConnectionGenes(connGenesList, species.GenomeList);
+                    species.Centroid = _distanceMetric.CalculateCentroid(connGenesList);
+                    return connGenesList;
+                },
+                (connGenesList) => connGenesList.Clear());
         }
 
         #endregion

@@ -320,11 +320,13 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         // is an approximation of the true centroid in L1 space (Manhattan distance).
         // Note. In practice this is possibly a near optimal centroid for all but small clusters.
         /// <summary>
-        /// Calculates the centroid for the given set of points.
+        /// Calculates the centroid for a set of points.
         /// </summary>
-        public ConnectionGenes<double> CalculateCentroid(IEnumerable<ConnectionGenes<double>> coordList)
+        /// <param name="pointList">The set of points.</param>
+        /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
+        public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> pointList)
         {
-            return DistanceMetricUtils.CalculateEuclideanCentroid(coordList);
+            return DistanceMetricUtils.CalculateEuclideanCentroid(pointList);
         }
 
         #endregion

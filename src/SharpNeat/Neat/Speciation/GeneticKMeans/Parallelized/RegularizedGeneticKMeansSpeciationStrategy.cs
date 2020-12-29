@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Speciation.Parallelized;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 {
@@ -337,7 +336,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         {
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from
+            // removal from a list has O(N) complexity because removing an item from
             // a list requires shuffling up of items to fill the gap.
             Parallel.ForEach(speciesArr, _parallelOptions, species => species.LoadWorkingDictionary());
         }
@@ -368,7 +367,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => x.GenomeById.Count == 0).ToArray();
             if(emptySpeciesArr.Length != 0) {
-                SpeciationUtilsParallel.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
+                SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
             }
 
             // Transfer all genomes from GenomeById to GenomeList.
@@ -377,20 +376,42 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, bool[] updateBits)
         {
-            Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
-            {
-                var species = speciesArr[i];
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
-            });
+            Parallel.ForEach(
+                Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]),
+                _parallelOptions,
+                () => new List<ConnectionGenes<T>>(),
+                (speciesIdx, loopState, connGenesList) =>
+                {
+                    var species = speciesArr[speciesIdx];
+
+                    // Extract the ConnectionGenes<T> object from each genome in the GenomeById dictionary.
+                    SpeciationUtils.ExtractConnectionGenes(connGenesList, species.GenomeById);
+
+                    // Calculate the centroid for the extracted connection genes.
+                    species.Centroid = _distanceMetric.CalculateCentroid(connGenesList);
+                    return connGenesList;
+                },
+                (connGenesList) => connGenesList.Clear());
         }
 
         private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, bool[] updateBits)
         {
-            Parallel.ForEach(Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]), _parallelOptions, (i) =>
-            {
-                var species = speciesArr[i];
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
-            });
+            Parallel.ForEach(
+                Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]),
+                _parallelOptions,
+                () => new List<ConnectionGenes<T>>(),
+                (speciesIdx, loopState, connGenesList) =>
+                {
+                    var species = speciesArr[speciesIdx];
+
+                    // Extract the ConnectionGenes<T> object from each genome in GenomeList.
+                    SpeciationUtils.ExtractConnectionGenes(connGenesList, species.GenomeList);
+
+                    // Calculate the centroid for the extracted connection genes.
+                    species.Centroid = _distanceMetric.CalculateCentroid(connGenesList);
+                    return connGenesList;
+                },
+                (connGenesList) => connGenesList.Clear());
         }
 
         #endregion
@@ -418,20 +439,43 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// </summary>
         private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
         {
+            #pragma warning disable SA1129 // Do not use default value type constructor
+            SpinLock spinLock = new SpinLock();
+            #pragma warning restore SA1129 // Do not use default value type constructor
             double maxDistance = 0.0;
 
             // Iterate through all combinations of species, except for pairs of the same species.
             // Thus for N species the number of comparisons is N^2 - N.
-            Parallel.For(0, speciesArr.Length - 1, _parallelOptions, (i) =>
-            {
-                var species = speciesArr[i];
-
-                for(int j = i+1; j < speciesArr.Length; j++)
+            Parallel.For(
+                0,
+                speciesArr.Length - 1,
+                _parallelOptions,
+                () => 0.0,
+                (i, loopState, localMaxDistance) =>
                 {
-                    double distance = _distanceMetric.CalcDistance(species.Centroid, speciesArr[j].Centroid);
-                    maxDistance = Math.Max(maxDistance, distance);
-                }
-            });
+                    var species = speciesArr[i];
+
+                    for(int j = i+1; j < speciesArr.Length; j++)
+                    {
+                        double distance = _distanceMetric.CalcDistance(species.Centroid, speciesArr[j].Centroid);
+                        localMaxDistance = Math.Max(localMaxDistance, distance);
+                    }
+
+                    return localMaxDistance;
+                },
+                (localMaxDistance) =>
+                {
+                    bool lockTaken = false;
+                    try
+                    {
+                        spinLock.Enter(ref lockTaken);
+                        if(localMaxDistance > maxDistance) maxDistance = localMaxDistance;
+                    }
+                    finally
+                    {
+                        if(lockTaken) spinLock.Exit(false);
+                    }
+                });
 
             return maxDistance;
         }

@@ -90,7 +90,19 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             }
 
             // Recalc species centroids.
-            Array.ForEach(speciesArr, x => x.Centroid = _distanceMetric.CalculateCentroid(x.GenomeList.Select(y => y.ConnectionGenes)));
+            // Create a temporary, reusable, working list.
+            var tmpConnGenes = new List<ConnectionGenes<T>>();
+
+            foreach(var species in speciesArr)
+            {
+                // Extract the ConnectionGenes<T> object from each genome in the species' genome list.
+                ExtractConnectionGenes(tmpConnGenes, species.GenomeList);
+
+                // Calculate the centroid for the extracted connection genes.
+                species.Centroid = _distanceMetric.CalculateCentroid(tmpConnGenes);
+            }
+
+            tmpConnGenes.Clear();
 
             return speciesArr;
         }

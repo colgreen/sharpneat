@@ -45,6 +45,8 @@ namespace SharpNeat.Neat.DistanceMetrics
         /// <summary>
         /// Calculates the centroid for the given set of points.
         /// </summary>
+        /// <param name="pointList">The set of points.</param>
+        /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
         /// <remarks>
         /// The centroid is a central position within a set of points that minimizes the sum of the squared
         /// distance between each of those points and the centroid. As such it can also be thought of as being an
@@ -56,6 +58,6 @@ namespace SharpNeat.Neat.DistanceMetrics
         ///
         /// A centroid is used in k-means clustering to define the centre of a cluster.
         /// </remarks>
-        ConnectionGenes<T> CalculateCentroid(IEnumerable<ConnectionGenes<T>> coordList);
+        ConnectionGenes<T> CalculateCentroid(IList<ConnectionGenes<T>> pointList);
     }
 }

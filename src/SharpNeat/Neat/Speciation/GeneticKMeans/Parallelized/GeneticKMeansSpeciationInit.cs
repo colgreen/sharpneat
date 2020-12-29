@@ -99,9 +99,17 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             });
 
             // Recalc species centroids.
-            Parallel.ForEach(speciesArr, _parallelOptions, species => {
-                species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(genome => genome.ConnectionGenes));
-            });
+            Parallel.ForEach(
+                speciesArr,
+                _parallelOptions,
+                () => new List<ConnectionGenes<T>>(),
+                (species, loopState, connGenesList) =>
+                {
+                    ExtractConnectionGenes(connGenesList, species.GenomeList);
+                    species.Centroid = _distanceMetric.CalculateCentroid(connGenesList);
+                    return connGenesList;
+                },
+                (connGenesList) => connGenesList.Clear());
 
             return speciesArr;
         }

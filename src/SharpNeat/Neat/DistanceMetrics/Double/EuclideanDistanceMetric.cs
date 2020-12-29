@@ -139,7 +139,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// <param name="p2">Position two.</param>
         /// <param name="threshold">Distance threshold.</param>
         /// <returns>
-        /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than 
+        /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than
         /// <paramref name="threshold"/>.
         /// </returns>
         /// <remarks>
@@ -264,11 +264,13 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         }
 
         /// <summary>
-        /// Calculates the centroid for the given set of points/coordinates.
+        /// Calculates the centroid for a set of points.
         /// </summary>
-        public ConnectionGenes<double> CalculateCentroid(IEnumerable<ConnectionGenes<double>> coordList)
+        /// <param name="pointList">The set of points.</param>
+        /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
+        public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> pointList)
         {
-            return DistanceMetricUtils.CalculateEuclideanCentroid(coordList);
+            return DistanceMetricUtils.CalculateEuclideanCentroid(pointList);
         }
 
         #endregion

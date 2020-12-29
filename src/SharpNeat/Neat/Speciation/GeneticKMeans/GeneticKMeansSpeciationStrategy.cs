@@ -187,8 +187,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
         {
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;
-            // removal from a list can have O(N) complexity because removing an item from
-            // a list requires shuffling up of items to fill the gap.
+            // removal from a list has O(N) complexity, because removing an item from a list requires
+            // shuffling items to fill the gap.
             foreach(var species in speciesArr) {
                 species.LoadWorkingDictionary();
             }
@@ -209,28 +209,52 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             }
         }
 
-        private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, bool[] updateBits)
+        private void RecalcCentroids_GenomeById(
+            Species<T>[] speciesArr,
+            bool[] updateBits)
         {
+            // Create a temporary, reusable, working list.
+            var tmpConnGenes = new List<ConnectionGenes<T>>();
+
             for(int i=0; i < speciesArr.Length; i++)
             {
                 if(updateBits[i])
                 {
                     var species = speciesArr[i];
-                    species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeById.Values.Select(x => x.ConnectionGenes));
+
+                    // Extract the ConnectionGenes<T> object from each genome in the GenomeById dictionary.
+                    SpeciationUtils.ExtractConnectionGenes(tmpConnGenes, species.GenomeById);
+
+                    // Calculate the centroid for the extracted connection genes.
+                    species.Centroid = _distanceMetric.CalculateCentroid(tmpConnGenes);
                 }
             }
+
+            tmpConnGenes.Clear();
         }
 
-        private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, bool[] updateBits)
+        private void RecalcCentroids_GenomeList(
+            Species<T>[] speciesArr,
+            bool[] updateBits)
         {
+            // Create a temporary, reusable, working list.
+            var tmpConnGenes = new List<ConnectionGenes<T>>();
+
             for(int i=0; i < speciesArr.Length; i++)
             {
                 if(updateBits[i])
                 {
                     var species = speciesArr[i];
-                    species.Centroid = _distanceMetric.CalculateCentroid(species.GenomeList.Select(x => x.ConnectionGenes));
+
+                    // Extract the ConnectionGenes<T> object from each genome in GenomeList.
+                    SpeciationUtils.ExtractConnectionGenes(tmpConnGenes, species.GenomeList);
+
+                    // Calculate the centroid for the extracted connection genes.
+                    species.Centroid = _distanceMetric.CalculateCentroid(tmpConnGenes);
                 }
             }
+
+            tmpConnGenes.Clear();
         }
 
         #endregion
