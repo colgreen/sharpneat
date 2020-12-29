@@ -81,8 +81,12 @@ namespace SharpNeat.Graphs
         #region Public Methods
 
         /// <summary>
-        /// Returns true if there is at least one connectivity cycle within the provided DirectedGraph.
+        /// Tests a directed graph for connectivity cycles, i.e., is it cyclic or acyclic.
         /// </summary>
+        /// <param name="digraph">The directed graph to test.</param>
+        /// <returns>
+        /// True if there is at least one connectivity cycle within the provided DirectedGraph; otherwise false.
+        /// </returns>
         public bool IsCyclic(DirectedGraph digraph)
         {
             #if DEBUG

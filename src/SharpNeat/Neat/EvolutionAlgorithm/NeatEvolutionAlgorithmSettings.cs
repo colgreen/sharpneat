@@ -73,6 +73,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <summary>
         /// Copy constructor.
         /// </summary>
+        /// <param name="copyFrom">The settings object to copy.</param>
         public NeatEvolutionAlgorithmSettings(NeatEvolutionAlgorithmSettings copyFrom)
         {
             this.SpeciesCount = copyFrom.SpeciesCount;
@@ -89,10 +90,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         #region Public Methods
 
         /// <summary>
-        /// Creates a new settings object based on the current settings object but modified to be suitable for use when
+        /// Creates a new settings object based on the current settings object, but modified to be suitable for use when
         /// the evolution algorithm is in simplifying mode.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new instance of <see cref="NeatEvolutionAlgorithmSettings"/>.</returns>
         public NeatEvolutionAlgorithmSettings CreateSimplifyingSettings()
         {
             // Clone the current settings object.

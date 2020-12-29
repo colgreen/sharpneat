@@ -53,6 +53,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// <summary>
         /// Copy constructor.
         /// </summary>
+        /// <param name="copyFrom">The settings object to copy.</param>
         public NeatReproductionAsexualSettings(NeatReproductionAsexualSettings copyFrom)
         {
             this.ConnectionWeightMutationProbability = copyFrom.ConnectionWeightMutationProbability;
@@ -66,10 +67,10 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         #region Public Methods
 
         /// <summary>
-        /// Creates a new settings object based on the current settings object but modified to be suitable for use when
+        /// Creates a new settings object based on the current settings object, but modified to be suitable for use when
         /// the evolution algorithm is in simplifying mode.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new instance of <see cref="NeatReproductionAsexualSettings"/>.</returns>
         public NeatReproductionAsexualSettings CreateSimplifyingSettings()
         {
             // Invoke the copy constructor with the current object.

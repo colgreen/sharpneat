@@ -19,16 +19,14 @@ namespace SharpNeat.Graphs.Acyclic
     /// <summary>
     /// An algorithm for calculating the depth of each node in an acyclic graph.
     ///
-    /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as
-    /// the maximum number of hops to each node from an input node. I.e. where multiple paths exist to a
-    /// node (potentially each with a different numbers of hops), the node's depth is defined by the path
-    /// with the most number of hops.
+    /// Input nodes are defined as being at depth 0, the depth of all other nodes is defined as the maximum number
+    /// of hops to each node from an input node. I.e. where multiple paths exist to a node (potentially each with
+    /// a different numbers of hops), the node's depth is defined by the path with the most number of hops.
     /// </summary>
     /// <remarks>
-    /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
-    /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
-    /// for more details see the comments on:
-    /// <see cref="Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionCheck"/>.
+    /// The algorithm utilises a depth first traversal of the graph, but using its own traversal stack data
+    /// structure instead of relying on function recursion and the call stack. This is an optimisation, for more
+    /// details see the comments on: <see cref="Neat.Reproduction.Sexual.Strategy.UniformCrossover.CyclicConnectionCheck"/>.
     /// Also see:
     /// <see cref="CyclicConnectionCheck"/>
     /// <see cref="CyclicGraphCheck"/>.
@@ -70,9 +68,11 @@ namespace SharpNeat.Graphs.Acyclic
         {}
 
         /// <summary>
-        ///
+        /// Construct with a <paramref name="validateAcyclic"/> flag.
         /// </summary>
-        /// <param name="validateAcyclic"></param>
+        /// <param name="validateAcyclic">If true then each call to <see cref="CalculateNodeDepths"/> will test if
+        /// the graph is cyclic before calculating the acyclic node depths. This is computationally expensive, and
+        /// as such is intended to be used in debugging and testing scenarios only.</param>
         /// <remarks>
         /// If the caller can guarantee that calls to CalculateNodeDepths() will provide acyclic graphs only, then
         /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
@@ -89,8 +89,19 @@ namespace SharpNeat.Graphs.Acyclic
         #region Public Methods
 
         /// <summary>
-        /// Calculate node depths in an acyclic network.
+        /// Calculate node depths in an acyclic directed graph.
         /// </summary>
+        /// <param name="digraph">The directed graph.</param>
+        /// <returns>A new instance of <see cref="GraphDepthInfo"/>.</returns>
+        /// <remarks>
+        /// If <paramref name="digraph"/> represents a cyclic graph, then this method will either
+        /// (a) If validateAcyclic=true passed in at construction time, then an exception is thrown; otherwise
+        /// (b) this method is non-completing, and will ultimately cause an out-of-memory exception.
+        ///
+        /// The cyclic test is expensive, therefore it should be avoided in normal use if possible, thus relying
+        /// on the correctness of the caller, i.e., the caller should only ever call this method with acyclic
+        /// graphs.
+        /// </remarks>
         public GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
             #if DEBUG
@@ -104,7 +115,7 @@ namespace SharpNeat.Graphs.Acyclic
             // Test that the graph is acyclic; if digraph is cyclic then the graph traversal implemented here will
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
             // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the
-            // graph is acyclic/
+            // graph is acyclic.
             if(_cyclicGraphCheck is object && _cyclicGraphCheck.IsCyclic(digraph)) {
                 throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
             }

@@ -83,6 +83,8 @@ namespace SharpNeat.Graphs
         /// <summary>
         /// Calculate node depths in a cyclic network.
         /// </summary>
+        /// <param name="digraph">The directed graph.</param>
+        /// <returns>A new instance of <see cref="GraphDepthInfo"/>.</returns>
         public GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
             // TODO/FIXME: Consider storing reusable state in a pool, to allow reentrancy from threads. See ArrayPool<T> as a baseline for how to implement, or Redzen.Random.DefaultRandomSeedSource.
