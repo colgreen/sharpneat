@@ -22,7 +22,7 @@ namespace SharpNeat.Evaluation
         /// Evaluate a single phenome and return its fitness score or scores.
         /// </summary>
         /// <param name="phenome">The phenome to evaluate.</param>
-        /// <returns></returns>
+        /// <returns>An instance of <see cref="FitnessInfo"/> that conveys the phenome's fitness scores/data.</returns>
         FitnessInfo Evaluate(TPhenome phenome);
     }
 }

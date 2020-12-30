@@ -16,11 +16,27 @@ using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// Static methods for validating/verifying the data associated with a NEAT genome.
+    /// Principally for use in debug builds and debugging sessions.
+    /// </summary>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     internal static class NeatGenomeAssertions<T>
         where T : struct
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Validate/verify the data associated with a NEAT genome, applying a series of debug asserts.
+        /// </summary>
+        /// <param name="metaNeatGenome">Genome metadata.</param>
+        /// <param name="id">Genome ID.</param>
+        /// <param name="birthGeneration">Genome birth generation.</param>
+        /// <param name="connGenes">Connection genes data structure.</param>
+        /// <param name="hiddenNodeIdArr">An array of the genome's hidden node IDs.</param>
+        /// <param name="nodeIndexByIdMap">Mapping function for obtaining a node index for a given node ID.</param>
+        /// <param name="digraph">The directed graph that the current genome represents.</param>
+        /// <param name="connectionIndexMap">A set of connection index mappings.</param>
         public static void AssertIsValid(
             MetaNeatGenome<T> metaNeatGenome,
             int id,

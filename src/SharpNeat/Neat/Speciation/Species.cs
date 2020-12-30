@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Collections.Generic;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Speciation
@@ -124,12 +125,9 @@ namespace SharpNeat.Neat.Speciation
         }
 
         /// <summary>
-        /// Calculates the total complexity of all genomes within the species.
+        /// Calculates the sum total complexity of all genomes within the species.
         /// </summary>
-        /// <remarks>
-        /// Implemented as a method rather than a property as an indication that this method does significant
-        /// work to calculate the value.
-        /// </remarks>
+        /// <returns>The sum of <see cref="IGenome.Complexity"/> for all genomes in the species.</returns>
         public double CalcTotalComplexity()
         {
             double total = 0.0;
@@ -142,10 +140,7 @@ namespace SharpNeat.Neat.Speciation
         /// <summary>
         /// Calculates the mean complexity of genomes within the species.
         /// </summary>
-        /// <remarks>
-        /// Implemented as a method rather than a property as an indication that this method does significant
-        /// work to calculate the value.
-        /// </remarks>
+        /// <returns>The arithmetic mean of <see cref="IGenome.Complexity"/> for all genomes in the species.</returns>
         public double CalcMeanComplexity()
         {
             return CalcTotalComplexity() / GenomeList.Count;

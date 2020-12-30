@@ -118,9 +118,9 @@ namespace SharpNeat.Neat.Genome.IO
         }
 
         /// <summary>
-        /// Load a genome from the given stream.
+        /// Load a genome from the given stream reader.
         /// </summary>
-        /// <param name="sr"></param>
+        /// <param name="sr">Stream reader.</param>
         /// <returns>The loaded genome.</returns>
         /// <remarks>This method does not close the StreamReader.</remarks>
         public NeatGenome<T> Load(StreamReader sr)

@@ -51,6 +51,14 @@ namespace SharpNeat.Graphs
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given node counts, connection data, and connection weights.
+        /// </summary>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <param name="totalNodeCount">Total node count.</param>
+        /// <param name="connIdArrays">The connection source and target node IDs.</param>
+        /// <param name="weightArr">Connection weights array.</param>
         internal WeightedDirectedGraph(
             int inputCount,
             int outputCount,

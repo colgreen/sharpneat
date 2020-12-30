@@ -13,10 +13,21 @@ using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome
 {
+    /// <summary>
+    /// Static utility methods related to the building of new instances of <see cref="NeatGenome{T}"/>.
+    /// </summary>
     internal static class NeatGenomeBuilderUtils
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Create a digraph from the a set of connection genes.
+        /// </summary>
+        /// <typeparam name="T">Neural net numeric data type.</typeparam>
+        /// <param name="metaNeatGenome">Genome metadata.</param>
+        /// <param name="connGenes">Connection genes.</param>
+        /// <param name="nodeIndexByIdMap">A mapping from node IDs to node indexes.</param>
+        /// <returns>A new instance of <see cref="DirectedGraph"/>.</returns>
         public static DirectedGraph CreateDirectedGraph<T>(
             MetaNeatGenome<T> metaNeatGenome,
             ConnectionGenes<T> connGenes,

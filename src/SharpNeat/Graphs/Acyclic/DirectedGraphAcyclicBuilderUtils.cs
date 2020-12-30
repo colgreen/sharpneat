@@ -16,10 +16,27 @@ using Redzen.Sorting;
 
 namespace SharpNeat.Graphs.Acyclic
 {
+    /// <summary>
+    /// Static utility methods for building instances of <see cref="DirectedGraphAcyclic"/>.
+    /// </summary>
     internal static class DirectedGraphAcyclicBuilderUtils
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Creates a new directed acyclic graph instance from the provided graph structure, accompanying graph
+        /// layer information, and node ID mappings.
+        /// </summary>
+        /// <param name="digraph">A directed graph structure.</param>
+        /// <param name="depthInfo">Depth/layer information, describing what layer each node of the graph is within.</param>
+        /// <param name="newIdByOldId">Returns a set of node ID mappings. These describe a mapping from the
+        /// non-contiguous node ID space of <paramref name="digraph"/>, to the contiguous node ID space of the
+        /// returned <see cref="DirectedGraphAcyclic"/>
+        /// contiguous space.</param>
+        /// <param name="connectionIndexMap">Returns a set of connection index mappings. The connections of
+        /// <paramref name="digraph"/> are re-ordered based on the layer/depth of each connection's source node;
+        /// this structure conveys the new index of each connection given its original/old index.</param>
+        /// <returns>A new instance of <see cref="DirectedGraphAcyclic"/>.</returns>
         public static DirectedGraphAcyclic CreateDirectedGraphAcyclic(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,
@@ -40,6 +57,22 @@ namespace SharpNeat.Graphs.Acyclic
                 ref timsortWorkVArr);
         }
 
+        /// <summary>
+        /// Creates a new directed acyclic graph instance from the provided graph structure, accompanying graph
+        /// layer information, and node ID mappings.
+        /// </summary>
+        /// <param name="digraph">A directed graph structure.</param>
+        /// <param name="depthInfo">Depth/layer information, describing what layer each node of the graph is within.</param>
+        /// <param name="newIdByOldId">Returns a set of node ID mappings. These describe a mapping from the
+        /// non-contiguous node ID space of <paramref name="digraph"/>, to the contiguous node ID space of the
+        /// returned <see cref="DirectedGraphAcyclic"/>
+        /// contiguous space.</param>
+        /// <param name="connectionIndexMap">Returns a set of connection index mappings. The connections of
+        /// <paramref name="digraph"/> are re-ordered based on the layer/depth of each connection's source node;
+        /// this structure conveys the new index of each connection given its original/old index.</param>
+        /// <param name="timsortWorkArr">A re-usable working array for use as temporary storage by the timsort algorithm.</param>
+        /// <param name="timsortWorkVArr">A secondary re-usable working array for use as temporary storage by the timsort algorithm.</param>
+        /// <returns>A new instance of <see cref="DirectedGraphAcyclic"/>.</returns>
         public static DirectedGraphAcyclic CreateDirectedGraphAcyclic(
             DirectedGraph digraph,
             GraphDepthInfo depthInfo,

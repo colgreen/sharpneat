@@ -33,11 +33,12 @@ namespace SharpNeat.Neat.ComplexityRegulation
         ComplexityRegulationMode CurrentMode { get; }
 
         /// <summary>
-        /// Update the complexity regulation mode that the evolution algorithm should be in.
+        /// Determine the complexity regulation mode that the evolution algorithm search should be in given the
+        /// provided evolution algorithm statistics object, and set the current mode to that mode.
         /// </summary>
         /// <param name="eaStats">Evolution algorithm statistics.</param>
         /// <param name="popStats">Population statistics.</param>
-        /// <returns>The updated mode.</returns>
+        /// <returns>The determined <see cref="ComplexityRegulationMode"/>.</returns>
         ComplexityRegulationMode UpdateMode(
             EvolutionAlgorithmStatistics eaStats,
             PopulationStatistics popStats);

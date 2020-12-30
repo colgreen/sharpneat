@@ -15,6 +15,10 @@ using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 {
+    /// <summary>
+    /// Helper class for building lists of connections.
+    /// </summary>
+    /// <typeparam name="T">Connection weight numeric data type.</typeparam>
     internal sealed class ConnectionGeneListBuilder<T>
         where T : struct
     {
@@ -32,6 +36,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given acyclic flag and initial capacity.
+        /// </summary>
+        /// <param name="isAcyclic">Indicates whether we are building acyclic networks or not.</param>
+        /// <param name="capacity">Initial capacity.</param>
         public ConnectionGeneListBuilder(bool isAcyclic, int capacity)
         {
             _isAcyclic = isAcyclic;
@@ -63,6 +72,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             AddGene(in gene);
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="ConnectionGenes{T}"/> that contains a copy of the current connections.
+        /// </summary>
+        /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
         public ConnectionGenes<T> ToConnectionGenes()
         {
             return new ConnectionGenes<T>(
@@ -70,6 +83,9 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 _weightList.ToArray());
         }
 
+        /// <summary>
+        /// Clear connections (if any).
+        /// </summary>
         public void Clear()
         {
             _connList.Clear();

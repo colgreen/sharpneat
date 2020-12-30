@@ -21,11 +21,13 @@ namespace SharpNeat.Graphs
         /// <summary>
         /// Create an <see cref="INodeIdMap"/> that provides a mapping from old to new node IDs.
         /// </summary>
-        /// <param name="inputOutputCount">The total number of input and output nodes (input and output node IDs remain unchanged, i.e. are mapped with identity mapping).</param>
+        /// <param name="inputOutputCount">The total number of input and output nodes (input and output node IDs
+        /// remain unchanged, i.e. are mapped with the identity mapping).</param>
         /// <param name="hiddenNodeIdArr">An array of hidden node IDs.</param>
-        /// <returns></returns>
+        /// <returns>A new instance of <see cref="DictionaryNodeIdMap"/>.</returns>
         public static DictionaryNodeIdMap CompileNodeIdMap(
-            int inputOutputCount, int[] hiddenNodeIdArr)
+            int inputOutputCount,
+            int[] hiddenNodeIdArr)
         {
             // Build dictionary of hidden node new ID/index keyed by old ID.
             // Note. the new IDs start immediately after the last input/output node ID (defined by inputOutputCount).

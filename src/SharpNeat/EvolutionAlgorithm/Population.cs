@@ -59,7 +59,7 @@ namespace SharpNeat.EvolutionAlgorithm
         /// <summary>
         /// Construct the population with the provided list of genomes that make up the initial population.
         /// </summary>
-        /// <param name="genomeList"></param>
+        /// <param name="genomeList">Genome list.</param>
         public Population(List<TGenome> genomeList)
         {
             this.GenomeList = genomeList ?? throw new ArgumentNullException(nameof(genomeList));

@@ -15,7 +15,7 @@ namespace SharpNeat.Neat.Genome
     /// <summary>
     /// Static factory class for creating instances of <see cref="INeatGenomeBuilder{T}"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public static class NeatGenomeBuilderFactory<T>
         where T : struct
     {

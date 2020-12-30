@@ -107,11 +107,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         #region Public Methods
 
         /// <summary>
-        /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
-        /// acyclic graph described by connArr.
+        /// Tests if the proposed new connection <paramref name="newConn"/> would form a cycle if added to the
+        /// existing directed acyclic graph described by connArr.
         /// </summary>
         /// <param name="connList">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
+        /// <returns>True if <paramref name="newConn"/> would form a cycle; otherwise false.</returns>
         public bool IsConnectionCyclic(IList<DirectedConnection> connList, in DirectedConnection newConn)
         {
             #if DEBUG
@@ -191,7 +192,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// </summary>
         /// <param name="connList">A set of connections that represents the graph to traverse.</param>
         /// <param name="terminalNodeId">// The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.</param>
-        /// <returns></returns>
         private bool TraverseGraph(IList<DirectedConnection> connList, int terminalNodeId)
         {
             // While there are entries on the stack.

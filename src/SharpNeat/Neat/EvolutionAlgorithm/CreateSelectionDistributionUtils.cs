@@ -19,7 +19,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
     /// <summary>
     /// Static utility methods for creating instances of <see cref="DiscreteDistribution"/> that describe genome and species selection probabilities.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     internal static class CreateSelectionDistributionUtils<T>
         where T : struct
     {

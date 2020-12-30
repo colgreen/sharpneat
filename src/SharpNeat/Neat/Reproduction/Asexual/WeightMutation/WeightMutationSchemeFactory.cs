@@ -34,7 +34,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
         /// possible to assist in debugging and testing of the new code base by comparing performance/results, etc. with the 2.x
         /// code base.
         /// </remarks>
-        /// <param name="weightScale"></param>
+        /// <param name="weightScale">Connection weight scale/range.</param>
         /// <returns>A new instance of <see cref="WeightMutationScheme{Double}"/>.</returns>
         public static WeightMutationScheme<double> CreateDefaultScheme(double weightScale)
         {

@@ -292,8 +292,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// <summary>
         /// Perform the genome evaluation stage of the evolution algorithm.
         /// </summary>
-        /// <param name="offspringList"></param>
-        /// <param name="evaluationCount"></param>
+        /// <param name="offspringList">The list of offspring genomes to evaluate.</param>
+        /// <param name="evaluationCount">Returns the number of evaluations that were performed.</param>
         private void DoGenomeEvaluation(
             List<NeatGenome<T>> offspringList,
             out ulong evaluationCount)

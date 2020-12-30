@@ -28,15 +28,27 @@ namespace SharpNeat.Graphs.Acyclic
         public LayerInfo[] LayerArray { get; }
 
         /// <summary>
-        /// Gives the node index of each output. In acyclic networks the output and hidden nodes are re-ordered by network depth.
-        /// This array describes the location of each output signal in the node activation signal array.
-        /// Note however that the input nodes *are* in their original positions as they are defined as being at depth zero and therefore
-        /// are not moved by the depth based sort.
+        /// An array containing the node index of each output node.
         /// </summary>
+        /// <remarks>
+        /// In acyclic networks the output and hidden nodes are re-ordered by network depth. This array describes
+        /// the index of each output node in the full set of nodes. Note however that the input nodes *are* in
+        /// their original positions, as they are defined as being at depth zero and therefore are not moved by
+        /// the depth based sort.
+        /// </remarks>
         public int[] OutputNodeIdxArr { get; }
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given node counts, connection data, layer information, and indexes of the output nodes.
+        /// </summary>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <param name="totalNodeCount">Total node count.</param>
+        /// <param name="connIdArrays">The connection source and target node IDs.</param>
+        /// <param name="layerArr">Layer information for the acyclic graph.</param>
+        /// <param name="outputNodeIdxArr">An array containing the node index of each output node.</param>
         internal DirectedGraphAcyclic(
             int inputCount,
             int outputCount,

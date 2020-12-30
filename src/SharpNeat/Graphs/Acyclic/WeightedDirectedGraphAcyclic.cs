@@ -26,15 +26,26 @@ namespace SharpNeat.Graphs.Acyclic
 
         #region Constructor
 
+        /// <summary>
+        /// Construct with the given node counts, connection data, layer information, indexes of the output nodes,
+        /// and connection weights.
+        /// </summary>
+        /// <param name="inputCount">Input node count.</param>
+        /// <param name="outputCount">Output node count.</param>
+        /// <param name="totalNodeCount">Total node count.</param>
+        /// <param name="connIdArrays">The connection source and target node IDs.</param>
+        /// <param name="layerArr">Layer information for the acyclic graph.</param>
+        /// <param name="outputNodeIdxArr">An array containing the node index of each output node.</param>
+        /// <param name="weightArr">Connection weights array.</param>
         internal WeightedDirectedGraphAcyclic(
             int inputCount,
             int outputCount,
-            int nodeCount,
+            int totalNodeCount,
             in ConnectionIdArrays connIdArrays,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr,
             T[] weightArr)
-        : base(inputCount, outputCount, nodeCount, in connIdArrays, layerArr, outputNodeIdxArr)
+        : base(inputCount, outputCount, totalNodeCount, in connIdArrays, layerArr, outputNodeIdxArr)
         {
             this.WeightArray = weightArr;
         }

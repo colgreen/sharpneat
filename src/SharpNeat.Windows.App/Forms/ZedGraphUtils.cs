@@ -18,7 +18,7 @@ namespace SharpNeat.Windows.App.Forms
         /// <summary>
         /// Apply a consistent style to the provided ZedGraph line item.
         /// </summary>
-        /// <param name="lineItem">Th eline item.</param>
+        /// <param name="lineItem">The line item.</param>
         public static void ApplyLineStyle(LineItem lineItem)
         {
             lineItem.Line.IsAntiAlias = true;

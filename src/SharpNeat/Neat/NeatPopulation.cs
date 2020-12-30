@@ -27,7 +27,7 @@ namespace SharpNeat.Neat
     /// <summary>
     /// A NEAT population.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public class NeatPopulation<T> : Population<NeatGenome<T>>
         where T : struct
     {
@@ -113,7 +113,7 @@ namespace SharpNeat.Neat
         }
 
         /// <summary>
-        /// Construct a new population with the provided genomes and ID sequence objects.
+        /// Construct a new population with the provided genomes and accompanying objects.
         /// </summary>
         /// <param name="metaNeatGenome">NeatGenome metadata.</param>
         /// <param name="genomeBuilder">NeatGenome builder.</param>
@@ -130,7 +130,7 @@ namespace SharpNeat.Neat
         {}
 
         /// <summary>
-        ///
+        /// Construct a new population with the provided genomes and accompanying objects.
         /// </summary>
         /// <param name="metaNeatGenome">NeatGenome metadata.</param>
         /// <param name="genomeBuilder">NeatGenome builder.</param>
@@ -248,6 +248,7 @@ namespace SharpNeat.Neat
         /// <summary>
         /// Returns true if there is at least one empty species.
         /// </summary>
+        /// <returns>True if there is at least one empty species; otherwise false.</returns>
         public bool ContainsEmptySpecies()
         {
             return this.SpeciesArray!.Any(x => (x.GenomeList.Count == 0));

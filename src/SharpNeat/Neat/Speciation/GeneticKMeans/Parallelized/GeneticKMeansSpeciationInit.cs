@@ -39,6 +39,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         #region Constructors
 
+        /// <summary>
+        /// Construct with the given distance metric.
+        /// </summary>
+        /// <param name="distanceMetric">Distance metric.</param>
+        /// <param name="parallelOptions">Parallel options.</param>
         public GeneticKMeansSpeciationInit(
             IDistanceMetric<T> distanceMetric,
             ParallelOptions parallelOptions)
@@ -51,6 +56,13 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
         #region Public Methods
 
+        /// <summary>
+        /// Group the provided genomes into new species.
+        /// </summary>
+        /// <param name="genomeList">The genomes to partition into groups/species.</param>
+        /// <param name="speciesCount">The required number of species.</param>
+        /// <param name="rng">Random source.</param>
+        /// <returns>A new array of <see cref="Species{T}"/>, with each species containing a subset of the genomes from <paramref name="genomeList"/>.</returns>
         public Species<T>[] InitialiseSpecies(
             IList<NeatGenome<T>> genomeList,
             int speciesCount,

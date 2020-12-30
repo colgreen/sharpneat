@@ -42,6 +42,13 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #region Constructor
 
+        /// <summary>
+        /// Construct a new instance of <see cref="OffspringBuilder{T}"/>.
+        /// </summary>
+        /// <param name="reproductionAsexual">Asexual reproduction strategy.</param>
+        /// <param name="reproductionSexual">Sexual reproduction strategy.</param>
+        /// <param name="interspeciesMatingProportion">Inter-species mating proportion.</param>
+        /// <param name="fitnessComparer">Fitness comparer.</param>
         public OffspringBuilder(
             NeatReproductionAsexual<T> reproductionAsexual,
             NeatReproductionSexual<T> reproductionSexual,
@@ -58,8 +65,27 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
         #region Public Methods
 
+        /// <summary>
+        /// Creates new offspring from existing parent genomes.
+        /// </summary>
+        /// <param name="speciesArr">An array of species, containing existing elite genomes.</param>
+        /// <param name="rng">Random source.</param>
+        /// <param name="offspringAsexualCount">Returns the number of new offspring created using asexual reproduction.</param>
+        /// <param name="offspringSexualCount">Returns the number of new offspring created using sexual reproduction.</param>
+        /// <param name="offspringInterspeciesCount">Returns the number of new offspring created using sexual
+        /// reproduction between genomes from different species.</param>
+        /// <returns>A new list containing the created offspring genomes.</returns>
+        /// <remarks>
+        /// Each species contains a genome list, which should have been trimmed back to the elite genomes only,
+        /// in order to make space for the new offspring. New offspring are created by application of sexual and
+        /// asexual reproduction on the existing genomes.
+        ///
+        /// The number of offspring genomes to create is determined by <see cref="SpeciesStats.OffspringAsexualCount"/>
+        /// and <see cref="SpeciesStats.OffspringSexualCount"/>.
+        /// </remarks>
         public List<NeatGenome<T>> CreateOffspring(
-            Species<T>[] speciesArr, IRandomSource rng,
+            Species<T>[] speciesArr,
+            IRandomSource rng,
             out int offspringAsexualCount,
             out int offspringSexualCount,
             out int offspringInterspeciesCount)

@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
     /// <summary>
     /// Connection weight mutation scheme.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
     public sealed class WeightMutationScheme<T>
         where T : struct
     {

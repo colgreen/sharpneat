@@ -13,8 +13,18 @@ using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 {
+    /// <summary>
+    /// Static utility methods related to the adding connections to a genome. I.e., am 'add connection' mutation.
+    /// </summary>
     internal static class AddConnectionUtils
     {
+        /// <summary>
+        /// Gets the ID of the node with the specified node index.
+        /// </summary>
+        /// <typeparam name="T">Neural net numeric data type.</typeparam>
+        /// <param name="parent">Parent genome.</param>
+        /// <param name="idx">Node index.</param>
+        /// <returns>The ID of the node with the specified node index.</returns>
         public static int GetNodeIdFromIndex<T>(NeatGenome<T> parent, int idx)
             where T : struct
         {

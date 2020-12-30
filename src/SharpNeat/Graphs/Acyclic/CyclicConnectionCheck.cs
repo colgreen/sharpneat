@@ -60,12 +60,16 @@ namespace SharpNeat.Graphs.Acyclic
         #region Public Methods
 
         /// <summary>
-        /// Tests if the proposed new connection newConn would form a cycle if added to the existing directed
-        /// acyclic graph described by digraph.
+        /// Tests if the proposed new connection <paramref name="newConn"/> would form a cycle if added to the
+        /// existing directed acyclic graph described by <paramref name="digraph"/>.
         /// </summary>
         /// <param name="digraph">The directed acyclic graph to run the test against.</param>
-        /// <param name="newConn">A proposed new connection to add to the graph.
-        /// Note. the connection source and target nodes IDs are node indexes as used by the supplied digraph.</param>
+        /// <param name="newConn">A proposed new connection to add to the graph.</param>
+        /// <returns>True if <paramref name="newConn"/> would form a cycle; otherwise false.</returns>
+        /// <remarks>
+        /// The connection source and target nodes IDs of <paramref name="newConn"/> are node indexes as
+        /// used by the supplied digraph.
+        /// </remarks>
         public bool IsConnectionCyclic(
             DirectedGraph digraph,
             in DirectedConnection newConn)
@@ -162,7 +166,6 @@ namespace SharpNeat.Graphs.Acyclic
         /// <param name="digraph">The directed acyclic graph to traverse.</param>
         /// <param name="terminalNodeId">// The 'terminal' node ID, i.e. if traversal reaches this node
         /// then newConn would form a cycle and we stop/terminate traversal.</param>
-        /// <returns></returns>
         private bool TraverseGraph(DirectedGraph digraph, int terminalNodeId)
         {
             int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;

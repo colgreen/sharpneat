@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.DistanceMetrics
         /// <param name="p2">Position two.</param>
         /// <param name="threshold">Distance threshold.</param>
         /// <returns>
-        /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than 
+        /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than
         /// <paramref name="threshold"/>.
         /// </returns>
         bool TestDistance(ConnectionGenes<T> p1, ConnectionGenes<T> p2, double threshold);
