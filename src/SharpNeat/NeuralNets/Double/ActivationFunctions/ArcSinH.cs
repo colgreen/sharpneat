@@ -19,8 +19,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
     /// </summary>
     public sealed class ArcSinH : IActivationFunction<double>
     {
-        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
+        /// <summary>
+        /// The activation function; scalar implementation.
+        /// </summary>
+        /// <param name="x">The single pre-activation level to pass through the function.</param>
+        /// <returns>The activation function output value.</returns>
         public double Fn(double x)
         {
             // Scaling factor from:
@@ -28,6 +31,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             return 1.2567348023993685 * ((Asinh(x) + 1.0) * 0.5);
         }
 
+        /// <summary>
+        /// The activation function; vector implementation.
+        /// </summary>
+        /// <param name="v">A span of pre-activation levels to pass through the function.
+        /// The resulting post-activation levels are written back to this same span.</param>
         public void Fn(Span<double> v)
         {
             // Naive implementation.
@@ -36,6 +44,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             }
         }
 
+        /// <summary>
+        /// The activation function; vector implementation with a separate output span.
+        /// </summary>
+        /// <param name="v">A span of pre-activation levels to pass through the function.</param>
+        /// <param name="w">A span in which the post-activation levels are stored.</param>
         public void Fn(Span<double> v, Span<double> w)
         {
             // Naive implementation.

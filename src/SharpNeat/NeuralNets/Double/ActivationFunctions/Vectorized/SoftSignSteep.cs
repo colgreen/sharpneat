@@ -21,21 +21,31 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
     /// </summary>
     public sealed class SoftSignSteep : IActivationFunction<double>
     {
-        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
         /// <summary>
-        /// Calculates the output value for the specified input value.
+        /// The activation function; scalar implementation.
         /// </summary>
+        /// <param name="x">The single pre-activation level to pass through the function.</param>
+        /// <returns>The activation function output value.</returns>
         public double Fn(double x)
         {
             return 0.5 + (x / (2.0 * ( 0.2 + Math.Abs(x))));
         }
 
+        /// <summary>
+        /// The activation function; vector implementation.
+        /// </summary>
+        /// <param name="v">A span of pre-activation levels to pass through the function.
+        /// The resulting post-activation levels are written back to this same span.</param>
         public void Fn(Span<double> v)
         {
             Fn(v, v);
         }
 
+        /// <summary>
+        /// The activation function; vector implementation with a separate output span.
+        /// </summary>
+        /// <param name="v">A span of pre-activation levels to pass through the function.</param>
+        /// <param name="w">A span in which the post-activation levels are stored.</param>
         public void Fn(Span<double> v, Span<double> w)
         {
             // Init constants.
