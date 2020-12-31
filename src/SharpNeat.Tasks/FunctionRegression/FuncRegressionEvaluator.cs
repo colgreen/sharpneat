@@ -80,6 +80,7 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
+        /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // Probe the black box over the full range of the input parameter.

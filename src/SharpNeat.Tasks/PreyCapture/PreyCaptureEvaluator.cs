@@ -48,6 +48,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
+        /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // Perform multiple independent trials.

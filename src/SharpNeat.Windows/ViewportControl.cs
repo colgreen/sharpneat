@@ -102,6 +102,8 @@ namespace SharpNeat.Windows
         /// </summary>
         private void InitializeComponent()
         {
+#pragma warning disable SA1120 // Comments should contain text
+
             this.pictureBox = new PictureBox();
             this.SuspendLayout();
             //

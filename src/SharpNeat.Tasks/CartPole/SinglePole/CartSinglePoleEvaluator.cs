@@ -57,6 +57,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <summary>
         /// Construct evaluator with the provided task arguments/variables.
         /// </summary>
+        /// <param name="maxTimesteps">The maximum number of timesteps to run the physics simulation for.</param>
         public CartSinglePoleEvaluator(int maxTimesteps)
         {
             _maxTimesteps = maxTimesteps;
@@ -73,6 +74,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
+        /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // The evaluation consists of four separate trials, each with their own fitness score.
@@ -167,10 +169,10 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             //
             // Therefore the maximum possible fitness is 100.0, when the pole is perfectly stationary, and the cart is in the middle of the track.
             float fitness =
-                  (timestep * _maxTimesteps_Reciprocal) * 80f
+                  (timestep * _maxTimesteps_Reciprocal * 80f)
                 + (1f - (MathF.Min(MathF.Abs(state[0]), __TrackLengthHalf) * __TrackLengthHalf_Reciprocal))
-                + (1f - (MathF.Min(MathF.Abs(state[2]), __MaxPoleAngle) * __MaxPoleAngle_Reciprocal)) * 9.5f
-                + (1f - MathF.Min(MathF.Abs(state[3]), 1f)) * 9.5f;
+                + ((1f - (MathF.Min(MathF.Abs(state[2]), __MaxPoleAngle) * __MaxPoleAngle_Reciprocal)) * 9.5f)
+                + ((1f - MathF.Min(MathF.Abs(state[3]), 1f)) * 9.5f);
 
             return fitness;
         }

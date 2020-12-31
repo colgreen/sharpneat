@@ -68,6 +68,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// <summary>
         /// Construct evaluator with the provided task arguments/variables.
         /// </summary>
+        /// <param name="maxTimesteps">The maximum number of timesteps to run the physics simulation for.</param>
         public CartDoublePoleEvaluator(int maxTimesteps)
         {
             _maxTimesteps = maxTimesteps;
@@ -84,6 +85,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
+        /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             // The evaluation consists of four separate trials, each with their own fitness score.
@@ -182,7 +184,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             //
             // Therefore the maximum possible fitness is 100.0.
             float fitness =
-                  (timestep * _maxTimesteps_Reciprocal) * 99f
+                  (timestep * _maxTimesteps_Reciprocal * 99f)
                 + (1f - (MathF.Min(MathF.Abs(state[0]), __TrackLengthHalf) * __TrackLengthHalf_Reciprocal));
 
             return fitness;

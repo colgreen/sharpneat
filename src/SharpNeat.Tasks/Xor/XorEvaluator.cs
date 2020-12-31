@@ -33,6 +33,7 @@ namespace SharpNeat.Tasks.Xor
         /// and return its fitness score.
         /// </summary>
         /// <param name="box">The black box to evaluate.</param>
+        /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
         public FitnessInfo Evaluate(IBlackBox<double> box)
         {
             double fitness = 0.0;
