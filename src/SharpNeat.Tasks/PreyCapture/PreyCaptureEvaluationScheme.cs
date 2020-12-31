@@ -86,6 +86,11 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Construct with the provided task and evaluator parameters.
         /// </summary>
+        /// <param name="preyInitMoves">Prey initial moves. The number of moves the prey is allowed to move before the agent can move.</param>
+        /// <param name="preySpeed">Prey speed; in the interval [0, 1].</param>
+        /// <param name="sensorRange">The sensor range of the agent.</param>
+        /// <param name="maxTimesteps">The maximum number of simulation timesteps to run without the agent capturing the prey.</param>
+        /// <param name="trialsPerEvaluation">The number of prey capture trials to run per evaluation.</param>
         public PreyCaptureEvaluationScheme(
             int preyInitMoves,
             float preySpeed,

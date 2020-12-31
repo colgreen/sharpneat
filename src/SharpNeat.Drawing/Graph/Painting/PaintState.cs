@@ -62,8 +62,13 @@ namespace SharpNeat.Drawing.Graph.Painting
         #region Construction
 
         /// <summary>
-        /// Construct with the provided Graphics painting surface and state data.
+        /// Construct with the provided Graphics painting surface and painting metadata.
         /// </summary>
+        /// <param name="g">The GDI+ painting surface.</param>
+        /// <param name="viewportArea">The area being painted to. Any elements outside of this area are not painted.</param>
+        /// <param name="nodeDiameter">Diameter of drawn nodes.</param>
+        /// <param name="zoomFactor">Painting zoom/scaling factor.</param>
+        /// <param name="nodeCount">The number of nodes being painted.</param>
         public PaintState(
             Graphics g, Rectangle viewportArea,
             float nodeDiameter,

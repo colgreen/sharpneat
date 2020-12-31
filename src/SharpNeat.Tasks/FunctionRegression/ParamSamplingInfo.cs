@@ -19,27 +19,42 @@ namespace SharpNeat.Tasks.FunctionRegression
     /// </summary>
     public readonly struct ParamSamplingInfo
     {
-        /// <summary>Sample interval minimum.</summary>
+        /// <summary>
+        /// Sample interval minimum.
+        /// </summary>
         public double Min { get; }
 
-        /// <summary>Sample interval maximum.</summary>
+        /// <summary>
+        /// Sample interval maximum.
+        /// </summary>
         public double Max { get; }
 
-        /// <summary>Intra sample increment.</summary>
+        /// <summary>
+        /// Intra sample increment.
+        /// </summary>
         public double Incr { get; }
 
-        /// <summary>Sample resolution.</summary>
+        /// <summary>
+        /// Sampling resolution, within the defined min-max interval.
+        /// </summary>
         public int SampleResolution { get; }
 
-        /// <summary>X positions of the sample points.</summary>
+        /// <summary>
+        /// X positions of the sample points.
+        /// </summary>
         public double[] XArr { get; }
 
-        /// <summary>X positions of the sample points in the neural net input space (i.e. scaled from 0 to 1).</summary>
+        /// <summary>
+        /// X positions of the sample points in the neural net input space (i.e. scaled from 0 to 1).
+        /// </summary>
         public double[] XArrNetwork { get; }
 
         /// <summary>
         /// Construct with the provided parameter sampling info.
         /// </summary>
+        /// <param name="min">Sample interval minimum.</param>
+        /// <param name="max">Sample interval maximum.</param>
+        /// <param name="resolution">Sampling resolution.</param>
         public ParamSamplingInfo(double min, double max, int resolution)
         {
             Debug.Assert(resolution>=3, "Sample count must be >= 3");

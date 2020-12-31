@@ -48,8 +48,10 @@ namespace SharpNeat.Drawing.Graph
         }
 
         /// <summary>
-        /// Construct with the provided layout manager and graph painter.
+        /// Construct with the provided layout scheme, and graph painter.
         /// </summary>
+        /// <param name="layoutScheme">Graph layout scheme.</param>
+        /// <param name="graphPainter">Graph painter.</param>
         public GraphViewportPainter(
             IGraphLayoutScheme layoutScheme,
             GraphPainter graphPainter)

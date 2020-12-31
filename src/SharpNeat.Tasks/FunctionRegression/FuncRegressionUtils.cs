@@ -22,6 +22,12 @@ namespace SharpNeat.Tasks.FunctionRegression
     {
         #region Public Static Methods
 
+        /// <summary>
+        /// Probe the given function by taking samples of it at a number of discrete sample points.
+        /// </summary>
+        /// <param name="fn">The function to probe/sample.</param>
+        /// <param name="paramSamplingInfo">Sampling metadata.</param>
+        /// <param name="responseArr">An array to store the sample results within.</param>
         public static void Probe(
             Func<double,double> fn,
             ParamSamplingInfo paramSamplingInfo,
@@ -36,6 +42,12 @@ namespace SharpNeat.Tasks.FunctionRegression
             }
         }
 
+        /// <summary>
+        /// Calculate an approximate gradient of a given function, at a number of discrete sample points.
+        /// </summary>
+        /// <param name="paramSamplingInfo">Sampling metadata.</param>
+        /// <param name="yArr">The function output/result at a number of discrete sample points.</param>
+        /// <param name="gradientArr">An array to store the calculated gradients within.</param>
         public static void CalcGradients(
             ParamSamplingInfo paramSamplingInfo,
             double[] yArr,
