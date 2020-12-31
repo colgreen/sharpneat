@@ -47,17 +47,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             return 1.0 / (1.0 + f);
         }
 
-        public void Fn(double[] v)
+        public void Fn(Span<double> v)
         {
-            Fn(v, v, 0, v.Length);
+            Fn(v, v);
         }
 
-        public void Fn(double[] v, int startIdx, int endIdx)
-        {
-            Fn(v, v, startIdx, endIdx);
-        }
-
-        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
+        public void Fn(Span<double> v, Span<double> w)
         {
             // Constants.
             Vector<double> vec_4_9 = new Vector<double>(4.9);
@@ -65,11 +60,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             Vector<double> vec_0_143 = new Vector<double>(0.143);
             int width = Vector<double>.Count;
 
-            int i=startIdx;
-            for(; i <= endIdx-width; i += width)
+            int i=0;
+            for(; i <= v.Length - width; i += width)
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v, i);
+                var vec = new Vector<double>(v[i..]);
 
                 vec *= vec_4_9;
                 var vec_x2 = vec * vec;
@@ -80,11 +75,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 var vec_result = Vector<double>.One / (Vector<double>.One + vec_f);
 
                 // Copy the result back into arr.
-                vec_result.CopyTo(w, i);
+                vec_result.CopyTo(w[i..]);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < endIdx; i++) {
+            for(; i < v.Length; i++) {
                 w[i] = Fn(v[i]);
             }
         }

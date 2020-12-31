@@ -31,7 +31,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         readonly double[] _weightArr;
 
         // Activation function.
-        readonly VecFnSegment2<double> _activationFn;
+        readonly VecFn2<double> _activationFn;
 
         // Node pre- and post-activation signal arrays.
         readonly double[] _preActivationArr;
@@ -57,7 +57,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
         public NeuralNetCyclic (
             WeightedDirectedGraph<double> digraph,
-            VecFnSegment2<double> activationFn,
+            VecFn2<double> activationFn,
             int cyclesPerActivation)
         : this(
              digraph,
@@ -76,7 +76,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         public NeuralNetCyclic(
             DirectedGraph digraph,
             double[] weightArr,
-            VecFnSegment2<double> activationFn,
+            VecFn2<double> activationFn,
             int cyclesPerActivation)
         {
             Debug.Assert(digraph.ConnectionIdArrays._sourceIdArr.Length == weightArr.Length);
@@ -128,7 +128,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public IVector<double> OutputVector { get ; }
+        public IVector<double> OutputVector { get; }
 
         /// <summary>
         /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter
@@ -137,8 +137,17 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
+            // TODO: ENHANCEMENT: Consider defining Memory<T> over the required ranges, as class fields.
+            // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
+            // post-activation values and are never activated.
+            var activationRange = new Range(_inputCount, _preActivationArr.Length);
+            var preActivationSpan = _preActivationArr.AsSpan(activationRange);
+            var postActivationSpan = _postActivationArr.AsSpan(activationRange);
+
+            // TODO: ENHANCEMENT: Some of the array/span offset logic here can be sped up by declaring sub-spans.
             // Init vector related variables.
             int width = Vector<double>.Count;
+            // TODO: ENHANCEMENT: Consider if it would be faster to stackalloc conInputArr.
             double[] conInputArr = _conInputArr;
 
             // Activate the network for a fixed number of timesteps.
@@ -150,7 +159,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 for(; conIdx <= _srcIdArr.Length - width; conIdx += width)
                 {
                     // Load source node output values into a vector.
-                    for(int k=0; k<width; k++) {
+                    for(int k=0; k < width; k++) {
                         conInputArr[k] = _postActivationArr[_srcIdArr[conIdx + k]];
                     }
                     var conInputVec = new Vector<double>(conInputArr);
@@ -163,23 +172,30 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
 
                     // Save/accumulate connection output values onto the connection target nodes.
                     for(int k=0; k < width; k++) {
-                        _preActivationArr[_tgtIdArr[conIdx+k]] += conOutputVec[k];
+                        _preActivationArr[_tgtIdArr[conIdx + k]] += conOutputVec[k];
                     }
                 }
 
                 // Loop remaining connections
-                for(; conIdx < _srcIdArr.Length; conIdx++) {
-                    _preActivationArr[_tgtIdArr[conIdx]] = Math.FusedMultiplyAdd(_postActivationArr[_srcIdArr[conIdx]], _weightArr[conIdx], _preActivationArr[_tgtIdArr[conIdx]]);
+                for(; conIdx < _srcIdArr.Length; conIdx++)
+                {
+                    _preActivationArr[_tgtIdArr[conIdx]] =
+                        Math.FusedMultiplyAdd(
+                            _postActivationArr[_srcIdArr[conIdx]],
+                            _weightArr[conIdx],
+                            _preActivationArr[_tgtIdArr[conIdx]]);
                 }
 
-                // Pass the pre-activation levels through the activation function.
-                // Note. the post-activation levels are stored in _postActivationArray.
-                // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
-                // post-activation values and are never activated.
-                _activationFn(_preActivationArr, _postActivationArr, _inputCount, _preActivationArr.Length);
+                // Pass the pre-activation levels through the activation function, storing the results in the
+                // post-activation span/array.
+                _activationFn(preActivationSpan, postActivationSpan);
 
+                // TODO: ENHANCEMENT: Consider using Span.Clear().
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
-                Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length - _inputCount);
+                Array.Clear(
+                    _preActivationArr,
+                    _inputCount,
+                    _preActivationArr.Length - _inputCount);
             }
         }
 
@@ -191,8 +207,15 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.
             // Note. Connection signal state is not reset as this gets overwritten on each iteration.
-            Array.Clear(_preActivationArr, _inputCount, _preActivationArr.Length - _inputCount);
-            Array.Clear(_postActivationArr, _inputCount, _postActivationArr.Length - _inputCount);
+            Array.Clear(
+                _preActivationArr,
+                _inputCount,
+                _preActivationArr.Length - _inputCount);
+
+            Array.Clear(
+                _postActivationArr,
+                _inputCount,
+                _postActivationArr.Length - _inputCount);
         }
 
         #endregion

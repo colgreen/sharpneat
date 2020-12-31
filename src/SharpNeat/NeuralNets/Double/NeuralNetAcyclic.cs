@@ -53,7 +53,7 @@ namespace SharpNeat.NeuralNets.Double
         readonly LayerInfo[] _layerInfoArr;
 
         // Node activation function.
-        readonly VecFnSegment<double> _activationFn;
+        readonly VecFn<double> _activationFn;
 
         // Node activation level array (used for both pre and post activation levels).
         readonly double[] _activationArr;
@@ -73,7 +73,7 @@ namespace SharpNeat.NeuralNets.Double
         /// <param name="activationFn">Node activation function.</param>
         public NeuralNetAcyclic(
             WeightedDirectedGraphAcyclic<double> digraph,
-            VecFnSegment<double> activationFn)
+            VecFn<double> activationFn)
             : this(digraph, digraph.WeightArray, activationFn)
         {}
 
@@ -86,7 +86,7 @@ namespace SharpNeat.NeuralNets.Double
         public NeuralNetAcyclic(
             DirectedGraphAcyclic digraph,
             double[] weightArr,
-            VecFnSegment<double> activationFn)
+            VecFn<double> activationFn)
         {
             // Store refs to network structure data.
             _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
@@ -160,8 +160,13 @@ namespace SharpNeat.NeuralNets.Double
                 LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++) {
-                    _activationArr[_tgtIdArr[conIdx]] = Math.FusedMultiplyAdd(_activationArr[_srcIdArr[conIdx]], _weightArr[conIdx], _activationArr[_tgtIdArr[conIdx]]);
+                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
+                {
+                    _activationArr[_tgtIdArr[conIdx]] =
+                        Math.FusedMultiplyAdd(
+                            _activationArr[_srcIdArr[conIdx]],
+                            _weightArr[conIdx],
+                            _activationArr[_tgtIdArr[conIdx]]);
                 }
 
                 // Activate current layer's nodes.
@@ -169,7 +174,8 @@ namespace SharpNeat.NeuralNets.Double
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx];
-                _activationFn(_activationArr, nodeIdx, layerInfo.EndNodeIdx);
+                _activationFn(
+                    _activationArr.AsSpan(nodeIdx..layerInfo.EndNodeIdx));
 
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;

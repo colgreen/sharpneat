@@ -26,35 +26,30 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             return Math.Max(x, 0.0);
         }
 
-        public void Fn(double[] v)
+        public void Fn(Span<double> v)
         {
-            Fn(v, v, 0, v.Length);
+            Fn(v, v);
         }
 
-        public void Fn(double[] v, int startIdx, int endIdx)
-        {
-            Fn(v, v, startIdx, endIdx);
-        }
-
-        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
+        public void Fn(Span<double> v, Span<double> w)
         {
             int width = Vector<double>.Count;
 
-            int i=startIdx;
-            for(; i <= endIdx-width; i += width)
+            int i=0;
+            for(; i <= v.Length - width; i += width)
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v, i);
+                var vec = new Vector<double>(v[i..]);
 
                 // Apply max(val, 0) to each element in the vector.
                 var vecResult = Vector.Max(vec, Vector<double>.Zero);
 
                 // Copy the result back into arr.
-                vecResult.CopyTo(w, i);
+                vecResult.CopyTo(w[i..]);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < endIdx; i++) {
+            for(; i < v.Length; i++) {
                 w[i] = Fn(v[i]);
             }
         }

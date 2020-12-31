@@ -31,17 +31,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             return 0.5 + (x / (2.0 * ( 0.2 + Math.Abs(x))));
         }
 
-        public void Fn(double[] v)
+        public void Fn(Span<double> v)
         {
-            Fn(v, v, 0, v.Length);
+            Fn(v, v);
         }
 
-        public void Fn(double[] v, int startIdx, int endIdx)
-        {
-            Fn(v, v, startIdx, endIdx);
-        }
-
-        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
+        public void Fn(Span<double> v, Span<double> w)
         {
             // Init constants.
             var vecTwo = new Vector<double>(2.0);
@@ -50,21 +45,21 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 
             int width = Vector<double>.Count;
 
-            int i=startIdx;
-            for(; i <= endIdx-width; i += width)
+            int i=0;
+            for(; i <= v.Length - width; i += width)
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v, i);
+                var vec = new Vector<double>(v[i..]);
 
                 // Calc the softsign sigmoid.
                 vec = vecHalf + (vec / (vecTwo * (vecFifth + Vector.Abs(vec))));
 
                 // Copy the final result into w.
-                vec.CopyTo(w, i);
+                vec.CopyTo(w[i..]);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < endIdx; i++) {
+            for(; i < v.Length; i++) {
                 w[i] = Fn(v[i]);
             }
         }

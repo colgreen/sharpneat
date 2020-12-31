@@ -123,10 +123,10 @@ namespace SharpNeat.Benchmarks
 
         private void RunBenchmark(IActivationFunction<double> actFn)
         {
-            VecFnSegment2<double> fn = actFn.Fn;
+            VecFn2<double> fn = actFn.Fn;
 
             for(int i=0; i < __loops; i++) {
-                fn(_x, _w, 0, _x.Length);
+                fn(_x, _w);
             }
         }
 

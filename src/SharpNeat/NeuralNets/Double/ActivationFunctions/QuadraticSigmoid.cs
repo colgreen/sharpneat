@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions
 {
@@ -48,7 +49,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             return (y * sign * 0.5) + 0.5;
         }
 
-        public void Fn(double[] v)
+        public void Fn(Span<double> v)
         {
             // Naive implementation.
             for(int i=0; i < v.Length; i++) {
@@ -56,18 +57,10 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             }
         }
 
-        public void Fn(double[] v, int startIdx, int endIdx)
+        public void Fn(Span<double> v, Span<double> w)
         {
             // Naive implementation.
-            for(int i=startIdx; i < endIdx; i++) {
-                v[i] = Fn(v[i]);
-            }
-        }
-
-        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
-        {
-            // Naive implementation.
-            for(int i=startIdx; i < endIdx; i++) {
+            for(int i=0; i < v.Length; i++) {
                 w[i] = Fn(v[i]);
             }
         }

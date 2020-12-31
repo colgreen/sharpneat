@@ -10,40 +10,26 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
+using System;
+
 namespace SharpNeat.NeuralNets
 {
-    // TODO: Convert to use Span<T> instead of T[].
+    /// <summary>
+    /// Vectorized activation function.
+    /// </summary>
+    /// <param name="v">A span of pre-activation levels to pass through the function.
+    /// The resulting post-activation levels are written back to this same span.</param>
+    /// <typeparam name="T">Vector element numeric data type.</typeparam>
+    public delegate void VecFn<T>(Span<T> v)
+        where T : struct;
 
     /// <summary>
     /// Vectorized activation function.
     /// </summary>
-    /// <param name="v">A vector of pre-activation levels to pass through the function.
-    /// The resulting post-activation levels are written back to this same array/vector.</param>
+    /// <param name="v">A span of pre-activation levels to pass through the function.</param>
+    /// <param name="w">A span in which the post-activation levels are stored.</param>
     /// <typeparam name="T">Vector element numeric data type.</typeparam>
-    public delegate void VecFn<T>(T[] v)
-        where T : struct;
-
-    /// <summary>
-    /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector.
-    /// </summary>
-    /// <param name="v">A vector of pre-activation levels to pass through the function.
-    /// The resulting post-activation levels are written back to this same array/vector.</param>
-    /// <param name="startIdx">Start index.</param>
-    /// <param name="endIdx">End index (exclusive).</param>
-    /// <typeparam name="T">Vector element numeric data type.</typeparam>
-    public delegate void VecFnSegment<T>(T[] v, int startIdx, int endIdx)
-        where T : struct;
-
-    /// <summary>
-    /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector,
-    /// and post-activation levels stored in a separate supplied vector.
-    /// </summary>
-    /// <param name="v">A vector of pre-activation levels to pass through the function.</param>
-    /// <param name="w">A vector in which the post-activation levels are stored.</param>
-    /// <param name="startIdx">Start index.</param>
-    /// <param name="endIdx">End index (exclusive).</param>
-    /// <typeparam name="T">Vector element numeric data type.</typeparam>
-    public delegate void VecFnSegment2<T>(T[] v, T[] w, int startIdx, int endIdx)
+    public delegate void VecFn2<T>(Span<T> v, Span<T> w)
         where T : struct;
 
     /// <summary>
@@ -53,36 +39,24 @@ namespace SharpNeat.NeuralNets
     public interface IActivationFunction<T> where T : struct
     {
         /// <summary>
-        /// The activation function.
+        /// The activation function; scalar implementation.
         /// </summary>
         /// <param name="x">The single pre-activation level to pass through the function.</param>
         /// <returns>The activation function output value.</returns>
         T Fn(T x);
 
         /// <summary>
-        /// Vectorized activation function.
+        /// The activation function; vector implementation.
         /// </summary>
-        /// <param name="v">A vector of pre-activation levels to pass through the function.
-        /// The resulting post-activation levels are written back to this same array/vector.</param>
-        void Fn(T[] v);
+        /// <param name="v">A span of pre-activation levels to pass through the function.
+        /// The resulting post-activation levels are written back to this same span.</param>
+        void Fn(Span<T> v);
 
         /// <summary>
-        /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector.
+        /// The activation function; vector implementation with a separate output span.
         /// </summary>
-        /// <param name="v">A vector of pre-activation levels to pass through the function.
-        /// The resulting post-activation levels are written back to this same array/vector.</param>
-        /// <param name="startIdx">Start index.</param>
-        /// <param name="endIdx">End index (exclusive).</param>
-        void Fn(T[] v, int startIdx, int endIdx);
-
-        /// <summary>
-        /// Vectorized activation function with activity limited to a defined sub-range/segment of the vector,
-        /// and post-activation levels stored in a separate supplied vector.
-        /// </summary>
-        /// <param name="v">A vector of pre-activation levels to pass through the function.</param>
-        /// <param name="w">A vector in which the post-activation levels are stored.</param>
-        /// <param name="startIdx">Start index.</param>
-        /// <param name="endIdx">End index (exclusive).</param>
-        void Fn(T[] v, T[] w, int startIdx, int endIdx);
+        /// <param name="v">A span of pre-activation levels to pass through the function.</param>
+        /// <param name="w">A span in which the post-activation levels are stored.</param>
+        void Fn(Span<T> v, Span<T> w);
     }
 }

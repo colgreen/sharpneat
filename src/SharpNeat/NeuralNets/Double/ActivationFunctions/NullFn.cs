@@ -25,19 +25,15 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             return 0.0;
         }
 
-        public void Fn(double[] v)
+        public void Fn(Span<double> v)
         {
-            Array.Clear(v, 0, v.Length);
+            v.Clear();
         }
 
-        public void Fn(double[] v, int startIdx, int endIdx)
-        {
-            Array.Clear(v, startIdx, endIdx - startIdx);
-        }
 
-        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
+        public void Fn(Span<double> v, Span<double> w)
         {
-            Array.Clear(w, startIdx, endIdx - startIdx);
+            w.Clear();
         }
     }
 }

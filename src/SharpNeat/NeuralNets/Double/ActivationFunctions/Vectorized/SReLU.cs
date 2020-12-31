@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Numerics;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
@@ -43,17 +44,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             return y;
         }
 
-        public void Fn(double[] v)
+        public void Fn(Span<double> v)
         {
-            Fn(v, v, 0, v.Length);
+            Fn(v, v);
         }
 
-        public void Fn(double[] v, int startIdx, int endIdx)
-        {
-            Fn(v, v, startIdx, endIdx);
-        }
-
-        public void Fn(double[] v, double[] w, int startIdx, int endIdx)
+        public void Fn(Span<double> v, Span<double> w)
         {
             // Init constants.
             var vec_tl = new Vector<double>(0.001);
@@ -61,11 +57,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             var vec_a = new Vector<double>(0.00001);
             int width = Vector<double>.Count;
 
-            int i=startIdx;
-            for(; i <= endIdx-width; i += width)
+            int i=0;
+            for(; i <= v.Length - width; i += width)
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v, i);
+                var vec = new Vector<double>(v[i..]);
 
                 // Calc values in left hand segment of y=f(x); i.e. x <= tl.
                 var vec_left = vec - vec_tl;
@@ -85,11 +81,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 vec = Vector.ConditionalSelect(vec_select_left, vec_left, vec);
 
                 // Copy the final result back into v.
-                vec.CopyTo(w, i);
+                vec.CopyTo(w[i..]);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < endIdx; i++) {
+            for(; i < v.Length; i++) {
                 w[i] = Fn(v[i]);
             }
         }
