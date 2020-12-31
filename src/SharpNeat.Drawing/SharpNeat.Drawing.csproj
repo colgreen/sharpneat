@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Version>4.0.0</Version>
     <Description>Graph drawing library.</Description>
     <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>

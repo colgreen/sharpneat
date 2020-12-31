@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <Version>4.0.0</Version>
     <Description>SharpNEAT Windows Forms application / front-end.</Description>
     <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
