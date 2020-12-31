@@ -96,7 +96,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// </summary>
         /// <param name="a">The <see cref="Int32Point"/> to subtract from.</param>
         /// <param name="b">The <see cref="Int32Point"/> to subtract from point a.</param>
-        /// <returns>The result of the subtraction</returns>
+        /// <returns>The result of the subtraction.</returns>
         public static Int32Point operator -(Int32Point a, Int32Point b)
         {
             return new Int32Point(a.X - b.X, a.Y - b.Y);

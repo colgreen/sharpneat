@@ -18,6 +18,9 @@ using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Windows.Neat
 {
+    /// <summary>
+    /// A Windows.Form <see cref="UserControl"/> for displaying NEAT genomes.
+    /// </summary>
     public class NeatGenomeControl : GenomeControl
     {
         private ViewportControl viewportControl1;
@@ -25,6 +28,9 @@ namespace SharpNeat.Windows.Neat
 
         #region Construction
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="NeatGenomeControl"/>.
+        /// </summary>
         public NeatGenomeControl()
         {
             InitializeComponent();
@@ -36,6 +42,9 @@ namespace SharpNeat.Windows.Neat
 
         #region Public Methods
 
+        /// <summary>
+        /// Genome updated handler.
+        /// </summary>
         public override void OnGenomeUpdated()
         {
             base.OnGenomeUpdated();
@@ -51,7 +60,6 @@ namespace SharpNeat.Windows.Neat
             {
                 DirectedGraphViewModel graphViewModel = CreateGraphViewModel(genome);
                 _graphViewportPainter.GraphViewModel = graphViewModel;
-
             }
 
             // Repaint the viewport.
@@ -76,7 +84,6 @@ namespace SharpNeat.Windows.Neat
                 digraph = neatGenomeDouble.DirectedGraph;
                 weightArr = ToFloatArray(neatGenomeDouble.GetDigraphWeightArray());
                 nodeIdByIdxMap = neatGenomeDouble.NodeIndexByIdMap.CreateInverseMap();
-
             }
             else if(genome is NeatGenome<float> neatGenomeFloat)
             {
@@ -95,10 +102,12 @@ namespace SharpNeat.Windows.Neat
 
         #endregion
 
-        #region Private Methods [Windows.Forms Desigmer Code]
+        #region Private Methods [Windows.Forms Designer Code]
 
         private void InitializeComponent()
         {
+#pragma warning disable SA1120 // Comments should contain text
+
             this.viewportControl1 = new SharpNeat.Windows.ViewportControl();
             this.SuspendLayout();
             //

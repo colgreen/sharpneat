@@ -21,8 +21,14 @@ namespace SharpNeat.Windows
     /// </summary>
     public partial class GenomeControl : UserControl
     {
+        /// <summary>
+        /// The genome being displayed by the control.
+        /// </summary>
         protected IGenome _genome;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="GenomeControl"/>.
+        /// </summary>
         public GenomeControl()
         {
             InitializeComponent();

@@ -34,7 +34,7 @@ namespace SharpNeat.Tasks.FunctionRegression
         /// <summary>X positions of the sample points.</summary>
         public double[] XArr { get; }
 
-        /// <summary>X positions of the sample points in the neural net input space (i.e. scaled from 0 to 1)</summary>
+        /// <summary>X positions of the sample points in the neural net input space (i.e. scaled from 0 to 1).</summary>
         public double[] XArrNetwork { get; }
 
         /// <summary>

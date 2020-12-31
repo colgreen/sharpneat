@@ -37,7 +37,6 @@ namespace SharpNeat.Tasks.Xor
             // Create an evaluation scheme object for the XOR task.
             var evalScheme = new XorEvaluationScheme();
 
-
             // Create a NeatExperiment object with the evaluation scheme,
             // and assign some default settings (these can be overridden by config).
             var experiment = new NeatExperiment<double>(evalScheme, this.Id)

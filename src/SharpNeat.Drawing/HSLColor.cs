@@ -15,7 +15,7 @@ namespace SharpNeat.Drawing
     /// </summary>
     public sealed class HSLColor
     {
-        private const double scale = 240.0;
+        private const double __Scale = 240.0;
 
         // Private data members below are on scale 0-1
         // They are scaled for use externally based on scale
@@ -30,8 +30,8 @@ namespace SharpNeat.Drawing
         /// </summary>
         public double Hue
         {
-            get { return _hue * scale; }
-            set { _hue = Math.Clamp(value / scale, 0.0, 1.0); }
+            get { return _hue * __Scale; }
+            set { _hue = Math.Clamp(value / __Scale, 0.0, 1.0); }
         }
 
         /// <summary>
@@ -39,8 +39,8 @@ namespace SharpNeat.Drawing
         /// </summary>
         public double Saturation
         {
-            get { return _saturation * scale; }
-            set { _saturation = Math.Clamp(value / scale, 0.0, 1.0); }
+            get { return _saturation * __Scale; }
+            set { _saturation = Math.Clamp(value / __Scale, 0.0, 1.0); }
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace SharpNeat.Drawing
         /// </summary>
         public double Luminosity
         {
-            get { return _luminosity * scale; }
-            set { _luminosity = Math.Clamp(value / scale, 0.0, 1.0); }
+            get { return _luminosity * __Scale; }
+            set { _luminosity = Math.Clamp(value / __Scale, 0.0, 1.0); }
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace SharpNeat.Drawing
         /// <summary>
         /// Construct with the given <see cref="Color"/>.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">The color to represent.</param>
         public HSLColor(Color color)
         {
             SetRGB(color.R, color.G, color.B);
@@ -101,9 +101,9 @@ namespace SharpNeat.Drawing
         /// <summary>
         /// Assign a colour using the RGB colour model.
         /// </summary>
-        /// <param name="red"></param>
-        /// <param name="green"></param>
-        /// <param name="blue"></param>
+        /// <param name="red">Red component.</param>
+        /// <param name="green">Green component.</param>
+        /// <param name="blue">Blue component.</param>
         public void SetRGB(int red, int green, int blue)
         {
             HSLColor hslColor = (HSLColor)Color.FromArgb(red, green, blue);
@@ -132,11 +132,11 @@ namespace SharpNeat.Drawing
                 else
                 {
                     double temp2 = GetTemp2(hslColor);
-                    double temp1 = 2.0 * hslColor._luminosity - temp2;
+                    double temp1 = (2.0 * hslColor._luminosity) - temp2;
 
-                    r = GetColorComponent(temp1, temp2, hslColor._hue + 1.0 / 3.0);
+                    r = GetColorComponent(temp1, temp2, hslColor._hue + (1.0 / 3.0));
                     g = GetColorComponent(temp1, temp2, hslColor._hue);
-                    b = GetColorComponent(temp1, temp2, hslColor._hue - 1.0 / 3.0);
+                    b = GetColorComponent(temp1, temp2, hslColor._hue - (1.0 / 3.0));
                 }
             }
             return Color.FromArgb((int)(255 * r), (int)(255 * g), (int)(255 * b));
@@ -165,7 +165,7 @@ namespace SharpNeat.Drawing
         {
             temp3 = MoveIntoRange(temp3);
             if (temp3 < 1.0 / 6.0)
-                return temp1 + (temp2 - temp1) * 6.0 * temp3;
+                return (temp1 + (temp2 - temp1)) * 6.0 * temp3;
             else if (temp3 < 0.5)
                 return temp2;
             else if (temp3 < 2.0 / 3.0)
@@ -186,7 +186,7 @@ namespace SharpNeat.Drawing
         private static double GetTemp2(HSLColor hslColor)
         {
             double temp2;
-            if (hslColor._luminosity < 0.5)  //<=??
+            if (hslColor._luminosity < 0.5)  // <= ??
                 temp2 = hslColor._luminosity * (1.0 + hslColor._saturation);
             else
                 temp2 = hslColor._luminosity + hslColor._saturation - (hslColor._luminosity * hslColor._saturation);

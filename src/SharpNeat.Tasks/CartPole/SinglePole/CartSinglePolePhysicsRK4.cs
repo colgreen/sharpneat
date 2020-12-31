@@ -11,6 +11,12 @@
  */
 using System;
 
+// Note. This class contains a lot of dense arithmetic expressions; the inclusion of extra parentheses would make
+// these much harder to read.
+#pragma warning disable SA1407 // Arithmetic expressions should declare precedence.
+#pragma warning disable SA1303 // Const field names should begin with upper-case letter
+#pragma warning disable SA1308 // Variable names should not be prefixed
+
 namespace SharpNeat.Tasks.CartPole.SinglePole
 {
     /// <summary>
@@ -21,7 +27,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
     /// This cart-pole physics code is based on code from https://github.com/colgreen/cartpole-physics
     /// which in turn is based on the cart-pole equations from this paper:
     ///    "Equations of Motion for the Cart and Pole Control Task"
-    ///    https://sharpneat.sourceforge.io/research/cart-pole/cart-pole-equations.html
+    ///    <see href="https://sharpneat.sourceforge.io/research/cart-pole/cart-pole-equations.html"/>.
     /// </remarks>
     public sealed class CartSinglePolePhysicsRK4
     {

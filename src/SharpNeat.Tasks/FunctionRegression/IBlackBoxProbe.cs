@@ -18,8 +18,9 @@ namespace SharpNeat.Tasks.FunctionRegression
     /// </summary>
     public interface IBlackBoxProbe
     {
+        // TODO: Convert responseArr to Span<double>
         /// <summary>
-        /// Probe the given black box, and record the responses in <paramref name="responseArr"/>
+        /// Probe the given black box, and record the responses in <paramref name="responseArr"/>.
         /// </summary>
         /// <param name="box">The black box to probe.</param>
         /// <param name="responseArr">Response array.</param>

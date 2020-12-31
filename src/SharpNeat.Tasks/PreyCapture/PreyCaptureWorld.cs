@@ -44,11 +44,11 @@ namespace SharpNeat.Tasks.PreyCapture
         #region Instance Fields
 
         // World parameters.
-		readonly int _preyInitMoves;	// Number of initial moves (0 to 4).
-		readonly float _preySpeed;	    // 0 to 1.
-		readonly float _sensorRange;	// Agent's sensor range.
+        readonly int _preyInitMoves;    // Number of initial moves (0 to 4).
+        readonly float _preySpeed;      // 0 to 1.
+        readonly float _sensorRange;    // Agent's sensor range.
         readonly float _sensorRangeSqr; // Agent's sensor range, squared.
-        readonly int _maxTimesteps;	    // Length of time agent can survive w/out eating prey.
+        readonly int _maxTimesteps;     // Length of time agent can survive w/out eating prey.
 
         // Random number generator.
         readonly IRandomSource _rng;
@@ -93,6 +93,10 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Constructs with the provided world parameter arguments.
         /// </summary>
+        /// <param name="preyInitMoves">Prey initial moves. The number of moves the prey is allowed to move before the agent can move.</param>
+        /// <param name="preySpeed">Prey speed; within interval [0, 1].</param>
+        /// <param name="sensorRange">The sensor range of the agent.</param>
+        /// <param name="maxTimesteps">The maximum number of simulation timesteps to run without the agent capturing the prey.</param>
         public PreyCaptureWorld(int preyInitMoves, float preySpeed, float sensorRange, int maxTimesteps)
         {
             _preyInitMoves = preyInitMoves;
@@ -145,6 +149,8 @@ namespace SharpNeat.Tasks.PreyCapture
         /// Runs one trial of the provided agent in the world. Returns true if the agent captures the prey within
         /// the maximum number of timesteps allowed.
         /// </summary>
+        /// <param name="agent">The agent to run the trail with.</param>
+        /// <returns>True if the agent captured the prey; otherwise false.</returns>
         public bool RunTrial(IBlackBox<double> agent)
         {
             // Initialise world state.
@@ -202,7 +208,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Determine the agent's position in the world relative to the prey and walls, and set its sensor inputs accordingly.
         /// </summary>
-        /// <param name="agent"></param>
+        /// <param name="agent">The agent.</param>
         public void SetAgentInputsAndActivate(IBlackBox<double> agent)
         {
             const float PI_over_8 = MathF.PI / 8f;
@@ -261,6 +267,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Allow the agent to move one square based on its decision. Note that the agent can choose to not move.
         /// </summary>
+        /// <param name="agent">The agent.</param>
         public void MoveAgent(IBlackBox<double> agent)
         {
             IVector<double> outputVec = agent.OutputVector;
@@ -283,7 +290,7 @@ namespace SharpNeat.Tasks.PreyCapture
                 }
             }
 
-            if(-1 == maxSigIdx || maxSig < 0.1)
+            if(maxSigIdx == -1 || maxSig < 0.1)
             {   // No action.
                 return;
             }
@@ -321,7 +328,7 @@ namespace SharpNeat.Tasks.PreyCapture
                     out float relPosAzimuth);
 
                 // Calculate the probability of moving in each of the four directions (north, east, south, west).
-		        // This stochastic strategy is taken from the paper referenced at the top of this class.
+                // This stochastic strategy is taken from the paper referenced at the top of this class.
                 // Essentially, the prey moves randomly he movements are biased such that the prey is more likely to move away the agent the nearer it is to the agent , and thus
                 // generally avoids getting eaten 'by accident'.
                 float t = T(MathF.Sqrt(relPosRadiusSqr)) * 0.33f;
@@ -360,8 +367,9 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Gets a boolean that indicates if the prey has been captured.
         /// </summary>
+        /// <returns>True if the agent has captured the prey; otherwise false.</returns>
         public bool IsPreyCaptured()
-		{
+        {
             return _agentPos == _preyPos;
         }
 
@@ -375,18 +383,18 @@ namespace SharpNeat.Tasks.PreyCapture
         /// and minimum value of 1.0 when distance is greater than 15.
         /// </summary>
         /// <param name="distance">Distance between the agent and the prey.</param>
-		private static float T(float distance)
-		{
-			if(distance <= 4f) {
-				return 15f - distance;
+        private static float T(float distance)
+        {
+            if(distance <= 4f) {
+                return 15f - distance;
             }
             else if(distance <= 15f) {
-				return 9f - (distance * 0.5f);
+                return 9f - (distance * 0.5f);
             }
             else {
-				return 1f;
+                return 1f;
             }
-		}
+        }
 
         /// <summary>
         /// The W function as defined in Appendix A of the paper referenced at the top of this class.
@@ -415,10 +423,10 @@ namespace SharpNeat.Tasks.PreyCapture
         }
 
         /// <summary>
-        /// Gives the smallest angle between two vectors with the given angles/
+        /// Gives the smallest angle between two vectors with the given angles.
         /// </summary>
         /// <param name="a">Vector a angle.</param>
-        /// <param name="b">Vector b angle/</param>
+        /// <param name="b">Vector b angle.</param>
         /// <returns>Smallest angle between a and b.</returns>
         private static float AngleDelta(float a, float b)
         {
@@ -451,7 +459,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// </remarks>
         private static void CartesianToPolar(Int32Point p, out int radiusSqr, out float azimuth)
         {
-            radiusSqr = p.X * p.X + p.Y * p.Y;
+            radiusSqr = (p.X * p.X) + (p.Y * p.Y);
             azimuth = __atan2Lookup[p.Y + __atan2LookupOffset, p.X + __atan2LookupOffset];
             if(azimuth < 0f) {
                 azimuth += 2f * MathF.PI;
@@ -466,7 +474,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// As such this function should not be used elsewhere as a general purpose approximation for exp().
         /// </remarks>
         /// <param name="x">A number specifying a power.</param>
-        /// <returns>The number e raised to the power x</returns>
+        /// <returns>The number e raised to the power x.</returns>
         static float Exp(float x)
         {
             // This function is based on the following approximation for e^x:

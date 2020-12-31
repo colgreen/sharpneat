@@ -223,7 +223,7 @@ namespace SharpNeat.Drawing.Graph
         /// Create an array that gives the node layer for each node, keyed by node index.
         /// </summary>
         /// <param name="digraphAcyclic">The directed acyclic graph.</param>
-        /// <returns>A new integer array</returns>
+        /// <returns>A new integer array.</returns>
         private static int[] BuildNodeLayerByIdx_Acyclic(DirectedGraphAcyclic digraphAcyclic)
         {
             // Alloc the array, and populate with the already determined node depth values as represented
@@ -267,7 +267,7 @@ namespace SharpNeat.Drawing.Graph
         /// Create an array that gives the node layer for each node, keyed by node index.
         /// </summary>
         /// <param name="digraph">The directed cyclic graph.</param>
-        /// <returns>A new integer array</returns>
+        /// <returns>A new integer array.</returns>
         private static int[] BuildNodeLayerByIdx_Cyclic(DirectedGraph digraph)
         {
             // Perform an analysis on the cyclic graph to assign a depth to each node.
