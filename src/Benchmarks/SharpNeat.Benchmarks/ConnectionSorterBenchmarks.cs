@@ -9,49 +9,40 @@ namespace SharpNeat.Benchmarks
     [MemoryDiagnoser]
     public class ConnectionSorterBenchmarks
     {
-        readonly Xoshiro256StarStarRandom _rng = new Xoshiro256StarStarRandom(0);
+        readonly Xoshiro256StarStarRandom _rng = new Xoshiro256StarStarRandom(123);
         ConnectionData[] _dataArr;
-
-        #region Constructor
-
-        public ConnectionSorterBenchmarks()
-        {
-            InitCold(1000, 4000);
-        }
-
-        #endregion
 
         #region Public Methods
 
         [IterationSetup(Target = nameof(ConnectionSorterV1Benchmark))]
-        public void ConnectionSorter_Init()
+        public void ConnectionSorterV1_Init()
         {
             InitCold(1000, 4000);
         }
 
         [IterationSetup(Target = nameof(ConnectionSorterBenchmark))]
-        public void ConnectionSorter2_Init()
+        public void ConnectionSorter_Init()
         {
-            InitCold(1000, 4000);
+            InitCold(10_000, 4000);
         }
 
         [Benchmark]
         public void ConnectionSorterV1Benchmark()
         {
-            for(int i=0; i<_dataArr.Length; i++)
+            for(int i = 0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                ConnectionSorterV1.Sort(connData._connIdArrays, connData._weightArr);
+                ConnectionSorterV1.Sort(connData._connIdArrays,connData._weightArr);
             }
         }
 
         [Benchmark]
         public void ConnectionSorterBenchmark()
         {
-            for (int i = 0; i < _dataArr.Length; i++)
+            for(int i = 0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                ConnectionSorter<double>.Sort(connData._connIdArrays, connData._weightArr);
+                ConnectionSorter<double>.Sort(connData._connIdArrays,connData._weightArr);
             }
         }
 
@@ -62,14 +53,14 @@ namespace SharpNeat.Benchmarks
         private void InitCold(int count, int length)
         {
             _dataArr = new ConnectionData[count];
-            for(int i=0; i<count; i++)
+            for(int i=0; i < count; i++)
             {
                 int[] srcIdArr = CreateRandomInt32Array(length);
                 int[] tgtIdArr = CreateRandomInt32Array(length);
 
                 ConnectionData connData = new ConnectionData
                 {
-                    _connIdArrays = new ConnectionIdArrays(srcIdArr,tgtIdArr),
+                    _connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr),
                     _weightArr = CreateRandomDoubleArray(length)
                 };
                 _dataArr[i] = connData;
@@ -78,7 +69,7 @@ namespace SharpNeat.Benchmarks
 
         private void InitWarm()
         {
-            for(int i=0; i<_dataArr.Length; i++)
+            for(int i=0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
                 InitRandomInt32Array(connData._connIdArrays._sourceIdArr);
@@ -90,7 +81,7 @@ namespace SharpNeat.Benchmarks
         private int[] CreateRandomInt32Array(int length)
         {
             int[] arr = new int[length];
-            for(int i=0; i<length; i++) {
+            for(int i=0; i < length; i++) {
                 arr[i] = _rng.Next();
             }
             return arr;
@@ -99,7 +90,7 @@ namespace SharpNeat.Benchmarks
         private double[] CreateRandomDoubleArray(int length)
         {
             double[] arr = new double[length];
-            for(int i=0; i<length; i++) {
+            for(int i=0; i < length; i++) {
                 arr[i] = _rng.NextDouble();
             }
             return arr;
@@ -107,14 +98,14 @@ namespace SharpNeat.Benchmarks
 
         private void InitRandomInt32Array(int[] arr)
         {
-            for(int i=0; i<arr.Length; i++) {
+            for(int i=0; i < arr.Length; i++) {
                 arr[i] = _rng.Next();
             }
         }
 
         private void InitRandomDoubleArray(double[] arr)
         {
-            for(int i=0; i<arr.Length; i++) {
+            for(int i=0; i < arr.Length; i++) {
                 arr[i] = _rng.NextDouble();
             }
         }
