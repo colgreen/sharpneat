@@ -46,7 +46,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
         public void Fn(Span<double> v)
         {
             // Naive implementation.
-            for(int i=0; i<v.Length; i++) {
+            for(int i=0; i < v.Length; i++) {
                 v[i] = Fn(v[i]);
             }
         }

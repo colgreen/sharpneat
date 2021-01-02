@@ -74,7 +74,7 @@ namespace SharpNeat.Graphs
             var hiddenNodeIdSet = new HashSet<int>();
 
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
-            for(int i=0; i<connectionList.Count; i++)
+            for(int i=0; i < connectionList.Count; i++)
             {
                 if(connectionList[i].SourceId >= inputOutputCount) {
                     hiddenNodeIdSet.Add(connectionList[i].SourceId);
@@ -97,7 +97,7 @@ namespace SharpNeat.Graphs
             int[] srcIdArr = new int[count];
             int[] tgtIdArr = new int[count];
 
-            for(int i=0; i<connectionList.Count; i++)
+            for(int i=0; i < connectionList.Count; i++)
             {
                 srcIdArr[i] = nodeIdMap.Map(connectionList[i].SourceId);
                 tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);

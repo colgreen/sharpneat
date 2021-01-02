@@ -161,7 +161,7 @@ namespace SharpNeat.Windows.App
             IEnumerator<LogItem> IEnumerable<LogItem>.GetEnumerator()
             {
                 int len = this.Length;
-                for(int i=0; i<len; i++)
+                for(int i=0; i < len; i++)
                 {
                     yield return this[i];
                 }
@@ -170,7 +170,7 @@ namespace SharpNeat.Windows.App
             IEnumerator IEnumerable.GetEnumerator()
             {
                 int len = this.Length;
-                for(int i=0; i<len; i++)
+                for(int i=0; i < len; i++)
                 {
                     yield return this[i];
                 }

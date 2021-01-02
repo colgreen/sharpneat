@@ -55,7 +55,7 @@ namespace SharpNeat.Neat.Tests
             NeatPopulation<double> neatPop = CreateNeatPopulation(30, 10.0, rng);
 
             // Loop the species; assign the same fitness to genomes within each species.
-            for(int i=0; i< neatPop.SpeciesArray.Length; i++)
+            for(int i=0; i < neatPop.SpeciesArray.Length; i++)
             {
                 double fitness = (i+1) * 10.0;
                 neatPop.SpeciesArray[i].GenomeList.ForEach(x => x.FitnessInfo = new FitnessInfo(fitness));

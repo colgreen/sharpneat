@@ -89,7 +89,7 @@ namespace SharpNeat.BlackBox
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i<_map.Length; i++, tgtIdx++) {
+            for(int i=0, tgtIdx=targetIndex; i < _map.Length; i++, tgtIdx++) {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
@@ -110,7 +110,7 @@ namespace SharpNeat.BlackBox
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++) {
+            for(int i=0, tgtIdx=targetIndex; i < length; i++, tgtIdx++) {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
@@ -134,7 +134,7 @@ namespace SharpNeat.BlackBox
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=sourceIndex, tgtIdx=targetIndex; i<sourceIndex+length; i++, tgtIdx++) {
+            for(int i=sourceIndex, tgtIdx=targetIndex; i < sourceIndex+length; i++, tgtIdx++) {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
@@ -152,7 +152,7 @@ namespace SharpNeat.BlackBox
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i<sourceArray.Length; i++, tgtIdx++){
+            for(int i=0, tgtIdx=targetIndex; i < sourceArray.Length; i++, tgtIdx++){
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
@@ -173,7 +173,7 @@ namespace SharpNeat.BlackBox
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i<length; i++, tgtIdx++){
+            for(int i=0, tgtIdx=targetIndex; i < length; i++, tgtIdx++){
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
@@ -206,7 +206,7 @@ namespace SharpNeat.BlackBox
         /// </summary>
         public void Reset()
         {
-            for(int i=0; i<_map.Length; i++) {
+            for(int i=0; i < _map.Length; i++) {
                 _innerArr[_map[i]] = default;
             }
         }

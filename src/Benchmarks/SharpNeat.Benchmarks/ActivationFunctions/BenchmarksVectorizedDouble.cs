@@ -23,7 +23,7 @@ namespace SharpNeat.Benchmarks
         {
             // Create some random Gaussian values as the inputs to the activation functions.
             var gaussian = new ZigguratGaussianSampler(0.0, 2.0, 0);
-            for(int i=0; i<_x.Length; i++) {
+            for(int i=0; i < _x.Length; i++) {
                 _x[i] = gaussian.Sample();
             }
         }

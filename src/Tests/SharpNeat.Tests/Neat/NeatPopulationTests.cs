@@ -54,7 +54,7 @@ namespace SharpNeat.Neat.Tests
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1, RandomDefaults.CreateRandomSource());
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
-            Assert.Equal(10000, genome.ConnectionGenes.Length);
+            Assert.Equal(10_000, genome.ConnectionGenes.Length);
             Assert.True(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
 
             CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out double min, out double max, out double mean);
@@ -88,7 +88,7 @@ namespace SharpNeat.Neat.Tests
             min = total;
             max = total;
 
-            for(int i=1; i<weightArr.Length; i++)
+            for(int i=1; i < weightArr.Length; i++)
             {
                 double weight = weightArr[i];
                 total += weight;

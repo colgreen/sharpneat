@@ -156,7 +156,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int parentIdx = 0;
             int childIdx = 0;
 
-            for(int i=0; i<stopIdxArr.Length; i++)
+            for(int i=0; i < stopIdxArr.Length; i++)
             {
                 int stopIdx = stopIdxArr[i].Item1;
                 int newConIdx = stopIdxArr[i].Item2;

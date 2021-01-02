@@ -55,7 +55,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation
             int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length, rng);
 
             // Loop over the connection genes to be mutated, and mutate them.
-            for(int i=0; i<selectedIdxArr.Length; i++) {
+            for(int i=0; i < selectedIdxArr.Length; i++) {
                 weightArr[selectedIdxArr[i]] = _weightSampler.Sample(rng);
             }
         }

@@ -20,7 +20,7 @@ namespace SharpNeat.Graphs
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
             int[] idxArr = new int[srcIdArr.Length];
-            for(int i=0; i<idxArr.Length; i++) {
+            for(int i=0; i < idxArr.Length; i++) {
                 idxArr[i] = i;
             }
 
@@ -33,7 +33,7 @@ namespace SharpNeat.Graphs
             int[] tgtIdArr2 = new int[len];
             S[] weightArr2 = new S[len];
 
-            for(int i=0; i<len; i++)
+            for(int i=0; i < len; i++)
             {
                 int j = idxArr[i];
                 srcIdArr2[i] = srcIdArr[j];
