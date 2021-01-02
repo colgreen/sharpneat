@@ -319,8 +319,8 @@ namespace SharpNeat.Graphs
             // Notes.
             // Return a negative number if connection A is before B in the sort order.
             // Return a positive number if connection B is before A in the sort order.
-            // Return zero if the connections A and B are equal (have the same source and target node IDs).
-            // The strictly correct way of doing this is to with a series of comparisons, like so:
+            // Return zero if connections A and B are equal (have the same source and target node IDs).
+            // The strictly correct way of doing this is with a series of comparisons, like so:
             //
             //    if(srcIdA < srcIdB) return -1;
             //    if(srcIdA > srcIdB) return 1;
@@ -330,13 +330,13 @@ namespace SharpNeat.Graphs
             //    return 0;
             //
             // Instead we use arithmetic subtraction to effectively compare the source and target IDs of
-            // connections A and B, this has two side effects:
+            // connections A and B, this results in the elimination of all but one of the above conditional
+            // branches, and therefore improved performance.
             //
-            // (1) We eliminate all but one of the four conditional branches, thus improving performance.
-            // (2) The result is not correct for the specific case where the integer subtraction would overflow,
-            // i.e. when the connection A ID is zero, and the connection B ID is int.MaxValue (2,147,483,648).
-            // However, it's unlikely that the node ID space would ever reach 2 billion+; if that is expected then
-            // the node ID type would have to be increase to a 64 bit integer anyway.
+            // Noting that the range of an Int32 is [-2^31, (2^31)-1], hence in the extreme case where a node with
+            // ID int.MaxValue is subtracted from node ID zero, the result does not overflow. However, it's
+            // unlikely that the node ID space would ever reach 2 billion+; if that is expected then the node ID
+            // type would have to be increase to a 64 bit integer anyway.
             int diff = srcIdA - srcIdB;
             if(diff != 0) return diff;
             return tgtIdA - tgtIdB;
