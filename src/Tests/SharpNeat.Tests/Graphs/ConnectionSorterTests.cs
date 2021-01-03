@@ -7,11 +7,18 @@ namespace SharpNeat.Graphs.Tests
     {
         #region Test Methods
 
-        [Fact]
-        public void TestConnectionSorter()
+        [Theory]
+        [InlineData(99)]
+        [InlineData(100)]
+        [InlineData(101)]
+        [InlineData(999)]
+        [InlineData(1000)]
+        [InlineData(1001)]
+        [InlineData(1002)]
+        [InlineData(1003)]
+        public void TestConnectionSorter(int len)
         {
-            IRandomSource rng = RandomDefaults.CreateRandomSource(0);
-            int len = 1000;
+            IRandomSource rng = RandomDefaults.CreateRandomSource((uint)len);
 
             // Create random connection ID arrays.
             int[] srcIdArr = CreateRandomConnectionIdArray(len, rng);
