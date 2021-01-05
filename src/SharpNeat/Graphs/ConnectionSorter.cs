@@ -161,8 +161,8 @@ namespace SharpNeat.Graphs
             int left = 0, right = nextToLast;
             while (left < right)
             {
-                while(left < nextToLast && Compare(ref srcIds[++left], ref tgtIds[left], ref pivotSrcId, ref pivotTgtId) < 0);
-                while(right > 0 && Compare(ref pivotSrcId, ref pivotTgtId, ref srcIds[--right], ref tgtIds[right]) < 0);
+                while(Compare(ref srcIds[++left], ref tgtIds[left], ref pivotSrcId, ref pivotTgtId) < 0);
+                while(Compare(ref pivotSrcId, ref pivotTgtId, ref srcIds[--right], ref tgtIds[right]) < 0);
 
                 if (left >= right) {
                     break;
