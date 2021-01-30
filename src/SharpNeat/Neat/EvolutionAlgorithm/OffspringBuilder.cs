@@ -231,7 +231,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             if(interspeciesMatingProportion == 0.0) {
                 offspringInterspeciesCount = offspringCountSexualInter = 0;
             } else {
-                offspringInterspeciesCount = offspringCountSexualInter = (int)NumericsUtils.ProbabilisticRound(interspeciesMatingProportion * offspringCount, rng);
+                offspringInterspeciesCount = offspringCountSexualInter = (int)NumericsUtils.StochasticRound(interspeciesMatingProportion * offspringCount, rng);
             }
 
             // Calc the number of offspring to create via intra-species sexual reproduction.

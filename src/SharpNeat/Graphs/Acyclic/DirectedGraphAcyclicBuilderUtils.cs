@@ -86,7 +86,7 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Assert that all input nodes are at depth zero.
             // Any input node with a non-zero depth must have an input connection, and this is not supported.
-            Debug.Assert(SpanUtils.Equals(depthInfo._nodeDepthArr.AsSpan(0, inputCount), 0));
+            Debug.Assert(SpanUtils.Equal(depthInfo._nodeDepthArr.AsSpan(0, inputCount), 0));
 
             // Compile a mapping from current node IDs to new IDs (based on node depth in the graph).
             newIdByOldId = CompileNodeIdMap(depthInfo, digraph.TotalNodeCount, inputCount, ref timsortWorkArr, ref timsortWorkVArr);

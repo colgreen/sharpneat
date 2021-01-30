@@ -68,13 +68,13 @@ namespace SharpNeat.Neat.Genome
             int inputOutputCount)
         {
             // Test that the IDs are sorted (required to allow for efficient searching of IDs using a binary search).
-            if(!SortUtils.IsSortedAscending(hiddenNodeIdArr)) {
+            if(!SortUtils.IsSortedAscending((Span<int>)hiddenNodeIdArr)) {
                 return false;
             }
 
             // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
             int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, new HashSet<int>());
-            if(!SpanUtils.Equals<int>(idArr, hiddenNodeIdArr)) {
+            if(!SpanUtils.Equal<int>(idArr, hiddenNodeIdArr)) {
                 return false;
             }
             return true;

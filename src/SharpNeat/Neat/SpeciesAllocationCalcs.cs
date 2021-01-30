@@ -77,7 +77,7 @@ namespace SharpNeat.Neat
                     stats.TargetSizeReal = (stats.MeanFitness / totalMeanFitness) * popSizeReal;
 
                     // Discretize targetSize (stochastic rounding).
-                    stats.TargetSizeInt = (int)NumericsUtils.ProbabilisticRound(stats.TargetSizeReal, rng);
+                    stats.TargetSizeInt = (int)NumericsUtils.StochasticRound(stats.TargetSizeReal, rng);
 
                     // Total up discretized target sizes.
                     totalTargetSizeInt += stats.TargetSizeInt;
@@ -109,7 +109,7 @@ namespace SharpNeat.Neat
 
                 // Stochastic rounding will result in equal allocation if targetSizeReal is a whole
                 // number, otherwise it will help to distribute allocations fairly.
-                stats.TargetSizeInt = (int)NumericsUtils.ProbabilisticRound(targetSizeReal, rng);
+                stats.TargetSizeInt = (int)NumericsUtils.StochasticRound(targetSizeReal, rng);
 
                 // Total up discretized target sizes.
                 totalTargetSizeInt += stats.TargetSizeInt;
@@ -231,7 +231,7 @@ namespace SharpNeat.Neat
             for(int i = bestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
                 speciesIdxArr[i-1] = i;
             }
-            SortUtils.Shuffle(speciesIdxArr, rng);
+            SortUtils.Shuffle((Span<int>)speciesIdxArr, rng);
 
             // Loop the species indexes.
             bool success = false;
@@ -300,7 +300,7 @@ namespace SharpNeat.Neat
             // Calculate the elite size as a proportion of the current species size.
             // Note. We discretize the real size with a probabilistic handling of the fractional part.
             double eliteSizeReal = species.GenomeList.Count * eaSettings.ElitismProportion;
-            int eliteSizeInt = (int)NumericsUtils.ProbabilisticRound(eliteSizeReal, rng);
+            int eliteSizeInt = (int)NumericsUtils.StochasticRound(eliteSizeReal, rng);
 
             // Ensure eliteSizeInt is no larger than the current target size. (I.e. the value was
             // calculated as a proportion of the current size, not the new target size).
@@ -319,7 +319,7 @@ namespace SharpNeat.Neat
             // Determine the split between asexual and sexual reproduction. Again using probabilistic
             // rounding to compensate for any rounding bias.
             double offspringAsexualCountReal = stats.OffspringCount * eaSettings.OffspringAsexualProportion;
-            stats.OffspringAsexualCount = (int)NumericsUtils.ProbabilisticRound(offspringAsexualCountReal, rng);
+            stats.OffspringAsexualCount = (int)NumericsUtils.StochasticRound(offspringAsexualCountReal, rng);
             stats.OffspringSexualCount = stats.OffspringCount - stats.OffspringAsexualCount;
 
             // Calculate the selectionSize. The number of the species' fittest genomes that are selected from
@@ -328,7 +328,7 @@ namespace SharpNeat.Neat
             // selected from this species to produce offspring, except for cross-species mating, hence the minimum of one is
             // a useful general approach.
             double selectionSizeReal = species.GenomeList.Count * eaSettings.SelectionProportion;
-            stats.SelectionSizeInt = Math.Max(1, (int)NumericsUtils.ProbabilisticRound(selectionSizeReal, rng));
+            stats.SelectionSizeInt = Math.Max(1, (int)NumericsUtils.StochasticRound(selectionSizeReal, rng));
         }
 
         #endregion

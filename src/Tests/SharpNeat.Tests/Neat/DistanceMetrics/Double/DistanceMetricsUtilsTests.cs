@@ -53,7 +53,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double.Tests
             expected[9] = (4, 5, 80 / 3.0);
             expected[10] = (10, 20, 200 / 3.0);
 
-            Assert.True(SpanUtils.Equals<DirectedConnection>(expected._connArr, centroid._connArr));
+            Assert.True(SpanUtils.Equal<DirectedConnection>(expected._connArr, centroid._connArr));
             Assert.True(ArrayTestUtils.ConponentwiseEqual(expected._weightArr, centroid._weightArr, 1e-6));
         }
     }

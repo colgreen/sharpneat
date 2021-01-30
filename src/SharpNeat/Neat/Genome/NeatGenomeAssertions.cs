@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Diagnostics;
 using Redzen.Sorting;
 using SharpNeat.Graphs;
@@ -101,7 +102,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(connGenes._connArr.Length == digraph.ConnectionIdArrays.Length);
 
             // Connection order.
-            Debug.Assert(SortUtils.IsSortedAscending(connGenes._connArr));
+            Debug.Assert(SortUtils.IsSortedAscending((Span<DirectedConnection>)(connGenes._connArr)));
             Debug.Assert(IsSortedAscending(digraph.ConnectionIdArrays));
 
             // Connection node ID mappings.

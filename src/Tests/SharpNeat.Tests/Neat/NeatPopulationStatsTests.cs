@@ -37,13 +37,13 @@ namespace SharpNeat.Neat.Tests
             Assert.Equal(100.0, stats.BestFitness.PrimaryFitness);
             Assert.Equal(10.8, stats.MeanFitness);
             Assert.Equal(1, stats.BestFitnessHistory.Length);
-            Assert.Equal(100.0, stats.BestFitnessHistory.Total);
+            Assert.Equal(100.0, stats.BestFitnessHistory.Sum);
 
             // Complexity stats.
             Assert.Equal(6.0, stats.BestComplexity);
             Assert.Equal(6.0, stats.MeanComplexity);
             Assert.Equal(1, stats.MeanComplexityHistory.Length);
-            Assert.Equal(6.0, stats.MeanComplexityHistory.Total);
+            Assert.Equal(6.0, stats.MeanComplexityHistory.Sum);
         }
 
         [Fact]

@@ -41,7 +41,7 @@ namespace SharpNeat.EvolutionAlgorithm
         /// This object can also provide a mean over the historical fitness scores, thus providing
         /// a moving average value.
         /// </summary>
-        public DoubleCircularBufferWithStats BestFitnessHistory { get; set; } = new DoubleCircularBufferWithStats(100);
+        public CircularBufferWithStats BestFitnessHistory { get; set; } = new CircularBufferWithStats(100);
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace SharpNeat.EvolutionAlgorithm
         /// This object can also provide a mean over the historical values, thus providing
         /// a moving average value.
         /// </summary>
-        public DoubleCircularBufferWithStats MeanComplexityHistory { get; set; } = new DoubleCircularBufferWithStats(100);
+        public CircularBufferWithStats MeanComplexityHistory { get; set; } = new CircularBufferWithStats(100);
 
         #endregion
     }

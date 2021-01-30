@@ -110,7 +110,7 @@ namespace SharpNeat.Neat
         {
             // Determine how many connections to create in the new genome, as a proportion of all possible connections
             // between the input and output nodes.
-            int connectionCount = (int)NumericsUtils.ProbabilisticRound(_connectionDefArr.Length * _connectionsProportion, _rng);
+            int connectionCount = (int)NumericsUtils.StochasticRound(_connectionDefArr.Length * _connectionsProportion, _rng);
 
             // Ensure there is at least one connection.
             connectionCount = Math.Max(1, connectionCount);
