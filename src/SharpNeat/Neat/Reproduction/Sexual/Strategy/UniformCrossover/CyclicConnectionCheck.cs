@@ -110,10 +110,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// Tests if the proposed new connection <paramref name="newConn"/> would form a cycle if added to the
         /// existing directed acyclic graph described by connArr.
         /// </summary>
-        /// <param name="connList">A set of connections that describe a directed acyclic graph.</param>
+        /// <param name="connSpan">A set of connections that describe a directed acyclic graph.</param>
         /// <param name="newConn">A proposed new connection to add to the graph.</param>
         /// <returns>True if <paramref name="newConn"/> would form a cycle; otherwise false.</returns>
-        public bool IsConnectionCyclic(IList<DirectedConnection> connList, in DirectedConnection newConn)
+        public bool IsConnectionCyclic(Span<DirectedConnection> connSpan, in DirectedConnection newConn)
         {
             #if DEBUG
             // Check for attempts to re-enter this method.
@@ -124,7 +124,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
             try
             {
-                return IsConnectionCyclicInner(connList, in newConn);
+                return IsConnectionCyclicInner(connSpan, in newConn);
             }
             finally
             {   // Ensure cleanup occurs before we return so that we can guarantee the class instance is ready for
@@ -137,7 +137,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Private Methods
 
-        private bool IsConnectionCyclicInner(IList<DirectedConnection> connList, in DirectedConnection newConn)
+        private bool IsConnectionCyclicInner(Span<DirectedConnection> connSpan, in DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
             if(newConn.SourceId == newConn.TargetId) {
@@ -149,7 +149,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             int startNodeId = newConn.TargetId;
 
             // Search for outgoing connections from the starting node.
-            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connList, startNodeId);
+            int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connSpan, startNodeId);
             if(connIdx < 0)
             {   // The current node has no outgoing connections, therefore newConn does not form a cycle.
                 return false;
@@ -159,7 +159,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             InitGraphTraversal(startNodeId, connIdx);
 
             // Note. we pass newConn.SourceId as the terminalNodeId; if traversal reaches this node then a cycle has been detected.
-            return TraverseGraph(connList, newConn.SourceId);
+            return TraverseGraph(connSpan, newConn.SourceId);
         }
 
         private void Cleanup()
@@ -190,9 +190,9 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <summary>
         /// The graph traversal algorithm.
         /// </summary>
-        /// <param name="connList">A set of connections that represents the graph to traverse.</param>
+        /// <param name="connSpan">A set of connections that represents the graph to traverse.</param>
         /// <param name="terminalNodeId">// The 'terminal' node ID, i.e. if traversal reaches this node then newConn would form a cycle and we stop/terminate traversal.</param>
-        private bool TraverseGraph(IList<DirectedConnection> connList, int terminalNodeId)
+        private bool TraverseGraph(Span<DirectedConnection> connSpan, int terminalNodeId)
         {
             // While there are entries on the stack.
             while(_traversalStack.Count != 0)
@@ -208,10 +208,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 // This approach results in tail call optimisation and thus will result in a shallower stack on average. It
                 // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
                 // point in time, since some of the path may no longer be on the stack.
-                MoveForward(connList, currConnIdx);
+                MoveForward(connSpan, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
-                int childNodeId = connList[currConnIdx].TargetId;
+                int childNodeId = connSpan[currConnIdx].TargetId;
                 if(_visitedNodes.Contains(childNodeId)) {
                     continue;
                 }
@@ -225,7 +225,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 _visitedNodes.Add(childNodeId);
 
                 // Search for outgoing connections from childNodeId.
-                int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connList, childNodeId);
+                int connIdx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connSpan, childNodeId);
                 if(connIdx >= 0)
                 {   // childNodeId has outgoing connections; push the first connection onto the stack to mark it for traversal.
                     _traversalStack.Push(connIdx);
@@ -240,13 +240,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <summary>
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
-        private void MoveForward(IList<DirectedConnection> connList, int currConnIdx)
+        private void MoveForward(Span<DirectedConnection> connSpan, int currConnIdx)
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,
             // then update the node's entry on the top of the stack to point to said connection.
-            for(int i=currConnIdx + 1; i < connList.Count && (connList[currConnIdx].SourceId == connList[i].SourceId); i++)
+            for(int i=currConnIdx + 1; i < connSpan.Length && (connSpan[currConnIdx].SourceId == connSpan[i].SourceId); i++)
             {
-                if(!_visitedNodes.Contains(connList[i].TargetId))
+                if(!_visitedNodes.Contains(connSpan[i].TargetId))
                 {
                     _traversalStack.Poke(i);
                     return;
