@@ -38,7 +38,7 @@ namespace SharpNeat.Graphs
         /// <param name="outputCount">Output node count.</param>
         /// <returns>A new instance of <see cref="WeightedDirectedGraph{T}"/>.</returns>
         public static WeightedDirectedGraph<T> Create(
-            IList<WeightedDirectedConnection<T>> connections,
+            Span<WeightedDirectedConnection<T>> connections,
             int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
@@ -75,20 +75,20 @@ namespace SharpNeat.Graphs
         #region Private Static Methods
 
         private static int[] GetHiddenNodeIdArray(
-            IList<WeightedDirectedConnection<T>> connList,
+            Span<WeightedDirectedConnection<T>> connSpan,
             int inputOutputCount)
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
             var hiddenNodeIdSet = new HashSet<int>();
 
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
-            for(int i=0; i < connList.Count; i++)
+            for(int i=0; i < connSpan.Length; i++)
             {
-                if(connList[i].SourceId >= inputOutputCount) {
-                    hiddenNodeIdSet.Add(connList[i].SourceId);
+                if(connSpan[i].SourceId >= inputOutputCount) {
+                    hiddenNodeIdSet.Add(connSpan[i].SourceId);
                 }
-                if(connList[i].TargetId >= inputOutputCount) {
-                    hiddenNodeIdSet.Add(connList[i].TargetId);
+                if(connSpan[i].TargetId >= inputOutputCount) {
+                    hiddenNodeIdSet.Add(connSpan[i].TargetId);
                 }
             }
 
@@ -102,21 +102,21 @@ namespace SharpNeat.Graphs
         /// Map the node IDs to indexes as we go.
         /// </summary>
         private static void CopyAndMapIds(
-            IList<WeightedDirectedConnection<T>> connectionList,
+            Span<WeightedDirectedConnection<T>> connSpan,
             INodeIdMap nodeIdMap,
             out ConnectionIdArrays connIdArrays,
             out T[] weightArr)
         {
-            int count = connectionList.Count;
+            int count = connSpan.Length;
             int[] srcIdArr = new int[count];
             int[] tgtIdArr = new int[count];
             weightArr = new T[count];
 
             for(int i=0; i < count; i++)
             {
-                srcIdArr[i] = nodeIdMap.Map(connectionList[i].SourceId);
-                tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);
-                weightArr[i] = connectionList[i].Weight;
+                srcIdArr[i] = nodeIdMap.Map(connSpan[i].SourceId);
+                tgtIdArr[i] = nodeIdMap.Map(connSpan[i].TargetId);
+                weightArr[i] = connSpan[i].Weight;
             }
 
             connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);

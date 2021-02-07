@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
+using Redzen.Collections;
 using SharpNeat.Drawing;
 using SharpNeat.Drawing.Graph;
 using SharpNeat.Graphs;
@@ -34,7 +33,7 @@ namespace UISandbox
         private static DirectedGraphViewModel CreateGraphViewModel()
         {
             // Simple acyclic graph.
-            var connList = new List<WeightedDirectedConnection<float>>
+            var connList = new LightweightList<WeightedDirectedConnection<float>>
             {
                 new WeightedDirectedConnection<float>(0, 4, 1f),
                 new WeightedDirectedConnection<float>(4, 5, 2f),
@@ -45,10 +44,12 @@ namespace UISandbox
                 new WeightedDirectedConnection<float>(2, 4, 5f),
                 new WeightedDirectedConnection<float>(2, 5, 5f)
             };
-            connList.Sort(WeightedDirectedConnectionComparer<float>.Default);
+            var connSpan = connList.AsSpan();
+
+            connSpan.Sort(WeightedDirectedConnectionComparer<float>.Default);
 
             // Create graph.
-            var digraph = WeightedDirectedGraphBuilder<float>.Create(connList, 2, 2);
+            var digraph = WeightedDirectedGraphBuilder<float>.Create(connSpan, 2, 2);
 
             // Create graph view model, and return.
             INodeIdMap nodeIdByIdx = CreateNodeIdByIdx(digraph.TotalNodeCount);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Redzen.Collections;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
@@ -17,13 +18,14 @@ namespace SharpNeat.NeuralNets.Double.Tests
         [Fact]
         public void SingleInput_WeightZero()
         {
-            var connList = new List<WeightedDirectedConnection<double>>
+            var connList = new LightweightList<WeightedDirectedConnection<double>>
             {
                 new WeightedDirectedConnection<double>(0, 1, 0.0)
             };
+            var connSpan = connList.AsSpan();
 
             // Create graph.
-            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connSpan, 1, 1);
 
             // Create neural net and run tests.
             var actFn = new Logistic();
@@ -41,13 +43,14 @@ namespace SharpNeat.NeuralNets.Double.Tests
         [Fact]
         public void SingleInput_WeightOne()
         {
-            var connList = new List<WeightedDirectedConnection<double>>
+            var connList = new LightweightList<WeightedDirectedConnection<double>>
             {
                 new WeightedDirectedConnection<double>(0, 1, 1.0)
             };
+            var connSpan = connList.AsSpan();
 
             // Create graph.
-            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connSpan, 1, 1);
 
             // Create neural net and run tests.
             var actFn = new Logistic();
@@ -66,14 +69,15 @@ namespace SharpNeat.NeuralNets.Double.Tests
         [Fact]
         public void CyclicOutput()
         {
-            var connList = new List<WeightedDirectedConnection<double>>
+            var connList = new LightweightList<WeightedDirectedConnection<double>>
             {
                 new WeightedDirectedConnection<double>(0, 1, 1.0),
                 new WeightedDirectedConnection<double>(1, 1, 1.0)
             };
+            var connSpan = connList.AsSpan();
 
             // Create graph.
-            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connSpan, 1, 1);
 
             // Create neural net and run tests.
             var actFn = new Logistic();
@@ -88,16 +92,17 @@ namespace SharpNeat.NeuralNets.Double.Tests
         [Fact]
         public void ComplexCyclic()
         {
-            var connList = new List<WeightedDirectedConnection<double>>
+            var connList = new LightweightList<WeightedDirectedConnection<double>>
             {
                 new WeightedDirectedConnection<double>(0, 1, -2.0),
                 new WeightedDirectedConnection<double>(0, 2, 1.0),
                 new WeightedDirectedConnection<double>(1, 2, 1.0),
                 new WeightedDirectedConnection<double>(2, 1, 1.0)
             };
+            var connSpan = connList.AsSpan();
 
             // Create graph.
-            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 1, 1);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connSpan, 1, 1);
 
             // Create neural net and run tests.
             var actFn = new Logistic();
@@ -112,15 +117,16 @@ namespace SharpNeat.NeuralNets.Double.Tests
         [Fact]
         public void MultipleInputsOutputs()
         {
-            var connList = new List<WeightedDirectedConnection<double>>
+            var connList = new LightweightList<WeightedDirectedConnection<double>>
             {
                 new WeightedDirectedConnection<double>(0, 5, 1.0),
                 new WeightedDirectedConnection<double>(1, 3, 1.0),
                 new WeightedDirectedConnection<double>(2, 4, 1.0)
             };
+            var connSpan = connList.AsSpan();
 
             // Create graph.
-            var digraph = WeightedDirectedGraphBuilder<double>.Create(connList, 3, 3);
+            var digraph = WeightedDirectedGraphBuilder<double>.Create(connSpan, 3, 3);
 
             // Create neural net and run tests.
             var actFn = new Logistic();

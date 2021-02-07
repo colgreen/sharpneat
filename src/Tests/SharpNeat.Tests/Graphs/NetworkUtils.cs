@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
@@ -9,16 +9,16 @@ namespace SharpNeat.Graphs.Tests
         #region Public Static Methods
 
         public static void CompareConnectionLists(
-            IList<WeightedDirectedConnection<double>> x,
+            Span<WeightedDirectedConnection<double>> x,
             in ConnectionIdArrays connIdArrays, double[] yWeightArr)
         {
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
-            Assert.Equal(x.Count, srcIdArr.Length);
-            Assert.Equal(x.Count, tgtIdArr.Length);
+            Assert.Equal(x.Length, srcIdArr.Length);
+            Assert.Equal(x.Length, tgtIdArr.Length);
 
-            for(int i=0; i < x.Count; i++) {
+            for(int i=0; i < x.Length; i++) {
                 CompareConnections(x[i], srcIdArr[i], tgtIdArr[i], yWeightArr[i]);
             }
         }
@@ -32,10 +32,10 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(x.Weight, yWeight);
         }
 
-        public static void CompareLayerInfoLists(IList<LayerInfo> x, IList<LayerInfo> y)
+        public static void CompareLayerInfoLists(Span<LayerInfo> x, Span<LayerInfo> y)
         {
-            Assert.Equal(x.Count, y.Count);
-            for(int i=0; i < x.Count; i++) {
+            Assert.Equal(x.Length, y.Length);
+            for(int i=0; i < x.Length; i++) {
                 CompareLayerInfo(x[i], y[i]);
             }
         }
