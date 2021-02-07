@@ -10,9 +10,9 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Redzen.Collections;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 
@@ -67,10 +67,10 @@ namespace SharpNeat.Drawing.Graph
             Size layoutArea,
             Span<Point> nodePosByIdx)
         {
-            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
+            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node positions array length doesn't match the number of nodes in the graph.", nameof(nodePosByIdx));
 
             // Determine depth of each node.
-            List<int>[] nodesByLayer = BuildNodesByLayer(digraph);
+            LightweightList<int>[] nodesByLayer = BuildNodesByLayer(digraph);
 
             // Layout the nodes within the 2D layout area.
             LayoutNodes(layoutArea, nodesByLayer, nodePosByIdx);
@@ -89,11 +89,11 @@ namespace SharpNeat.Drawing.Graph
             Span<Point> nodePosByIdx,
             ref object? layoutSchemeData)
         {
-            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
+            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node positions array length doesn't match the number of nodes in the graph.", nameof(nodePosByIdx));
 
             // Use previously determined depth info, if provided; otherwise calculate it and return via layoutSchemeData
             // parameter for future use.
-            List<int>[] nodesByLayer;
+            LightweightList<int>[] nodesByLayer;
             if(layoutSchemeData is DepthLayoutSchemeData schemeData)
             {
                 nodesByLayer = schemeData.NodesByLayer;
@@ -120,7 +120,7 @@ namespace SharpNeat.Drawing.Graph
         /// <param name="nodePosByIdx">A span that will be populated with a 2D position for each node, within the provided layout area.</param>
         private static void LayoutNodes(
             Size layoutArea,
-            List<int>[] nodesByLayer,
+            LightweightList<int>[] nodesByLayer,
             Span<Point> nodePosByIdx)
         {
             // ============================
@@ -161,10 +161,12 @@ namespace SharpNeat.Drawing.Graph
             float u = layoutArea.Width - mx2;
 
             // Loop over the graph layers, positioning the nodes in each layer in turn.
-            foreach(List<int> nodeList in nodesByLayer)
+            foreach(LightweightList<int> nodeList in nodesByLayer)
             {
+                var nodeSpan = nodeList.AsSpan();
+
                 // Calculate v, i.e. the horizontal distance between adjacent nodes in the current layer.
-                int n = nodeList.Count;
+                int n = nodeSpan.Length;
                 float v = u / n;
 
                 // Define a running x coordinate for positioning of nodes horizontally within the current layer.
@@ -173,7 +175,7 @@ namespace SharpNeat.Drawing.Graph
                 // Loop nodes in layer, assigning an (x,y) position to each.
                 for(int i=0; i < n; i++, xcurr += v)
                 {
-                    int nodeIdx = nodeList[i];
+                    int nodeIdx = nodeSpan[i];
                     nodePosByIdx[nodeIdx] = new Point((int)xcurr, ycurr);
                 }
 
@@ -186,16 +188,17 @@ namespace SharpNeat.Drawing.Graph
 
         #region Private Static Methods [Node Depth Analysis]
 
-        private static List<int>[] BuildNodesByLayer(DirectedGraph digraph)
+        private static LightweightList<int>[] BuildNodesByLayer(DirectedGraph digraph)
         {
             // Build an array that gives the node layer for each node, keyed by node index.
             int[] nodeLayerByIdx = BuildNodeLayerByIdx(digraph);
 
             // Group nodes into layers.
+            // ENHANCEMENT: Use MathSpanUtils to get vectorized/span based implementation of Max().
             int layerCount = nodeLayerByIdx.Max() + 1;
-            var nodesByLayer = new List<int>[layerCount];
+            var nodesByLayer = new LightweightList<int>[layerCount];
             for(int i=0; i < layerCount; i++) {
-                nodesByLayer[i] = new List<int>();
+                nodesByLayer[i] = new LightweightList<int>();
             }
 
             for(int nodeIdx=0; nodeIdx < nodeLayerByIdx.Length; nodeIdx++)
@@ -352,9 +355,9 @@ namespace SharpNeat.Drawing.Graph
 
         private class DepthLayoutSchemeData
         {
-            public List<int>[] NodesByLayer { get; }
+            public LightweightList<int>[] NodesByLayer { get; }
 
-            public DepthLayoutSchemeData(List<int>[] nodesByLayer)
+            public DepthLayoutSchemeData(LightweightList<int>[] nodesByLayer)
             {
                 this.NodesByLayer = nodesByLayer;
             }
