@@ -44,7 +44,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests
                 var childGenome = strategy.CreateGenome(genome1, genome2, rng);
 
                 // The connection genes should be sorted.
-                Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should describe an acyclic graph, i.e. the new connection should not have
                 // formed a cycle in the graph.

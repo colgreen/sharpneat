@@ -116,7 +116,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var childGenome = strategy.CreateChildGenome(parentGenome, rng);
 
             // The connection genes should be sorted.
-            Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+            Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(childGenome.ConnectionGenes._connArr));
 
             // The child genome should have one more connection than parent.
             Assert.Equal(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);

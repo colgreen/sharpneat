@@ -26,7 +26,7 @@ namespace SharpNeat.Neat.Speciation.Tests
                 Species<double> species = CreateTestSpecies(10);
 
                 AssignGenomeFitnessScores(species, champGenomeCount, champFitness, rng);
-                SortUtils.SortUnstable(species.GenomeList, genomeComparerDescending, rng);
+                ListSortUtils.SortUnstable(species.GenomeList, genomeComparerDescending, rng);
 
                 // Assert that the champ genomes have been sorted to the head of the genome list.
                 int idx = 0;

@@ -349,8 +349,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // i.e. when many genomes have equally high fitness.
                 foreach(var species in _pop.SpeciesArray!)
                 {
-                    // ENHANCEMENT: Use of the SortUnstable(IList) overload here is slower than SortUnstable(Span).
-                    SortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
+                    // ENHANCEMENT: Use of the ListSortUtils.SortUnstable(IList) overload here is slower than SortUtils.SortUnstable(Span).
+                    ListSortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
                 }
             }
 
