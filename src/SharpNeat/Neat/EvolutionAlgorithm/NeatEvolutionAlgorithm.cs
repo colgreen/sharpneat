@@ -347,7 +347,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // We use an unstable sort; this ensures that the order of equally fit genomes is randomized, which in turn
                 // randomizes which genomes are in the subset if elite genomes that are preserved for the next generation,
                 // i.e. when many genomes have equally high fitness.
-                foreach(var species in _pop.SpeciesArray!) 
+                foreach(var species in _pop.SpeciesArray!)
                 {
                     // ENHANCEMENT: Use of the SortUnstable(IList) overload here is slower than SortUnstable(Span).
                     SortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
