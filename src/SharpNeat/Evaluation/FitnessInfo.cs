@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Diagnostics;
 
 namespace SharpNeat.Evaluation
@@ -44,6 +45,10 @@ namespace SharpNeat.Evaluation
         /// <param name="fitness">Genome fitness score.</param>
         public FitnessInfo(double fitness)
         {
+            if(!double.IsFinite(fitness) || double.IsNegative(fitness)) {
+                throw new ArgumentOutOfRangeException(nameof(fitness), "Fitness must be non-negative and a real number.");
+            }
+
             _primaryFitness = fitness;
             _auxFitnessScores = null;
         }
@@ -56,6 +61,11 @@ namespace SharpNeat.Evaluation
         public FitnessInfo(double primaryFitness, double[] auxFitnessScores)
         {
             Debug.Assert(auxFitnessScores.Length > 0);
+
+            if(!double.IsFinite(primaryFitness) || double.IsNegative(primaryFitness)) {
+                throw new ArgumentOutOfRangeException(nameof(primaryFitness), "Fitness must be non-negative and a real number.");
+            }
+
             _primaryFitness = primaryFitness;
             _auxFitnessScores = auxFitnessScores;
         }
