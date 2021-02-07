@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using Redzen.Collections;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace SharpNeat.Graphs.Tests
         public void ConnectThroughInput()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 3),
                 new DirectedConnection(1, 3),
@@ -26,8 +27,9 @@ namespace SharpNeat.Graphs.Tests
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 3, 2);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 3, 2);
 
             // Assert is acyclic.
             var cyclicGraphCheck = new CyclicGraphCheck();
@@ -58,7 +60,7 @@ namespace SharpNeat.Graphs.Tests
         public void ShortAndLongPath()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 4),
                 new DirectedConnection(4, 5),
@@ -68,8 +70,9 @@ namespace SharpNeat.Graphs.Tests
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 2, 2);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 2, 2);
 
             // Assert is acyclic.
             var cyclicGraphCheck = new CyclicGraphCheck();
@@ -95,7 +98,7 @@ namespace SharpNeat.Graphs.Tests
         public void Random1()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 2),
                 new DirectedConnection(0, 3),
@@ -123,8 +126,9 @@ namespace SharpNeat.Graphs.Tests
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 1, 1);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 1, 1);
 
             // Depth analysis.
             GraphDepthInfo depthInfo = new AcyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);

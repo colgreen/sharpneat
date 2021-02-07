@@ -36,11 +36,11 @@ namespace SharpNeat.Graphs
         /// <paramref name="connections"/> is required to be sorted by sourceId, TargetId.
         /// </remarks>
         public static DirectedGraph Create(
-            IList<DirectedConnection> connections,
+            Span<DirectedConnection> connections,
             int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
-            Debug.Assert(SortUtils.IsSortedAscending<DirectedConnection>(connections));
+            Debug.Assert(SortUtils.IsSortedAscending(connections));
 
             // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;
@@ -67,14 +67,14 @@ namespace SharpNeat.Graphs
         #region Private Static Methods
 
         private static int[] GetHiddenNodeIdArray(
-            IList<DirectedConnection> connectionList,
+            Span<DirectedConnection> connectionList,
             int inputOutputCount)
         {
             // Build a hash set of all hidden nodes IDs referred to by the connections.
             var hiddenNodeIdSet = new HashSet<int>();
 
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
-            for(int i=0; i < connectionList.Count; i++)
+            for(int i=0; i < connectionList.Length; i++)
             {
                 if(connectionList[i].SourceId >= inputOutputCount) {
                     hiddenNodeIdSet.Add(connectionList[i].SourceId);
@@ -90,14 +90,14 @@ namespace SharpNeat.Graphs
         }
 
         private static ConnectionIdArrays CopyAndMapIds(
-            IList<DirectedConnection> connectionList,
+            Span<DirectedConnection> connectionList,
             INodeIdMap nodeIdMap)
         {
-            int count = connectionList.Count;
+            int count = connectionList.Length;
             int[] srcIdArr = new int[count];
             int[] tgtIdArr = new int[count];
 
-            for(int i=0; i < connectionList.Count; i++)
+            for(int i=0; i < count; i++)
             {
                 srcIdArr[i] = nodeIdMap.Map(connectionList[i].SourceId);
                 tgtIdArr[i] = nodeIdMap.Map(connectionList[i].TargetId);
