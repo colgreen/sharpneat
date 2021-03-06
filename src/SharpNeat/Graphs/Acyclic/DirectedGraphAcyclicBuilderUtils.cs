@@ -206,10 +206,8 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Sort the node IDs by depth.
             TimSort<int,int>.Sort(
-                depthInfo._nodeDepthArr,
-                nodeIdArr,
-                inputCount,
-                nodeCount - inputCount,
+                depthInfo._nodeDepthArr.AsSpan(inputCount),
+                nodeIdArr.AsSpan(inputCount),
                 timsortWorkArr, timsortWorkVArr);
 
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e. we are re-allocating IDs based on node depth.

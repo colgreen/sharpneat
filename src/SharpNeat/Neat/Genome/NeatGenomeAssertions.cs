@@ -102,7 +102,7 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(connGenes._connArr.Length == digraph.ConnectionIdArrays.Length);
 
             // Connection order.
-            Debug.Assert(SortUtils.IsSortedAscending((Span<DirectedConnection>)(connGenes._connArr)));
+            Debug.Assert(SortUtils.IsSortedAscending<DirectedConnection>(connGenes._connArr));
             Debug.Assert(IsSortedAscending(digraph.ConnectionIdArrays));
 
             // Connection node ID mappings.

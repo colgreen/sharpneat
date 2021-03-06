@@ -40,7 +40,7 @@ namespace SharpNeat.Graphs
             int inputCount, int outputCount)
         {
             // Debug assert that the connections are sorted.
-            Debug.Assert(SortUtils.IsSortedAscending(connections));
+            Debug.Assert(SortUtils.IsSortedAscending<DirectedConnection>(connections));
 
             // Determine the full set of hidden node IDs.
             int inputOutputCount = inputCount + outputCount;

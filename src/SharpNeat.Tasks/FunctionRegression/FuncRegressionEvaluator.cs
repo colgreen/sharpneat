@@ -90,11 +90,11 @@ namespace SharpNeat.Tasks.FunctionRegression
             FuncRegressionUtils.CalcGradients(_paramSamplingInfo, _yArr, _gradientArr);
 
             // Calc y position mean squared error (MSE), and apply weighting.
-            double yMse = MathSpanUtils.MeanSquaredDelta(_yArr, _yArrTarget);
+            double yMse = MathSpan.MeanSquaredDelta(_yArr, _yArrTarget);
             yMse *= _yMseWeight;
 
             // Calc gradient mean squared error.
-            double gradientMse = MathSpanUtils.MeanSquaredDelta(_gradientArr, _gradientArrTarget);
+            double gradientMse = MathSpan.MeanSquaredDelta(_gradientArr, _gradientArrTarget);
             gradientMse *= _gradientMseWeight;
 
             // Calc fitness as the inverse of MSE (higher value is fitter).

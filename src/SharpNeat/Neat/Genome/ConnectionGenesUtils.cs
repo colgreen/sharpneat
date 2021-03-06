@@ -68,7 +68,7 @@ namespace SharpNeat.Neat.Genome
             int inputOutputCount)
         {
             // Test that the IDs are sorted (required to allow for efficient searching of IDs using a binary search).
-            if(!SortUtils.IsSortedAscending((Span<int>)hiddenNodeIdArr)) {
+            if(!SortUtils.IsSortedAscending<int>(hiddenNodeIdArr)) {
                 return false;
             }
 
