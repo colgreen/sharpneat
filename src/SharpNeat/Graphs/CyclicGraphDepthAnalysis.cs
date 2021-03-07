@@ -220,8 +220,7 @@ namespace SharpNeat.Graphs
                 {
                     // Take the average node depth, and round up to the nearest integer.
                     // Other aggregate schemes are possible, this is merely one I thought might work OK.
-                    // ENHANCEMENT:  Use MathSpanUtils.Mean(Span<int>) when it is available (to get a vectorized calc).
-                    _nodeDepthByIdx[i] = (int)Math.Ceiling(_nodeDepthMatrix[i].Average());
+                    _nodeDepthByIdx[i] = (int)MathF.Ceiling((MathSpan.Sum(_nodeDepthMatrix[i].AsSpan()) / (float)_nodeDepthMatrix[i].Count));
                 }
             }
 

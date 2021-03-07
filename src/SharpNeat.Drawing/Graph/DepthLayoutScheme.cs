@@ -11,7 +11,7 @@
  */
 using System;
 using System.Drawing;
-using System.Linq;
+using Redzen;
 using Redzen.Collections;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
@@ -194,8 +194,7 @@ namespace SharpNeat.Drawing.Graph
             int[] nodeLayerByIdx = BuildNodeLayerByIdx(digraph);
 
             // Group nodes into layers.
-            // ENHANCEMENT: Use MathSpanUtils to get vectorized/span based implementation of Max().
-            int layerCount = nodeLayerByIdx.Max() + 1;
+            int layerCount = MathSpan.Max(nodeLayerByIdx) + 1;
             var nodesByLayer = new LightweightList<int>[layerCount];
             for(int i=0; i < layerCount; i++) {
                 nodesByLayer[i] = new LightweightList<int>();
