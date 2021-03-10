@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Genome.Double
         public IBlackBox<double> Decode(NeatGenome<double> genome)
         {
             Debug.Assert(genome?.MetaNeatGenome?.IsAcyclic == true);
-            Debug.Assert(genome?.ConnectionGenes is object);
+            Debug.Assert(genome?.ConnectionGenes is not null);
             Debug.Assert(genome.ConnectionGenes.Length == genome?.ConnectionIndexMap?.Length);
             Debug.Assert(genome.DirectedGraph is DirectedGraphAcyclic);
 

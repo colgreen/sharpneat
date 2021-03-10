@@ -47,8 +47,8 @@ namespace SharpNeat.Graphs
             in ConnectionIdArrays connIdArrays,
             Span<T> weights)
         {
-            Debug.Assert(connIdArrays._sourceIdArr is object);
-            Debug.Assert(connIdArrays._targetIdArr is object);
+            Debug.Assert(connIdArrays._sourceIdArr is not null);
+            Debug.Assert(connIdArrays._targetIdArr is not null);
             Debug.Assert(connIdArrays._sourceIdArr.Length == connIdArrays._targetIdArr.Length);
             Debug.Assert(connIdArrays._sourceIdArr.Length == weights.Length);
 

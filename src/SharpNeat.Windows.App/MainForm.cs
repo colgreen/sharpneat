@@ -142,7 +142,7 @@ namespace SharpNeat.Windows.App
 
         private void btnSearchStart_Click(object sender, EventArgs e)
         {
-            if(_eaRunner is object)
+            if(_eaRunner is not null)
             {   // Resume existing EA & update GUI state.
                 _eaRunner.StartOrResume();
                 UpdateUIState();
@@ -174,7 +174,7 @@ namespace SharpNeat.Windows.App
         private void btnSearchReset_Click(object sender, EventArgs e)
         {
             // Clear down any EA related state.
-            if(_eaRunner is object)
+            if(_eaRunner is not null)
             {
                 // Note. Dispose here will wait for the termination of the background thread use to run the EA.
                 _eaRunner.Dispose();
@@ -188,19 +188,19 @@ namespace SharpNeat.Windows.App
             UpdateUIState_ResetStats();
 
             // Clear/reset child forms (those that are open).
-            if(_bestGenomeForm is object) { _bestGenomeForm.Genome = null; }
+            if(_bestGenomeForm is not null) { _bestGenomeForm.Genome = null; }
 
             // Time series forms.
-            if(_fitnessTimeSeriesForm is object) { _fitnessTimeSeriesForm.Clear(); }
-            if(_complexityTimeSeriesForm is object) { _complexityTimeSeriesForm.Clear(); }
-            if(_evalsPerSecTimeSeriesForm is object) { _evalsPerSecTimeSeriesForm.Clear(); }
+            if(_fitnessTimeSeriesForm is not null) { _fitnessTimeSeriesForm.Clear(); }
+            if(_complexityTimeSeriesForm is not null) { _complexityTimeSeriesForm.Clear(); }
+            if(_evalsPerSecTimeSeriesForm is not null) { _evalsPerSecTimeSeriesForm.Clear(); }
 
             // Rankings forms.
-            if(_speciesSizeRankForm is object) { _speciesSizeRankForm.Clear(); }
-            if(_speciesFitnessRankForm is object) { _speciesFitnessRankForm.Clear(); }
-            if(_speciesComplexityRankForm is object) { _speciesComplexityRankForm.Clear(); }
-            if(_genomeFitnessRankForm is object) { _genomeFitnessRankForm.Clear(); }
-            if(_genomeComplexityRankForm is object) { _genomeComplexityRankForm.Clear(); }
+            if(_speciesSizeRankForm is not null) { _speciesSizeRankForm.Clear(); }
+            if(_speciesFitnessRankForm is not null) { _speciesFitnessRankForm.Clear(); }
+            if(_speciesComplexityRankForm is not null) { _speciesComplexityRankForm.Clear(); }
+            if(_genomeFitnessRankForm is not null) { _genomeFitnessRankForm.Clear(); }
+            if(_genomeComplexityRankForm is not null) { _genomeComplexityRankForm.Clear(); }
 
             // Take the opportunity to clean-up the heap.
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
@@ -230,7 +230,7 @@ namespace SharpNeat.Windows.App
 
             // Close the genome form if it is open, as the content of this form is specific to each experiment.
             GenomeForm bestGenomeForm = _bestGenomeForm;
-            if(bestGenomeForm is object)
+            if(bestGenomeForm is not null)
             {
                 // Note. This will trigger the FormClosed event which will do further clean-up; Close() will also Dispose() the form.
                 bestGenomeForm.Close();
@@ -259,27 +259,27 @@ namespace SharpNeat.Windows.App
             UpdateUIState_EaStats();
 
             // Update child forms (those that are open).
-            if(_bestGenomeForm is object)
+            if(_bestGenomeForm is not null)
             {
                 NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
                 _bestGenomeForm.Genome = neatEa.Population.BestGenome;
             }
 
             // Time series forms.
-            if(_fitnessTimeSeriesForm is object) {
+            if(_fitnessTimeSeriesForm is not null) {
                 _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
-            if(_complexityTimeSeriesForm is object) {
+            if(_complexityTimeSeriesForm is not null) {
                 _complexityTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
-            if(_evalsPerSecTimeSeriesForm is object) {
+            if(_evalsPerSecTimeSeriesForm is not null) {
                 _evalsPerSecTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
             }
 
             // Rankings forms.
-            if(_speciesSizeRankForm is object)
+            if(_speciesSizeRankForm is not null)
             {
                 double[] speciesSizeByRank = GetSpeciesSizeByRank(out int speciesCount);
                 try {
@@ -290,7 +290,7 @@ namespace SharpNeat.Windows.App
                 }
             }
 
-            if(_speciesFitnessRankForm is object)
+            if(_speciesFitnessRankForm is not null)
             {
                 GetSpeciesFitnessByRank(out double[] bestFitnessByRank, out double[] meanFitnessSeries, out int speciesCount);
                 try {
@@ -302,7 +302,7 @@ namespace SharpNeat.Windows.App
                 }
             }
 
-            if(_speciesComplexityRankForm is object)
+            if(_speciesComplexityRankForm is not null)
             {
                 GetSpeciesComplexityByRank(out double[] bestComplexityByRank, out double[] meanComplexitySeries, out int speciesCount);
                 try {
@@ -314,7 +314,7 @@ namespace SharpNeat.Windows.App
                 }
             }
 
-            if(_genomeFitnessRankForm is object)
+            if(_genomeFitnessRankForm is not null)
             {
                 double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
                 try {
@@ -325,7 +325,7 @@ namespace SharpNeat.Windows.App
                 }
             }
 
-            if(_genomeComplexityRankForm is object)
+            if(_genomeComplexityRankForm is not null)
             {
                 double[] genomeComplexityByRank = GetGenomeComplexityByRank(out int genomeCount);
                 try {

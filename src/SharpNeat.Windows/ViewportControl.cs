@@ -85,7 +85,7 @@ namespace SharpNeat.Windows
         protected override void Dispose(bool disposing)
         {
             if(disposing) {
-                if(components is object) {
+                if(components is not null) {
                     components.Dispose();
                 }
             }
@@ -136,7 +136,7 @@ namespace SharpNeat.Windows
         public void RepaintViewport()
         {
             // If a painter has been assigned, then paint the graph.
-            if(ViewportPainter is object)
+            if(ViewportPainter is not null)
             {
                 Graphics g = Graphics.FromImage(_image);
                 g.SmoothingMode = SmoothingMode.AntiAlias;

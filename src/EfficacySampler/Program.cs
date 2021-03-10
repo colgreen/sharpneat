@@ -22,7 +22,7 @@ namespace EfficacySampler
             // Intercept termination of the console app, to flush and close the output file stream
             // (apparently the 'finally' block below is not executed if the app is terminated with Ctrl-C).
             Console.CancelKeyPress += delegate {
-                if(__streamWriter is object) {
+                if(__streamWriter is not null) {
                     __streamWriter.Close();
                 }
             };
@@ -60,7 +60,7 @@ namespace EfficacySampler
             }
             finally
             {
-                if(__streamWriter is object) {
+                if(__streamWriter is not null) {
                     __streamWriter.Close();
                 }
             }

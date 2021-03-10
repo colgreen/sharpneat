@@ -128,9 +128,9 @@ namespace SharpNeat.Graphs.IO
             do {
                 line = sr.ReadLine();
             }
-            while(line is object && line.StartsWith("#"));
+            while(line is not null && line.StartsWith("#"));
 
-            if(line is object) {
+            if(line is not null) {
                 line = line.TrimEnd();
             }
             return line;

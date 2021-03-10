@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Genome
         /// <param name="metaNeatGenome">NEAT genome metadata.</param>
         public NeatGenomeBuilderCyclic(MetaNeatGenome<T> metaNeatGenome)
         {
-            Debug.Assert(metaNeatGenome is object && !metaNeatGenome.IsAcyclic);
+            Debug.Assert(metaNeatGenome is not null && !metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
             _workingIdSet = new HashSet<int>();
         }

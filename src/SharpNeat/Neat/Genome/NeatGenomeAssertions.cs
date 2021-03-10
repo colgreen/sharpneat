@@ -49,11 +49,11 @@ namespace SharpNeat.Neat.Genome
             int[]? connectionIndexMap)
         {
             // Check for mandatory object references.
-            Debug.Assert(metaNeatGenome is object);
-            Debug.Assert(connGenes is object);
-            Debug.Assert(hiddenNodeIdArr is object);
-            Debug.Assert(nodeIndexByIdMap is object);
-            Debug.Assert(digraph is object);
+            Debug.Assert(metaNeatGenome is not null);
+            Debug.Assert(connGenes is not null);
+            Debug.Assert(hiddenNodeIdArr is not null);
+            Debug.Assert(nodeIndexByIdMap is not null);
+            Debug.Assert(digraph is not null);
 
             // Basic check on ID and birth generation.
             Debug.Assert(id >= 0);
@@ -126,14 +126,14 @@ namespace SharpNeat.Neat.Genome
             int[]? connectionIndexMap)
         {
             Debug.Assert(digraph is DirectedGraphAcyclic);
-            Debug.Assert(connectionIndexMap is object);
+            Debug.Assert(connectionIndexMap is not null);
 
             // Cast to an acyclic digraph.
             var acyclicDigraph = (DirectedGraphAcyclic)digraph;
 
             // Layer info checks.
             LayerInfo[] layerArr = acyclicDigraph.LayerArray;
-            Debug.Assert(layerArr is object && layerArr.Length > 0);
+            Debug.Assert(layerArr is not null && layerArr.Length > 0);
 
             // Layer zero is the input layer, thus the number of nodes in this layer should be at least the number of input nodes.
             // Note. Any node with no incoming connections is also assigned to layer zero, therefore there can be non-input nodes in

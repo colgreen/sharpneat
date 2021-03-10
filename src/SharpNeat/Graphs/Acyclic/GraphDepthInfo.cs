@@ -38,7 +38,7 @@ namespace SharpNeat.Graphs.Acyclic
         public GraphDepthInfo(int graphDepth, int[] nodeDepthArr)
         {
             Debug.Assert(graphDepth >= 0);
-            Debug.Assert(nodeDepthArr is object);
+            Debug.Assert(nodeDepthArr is not null);
 
             _graphDepth = graphDepth;
             _nodeDepthArr = nodeDepthArr;
@@ -53,7 +53,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// <returns>true if the objects are equal; otherwise false.</returns>
         public bool Equals(GraphDepthInfo? other)
         {
-            return other is object
+            return other is not null
                 && _graphDepth == other._graphDepth
                 && _nodeDepthArr.SequenceEqual(other._nodeDepthArr);
         }

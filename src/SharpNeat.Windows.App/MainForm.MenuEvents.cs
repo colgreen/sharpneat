@@ -80,7 +80,7 @@ namespace SharpNeat.Windows.App
 
             // Get the current best genome.
             NeatGenome<double> bestGenome = _neatPop?.BestGenome;
-            if(bestGenome is object)
+            if(bestGenome is not null)
             {
                 // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we
                 // see a genome right away, regardless of whether the EA is running or not.

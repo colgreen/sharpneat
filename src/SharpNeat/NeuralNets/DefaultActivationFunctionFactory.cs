@@ -85,7 +85,7 @@ namespace SharpNeat.NeuralNets
 
                 // TODO: Add ability to register custom functions not defined in the core sharpneat assembly; as per
                 // pull request https://github.com/colgreen/sharpneat/pull/40
-                if(actFn is object)
+                if(actFn is not null)
                 {
                     // Add to the cache for future use.
                     _fnByName.Add(name, actFn);
@@ -110,7 +110,7 @@ namespace SharpNeat.NeuralNets
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
-            if(actFn is object) {
+            if(actFn is not null) {
                 return actFn;
             }
 
@@ -129,7 +129,7 @@ namespace SharpNeat.NeuralNets
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
-            if(actFn is object) {
+            if(actFn is not null) {
                 return actFn;
             }
 

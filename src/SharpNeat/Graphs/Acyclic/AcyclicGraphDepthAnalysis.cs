@@ -116,7 +116,7 @@ namespace SharpNeat.Graphs.Acyclic
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
             // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the
             // graph is acyclic.
-            if(_cyclicGraphCheck is object && _cyclicGraphCheck.IsCyclic(digraph)) {
+            if(_cyclicGraphCheck is not null && _cyclicGraphCheck.IsCyclic(digraph)) {
                 throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
             }
 
