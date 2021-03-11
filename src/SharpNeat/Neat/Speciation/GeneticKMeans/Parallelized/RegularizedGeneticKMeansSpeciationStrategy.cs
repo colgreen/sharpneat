@@ -99,7 +99,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
             // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
             // this constructor is invoked, and 1 is nonsensical for a parallel strategy.
-            if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
+            if(degreeOfParallelism < 2) throw new ArgumentException("Must be 2 or more.", nameof(degreeOfParallelism));
 
             _parallelOptions = new ParallelOptions {
                  MaxDegreeOfParallelism = degreeOfParallelism
@@ -440,7 +440,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
         {
             #pragma warning disable SA1129 // Do not use default value type constructor
-            SpinLock spinLock = new SpinLock();
+            SpinLock spinLock = new();
             #pragma warning restore SA1129 // Do not use default value type constructor
             double maxDistance = 0.0;
 
