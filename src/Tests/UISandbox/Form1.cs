@@ -53,7 +53,7 @@ namespace UISandbox
 
             // Create graph view model, and return.
             INodeIdMap nodeIdByIdx = CreateNodeIdByIdx(digraph.TotalNodeCount);
-            DirectedGraphViewModel graphViewModel = new DirectedGraphViewModel(digraph, digraph.WeightArray, nodeIdByIdx);
+            DirectedGraphViewModel graphViewModel = new(digraph, digraph.WeightArray, nodeIdByIdx);
             return graphViewModel;
         }
 

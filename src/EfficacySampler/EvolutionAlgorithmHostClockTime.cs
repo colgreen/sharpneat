@@ -17,8 +17,8 @@ namespace EfficacySampler
         readonly Stopwatch _stopwatch;
 
         readonly Thread _eaThread;
-        readonly AutoResetEvent _awaitStartEvent = new AutoResetEvent(false);
-        readonly AutoResetEvent _awaitStopEvent = new AutoResetEvent(false);
+        readonly AutoResetEvent _awaitStartEvent = new(false);
+        readonly AutoResetEvent _awaitStopEvent = new(false);
         volatile bool _stopFlag = false;
 
         NeatEvolutionAlgorithm<double>? _ea;
@@ -127,7 +127,7 @@ namespace EfficacySampler
         private Sample RecordSample()
         {
             // Copy the required stats into a new Sample instance.
-            Sample sample = new Sample {
+            Sample sample = new() {
                 ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
                 GenerationCount = _ea!.Stats.Generation
             };

@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Tests
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
-            NeatEvolutionAlgorithmSettings eaSettings = new NeatEvolutionAlgorithmSettings() {
+            NeatEvolutionAlgorithmSettings eaSettings = new() {
                 SpeciesCount = 4
             };
 
@@ -71,7 +71,7 @@ namespace SharpNeat.Neat.Tests
             int outputNodeCount,
             double connectionsProportion)
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: inputNodeCount,
                 outputNodeCount: outputNodeCount,
                 isAcyclic: true,

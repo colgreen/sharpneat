@@ -9,7 +9,7 @@ namespace SharpNeatTasks.Benchmarks.FunctionRegression
         #region Instance Fields
 
         const int __sampleCount = 100;
-        readonly ParamSamplingInfo _paramSamplingInfo = new ParamSamplingInfo(0, 2 * Math.PI, __sampleCount);
+        readonly ParamSamplingInfo _paramSamplingInfo = new(0, 2 * Math.PI, __sampleCount);
         readonly double[] _yArr = new double[__sampleCount];
         readonly double[] _gradientArr = new double[__sampleCount];
 

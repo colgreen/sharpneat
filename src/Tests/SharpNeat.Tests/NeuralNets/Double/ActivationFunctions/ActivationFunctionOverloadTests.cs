@@ -13,7 +13,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
         [Fact]
         public void Fn_Overloads()
         {
-            Random rng = new Random();
+            Random rng = new();
 
             // Scan for all implementations of IActivationFunction(double>
             IEnumerable<Type> actFnTypes = FindTypeImplementations(typeof(IActivationFunction<double>));

@@ -274,7 +274,7 @@ namespace SharpNeat.Drawing.Graph
         {
             // Perform an analysis on the cyclic graph to assign a depth to each node.
             // TODO: Re-use these instances, by maintaining a pool of them that can be 'rented from' and 'returned to' the pool.
-            CyclicGraphDepthAnalysis cyclicDepthAnalysis = new CyclicGraphDepthAnalysis();
+            CyclicGraphDepthAnalysis cyclicDepthAnalysis = new();
 
             GraphDepthInfo depthInfo = cyclicDepthAnalysis.CalculateNodeDepths(digraph);
             int[] nodeLayerByIdx = depthInfo._nodeDepthArr;

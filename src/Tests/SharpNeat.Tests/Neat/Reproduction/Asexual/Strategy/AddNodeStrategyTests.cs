@@ -86,7 +86,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);
+            CircularBuffer<NeatGenome<double>> genomeRing = new(10);
             genomeRing.Enqueue(genome);
 
             for(int i=0; i < 5000; i++)

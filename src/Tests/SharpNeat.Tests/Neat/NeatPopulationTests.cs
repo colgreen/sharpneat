@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Tests
         [Fact]
         public void CreatePopulation()
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: 3,
                 outputNodeCount: 2,
                 isAcyclic: true,
@@ -46,7 +46,7 @@ namespace SharpNeat.Neat.Tests
         [Fact]
         public void VerifyInitialConnections()
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: 100,
                 outputNodeCount: 200,
                 isAcyclic: true,

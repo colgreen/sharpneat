@@ -104,7 +104,7 @@ namespace SharpNeat.Neat.Tests
             double defaultFitness,
             IRandomSource rng)
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: 3,
                 outputNodeCount: 2,
                 isAcyclic: true,

@@ -131,7 +131,7 @@ namespace SharpNeat.Neat.Speciation.Tests
             int outputNodeCount,
             double connectionsProportion)
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: inputNodeCount,
                 outputNodeCount: outputNodeCount,
                 isAcyclic: true,

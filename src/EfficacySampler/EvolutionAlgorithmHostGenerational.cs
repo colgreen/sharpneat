@@ -56,7 +56,7 @@ namespace EfficacySampler
             _stopwatch.Stop();
 
             // Copy the required stats into a new Sample instance.
-            Sample sample = new Sample {
+            Sample sample = new() {
                 ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
                 GenerationCount = ea.Stats.Generation
             };

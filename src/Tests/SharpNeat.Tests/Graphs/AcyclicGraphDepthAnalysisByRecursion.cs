@@ -31,7 +31,7 @@ namespace SharpNeat.Graphs.Tests
         readonly int[] _nodeDepthByIdx;
 
         #if DEBUG
-        readonly CyclicGraphCheck _cyclicGraphCheck = new CyclicGraphCheck();
+        readonly CyclicGraphCheck _cyclicGraphCheck = new();
         #endif
 
         #endregion

@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Tests
         [Fact]
         public void TryLookup()
         {
-            AddedNodeBuffer buff = new AddedNodeBuffer(10);
+            AddedNodeBuffer buff = new(10);
 
             // Register some added nodes.
             buff.Register(new DirectedConnection(100, 101), 102);

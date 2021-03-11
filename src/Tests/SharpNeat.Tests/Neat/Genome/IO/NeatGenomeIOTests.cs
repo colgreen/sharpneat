@@ -27,7 +27,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             NeatGenome<double> genome = genomeBuilder.Create(0, 0, connGenes);
 
             // Create a memory stream to save the genome into.
-            using(MemoryStream ms = new MemoryStream(1024))
+            using(MemoryStream ms = new(1024))
             {
                 // Save the genome.
                 NeatGenomeSaver<double>.Save(genome,  ms);

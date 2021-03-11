@@ -124,7 +124,7 @@ namespace EfficacySampler
 
         private static StreamWriter InitOutputFile(string filename)
         {
-            FileInfo fileInfo = new FileInfo(filename);
+            FileInfo fileInfo = new(filename);
             if(fileInfo.Exists)
             {
                 // Append to existing file.
@@ -132,7 +132,7 @@ namespace EfficacySampler
             }
 
             // Create new file and write a CSV header row.
-            StreamWriter sw = new StreamWriter(filename);
+            StreamWriter sw = new(filename);
             sw.WriteLine("secs,gens,bestfitness,meanfitness,maxcomplexity,meancomplexity,evalcount");
             return sw;
         }

@@ -33,7 +33,7 @@ namespace SharpNeat.Drawing.Graph
         DirectedGraphViewModel? _graphViewModel;
 
         // Describes the viewport area the graph has been laid out within. The initial size of -1, -1 indicates no layout has yet occurred.
-        Rectangle _viewportArea = new Rectangle(0, 0, -1, -1);
+        Rectangle _viewportArea = new(0, 0, -1, -1);
         object? _layoutSchemeData;
 
         #region Construction

@@ -70,7 +70,7 @@ namespace SharpNeat.Neat.Speciation.Tests
         private static Species<double> CreateTestSpecies(int genomeCount)
         {
             // Create the species genomes; we use NeatPopulationFactory for this.
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: 1,
                 outputNodeCount: 1,
                 isAcyclic: true,

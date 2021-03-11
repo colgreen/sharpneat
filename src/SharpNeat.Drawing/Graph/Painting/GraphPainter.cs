@@ -71,7 +71,7 @@ namespace SharpNeat.Drawing.Graph.Painting
             Rectangle viewportArea,
             float zoomFactor)
         {
-            PaintState state = new PaintState(g, viewportArea, _settings.NodeDiameter, zoomFactor, model.DirectedGraph.TotalNodeCount);
+            PaintState state = new(g, viewportArea, _settings.NodeDiameter, zoomFactor, model.DirectedGraph.TotalNodeCount);
             PaintGraph(model, state);
         }
 
@@ -125,9 +125,9 @@ namespace SharpNeat.Drawing.Graph.Painting
             }
 
             // Paint the node as a square. Create a Rectangle that represents the square's position and size.
-            Point p = new Point(pos.X - state._nodeDiameterHalf, pos.Y - state._nodeDiameterHalf);
-            Size s = new Size(state._nodeDiameter, state._nodeDiameter);
-            Rectangle r = new Rectangle(p, s);
+            Point p = new(pos.X - state._nodeDiameterHalf, pos.Y - state._nodeDiameterHalf);
+            Size s = new(state._nodeDiameter, state._nodeDiameter);
+            Rectangle r = new(p, s);
 
             // Paint the node. Fill first and then border, this gives a clean border.
             Graphics g = state._g;
@@ -199,7 +199,7 @@ namespace SharpNeat.Drawing.Graph.Painting
             width = width * _connectionWeightToWidth * state._zoomFactor;
 
             width = Math.Max(1f, Math.Abs(width));
-            Pen pen = new Pen(weight < 0f ? _settings.NegativeWeightColor : _settings.PositiveWeightColor, width);
+            Pen pen = new(weight < 0f ? _settings.NegativeWeightColor : _settings.PositiveWeightColor, width);
 
             // Draw the connection line.
             if(tgtPos.Y > srcPos.Y)
@@ -295,13 +295,13 @@ namespace SharpNeat.Drawing.Graph.Painting
             // ensures that the BC segments of successive connections are evenly spaced out.
             int xDelta = (int)(lenAB * (1f - slope)) * srcSide;
             int yDelta = (int)(lenAB * slope);
-            Point b = new Point(srcPos.X + xDelta, srcPos.Y + yDelta);
+            Point b = new(srcPos.X + xDelta, srcPos.Y + yDelta);
 
         //--- Point C.
             // Line BC is a horizontal line from the end of the leg AB.
             int lenBC = (int)(2f * slopePre * state._backConnectionLegLength);
             xDelta = lenBC * srcSide;
-            Point c = new Point(b.X + xDelta, b.Y);
+            Point c = new(b.X + xDelta, b.Y);
 
         //--- Point E. Equivalent to point B but emerging from the target node.
             slopePre = slopeInit + (slopeIncr * tgtConIdx);
@@ -318,12 +318,12 @@ namespace SharpNeat.Drawing.Graph.Painting
 
             xDelta = (int)(lenEF * (1f - slope)) * tgtSide;
             yDelta = -(int)(lenEF * slope);
-            Point e = new Point(tgtPos.X + xDelta, tgtPos.Y + yDelta);
+            Point e = new(tgtPos.X + xDelta, tgtPos.Y + yDelta);
 
         //--- Point D. Equivalent to point C but on the target end of the connection.
             int lenDE = (int)(2f * slopePre * state._backConnectionLegLength);
             xDelta = lenDE * tgtSide;
-            Point d = new Point(e.X + xDelta, e.Y);
+            Point d = new(e.X + xDelta, e.Y);
 
             state._g.DrawLines(pen, new Point[]{ srcPos, b, c, d, e, tgtPos });
         }

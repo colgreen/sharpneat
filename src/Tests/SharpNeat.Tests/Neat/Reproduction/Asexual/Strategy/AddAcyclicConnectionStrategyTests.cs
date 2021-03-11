@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
-            CyclicGraphCheck cyclicGraphCheck = new CyclicGraphCheck();
+            CyclicGraphCheck cyclicGraphCheck = new();
 
             for(int i=0; i < 1000;)
             {
@@ -86,9 +86,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             var nodeIdSet = GetNodeIdSet(rootGenome);
 
-            CyclicGraphCheck cyclicGraphCheck = new CyclicGraphCheck();
+            CyclicGraphCheck cyclicGraphCheck = new();
 
-            AcyclicGraphDepthAnalysis graphDepthAnalysis = new AcyclicGraphDepthAnalysis();
+            AcyclicGraphDepthAnalysis graphDepthAnalysis = new();
 
             // Run the inner loop test multiple times.
             // Note. The add-connection mutations are random, thus each loop accumulates a different set of mutations.

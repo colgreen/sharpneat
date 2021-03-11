@@ -208,7 +208,7 @@ namespace SharpNeat.Windows.App
 
         private void btnCopyLogToClipboard_Click(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach(Logger.LogItem item in lbxLog.Items) {
                 sb.AppendLine(item.Message);
             }

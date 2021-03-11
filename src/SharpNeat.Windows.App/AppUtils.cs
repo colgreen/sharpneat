@@ -62,7 +62,7 @@ namespace SharpNeat.Windows.App
 		/// </summary>
 		public static string SelectFileToSave(string dialogTitle, string fileExtension, string filter)
 		{
-            SaveFileDialog oDialog = new SaveFileDialog
+            SaveFileDialog oDialog = new()
             {
                 AddExtension = true,
                 DefaultExt = fileExtension,

@@ -30,7 +30,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests
             for(int i=0; i < 20; i++)
             {
                 int[] idxArr = strategy.SelectSubset(20, rng);
-                HashSet<int> idxSet = new HashSet<int>();
+                HashSet<int> idxSet = new();
 
                 for(int j=0; j < idxArr.Length; j++)
                 {

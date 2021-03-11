@@ -32,7 +32,7 @@ namespace SharpNeat.Graphs.Tests
             }
 
             // Package up the source and target ID arrays.
-            ConnectionIdArrays connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
+            ConnectionIdArrays connIdArrays = new(srcIdArr, tgtIdArr);
 
             // Sort the connections.
             ConnectionSorter<double>.Sort(connIdArrays, weightArr);
