@@ -149,6 +149,9 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         public void Activate()
         {
+            // TODO: This code needs to be properly spanified; it's still making heavy use of array indexers.
+
+
             // TODO: ENHANCEMENT: Consider defining Memory<T> over the required ranges, as class fields.
             // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
             // post-activation values and are never activated.

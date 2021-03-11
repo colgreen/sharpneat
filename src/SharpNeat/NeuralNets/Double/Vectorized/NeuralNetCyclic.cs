@@ -137,6 +137,9 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
+            // TODO: This code needs to be properly spanified; it's still making heavy use of array indexers.
+
+
             // TODO: ENHANCEMENT: Consider defining Memory<T> over the required ranges, as class fields.
             // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
             // post-activation values and are never activated.
@@ -144,7 +147,6 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             var preActivationSpan = _preActivationArr.AsSpan(activationRange);
             var postActivationSpan = _postActivationArr.AsSpan(activationRange);
 
-            // TODO: ENHANCEMENT: Some of the array/span offset logic here can be sped up by declaring sub-spans.
             // Init vector related variables.
             int width = Vector<double>.Count;
             // TODO: ENHANCEMENT: Consider if it would be faster to stackalloc conInputArr.

@@ -127,6 +127,9 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
+            // TODO: This code needs to be properly spanified; it's still making heavy use of array indexers.
+
+
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
