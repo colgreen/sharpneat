@@ -94,7 +94,7 @@ namespace SharpNeat.Neat
         /// <param name="count">The number of genomes to create.</param>
         private List<NeatGenome<T>> CreateGenomeList(int count)
         {
-            List<NeatGenome<T>> genomeList = new List<NeatGenome<T>>(count);
+            List<NeatGenome<T>> genomeList = new(count);
             for(int i=0; i < count; i++)
             {
                 NeatGenome<T> genome = CreateGenome();

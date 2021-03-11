@@ -86,13 +86,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// for one source node.
         /// </summary>
-        readonly IntStack _traversalStack = new IntStack(17);
+        readonly IntStack _traversalStack = new(17);
 
         /// <summary>
         /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
         /// re-traversal of nodes.
         /// </summary>
-        readonly HashSet<int> _visitedNodes = new HashSet<int>(17);
+        readonly HashSet<int> _visitedNodes = new(17);
 
         #if DEBUG
         /// <summary>

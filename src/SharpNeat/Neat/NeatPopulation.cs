@@ -85,7 +85,7 @@ namespace SharpNeat.Neat
         /// A reusable/working list.
         /// Stores the index of the species with the fittest genome, or multiple indexes when two or more species are tied at first place.
         /// </summary>
-        private readonly List<int> _fittestSpeciesIndexList = new List<int>();
+        private readonly List<int> _fittestSpeciesIndexList = new();
 
         #endregion
 

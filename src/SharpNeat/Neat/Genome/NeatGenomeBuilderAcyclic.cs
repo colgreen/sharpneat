@@ -96,7 +96,7 @@ namespace SharpNeat.Neat.Genome
             Dictionary<int,int> nodeIdxById = BuildNodeIndexById(hiddenNodeIdArr);
 
             // Create a DictionaryNodeIdMap.
-            DictionaryNodeIdMap nodeIndexByIdMap = new DictionaryNodeIdMap(inputCount, nodeIdxById);
+            DictionaryNodeIdMap nodeIndexByIdMap = new(inputCount, nodeIdxById);
 
             // Create a digraph from the genome.
             DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(

@@ -51,11 +51,11 @@ namespace SharpNeat.Neat.Genome.IO
             }
 
             // Determine the set of genome files to load.
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            DirectoryInfo dirInfo = new(path);
             FileInfo[] fileInfoArr = dirInfo.GetFiles("*.genome");
 
             // Alloc genome list with an appropriate capacity.
-            List<NeatGenome<T>> genomeList = new List<NeatGenome<T>>(fileInfoArr.Length);
+            List<NeatGenome<T>> genomeList = new(fileInfoArr.Length);
 
             // Loop the genome files, loading each in turn.
             foreach(FileInfo fileInfo in fileInfoArr)
@@ -81,7 +81,7 @@ namespace SharpNeat.Neat.Genome.IO
             using(ZipArchive zipArchive = ZipFile.OpenRead(path))
             {
                 // Alloc genome list with an appropriate capacity.
-                List<NeatGenome<T>> genomeList = new List<NeatGenome<T>>(zipArchive.Entries.Count);
+                List<NeatGenome<T>> genomeList = new(zipArchive.Entries.Count);
 
                 // Loop the genome file entries, loading each in turn.
                 foreach(ZipArchiveEntry zipEntry in zipArchive.Entries)

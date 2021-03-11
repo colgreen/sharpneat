@@ -111,8 +111,8 @@ namespace SharpNeat.Neat.Genome.IO
             string nameWithoutExt = Path.GetFileNameWithoutExtension(name);
 
             // Create a new zip archive.
-            using(FileStream fs = new FileStream(popZipPath, FileMode.CreateNew))
-            using(ZipArchive zipArchive = new ZipArchive(fs, ZipArchiveMode.Create))
+            using(FileStream fs = new(popZipPath, FileMode.CreateNew))
+            using(ZipArchive zipArchive = new(fs, ZipArchiveMode.Create))
             {
                 // Loop the genomes; add each one in turn to the zip archive.
                 foreach(var genome in genomeList)

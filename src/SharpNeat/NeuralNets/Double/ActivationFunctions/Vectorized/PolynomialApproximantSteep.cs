@@ -68,9 +68,9 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Constants.
-            Vector<double> vec_4_9 = new Vector<double>(4.9);
-            Vector<double> vec_0_555 = new Vector<double>(0.555);
-            Vector<double> vec_0_143 = new Vector<double>(0.143);
+            Vector<double> vec_4_9 = new(4.9);
+            Vector<double> vec_0_555 = new(0.555);
+            Vector<double> vec_0_143 = new(0.143);
             int width = Vector<double>.Count;
 
             int i=0;

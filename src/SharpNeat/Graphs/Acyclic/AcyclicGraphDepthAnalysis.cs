@@ -40,7 +40,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// Each stack entry is an index into a connection list, representing both the current node being traversed
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// </summary>
-        readonly LightweightStack<StackFrame> _traversalStack = new LightweightStack<StackFrame>(16);
+        readonly LightweightStack<StackFrame> _traversalStack = new(16);
 
         /// <summary>
         /// Working array of node depths.

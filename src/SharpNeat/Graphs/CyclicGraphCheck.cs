@@ -56,7 +56,7 @@ namespace SharpNeat.Graphs
         /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
-        BoolArray _ancestorNodeBitmap = new BoolArray(1024);
+        BoolArray _ancestorNodeBitmap = new(1024);
 
         /// <summary>
         /// A bitmap in which each bit represents a node in the graph.
@@ -66,7 +66,7 @@ namespace SharpNeat.Graphs
         /// This is used to quickly determine if a given path needs to be traversed or not, i.e. if a path has
         /// previously been traversed and no cycle was found, then we do not need to traverse this pathway again.
         /// </summary>
-        BoolArray _visitedNodeBitmap = new BoolArray(1024);
+        BoolArray _visitedNodeBitmap = new(1024);
 
         #if DEBUG
         /// <summary>

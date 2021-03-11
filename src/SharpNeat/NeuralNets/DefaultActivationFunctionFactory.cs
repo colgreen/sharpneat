@@ -35,7 +35,7 @@ namespace SharpNeat.NeuralNets
         /// <summary>
         /// A dictionary of activation function instances keyed by class name.
         /// </summary>
-        readonly Dictionary<string,IActivationFunction<T>> _fnByName = new Dictionary<string, IActivationFunction<T>>();
+        readonly Dictionary<string,IActivationFunction<T>> _fnByName = new();
         readonly object _lockObj;
 
         #endregion

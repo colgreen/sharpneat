@@ -45,7 +45,7 @@ namespace SharpNeat.Graphs
         /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
-        BoolArray _ancestorNodeBitmap = new BoolArray(1024);
+        BoolArray _ancestorNodeBitmap = new(1024);
 
         /// <summary>
         /// An integer array in which each element represents a node in the graph.

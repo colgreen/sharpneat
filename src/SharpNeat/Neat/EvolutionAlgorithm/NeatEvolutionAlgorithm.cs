@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatReproductionSexual<T> _reproductionSexual;
 
         readonly OffspringBuilder<T> _offspringBuilder;
-        readonly NeatEvolutionAlgorithmStatistics _eaStats = new NeatEvolutionAlgorithmStatistics();
+        readonly NeatEvolutionAlgorithmStatistics _eaStats = new();
 
         // Fields used to calculate the evaluations per second statistic, on each successive update.
         static readonly TimeSpan __oneSec = TimeSpan.FromSeconds(1);

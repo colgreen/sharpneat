@@ -23,7 +23,7 @@ namespace SharpNeat.Graphs
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public static readonly WeightedDirectedConnectionComparer<T> Default = new WeightedDirectedConnectionComparer<T>();
+        public static readonly WeightedDirectedConnectionComparer<T> Default = new();
 
         /// <summary>
         /// Compares two instances of <see cref="WeightedDirectedConnection{T}"/> and returns a value indicating
