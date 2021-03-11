@@ -22,7 +22,7 @@ namespace SharpNeat.Evaluation
         /// <summary>
         /// Default singleton instance.
         /// </summary>
-        public static FitnessInfo DefaultFitnessInfo = new FitnessInfo(0.0);
+        public static readonly FitnessInfo DefaultFitnessInfo = new(0.0);
 
         #region Instance Fields
 
