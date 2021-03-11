@@ -29,7 +29,7 @@ namespace SharpNeat.NeuralNets
     /// <param name="v">A span of pre-activation levels to pass through the function.</param>
     /// <param name="w">A span in which the post-activation levels are stored.</param>
     /// <typeparam name="T">Vector element numeric data type.</typeparam>
-    public delegate void VecFn2<T>(Span<T> v, Span<T> w)
+    public delegate void VecFn2<T>(ReadOnlySpan<T> v, Span<T> w)
         where T : struct;
 
     /// <summary>
@@ -57,6 +57,6 @@ namespace SharpNeat.NeuralNets
         /// </summary>
         /// <param name="v">A span of pre-activation levels to pass through the function.</param>
         /// <param name="w">A span in which the post-activation levels are stored.</param>
-        void Fn(Span<T> v, Span<T> w);
+        void Fn(ReadOnlySpan<T> v, Span<T> w);
     }
 }
