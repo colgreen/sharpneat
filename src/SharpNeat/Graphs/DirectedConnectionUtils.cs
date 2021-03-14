@@ -34,7 +34,6 @@ namespace SharpNeat.Graphs
         public static int GetConnectionIndexBySourceNodeId(Span<DirectedConnection> connSpan, int srcNodeId)
         {
             // Search for a connection with the given source node ID.
-            // ENHANCEMENT: Use of the BinarySearch(IList) overload here is slower than BinarySearch(Span).
             int connIdx = SearchUtils.BinarySearch(connSpan, srcNodeId,
                 (DirectedConnection conn, int nodeId) => conn.SourceId.CompareTo(nodeId));
 
