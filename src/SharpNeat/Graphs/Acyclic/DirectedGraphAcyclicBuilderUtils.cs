@@ -193,8 +193,6 @@ namespace SharpNeat.Graphs.Acyclic
             // calls. If instead we pass null or an array that is too short, then timsort will allocate a new
             // array internally, per sort, so we want to avoid that cost.
 
-            // ENHANCEMENT: Modify TimSort class to accept working arrays by ref, so that if a larger array was allocated internally, we receive it back here.
-            // Thus we achieve the same functionality without requiring knowledge of TimSort's internal logic.
             // Allocate new timsort working arrays, if necessary.
             int timsortWorkArrLength = nodeCount >> 1;
 
@@ -206,11 +204,9 @@ namespace SharpNeat.Graphs.Acyclic
 
             // Sort the node IDs by depth.
             TimSort<int,int>.Sort(
-                depthInfo._nodeDepthArr,
-                nodeIdArr,
-                inputCount,
-                nodeCount - inputCount,
-                timsortWorkArr, timsortWorkVArr);
+                depthInfo._nodeDepthArr.AsSpan(inputCount),
+                nodeIdArr.AsSpan(inputCount),
+                ref timsortWorkArr, ref timsortWorkVArr);
 
             // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e. we are re-allocating IDs based on node depth.
             // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.

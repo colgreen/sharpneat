@@ -36,7 +36,7 @@ namespace EfficacySampler
         private static StopCondition? ReadStopCondition(string type, string valStr)
         {
 
-            StopCondition sc = new StopCondition();
+            StopCondition sc = new();
             switch(type.ToLowerInvariant())
             {
                 case "secs":

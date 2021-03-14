@@ -148,7 +148,7 @@ namespace SharpNeat.Drawing
         /// <param name="color">The RGB color to cast from.</param>
         public static implicit operator HSLColor(Color color)
         {
-            HSLColor hslColor = new HSLColor
+            HSLColor hslColor = new()
             {
                 _hue = color.GetHue() / 360.0, // we store hue as [0,1] as opposed to 0-360.
                 _luminosity = color.GetBrightness(),

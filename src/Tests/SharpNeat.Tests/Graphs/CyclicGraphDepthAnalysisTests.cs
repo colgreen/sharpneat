@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using Redzen.Collections;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace SharpNeat.Graphs
         public void SimpleAcyclic_A1()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 3),
                 new DirectedConnection(1, 3),
@@ -20,8 +21,9 @@ namespace SharpNeat.Graphs
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 3, 2);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 3, 2);
 
             // Perform depth analysis.
             GraphDepthInfo depthInfo = new CyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
@@ -42,7 +44,7 @@ namespace SharpNeat.Graphs
         public void SimpleAcyclic_A2()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 3),
                 new DirectedConnection(1, 3),
@@ -52,8 +54,9 @@ namespace SharpNeat.Graphs
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 3, 2);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 3, 2);
 
             // Perform depth analysis.
             GraphDepthInfo depthInfo = new CyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
@@ -74,7 +77,7 @@ namespace SharpNeat.Graphs
         public void SimpleAcyclic_B1()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 2),
                 new DirectedConnection(2, 3),
@@ -84,8 +87,9 @@ namespace SharpNeat.Graphs
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 1, 1);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 1, 1);
 
             // Perform depth analysis.
             GraphDepthInfo depthInfo = new CyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
@@ -106,7 +110,7 @@ namespace SharpNeat.Graphs
         public void SimpleAcyclic_B2()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 2),
                 new DirectedConnection(2, 3),
@@ -116,8 +120,9 @@ namespace SharpNeat.Graphs
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 1, 1);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 1, 1);
 
             // Perform depth analysis.
             GraphDepthInfo depthInfo = new CyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
@@ -138,7 +143,7 @@ namespace SharpNeat.Graphs
         public void SimpleCyclic_A1()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 2),
                 new DirectedConnection(2, 3),
@@ -147,8 +152,9 @@ namespace SharpNeat.Graphs
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 1, 1);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 1, 1);
 
             // Perform depth analysis.
             GraphDepthInfo depthInfo = new CyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);
@@ -168,7 +174,7 @@ namespace SharpNeat.Graphs
         public void SimpleCyclic_B1()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 4),
                 new DirectedConnection(1, 5),
@@ -183,8 +189,9 @@ namespace SharpNeat.Graphs
             };
 
             // Create graph.
-            connList.Sort();
-            var digraph = DirectedGraphBuilder.Create(connList, 2, 2);
+            var connSpan = connList.AsSpan();
+            connSpan.Sort();
+            var digraph = DirectedGraphBuilder.Create(connSpan, 2, 2);
 
             // Perform depth analysis.
             GraphDepthInfo depthInfo = new CyclicGraphDepthAnalysis().CalculateNodeDepths(digraph);

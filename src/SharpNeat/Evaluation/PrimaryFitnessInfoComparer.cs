@@ -21,7 +21,7 @@ namespace SharpNeat.Evaluation
         /// <summary>
         /// Singleton instance.
         /// </summary>
-        public static PrimaryFitnessInfoComparer Singleton = new PrimaryFitnessInfoComparer();
+        public static readonly PrimaryFitnessInfoComparer Singleton = new();
 
         /// <summary>
         /// Compares two instances of <see cref="FitnessInfo"/> and returns a value indicating

@@ -129,7 +129,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             for(;;)
             {
                 NeatGenome<T>? childGenome = Create(parent, rng, ref mutationTypeDist);
-                if(childGenome is object) {
+                if(childGenome is not null) {
                     return childGenome;
                 }
             }
@@ -159,7 +159,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 _ => throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}]."),
             };
 
-            if(childGenome is object) {
+            if(childGenome is not null) {
                 return childGenome;
             }
 

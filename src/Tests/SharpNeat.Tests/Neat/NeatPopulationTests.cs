@@ -1,6 +1,7 @@
 ﻿using System;
 using Redzen.Random;
 using Redzen.Sorting;
+using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace SharpNeat.Neat.Tests
         [Fact]
         public void CreatePopulation()
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: 3,
                 outputNodeCount: 2,
                 isAcyclic: true,
@@ -45,7 +46,7 @@ namespace SharpNeat.Neat.Tests
         [Fact]
         public void VerifyInitialConnections()
         {
-            MetaNeatGenome<double> metaNeatGenome = new MetaNeatGenome<double>(
+            MetaNeatGenome<double> metaNeatGenome = new(
                 inputNodeCount: 100,
                 outputNodeCount: 200,
                 isAcyclic: true,
@@ -55,7 +56,7 @@ namespace SharpNeat.Neat.Tests
             NeatGenome<double> genome = neatPop.GenomeList[0];
 
             Assert.Equal(10_000, genome.ConnectionGenes.Length);
-            Assert.True(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
+            Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(genome.ConnectionGenes._connArr));
 
             CalcWeightMinMaxMean(genome.ConnectionGenes._weightArr, out double min, out double max, out double mean);
 
@@ -79,7 +80,7 @@ namespace SharpNeat.Neat.Tests
             Assert.Equal(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
             Assert.Equal(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
             Assert.Equal(6, genome.ConnectionGenes.Length);
-            Assert.True(SortUtils.IsSortedAscending(genome.ConnectionGenes._connArr));
+            Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(genome.ConnectionGenes._connArr));
         }
 
         private static void CalcWeightMinMaxMean(double[] weightArr, out double min, out double max, out double mean)

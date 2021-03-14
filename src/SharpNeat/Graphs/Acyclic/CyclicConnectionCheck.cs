@@ -38,14 +38,14 @@ namespace SharpNeat.Graphs.Acyclic
         /// Each stack entry is an index into a connection list, representing both the current node being traversed
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// </summary>
-        readonly IntStack _traversalStack = new IntStack(16);
+        readonly IntStack _traversalStack = new(16);
 
         /// <summary>
         /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of visited nodes on the current traversal path.
         /// This is used to quickly determine if a given path should be traversed or not.
         /// </summary>
-        BoolArray _visitedNodeBitmap = new BoolArray(1024);
+        BoolArray _visitedNodeBitmap = new(1024);
 
         #if DEBUG
         /// <summary>

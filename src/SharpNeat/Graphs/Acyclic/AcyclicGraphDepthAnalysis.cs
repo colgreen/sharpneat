@@ -40,7 +40,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// Each stack entry is an index into a connection list, representing both the current node being traversed
         /// (the connections's source ID), and the current position in that node's outgoing connections.
         /// </summary>
-        readonly LightweightStack<StackFrame> _traversalStack = new LightweightStack<StackFrame>(16);
+        readonly LightweightStack<StackFrame> _traversalStack = new(16);
 
         /// <summary>
         /// Working array of node depths.
@@ -116,7 +116,7 @@ namespace SharpNeat.Graphs.Acyclic
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
             // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the
             // graph is acyclic.
-            if(_cyclicGraphCheck is object && _cyclicGraphCheck.IsCyclic(digraph)) {
+            if(_cyclicGraphCheck is not null && _cyclicGraphCheck.IsCyclic(digraph)) {
                 throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
             }
 

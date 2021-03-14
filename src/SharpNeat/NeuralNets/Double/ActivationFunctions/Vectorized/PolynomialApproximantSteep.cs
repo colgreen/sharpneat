@@ -65,12 +65,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         /// </summary>
         /// <param name="v">A span of pre-activation levels to pass through the function.</param>
         /// <param name="w">A span in which the post-activation levels are stored.</param>
-        public void Fn(Span<double> v, Span<double> w)
+        public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Constants.
-            Vector<double> vec_4_9 = new Vector<double>(4.9);
-            Vector<double> vec_0_555 = new Vector<double>(0.555);
-            Vector<double> vec_0_143 = new Vector<double>(0.143);
+            Vector<double> vec_4_9 = new(4.9);
+            Vector<double> vec_0_555 = new(0.555);
+            Vector<double> vec_0_143 = new(0.143);
             int width = Vector<double>.Count;
 
             int i=0;

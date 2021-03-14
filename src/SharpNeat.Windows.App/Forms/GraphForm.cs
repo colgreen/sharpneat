@@ -49,7 +49,7 @@ namespace SharpNeat.Windows.App.Forms
 			_graphPane.YAxis.Title.Text = y1AxisTitle;
 			_graphPane.YAxis.MajorGrid.IsVisible = true;
 
-            if(y2AxisTitle is object)
+            if(y2AxisTitle is not null)
             {
                 _graphPane.Y2Axis.Title.Text = y2AxisTitle;
 			    _graphPane.Y2Axis.MajorGrid.IsVisible = false;

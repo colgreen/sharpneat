@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Collections.Generic;
+using System;
 using Redzen;
 
 namespace SharpNeat.Graphs
@@ -22,7 +22,7 @@ namespace SharpNeat.Graphs
         /// <summary>
         /// Get the index of the first connection with the given source node ID.
         /// </summary>
-        /// <param name="connList">The list of connections to search; these must be sorted by source node ID.</param>
+        /// <param name="connSpan">The span of connections to search; these must be sorted by source node ID.</param>
         /// <param name="srcNodeId">The source node ID to search for.</param>
         /// <returns>The index of the first connection with the given source node index.</returns>
         /// <remarks>
@@ -31,11 +31,10 @@ namespace SharpNeat.Graphs
         /// If value is not found and value is greater than all connections in array, the negative number returned is the
         /// bitwise complement of the index of the last element plus 1.
         /// </remarks>
-        public static int GetConnectionIndexBySourceNodeId(IList<DirectedConnection> connList, int srcNodeId)
+        public static int GetConnectionIndexBySourceNodeId(Span<DirectedConnection> connSpan, int srcNodeId)
         {
             // Search for a connection with the given source node ID.
-            // ENHANCEMENT: Use of the BinarySearch(IList) overload here is slower than BinarySearch(Span).
-            int connIdx = SearchUtils.BinarySearch(connList, srcNodeId,
+            int connIdx = SearchUtils.BinarySearch(connSpan, srcNodeId,
                 (DirectedConnection conn, int nodeId) => conn.SourceId.CompareTo(nodeId));
 
             // Test for no match, i.e. no connections with the given source node ID.
@@ -43,10 +42,11 @@ namespace SharpNeat.Graphs
                 return connIdx;
             }
 
+            // TODO: Confirm this note. Surely binary search gives the index of the first item?
             // Note. if there are multiple connections with the given source ID then BinarySearch() will
             // return the index of one of them, but makes no guarantee regarding which one. As such we scan
             // in reverse for the first connection.
-            for(; connIdx > 0 && connList[connIdx-1].SourceId == srcNodeId; connIdx--);
+            for(; connIdx > 0 && connSpan[connIdx-1].SourceId == srcNodeId; connIdx--);
 
             return connIdx;
         }

@@ -85,7 +85,7 @@ namespace SharpNeat.Neat
         /// A reusable/working list.
         /// Stores the index of the species with the fittest genome, or multiple indexes when two or more species are tied at first place.
         /// </summary>
-        private readonly List<int> _fittestSpeciesIndexList = new List<int>();
+        private readonly List<int> _fittestSpeciesIndexList = new();
 
         #endregion
 
@@ -185,8 +185,10 @@ namespace SharpNeat.Neat
             // We use an unstable sort; this ensures that the order of equally fit genomes is randomized, which in turn
             // randomizes which genomes are in the subset if elite genomes that are preserved for the next generation - if lots
             // of genomes have equally high fitness.
-            foreach(var species in speciesArr) {
-                SortUtils.SortUnstable(species.GenomeList, genomeComparerDescending, rng);
+            foreach(var species in speciesArr)
+            {
+                // ENHANCEMENT: Use of the ListSortUtils.SortUnstable(IList) overload here is slower than SortUtils.SortUnstable(Span).
+                ListSortUtils.SortUnstable(species.GenomeList, genomeComparerDescending, rng);
             }
         }
 

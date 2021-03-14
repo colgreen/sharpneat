@@ -86,7 +86,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            CircularBuffer<NeatGenome<double>> genomeRing = new CircularBuffer<NeatGenome<double>>(10);
+            CircularBuffer<NeatGenome<double>> genomeRing = new(10);
             genomeRing.Enqueue(genome);
 
             for(int i=0; i < 5000; i++)
@@ -116,7 +116,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var childGenome = strategy.CreateChildGenome(parentGenome, rng);
 
             // The connection genes should be sorted.
-            Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+            Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(childGenome.ConnectionGenes._connArr));
 
             // The child genome should have one more connection than parent.
             Assert.Equal(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);

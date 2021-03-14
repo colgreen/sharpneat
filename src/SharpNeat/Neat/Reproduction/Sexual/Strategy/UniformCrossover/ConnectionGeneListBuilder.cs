@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Collections.Generic;
+using Redzen.Collections;
 using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
 
@@ -29,8 +29,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         readonly CyclicConnectionCheck? _cyclicCheck;
 
         // Connection gene lists.
-        readonly List<DirectedConnection> _connList;
-        readonly List<T> _weightList;
+        readonly LightweightList<DirectedConnection> _connList;
+        readonly LightweightList<T> _weightList;
 
         #endregion
 
@@ -48,8 +48,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 _cyclicCheck = new CyclicConnectionCheck();
             }
 
-            _connList = new List<DirectedConnection>(capacity);
-            _weightList = new List<T>(capacity);
+            _connList = new LightweightList<DirectedConnection>(capacity);
+            _weightList = new LightweightList<T>(capacity);
         }
 
         #endregion
@@ -104,7 +104,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         private bool IsCyclicConnection(in ConnectionGene<T> gene)
         {
-            return _cyclicCheck!.IsConnectionCyclic(_connList, in gene.Endpoints);
+            return _cyclicCheck!.IsConnectionCyclic(_connList.AsSpan(), in gene.Endpoints);
         }
 
         #endregion

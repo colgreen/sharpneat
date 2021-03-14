@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Redzen;
+using Redzen.Collections;
 using Redzen.Structures;
 using SharpNeat.Graphs.Acyclic;
 
@@ -45,7 +45,7 @@ namespace SharpNeat.Graphs
         /// A bitmap in which each bit represents a node in the graph.
         /// The set bits represent the set of nodes that are ancestors of the current traversal node.
         /// </summary>
-        BoolArray _ancestorNodeBitmap = new BoolArray(1024);
+        BoolArray _ancestorNodeBitmap = new(1024);
 
         /// <summary>
         /// An integer array in which each element represents a node in the graph.
@@ -66,7 +66,7 @@ namespace SharpNeat.Graphs
         /// The final depth allocated to a node is some aggregate function over all node depths assigned to it, e.g. mean, median, min,
         /// max, etc.
         /// </summary>
-        List<int>[] _nodeDepthMatrix = CreateNodeDepthMatrix(64, 8);
+        LightweightList<int>[] _nodeDepthMatrix = CreateNodeDepthMatrix(64, 8);
 
         #if DEBUG
         /// <summary>
@@ -153,7 +153,7 @@ namespace SharpNeat.Graphs
                 Array.Resize(ref _nodeDepthMatrix, newLength);
 
                 for(int i=prevLength; i < newLength; i++) {
-                    _nodeDepthMatrix[i] = new List<int>(inputCount);
+                    _nodeDepthMatrix[i] = new LightweightList<int>(inputCount);
                 }
             }
         }
@@ -219,8 +219,8 @@ namespace SharpNeat.Graphs
                 if(_nodeDepthMatrix[i].Count != 0)
                 {
                     // Take the average node depth, and round up to the nearest integer.
-                    // Other aggregate schemes are possible, this is merely one I thought might work OK
-                    _nodeDepthByIdx[i] = (int)Math.Ceiling(_nodeDepthMatrix[i].Average());
+                    // Other aggregate schemes are possible, this is merely one I thought might work OK.
+                    _nodeDepthByIdx[i] = (int)MathF.Ceiling((MathSpan.Sum(_nodeDepthMatrix[i].AsSpan()) / (float)_nodeDepthMatrix[i].Count));
                 }
             }
 
@@ -286,11 +286,11 @@ namespace SharpNeat.Graphs
 
         #region Private Static Methods
 
-        private static List<int>[] CreateNodeDepthMatrix(int nodeCount, int inputCount)
+        private static LightweightList<int>[] CreateNodeDepthMatrix(int nodeCount, int inputCount)
         {
-            var matrix = new List<int>[nodeCount];
+            var matrix = new LightweightList<int>[nodeCount];
             for(int i=0; i < nodeCount; i++) {
-                matrix[i] = new List<int>(inputCount);
+                matrix[i] = new LightweightList<int>(inputCount);
             }
             return matrix;
         }

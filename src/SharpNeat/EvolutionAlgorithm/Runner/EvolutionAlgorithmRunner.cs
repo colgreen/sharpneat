@@ -32,8 +32,8 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         readonly Func<bool> _isUpdateDueFn;
 
         // Event synchronisation.
-        readonly AutoResetEvent _awaitPauseEvent = new AutoResetEvent(false);
-        readonly AutoResetEvent _awaitRestartEvent = new AutoResetEvent(false);
+        readonly AutoResetEvent _awaitPauseEvent = new(false);
+        readonly AutoResetEvent _awaitRestartEvent = new(false);
 
         // Runner state.
         volatile RunState _runState = RunState.Ready;

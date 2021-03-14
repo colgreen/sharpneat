@@ -9,7 +9,7 @@ namespace SharpNeat.Benchmarks
     [MemoryDiagnoser]
     public class ConnectionSorterBenchmarks
     {
-        readonly Xoshiro256StarStarRandom _rng = new Xoshiro256StarStarRandom(123);
+        readonly Xoshiro256StarStarRandom _rng = new(123);
         ConnectionData[] _dataArr;
 
         #region Public Methods
@@ -58,7 +58,7 @@ namespace SharpNeat.Benchmarks
                 int[] srcIdArr = CreateRandomInt32Array(length);
                 int[] tgtIdArr = CreateRandomInt32Array(length);
 
-                ConnectionData connData = new ConnectionData
+                ConnectionData connData = new()
                 {
                     _connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr),
                     _weightArr = CreateRandomDoubleArray(length)

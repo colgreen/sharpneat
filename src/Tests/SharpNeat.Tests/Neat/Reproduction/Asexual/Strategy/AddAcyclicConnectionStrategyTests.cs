@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
             var nodeIdSet = GetNodeIdSet(genome);
             var connSet = GetDirectedConnectionSet(genome);
 
-            CyclicGraphCheck cyclicGraphCheck = new CyclicGraphCheck();
+            CyclicGraphCheck cyclicGraphCheck = new();
 
             for(int i=0; i < 1000;)
             {
@@ -54,7 +54,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
                 Assert.Single(newConnList);
 
                 // The connection genes should be sorted.
-                Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(childGenome.ConnectionGenes._connArr));
 
                 // The child genome should have the same set of node IDs as the parent.
                 var childNodeIdSet = GetNodeIdSet(childGenome);
@@ -86,9 +86,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             var nodeIdSet = GetNodeIdSet(rootGenome);
 
-            CyclicGraphCheck cyclicGraphCheck = new CyclicGraphCheck();
+            CyclicGraphCheck cyclicGraphCheck = new();
 
-            AcyclicGraphDepthAnalysis graphDepthAnalysis = new AcyclicGraphDepthAnalysis();
+            AcyclicGraphDepthAnalysis graphDepthAnalysis = new();
 
             // Run the inner loop test multiple times.
             // Note. The add-connection mutations are random, thus each loop accumulates a different set of mutations.
@@ -117,7 +117,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
                     Assert.Single(newConnList);
 
                     // The connection genes should be sorted.
-                    Assert.True(SortUtils.IsSortedAscending(childGenome.ConnectionGenes._connArr));
+                    Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(childGenome.ConnectionGenes._connArr));
 
                     // The child genome should have the same set of node IDs as the parent.
                     var childNodeIdSet = GetNodeIdSet(childGenome);

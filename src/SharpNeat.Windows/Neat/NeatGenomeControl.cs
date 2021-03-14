@@ -96,7 +96,7 @@ namespace SharpNeat.Windows.Neat
                 throw new InvalidOperationException("The genome object is not a NeatGenome.");
             }
 
-            DirectedGraphViewModel graphViewModel = new DirectedGraphViewModel(digraph, weightArr, nodeIdByIdxMap);
+            DirectedGraphViewModel graphViewModel = new(digraph, weightArr, nodeIdByIdxMap);
             return graphViewModel;
         }
 

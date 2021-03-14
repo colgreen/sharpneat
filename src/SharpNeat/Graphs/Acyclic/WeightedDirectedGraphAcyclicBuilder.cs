@@ -9,7 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 
 namespace SharpNeat.Graphs.Acyclic
@@ -26,12 +26,12 @@ namespace SharpNeat.Graphs.Acyclic
         /// <summary>
         /// Create with the provided list of connections, and input/output node counts.
         /// </summary>
-        /// <param name="connections">A list of weighted connections that describe the graph.</param>
+        /// <param name="connections">A span of weighted connections that describe the graph.</param>
         /// <param name="inputCount">Input node count.</param>
         /// <param name="outputCount">Output node count.</param>
         /// <returns>A new instance of <see cref="WeightedDirectedGraphAcyclic{T}"/>.</returns>
         public static WeightedDirectedGraphAcyclic<T> Create(
-            IList<WeightedDirectedConnection<T>> connections,
+            Span<WeightedDirectedConnection<T>> connections,
             int inputCount, int outputCount)
         {
             // Convert the set of connections to a standardised graph representation.

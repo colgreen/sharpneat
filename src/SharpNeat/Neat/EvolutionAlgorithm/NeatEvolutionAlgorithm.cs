@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         readonly NeatReproductionSexual<T> _reproductionSexual;
 
         readonly OffspringBuilder<T> _offspringBuilder;
-        readonly NeatEvolutionAlgorithmStatistics _eaStats = new NeatEvolutionAlgorithmStatistics();
+        readonly NeatEvolutionAlgorithmStatistics _eaStats = new();
 
         // Fields used to calculate the evaluations per second statistic, on each successive update.
         static readonly TimeSpan __oneSec = TimeSpan.FromSeconds(1);
@@ -347,10 +347,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // We use an unstable sort; this ensures that the order of equally fit genomes is randomized, which in turn
                 // randomizes which genomes are in the subset if elite genomes that are preserved for the next generation,
                 // i.e. when many genomes have equally high fitness.
-                foreach(var species in _pop.SpeciesArray!) 
+                foreach(var species in _pop.SpeciesArray!)
                 {
-                    // ENHANCEMENT: Use of the SortUnstable(IList) overload here is slower than SortUnstable(Span).
-                    SortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
+                    // ENHANCEMENT: Use of the ListSortUtils.SortUnstable(IList) overload here is slower than SortUtils.SortUnstable(Span).
+                    ListSortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using Redzen.Collections;
 using Xunit;
 
 namespace SharpNeat.Graphs.Tests
@@ -11,7 +12,7 @@ namespace SharpNeat.Graphs.Tests
         public void SimpleAcyclic()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(0, 3),
                 new DirectedConnection(1, 3),
@@ -20,10 +21,10 @@ namespace SharpNeat.Graphs.Tests
             };
 
             // Create graph.
-            var digraph = DirectedGraphBuilder.Create(connList, 0, 0);
+            var digraph = DirectedGraphBuilder.Create(connList.AsSpan(), 0, 0);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList, digraph.ConnectionIdArrays);
+            CompareConnectionLists(connList.AsSpan(), digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.Equal(5, digraph.TotalNodeCount);
@@ -33,7 +34,7 @@ namespace SharpNeat.Graphs.Tests
         public void SimpleAcyclic_DefinedNodes()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(10, 13),
                 new DirectedConnection(11, 13),
@@ -42,10 +43,10 @@ namespace SharpNeat.Graphs.Tests
             };
 
             // Create graph.
-            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList.AsSpan(), 0, 10);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList, digraph.ConnectionIdArrays);
+            CompareConnectionLists(connList.AsSpan(), digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);
@@ -55,7 +56,7 @@ namespace SharpNeat.Graphs.Tests
         public void SimpleAcyclic_DefinedNodes_NodeIdGap()
         {
             // Simple acyclic graph.
-            var connList = new List<DirectedConnection>
+            var connList = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(100, 103),
                 new DirectedConnection(101, 103),
@@ -64,10 +65,10 @@ namespace SharpNeat.Graphs.Tests
             };
 
             // Create graph.
-            var digraph = DirectedGraphBuilder.Create(connList, 0, 10);
+            var digraph = DirectedGraphBuilder.Create(connList.AsSpan(), 0, 10);
 
             // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
-            var connListExpected = new List<DirectedConnection>
+            var connListExpected = new LightweightList<DirectedConnection>
             {
                 new DirectedConnection(10, 13),
                 new DirectedConnection(11, 13),
@@ -75,7 +76,7 @@ namespace SharpNeat.Graphs.Tests
                 new DirectedConnection(12, 14)
             };
 
-            CompareConnectionLists(connListExpected, digraph.ConnectionIdArrays);
+            CompareConnectionLists(connListExpected.AsSpan(), digraph.ConnectionIdArrays);
 
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);
@@ -85,15 +86,15 @@ namespace SharpNeat.Graphs.Tests
 
         #region Private Static Methods
 
-        private static void CompareConnectionLists(IList<DirectedConnection> x, in ConnectionIdArrays connIdArrays)
+        private static void CompareConnectionLists(Span<DirectedConnection> x, in ConnectionIdArrays connIdArrays)
         {
             int[] srcIdArr = connIdArrays._sourceIdArr;
             int[] tgtIdArr = connIdArrays._targetIdArr;
 
-            Assert.Equal(x.Count, srcIdArr.Length);
-            Assert.Equal(x.Count, tgtIdArr.Length);
+            Assert.Equal(x.Length, srcIdArr.Length);
+            Assert.Equal(x.Length, tgtIdArr.Length);
 
-            for(int i=0; i < x.Count; i++)
+            for(int i=0; i < x.Length; i++)
             {
                 Assert.Equal(x[i].SourceId, srcIdArr[i]);
                 Assert.Equal(x[i].TargetId, tgtIdArr[i]);

@@ -45,7 +45,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
         /// </summary>
         /// <param name="v">A span of pre-activation levels to pass through the function.</param>
         /// <param name="w">A span in which the post-activation levels are stored.</param>
-        public void Fn(Span<double> v, Span<double> w)
+        public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             for(int i=0; i < v.Length; i++) {
                 w[i] = Fn(v[i]);

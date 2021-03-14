@@ -49,7 +49,7 @@ namespace SharpNeat.Neat.Genome
         /// </remarks>
         public NeatGenomeBuilderAcyclic(MetaNeatGenome<T> metaNeatGenome, bool validateAcyclic)
         {
-            Debug.Assert(metaNeatGenome is object && metaNeatGenome.IsAcyclic);
+            Debug.Assert(metaNeatGenome is not null && metaNeatGenome.IsAcyclic);
             _metaNeatGenome = metaNeatGenome;
             _graphDepthAnalysis = new AcyclicGraphDepthAnalysis(validateAcyclic);
             _workingIdSet = new HashSet<int>();
@@ -96,7 +96,7 @@ namespace SharpNeat.Neat.Genome
             Dictionary<int,int> nodeIdxById = BuildNodeIndexById(hiddenNodeIdArr);
 
             // Create a DictionaryNodeIdMap.
-            DictionaryNodeIdMap nodeIndexByIdMap = new DictionaryNodeIdMap(inputCount, nodeIdxById);
+            DictionaryNodeIdMap nodeIndexByIdMap = new(inputCount, nodeIdxById);
 
             // Create a digraph from the genome.
             DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(

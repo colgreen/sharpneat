@@ -15,7 +15,7 @@ namespace SharpNeat.Windows.App
     public class Logger
     {
         delegate void LogDelegate(string message);
-        static readonly LogDelegate logDelegate = new LogDelegate(Log);
+        static readonly LogDelegate logDelegate = new(Log);
 
         static ListBox __lbxLog;
         static readonly BindingList<LogItem> __bindingList;

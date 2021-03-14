@@ -12,7 +12,7 @@ namespace SharpNeat.Tasks.Tests.FunctionRegression
         public void CalcGradients()
         {
             const int sampleCount = 100;
-            ParamSamplingInfo psi = new ParamSamplingInfo(0, 2 * Math.PI, sampleCount);
+            ParamSamplingInfo psi = new(0, 2 * Math.PI, sampleCount);
             double[] yArr = new double[sampleCount];
             FuncRegressionUtils.Probe((x) => Math.Sin(x), psi, yArr);
 
