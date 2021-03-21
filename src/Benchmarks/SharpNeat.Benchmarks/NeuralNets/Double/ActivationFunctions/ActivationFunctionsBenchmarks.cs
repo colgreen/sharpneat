@@ -6,7 +6,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Benchmarks
     /// <summary>
     /// Double precision activation function benchmarks.
     /// </summary>
-    public class BenchmarksDouble
+    public class ActivationFunctionsBenchmarks
     {
         #region Static Fields
 
@@ -40,7 +40,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Benchmarks
 
         #region Constructor
 
-        public BenchmarksDouble()
+        public ActivationFunctionsBenchmarks()
         {
             // Create some random Gaussian values as the inputs to the activation functions.
             var gaussian = new ZigguratGaussianSampler(0.0, 2.0, 0);

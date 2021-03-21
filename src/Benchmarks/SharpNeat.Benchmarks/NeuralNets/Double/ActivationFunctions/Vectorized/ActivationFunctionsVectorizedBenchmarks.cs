@@ -6,7 +6,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks
     /// <summary>
     /// Double precision vectorized activation function benchmarks.
     /// </summary>
-    public class BenchmarksVectorizedDouble
+    public class ActivationFunctionsVectorizedBenchmarks
     {
         #region Static Fields
 
