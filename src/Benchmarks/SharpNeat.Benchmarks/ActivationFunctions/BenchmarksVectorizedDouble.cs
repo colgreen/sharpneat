@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Redzen.Numerics.Distributions.Double;
 using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeat.Benchmarks
 {
@@ -9,6 +10,28 @@ namespace SharpNeat.Benchmarks
     /// </summary>
     public class BenchmarksVectorizedDouble
     {
+        #region Static Fields
+
+        //static readonly IActivationFunction<double> __ArcSinH = new ArcSinH();
+        //static readonly IActivationFunction<double> __ArcTan = new ArcTan();
+        static readonly IActivationFunction<double> __LeakyReLU = new LeakyReLU();
+        static readonly IActivationFunction<double> __LeakyReLUShifted = new LeakyReLUShifted();
+        //static readonly IActivationFunction<double> __LogisticApproximantSteep = new LogisticApproximantSteep();
+        //static readonly IActivationFunction<double> __Logistic = new Logistic();
+        //static readonly IActivationFunction<double> __LogisticSteep = new LogisticSteep();
+        static readonly IActivationFunction<double> __MaxMinusOne = new MaxMinusOne();
+//        static readonly IActivationFunction<double> __NullFn = new NullFn();
+        static readonly IActivationFunction<double> __PolynomialApproximantSteep = new PolynomialApproximantSteep();
+        static readonly IActivationFunction<double> __QuadraticSigmoid = new QuadraticSigmoid();
+        static readonly IActivationFunction<double> __ReLU = new ReLU();
+ //      static readonly IActivationFunction<double> __ScaledELU = new ScaledELU();
+        static readonly IActivationFunction<double> __SoftSignSteep = new SoftSignSteep();
+        static readonly IActivationFunction<double> __SReLU = new SReLU();
+        static readonly IActivationFunction<double> __SReLUShifted = new SReLUShifted();
+ //       static readonly IActivationFunction<double> __TanH = new TanH();
+
+        #endregion
+
         #region Instance Fields
 
         const int __loops = 1000;
@@ -34,87 +57,87 @@ namespace SharpNeat.Benchmarks
 
         //[Benchmark]
         //public void ArcSinH() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.ArcSinH);
+        //    RunBenchmark(__ArcSinH);
         //}
 
         //[Benchmark]
         //public void ArcTan() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.ArcTan);
+        //    RunBenchmark(__ArcTan);
         //}
 
         [Benchmark]
         public void LeakyReLU() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.LeakyReLU);
+            RunBenchmark(__LeakyReLU);
         }
 
         [Benchmark]
         public void LeakyReLUShifted() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.LeakyReLUShifted);
+            RunBenchmark(__LeakyReLUShifted);
         }
 
         //[Benchmark]
         //public void LogisticApproximantSteep() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.LogisticApproximantSteep);
+        //    RunBenchmark(__LogisticApproximantSteep);
         //}
 
         //[Benchmark]
         //public void Logistic() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.Logistic);
+        //    RunBenchmark(__Logistic);
         //}
 
         //[Benchmark]
         //public void LogisticSteep() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.LogisticSteep);
+        //    RunBenchmark(__LogisticSteep);
         //}
 
         [Benchmark]
         public void MaxMinusOne() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.MaxMinusOne);
+            RunBenchmark(__MaxMinusOne);
         }
 
         //[Benchmark]
         //public void NullFn() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.NullFn);
+        //    RunBenchmark(__NullFn);
         //}
 
         [Benchmark]
         public void PolynomialApproximantSteep() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.PolynomialApproximantSteep);
+            RunBenchmark(__PolynomialApproximantSteep);
         }
 
         [Benchmark]
         public void QuadraticSigmoid() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.QuadraticSigmoid);
+            RunBenchmark(__QuadraticSigmoid);
         }
 
         [Benchmark]
         public void ReLU() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.ReLU);
+            RunBenchmark(__ReLU);
         }
 
         //[Benchmark]
         //public void ScaledELU() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.ScaledELU);
+        //    RunBenchmark(__ScaledELU);
         //}
 
         [Benchmark]
         public void SoftSignSteep() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.SoftSignSteep);
+            RunBenchmark(__SoftSignSteep);
         }
 
         [Benchmark]
         public void SReLU() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.SReLU);
+            RunBenchmark(__SReLU);
         }
 
         [Benchmark]
         public void SReLUShifted() {
-            RunBenchmark(ActivationFunctionsVectorizedDouble.SReLUShifted);
+            RunBenchmark(__SReLUShifted);
         }
 
         //[Benchmark]
         //public void TanH() {
-        //    RunBenchmark(ActivationFunctionsVectorizedDouble.TanH);
+        //    RunBenchmark(__TanH);
         //}
 
         #endregion
