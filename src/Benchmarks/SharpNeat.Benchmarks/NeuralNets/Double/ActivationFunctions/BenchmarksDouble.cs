@@ -1,34 +1,32 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Redzen.Numerics.Distributions.Double;
-using SharpNeat.NeuralNets;
-using SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
-namespace SharpNeat.Benchmarks
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Benchmarks
 {
     /// <summary>
-    /// Double precision vectorized activation function benchmarks.
+    /// Double precision activation function benchmarks.
     /// </summary>
-    public class BenchmarksVectorizedDouble
+    public class BenchmarksDouble
     {
         #region Static Fields
 
-        //static readonly IActivationFunction<double> __ArcSinH = new ArcSinH();
-        //static readonly IActivationFunction<double> __ArcTan = new ArcTan();
+        static readonly IActivationFunction<double> __ArcSinH = new ArcSinH();
+        static readonly IActivationFunction<double> __ArcTan = new ArcTan();
         static readonly IActivationFunction<double> __LeakyReLU = new LeakyReLU();
         static readonly IActivationFunction<double> __LeakyReLUShifted = new LeakyReLUShifted();
-        //static readonly IActivationFunction<double> __LogisticApproximantSteep = new LogisticApproximantSteep();
-        //static readonly IActivationFunction<double> __Logistic = new Logistic();
-        //static readonly IActivationFunction<double> __LogisticSteep = new LogisticSteep();
+        static readonly IActivationFunction<double> __LogisticApproximantSteep = new LogisticApproximantSteep();
+        static readonly IActivationFunction<double> __Logistic = new Logistic();
+        static readonly IActivationFunction<double> __LogisticSteep = new LogisticSteep();
         static readonly IActivationFunction<double> __MaxMinusOne = new MaxMinusOne();
-//        static readonly IActivationFunction<double> __NullFn = new NullFn();
+        static readonly IActivationFunction<double> __NullFn = new NullFn();
         static readonly IActivationFunction<double> __PolynomialApproximantSteep = new PolynomialApproximantSteep();
         static readonly IActivationFunction<double> __QuadraticSigmoid = new QuadraticSigmoid();
         static readonly IActivationFunction<double> __ReLU = new ReLU();
- //      static readonly IActivationFunction<double> __ScaledELU = new ScaledELU();
+        static readonly IActivationFunction<double> __ScaledELU = new ScaledELU();
         static readonly IActivationFunction<double> __SoftSignSteep = new SoftSignSteep();
         static readonly IActivationFunction<double> __SReLU = new SReLU();
         static readonly IActivationFunction<double> __SReLUShifted = new SReLUShifted();
- //       static readonly IActivationFunction<double> __TanH = new TanH();
+        static readonly IActivationFunction<double> __TanH = new TanH();
 
         #endregion
 
@@ -42,7 +40,7 @@ namespace SharpNeat.Benchmarks
 
         #region Constructor
 
-        public BenchmarksVectorizedDouble()
+        public BenchmarksDouble()
         {
             // Create some random Gaussian values as the inputs to the activation functions.
             var gaussian = new ZigguratGaussianSampler(0.0, 2.0, 0);
@@ -55,15 +53,15 @@ namespace SharpNeat.Benchmarks
 
         #region Public Methods
 
-        //[Benchmark]
-        //public void ArcSinH() {
-        //    RunBenchmark(__ArcSinH);
-        //}
+        [Benchmark]
+        public void ArcSinH() {
+            RunBenchmark(__ArcSinH);
+        }
 
-        //[Benchmark]
-        //public void ArcTan() {
-        //    RunBenchmark(__ArcTan);
-        //}
+        [Benchmark]
+        public void ArcTan() {
+            RunBenchmark(__ArcTan);
+        }
 
         [Benchmark]
         public void LeakyReLU() {
@@ -75,30 +73,30 @@ namespace SharpNeat.Benchmarks
             RunBenchmark(__LeakyReLUShifted);
         }
 
-        //[Benchmark]
-        //public void LogisticApproximantSteep() {
-        //    RunBenchmark(__LogisticApproximantSteep);
-        //}
+        [Benchmark]
+        public void LogisticApproximantSteep() {
+            RunBenchmark(__LogisticApproximantSteep);
+        }
 
-        //[Benchmark]
-        //public void Logistic() {
-        //    RunBenchmark(__Logistic);
-        //}
+        [Benchmark]
+        public void Logistic() {
+            RunBenchmark(__Logistic);
+        }
 
-        //[Benchmark]
-        //public void LogisticSteep() {
-        //    RunBenchmark(__LogisticSteep);
-        //}
+        [Benchmark]
+        public void LogisticSteep() {
+            RunBenchmark(__LogisticSteep);
+        }
 
         [Benchmark]
         public void MaxMinusOne() {
             RunBenchmark(__MaxMinusOne);
         }
 
-        //[Benchmark]
-        //public void NullFn() {
-        //    RunBenchmark(__NullFn);
-        //}
+        [Benchmark]
+        public void NullFn() {
+            RunBenchmark(__NullFn);
+        }
 
         [Benchmark]
         public void PolynomialApproximantSteep() {
@@ -115,10 +113,10 @@ namespace SharpNeat.Benchmarks
             RunBenchmark(__ReLU);
         }
 
-        //[Benchmark]
-        //public void ScaledELU() {
-        //    RunBenchmark(__ScaledELU);
-        //}
+        [Benchmark]
+        public void ScaledELU() {
+            RunBenchmark(__ScaledELU);
+        }
 
         [Benchmark]
         public void SoftSignSteep() {
@@ -135,10 +133,10 @@ namespace SharpNeat.Benchmarks
             RunBenchmark(__SReLUShifted);
         }
 
-        //[Benchmark]
-        //public void TanH() {
-        //    RunBenchmark(__TanH);
-        //}
+        [Benchmark]
+        public void TanH() {
+            RunBenchmark(__TanH);
+        }
 
         #endregion
 
