@@ -18,4 +18,16 @@
     <ProjectReference Include="..\..\SharpNeat\SharpNeat.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="data\genomes\binary11-b.genome">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\genomes\binary11.genome">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\genomes\preycapture.genome">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
