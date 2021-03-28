@@ -11,6 +11,8 @@
  */
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs.Acyclic;
 
@@ -127,68 +129,87 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
-            // TODO: This code needs to be properly spanified; it's still making heavy use of array indexers.
+            ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
+            ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
+            ReadOnlySpan<double> weights = _weightArr.AsSpan();
+            Span<double> activations = _activationArr.AsSpan();
+            Span<double> connInputs = _conInputArr.AsSpan();
 
+            ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
+            ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
+            ref double weightsRef = ref MemoryMarshal.GetReference(weights);
+            ref double activationsRef = ref MemoryMarshal.GetReference(activations);
+            ref double connInputsRef = ref MemoryMarshal.GetReference(connInputs);
 
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
             // they need to be remain unchanged until they have been read by the caller of Activate().
-            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);
-
-            // TODO: ENHANCEMENT: Some of the array/span offset logic here can be sped up by declaring sub-spans.
-            // Init vector related variables.
-            int width = Vector<double>.Count;
-            // TODO: ENHANCEMENT: Consider if it would be faster to stackalloc conInputArr.
-            double[] conInputArr = _conInputArr;
+            activations.Slice(_inputCount).Clear();
 
             // Process all layers in turn.
             int conIdx = 0;
             int nodeIdx = _inputCount;
 
             // Loop through network layers.
-            for(int layerIdx=1; layerIdx < _layerInfoArr.Length; layerIdx++)
+            for(int layerIdx=0; layerIdx < _layerInfoArr.Length - 1; layerIdx++)
             {
-                LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
+                LayerInfo layerInfo = _layerInfoArr[layerIdx];
 
                 // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx <= layerInfo.EndConnectionIdx - width; conIdx += width)
+                for(; conIdx <= layerInfo.EndConnectionIdx - Vector<double>.Count; conIdx += Vector<double>.Count)
                 {
                     // Load source node output values into a vector.
-                    for(int k=0; k < width; k++) {
-                        conInputArr[k] = _activationArr[_srcIdArr[conIdx + k]];
+                    ref int srcIdsRefSeg = ref Unsafe.Add(ref srcIdsRef, conIdx);
+
+                    for(int i = 0; i < Vector<double>.Count; i++)
+                    {
+                        Unsafe.Add(ref connInputsRef, i) =
+                            Unsafe.Add(
+                                ref activationsRef,
+                                Unsafe.Add(ref srcIdsRefSeg, i));
                     }
-                    var conInputVec = new Vector<double>(conInputArr);
+
+                    // Note. This obscure pattern is taken from the Vector<T> constructor source code.
+                    var conVec = Unsafe.ReadUnaligned<Vector<double>>(
+                        ref Unsafe.As<double, byte>(ref connInputsRef));
 
                     // Load connection weights into a vector.
-                    var weightVec = new Vector<double>(_weightArr, conIdx);
+                    var weightVec = Unsafe.ReadUnaligned<Vector<double>>(
+                        ref Unsafe.As<double, byte>(
+                            ref Unsafe.Add(
+                                ref weightsRef, conIdx)));
 
                     // Multiply connection source inputs and connection weights.
-                    var conOutputVec = conInputVec * weightVec;
+                    conVec *= weightVec;
 
                     // Save/accumulate connection output values onto the connection target nodes.
-                    for(int k=0; k < width; k++) {
-                        _activationArr[_tgtIdArr[conIdx + k]] += conOutputVec[k];
+                    ref int tgtIdsRefSeg = ref Unsafe.Add(ref tgtIdsRef, conIdx);
+
+                    for(int i=0; i < Vector<double>.Count; i++)
+                    {
+                        Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRefSeg, i)) += conVec[i];
                     }
                 }
 
                 // Loop remaining connections
                 for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
                 {
-                    _activationArr[_tgtIdArr[conIdx]] =
+                    // Get the connection source signal, multiply it by the connection weight, add the result
+                    // to the target node's current pre-activation level, and store the result.
+                    Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)) =
                         Math.FusedMultiplyAdd(
-                            _activationArr[_srcIdArr[conIdx]],
-                            _weightArr[conIdx],
-                            _activationArr[_tgtIdArr[conIdx]]);
+                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
+                            Unsafe.Add(ref weightsRef, conIdx),
+                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)));
                 }
 
                 // Activate current layer's nodes.
                 //
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
-                layerInfo = _layerInfoArr[layerIdx];
-                _activationFn(
-                    _activationArr.AsSpan(nodeIdx..layerInfo.EndNodeIdx));
+                layerInfo = _layerInfoArr[layerIdx + 1];
+                _activationFn(activations[nodeIdx..layerInfo.EndNodeIdx]);
 
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;

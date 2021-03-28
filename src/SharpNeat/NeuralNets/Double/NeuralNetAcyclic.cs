@@ -172,7 +172,7 @@ namespace SharpNeat.NeuralNets.Double
                 LayerInfo layerInfo = _layerInfoArr[layerIdx];
 
                 // Push signals through the current layer's connections to the target nodes (that are all in 'downstream' layers).
-                for (; conIdx < layerInfo.EndConnectionIdx; conIdx++)
+                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
                 {
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
@@ -202,7 +202,6 @@ namespace SharpNeat.NeuralNets.Double
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx + 1];
-
                 _activationFn(activations[nodeIdx..layerInfo.EndNodeIdx]);
 
                 // Update nodeIdx to point at first node in the next layer.
