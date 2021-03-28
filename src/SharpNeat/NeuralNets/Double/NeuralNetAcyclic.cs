@@ -151,6 +151,11 @@ namespace SharpNeat.NeuralNets.Double
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
             Span<double> activations = _activationArr.AsSpan();
 
+            ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
+            ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
+            ref double weightsRef = ref MemoryMarshal.GetReference(weights);
+            ref double activationsRef = ref MemoryMarshal.GetReference(activations);
+
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
@@ -171,11 +176,11 @@ namespace SharpNeat.NeuralNets.Double
                 {
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
-                    activations[Unsafe.Add(ref MemoryMarshal.GetReference(tgtIds), conIdx)] =
+                    Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)) =
                         Math.FusedMultiplyAdd(
-                            Unsafe.Add(ref MemoryMarshal.GetReference(activations), Unsafe.Add(ref MemoryMarshal.GetReference(srcIds), conIdx)),
-                            Unsafe.Add(ref MemoryMarshal.GetReference(weights), conIdx),
-                            Unsafe.Add(ref MemoryMarshal.GetReference(activations), Unsafe.Add(ref MemoryMarshal.GetReference(tgtIds), conIdx)));
+                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
+                            Unsafe.Add(ref weightsRef, conIdx),
+                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)));
 
                     // The above code is functionally equivalent to the commented out block below, with the
                     // benefit that it avoids bounds checks on the span indexers. The JITter should probably do
