@@ -10,6 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs.Acyclic;
 
@@ -144,41 +146,59 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         public void Activate()
         {
-            // TODO: This code needs to be properly spanified; it's still making heavy use of array indexers.
-
+            ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
+            ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
+            ReadOnlySpan<double> weights = _weightArr.AsSpan();
+            Span<double> activations = _activationArr.AsSpan();
 
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
             // they need to be remain unchanged until they have been read by the caller of Activate().
-            Array.Clear(_activationArr, _inputCount, _activationArr.Length - _inputCount);
+            activations.Slice(_inputCount).Clear();
 
             // Process all layers in turn.
             int conIdx = 0;
             int nodeIdx = _inputCount;
 
             // Loop through network layers.
-            for(int layerIdx=1; layerIdx < _layerInfoArr.Length; layerIdx++)
+            for(int layerIdx=0; layerIdx < _layerInfoArr.Length - 1; layerIdx++)
             {
-                LayerInfo layerInfo = _layerInfoArr[layerIdx-1];
+                LayerInfo layerInfo = _layerInfoArr[layerIdx];
 
-                // Push signals through the previous layer's connections to the current layer's nodes.
-                for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
+                // Push signals through the current layer's connections to the target nodes (that are all in 'downstream' layers).
+                for (; conIdx < layerInfo.EndConnectionIdx; conIdx++)
                 {
-                    _activationArr[_tgtIdArr[conIdx]] =
+                    // Get the connection source signal, multiply it by the connection weight, add the result
+                    // to the target node's current pre-activation level, and store the result.
+                    activations[Unsafe.Add(ref MemoryMarshal.GetReference(tgtIds), conIdx)] =
                         Math.FusedMultiplyAdd(
-                            _activationArr[_srcIdArr[conIdx]],
-                            _weightArr[conIdx],
-                            _activationArr[_tgtIdArr[conIdx]]);
+                            Unsafe.Add(ref MemoryMarshal.GetReference(activations), Unsafe.Add(ref MemoryMarshal.GetReference(srcIds), conIdx)),
+                            Unsafe.Add(ref MemoryMarshal.GetReference(weights), conIdx),
+                            Unsafe.Add(ref MemoryMarshal.GetReference(activations), Unsafe.Add(ref MemoryMarshal.GetReference(tgtIds), conIdx)));
+
+                    // The above code is functionally equivalent to the commented out block below, with the
+                    // benefit that it avoids bounds checks on the span indexers. The JITter should probably do
+                    // this automatically, but at time of writing there appear to be scenarios where it fails
+                    // to do so.
+                    //
+                    // Math.FusedMultiplyAdd(
+                    //    _activationArr[_srcIdArr[conIdx]],
+                    //    _weightArr[conIdx],
+                    //    _activationArr[_tgtIdArr[conIdx]]);
                 }
 
-                // Activate current layer's nodes.
+                // Activate the next layer's nodes. This is possible because we know that all connections that
+                // target these nodes have been processed, either durign processing on the current layer's
+                // connections, or earlire layers. This means that the final output value/signal (i.e post
+                // actication function output) is available for all connections and nodes in the lower/downstream
+                // layers.
                 //
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
-                layerInfo = _layerInfoArr[layerIdx];
-                _activationFn(
-                    _activationArr.AsSpan(nodeIdx..layerInfo.EndNodeIdx));
+                layerInfo = _layerInfoArr[layerIdx + 1];
+
+                _activationFn(activations[nodeIdx..layerInfo.EndNodeIdx]);
 
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;
