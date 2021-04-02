@@ -10,39 +10,19 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.NeuralNets.Double
 {
-    // TODO: Revise/update this summary comment...
     /// <summary>
-    /// A neural network implementation for acyclic networks.
+    /// This class is functionally equivalent to <see cref="NeuralNetAcyclic"/>, but uses safe C# and is therefore
+    /// much slower.
     ///
-    /// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by
-    /// propagating a signal 'wave' from the input nodes through each layer to the output nodes, thus each node
-    /// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and
-    /// (b) have a scheme that defines when to stop activating the network.
-    ///
-    /// Algorithm Overview.
-    /// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple
-    /// paths to a node exist the longest path determines the node's depth.
-    ///
-    /// 2) Connections are similarly assigned a depth value which is defined as the depth of a connection's source node.
-    ///
-    /// Note. Steps 1 and 2 are actually performed by AcyclicNetworkFactory.
-    ///
-    /// 3) Reset all node activation values to zero. This resets any state from a previous activation.
-    ///
-    /// 4) Each layer of the network can now be activated in turn to propagate the signals on the input nodes through the network.
-    /// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0),
-    /// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest
-    /// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now
-    /// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
+    /// This class is intended to be used as a safe reference implementation that can be used when testing or
+    /// debugging <see cref="NeuralNetAcyclic"/>.
     /// </summary>
-    public sealed class NeuralNetAcyclic : IBlackBox<double>
+    public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -73,7 +53,7 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         /// <param name="digraph">Network structure definition.</param>
         /// <param name="activationFn">Node activation function.</param>
-        public NeuralNetAcyclic(
+        public NeuralNetAcyclicSafe(
             WeightedDirectedGraphAcyclic<double> digraph,
             VecFn<double> activationFn)
             : this(digraph, digraph.WeightArray, activationFn)
@@ -85,7 +65,7 @@ namespace SharpNeat.NeuralNets.Double
         /// <param name="digraph">Network structure definition.</param>
         /// <param name="weightArr">Connection weights array.</param>
         /// <param name="activationFn">Node activation function.</param>
-        public NeuralNetAcyclic(
+        public NeuralNetAcyclicSafe(
             DirectedGraphAcyclic digraph,
             double[] weightArr,
             VecFn<double> activationFn)
@@ -151,11 +131,6 @@ namespace SharpNeat.NeuralNets.Double
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
             Span<double> activations = _activationArr.AsSpan();
 
-            ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
-            ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
-            ref double weightsRef = ref MemoryMarshal.GetReference(weights);
-            ref double activationsRef = ref MemoryMarshal.GetReference(activations);
-
             // Reset hidden and output node activation levels, ready for next activation.
             // Note. this reset is performed here instead of after the below loop because this resets the output
             // node values, which are the outputs of the network as a whole following activation; hence
@@ -167,7 +142,7 @@ namespace SharpNeat.NeuralNets.Double
             int nodeIdx = _inputCount;
 
             // Loop through network layers.
-            for(int layerIdx=0; layerIdx < _layerInfoArr.Length - 1; layerIdx++)
+            for(int layerIdx = 0; layerIdx < _layerInfoArr.Length - 1; layerIdx++)
             {
                 LayerInfo layerInfo = _layerInfoArr[layerIdx];
 
@@ -176,11 +151,11 @@ namespace SharpNeat.NeuralNets.Double
                 {
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
-                    Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)) =
+                    _activationArr[_tgtIdArr[conIdx]] =
                         Math.FusedMultiplyAdd(
-                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
-                            Unsafe.Add(ref weightsRef, conIdx),
-                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)));
+                            _activationArr[_srcIdArr[conIdx]],
+                            _weightArr[conIdx],
+                            _activationArr[_tgtIdArr[conIdx]]);
                 }
 
                 // Activate the next layer's nodes. This is possible because we know that all connections that
