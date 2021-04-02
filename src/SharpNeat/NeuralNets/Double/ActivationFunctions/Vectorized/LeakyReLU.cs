@@ -11,6 +11,8 @@
  */
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
@@ -54,35 +56,51 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         /// <param name="w">A span in which the post-activation levels are stored.</param>
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
-            // Init constants.
+            // Init constant vector.
             var avec = new Vector<double>(0.001);
-            int width = Vector<double>.Count;
 
-            int i=0;
-            for(; i <= v.Length - width; i += width)
+            // Get refs on the spans.
+            ref double vref = ref MemoryMarshal.GetReference(v);
+            ref double wref = ref MemoryMarshal.GetReference(w);
+
+            // Calc span bounds.
+            ref double vrefBound = ref Unsafe.Add(ref vref, v.Length);
+            ref double vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<double>.Count - 1);
+
+            // Loop SIMD vector sized segments.
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBoundVec);
+                vref = ref Unsafe.Add(ref vref, Vector<double>.Count),
+                wref = ref Unsafe.Add(ref wref, Vector<double>.Count))
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v[i..]);
+                // The odd code pattern is taken from the Vector<T> constructor's source code.
+                var vec = Unsafe.ReadUnaligned<Vector<double>>(
+                    ref Unsafe.As<double,byte>(ref vref));
 
                 // Apply max(val, 0) to each element in the vector.
-                var maxResult = Vector.Max(vec, Vector<double>.Zero);
+                var maxVec = Vector.Max(vec, Vector<double>.Zero);
 
                 // Apply min(val, 0) to each element in the vector.
-                var minResult = Vector.Min(vec, Vector<double>.Zero);
+                var minVec = Vector.Min(vec, Vector<double>.Zero);
 
                 // Multiply by scaling factor 'a'.
-                minResult *= avec;
+                minVec *= avec;
 
                 // Add minResult and maxResult.
-                minResult += maxResult;
+                minVec += maxVec;
 
-                // Copy the final result back into arr.
-                minResult.CopyTo(w[i..]);
+                // Store the result in the post-activations span.
+                Unsafe.WriteUnaligned(
+                    ref Unsafe.As<double,byte>(ref wref),
+                    minVec);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < v.Length; i++) {
-                w[i] = Fn(v[i]);
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
+                vref = ref Unsafe.Add(ref vref, 1),
+                wref = ref Unsafe.Add(ref wref, 1))
+            {
+                wref = Fn(vref);
             }
         }
     }

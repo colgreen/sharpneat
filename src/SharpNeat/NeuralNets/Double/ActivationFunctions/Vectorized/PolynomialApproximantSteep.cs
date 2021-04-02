@@ -11,6 +11,8 @@
  */
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
@@ -67,17 +69,28 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         /// <param name="w">A span in which the post-activation levels are stored.</param>
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
-            // Constants.
-            Vector<double> vec_4_9 = new(4.9);
-            Vector<double> vec_0_555 = new(0.555);
-            Vector<double> vec_0_143 = new(0.143);
-            int width = Vector<double>.Count;
+            // Init constant vectors.
+            var vec_4_9 = new Vector<double>(4.9);
+            var vec_0_555 = new Vector<double>(0.555);
+            var vec_0_143 = new Vector<double>(0.143);
 
-            int i=0;
-            for(; i <= v.Length - width; i += width)
+            // Get refs on the spans.
+            ref double vref = ref MemoryMarshal.GetReference(v);
+            ref double wref = ref MemoryMarshal.GetReference(w);
+
+            // Calc span bounds.
+            ref double vrefBound = ref Unsafe.Add(ref vref, v.Length);
+            ref double vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<double>.Count - 1);
+
+            // Loop SIMD vector sized segments.
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBoundVec);
+                vref = ref Unsafe.Add(ref vref, Vector<double>.Count),
+                wref = ref Unsafe.Add(ref wref, Vector<double>.Count))
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v[i..]);
+                // The odd code pattern is taken from the Vector<T> constructor's source code.
+                var vec = Unsafe.ReadUnaligned<Vector<double>>(
+                    ref Unsafe.As<double, byte>(ref vref));
 
                 vec *= vec_4_9;
                 var vec_x2 = vec * vec;
@@ -87,13 +100,18 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 var vec_f = Vector.ConditionalSelect(vec_f_select, vec_e_recip, vec_e);
                 var vec_result = Vector<double>.One / (Vector<double>.One + vec_f);
 
-                // Copy the result back into arr.
-                vec_result.CopyTo(w[i..]);
+                // Store the result in the post-activations span.
+                Unsafe.WriteUnaligned(
+                    ref Unsafe.As<double, byte>(ref wref),
+                    vec_result);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < v.Length; i++) {
-                w[i] = Fn(v[i]);
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
+                vref = ref Unsafe.Add(ref vref, 1),
+                wref = ref Unsafe.Add(ref wref, 1))
+            {
+                wref = Fn(vref);
             }
         }
     }

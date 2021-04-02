@@ -11,6 +11,8 @@
  */
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
@@ -74,20 +76,31 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             var vec_t = new Vector<double>(0.999);
             var vec_a = new Vector<double>(0.00001);
             var vec_half = new Vector<double>(0.5);
-            int width = Vector<double>.Count;
 
-            int i=0;
-            for(; i <= v.Length - width; i += width)
+            // Get refs on the spans.
+            ref double vref = ref MemoryMarshal.GetReference(v);
+            ref double wref = ref MemoryMarshal.GetReference(w);
+
+            // Calc span bounds.
+            ref double vrefBound = ref Unsafe.Add(ref vref, v.Length);
+            ref double vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<double>.Count - 1);
+
+            // Loop SIMD vector sized segments.
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBoundVec);
+                vref = ref Unsafe.Add(ref vref, Vector<double>.Count),
+                wref = ref Unsafe.Add(ref wref, Vector<double>.Count))
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v[i..]);
+                // The odd code pattern is taken from the Vector<T> constructor's source code.
+                var vec = Unsafe.ReadUnaligned<Vector<double>>(
+                    ref Unsafe.As<double, byte>(ref vref));
 
                 // Determine the absolute value of each element.
                 var vec_abs = Vector.Abs(vec);
 
                 // Determine the sign of each element (true indicates a non-negative value).
                 var vec_sign_flag = Vector.Equals(vec, vec_abs);
-                var vec_sign = Vector.ConditionalSelect(vec_sign_flag, Vector<double>.One, new Vector<double>(-1));
+                var vec_sign = Vector.ConditionalSelect(vec_sign_flag, Vector<double>.One, new Vector<double>(-1.0));
 
                 // Handle abs values in the interval [0,t)
                 var vec_x_minus_t = vec_abs - vec_t;
@@ -103,13 +116,18 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 // Apply final calc stage.
                 vec_y = (vec_y * vec_sign * vec_half) + vec_half;
 
-                // Copy the final result back into v.
-                vec_y.CopyTo(w[i..]);
+                // Store the result in the post-activations span.
+                Unsafe.WriteUnaligned(
+                    ref Unsafe.As<double, byte>(ref wref),
+                    vec_y);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < v.Length; i++) {
-                w[i] = Fn(v[i]);
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
+                vref = ref Unsafe.Add(ref vref, 1),
+                wref = ref Unsafe.Add(ref wref, 1))
+            {
+                wref = Fn(vref);
             }
         }
     }

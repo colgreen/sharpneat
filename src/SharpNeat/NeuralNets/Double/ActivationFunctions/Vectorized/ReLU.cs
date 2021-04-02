@@ -11,6 +11,8 @@
  */
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 {
@@ -46,24 +48,39 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         /// <param name="w">A span in which the post-activation levels are stored.</param>
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
-            int width = Vector<double>.Count;
+            // Get refs on the spans.
+            ref double vref = ref MemoryMarshal.GetReference(v);
+            ref double wref = ref MemoryMarshal.GetReference(w);
 
-            int i=0;
-            for(; i <= v.Length - width; i += width)
+            // Calc span bounds.
+            ref double vrefBound = ref Unsafe.Add(ref vref, v.Length);
+            ref double vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<double>.Count - 1);
+
+            // Loop SIMD vector sized segments.
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBoundVec);
+                vref = ref Unsafe.Add(ref vref, Vector<double>.Count),
+                wref = ref Unsafe.Add(ref wref, Vector<double>.Count))
             {
                 // Load values into a vector.
-                var vec = new Vector<double>(v[i..]);
+                // The odd code pattern is taken from the Vector<T> constructor's source code.
+                var vec = Unsafe.ReadUnaligned<Vector<double>>(
+                    ref Unsafe.As<double, byte>(ref vref));
 
                 // Apply max(val, 0) to each element in the vector.
-                var vecResult = Vector.Max(vec, Vector<double>.Zero);
+                vec = Vector.Max(vec, Vector<double>.Zero);
 
-                // Copy the result back into arr.
-                vecResult.CopyTo(w[i..]);
+                // Store the result in the post-activations span.
+                Unsafe.WriteUnaligned(
+                    ref Unsafe.As<double, byte>(ref wref),
+                    vec);
             }
 
             // Handle vectors with lengths not an exact multiple of vector width.
-            for(; i < v.Length; i++) {
-                w[i] = Fn(v[i]);
+            for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
+                vref = ref Unsafe.Add(ref vref, 1),
+                wref = ref Unsafe.Add(ref wref, 1))
+            {
+                wref = Fn(vref);
             }
         }
     }
