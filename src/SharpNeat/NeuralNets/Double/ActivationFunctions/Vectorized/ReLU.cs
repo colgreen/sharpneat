@@ -76,7 +76,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         /// <summary>
         /// The activation function; unsafe memory span implementation.
         /// </summary>
-        /// <param name="vref">>A reference to the head of a span containing pre-activation levels to pass through the function.
+        /// <param name="vref">A reference to the head of a span containing pre-activation levels to pass through the function.
         /// The resulting post-activation levels are written back to this same span.</param>
         /// <param name="len">The length of the span, i.e., the number elements in the span.</param>
         public void Fn(ref double vref, int len)
@@ -114,8 +114,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         /// <summary>
         /// The activation function; unsafe memory span implementation with a separate input and output spans.
         /// </summary>
-        /// <param name="vref">>A reference to the head of a span containing pre-activation levels to pass through the function.</param>
-        /// <param name="wref">>A reference to the head of a span in which the post-activation levels are stored.</param>
+        /// <param name="vref">A reference to the head of a span containing pre-activation levels to pass through the function.</param>
+        /// <param name="wref">A reference to the head of a span in which the post-activation levels are stored.</param>
         /// <param name="len">The length of the spans, i.e., the number elements in the spans.</param>
         public void Fn(ref double vref, ref double wref, int len)
         {
