@@ -37,38 +37,51 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
             double[] v = GetRandomArray(1001, rng);
 
             // Init empty target arrays.
-            double[] v_scalar = new double[v.Length];
+            double[] v_scalar1 = new double[v.Length];
+            double[] v_scalar2 = new double[v.Length];
             double[] v_vector = new double[v.Length];
             double[] v_zero = new double[v.Length];
 
-            // Apply the scalar overload (single input) of the activation function.
-            ApplyFunc(actFn.Fn, v, v_scalar);
+            // Apply the scalar overload of the activation function (single parameter overload).
+            v.CopyTo(v_scalar1, 0);
+            ApplyFunc(actFn, v_scalar1);
+
+            // Apply the scalar overload of the activation function (two parameter overload).
+            ApplyFunc(actFn, v, v_scalar2);
+            Assert.Equal(v_scalar1, v_scalar2);
 
             // Apply vector based overloads.
             // Overload 1.
-            Array.Copy(v, v_vector, v.Length);
+            v.CopyTo(v_vector, 0);
             actFn.Fn(v_vector);
-            Assert.Equal(v_scalar, v_vector);
+            Assert.Equal(v_scalar1, v_vector);
 
             // Overload 2.
-            Array.Copy(v, v_vector, v.Length);
+            v.CopyTo(v_vector, 0);
             actFn.Fn(v_vector.AsSpan(10..20));
             ConponentwiseEqual(v, v_vector, 0, 10);
-            ConponentwiseEqual(v_scalar, v_vector, 10, 20);
+            ConponentwiseEqual(v_scalar1, v_vector, 10, 20);
             ConponentwiseEqual(v, v_vector, 20, v.Length);
 
             // Overload 3.
             Array.Clear(v_vector, 0, v_vector.Length);
             actFn.Fn(v[10..20], v_vector.AsSpan(10..20));
             ConponentwiseEqual(v_zero, v_vector, 0, 10);
-            ConponentwiseEqual(v_scalar, v_vector, 10, 20);
+            ConponentwiseEqual(v_scalar1, v_vector, 10, 20);
             ConponentwiseEqual(v_zero, v_vector, 20, v.Length);
         }
 
-        private static void ApplyFunc(Func<double,double> fn, double[] v, double[] w)
+        private static void ApplyFunc(IActivationFunction<double> actFn, double[] x)
+        {
+            for(int i=0; i < x.Length; i++) {
+                actFn.Fn(ref x[i]);
+            }
+        }
+
+        private static void ApplyFunc(IActivationFunction<double> actFn, double[] v, double[] w)
         {
             for(int i=0; i < v.Length; i++) {
-                w[i] = fn(v[i]);
+                actFn.Fn(ref v[i], ref w[i]);
             }
         }
 

@@ -42,6 +42,9 @@ dotnet_diagnostic.SA1106.severity = none
 # SA1108: Block statements should not contain embedded comments
 dotnet_diagnostic.SA1108.severity = none
 
+# SA1116: Split parameters should start on line after declaration
+dotnet_diagnostic.SA1116.severity = none
+
 # SA1117: Parameters should be on same line or separate lines
 dotnet_diagnostic.SA1117.severity = none
 

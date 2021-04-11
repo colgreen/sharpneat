@@ -179,6 +179,8 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
+            double x;
+
             // Activate and test.
             net.InputVector[0] = 0.0;
             net.Activate();
@@ -187,18 +189,22 @@ namespace SharpNeat.NeuralNets.Double.Tests
             // Activate and test.
             net.InputVector[0] = 1.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(1), net.OutputVector[0]);
+            x=1.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 10.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(10.0), net.OutputVector[0]);
+            x=10.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
         }
 
         private static void TwoInputs_WeightHalf_Inner(
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
+            double x;
+
             // Activate and test.
             net.InputVector[0] = 0.0;
             net.InputVector[1] = 0.0;
@@ -209,45 +215,57 @@ namespace SharpNeat.NeuralNets.Double.Tests
             net.InputVector[0] = 1.0;
             net.InputVector[1] = 2.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(1.5), net.OutputVector[0]);
+            x = 1.5; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 10.0;
             net.InputVector[1] = 20.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(15.0), net.OutputVector[0]);
+            x = 15.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
         }
 
         private static void HiddenNode_Inner(
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
+            double x;
+
             // Activate and test.
             net.InputVector[0] = 0.0;
             net.InputVector[1] = 0.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(1.0), net.OutputVector[0]);
+            x = 1.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
 
             // Activate and test.
             net.InputVector[0] = 0.5;
             net.InputVector[1] = 0.25;
             net.Activate();
-            Assert.Equal(actFn.Fn(actFn.Fn(0.375) * 2.0), net.OutputVector[0]);
+            x = 0.375; actFn.Fn(ref x); 
+            x *= 2; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
         }
 
         private static void Complex_WeightOne_Inner(
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
+            double x;
+
             // Activate and test.
             net.InputVector[0] = 0.5;
             net.InputVector[1] = 0.25;
             net.Activate();
 
-            double output1 = actFn.Fn(actFn.Fn(0.25));
+            x = 0.25; actFn.Fn(ref x); actFn.Fn(ref x);
+            double output1 = x;;
             Assert.Equal(output1, net.OutputVector[1]);
 
-            double output0 = actFn.Fn(actFn.Fn(output1 + 0.5 + 0.25) * 0.9);
+            x = output1 + 0.5 + 0.25; actFn.Fn(ref x);
+            x *= 0.9; actFn.Fn(ref x);
+            double output0 = x;
             Assert.Equal(output0, net.OutputVector[0]);
         }
 
@@ -255,14 +273,22 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
+            double x;
+
             // Activate and test.
             net.InputVector[0] = 1.0;
             net.InputVector[1] = 2.0;
             net.InputVector[2] = 3.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(2.0), net.OutputVector[0]);
-            Assert.Equal(actFn.Fn(3.0), net.OutputVector[1]);
-            Assert.Equal(actFn.Fn(1.0), net.OutputVector[2]);
+
+            x = 2.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
+
+            x = 3.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[1]);
+
+            x = 1.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[2]);
         }
 
         #endregion

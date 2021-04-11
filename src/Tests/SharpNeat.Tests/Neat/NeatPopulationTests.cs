@@ -77,8 +77,15 @@ namespace SharpNeat.Neat.Tests
             Assert.Equal(2, genome.MetaNeatGenome.OutputNodeCount);
             Assert.True(genome.MetaNeatGenome.IsAcyclic);
             Assert.Equal(5.0, genome.MetaNeatGenome.ConnectionWeightScale);
-            Assert.Equal(0.1, genome.MetaNeatGenome.ActivationFn.Fn(0.1));
-            Assert.Equal(0.0, genome.MetaNeatGenome.ActivationFn.Fn(-0.1));
+
+            double x=0.1;
+            genome.MetaNeatGenome.ActivationFn.Fn(ref x);
+            Assert.Equal(0.1, x);
+
+            x = -0.1;
+            genome.MetaNeatGenome.ActivationFn.Fn(ref x);
+            Assert.Equal(0.0, x);
+
             Assert.Equal(6, genome.ConnectionGenes.Length);
             Assert.True(SortUtils.IsSortedAscending<DirectedConnection>(genome.ConnectionGenes._connArr));
         }

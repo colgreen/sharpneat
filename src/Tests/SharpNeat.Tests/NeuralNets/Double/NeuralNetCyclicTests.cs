@@ -175,19 +175,23 @@ namespace SharpNeat.NeuralNets.Double.Tests
             }
 
             // Activate and test.
+            double x;
+            x = 1.0; actFn.Fn(ref x);
             net.InputVector[0] = 1.0;
             for(int i=0; i < 10; i++)
             {
                 net.Activate();
-                Assert.Equal(actFn.Fn(1), net.OutputVector[0]);
+                
+                Assert.Equal(x, net.OutputVector[0]);
             }
 
             // Activate and test.
+            x = 10.0; actFn.Fn(ref x);
             net.InputVector[0] = 10.0;
             for(int i=0; i < 10; i++)
             {
                 net.Activate();
-                Assert.Equal(actFn.Fn(10), net.OutputVector[0]);
+                Assert.Equal(x, net.OutputVector[0]);
             }
         }
 
@@ -203,7 +207,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             for(int i=0; i < 10; i++)
             {
                 net.Activate();
-                double outputExpected = actFn.Fn(inputVal);
+                double outputExpected = inputVal; actFn.Fn(ref outputExpected);
                 Assert.Equal(outputExpected, net.OutputVector[0]);
                 inputVal = input + outputExpected;
             }
@@ -225,8 +229,8 @@ namespace SharpNeat.NeuralNets.Double.Tests
                 preArr[1] = postArr[0] * -2.0 + postArr[2];
                 preArr[2] = postArr[0] + postArr[1];
 
-                postArr[1] = actFn.Fn(preArr[1]);
-                postArr[2] = actFn.Fn(preArr[2]);
+                actFn.Fn(ref preArr[1], ref postArr[1]);
+                actFn.Fn(ref preArr[2], ref postArr[2]);
 
                 net.Activate();
 
@@ -249,8 +253,8 @@ namespace SharpNeat.NeuralNets.Double.Tests
                 preArr[1] = postArr[0] * -2.0 + postArr[2];
                 preArr[2] = postArr[0] + postArr[1];
 
-                postArr[1] = actFn.Fn(preArr[1]);
-                postArr[2] = actFn.Fn(preArr[2]);
+                actFn.Fn(ref preArr[1], ref postArr[1]);
+                actFn.Fn(ref preArr[2], ref postArr[2]);
 
                 net.Activate();
 
@@ -262,14 +266,22 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
+            double x;
+
             // Activate and test.
             net.InputVector[0] = 1.0;
             net.InputVector[1] = 2.0;
             net.InputVector[2] = 3.0;
             net.Activate();
-            Assert.Equal(actFn.Fn(2.0), net.OutputVector[0]);
-            Assert.Equal(actFn.Fn(3.0), net.OutputVector[1]);
-            Assert.Equal(actFn.Fn(1.0), net.OutputVector[2]);
+
+            x = 2.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[0]);
+
+            x = 3.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[1]);
+
+            x = 1.0; actFn.Fn(ref x);
+            Assert.Equal(x, net.OutputVector[2]);
         }
 
         #endregion
