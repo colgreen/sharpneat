@@ -175,7 +175,10 @@ namespace SharpNeat.NeuralNets.Double
 
                 // Pass the pre-activation levels through the activation function, storing the results in the
                 // post-activation span/array.
-                _activationFn(preActivationSpan, postActivationSpan);
+                _activationFn(
+                    ref preActivationSpan[0],
+                    ref postActivationSpan[0],
+                    preActivationSpan.Length);
 
                 // TODO: ENHANCEMENT: Consider using Span.Clear().
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
