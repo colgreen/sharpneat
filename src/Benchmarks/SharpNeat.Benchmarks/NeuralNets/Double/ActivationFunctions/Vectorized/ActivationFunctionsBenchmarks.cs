@@ -33,8 +33,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks
         #region Instance Fields
 
         const int __loops = 1000;
-        readonly double[] _x = new double[1000];
-        readonly double[] _w = new double[1000];
+        readonly double[] _x = new double[1003];
+        readonly double[] _w = new double[1003];
 
         #endregion
 
