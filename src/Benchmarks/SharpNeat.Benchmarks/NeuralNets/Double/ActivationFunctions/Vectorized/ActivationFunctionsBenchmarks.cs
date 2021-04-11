@@ -1,4 +1,6 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using System.Runtime.InteropServices;
+using BenchmarkDotNet.Attributes;
 using Redzen.Numerics.Distributions.Double;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks
@@ -144,10 +146,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks
 
         private void RunBenchmark(IActivationFunction<double> actFn)
         {
-            VecFn2<double> fn = actFn.Fn;
+            ref double xref = ref MemoryMarshal.GetReference(_x.AsSpan());
+            ref double wref = ref MemoryMarshal.GetReference(_w.AsSpan());
+            int len = _x.Length;
 
             for(int i=0; i < __loops; i++) {
-                fn(_x, _w);
+                actFn.Fn(ref xref, ref wref, len);
             }
         }
 
