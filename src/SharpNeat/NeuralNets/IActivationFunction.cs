@@ -15,21 +15,23 @@ using System;
 namespace SharpNeat.NeuralNets
 {
     /// <summary>
-    /// Vectorized activation function.
+    /// The activation function
     /// </summary>
-    /// <param name="v">A span of pre-activation levels to pass through the function.
+    /// <param name="vref">>A reference to the head of a span containing pre-activation levels to pass through the function.
     /// The resulting post-activation levels are written back to this same span.</param>
-    /// <typeparam name="T">Vector element numeric data type.</typeparam>
-    public delegate void VecFn<T>(Span<T> v)
+    /// <param name="len">The length of the span, i.e., the number elements in the span.</param>
+    /// <typeparam name="T">Activation function numeric data type.</typeparam>
+    public delegate void VecFn<T>(ref T vref, int len)
         where T : struct;
 
     /// <summary>
-    /// Vectorized activation function.
+    /// The activation function; unsafe memory span implementation with a separate input and output spans.
     /// </summary>
-    /// <param name="v">A span of pre-activation levels to pass through the function.</param>
-    /// <param name="w">A span in which the post-activation levels are stored.</param>
-    /// <typeparam name="T">Vector element numeric data type.</typeparam>
-    public delegate void VecFn2<T>(ReadOnlySpan<T> v, Span<T> w)
+    /// <param name="vref">A reference to the head of a span containing pre-activation levels to pass through the function.</param>
+    /// <param name="wref">A reference to the head of a span in which the post-activation levels are stored.</param>
+    /// <param name="len">The length of the spans, i.e., the number elements in the spans.</param>
+    /// <typeparam name="T">Activation function numeric data type.</typeparam>
+    public delegate void VecFn2<T>(ref T vref, ref T wref, int len)
         where T : struct;
 
     /// <summary>
@@ -72,7 +74,7 @@ namespace SharpNeat.NeuralNets
         /// <summary>
         /// The activation function; unsafe memory span implementation.
         /// </summary>
-        /// <param name="vref">>A reference to the head of a span containing pre-activation levels to pass through the function.
+        /// <param name="vref">A reference to the head of a span containing pre-activation levels to pass through the function.
         /// The resulting post-activation levels are written back to this same span.</param>
         /// <param name="len">The length of the span, i.e., the number elements in the span.</param>
         void Fn(ref T vref, int len);
@@ -80,8 +82,8 @@ namespace SharpNeat.NeuralNets
         /// <summary>
         /// The activation function; unsafe memory span implementation with a separate input and output spans.
         /// </summary>
-        /// <param name="vref">>A reference to the head of a span containing pre-activation levels to pass through the function.</param>
-        /// <param name="wref">>A reference to the head of a span in which the post-activation levels are stored.</param>
+        /// <param name="vref">A reference to the head of a span containing pre-activation levels to pass through the function.</param>
+        /// <param name="wref">A reference to the head of a span in which the post-activation levels are stored.</param>
         /// <param name="len">The length of the spans, i.e., the number elements in the spans.</param>
         void Fn(ref T vref, ref T wref, int len);
     }

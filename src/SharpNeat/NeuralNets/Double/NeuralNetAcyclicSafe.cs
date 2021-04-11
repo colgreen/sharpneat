@@ -159,15 +159,17 @@ namespace SharpNeat.NeuralNets.Double
                 }
 
                 // Activate the next layer's nodes. This is possible because we know that all connections that
-                // target these nodes have been processed, either durign processing on the current layer's
+                // target these nodes have been processed, either during processing on the current layer's
                 // connections, or earlier layers. This means that the final output value/signal (i.e post
-                // actication function output) is available for all connections and nodes in the lower/downstream
+                // activation function output) is available for all connections and nodes in the lower/downstream
                 // layers.
                 //
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx + 1];
-                _activationFn(activations[nodeIdx..layerInfo.EndNodeIdx]);
+                _activationFn(
+                    ref activations[nodeIdx],
+                    layerInfo.EndNodeIdx - nodeIdx);
 
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;

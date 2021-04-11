@@ -209,7 +209,9 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 // Pass the pre-activation levels through the activation function.
                 // Note. The resulting post-activation levels are stored in _activationArr.
                 layerInfo = _layerInfoArr[layerIdx + 1];
-                _activationFn(activations[nodeIdx..layerInfo.EndNodeIdx]);
+                _activationFn(
+                    ref Unsafe.Add(ref activationsRef, nodeIdx),
+                    layerInfo.EndNodeIdx - nodeIdx);
 
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;
