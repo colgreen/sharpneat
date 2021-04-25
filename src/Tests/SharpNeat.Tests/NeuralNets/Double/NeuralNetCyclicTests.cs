@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Redzen.Collections;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;

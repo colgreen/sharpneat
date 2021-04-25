@@ -11,34 +11,19 @@
  */
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.NeuralNets.Double
 {
     /// <summary>
-    /// A neural network class that represents a network with recurrent (cyclic) connections.
+    /// This class is functionally equivalent to <see cref="NeuralNetCyclic"/>, but doesn't use any of the unsafe
+    /// memory pointer techniques used in that class, and therefore this class is much slower.
     ///
-    /// Algorithm Overview.
-    /// 1) Loop connections.
-    /// Each connection gets its input signal from its source node, multiplies the signal by its weight, and adds
-    /// the result to its target node's pre-activation variable. Connections are ordered by source node index,
-    /// thus all memory reads are sequential, but the memory writes to node pre-activation variables are
-    /// non-sequential.
-    ///
-    /// 2) Loop nodes.
-    /// Pass each node's pre-activation signal through the activation function, storing the result in a separate
-    /// post-activation signals array.
-    ///
-    /// 3) Completion.
-    /// Copy the post-activation signals into the pre-activations signals array.
-    ///
-    /// The activation loop is run a fixed number of times/cycles to allow signals to gradually propagate through
-    /// the network, one timestep/cycle/loop at a time.
+    /// This class is intended to be used as a safe reference implementation that can be used when testing or
+    /// debugging <see cref="NeuralNetCyclic"/>.
     /// </summary>
-    public sealed class NeuralNetCyclic : IBlackBox<double>
+    public sealed class NeuralNetCyclicSafe : IBlackBox<double>
     {
         #region Instance Fields
 
@@ -69,7 +54,7 @@ namespace SharpNeat.NeuralNets.Double
         /// <param name="digraph">The weighted directed graph that defines the neural network structure and connection weights.</param>
         /// <param name="activationFn">The neuron activation function to use at all neurons in the network.</param>
         /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
-        public NeuralNetCyclic (
+        public NeuralNetCyclicSafe(
             WeightedDirectedGraph<double> digraph,
             VecFn2<double> activationFn,
             int cyclesPerActivation)
@@ -87,7 +72,7 @@ namespace SharpNeat.NeuralNets.Double
         /// <param name="weightArr">An array of neural network connection weights.</param>
         /// <param name="activationFn">The neuron activation function to use at all neurons in the network.</param>
         /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
-        public NeuralNetCyclic(
+        public NeuralNetCyclicSafe(
             DirectedGraph digraph,
             double[] weightArr,
             VecFn2<double> activationFn,
@@ -163,33 +148,25 @@ namespace SharpNeat.NeuralNets.Double
             Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount, nonInputCount);
             Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount, nonInputCount);
 
-            ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
-            ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
-            ref double weightsRef = ref MemoryMarshal.GetReference(weights);
-            ref double preActivationsRef = ref MemoryMarshal.GetReference(preActivations);
-            ref double postActivationsRef = ref MemoryMarshal.GetReference(postActivations);
-            ref double preActivationsNonInputsRef = ref MemoryMarshal.GetReference(preActivationsNonInputs);
-            ref double postActivationsNonInputsRef = ref MemoryMarshal.GetReference(postActivationsNonInputs);
-
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _cyclesPerActivation; i++)
             {
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to
                 // the pre-activation signal of the target neuron.
-                for(int j=0; j < _srcIdArr.Length; j++)
+                for(int j=0; j < srcIds.Length; j++)
                 {
-                    Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, j)) =
+                    preActivations[tgtIds[j]] =
                         Math.FusedMultiplyAdd(
-                            Unsafe.Add(ref postActivationsRef, Unsafe.Add(ref srcIdsRef, j)),
-                            Unsafe.Add(ref weightsRef, j),
-                            Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, j)));
+                            postActivations[srcIds[j]],
+                            weights[j],
+                            preActivations[tgtIds[j]]);
                 }
 
                 // Pass the pre-activation levels through the activation function, storing the results in the
                 // post-activation span/array.
                 _activationFn(
-                    ref preActivationsNonInputsRef,
-                    ref postActivationsNonInputsRef,
+                    ref preActivationsNonInputs[0],
+                    ref postActivationsNonInputs[0],
                     nonInputCount);
 
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.

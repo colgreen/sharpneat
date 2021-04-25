@@ -12,6 +12,8 @@
 using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 
@@ -137,20 +139,28 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
-            // TODO: This code needs to be properly spanified; it's still making heavy use of array indexers.
 
+            ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
+            ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
+            ReadOnlySpan<double> weights = _weightArr.AsSpan();
+            Span<double> preActivations = _preActivationArr.AsSpan();
+            Span<double> postActivations = _postActivationArr.AsSpan();
 
-            // TODO: ENHANCEMENT: Consider defining Memory<T> over the required ranges, as class fields.
-            // Note. Skip over input neurons as these have no incoming connections and therefore have fixed
-            // post-activation values and are never activated.
-            var activationRange = new Range(_inputCount, _preActivationArr.Length);
-            var preActivationSpan = _preActivationArr.AsSpan(activationRange);
-            var postActivationSpan = _postActivationArr.AsSpan(activationRange);
+            // Note. Here we skip over the activations corresponding to the input neurons, as these have no
+            // incoming connections, and therefore have fixed post-activation values and are never activated.
+            int nonInputCount = _preActivationArr.Length - _inputCount;
+            Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount, nonInputCount);
+            Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount, nonInputCount);
+            Span<double> connInputs = _conInputArr.AsSpan();
 
-            // Init vector related variables.
-            int width = Vector<double>.Count;
-            // TODO: ENHANCEMENT: Consider if it would be faster to stackalloc conInputArr.
-            double[] conInputArr = _conInputArr;
+            ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
+            ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
+            ref double weightsRef = ref MemoryMarshal.GetReference(weights);
+            ref double preActivationsRef = ref MemoryMarshal.GetReference(preActivations);
+            ref double postActivationsRef = ref MemoryMarshal.GetReference(postActivations);
+            ref double preActivationsNonInputsRef = ref MemoryMarshal.GetReference(preActivationsNonInputs);
+            ref double postActivationsNonInputsRef = ref MemoryMarshal.GetReference(postActivationsNonInputs);
+            ref double connInputsRef = ref MemoryMarshal.GetReference(connInputs);
 
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _cyclesPerActivation; i++)
@@ -158,44 +168,62 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to
                 // the pre-activation signal of the target neuron.
                 int conIdx=0;
-                for(; conIdx <= _srcIdArr.Length - width; conIdx += width)
+                for(; conIdx <= _srcIdArr.Length - Vector<double>.Count; conIdx += Vector<double>.Count)
                 {
                     // Load source node output values into a vector.
-                    for(int k=0; k < width; k++) {
-                        conInputArr[k] = _postActivationArr[_srcIdArr[conIdx + k]];
+                    ref int srcIdsRefSeg = ref Unsafe.Add(ref srcIdsRef, conIdx);
+
+                    for(int k = 0; k < Vector<double>.Count; k++)
+                    {
+                        Unsafe.Add(ref connInputsRef, k) =
+                            Unsafe.Add(
+                                ref postActivationsRef,
+                                Unsafe.Add(ref srcIdsRefSeg, k));
                     }
-                    var conInputVec = new Vector<double>(conInputArr);
+
+                    // Note. This obscure pattern is taken from the Vector<T> constructor source code.
+                    var conVec = Unsafe.ReadUnaligned<Vector<double>>(
+                        ref Unsafe.As<double, byte>(ref connInputsRef));
 
                     // Load connection weights into a vector.
                     var weightVec = new Vector<double>(_weightArr, conIdx);
+                    // TODO: This ought to be faster, but is slower at time of writing (benchmarking on dotnet 6 preview 3).
+                    // var weightVec = Unsafe.ReadUnaligned<Vector<double>>(
+                    //    ref Unsafe.As<double, byte>(
+                    //        ref Unsafe.Add(
+                    //            ref weightsRef, conIdx)));
 
                     // Multiply connection source inputs and connection weights.
-                    var conOutputVec = conInputVec * weightVec;
+                    conVec *= weightVec;
 
                     // Save/accumulate connection output values onto the connection target nodes.
-                    for(int k=0; k < width; k++) {
-                        _preActivationArr[_tgtIdArr[conIdx + k]] += conOutputVec[k];
+                    ref int tgtIdsRefSeg = ref Unsafe.Add(ref tgtIdsRef, conIdx);
+
+                    for(int k = 0; k < Vector<double>.Count; k++)
+                    {
+                        Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRefSeg, k)) += conVec[k];
                     }
                 }
 
                 // Loop remaining connections
                 for(; conIdx < _srcIdArr.Length; conIdx++)
                 {
-                    _preActivationArr[_tgtIdArr[conIdx]] =
-                        Math.FusedMultiplyAdd(
-                            _postActivationArr[_srcIdArr[conIdx]],
-                            _weightArr[conIdx],
-                            _preActivationArr[_tgtIdArr[conIdx]]);
+                    // Get a reference to the target activation level 'slot' in the activations span.
+                    ref double tgtSlot = ref Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
+
+                    tgtSlot = Math.FusedMultiplyAdd(
+                                Unsafe.Add(ref postActivationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
+                                Unsafe.Add(ref weightsRef, conIdx),
+                                tgtSlot);
                 }
 
                 // Pass the pre-activation levels through the activation function, storing the results in the
                 // post-activation span/array.
                 _activationFn(
-                    ref preActivationSpan[0],
-                    ref postActivationSpan[0],
-                    preActivationSpan.Length);
+                    ref preActivationsNonInputsRef,
+                    ref postActivationsNonInputsRef,
+                    nonInputCount);
 
-                // TODO: ENHANCEMENT: Consider using Span.Clear().
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
                 Array.Clear(
                     _preActivationArr,
@@ -211,16 +239,9 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         {
             // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.
-            // Note. Connection signal state is not reset as this gets overwritten on each iteration.
-            Array.Clear(
-                _preActivationArr,
-                _inputCount,
-                _preActivationArr.Length - _inputCount);
-
-            Array.Clear(
-                _postActivationArr,
-                _inputCount,
-                _postActivationArr.Length - _inputCount);
+            int nonInputCount = _preActivationArr.Length - _inputCount;
+            Array.Clear(_preActivationArr, _inputCount, nonInputCount);
+            Array.Clear(_postActivationArr, _inputCount, nonInputCount);
         }
 
         #endregion
