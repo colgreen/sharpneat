@@ -16,8 +16,8 @@ using SharpNeat.Graphs.Acyclic;
 namespace SharpNeat.NeuralNets.Double
 {
     /// <summary>
-    /// This class is functionally equivalent to <see cref="NeuralNetAcyclic"/>, but uses safe C# and is therefore
-    /// much slower.
+    /// This class is functionally equivalent to <see cref="NeuralNetAcyclic"/>, but doesn't use any of the unsafe
+    /// memory pointer techniques used in that class, and therefore this class is much slower.
     ///
     /// This class is intended to be used as a safe reference implementation that can be used when testing or
     /// debugging <see cref="NeuralNetAcyclic"/>.

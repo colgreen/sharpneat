@@ -3,7 +3,7 @@ using Redzen.Random;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double.Vectorized;
 using SharpNeat.Neat.Genome.IO;
-using SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
+using SharpNeat.NeuralNets.Double.ActivationFunctions;
 
 namespace SharpNeat.NeuralNets.Double.Vectorized.Benchmarks
 {
