@@ -195,13 +195,15 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 // Loop remaining connections
                 for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
                 {
+                    // Get a reference to the target activation level 'slot' in the activations span.
+                    ref double tgtSlot = ref Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
+
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
-                    Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)) =
-                        Math.FusedMultiplyAdd(
-                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
-                            Unsafe.Add(ref weightsRef, conIdx),
-                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)));
+                    tgtSlot = Math.FusedMultiplyAdd(
+                                Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
+                                Unsafe.Add(ref weightsRef, conIdx),
+                                tgtSlot);
                 }
 
                 // Activate current layer's nodes.

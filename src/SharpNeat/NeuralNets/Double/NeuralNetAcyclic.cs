@@ -174,13 +174,15 @@ namespace SharpNeat.NeuralNets.Double
                 // Push signals through the current layer's connections to the target nodes (that are all in 'downstream' layers).
                 for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
                 {
+                    // Get a reference to the target activation level 'slot' in the activations span.
+                    ref double tgtSlot = ref Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
+
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
-                    Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)) =
-                        Math.FusedMultiplyAdd(
-                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
-                            Unsafe.Add(ref weightsRef, conIdx),
-                            Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx)));
+                    tgtSlot = Math.FusedMultiplyAdd(
+                                Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
+                                Unsafe.Add(ref weightsRef, conIdx),
+                                tgtSlot);
                 }
 
                 // Activate the next layer's nodes. This is possible because we know that all connections that
