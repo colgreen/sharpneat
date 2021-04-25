@@ -151,11 +151,11 @@ namespace SharpNeat.NeuralNets.Double
                 {
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
-                    _activationArr[_tgtIdArr[conIdx]] =
+                    activations[tgtIds[conIdx]] =
                         Math.FusedMultiplyAdd(
-                            _activationArr[_srcIdArr[conIdx]],
-                            _weightArr[conIdx],
-                            _activationArr[_tgtIdArr[conIdx]]);
+                            activations[srcIds[conIdx]],
+                            weights[conIdx],
+                            activations[tgtIds[conIdx]]);
                 }
 
                 // Activate the next layer's nodes. This is possible because we know that all connections that
