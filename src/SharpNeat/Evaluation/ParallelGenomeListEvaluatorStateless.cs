@@ -30,7 +30,7 @@ namespace SharpNeat.Evaluation
     /// </remarks>
     public class ParallelGenomeListEvaluatorStateless<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
         where TGenome : IGenome
-        where TPhenome : class
+        where TPhenome : class, IDisposable
     {
         #region Instance Fields
 
@@ -104,7 +104,7 @@ namespace SharpNeat.Evaluation
                 _parallelOptions,
                 (genome) =>
                 {
-                    TPhenome phenome = _genomeDecoder.Decode(genome);
+                    using TPhenome phenome = _genomeDecoder.Decode(genome);
                     if(phenome is null)
                     {   // Non-viable genome.
                         genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;

@@ -9,6 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
+
 namespace SharpNeat.BlackBox
 {
     /// <summary>
@@ -21,7 +23,8 @@ namespace SharpNeat.BlackBox
     /// system such as a C# program or a genetic programming tree.
     /// </summary>
     /// <typeparam name="T">Black box numeric data type.</typeparam>
-    public interface IBlackBox<T> where T : struct
+    public interface IBlackBox<T> : IDisposable
+        where T : struct
     {
         /// <summary>
         /// Gets the number of inputs.

@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Collections.Generic;
 using SharpNeat.EvolutionAlgorithm;
 
@@ -27,7 +28,7 @@ namespace SharpNeat.Evaluation
     /// </remarks>
     public class SerialGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
         where TGenome : IGenome
-        where TPhenome : class
+        where TPhenome : IDisposable
     {
         #region Instance Fields
 
@@ -88,7 +89,7 @@ namespace SharpNeat.Evaluation
             foreach(TGenome genome in genomeList)
             {
                 // TODO: Implement phenome caching (to avoid decode cost when re-evaluating with a non-deterministic evaluation scheme).
-                TPhenome phenome = _genomeDecoder.Decode(genome);
+                using TPhenome phenome = _genomeDecoder.Decode(genome);
                 if(phenome is null)
                 {   // Non-viable genome.
                     genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;

@@ -30,7 +30,7 @@ namespace SharpNeat.Evaluation
     /// </remarks>
     public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
         where TGenome : IGenome
-        where TPhenome : class
+        where TPhenome : class, IDisposable
     {
         #region Instance Fields
 
@@ -121,7 +121,7 @@ namespace SharpNeat.Evaluation
                 () => _evaluatorPool.GetEvaluator(),    // Get a phenome evaluator from the pool to use for the current partition.
                 (genome, loopState, evaluator) =>       // Evaluate a single genome.
                 {
-                    TPhenome phenome = _genomeDecoder.Decode(genome);
+                    using TPhenome phenome = _genomeDecoder.Decode(genome);
                     if(phenome is null)
                     {   // Non-viable genome.
                         genome.FitnessInfo = _phenomeEvaluationScheme.NullFitness;

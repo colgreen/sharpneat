@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 
 namespace SharpNeat.Evaluation
 {
@@ -18,7 +19,7 @@ namespace SharpNeat.Evaluation
     /// <typeparam name="TGenome">The genome type to be decoded.</typeparam>
     /// <typeparam name="TPhenome">The phenome type that is decoded to.</typeparam>
     public interface IGenomeDecoder<TGenome,TPhenome>
-        where TPhenome : class
+        where TPhenome : IDisposable
     {
         /// <summary>
         /// Decodes a genome into a phenome.

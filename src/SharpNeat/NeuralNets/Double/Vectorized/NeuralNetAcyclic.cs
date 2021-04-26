@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Buffers;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -43,9 +44,11 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         // Convenient counts.
         readonly int _inputCount;
         readonly int _outputCount;
+        readonly int _totalNodeCount;
 
         // Connection inputs array.
         readonly double[] _conInputArr = new double[Vector<double>.Count];
+        volatile bool _isDisposed;
 
         #endregion
 
@@ -85,9 +88,10 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             // Store input/output node counts.
             _inputCount = digraph.InputCount;
             _outputCount = digraph.OutputCount;
+            _totalNodeCount = digraph.TotalNodeCount;
 
-            // Create working array for node activation signals.
-            _activationArr = new double[digraph.TotalNodeCount];
+            // Get a working array for node activation signals.
+            _activationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
             this.InputVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
@@ -132,7 +136,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
             ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
-            Span<double> activations = _activationArr.AsSpan();
+            Span<double> activations = _activationArr.AsSpan(0, _totalNodeCount);
             Span<double> connInputs = _conInputArr.AsSpan();
 
             ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
@@ -226,6 +230,22 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         public void ResetState()
         {
             // Unnecessary for this implementation. The node activation signal state is completely overwritten on each activation.
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        /// <summary>
+        /// Releases both managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if(!_isDisposed)
+            {
+                _isDisposed = true;
+                ArrayPool<double>.Shared.Return(_activationArr);
+            }
         }
 
         #endregion

@@ -33,7 +33,7 @@ namespace SharpNeat.Evaluation
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
             int degreeOfParallelism)
             where TGenome : IGenome
-            where TPhenome : class
+            where TPhenome : class, IDisposable
         {
             // Reject nonsensical values for degreeOfParallelism.
             if(degreeOfParallelism < 1) throw new ArgumentException(nameof(degreeOfParallelism));

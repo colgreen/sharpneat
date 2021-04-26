@@ -40,5 +40,15 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
         }
 
         #endregion
+
+        #region IDisposable
+
+        /// <summary>
+        /// Releases both managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {}
+
+        #endregion
     }
 }

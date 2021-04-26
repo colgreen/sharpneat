@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Buffers;
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -42,10 +43,12 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         // Convenient counts.
         readonly int _inputCount;
         readonly int _outputCount;
+        readonly int _totalNodeCount;
         readonly int _cyclesPerActivation;
 
         // Connection inputs array.
         readonly double[] _conInputArr = new double[Vector<double>.Count];
+        volatile bool _isDisposed;
 
         #endregion
 
@@ -95,11 +98,11 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             // Store input/output node counts.
             _inputCount = digraph.InputCount;
             _outputCount = digraph.OutputCount;
+            _totalNodeCount = digraph.TotalNodeCount;
 
-            // Create node pre- and post-activation signal arrays.
-            int nodeCount = digraph.TotalNodeCount;
-            _preActivationArr = new double[nodeCount];
-            _postActivationArr = new double[nodeCount];
+            // Get a working arrays for pre and post node activation signals.
+            _preActivationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
+            _postActivationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
 
             // Wrap sub-ranges of the neuron signal arrays as input and output vectors.
             this.InputVector = new VectorSegment<double>(_postActivationArr, 0, _inputCount);
@@ -143,12 +146,12 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
             ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
-            Span<double> preActivations = _preActivationArr.AsSpan();
-            Span<double> postActivations = _postActivationArr.AsSpan();
+            Span<double> preActivations = _preActivationArr.AsSpan(0, _totalNodeCount);
+            Span<double> postActivations = _postActivationArr.AsSpan(0, _totalNodeCount);
 
             // Note. Here we skip over the activations corresponding to the input neurons, as these have no
             // incoming connections, and therefore have fixed post-activation values and are never activated.
-            int nonInputCount = _preActivationArr.Length - _inputCount;
+            int nonInputCount = _totalNodeCount - _inputCount;
             Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount, nonInputCount);
             Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount, nonInputCount);
             Span<double> connInputs = _conInputArr.AsSpan();
@@ -228,7 +231,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 Array.Clear(
                     _preActivationArr,
                     _inputCount,
-                    _preActivationArr.Length - _inputCount);
+                    nonInputCount);
             }
         }
 
@@ -239,9 +242,26 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         {
             // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.
-            int nonInputCount = _preActivationArr.Length - _inputCount;
+            int nonInputCount = _totalNodeCount - _inputCount;
             Array.Clear(_preActivationArr, _inputCount, nonInputCount);
             Array.Clear(_postActivationArr, _inputCount, nonInputCount);
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        /// <summary>
+        /// Releases both managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if(!_isDisposed)
+            {
+                _isDisposed = true;
+                ArrayPool<double>.Shared.Return(_preActivationArr);
+                ArrayPool<double>.Shared.Return(_postActivationArr);
+            }
         }
 
         #endregion
