@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Buffers;
 using System.Diagnostics;
 using Redzen;
 using Redzen.Sorting;
@@ -167,55 +168,65 @@ namespace SharpNeat.Graphs.Acyclic
             ref int[]? timsortWorkVArr)
         {
             // Create an array of all node IDs in the digraph.
-            int[] nodeIdArr = new int[nodeCount];
-            for(int i=0; i < nodeCount; i++) {
-                nodeIdArr[i] = i;
-            }
+            int[] nodeIdArr = ArrayPool<int>.Shared.Rent(nodeCount);
 
-            // Sort nodeIdArr based on the depth of the nodes.
-            // Notes.
-            // We skip the input nodes because these all have depth zero and therefore remain at fixed
-            // positions.
-            //
-            // The remaining nodes (output and hidden nodes) are sorted by depth, noting that typically
-            // there will be multiple nodes at a given depth. Here we apply the TimSort algorithm; this
-            // has very good performance when there are pre-sorted sub-spans, either in the correct
-            // direction or in reverse, as is typical of much real world data, and is likely the case here
-            // too.
-            //
-            // Timsort also performs a stable sort, as it is based on a mergesort (note. at time of writing
-            // Array.Sort employs introsort, which is not stable), thus avoids unnecessary shuffling of nodes
-            // that are at the same depth. However the use of a stable sort is not a strict requirement here.
-            //
-            // Regarding timsort temporary working data.
-            // Depending on the data being sorted, timsort may use a temp array with up to N/2 elements. Here
-            // we ensure that the maximum possible size is allocated, and we re-use these arrays in future
-            // calls. If instead we pass null or an array that is too short, then timsort will allocate a new
-            // array internally, per sort, so we want to avoid that cost.
-
-            // Allocate new timsort working arrays, if necessary.
-            int timsortWorkArrLength = nodeCount >> 1;
-
-            if(timsortWorkArr is null || timsortWorkArr.Length < timsortWorkArrLength)
+            try
             {
-                timsortWorkArr = new int[timsortWorkArrLength];
-                timsortWorkVArr = new int[timsortWorkArrLength];
+                var nodeIds = nodeIdArr.AsSpan(0, nodeCount);
+
+                for(int i=0; i < nodeCount; i++) {
+                    nodeIds[i] = i;
+                }
+
+                // Sort nodeIdArr based on the depth of the nodes.
+                // Notes.
+                // We skip the input nodes because these all have depth zero and therefore remain at fixed
+                // positions.
+                //
+                // The remaining nodes (output and hidden nodes) are sorted by depth, noting that typically
+                // there will be multiple nodes at a given depth. Here we apply the TimSort algorithm; this
+                // has very good performance when there are pre-sorted sub-spans, either in the correct
+                // direction or in reverse, as is typical of much real world data, and is likely the case here
+                // too.
+                //
+                // Timsort also performs a stable sort, as it is based on a mergesort (note. at time of writing
+                // Array.Sort employs introsort, which is not stable), thus avoids unnecessary shuffling of nodes
+                // that are at the same depth. However the use of a stable sort is not a strict requirement here.
+                //
+                // Regarding timsort temporary working data.
+                // Depending on the data being sorted, timsort may use a temp array with up to N/2 elements. Here
+                // we ensure that the maximum possible size is allocated, and we re-use these arrays in future
+                // calls. If instead we pass null or an array that is too short, then timsort will allocate a new
+                // array internally, per sort, so we want to avoid that cost.
+
+                // Allocate new timsort working arrays, if necessary.
+                int timsortWorkArrLength = nodeCount >> 1;
+
+                if(timsortWorkArr is null || timsortWorkArr.Length < timsortWorkArrLength)
+                {
+                    timsortWorkArr = new int[timsortWorkArrLength];
+                    timsortWorkVArr = new int[timsortWorkArrLength];
+                }
+
+                // Sort the node IDs by depth.
+                TimSort<int,int>.Sort(
+                    depthInfo._nodeDepthArr.AsSpan(inputCount),
+                    nodeIds.Slice(inputCount),
+                    ref timsortWorkArr, ref timsortWorkVArr);
+
+                // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e. we are re-allocating IDs based on node depth.
+                // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
+                int[] newIdByOldId = new int[nodeCount];
+                for(int i=0; i < nodeCount; i++) {
+                    newIdByOldId[nodeIds[i]] = i;
+                }
+
+                return newIdByOldId;
             }
-
-            // Sort the node IDs by depth.
-            TimSort<int,int>.Sort(
-                depthInfo._nodeDepthArr.AsSpan(inputCount),
-                nodeIdArr.AsSpan(inputCount),
-                ref timsortWorkArr, ref timsortWorkVArr);
-
-            // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e. we are re-allocating IDs based on node depth.
-            // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
-            int[] newIdByOldId = new int[nodeCount];
-            for(int i=0; i < nodeCount; i++) {
-                newIdByOldId[nodeIdArr[i]] = i;
+            finally
+            {
+                ArrayPool<int>.Shared.Return(nodeIdArr);
             }
-
-            return newIdByOldId;
         }
 
         private static void MapIds(
