@@ -265,7 +265,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             xa = (g * ((m*sin_theta*cos_theta) + (m2*sin_theta2*cos_theta2))
                 - (7f/3f) * (f +(m*l_hat*thetav_sqr*sin_theta) + (m2*l2_hat*thetav2_sqr*sin_theta2) - mu_c*xv)
                 - (((mu_p*thetav*cos_theta)/l_hat) + ((mu_p*thetav2*cos_theta2)/l2_hat)))
-                / ((m*cos_theta_sqr) + (m2*cos_theta2_sqr) - (7/3)*M);
+                / ((m*cos_theta_sqr) + (m2*cos_theta2_sqr) - (7f/3f)*M);
 
             // Calc pole 1 angular acceleration.
             thetaa1 = (3f/(7f*l_hat)) * (g*sin_theta - xa*cos_theta - ((mu_p * thetav)/(m*l_hat)));
