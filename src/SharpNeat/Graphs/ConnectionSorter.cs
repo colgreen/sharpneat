@@ -21,13 +21,13 @@ namespace SharpNeat.Graphs
     ///    https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/ArraySortHelper.cs
     ///
     /// This version is customised for sorting network connections. I.e. sort order is based on both source and
-    /// target node IDs (which are held in separate arrays), and a separate array of weights is re-ordered to keep
-    /// the weights at the same array index as their respective source and target IDs.
+    /// target node IDs (which are held in separate arrays), and a separate array of values is re-ordered to keep
+    /// the values at the same array index as their respective source and target IDs.
     ///
     /// This functionality could be achieved by using the various sort() methods in the core framework, but less
-    /// efficiently than with this customised class, in terms of both speed, RAM allocations and thus GC overhead.
+    /// efficiently than with this customised class, in terms of both speed, and also RAM allocations (and thus GC overhead).
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="T">Value data type.</typeparam>
     public static class ConnectionSorter<T>
     {
         // This is the threshold at which Introspective sort switches to Insertion sort.
@@ -38,24 +38,23 @@ namespace SharpNeat.Graphs
         #region Public Static Methods
 
         /// <summary>
-        /// Sort the connections represented by <paramref name="connIdArrays"/>, and an accompanying connection
-        /// weights span.
+        /// Sort the connections represented by <paramref name="connIdArrays"/>, and an accompanying values span.
         /// </summary>
         /// <param name="connIdArrays">Represents the endpoint IDs of the connections to sort.</param>
-        /// <param name="weights">The connection weights.</param>
+        /// <param name="vals">A span of values that will have its items reordered in the same way as <paramref name="connIdArrays"/>.</param>
         public static void Sort(
             in ConnectionIdArrays connIdArrays,
-            Span<T> weights)
+            Span<T> vals)
         {
             Debug.Assert(connIdArrays._sourceIdArr is not null);
             Debug.Assert(connIdArrays._targetIdArr is not null);
             Debug.Assert(connIdArrays._sourceIdArr.Length == connIdArrays._targetIdArr.Length);
-            Debug.Assert(connIdArrays._sourceIdArr.Length == weights.Length);
+            Debug.Assert(connIdArrays._sourceIdArr.Length == vals.Length);
 
             IntrospectiveSort(
                 connIdArrays._sourceIdArr.AsSpan(),
                 connIdArrays._targetIdArr.AsSpan(),
-                weights);
+                vals);
         }
 
         #endregion
@@ -65,20 +64,20 @@ namespace SharpNeat.Graphs
         private static void IntrospectiveSort(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights)
+            Span<T> vals)
         {
             if (srcIds.Length < 2)
                 return;
 
             IntroSortInner(
-                srcIds, tgtIds, weights,
+                srcIds, tgtIds, vals,
                 2 * (BitOperations.Log2((uint)srcIds.Length) + 1));
         }
 
         private static void IntroSortInner(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights,
+            Span<T> vals,
             int depthLimit)
         {
             Debug.Assert(!srcIds.IsEmpty);
@@ -91,22 +90,22 @@ namespace SharpNeat.Graphs
                 {
                     if (partitionSize == 2)
                     {
-                        SwapIfGreater(srcIds, tgtIds, weights, 0, 1);
+                        SwapIfGreater(srcIds, tgtIds, vals, 0, 1);
                         return;
                     }
 
                     if (partitionSize == 3)
                     {
-                        SwapIfGreater(srcIds, tgtIds, weights, 0, 1);
-                        SwapIfGreater(srcIds, tgtIds, weights, 0, 2);
-                        SwapIfGreater(srcIds, tgtIds, weights, 1, 2);
+                        SwapIfGreater(srcIds, tgtIds, vals, 0, 1);
+                        SwapIfGreater(srcIds, tgtIds, vals, 0, 2);
+                        SwapIfGreater(srcIds, tgtIds, vals, 1, 2);
                         return;
                     }
 
                     InsertionSort(
                         srcIds.Slice(0, partitionSize),
                         tgtIds.Slice(0, partitionSize),
-                        weights.Slice(0, partitionSize));
+                        vals.Slice(0, partitionSize));
                     return;
                 }
 
@@ -115,7 +114,7 @@ namespace SharpNeat.Graphs
                     Heapsort(
                         srcIds.Slice(0, partitionSize),
                         tgtIds.Slice(0, partitionSize),
-                        weights.Slice(0, partitionSize));
+                        vals.Slice(0, partitionSize));
                     return;
                 }
                 depthLimit--;
@@ -123,13 +122,13 @@ namespace SharpNeat.Graphs
                 int p = PickPivotAndPartition(
                     srcIds.Slice(0, partitionSize),
                     tgtIds.Slice(0, partitionSize),
-                    weights.Slice(0, partitionSize));
+                    vals.Slice(0, partitionSize));
 
                 // Note we've already partitioned around the pivot and do not have to move the pivot again.
                 IntroSortInner(
                     srcIds[(p+1)..partitionSize],
                     tgtIds[(p+1)..partitionSize],
-                    weights[(p+1)..partitionSize],
+                    vals[(p+1)..partitionSize],
                     depthLimit);
 
                 partitionSize = p;
@@ -139,7 +138,7 @@ namespace SharpNeat.Graphs
         private static int PickPivotAndPartition(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights)
+            Span<T> vals)
         {
             Debug.Assert(srcIds.Length >= __introsortSizeThreshold);
 
@@ -147,15 +146,15 @@ namespace SharpNeat.Graphs
             int len = srcIds.Length;
             int last = len - 1;
             int middle = (last) >> 1;
-            SwapIfGreater(srcIds, tgtIds, weights, 0, middle);
-            SwapIfGreater(srcIds, tgtIds, weights, 0, last);
-            SwapIfGreater(srcIds, tgtIds, weights, middle, last);
+            SwapIfGreater(srcIds, tgtIds, vals, 0, middle);
+            SwapIfGreater(srcIds, tgtIds, vals, 0, last);
+            SwapIfGreater(srcIds, tgtIds, vals, middle, last);
 
             // Select the middle value as the pivot, and move it to be just before the last element.
             int nextToLast = len - 2;
             int pivotSrcId = srcIds[middle];
             int pivotTgtId = tgtIds[middle];
-            Swap(srcIds, tgtIds, weights, middle, nextToLast);
+            Swap(srcIds, tgtIds, vals, middle, nextToLast);
 
             // Walk the left and right indexes, swapping elements as necessary, until they cross.
             int left = 0, right = nextToLast;
@@ -168,13 +167,13 @@ namespace SharpNeat.Graphs
                     break;
                 }
 
-                Swap(srcIds, tgtIds, weights, left, right);
+                Swap(srcIds, tgtIds, vals, left, right);
             }
 
             // Put pivot in the right location.
             if(left != nextToLast)
             {
-                Swap(srcIds, tgtIds, weights, left, len - 2);
+                Swap(srcIds, tgtIds, vals, left, len - 2);
             }
 
             return left;
@@ -187,32 +186,32 @@ namespace SharpNeat.Graphs
         private static void Heapsort(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights)
+            Span<T> vals)
         {
             Debug.Assert(!srcIds.IsEmpty);
 
             int n = srcIds.Length;
             for (int i = n >> 1; i >= 1; i--)
             {
-                DownHeap(srcIds, tgtIds, weights, i, n);
+                DownHeap(srcIds, tgtIds, vals, i, n);
             }
 
             for (int i = n; i > 1; i--)
             {
-                Swap(srcIds, tgtIds, weights, 0, i - 1);
-                DownHeap(srcIds, tgtIds, weights, 1, i - 1);
+                Swap(srcIds, tgtIds, vals, 0, i - 1);
+                DownHeap(srcIds, tgtIds, vals, 1, i - 1);
             }
         }
 
         private static void DownHeap(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights,
+            Span<T> vals,
             int i, int n)
         {
             int srcId = srcIds[i - 1];
             int tgtId = tgtIds[i - 1];
-            T weight = weights[i - 1];
+            T val = vals[i - 1];
 
             while (i <= n >> 1)
             {
@@ -228,13 +227,13 @@ namespace SharpNeat.Graphs
 
                 srcIds[i - 1] = srcIds[child - 1];
                 tgtIds[i - 1] = tgtIds[child - 1];
-                weights[i - 1] = weights[child - 1];
+                vals[i - 1] = vals[child - 1];
                 i = child;
             }
 
             srcIds[i - 1] = srcId;
             tgtIds[i - 1] = tgtId;
-            weights[i - 1] = weight;
+            vals[i - 1] = val;
         }
 
         #endregion
@@ -244,26 +243,26 @@ namespace SharpNeat.Graphs
         private static void InsertionSort(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights)
+            Span<T> vals)
         {
             for(int i = 0; i < srcIds.Length - 1; i++)
             {
                 int j = i;
                 int srcId = srcIds[i + 1];
                 int tgtId = tgtIds[i + 1];
-                T weight = weights[i + 1];
+                T val = vals[i + 1];
 
                 while(j >= 0 && Compare(ref srcId,ref tgtId,ref srcIds[j],ref tgtIds[j]) < 0)
                 {
                     srcIds[j + 1] = srcIds[j];
                     tgtIds[j + 1] = tgtIds[j];
-                    weights[j + 1] = weights[j];
+                    vals[j + 1] = vals[j];
                     j--;
                 }
 
                 srcIds[j + 1] = srcId;
                 tgtIds[j + 1] = tgtId;
-                weights[j + 1] = weight;
+                vals[j + 1] = val;
             }
         }
 
@@ -274,7 +273,7 @@ namespace SharpNeat.Graphs
         private static void SwapIfGreater(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights,
+            Span<T> vals,
             int a, int b)
         {
             if (Compare(ref srcIds[a], ref tgtIds[a], ref srcIds[b], ref tgtIds[b]) > 0)
@@ -287,16 +286,16 @@ namespace SharpNeat.Graphs
                 tgtIds[a] = tgtIds[b];
                 tgtIds[b] = id;
 
-                T w = weights[a];
-                weights[a] = weights[b];
-                weights[b] = w;
+                T w = vals[a];
+                vals[a] = vals[b];
+                vals[b] = w;
             }
         }
 
         private static void Swap(
             Span<int> srcIds,
             Span<int> tgtIds,
-            Span<T> weights,
+            Span<T> vals,
             int i, int j)
         {
             Debug.Assert(i != j);
@@ -309,9 +308,9 @@ namespace SharpNeat.Graphs
             tgtIds[i] = tgtIds[j];
             tgtIds[j] = id;
 
-            T w = weights[i];
-            weights[i] = weights[j];
-            weights[j] = w;
+            T w = vals[i];
+            vals[i] = vals[j];
+            vals[j] = w;
         }
 
         private static int Compare(ref int srcIdA, ref int tgtIdA, ref int srcIdB, ref int tgtIdB)
