@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System.Globalization;
 using System.IO;
 using System.Text;
 using SharpNeat.Graphs;
@@ -88,7 +89,7 @@ namespace SharpNeat.Neat.Genome.IO
                 // which will be either double or float. This is slow but this is not performance
                 // critical code.
                 dynamic weight = weightArr[i];
-                string weightStr = weight.ToString("R");
+                string weightStr = weight.ToString("R", CultureInfo.InvariantCulture);
 
                 sw.WriteLine($"{conn.SourceId}\t{conn.TargetId}\t{weightStr}");
             }
