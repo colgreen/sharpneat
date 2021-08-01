@@ -107,16 +107,16 @@ namespace SharpNeat.Neat.Genome
 
             // Connection node ID mappings.
             DirectedConnection[] connArr = connGenes._connArr;
-            int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
-            int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
 
             for(int i=0; i < connGenes._connArr.Length; i++)
             {
                 // Determine the index of the equivalent connection in the digraph.
                 int genomeConnIdx = (connectionIndexMap is null) ? i : connectionIndexMap[i];
 
-                Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].SourceId) == srcIdArr[i]);
-                Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].TargetId) == tgtIdArr[i]);
+                Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].SourceId) == srcIds[i]);
+                Debug.Assert(nodeIndexByIdMap.Map(connArr[genomeConnIdx].TargetId) == tgtIds[i]);
             }
         }
 
@@ -166,8 +166,8 @@ namespace SharpNeat.Neat.Genome
 
             // Connection tests.
             int connIdx = 0;
-            int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
-            int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
 
             // Loop the layer infos.
             for(int layerIdx=0; layerIdx < layerArr.Length; layerIdx++)
@@ -180,8 +180,8 @@ namespace SharpNeat.Neat.Genome
                 // Loop the connections in the current layer.
                 for(; connIdx < layerInfo.EndConnectionIdx; connIdx++)
                 {
-                    int srcId = srcIdArr[connIdx];
-                    int tgtId = tgtIdArr[connIdx];
+                    int srcId = srcIds[connIdx];
+                    int tgtId = tgtIds[connIdx];
 
                     // The connections in the current layer should all have a source node in this layer.
                     Debug.Assert(nodeDepthArr[srcId] == layerIdx);
@@ -231,12 +231,12 @@ namespace SharpNeat.Neat.Genome
                 return true;
             }
 
-            int[] srcIdArr = connIdArrays._sourceIdArr;
-            int[] tgtIdArr = connIdArrays._targetIdArr;
+            ReadOnlySpan<int> srcIds = connIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = connIdArrays.GetTargetIdSpan();
 
-            for(int i=0; i < srcIdArr.Length -1 ; i++)
+            for(int i=0; i < srcIds.Length - 1 ; i++)
             {
-                if(Compare(srcIdArr[0], tgtIdArr[0], srcIdArr[i+1], tgtIdArr[i+1]) > 0) {
+                if(Compare(srcIds[0], tgtIds[0], srcIds[i+1], tgtIds[i+1]) > 0) {
                     return false;
                 }
             }

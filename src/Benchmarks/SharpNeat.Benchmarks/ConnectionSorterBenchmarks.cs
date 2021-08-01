@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Redzen.Random;
 using SharpNeat.Graphs;
@@ -12,18 +13,23 @@ namespace SharpNeat.Benchmarks
         readonly Xoshiro256StarStarRandom _rng = new(123);
         ConnectionData[] _dataArr;
 
+        public ConnectionSorterBenchmarks()
+        {
+            InitCold(1000, 4000);
+        }
+
         #region Public Methods
 
         [IterationSetup(Target = nameof(ConnectionSorterV1Benchmark))]
         public void ConnectionSorterV1_Init()
         {
-            InitCold(1000, 4000);
+            InitWarm();
         }
 
         [IterationSetup(Target = nameof(ConnectionSorterBenchmark))]
         public void ConnectionSorter_Init()
         {
-            InitCold(10_000, 4000);
+            InitWarm();
         }
 
         [Benchmark]
@@ -32,7 +38,7 @@ namespace SharpNeat.Benchmarks
             for(int i = 0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                ConnectionSorterV1.Sort(connData._connIdArrays,connData._weightArr);
+                ConnectionSorterV1.Sort(connData._connIdArrays, connData._weightArr);
             }
         }
 
@@ -42,7 +48,7 @@ namespace SharpNeat.Benchmarks
             for(int i = 0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                ConnectionSorter<double>.Sort(connData._connIdArrays,connData._weightArr);
+                ConnectionSorter<double>.Sort(connData._connIdArrays, connData._weightArr);
             }
         }
 
@@ -55,14 +61,14 @@ namespace SharpNeat.Benchmarks
             _dataArr = new ConnectionData[count];
             for(int i=0; i < count; i++)
             {
-                int[] srcIdArr = CreateRandomInt32Array(length);
-                int[] tgtIdArr = CreateRandomInt32Array(length);
-
                 ConnectionData connData = new()
                 {
-                    _connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr),
+                    _connIdArrays = new ConnectionIdArrays(length),
                     _weightArr = CreateRandomDoubleArray(length)
                 };
+
+                InitRandomInt32Array(connData._connIdArrays.GetSourceIdSpan());
+                InitRandomInt32Array(connData._connIdArrays.GetTargetIdSpan());
                 _dataArr[i] = connData;
             }
         }
@@ -72,19 +78,10 @@ namespace SharpNeat.Benchmarks
             for(int i=0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                InitRandomInt32Array(connData._connIdArrays._sourceIdArr);
-                InitRandomInt32Array(connData._connIdArrays._targetIdArr);
+                InitRandomInt32Array(connData._connIdArrays.GetSourceIdSpan());
+                InitRandomInt32Array(connData._connIdArrays.GetTargetIdSpan());
                 InitRandomDoubleArray(connData._weightArr);
             }
-        }
-
-        private int[] CreateRandomInt32Array(int length)
-        {
-            int[] arr = new int[length];
-            for(int i=0; i < length; i++) {
-                arr[i] = _rng.Next();
-            }
-            return arr;
         }
 
         private double[] CreateRandomDoubleArray(int length)
@@ -96,10 +93,10 @@ namespace SharpNeat.Benchmarks
             return arr;
         }
 
-        private void InitRandomInt32Array(int[] arr)
+        private void InitRandomInt32Array(Span<int> span)
         {
-            for(int i=0; i < arr.Length; i++) {
-                arr[i] = _rng.Next();
+            for(int i=0; i < span.Length; i++) {
+                span[i] = _rng.Next();
             }
         }
 

@@ -166,8 +166,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// <param name="digraph">The directed acyclic graph to traverse.</param>
         private void TraverseGraph(DirectedGraph digraph)
         {
-            int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
-            int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
 
             // While there are entries on the stack.
             while (_traversalStack.Count != 0)
@@ -183,11 +183,11 @@ namespace SharpNeat.Graphs.Acyclic
                 // This approach results in tail call optimisation and thus will result in a shallower stack on average. It
                 // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
                 // point in time, since some of the path may no longer be on the stack.
-                MoveForward(srcIdArr, tgtIdArr, currStackFrame);
+                MoveForward(srcIds, tgtIds, currStackFrame);
 
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
                 // depth than the current path.
-                int childNodeId = tgtIdArr[currStackFrame.ConnectionIdx];
+                int childNodeId = tgtIds[currStackFrame.ConnectionIdx];
                 if(_nodeDepthByIdx![childNodeId] >= currStackFrame.Depth) {
                     continue;
                 }
@@ -209,18 +209,18 @@ namespace SharpNeat.Graphs.Acyclic
         /// <summary>
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
-        private void MoveForward(int[] srcIdArr, int[] tgtIdAr, in StackFrame currStackFrame)
+        private void MoveForward(ReadOnlySpan<int> srcIds, ReadOnlySpan<int> tgtIds, in StackFrame currStackFrame)
         {
             // If the current node has at least one more visitable outgoing connection then update the node's entry
             // on the top of the stack to point to said connection.
             int currConnIdx = currStackFrame.ConnectionIdx;
             int depth = currStackFrame.Depth;
 
-            for(int i=currConnIdx + 1; i < srcIdArr.Length && (srcIdArr[currConnIdx] == srcIdArr[i]); i++)
+            for(int i=currConnIdx + 1; i < srcIds.Length && (srcIds[currConnIdx] == srcIds[i]); i++)
             {
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
                 // depth than the current path.
-                if(_nodeDepthByIdx![tgtIdAr[i]] < depth)
+                if(_nodeDepthByIdx![tgtIds[i]] < depth)
                 {
                     _traversalStack.Poke(new StackFrame(i, depth));
                     return;

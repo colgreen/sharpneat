@@ -151,8 +151,8 @@ namespace SharpNeat.Drawing.Graph.Painting
             ConnectionIdArrays connIdArrays = model.DirectedGraph.ConnectionIdArrays;
             for(int i=0; i < connIdArrays.Length; i++)
             {
-                int srcIdx = connIdArrays._sourceIdArr[i];
-                int tgtIdx = connIdArrays._targetIdArr[i];
+                int srcIdx = connIdArrays.GetSourceId(i);
+                int tgtIdx = connIdArrays.GetTargetId(i);
                 float weight = model.WeightArr[i];
 
                 Point srcPos = model.NodePosByIdx![srcIdx];

@@ -10,6 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -94,16 +95,17 @@ namespace SharpNeat.Graphs
             INodeIdMap nodeIdMap)
         {
             int count = connSpan.Length;
-            int[] srcIdArr = new int[count];
-            int[] tgtIdArr = new int[count];
+            var connIdArrays = new ConnectionIdArrays(count);
+            var srcIds = connIdArrays.GetSourceIdSpan();
+            var tgtIds = connIdArrays.GetTargetIdSpan();
 
             for(int i=0; i < count; i++)
             {
-                srcIdArr[i] = nodeIdMap.Map(connSpan[i].SourceId);
-                tgtIdArr[i] = nodeIdMap.Map(connSpan[i].TargetId);
+                srcIds[i] = nodeIdMap.Map(connSpan[i].SourceId);
+                tgtIds[i] = nodeIdMap.Map(connSpan[i].TargetId);
             }
 
-            return new ConnectionIdArrays(srcIdArr, tgtIdArr);
+            return connIdArrays;
         }
 
         #endregion

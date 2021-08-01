@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 
 namespace SharpNeat.Graphs
@@ -16,34 +17,40 @@ namespace SharpNeat.Graphs
         public static void Sort<S>(in ConnectionIdArrays connIdArrays, S[] weightArr) where S : struct
         {
             // Init array of indexes.
-            int[] srcIdArr = connIdArrays._sourceIdArr;
-            int[] tgtIdArr = connIdArrays._targetIdArr;
+            Span<int> srcIds = connIdArrays.GetSourceIdSpan();
+            Span<int> tgtIds = connIdArrays.GetTargetIdSpan();
 
-            int[] idxArr = new int[srcIdArr.Length];
-            for(int i=0; i < idxArr.Length; i++) {
+            int len = srcIds.Length;
+            int[] idxArr = ArrayPool<int>.Shared.Rent(len);
+            for(int i=0; i < len; i++) {
                 idxArr[i] = i;
             }
 
             // Sort the array of indexes based on the connections that each index points to.
             var comparer = new ConnectionComparer(in connIdArrays);
             Array.Sort(idxArr, comparer);
-
-            int len = srcIdArr.Length;
-            int[] srcIdArr2 = new int[len];
-            int[] tgtIdArr2 = new int[len];
-            S[] weightArr2 = new S[len];
+            
+            int[] idArr = ArrayPool<int>.Shared.Rent(len << 1);
+            Span<int> srcIdArr2 = idArr.AsSpan(0, len);
+            Span<int> tgtIdArr2 = idArr.AsSpan(len, len);
+            S[] weightArr2 = ArrayPool<S>.Shared.Rent(len);
 
             for(int i=0; i < len; i++)
             {
                 int j = idxArr[i];
-                srcIdArr2[i] = srcIdArr[j];
-                tgtIdArr2[i] = tgtIdArr[j];
+                srcIdArr2[i] = srcIds[j];
+                tgtIdArr2[i] = tgtIds[j];
                 weightArr2[i] = weightArr[j];
             }
 
-            Array.Copy(srcIdArr2, srcIdArr, len);
-            Array.Copy(tgtIdArr2, tgtIdArr, len);
+            srcIdArr2.CopyTo(srcIds);
+            tgtIdArr2.CopyTo(tgtIds);
             Array.Copy(weightArr2, weightArr, len);
+
+            // Return the arrays rented from the array pool.
+            ArrayPool<int>.Shared.Return(idxArr);
+            ArrayPool<int>.Shared.Return(idArr);
+            ArrayPool<S>.Shared.Return(weightArr2);
         }
 
         #endregion
@@ -52,20 +59,18 @@ namespace SharpNeat.Graphs
 
         private sealed class ConnectionComparer : IComparer<int>
         {
-            readonly int[] _srcIdArr;
-            readonly int[] _tgtIdArr;
+            readonly ConnectionIdArrays _connIdArrays;
 
             public ConnectionComparer(in ConnectionIdArrays connIdArrays)
             {
-                _srcIdArr = connIdArrays._sourceIdArr;
-                _tgtIdArr = connIdArrays._targetIdArr;
+                _connIdArrays = connIdArrays;
             }
 
             public int Compare(int x, int y)
             {
                 // Compare source IDs.
-                int xval = _srcIdArr[x];
-                int yval = _srcIdArr[y];
+                int xval = _connIdArrays.GetSourceId(x);
+                int yval = _connIdArrays.GetSourceId(y);
 
                 if(xval < yval) {
                     return -1;
@@ -75,8 +80,8 @@ namespace SharpNeat.Graphs
                 }
 
                 // Source IDs are equal; compare target IDs.
-                xval = _tgtIdArr[x];
-                yval = _tgtIdArr[y];
+                xval = _connIdArrays.GetTargetId(x);
+                yval = _connIdArrays.GetTargetId(y);
 
                 if(xval < yval) {
                     return -1;

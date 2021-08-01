@@ -12,8 +12,8 @@ namespace SharpNeat.Graphs.Tests
             in ConnectionIdArrays yIdArrays)
         {
             int xlen = xConnArr.Length;
-            Assert.Equal(xlen, yIdArrays._sourceIdArr.Length);
-            Assert.Equal(xlen, yIdArrays._targetIdArr.Length);
+            Assert.Equal(xlen, yIdArrays.GetSourceIdSpan().Length);
+            Assert.Equal(xlen, yIdArrays.GetTargetIdSpan().Length);
 
             for(int i=0; i < xlen; i++)  {
                 Assert.True(Equal(xConnArr, yIdArrays, i, i));
@@ -25,8 +25,8 @@ namespace SharpNeat.Graphs.Tests
             in ConnectionIdArrays yIdArrays)
             where T : struct
         {
-            Assert.Equal(x.Length, yIdArrays._sourceIdArr.Length);
-            Assert.Equal(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays.GetSourceIdSpan().Length);
+            Assert.Equal(x.Length, yIdArrays.GetTargetIdSpan().Length);
 
             for(int i=0; i < x.Length; i++)  {
                 Assert.True(Equal(x, yIdArrays, i, i));
@@ -39,8 +39,8 @@ namespace SharpNeat.Graphs.Tests
             int[] connectionIndexMap)
             where T : struct
         {
-            Assert.Equal(x.Length, yIdArrays._sourceIdArr.Length);
-            Assert.Equal(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays.GetSourceIdSpan().Length);
+            Assert.Equal(x.Length, yIdArrays.GetTargetIdSpan().Length);
 
             for(int i=0; i < x.Length; i++)  {
                 Assert.True(Equal(x, yIdArrays, i, connectionIndexMap[i]));
@@ -58,8 +58,8 @@ namespace SharpNeat.Graphs.Tests
         {
             int xlen = xConnArr.Length;
             Assert.Equal(xlen, xWeightArr.Length);
-            Assert.Equal(xlen, yIdArrays._sourceIdArr.Length);
-            Assert.Equal(xlen, yIdArrays._targetIdArr.Length);
+            Assert.Equal(xlen, yIdArrays.GetSourceIdSpan().Length);
+            Assert.Equal(xlen, yIdArrays.GetTargetIdSpan().Length);
             Assert.Equal(xlen, yWeightArr.Length);
 
             for(int i=0; i < xlen; i++)  {
@@ -73,8 +73,8 @@ namespace SharpNeat.Graphs.Tests
             T[] yWeightArr)
             where T : struct
         {
-            Assert.Equal(x.Length, yIdArrays._sourceIdArr.Length);
-            Assert.Equal(x.Length, yIdArrays._targetIdArr.Length);
+            Assert.Equal(x.Length, yIdArrays.GetSourceIdSpan().Length);
+            Assert.Equal(x.Length, yIdArrays.GetTargetIdSpan().Length);
             Assert.Equal(x.Length, yWeightArr.Length);
 
             for(int i=0; i < x.Length; i++) {
@@ -103,8 +103,8 @@ namespace SharpNeat.Graphs.Tests
             in ConnectionIdArrays yIdArrays,
             int xIdx, int yIdx)
         {
-            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx]
-               &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx];
+            return xConnArr[xIdx].SourceId == yIdArrays.GetSourceId(yIdx)
+               &&  xConnArr[xIdx].TargetId == yIdArrays.GetTargetId(yIdx);
         }
 
         private static bool Equal<T>(
@@ -125,8 +125,8 @@ namespace SharpNeat.Graphs.Tests
             int xIdx, int yIdx)
             where T : struct
         {
-            return xConnArr[xIdx].SourceId == yIdArrays._sourceIdArr[yIdx]
-               &&  xConnArr[xIdx].TargetId == yIdArrays._targetIdArr[yIdx]
+            return xConnArr[xIdx].SourceId == yIdArrays.GetSourceId(yIdx)
+               &&  xConnArr[xIdx].TargetId == yIdArrays.GetTargetId(yIdx)
                &&  xWeightArr[xIdx].Equals(yWeightArr[yIdx]);
         }
 

@@ -10,7 +10,10 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Buffers;
+using System.Diagnostics;
 using SharpNeat.BlackBox;
+using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.NeuralNets.Double
@@ -27,8 +30,7 @@ namespace SharpNeat.NeuralNets.Double
         #region Instance Fields
 
         // Connection arrays.
-        readonly int[] _srcIdArr;
-        readonly int[] _tgtIdArr;
+        readonly ConnectionIdArrays _connIdArrays;
         readonly double[] _weightArr;
 
         // Array of layer information.
@@ -43,6 +45,7 @@ namespace SharpNeat.NeuralNets.Double
         // Convenient counts.
         readonly int _inputCount;
         readonly int _outputCount;
+        volatile bool _isDisposed;
 
         #endregion
 
@@ -70,9 +73,10 @@ namespace SharpNeat.NeuralNets.Double
             double[] weightArr,
             VecFn<double> activationFn)
         {
+            Debug.Assert(digraph.ConnectionIdArrays.GetSourceIdSpan().Length == weightArr.Length);
+
             // Store refs to network structure data.
-            _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
-            _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            _connIdArrays = digraph.ConnectionIdArrays;
             _weightArr = weightArr;
             _layerInfoArr = digraph.LayerArray;
 
@@ -126,8 +130,8 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         public void Activate()
         {
-            ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
-            ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
+            ReadOnlySpan<int> srcIds = _connIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = _connIdArrays.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
             Span<double> activations = _activationArr.AsSpan();
 
@@ -192,7 +196,13 @@ namespace SharpNeat.NeuralNets.Double
         /// Releases both managed and unmanaged resources.
         /// </summary>
         public void Dispose()
-        {}
+        {
+            if(!_isDisposed)
+            {
+                _isDisposed = true;
+                ArrayPool<double>.Shared.Return(_activationArr);
+            }
+        }
 
         #endregion
     }

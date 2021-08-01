@@ -88,8 +88,8 @@ namespace SharpNeat.Graphs.Tests
 
         private static void CompareConnectionLists(Span<DirectedConnection> x, in ConnectionIdArrays connIdArrays)
         {
-            int[] srcIdArr = connIdArrays._sourceIdArr;
-            int[] tgtIdArr = connIdArrays._targetIdArr;
+            ReadOnlySpan<int> srcIdArr = connIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIdArr = connIdArrays.GetTargetIdSpan();
 
             Assert.Equal(x.Length, srcIdArr.Length);
             Assert.Equal(x.Length, tgtIdArr.Length);

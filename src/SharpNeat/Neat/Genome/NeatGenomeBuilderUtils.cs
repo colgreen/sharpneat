@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System.Buffers;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome
@@ -34,7 +35,7 @@ namespace SharpNeat.Neat.Genome
             INodeIdMap nodeIndexByIdMap)
             where T : struct
         {
-            // Extract/copy the neat genome connectivity graph into an array of DirectedConnection.
+            // Extract/copy the neat genome connectivity graph into a ConnectionIdArrays structure.
             // Notes.
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
@@ -64,16 +65,15 @@ namespace SharpNeat.Neat.Genome
             out ConnectionIdArrays connIdArrays)
         {
             int count = connArr.Length;
-            int[] srcIdArr = new int[count];
-            int[] tgtIdArr = new int[count];
+            connIdArrays = new ConnectionIdArrays(count);
+            var srcIds = connIdArrays.GetSourceIdSpan();
+            var tgtIds = connIdArrays.GetTargetIdSpan();
 
             for(int i=0; i < count; i++)
             {
-                srcIdArr[i] = nodeIdMap.Map(connArr[i].SourceId);
-                tgtIdArr[i] = nodeIdMap.Map(connArr[i].TargetId);
+                srcIds[i] = nodeIdMap.Map(connArr[i].SourceId);
+                tgtIds[i] = nodeIdMap.Map(connArr[i].TargetId);
             }
-
-            connIdArrays = new ConnectionIdArrays(srcIdArr, tgtIdArr);
         }
 
         #endregion

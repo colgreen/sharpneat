@@ -29,8 +29,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         #region Instance Fields
 
         // Connection arrays.
-        readonly int[] _srcIdArr;
-        readonly int[] _tgtIdArr;
+        readonly ConnectionIdArrays _connIdArrays;
         readonly double[] _weightArr;
 
         // Activation function.
@@ -84,11 +83,10 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             VecFn2<double> activationFn,
             int cyclesPerActivation)
         {
-            Debug.Assert(digraph.ConnectionIdArrays._sourceIdArr.Length == weightArr.Length);
+            Debug.Assert(digraph.ConnectionIdArrays.GetSourceIdSpan().Length == weightArr.Length);
 
             // Store refs to network structure data.
-            _srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
-            _tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            _connIdArrays = digraph.ConnectionIdArrays;
             _weightArr = weightArr;
 
             // Store network activation function and parameters.
@@ -142,9 +140,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
-
-            ReadOnlySpan<int> srcIds = _srcIdArr.AsSpan();
-            ReadOnlySpan<int> tgtIds = _tgtIdArr.AsSpan();
+            ReadOnlySpan<int> srcIds = _connIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = _connIdArrays.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
             Span<double> preActivations = _preActivationArr.AsSpan(0, _totalNodeCount);
             Span<double> postActivations = _postActivationArr.AsSpan(0, _totalNodeCount);
@@ -171,7 +168,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 // Loop connections. Get each connection's input signal, apply the weight and add the result to
                 // the pre-activation signal of the target neuron.
                 int conIdx=0;
-                for(; conIdx <= _srcIdArr.Length - Vector<double>.Count; conIdx += Vector<double>.Count)
+                for(; conIdx <= srcIds.Length - Vector<double>.Count; conIdx += Vector<double>.Count)
                 {
                     // Load source node output values into a vector.
                     ref int srcIdsRefSeg = ref Unsafe.Add(ref srcIdsRef, conIdx);
@@ -209,7 +206,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                 }
 
                 // Loop remaining connections
-                for(; conIdx < _srcIdArr.Length; conIdx++)
+                for(; conIdx < srcIds.Length; conIdx++)
                 {
                     // Get a reference to the target activation level 'slot' in the activations span.
                     ref double tgtSlot = ref Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));

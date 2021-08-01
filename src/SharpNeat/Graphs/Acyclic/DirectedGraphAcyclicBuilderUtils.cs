@@ -134,7 +134,7 @@ namespace SharpNeat.Graphs.Acyclic
             int connIdx = 0;
 
             int[] nodeDepthArr = depthInfo._nodeDepthArr;
-            int[] srcIdArr = connIdArrays._sourceIdArr;
+            ReadOnlySpan<int> srcIds = connIdArrays.GetSourceIdSpan();
 
             for (int currDepth = 0; currDepth < graphDepth; currDepth++)
             {
@@ -142,7 +142,7 @@ namespace SharpNeat.Graphs.Acyclic
                 for (; nodeIdx < nodeCount && nodeDepthArr[nodeIdx] == currDepth; nodeIdx++);
 
                 // Scan for last connection at the current depth.
-                for (; connIdx < srcIdArr.Length && nodeDepthArr[srcIdArr[connIdx]] == currDepth; connIdx++);
+                for (; connIdx < srcIds.Length && nodeDepthArr[srcIds[connIdx]] == currDepth; connIdx++);
 
                 // Store node and connection end indexes for the layer.
                 layerInfoArr[currDepth] = new LayerInfo(nodeIdx, connIdx);
@@ -233,13 +233,13 @@ namespace SharpNeat.Graphs.Acyclic
             in ConnectionIdArrays connIdArrays,
             int[] newIdByOldId)
         {
-            int[] srcIdArr = connIdArrays._sourceIdArr;
-            int[] tgtIdArr = connIdArrays._targetIdArr;
+            Span<int> srcIds = connIdArrays.GetSourceIdSpan();
+            Span<int> tgtIds = connIdArrays.GetTargetIdSpan();
 
-            for(int i=0; i < srcIdArr.Length; i++)
+            for(int i=0; i < srcIds.Length; i++)
             {
-                srcIdArr[i] = newIdByOldId[srcIdArr[i]];
-                tgtIdArr[i] = newIdByOldId[tgtIdArr[i]];
+                srcIds[i] = newIdByOldId[srcIds[i]];
+                tgtIds[i] = newIdByOldId[tgtIds[i]];
             }
         }
 

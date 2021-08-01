@@ -46,14 +46,12 @@ namespace SharpNeat.Graphs
             in ConnectionIdArrays connIdArrays,
             Span<T> vals)
         {
-            Debug.Assert(connIdArrays._sourceIdArr is not null);
-            Debug.Assert(connIdArrays._targetIdArr is not null);
-            Debug.Assert(connIdArrays._sourceIdArr.Length == connIdArrays._targetIdArr.Length);
-            Debug.Assert(connIdArrays._sourceIdArr.Length == vals.Length);
+            Debug.Assert(connIdArrays.GetSourceIdSpan().Length == connIdArrays.GetTargetIdSpan().Length);
+            Debug.Assert(connIdArrays.GetSourceIdSpan().Length == vals.Length);
 
             IntrospectiveSort(
-                connIdArrays._sourceIdArr.AsSpan(),
-                connIdArrays._targetIdArr.AsSpan(),
+                connIdArrays.GetSourceIdSpan(),
+                connIdArrays.GetTargetIdSpan(),
                 vals);
         }
 

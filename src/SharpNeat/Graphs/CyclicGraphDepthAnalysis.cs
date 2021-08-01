@@ -187,9 +187,9 @@ namespace SharpNeat.Graphs
             _ancestorNodeBitmap[nodeIdx] = true;
 
             // Traverse into target nodes.
-            int[] srcIdxArr = _digraph.ConnectionIdArrays._sourceIdArr;
+            ReadOnlySpan<int> srcIds = _digraph.ConnectionIdArrays.GetSourceIdSpan();
 
-            for(; connIdx < srcIdxArr.Length && srcIdxArr[connIdx] == nodeIdx; connIdx++)
+            for(; connIdx < srcIds.Length && srcIds[connIdx] == nodeIdx; connIdx++)
             {
                 TraverseNode(_digraph.GetTargetNodeIdx(connIdx), depth + 1);
             }

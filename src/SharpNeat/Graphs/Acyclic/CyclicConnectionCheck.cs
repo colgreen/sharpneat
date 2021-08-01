@@ -168,8 +168,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// then newConn would form a cycle and we stop/terminate traversal.</param>
         private bool TraverseGraph(DirectedGraph digraph, int terminalNodeId)
         {
-            int[] srcIdArr = digraph.ConnectionIdArrays._sourceIdArr;
-            int[] tgtIdArr = digraph.ConnectionIdArrays._targetIdArr;
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
 
             // While there are entries on the stack.
             while(_traversalStack.Count != 0)
@@ -185,10 +185,10 @@ namespace SharpNeat.Graphs.Acyclic
                 // This approach results in tail call optimisation and thus will result in a shallower stack on average. It
                 // also has the side effect that we can no longer examine the stack to observe the traversal path at a given
                 // point in time, since some of the path may no longer be on the stack.
-                MoveForward(srcIdArr, tgtIdArr, currConnIdx);
+                MoveForward(srcIds, tgtIds, currConnIdx);
 
                 // Test if the next traversal child node has already been visited.
-                int childNodeId = tgtIdArr[currConnIdx];
+                int childNodeId = tgtIds[currConnIdx];
                 if(_visitedNodeBitmap[childNodeId]) {
                     continue;
                 }
@@ -217,13 +217,13 @@ namespace SharpNeat.Graphs.Acyclic
         /// <summary>
         /// Update the stack state to point to the next connection to traverse down.
         /// </summary>
-        private void MoveForward(int[] srcIdArr, int[] tgtIdAr, int currConnIdx)
+        private void MoveForward(ReadOnlySpan<int> srcIds, ReadOnlySpan<int> tgtIds, int currConnIdx)
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,
             // then update the node's entry on the top of the stack to point to said connection.
-            for(int i=currConnIdx + 1; i < srcIdArr.Length && (srcIdArr[currConnIdx] == srcIdArr[i]); i++)
+            for(int i=currConnIdx + 1; i < srcIds.Length && (srcIds[currConnIdx] == srcIds[i]); i++)
             {
-                if(!_visitedNodeBitmap[tgtIdAr[i]])
+                if(!_visitedNodeBitmap[tgtIds[i]])
                 {
                     _traversalStack.Poke(i);
                     return;
