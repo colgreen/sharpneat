@@ -28,7 +28,7 @@ namespace SharpNeat.NeuralNets.Double
         #region Instance Fields
 
         // Connection arrays.
-        readonly ConnectionIdArrays _connIdArrays;
+        readonly ConnectionIds _connIds;
         readonly double[] _weightArr;
 
         // Activation function.
@@ -77,10 +77,10 @@ namespace SharpNeat.NeuralNets.Double
             VecFn2<double> activationFn,
             int cyclesPerActivation)
         {
-            Debug.Assert(digraph.ConnectionIdArrays.GetSourceIdSpan().Length == weightArr.Length);
+            Debug.Assert(digraph.ConnectionIds.GetSourceIdSpan().Length == weightArr.Length);
 
             // Store refs to network structure data.
-            _connIdArrays = digraph.ConnectionIdArrays;
+            _connIds = digraph.ConnectionIds;
             _weightArr = weightArr;
 
             // Store network activation function and parameters.
@@ -134,8 +134,8 @@ namespace SharpNeat.NeuralNets.Double
         /// </summary>
         public void Activate()
         {
-            ReadOnlySpan<int> srcIds = _connIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = _connIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
             Span<double> preActivations = _preActivationArr.AsSpan();
             Span<double> postActivations = _postActivationArr.AsSpan();

@@ -58,7 +58,7 @@ namespace SharpNeat.Drawing
             float[] weightArr,
             INodeIdMap nodeIdByIdx)
         {
-            if(weightArr.Length != digraph.ConnectionIdArrays.Length) throw new ArgumentException(nameof(weightArr));
+            if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException(nameof(weightArr));
             if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
 
             this.DirectedGraph = digraph;
@@ -80,7 +80,7 @@ namespace SharpNeat.Drawing
             INodeIdMap nodeIdByIdx,
             Point[] nodePosByIdx)
         {
-            if(weightArr.Length != digraph.ConnectionIdArrays.Length) throw new ArgumentException(nameof(weightArr));
+            if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException(nameof(weightArr));
             if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
             if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
 

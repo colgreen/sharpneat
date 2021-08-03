@@ -27,7 +27,7 @@ namespace SharpNeat.Graphs.Tests
             var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 3, 2);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connSpan, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connSpan, digraph.ConnectionIds, digraph.WeightArray);
 
             // Check the node count.
             Assert.Equal(5, digraph.TotalNodeCount);
@@ -64,7 +64,7 @@ namespace SharpNeat.Graphs.Tests
 
             // Compare actual and expected connections.
             var connSpanExpected = connListExpected.AsSpan();
-            CompareConnectionLists(connSpanExpected, digraph.ConnectionIdArrays, digraph.WeightArray);
+            CompareConnectionLists(connSpanExpected, digraph.ConnectionIds, digraph.WeightArray);
 
             // Test layer info.
             LayerInfo[] layerArrExpected = new LayerInfo[5];

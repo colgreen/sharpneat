@@ -9,41 +9,41 @@ namespace SharpNeat.Graphs.Tests
 
         public static void CompareConnectionLists(
             DirectedConnection[] xConnArr,
-            in ConnectionIdArrays yIdArrays)
+            in ConnectionIds yIds)
         {
             int xlen = xConnArr.Length;
-            Assert.Equal(xlen, yIdArrays.GetSourceIdSpan().Length);
-            Assert.Equal(xlen, yIdArrays.GetTargetIdSpan().Length);
+            Assert.Equal(xlen, yIds.GetSourceIdSpan().Length);
+            Assert.Equal(xlen, yIds.GetTargetIdSpan().Length);
 
             for(int i=0; i < xlen; i++)  {
-                Assert.True(Equal(xConnArr, yIdArrays, i, i));
+                Assert.True(Equal(xConnArr, yIds, i, i));
             }
         }
 
         public static void CompareConnectionLists<T>(
             ConnectionGenes<T> x,
-            in ConnectionIdArrays yIdArrays)
+            in ConnectionIds yIds)
             where T : struct
         {
-            Assert.Equal(x.Length, yIdArrays.GetSourceIdSpan().Length);
-            Assert.Equal(x.Length, yIdArrays.GetTargetIdSpan().Length);
+            Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
+            Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
 
             for(int i=0; i < x.Length; i++)  {
-                Assert.True(Equal(x, yIdArrays, i, i));
+                Assert.True(Equal(x, yIds, i, i));
             }
         }
 
         public static void CompareConnectionLists<T>(
             ConnectionGenes<T> x,
-            in ConnectionIdArrays yIdArrays,
+            in ConnectionIds yIds,
             int[] connectionIndexMap)
             where T : struct
         {
-            Assert.Equal(x.Length, yIdArrays.GetSourceIdSpan().Length);
-            Assert.Equal(x.Length, yIdArrays.GetTargetIdSpan().Length);
+            Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
+            Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
 
             for(int i=0; i < x.Length; i++)  {
-                Assert.True(Equal(x, yIdArrays, i, connectionIndexMap[i]));
+                Assert.True(Equal(x, yIds, i, connectionIndexMap[i]));
             }
         }
 
@@ -53,32 +53,32 @@ namespace SharpNeat.Graphs.Tests
 
         public static void CompareConnectionLists<T>(
             DirectedConnection[] xConnArr, T[] xWeightArr,
-            in ConnectionIdArrays yIdArrays, T[] yWeightArr)
+            in ConnectionIds yIds, T[] yWeightArr)
             where T : struct
         {
             int xlen = xConnArr.Length;
             Assert.Equal(xlen, xWeightArr.Length);
-            Assert.Equal(xlen, yIdArrays.GetSourceIdSpan().Length);
-            Assert.Equal(xlen, yIdArrays.GetTargetIdSpan().Length);
+            Assert.Equal(xlen, yIds.GetSourceIdSpan().Length);
+            Assert.Equal(xlen, yIds.GetTargetIdSpan().Length);
             Assert.Equal(xlen, yWeightArr.Length);
 
             for(int i=0; i < xlen; i++)  {
-                Assert.True(Equal(xConnArr, xWeightArr, yIdArrays, yWeightArr, i, i));
+                Assert.True(Equal(xConnArr, xWeightArr, yIds, yWeightArr, i, i));
             }
         }
 
         public static void CompareConnectionLists<T>(
             ConnectionGenes<T> x,
-            in ConnectionIdArrays yIdArrays,
+            in ConnectionIds yIds,
             T[] yWeightArr)
             where T : struct
         {
-            Assert.Equal(x.Length, yIdArrays.GetSourceIdSpan().Length);
-            Assert.Equal(x.Length, yIdArrays.GetTargetIdSpan().Length);
+            Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
+            Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
             Assert.Equal(x.Length, yWeightArr.Length);
 
             for(int i=0; i < x.Length; i++) {
-                Assert.True(Equal(x, yIdArrays, yWeightArr, i, i));
+                Assert.True(Equal(x, yIds, yWeightArr, i, i));
             }
         }
 
@@ -88,45 +88,45 @@ namespace SharpNeat.Graphs.Tests
 
         private static bool Equal<T>(
             ConnectionGenes<T> x,
-            in ConnectionIdArrays yIdArrays,
+            in ConnectionIds yIds,
             int xIdx, int yIdx)
             where T : struct
         {
             return Equal(
                 x._connArr,
-                yIdArrays,
+                yIds,
                 xIdx, yIdx);
         }
 
         private static bool Equal(
             DirectedConnection[] xConnArr,
-            in ConnectionIdArrays yIdArrays,
+            in ConnectionIds yIds,
             int xIdx, int yIdx)
         {
-            return xConnArr[xIdx].SourceId == yIdArrays.GetSourceId(yIdx)
-               &&  xConnArr[xIdx].TargetId == yIdArrays.GetTargetId(yIdx);
+            return xConnArr[xIdx].SourceId == yIds.GetSourceId(yIdx)
+               &&  xConnArr[xIdx].TargetId == yIds.GetTargetId(yIdx);
         }
 
         private static bool Equal<T>(
             ConnectionGenes<T> x,
-            in ConnectionIdArrays yIdArrays, T[] yWeightArr,
+            in ConnectionIds yIds, T[] yWeightArr,
             int xIdx, int yIdx)
             where T : struct
         {
             return Equal(
                 x._connArr, x._weightArr,
-                yIdArrays, yWeightArr,
+                yIds, yWeightArr,
                 xIdx, yIdx);
         }
 
         private static bool Equal<T>(
             DirectedConnection[] xConnArr, T[] xWeightArr,
-            in ConnectionIdArrays yIdArrays, T[] yWeightArr,
+            in ConnectionIds yIds, T[] yWeightArr,
             int xIdx, int yIdx)
             where T : struct
         {
-            return xConnArr[xIdx].SourceId == yIdArrays.GetSourceId(yIdx)
-               &&  xConnArr[xIdx].TargetId == yIdArrays.GetTargetId(yIdx)
+            return xConnArr[xIdx].SourceId == yIds.GetSourceId(yIdx)
+               &&  xConnArr[xIdx].TargetId == yIds.GetTargetId(yIdx)
                &&  xWeightArr[xIdx].Equals(yWeightArr[yIdx]);
         }
 

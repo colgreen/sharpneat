@@ -29,7 +29,7 @@ namespace SharpNeat.Neat.Genome.Tests
             var digraph = genome.DirectedGraph;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays);
+            CompareConnectionLists(connGenes, digraph.ConnectionIds);
 
             // Check the node count.
             Assert.Equal(5, digraph.TotalNodeCount);
@@ -55,7 +55,7 @@ namespace SharpNeat.Neat.Genome.Tests
             var digraph = genome.DirectedGraph;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenes, digraph.ConnectionIdArrays);
+            CompareConnectionLists(connGenes, digraph.ConnectionIds);
 
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);
@@ -89,7 +89,7 @@ namespace SharpNeat.Neat.Genome.Tests
             connArrExpected[3] = new DirectedConnection(12, 14); weightArrExpected[3] = 3.0;
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connArrExpected, digraph.ConnectionIdArrays);
+            CompareConnectionLists(connArrExpected, digraph.ConnectionIds);
 
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);

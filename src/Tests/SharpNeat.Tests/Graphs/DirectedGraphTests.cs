@@ -24,7 +24,7 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList.AsSpan(), 0, 0);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList.AsSpan(), digraph.ConnectionIdArrays);
+            CompareConnectionLists(connList.AsSpan(), digraph.ConnectionIds);
 
             // Check the node count.
             Assert.Equal(5, digraph.TotalNodeCount);
@@ -46,7 +46,7 @@ namespace SharpNeat.Graphs.Tests
             var digraph = DirectedGraphBuilder.Create(connList.AsSpan(), 0, 10);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connList.AsSpan(), digraph.ConnectionIdArrays);
+            CompareConnectionLists(connList.AsSpan(), digraph.ConnectionIds);
 
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);
@@ -76,7 +76,7 @@ namespace SharpNeat.Graphs.Tests
                 new DirectedConnection(12, 14)
             };
 
-            CompareConnectionLists(connListExpected.AsSpan(), digraph.ConnectionIdArrays);
+            CompareConnectionLists(connListExpected.AsSpan(), digraph.ConnectionIds);
 
             // Check the node count.
             Assert.Equal(15, digraph.TotalNodeCount);
@@ -86,10 +86,10 @@ namespace SharpNeat.Graphs.Tests
 
         #region Private Static Methods
 
-        private static void CompareConnectionLists(Span<DirectedConnection> x, in ConnectionIdArrays connIdArrays)
+        private static void CompareConnectionLists(Span<DirectedConnection> x, in ConnectionIds connIds)
         {
-            ReadOnlySpan<int> srcIdArr = connIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIdArr = connIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIdArr = connIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIdArr = connIds.GetTargetIdSpan();
 
             Assert.Equal(x.Length, srcIdArr.Length);
             Assert.Equal(x.Length, tgtIdArr.Length);

@@ -166,8 +166,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// <param name="digraph">The directed acyclic graph to traverse.</param>
         private void TraverseGraph(DirectedGraph digraph)
         {
-            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIds.GetTargetIdSpan();
 
             // While there are entries on the stack.
             while (_traversalStack.Count != 0)

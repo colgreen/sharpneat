@@ -159,7 +159,7 @@ namespace SharpNeat.Graphs
             _visitedNodeBitmap[nodeIdx] = true;
 
             // Traverse into target nodes.
-            ReadOnlySpan<int> srcIds = _digraph.ConnectionIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> srcIds = _digraph.ConnectionIds.GetSourceIdSpan();
 
             for(; connIdx < srcIds.Length && srcIds[connIdx] == nodeIdx; connIdx++)
             {

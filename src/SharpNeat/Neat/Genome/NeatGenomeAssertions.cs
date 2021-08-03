@@ -99,16 +99,16 @@ namespace SharpNeat.Neat.Genome
             int[]? connectionIndexMap)
         {
             // Connection counts.
-            Debug.Assert(connGenes._connArr.Length == digraph.ConnectionIdArrays.Length);
+            Debug.Assert(connGenes._connArr.Length == digraph.ConnectionIds.Length);
 
             // Connection order.
             Debug.Assert(SortUtils.IsSortedAscending<DirectedConnection>(connGenes._connArr));
-            Debug.Assert(IsSortedAscending(digraph.ConnectionIdArrays));
+            Debug.Assert(IsSortedAscending(digraph.ConnectionIds));
 
             // Connection node ID mappings.
             DirectedConnection[] connArr = connGenes._connArr;
-            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIds.GetTargetIdSpan();
 
             for(int i=0; i < connGenes._connArr.Length; i++)
             {
@@ -166,8 +166,8 @@ namespace SharpNeat.Neat.Genome
 
             // Connection tests.
             int connIdx = 0;
-            ReadOnlySpan<int> srcIds = digraph.ConnectionIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = digraph.ConnectionIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = digraph.ConnectionIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = digraph.ConnectionIds.GetTargetIdSpan();
 
             // Loop the layer infos.
             for(int layerIdx=0; layerIdx < layerArr.Length; layerIdx++)
@@ -222,17 +222,17 @@ namespace SharpNeat.Neat.Genome
 
         #endregion
 
-        #region Private Static Methods [ConnectionIdArrays Sort Order]
+        #region Private Static Methods [ConnectionIds Sort Order]
 
         private static bool IsSortedAscending(
-            in ConnectionIdArrays connIdArrays)
+            in ConnectionIds connIds)
         {
-            if(connIdArrays.Length == 0) {
+            if(connIds.Length == 0) {
                 return true;
             }
 
-            ReadOnlySpan<int> srcIds = connIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = connIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = connIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = connIds.GetTargetIdSpan();
 
             for(int i=0; i < srcIds.Length - 1 ; i++)
             {

@@ -18,7 +18,7 @@ namespace SharpNeat.Graphs
     /// <summary>
     /// Represents the connections in a directed graph.
     /// </summary>
-    public readonly struct ConnectionIdArrays : IDisposable
+    public readonly struct ConnectionIds : IDisposable
     {
         private readonly int _length;
 
@@ -33,7 +33,7 @@ namespace SharpNeat.Graphs
         /// Construct a new instance.
         /// </summary>
         /// <param name="length">The number of connections to allocate memory for.</param>
-        public ConnectionIdArrays(int length)
+        public ConnectionIds(int length)
         {
             // Store the number of the connections, and rent an array that has length of at least 2 * length.
             _length = length;

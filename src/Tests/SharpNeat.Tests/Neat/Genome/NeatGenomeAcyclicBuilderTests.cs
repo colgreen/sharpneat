@@ -31,7 +31,7 @@ namespace SharpNeat.Neat.Genome.Tests
             Assert.NotNull(acyclicDigraph);
 
             // The graph should be unchanged from the input connections.
-            CompareConnectionLists(connGenes, acyclicDigraph.ConnectionIdArrays, genome.ConnectionIndexMap);
+            CompareConnectionLists(connGenes, acyclicDigraph.ConnectionIds, genome.ConnectionIndexMap);
 
             // Check the node count.
             Assert.Equal(5, acyclicDigraph.TotalNodeCount);
@@ -76,7 +76,7 @@ namespace SharpNeat.Neat.Genome.Tests
             connArrExpected[4] = new DirectedConnection(4, 5); weightArrExpected[4] = 4.0;
 
             // Compare actual and expected connections.
-            CompareConnectionLists(connArrExpected, weightArrExpected, acyclicDigraph.ConnectionIdArrays, weightArrActual);
+            CompareConnectionLists(connArrExpected, weightArrExpected, acyclicDigraph.ConnectionIds, weightArrActual);
 
             // Test layer info.
             LayerInfo[] layerArrExpected = new LayerInfo[5];

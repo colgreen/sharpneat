@@ -46,17 +46,17 @@ namespace SharpNeat.Graphs.Acyclic
         /// <param name="inputCount">Input node count.</param>
         /// <param name="outputCount">Output node count.</param>
         /// <param name="totalNodeCount">Total node count.</param>
-        /// <param name="connIdArrays">The connection source and target node IDs.</param>
+        /// <param name="connIds">The connection source and target node IDs.</param>
         /// <param name="layerArr">Layer information for the acyclic graph.</param>
         /// <param name="outputNodeIdxArr">An array containing the node index of each output node.</param>
         internal DirectedGraphAcyclic(
             int inputCount,
             int outputCount,
             int totalNodeCount,
-            in ConnectionIdArrays connIdArrays,
+            in ConnectionIds connIds,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr)
-        : base(inputCount, outputCount, totalNodeCount, in connIdArrays)
+        : base(inputCount, outputCount, totalNodeCount, in connIds)
         {
             this.LayerArray = layerArr;
             this.OutputNodeIdxArr = outputNodeIdxArr;

@@ -14,11 +14,11 @@ namespace SharpNeat.Graphs
         // replaced (see current implementation of SharpNeat.Graphs.ConnectionSorter) with a customised sort
         // routine that is faster and more efficient w.r.t memory allocations and copying.
 
-        public static void Sort<S>(in ConnectionIdArrays connIdArrays, S[] weightArr) where S : struct
+        public static void Sort<S>(in ConnectionIds connIds, S[] weightArr) where S : struct
         {
             // Init array of indexes.
-            Span<int> srcIds = connIdArrays.GetSourceIdSpan();
-            Span<int> tgtIds = connIdArrays.GetTargetIdSpan();
+            Span<int> srcIds = connIds.GetSourceIdSpan();
+            Span<int> tgtIds = connIds.GetTargetIdSpan();
 
             int len = srcIds.Length;
             int[] idxArr = ArrayPool<int>.Shared.Rent(len);
@@ -27,7 +27,7 @@ namespace SharpNeat.Graphs
             }
 
             // Sort the array of indexes based on the connections that each index points to.
-            var comparer = new ConnectionComparer(in connIdArrays);
+            var comparer = new ConnectionComparer(in connIds);
             Array.Sort(idxArr, comparer);
             
             int[] idArr = ArrayPool<int>.Shared.Rent(len << 1);
@@ -59,9 +59,9 @@ namespace SharpNeat.Graphs
 
         private sealed class ConnectionComparer : IComparer<int>
         {
-            readonly ConnectionIdArrays _connIdArrays;
+            readonly ConnectionIds _connIdArrays;
 
-            public ConnectionComparer(in ConnectionIdArrays connIdArrays)
+            public ConnectionComparer(in ConnectionIds connIdArrays)
             {
                 _connIdArrays = connIdArrays;
             }

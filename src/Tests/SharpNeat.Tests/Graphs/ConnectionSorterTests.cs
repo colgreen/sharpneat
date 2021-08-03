@@ -22,11 +22,11 @@ namespace SharpNeat.Graphs.Tests
             IRandomSource rng = RandomDefaults.CreateRandomSource((uint)len);
 
             // Create random connection ID arrays.
-            ConnectionIdArrays connIdArrays = new(len);
-            var srcIds = connIdArrays.GetSourceIdSpan();
-            var tgtIds = connIdArrays.GetTargetIdSpan();
-            InitRandomValues(connIdArrays.GetSourceIdSpan(), rng);
-            InitRandomValues(connIdArrays.GetTargetIdSpan(), rng);
+            ConnectionIds connIds = new(len);
+            var srcIds = connIds.GetSourceIdSpan();
+            var tgtIds = connIds.GetTargetIdSpan();
+            InitRandomValues(connIds.GetSourceIdSpan(), rng);
+            InitRandomValues(connIds.GetTargetIdSpan(), rng);
 
             // Assign each connection's weight to be the sum of the source and target IDs.
             // This allows us to check that the weights are sorted correctly, i.e. remain aligned with the correct source and target IDs.
@@ -36,7 +36,7 @@ namespace SharpNeat.Graphs.Tests
             }
 
             // Sort the connections.
-            ConnectionSorter<double>.Sort(connIdArrays, weightArr);
+            ConnectionSorter<double>.Sort(connIds, weightArr);
 
             // Test connections are correctly ordered.
             int srcIdPrev = srcIds[0];

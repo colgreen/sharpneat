@@ -67,8 +67,8 @@ namespace SharpNeat.Graphs.Tests
 
             // Loop over all connections exiting from input nodes, and perform a depth first traversal of each in turn.
             int inputCount = _digraph.InputCount;
-            ReadOnlySpan<int> srcIds = _digraph.ConnectionIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = _digraph.ConnectionIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = _digraph.ConnectionIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = _digraph.ConnectionIds.GetTargetIdSpan();
 
             for(int connIdx=0; connIdx < srcIds.Length && srcIds[connIdx] < inputCount; connIdx++)
             {
@@ -107,7 +107,7 @@ namespace SharpNeat.Graphs.Tests
                 return;
             }
 
-            ReadOnlySpan<int> srcIds = _digraph.ConnectionIdArrays.GetSourceIdSpan();
+            ReadOnlySpan<int> srcIds = _digraph.ConnectionIds.GetSourceIdSpan();
             for(; connIdx < srcIds.Length && srcIds[connIdx] == nodeIdx; connIdx++)
             {
                 TraverseNode(_digraph.GetTargetNodeIdx(connIdx), depth + 1);

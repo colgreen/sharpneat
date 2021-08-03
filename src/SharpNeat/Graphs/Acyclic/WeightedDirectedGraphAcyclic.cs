@@ -33,7 +33,7 @@ namespace SharpNeat.Graphs.Acyclic
         /// <param name="inputCount">Input node count.</param>
         /// <param name="outputCount">Output node count.</param>
         /// <param name="totalNodeCount">Total node count.</param>
-        /// <param name="connIdArrays">The connection source and target node IDs.</param>
+        /// <param name="connIds">The connection source and target node IDs.</param>
         /// <param name="layerArr">Layer information for the acyclic graph.</param>
         /// <param name="outputNodeIdxArr">An array containing the node index of each output node.</param>
         /// <param name="weightArr">Connection weights array.</param>
@@ -41,11 +41,11 @@ namespace SharpNeat.Graphs.Acyclic
             int inputCount,
             int outputCount,
             int totalNodeCount,
-            in ConnectionIdArrays connIdArrays,
+            in ConnectionIds connIds,
             LayerInfo[] layerArr,
             int[] outputNodeIdxArr,
             T[] weightArr)
-        : base(inputCount, outputCount, totalNodeCount, in connIdArrays, layerArr, outputNodeIdxArr)
+        : base(inputCount, outputCount, totalNodeCount, in connIds, layerArr, outputNodeIdxArr)
         {
             this.WeightArray = weightArr;
         }

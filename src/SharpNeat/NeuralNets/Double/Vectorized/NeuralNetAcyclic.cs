@@ -30,7 +30,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         #region Instance Fields
 
         // Connection arrays.
-        readonly ConnectionIdArrays _connIdArrays;
+        readonly ConnectionIds _connIds;
         readonly double[] _weightArr;
 
         // Array of layer information.
@@ -77,10 +77,10 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             double[] weightArr,
             VecFn<double> activationFn)
         {
-            Debug.Assert(digraph.ConnectionIdArrays.GetSourceIdSpan().Length == weightArr.Length);
+            Debug.Assert(digraph.ConnectionIds.GetSourceIdSpan().Length == weightArr.Length);
 
             // Store refs to network structure data.
-            _connIdArrays = digraph.ConnectionIdArrays;
+            _connIds = digraph.ConnectionIds;
             _weightArr = weightArr;
             _layerInfoArr = digraph.LayerArray;
 
@@ -135,8 +135,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// </summary>
         public void Activate()
         {
-            ReadOnlySpan<int> srcIds = _connIdArrays.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = _connIdArrays.GetTargetIdSpan();
+            ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
+            ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
             Span<double> activations = _activationArr.AsSpan(0, _totalNodeCount);
             Span<double> connInputs = _conInputArr.AsSpan();

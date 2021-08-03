@@ -53,13 +53,13 @@ namespace SharpNeat.Graphs
             INodeIdMap nodeIdMap = DirectedGraphBuilderUtils.CompileNodeIdMap(
                 inputOutputCount, hiddenNodeIdArr);
 
-            // Extract/copy the neat genome connectivity graph into an ConnectionIdArrays structure.
+            // Extract/copy the neat genome connectivity graph into an ConnectionIds structure.
             // Notes.
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
             // The IDs are substituted for node indexes here.
             CopyAndMapIds(connections, nodeIdMap,
-                out ConnectionIdArrays connIdArrays,
+                out ConnectionIds connIds,
                 out T[] weightArr);
 
             // Construct and return a new WeightedDirectedGraph.
@@ -67,7 +67,7 @@ namespace SharpNeat.Graphs
             return new WeightedDirectedGraph<T>(
                 inputCount, outputCount,
                 totalNodeCount,
-                connIdArrays,
+                connIds,
                 weightArr);
         }
 
@@ -105,13 +105,13 @@ namespace SharpNeat.Graphs
         private static void CopyAndMapIds(
             Span<WeightedDirectedConnection<T>> connSpan,
             INodeIdMap nodeIdMap,
-            out ConnectionIdArrays connIdArrays,
+            out ConnectionIds connIds,
             out T[] weightArr)
         {
             int count = connSpan.Length;
-            connIdArrays = new ConnectionIdArrays(count);
-            var srcIds = connIdArrays.GetSourceIdSpan();
-            var tgtIds = connIdArrays.GetTargetIdSpan();
+            connIds = new ConnectionIds(count);
+            var srcIds = connIds.GetSourceIdSpan();
+            var tgtIds = connIds.GetTargetIdSpan();
             weightArr = new T[count];
 
             for(int i=0; i < count; i++)

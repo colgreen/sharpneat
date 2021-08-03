@@ -38,7 +38,7 @@ namespace SharpNeat.Benchmarks
             for(int i = 0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                ConnectionSorterV1.Sort(connData._connIdArrays, connData._weightArr);
+                ConnectionSorterV1.Sort(connData._connIds, connData._weightArr);
             }
         }
 
@@ -48,7 +48,7 @@ namespace SharpNeat.Benchmarks
             for(int i = 0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                ConnectionSorter<double>.Sort(connData._connIdArrays, connData._weightArr);
+                ConnectionSorter<double>.Sort(connData._connIds, connData._weightArr);
             }
         }
 
@@ -63,12 +63,12 @@ namespace SharpNeat.Benchmarks
             {
                 ConnectionData connData = new()
                 {
-                    _connIdArrays = new ConnectionIdArrays(length),
+                    _connIds = new ConnectionIds(length),
                     _weightArr = CreateRandomDoubleArray(length)
                 };
 
-                InitRandomInt32Array(connData._connIdArrays.GetSourceIdSpan());
-                InitRandomInt32Array(connData._connIdArrays.GetTargetIdSpan());
+                InitRandomInt32Array(connData._connIds.GetSourceIdSpan());
+                InitRandomInt32Array(connData._connIds.GetTargetIdSpan());
                 _dataArr[i] = connData;
             }
         }
@@ -78,8 +78,8 @@ namespace SharpNeat.Benchmarks
             for(int i=0; i < _dataArr.Length; i++)
             {
                 ConnectionData connData = _dataArr[i];
-                InitRandomInt32Array(connData._connIdArrays.GetSourceIdSpan());
-                InitRandomInt32Array(connData._connIdArrays.GetTargetIdSpan());
+                InitRandomInt32Array(connData._connIds.GetSourceIdSpan());
+                InitRandomInt32Array(connData._connIds.GetTargetIdSpan());
                 InitRandomDoubleArray(connData._weightArr);
             }
         }
@@ -111,7 +111,7 @@ namespace SharpNeat.Benchmarks
 
         private class ConnectionData
         {
-            public ConnectionIdArrays _connIdArrays;
+            public ConnectionIds _connIds;
             public double[] _weightArr;
         }
     }

@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Buffers;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome
@@ -35,7 +34,7 @@ namespace SharpNeat.Neat.Genome
             INodeIdMap nodeIndexByIdMap)
             where T : struct
         {
-            // Extract/copy the neat genome connectivity graph into a ConnectionIdArrays structure.
+            // Extract/copy the neat genome connectivity graph into a ConnectionIds structure.
             // Notes.
             // The array contents will be manipulated, so copying this avoids modification of the genome's
             // connection gene list.
@@ -43,14 +42,14 @@ namespace SharpNeat.Neat.Genome
             CopyAndMapIds(
                 connGenes._connArr,
                 nodeIndexByIdMap,
-                out ConnectionIdArrays connIdArrays);
+                out ConnectionIds connIds);
 
             // Construct a new DirectedGraph.
             var digraph = new DirectedGraph(
                 metaNeatGenome.InputNodeCount,
                 metaNeatGenome.OutputNodeCount,
                 nodeIndexByIdMap.Count,
-                connIdArrays);
+                connIds);
 
             return digraph;
         }
@@ -62,12 +61,12 @@ namespace SharpNeat.Neat.Genome
         private static void CopyAndMapIds(
             DirectedConnection[] connArr,
             INodeIdMap nodeIdMap,
-            out ConnectionIdArrays connIdArrays)
+            out ConnectionIds connIds)
         {
             int count = connArr.Length;
-            connIdArrays = new ConnectionIdArrays(count);
-            var srcIds = connIdArrays.GetSourceIdSpan();
-            var tgtIds = connIdArrays.GetTargetIdSpan();
+            connIds = new ConnectionIds(count);
+            var srcIds = connIds.GetSourceIdSpan();
+            var tgtIds = connIds.GetTargetIdSpan();
 
             for(int i=0; i < count; i++)
             {

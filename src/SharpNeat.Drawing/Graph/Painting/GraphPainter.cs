@@ -148,11 +148,11 @@ namespace SharpNeat.Drawing.Graph.Painting
         protected virtual void PaintConnections(DirectedGraphViewModel model, PaintState state)
         {
             // Loop the connections, painting each in turn.
-            ConnectionIdArrays connIdArrays = model.DirectedGraph.ConnectionIdArrays;
-            for(int i=0; i < connIdArrays.Length; i++)
+            ConnectionIds connIds = model.DirectedGraph.ConnectionIds;
+            for(int i=0; i < connIds.Length; i++)
             {
-                int srcIdx = connIdArrays.GetSourceId(i);
-                int tgtIdx = connIdArrays.GetTargetId(i);
+                int srcIdx = connIds.GetSourceId(i);
+                int tgtIdx = connIds.GetTargetId(i);
                 float weight = model.WeightArr[i];
 
                 Point srcPos = model.NodePosByIdx![srcIdx];

@@ -111,7 +111,7 @@ namespace SharpNeat.Graphs.Acyclic
                 acyclicDigraph.InputCount,
                 acyclicDigraph.OutputCount,
                 acyclicDigraph.TotalNodeCount,
-                acyclicDigraph.ConnectionIdArrays,
+                acyclicDigraph.ConnectionIds,
                 acyclicDigraph.LayerArray,
                 acyclicDigraph.OutputNodeIdxArr,
                 weightArr);
