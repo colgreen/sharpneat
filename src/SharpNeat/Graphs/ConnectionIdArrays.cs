@@ -11,6 +11,7 @@
  */
 using System;
 using System.Buffers;
+using System.Diagnostics;
 
 namespace SharpNeat.Graphs
 {
@@ -34,6 +35,7 @@ namespace SharpNeat.Graphs
         /// <param name="length">The number of connections to allocate memory for.</param>
         public ConnectionIdArrays(int length)
         {
+            // Store the number of the connections, and rent an array that has length of at least 2 * length.
             _length = length;
             _idArr = ArrayPool<int>.Shared.Rent(length << 1);
         }
@@ -60,14 +62,22 @@ namespace SharpNeat.Graphs
         /// </summary>
         /// <param name="connIdx">Connection index.</param>
         /// <returns>Source ID.</returns>
-        public ref int GetSourceId(int connIdx) => ref _idArr[connIdx];
+        public ref int GetSourceId(int connIdx)
+        {
+            Debug.Assert(connIdx >= 0 && connIdx < _length);
+            return ref _idArr[connIdx];
+        }
 
         /// <summary>
         /// Get the target ID for the specified connection.
         /// </summary>
         /// <param name="connIdx">Connection index.</param>
         /// <returns>Source ID.</returns>
-        public ref int GetTargetId(int connIdx) => ref _idArr[_length + connIdx];
+        public ref int GetTargetId(int connIdx)
+        {
+            Debug.Assert(connIdx >= 0 && connIdx < _length);
+            return ref _idArr[_length + connIdx];
+        }
 
         /// <summary>
         /// Returns the connection ID array back the ArrayPool it was rented from.
