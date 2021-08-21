@@ -93,7 +93,7 @@ namespace SharpNeat.Graphs
             }
 
             // Iterate the dictionary mappings, and reverse the mappings. Noting that each dictionary
-            // key is an index from a dense/contihuous ID space.
+            // key is an index from a dense/continuous ID space.
             foreach(var kvp in _nodeIdxById) {
                 nodeIdByIdx[kvp.Value] = kvp.Key;
             }

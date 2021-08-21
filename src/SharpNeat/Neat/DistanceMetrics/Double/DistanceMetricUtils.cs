@@ -71,6 +71,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
 
                     // If the ID has previously been encountered then add the current element value to it, otherwise
                     // add a new entry to the dictionary.
+                    // TODO: [.NET 6+] Use Marshal.GetValueRefOrAddDefault here to avoid the second lookup for adding a missing item.
                     if(coordElemTotals.TryGetValue(conn, out double weightAcc)) {
                         coordElemTotals[conn] = weightAcc + weight;
                     }

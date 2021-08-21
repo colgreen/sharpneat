@@ -15,7 +15,7 @@ using System;
 namespace SharpNeat.NeuralNets
 {
     /// <summary>
-    /// The activation function
+    /// The activation function.
     /// </summary>
     /// <param name="vref">>A reference to the head of a span containing pre-activation levels to pass through the function.
     /// The resulting post-activation levels are written back to this same span.</param>
