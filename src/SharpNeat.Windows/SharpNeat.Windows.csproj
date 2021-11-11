@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Version>4.0.0</Version>
     <Description>SharpNEAT Windows Forms code library.</Description>
     <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
