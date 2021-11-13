@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>SharpNeat.Tasks</RootNamespace>
     <Nullable>enable</Nullable>
+	<SkipLocalsInit>true</SkipLocalsInit>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

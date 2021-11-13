@@ -8,6 +8,7 @@
     <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <Nullable>enable</Nullable>
+	<SkipLocalsInit>true</SkipLocalsInit>
   </PropertyGroup>
 
   <ItemGroup>

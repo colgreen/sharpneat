@@ -11,6 +11,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <OutputType>WinExe</OutputType>
     <StartupObject>SharpNeat.Windows.App.Program</StartupObject>
+	<SkipLocalsInit>true</SkipLocalsInit>
   </PropertyGroup>
 
   <ItemGroup>

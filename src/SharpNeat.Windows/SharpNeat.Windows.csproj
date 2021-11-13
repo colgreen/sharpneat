@@ -9,6 +9,7 @@
     <Company />
     <Product>SharpNEAT - Evolution of Neural Networks.</Product>
     <UseWindowsForms>true</UseWindowsForms>
+	<SkipLocalsInit>true</SkipLocalsInit>
   </PropertyGroup>
 
   <ItemGroup>
