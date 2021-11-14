@@ -18,20 +18,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Graphs\IO\NetworkTsvReaderUtils.cs" />
-    <Compile Remove="Graphs\IO\NetworkTsvWriterUtils.cs" />
-    <Compile Remove="Graphs\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
-    <Compile Remove="Graphs\IO\WeightedDirectedGraphTsvWriter.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Graphs\IO\NetworkTsvReaderUtils.cs" />
-    <None Include="Graphs\IO\NetworkTsvWriterUtils.cs" />
-    <None Include="Graphs\IO\WeightedAcyclicDirectedGraphTsvWriter.cs" />
-    <None Include="Graphs\IO\WeightedDirectedGraphTsvWriter.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.13" />
     <PackageReference Include="Redzen" Version="12.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
