@@ -3,6 +3,10 @@
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = none
 
+# IDE0057: Slice can be simplified.
+# This is disabled because we use Slice extensively and the suggested simplification results in different IL/asm that is slower to execute (https://github.com/dotnet/roslyn/issues/47629)
+dotnet_diagnostic.IDE0057.severity = none
+
 # SA1000: Keywords should be spaced correctly
 dotnet_diagnostic.SA1000.severity = none
 
