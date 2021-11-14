@@ -114,7 +114,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <summary>
         /// Gets the size of the square grid, stated as the number length of an edge measured in grid squares.
         /// </summary>
-        public int GridSize => __gridSize;
+        public static int GridSize => __gridSize;
 
         /// <summary>
         /// Gets the number of moves the prey is allowed to move before the agent can move.

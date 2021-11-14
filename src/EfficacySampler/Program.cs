@@ -78,7 +78,7 @@ namespace EfficacySampler
             {
                 StopConditionType.ElapsedClockTime => new EvolutionAlgorithmHostClockTime(experiment,stopCond.Value),
                 StopConditionType.GenerationCount => new EvolutionAlgorithmHostGenerational(experiment,stopCond.Value),
-                _ => throw new ArgumentException(nameof(stopCond)),
+                _ => throw new ArgumentException("Unknown StopConditionType.", nameof(stopCond)),
             };
         }
 

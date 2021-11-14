@@ -19,7 +19,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
     /// Wraps a background worker thread for running an <see cref="IEvolutionAlgorithm"/>, and provides methods for asynchronous
     /// control of the worker thread, for starting, stopping, pausing and resuming the evolution algorithm.
     /// </summary>
-    public class EvolutionAlgorithmRunner : IDisposable
+    public sealed class EvolutionAlgorithmRunner : IDisposable
     {
         static readonly ILog __log = LogManager.GetLogger(typeof(EvolutionAlgorithmRunner));
 

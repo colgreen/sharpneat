@@ -55,11 +55,11 @@ namespace SharpNeat.Evaluation
             int degreeOfParallelism)
         {
             // This class can only accept an evaluation scheme that uses a stateless evaluator.
-            if(phenomeEvaluationScheme.EvaluatorsHaveState) throw new ArgumentException(nameof(phenomeEvaluationScheme));
+            if(phenomeEvaluationScheme.EvaluatorsHaveState) throw new ArgumentException("Evaluator must not have state.", nameof(phenomeEvaluationScheme));
 
             // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
             // this constructor is invoked, and 1 is nonsensical for a parallel evaluator.
-            if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
+            if(degreeOfParallelism < 2) throw new ArgumentException("Must be 2 or above.", nameof(degreeOfParallelism));
 
             _genomeDecoder = genomeDecoder;
             _phenomeEvaluationScheme = phenomeEvaluationScheme;

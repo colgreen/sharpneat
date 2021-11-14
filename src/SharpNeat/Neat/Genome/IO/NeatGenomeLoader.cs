@@ -97,9 +97,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <returns>The loaded genome.</returns>
         public NeatGenome<T> Load(string path)
         {
-            using(var sr = new StreamReader(path)) {
-                return Load(sr);
-            }
+            using var sr = new StreamReader(path);
+            return Load(sr);
         }
 
         /// <summary>
@@ -112,9 +111,8 @@ namespace SharpNeat.Neat.Genome.IO
         {
             if(stream is null) throw new ArgumentNullException(nameof(stream));
 
-            using(var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, true)) {
-                return Load(sr);
-            }
+            using var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, true);
+            return Load(sr);
         }
 
         /// <summary>

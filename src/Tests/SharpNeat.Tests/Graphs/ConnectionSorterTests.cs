@@ -58,7 +58,7 @@ namespace SharpNeat.Graphs.Tests
 
         #region Private Static Methods
 
-        private void InitRandomValues(Span<int> span, IRandomSource rng)
+        private static void InitRandomValues(Span<int> span, IRandomSource rng)
         {
             for(int i=0; i < span.Length; i++) {
                 span[i] = rng.Next();

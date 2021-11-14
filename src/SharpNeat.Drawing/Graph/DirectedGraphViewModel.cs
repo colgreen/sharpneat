@@ -58,8 +58,8 @@ namespace SharpNeat.Drawing
             float[] weightArr,
             INodeIdMap nodeIdByIdx)
         {
-            if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException(nameof(weightArr));
-            if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
+            if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
+            if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
 
             this.DirectedGraph = digraph;
             this.WeightArr = weightArr;
@@ -80,9 +80,9 @@ namespace SharpNeat.Drawing
             INodeIdMap nodeIdByIdx,
             Point[] nodePosByIdx)
         {
-            if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException(nameof(weightArr));
-            if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodeIdByIdx));
-            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException(nameof(nodePosByIdx));
+            if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
+            if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
+            if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodePosByIdx));
 
             this.DirectedGraph = digraph;
             this.WeightArr = weightArr;

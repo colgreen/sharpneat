@@ -130,7 +130,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
         #region Private Methods [Low Level]
 
-        private ConnectionGene<T>? CreateConnectionGene(
+        private static ConnectionGene<T>? CreateConnectionGene(
             ConnectionGenes<T> connGenes1,
             ConnectionGenes<T> connGenes2,
             int idx1, int idx2,

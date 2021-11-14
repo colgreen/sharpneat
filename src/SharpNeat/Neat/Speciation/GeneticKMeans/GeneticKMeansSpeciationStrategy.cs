@@ -183,7 +183,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
 
         #region Private Methods [KMeans Helper Methods]
 
-        private void KMeansInit(Species<T>[] speciesArr)
+        private static void KMeansInit(Species<T>[] speciesArr)
         {
             // Transfer all genomes from GenomeList to GenomeById.
             // Notes. moving genomes between species is more efficient when using dictionaries;

@@ -26,10 +26,8 @@ namespace SharpNeat.IO
         /// <returns>A new instance of <see cref="JsonDocument"/>.</returns>
         public static JsonDocument LoadUtf8(string filename)
         {
-            using(FileStream fs = File.OpenRead(filename))
-            {
-                return JsonDocument.Parse(fs);
-            }
+            using FileStream fs = File.OpenRead(filename);
+            return JsonDocument.Parse(fs);
         }
     }
 }

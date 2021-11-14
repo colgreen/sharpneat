@@ -64,7 +64,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
 
             // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
             // this constructor is invoked, and 1 is nonsensical for a parallel strategy.
-            if(degreeOfParallelism < 2) throw new ArgumentException(nameof(degreeOfParallelism));
+            if(degreeOfParallelism < 2) throw new ArgumentException("Must be 2 or above.", nameof(degreeOfParallelism));
 
             _parallelOptions = new ParallelOptions {
                  MaxDegreeOfParallelism = degreeOfParallelism

@@ -53,10 +53,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
 
         private static void AssertMonotonic(IActivationFunction<double> actFn, bool strict)
         {
-            Func<double,double> fn = delegate(double x) {
+            double fn(double x)
+            {
                 actFn.Fn(ref x);
                 return x;
-            };
+            }
 
             Assert.True(FuncTestUtils.IsMonotonicIncreasing(fn, -6, 6, 0.01, strict));
         }

@@ -439,9 +439,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// </summary>
         private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
         {
-            #pragma warning disable SA1129 // Do not use default value type constructor
             SpinLock spinLock = new();
-            #pragma warning restore SA1129 // Do not use default value type constructor
             double maxDistance = 0.0;
 
             // Iterate through all combinations of species, except for pairs of the same species.

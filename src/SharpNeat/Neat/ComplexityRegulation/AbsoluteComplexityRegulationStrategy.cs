@@ -67,8 +67,8 @@ namespace SharpNeat.Neat.ComplexityRegulation
             _currentMode = ComplexityRegulationMode.Complexifying;
             _lastTransitionGeneration = 0;
 
-            if(minSimplifcationGenerations < 1) throw new ArgumentException(nameof(minSimplifcationGenerations));
-            if(complexityCeiling < 1) throw new ArgumentException(nameof(complexityCeiling));
+            if(minSimplifcationGenerations < 1) throw new ArgumentException("Must be 1 or above.", nameof(minSimplifcationGenerations));
+            if(complexityCeiling < 1) throw new ArgumentException("Must be at 1 or above.", nameof(complexityCeiling));
         }
 
         #endregion

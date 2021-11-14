@@ -36,7 +36,7 @@ namespace SharpNeat.Evaluation
             where TPhenome : class, IDisposable
         {
             // Reject nonsensical values for degreeOfParallelism.
-            if(degreeOfParallelism < 1) throw new ArgumentException(nameof(degreeOfParallelism));
+            if(degreeOfParallelism < 1) throw new ArgumentException("Must be 1 or above.", nameof(degreeOfParallelism));
 
             // Create a serial (single threaded) evaluator if degreeOfParallelism is one.
             if(degreeOfParallelism == 1) {

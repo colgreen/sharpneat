@@ -179,11 +179,11 @@ namespace SharpNeat.Neat
             // Use k-means speciation strategy; this is the default from sharpneat 2.x.
             // Create a serial (single threaded) strategy if degreeOfParallelism is one.
             if(degreeOfParallelismResolved == 1) {
-                return new Neat.Speciation.GeneticKMeans.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
+                return new Speciation.GeneticKMeans.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
             }
 
             // Create a parallel (multi-threaded) strategy for degreeOfParallelism > 1.
-            return new Neat.Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, degreeOfParallelismResolved);
+            return new Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, degreeOfParallelismResolved);
         }
 
         #endregion

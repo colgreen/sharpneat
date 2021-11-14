@@ -23,7 +23,7 @@ namespace SharpNeat.Tasks.Tests
             VerifyNeuralNetResponseInner(true);
         }
 
-        private void VerifyNeuralNetResponseInner(bool enableHardwareAcceleration)
+        private static void VerifyNeuralNetResponseInner(bool enableHardwareAcceleration)
         {
             var activationFnFactory = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
             var metaNeatGenome = new MetaNeatGenome<double>(4, 1, true, activationFnFactory.GetActivationFunction("LeakyReLU"));

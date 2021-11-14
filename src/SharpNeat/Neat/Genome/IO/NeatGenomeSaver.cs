@@ -33,9 +33,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <param name="path">The path of the file to save to.</param>
         public static void Save(NeatGenome<T> genome, string path)
         {
-            using(var sw = new StreamWriter(path, false, __utf8Encoding)) {
-                Save(genome, sw);
-            }
+            using var sw = new StreamWriter(path, false, __utf8Encoding);
+            Save(genome, sw);
         }
 
         /// <summary>
@@ -46,9 +45,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <remarks>This method does not close the Stream.</remarks>
         public static void Save(NeatGenome<T> genome, Stream stream)
         {
-            using(var sw = new StreamWriter(stream, __utf8Encoding, 1024, true)) {
-                Save(genome, sw);
-            }
+            using var sw = new StreamWriter(stream, __utf8Encoding, 1024, true);
+            Save(genome, sw);
         }
 
         /// <summary>

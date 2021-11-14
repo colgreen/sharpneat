@@ -16,7 +16,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
 
             // Save the genome into a MemoryStream.
-            using MemoryStream ms = new MemoryStream();
+            using MemoryStream ms = new();
             NeatGenomeSaver<double>.Save(genomeBuilt, ms);
 
             // Load the saved genome.
@@ -36,7 +36,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             CultureInfo defaultCulture = currentThread.CurrentCulture;
 
             // Change the default culture to French (which uses e.g. a comma as a decimal separator).
-            CultureInfo frenchCulture = new CultureInfo("fr-FR");
+            CultureInfo frenchCulture = new("fr-FR");
             Thread.CurrentThread.CurrentCulture = frenchCulture;
             
             try
@@ -46,7 +46,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
                 NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
 
                 // Save the genome into a MemoryStream.
-                using MemoryStream ms = new MemoryStream();
+                using MemoryStream ms = new();
                 NeatGenomeSaver<double>.Save(genomeBuilt, ms);
 
                 // Load the saved genome.
@@ -64,9 +64,9 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             }
         }
 
-        #region Private Methods
+        #region Private Static Methods
 
-        private NeatGenome<double> CreateGenome1(MetaNeatGenome<double> metaNeatGenome)
+        private static NeatGenome<double> CreateGenome1(MetaNeatGenome<double> metaNeatGenome)
         {
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

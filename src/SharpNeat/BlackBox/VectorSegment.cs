@@ -56,11 +56,11 @@ namespace SharpNeat.BlackBox
         public VectorSegment(T[] innerArray, int offset, int length)
         {
             if(offset < 0 || offset >= innerArray.Length) {
-                throw new ArgumentOutOfRangeException("Invalid offset.", "offset");
+                throw new ArgumentOutOfRangeException(nameof(offset), "Invalid offset.");
             }
 
             if(offset + length > innerArray.Length) {
-                throw new ArgumentOutOfRangeException("Invalid length.", "length");
+                throw new ArgumentOutOfRangeException(nameof(length), "Invalid length.");
             }
 
             _innerArr = innerArray;

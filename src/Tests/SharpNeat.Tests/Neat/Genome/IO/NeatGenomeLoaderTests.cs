@@ -21,9 +21,9 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             IOTestUtils.CompareGenomes(genomeLoaded, genomeBuilt);
         }
 
-        #region Private Methods
+        #region Private Static Methods
 
-        private NeatGenome<double> CreateGenome1(MetaNeatGenome<double> metaNeatGenome)
+        private static NeatGenome<double> CreateGenome1(MetaNeatGenome<double> metaNeatGenome)
         {
             var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
