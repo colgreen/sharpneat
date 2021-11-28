@@ -80,8 +80,12 @@ namespace SharpNeat.IO
             string propertyName,
             Action<string> setter)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
-                setter(propElem.GetString());
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
+            {
+                string? str = propElem.GetString();
+                if(str is not null) {
+                    setter(str);
+                }
             }
         }
 

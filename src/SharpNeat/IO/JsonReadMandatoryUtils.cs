@@ -79,10 +79,13 @@ namespace SharpNeat.IO
             JsonElement jelem,
             string propertyName)
         {
+            string? str = null;
             if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
-                return propElem.GetString();
+                str = propElem.GetString();
             }
-            throw new Exception($"Missing mandatory property [{propertyName}]");
+
+            if(str is null) throw new Exception($"Missing mandatory property [{propertyName}]");
+            return str;
         }
 
         #endregion

@@ -29,13 +29,14 @@ namespace SharpNeat.Neat.ComplexityRegulation
         /// <returns>A new instance of <see cref="IComplexityRegulationStrategy"/>.</returns>
         public static IComplexityRegulationStrategy Read(JsonElement jelem)
         {
-            string strategyName = jelem.GetProperty("strategyName").GetString();
+            string? strategyName = jelem.GetProperty("strategyName").GetString();
             return strategyName switch
             {
                 // The 'null' strategy has been explicitly defined.
                 "null" => new NullComplexityRegulationStrategy(),
                 "absolute" => ReadAbsoluteComplexityRegulationStrategy(jelem),
                 "relative" => ReadRelativeComplexityRegulationStrategy(jelem),
+                null => throw new Exception($"strategyName json property is empty."),
                 _ => throw new Exception($"Unsupported complexity regulation strategyName [{strategyName}]"),
             };
         }

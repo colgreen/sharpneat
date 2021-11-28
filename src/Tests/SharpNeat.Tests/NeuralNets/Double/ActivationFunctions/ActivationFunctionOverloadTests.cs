@@ -65,7 +65,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
 
             // Overload 3.
             Array.Clear(v_vector, 0, v_vector.Length);
-            actFn.Fn(v[10..20], v_vector.AsSpan(10..20));
+            actFn.Fn(v.AsSpan()[10..20], v_vector.AsSpan(10..20));
             ConponentwiseEqual(v_zero, v_vector, 0, 10);
             ConponentwiseEqual(v_scalar1, v_vector, 10, 20);
             ConponentwiseEqual(v_zero, v_vector, 20, v.Length);

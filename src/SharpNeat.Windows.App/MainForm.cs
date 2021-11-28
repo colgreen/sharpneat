@@ -28,6 +28,8 @@ using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 using static SharpNeat.Windows.App.AppUtils;
 
+#pragma warning disable IDE1006 // Naming Styles. Allow naming convention for Windows.Forms event handlers.
+
 namespace SharpNeat.Windows.App
 {
     /// <summary>

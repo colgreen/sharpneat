@@ -147,7 +147,7 @@ namespace SharpNeat.Neat
             AdjustSpeciesTargetSizes_AccommodateBestGenomeSpecies(pop, rng);
 
             // Assert that Sum(TargetSizeInt) == popSize.
-            Debug.Assert(pop.SpeciesArray.Sum(x => x.Stats.TargetSizeInt) == pop.PopulationSize);
+            Debug.Assert(pop.SpeciesArray!.Sum(x => x.Stats.TargetSizeInt) == pop.PopulationSize);
         }
 
         private static void AdjustSpeciesTargetSizesUp(
