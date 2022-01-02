@@ -47,13 +47,13 @@ namespace SharpNeat.Graphs.Acyclic
         /// </summary>
         BoolArray _visitedNodeBitmap = new(1024);
 
-        #if DEBUG
+#if DEBUG
         /// <summary>
         /// Indicates if a call to IsConnectionCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
-        #endif
+#endif
 
         #endregion
 
@@ -74,12 +74,12 @@ namespace SharpNeat.Graphs.Acyclic
             DirectedGraph digraph,
             in DirectedConnection newConn)
         {
-            #if DEBUG
+#if DEBUG
             // Check for attempts to re-enter this method.
             if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
                 throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
             }
-            #endif
+#endif
 
             EnsureNodeCapacity(digraph.TotalNodeCount);
 
@@ -101,9 +101,8 @@ namespace SharpNeat.Graphs.Acyclic
         private bool IsConnectionCyclicInner(DirectedGraph digraph, in DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
-            if(newConn.SourceId == newConn.TargetId) {
+            if(newConn.SourceId == newConn.TargetId)
                 return true;
-            }
 
             // Note. We traverse forwards starting at the new connection's target node. If the new connection's source node is
             // encountered during traversal then the connection would form a cycle in the graph as a whole, and we return true.
@@ -125,7 +124,7 @@ namespace SharpNeat.Graphs.Acyclic
 
         private void EnsureNodeCapacity(int capacity)
         {
-            if (capacity > _visitedNodeBitmap.Length)
+            if(capacity > _visitedNodeBitmap.Length)
             {
                 // For the new capacity, select the lowest power of two that is above the required capacity.
                 capacity = MathUtils.CeilingToPowerOfTwo(capacity);
@@ -140,10 +139,10 @@ namespace SharpNeat.Graphs.Acyclic
             _traversalStack.Clear();
             _visitedNodeBitmap.Reset(false);
 
-            #if DEBUG
+#if DEBUG
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
+#endif
         }
 
         #endregion
@@ -189,14 +188,12 @@ namespace SharpNeat.Graphs.Acyclic
 
                 // Test if the next traversal child node has already been visited.
                 int childNodeId = tgtIds[currConnIdx];
-                if(_visitedNodeBitmap[childNodeId]) {
+                if(_visitedNodeBitmap[childNodeId])
                     continue;
-                }
 
                 // Test if the connection target is the terminal node.
-                if(childNodeId == terminalNodeId) {
+                if(childNodeId == terminalNodeId)
                     return true;
-                }
 
                 // We're about to traverse into childNodeId, so mark it as visited to prevent re-traversal.
                 _visitedNodeBitmap[childNodeId] = true;
@@ -221,7 +218,7 @@ namespace SharpNeat.Graphs.Acyclic
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,
             // then update the node's entry on the top of the stack to point to said connection.
-            for(int i=currConnIdx + 1; i < srcIds.Length && (srcIds[currConnIdx] == srcIds[i]); i++)
+            for(int i = currConnIdx + 1; i < srcIds.Length && (srcIds[currConnIdx] == srcIds[i]); i++)
             {
                 if(!_visitedNodeBitmap[tgtIds[i]])
                 {

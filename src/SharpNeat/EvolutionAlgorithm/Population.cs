@@ -63,9 +63,8 @@ namespace SharpNeat.EvolutionAlgorithm
         public Population(List<TGenome> genomeList)
         {
             this.GenomeList = genomeList ?? throw new ArgumentNullException(nameof(genomeList));
-            if(genomeList.Count == 0) {
+            if(genomeList.Count == 0)
                 throw new ArgumentException("Empty genome list. The initial population cannot be empty.", nameof(genomeList));
-            }
 
             this.PopulationSize = genomeList.Count;
             this.Stats = CreatePopulatonStats();

@@ -48,7 +48,8 @@ namespace EfficacySampler
             ea.Initialise();
 
             // Run the main EA loop for the required number of generations.
-            for(int i=0; i < _stopGenerationCount; i++) {
+            for(int i=0; i < _stopGenerationCount; i++)
+            {
                 ea.PerformOneGeneration();
             }
 
@@ -56,7 +57,8 @@ namespace EfficacySampler
             _stopwatch.Stop();
 
             // Copy the required stats into a new Sample instance.
-            Sample sample = new() {
+            Sample sample = new()
+            {
                 ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
                 GenerationCount = ea.Stats.Generation
             };

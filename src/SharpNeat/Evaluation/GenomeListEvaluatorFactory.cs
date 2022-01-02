@@ -28,7 +28,7 @@ namespace SharpNeat.Evaluation
         /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
         /// <param name="degreeOfParallelism">The number of CPU threads to distribute work to.</param>
         /// <returns>A new instance of <see cref="IGenomeListEvaluator{TGenome}"/>.</returns>
-        public static IGenomeListEvaluator<TGenome> CreateEvaluator<TGenome,TPhenome>(
+        public static IGenomeListEvaluator<TGenome> CreateEvaluator<TGenome, TPhenome>(
             IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
             int degreeOfParallelism)
@@ -36,19 +36,31 @@ namespace SharpNeat.Evaluation
             where TPhenome : class, IDisposable
         {
             // Reject nonsensical values for degreeOfParallelism.
-            if(degreeOfParallelism < 1) throw new ArgumentException("Must be 1 or above.", nameof(degreeOfParallelism));
+            if(degreeOfParallelism < 1)
+                throw new ArgumentException("Must be 1 or above.", nameof(degreeOfParallelism));
 
             // Create a serial (single threaded) evaluator if degreeOfParallelism is one.
-            if(degreeOfParallelism == 1) {
-                return new SerialGenomeListEvaluator<TGenome, TPhenome>(genomeDecoder, phenomeEvaluationScheme);
+            if(degreeOfParallelism == 1)
+            {
+                return new SerialGenomeListEvaluator<TGenome, TPhenome>(
+                    genomeDecoder,
+                    phenomeEvaluationScheme);
             }
 
             // Create a parallel (multi-threaded) evaluator for degreeOfParallelism > 1.
-            if(phenomeEvaluationScheme.EvaluatorsHaveState) {
-                return new ParallelGenomeListEvaluator<TGenome,TPhenome>(genomeDecoder, phenomeEvaluationScheme, degreeOfParallelism);
+            if(phenomeEvaluationScheme.EvaluatorsHaveState)
+            {
+                return new ParallelGenomeListEvaluator<TGenome, TPhenome>(
+                    genomeDecoder,
+                    phenomeEvaluationScheme,
+                    degreeOfParallelism);
             }
+
             // else
-            return new ParallelGenomeListEvaluatorStateless<TGenome,TPhenome>(genomeDecoder, phenomeEvaluationScheme, degreeOfParallelism);
+            return new ParallelGenomeListEvaluatorStateless<TGenome, TPhenome>(
+                genomeDecoder,
+                phenomeEvaluationScheme,
+                degreeOfParallelism);
         }
     }
 }

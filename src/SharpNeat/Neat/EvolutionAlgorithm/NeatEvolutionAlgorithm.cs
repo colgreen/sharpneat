@@ -92,7 +92,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 reproductionSexualSettings,
                 weightMutationScheme,
                 RandomDefaults.CreateRandomSource())
-        {}
+        {
+        }
 
         /// <summary>
         /// Construct a new instance.
@@ -138,9 +139,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             _rng = rng;
             _genomeComparerDescending = new GenomeComparerDescending(evaluator.FitnessComparer);
 
-            if(eaSettings.SpeciesCount > population.PopulationSize) {
+            if(eaSettings.SpeciesCount > population.PopulationSize)
                 throw new ArgumentException("Species count is higher then the population size.");
-            }
 
             _generationSeq = new Int32Sequence();
 
@@ -211,9 +211,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// </summary>
         public void PerformOneGeneration()
         {
-            if(_pop.SpeciesArray is null) {
+            if(_pop.SpeciesArray is null)
                 throw new InvalidOperationException("Algorithm is not initialised.");
-            }
 
             // Create offspring.
             List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(
@@ -271,9 +270,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 int removeCount = species.GenomeList.Count - eliteSizeInt;
                 species.GenomeList.RemoveRange(eliteSizeInt, removeCount);
 
-                if(eliteSizeInt == 0) {
+                if(eliteSizeInt == 0)
                     emptySpeciesFlag = true;
-                }
             }
         }
 
@@ -285,7 +283,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             var genomeList = _pop.GenomeList;
 
             genomeList.Clear();
-            foreach(var species in _pop.SpeciesArray!) {
+            foreach(var species in _pop.SpeciesArray!)
+            {
                 genomeList.AddRange(species.GenomeList);
             }
         }
@@ -423,9 +422,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             ComplexityRegulationMode mode = _complexityRegulationStrategy.UpdateMode(_eaStats, _pop.Stats);
 
             // If the mode has not changed then do nothing
-            if(modePrev == mode) {
+            if(modePrev == mode)
                 return;
-            }
 
             // Notify all objects that need to be notified of the change in mode.
             _reproductionAsexual.NotifyComplexityRegulationMode(mode);

@@ -111,7 +111,8 @@ namespace EfficacySampler
                 _ea!.Initialise();
 
                 // Run the main EA loop until we are signalled to stop.
-                while(!_stopFlag) {
+                while(!_stopFlag)
+                {
                     _ea.PerformOneGeneration();
                 }
 
@@ -127,7 +128,8 @@ namespace EfficacySampler
         private Sample RecordSample()
         {
             // Copy the required stats into a new Sample instance.
-            Sample sample = new() {
+            Sample sample = new()
+            {
                 ElapsedTimeSecs = _stopwatch.ElapsedMilliseconds * 0.001,
                 GenerationCount = _ea!.Stats.Generation
             };
@@ -155,9 +157,8 @@ namespace EfficacySampler
 
                 // There's no point in calling Thread.Sleep() for very short durations, so just return
                 // if the remaining time is almost zero.
-                if(remainingMs <= thresholdMs) {
+                if(remainingMs <= thresholdMs)
                     return;
-                }
 
                 // Wait for slightly less time than is remaining, to increase the chances of waiting the correct amount of time
                 // (at time of writing Thread.Sleep does not appear to have especially accurate timing, due to how kernel task

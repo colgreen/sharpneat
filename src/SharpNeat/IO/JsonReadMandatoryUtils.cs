@@ -31,9 +31,9 @@ namespace SharpNeat.IO
             JsonElement jelem,
             string propertyName)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 return propElem.GetBoolean();
-            }
+
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }
 
@@ -47,9 +47,9 @@ namespace SharpNeat.IO
             JsonElement jelem,
             string propertyName)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 return propElem.GetInt32();
-            }
+
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }
 
@@ -63,9 +63,9 @@ namespace SharpNeat.IO
             JsonElement jelem,
             string propertyName)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 return propElem.GetDouble();
-            }
+
             throw new Exception($"Missing mandatory property [{propertyName}]");
         }
 
@@ -80,9 +80,8 @@ namespace SharpNeat.IO
             string propertyName)
         {
             string? str = null;
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 str = propElem.GetString();
-            }
 
             if(str is null) throw new Exception($"Missing mandatory property [{propertyName}]");
             return str;

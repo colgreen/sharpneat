@@ -39,9 +39,8 @@ namespace SharpNeat.Evaluation
             IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
             int initialPoolSize)
         {
-            if(!phenomeEvaluationScheme.EvaluatorsHaveState) {
+            if(!phenomeEvaluationScheme.EvaluatorsHaveState)
                 throw new InvalidOperationException("A stateless evaluation scheme does not require an evaluator pool; just use a single evaluator instance concurrently.");
-            }
 
             _phenomeEvaluationScheme = phenomeEvaluationScheme;
 
@@ -49,9 +48,8 @@ namespace SharpNeat.Evaluation
             _evaluatorStack = new LightweightStack<IPhenomeEvaluator<TPhenome>>(initialPoolSize * 2);
 
             // Pre-populate with evaluators.
-            for(int i=0; i < initialPoolSize; i++) {
+            for(int i=0; i < initialPoolSize; i++)
                 _evaluatorStack.Push(phenomeEvaluationScheme.CreateEvaluator());
-            }
 
             // Enable thread tracking only if the debugger is attached; it adds non-trivial overhead to Enter/Exit.
             _spinLock = new SpinLock(Debugger.IsAttached);
@@ -74,9 +72,8 @@ namespace SharpNeat.Evaluation
                 _spinLock.Enter(ref lockTaken);
 
                 // Take an evaluator from the pool (if any available).
-                if(_evaluatorStack.Count > 0) {
+                if(_evaluatorStack.Count > 0)
                     return _evaluatorStack.Pop();
-                }
             }
             finally
             {

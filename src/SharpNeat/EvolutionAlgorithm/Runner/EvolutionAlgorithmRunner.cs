@@ -111,32 +111,32 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             switch(_runState)
             {
                 case RunState.Ready:
-                {
-                    // Create a background thread for running the algorithm.
-                    _algorithmThread = new Thread(BackgroundThreadMethod)
                     {
-                        IsBackground = true,
-                        Priority = ThreadPriority.BelowNormal
-                    };
+                        // Create a background thread for running the algorithm.
+                        _algorithmThread = new Thread(BackgroundThreadMethod)
+                        {
+                            IsBackground = true,
+                            Priority = ThreadPriority.BelowNormal
+                        };
 
-                    // Update RunState, and start the thread running.
-                    _runState = RunState.Running;
-                    _algorithmThread.Start();
-                    break;
-                }
+                        // Update RunState, and start the thread running.
+                        _runState = RunState.Running;
+                        _algorithmThread.Start();
+                        break;
+                    }
                 case RunState.Paused:
-                {
-                    // The runner is paused; resume execution.
-                    _runState = RunState.Running;
-                    _awaitRestartEvent.Set();
-                    break;
-                }
+                    {
+                        // The runner is paused; resume execution.
+                        _runState = RunState.Running;
+                        _awaitRestartEvent.Set();
+                        break;
+                    }
                 case RunState.Running:
-                {
-                    // Already running. Log a warning.
-                    __log.Warn("StartContinue() called but algorithm is already running.");
-                    break;
-                }
+                    {
+                        // Already running. Log a warning.
+                        __log.Warn("StartContinue() called but algorithm is already running.");
+                        break;
+                    }
                 default:
                     throw new Exception($"StartContinue() call failed. Unexpected RunState [{_runState}]");
             }
@@ -196,27 +196,27 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
             switch(_runState)
             {
                 case RunState.Ready:
-                {
-                    _runState = RunState.Terminated;
-                    break;
-                }
+                    {
+                        _runState = RunState.Terminated;
+                        break;
+                    }
 
                 case RunState.Running:
-                {
-                    // Signal the worker thread to terminate, and wait for it to do so.
-                    _terminateFlag = true;
-                    _pauseRequestFlag = true;
-                    _awaitPauseEvent.WaitOne();
-                    break;
-                }
+                    {
+                        // Signal the worker thread to terminate, and wait for it to do so.
+                        _terminateFlag = true;
+                        _pauseRequestFlag = true;
+                        _awaitPauseEvent.WaitOne();
+                        break;
+                    }
                 case RunState.Paused:
-                {
-                    // Signal the worker thread to terminate, and resume it.
-                    _terminateFlag = true;
-                    _runState = RunState.Terminated;
-                    _awaitRestartEvent.Set();
-                    break;
-                }
+                    {
+                        // Signal the worker thread to terminate, and resume it.
+                        _terminateFlag = true;
+                        _runState = RunState.Terminated;
+                        _awaitRestartEvent.Set();
+                        break;
+                    }
 
                 default:
                     throw new Exception($"StartContinue() call failed. Unexpected RunState [{_runState}]");
@@ -312,7 +312,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
 
         private void OnUpdateEvent()
         {
-            this.UpdateEvent?.Invoke(this,EventArgs.Empty);
+            this.UpdateEvent?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

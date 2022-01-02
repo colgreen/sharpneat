@@ -102,9 +102,8 @@ namespace SharpNeat.Graphs.Acyclic
             T[] genomeWeightArr = digraph.WeightArray;
             T[] weightArr = new T[genomeWeightArr.Length];
 
-            for(int i=0; i < weightArr.Length; i++) {
+            for(int i=0; i < weightArr.Length; i++)
                 weightArr[i] = genomeWeightArr[connectionIndexMap[i]];
-            }
 
             // Construct a new WeightedDirectedGraphAcyclic.
             return new WeightedDirectedGraphAcyclic<T>(

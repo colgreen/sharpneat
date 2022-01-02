@@ -12,7 +12,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
 
         public MockPreyCaptureAgent()
         {
-            this.InputVector = new VectorSegment<double>(new double[14], 0, 14);;
+            this.InputVector = new VectorSegment<double>(new double[14], 0, 14);
             _outputArr = new double[4];
             this.OutputVector = new VectorSegment<double>(_outputArr, 0, 4);
         }
@@ -52,7 +52,8 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
         /// Releases both managed and unmanaged resources.
         /// </summary>
         public void Dispose()
-        {}
+        {
+        }
 
         #endregion
     }

@@ -42,12 +42,11 @@ namespace SharpNeat.Neat.Genome
             foreach(var conn in connArr)
             {
                 // Skip input and output node IDs (these start from zero and go up to inputOutputCount-1).
-                if(conn.SourceId >= inputOutputCount) {
+                if(conn.SourceId >= inputOutputCount)
                     workingIdSet.Add(conn.SourceId);
-                }
-                if(conn.TargetId >= inputOutputCount) {
+
+                if(conn.TargetId >= inputOutputCount)
                     workingIdSet.Add(conn.TargetId);
-                }
             }
 
             int[] idArr = workingIdSet.ToArray();
@@ -68,15 +67,14 @@ namespace SharpNeat.Neat.Genome
             int inputOutputCount)
         {
             // Test that the IDs are sorted (required to allow for efficient searching of IDs using a binary search).
-            if(!SortUtils.IsSortedAscending<int>(hiddenNodeIdArr)) {
+            if(!SortUtils.IsSortedAscending<int>(hiddenNodeIdArr))
                 return false;
-            }
 
             // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
             int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, new HashSet<int>());
-            if(!SpanUtils.Equal<int>(idArr, hiddenNodeIdArr)) {
+            if(!SpanUtils.Equal<int>(idArr, hiddenNodeIdArr))
                 return false;
-            }
+
             return true;
         }
 

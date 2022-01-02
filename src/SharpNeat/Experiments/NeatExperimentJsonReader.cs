@@ -65,7 +65,8 @@ namespace SharpNeat.Experiments
         private static void ReadNeatEvolutionAlgorithmSettings(
             INeatExperiment<T> target, JsonElement jelem)
         {
-            if(jelem.TryGetProperty("evolutionAlgorithmSettings", out JsonElement settingsElem)) {
+            if(jelem.TryGetProperty("evolutionAlgorithmSettings", out JsonElement settingsElem))
+            {
                 NeatEvolutionAlgorithmSettingsJsonReader.Read(target.NeatEvolutionAlgorithmSettings, settingsElem);
             }
         }
@@ -73,7 +74,8 @@ namespace SharpNeat.Experiments
         private static void ReadNeatReproductionAsexualSettings(
             INeatExperiment<T> target, JsonElement jelem)
         {
-            if(jelem.TryGetProperty("reproductionAsexualSettings", out JsonElement settingsElem)) {
+            if(jelem.TryGetProperty("reproductionAsexualSettings", out JsonElement settingsElem))
+            {
                 NeatReproductionAsexualSettingsJsonReader.Read(target.ReproductionAsexualSettings, settingsElem);
             }
         }
@@ -81,7 +83,8 @@ namespace SharpNeat.Experiments
         private static void ReadNeatReproductionSexualSettings(
             INeatExperiment<T> target, JsonElement jelem)
         {
-            if(jelem.TryGetProperty("reproductionSexualSettings", out JsonElement settingsElem)) {
+            if(jelem.TryGetProperty("reproductionSexualSettings", out JsonElement settingsElem))
+            {
                 NeatReproductionSexualSettingsJsonReader.Read(target.ReproductionSexualSettings, settingsElem);
             }
         }
@@ -89,7 +92,8 @@ namespace SharpNeat.Experiments
         private static void ReadComplexityRegulationStrategy(
             INeatExperiment<T> target, JsonElement jelem)
         {
-            if(jelem.TryGetProperty("complexityRegulationStrategy", out JsonElement settingsElem)) {
+            if(jelem.TryGetProperty("complexityRegulationStrategy", out JsonElement settingsElem))
+            {
                 target.ComplexityRegulationStrategy = ComplexityRegulationStrategyJsonReader.Read(settingsElem);
             }
         }

@@ -71,7 +71,7 @@ namespace SharpNeat.Graphs
         {
             // Input node IDs are always at the head of the array, and are fixed.
             // Output nodes may also be included in the fixed node count (see class remarks).
-            if (id < _fixedNodeCount)
+            if(id < _fixedNodeCount)
             {
                 return id;
             }
@@ -88,15 +88,13 @@ namespace SharpNeat.Graphs
             var nodeIdByIdx = new int[this.Count];
 
             // The fixed nodes IDs are identity mappings from 0 to _fixedNodeCount-1;
-            for(int i=0; i < _fixedNodeCount; i++) {
+            for(int i=0; i < _fixedNodeCount; i++)
                 nodeIdByIdx[i] = i;
-            }
 
             // Iterate the dictionary mappings, and reverse the mappings. Noting that each dictionary
             // key is an index from a dense/continuous ID space.
-            foreach(var kvp in _nodeIdxById) {
+            foreach(var kvp in _nodeIdxById)
                 nodeIdByIdx[kvp.Value] = kvp.Key;
-            }
 
             return new ArrayNodeIdMap(nodeIdByIdx);
         }

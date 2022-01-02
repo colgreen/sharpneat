@@ -64,7 +64,7 @@ namespace SharpNeat.Graphs
             Span<int> tgtIds,
             Span<T> vals)
         {
-            if (srcIds.Length < 2)
+            if(srcIds.Length < 2)
                 return;
 
             IntroSortInner(
@@ -82,17 +82,17 @@ namespace SharpNeat.Graphs
             Debug.Assert(depthLimit >= 0);
 
             int partitionSize = srcIds.Length;
-            while (partitionSize > 1)
+            while(partitionSize > 1)
             {
-                if (partitionSize <= __introsortSizeThreshold)
+                if(partitionSize <= __introsortSizeThreshold)
                 {
-                    if (partitionSize == 2)
+                    if(partitionSize == 2)
                     {
                         SwapIfGreater(srcIds, tgtIds, vals, 0, 1);
                         return;
                     }
 
-                    if (partitionSize == 3)
+                    if(partitionSize == 3)
                     {
                         SwapIfGreater(srcIds, tgtIds, vals, 0, 1);
                         SwapIfGreater(srcIds, tgtIds, vals, 0, 2);
@@ -107,7 +107,7 @@ namespace SharpNeat.Graphs
                     return;
                 }
 
-                if (depthLimit == 0)
+                if(depthLimit == 0)
                 {
                     Heapsort(
                         srcIds.Slice(0, partitionSize),
@@ -156,14 +156,13 @@ namespace SharpNeat.Graphs
 
             // Walk the left and right indexes, swapping elements as necessary, until they cross.
             int left = 0, right = nextToLast;
-            while (left < right)
+            while(left < right)
             {
                 while(Compare(ref srcIds[++left], ref tgtIds[left], ref pivotSrcId, ref pivotTgtId) < 0);
                 while(Compare(ref pivotSrcId, ref pivotTgtId, ref srcIds[--right], ref tgtIds[right]) < 0);
 
-                if (left >= right) {
+                if(left >= right)
                     break;
-                }
 
                 Swap(srcIds, tgtIds, vals, left, right);
             }
@@ -189,12 +188,12 @@ namespace SharpNeat.Graphs
             Debug.Assert(!srcIds.IsEmpty);
 
             int n = srcIds.Length;
-            for (int i = n >> 1; i >= 1; i--)
+            for(int i = n >> 1; i >= 1; i--)
             {
                 DownHeap(srcIds, tgtIds, vals, i, n);
             }
 
-            for (int i = n; i > 1; i--)
+            for(int i = n; i > 1; i--)
             {
                 Swap(srcIds, tgtIds, vals, 0, i - 1);
                 DownHeap(srcIds, tgtIds, vals, 1, i - 1);
@@ -211,17 +210,16 @@ namespace SharpNeat.Graphs
             int tgtId = tgtIds[i - 1];
             T val = vals[i - 1];
 
-            while (i <= n >> 1)
+            while(i <= n >> 1)
             {
                 int child = 2 * i;
-                if (child < n && Compare(ref srcIds[child - 1], ref tgtIds[child - 1], ref srcIds[child], ref tgtIds[child]) < 0)
+                if(child < n && Compare(ref srcIds[child - 1], ref tgtIds[child - 1], ref srcIds[child], ref tgtIds[child]) < 0)
                 {
                     child++;
                 }
 
-                if (Compare(ref srcId, ref tgtId, ref srcIds[child - 1], ref tgtIds[child - 1]) >=0) {
+                if(Compare(ref srcId, ref tgtId, ref srcIds[child - 1], ref tgtIds[child - 1]) >=0)
                     break;
-                }
 
                 srcIds[i - 1] = srcIds[child - 1];
                 tgtIds[i - 1] = tgtIds[child - 1];
@@ -250,7 +248,7 @@ namespace SharpNeat.Graphs
                 int tgtId = tgtIds[i + 1];
                 T val = vals[i + 1];
 
-                while(j >= 0 && Compare(ref srcId,ref tgtId,ref srcIds[j],ref tgtIds[j]) < 0)
+                while(j >= 0 && Compare(ref srcId, ref tgtId, ref srcIds[j], ref tgtIds[j]) < 0)
                 {
                     srcIds[j + 1] = srcIds[j];
                     tgtIds[j + 1] = tgtIds[j];
@@ -274,7 +272,7 @@ namespace SharpNeat.Graphs
             Span<T> vals,
             int a, int b)
         {
-            if (Compare(ref srcIds[a], ref tgtIds[a], ref srcIds[b], ref tgtIds[b]) > 0)
+            if(Compare(ref srcIds[a], ref tgtIds[a], ref srcIds[b], ref tgtIds[b]) > 0)
             {
                 int id = srcIds[a];
                 srcIds[a] = srcIds[b];

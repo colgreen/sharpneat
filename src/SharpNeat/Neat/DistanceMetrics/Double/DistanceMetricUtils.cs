@@ -52,7 +52,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             // Each coordinate element has an ID. Here we calculate the total for each ID across all CoordinateVectors,
             // then divide the totals by the number of CoordinateVectors to get the average for each ID. That is, we
             // calculate the componentwise mean.
-            var coordElemTotals = new Dictionary<DirectedConnection,double>(Math.Max(pointList[0].Length, 32));
+            var coordElemTotals = new Dictionary<DirectedConnection,double>(
+                Math.Max(pointList[0].Length, 32));
 
             // Loop over coords.
             foreach(ConnectionGenes<double> point in pointList)
@@ -72,10 +73,12 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                     // If the ID has previously been encountered then add the current element value to it, otherwise
                     // add a new entry to the dictionary.
                     // TODO: [.NET 6+] Use Marshal.GetValueRefOrAddDefault here to avoid the second lookup for adding a missing item.
-                    if(coordElemTotals.TryGetValue(conn, out double weightAcc)) {
+                    if(coordElemTotals.TryGetValue(conn, out double weightAcc))
+                    {
                         coordElemTotals[conn] = weightAcc + weight;
                     }
-                    else {
+                    else
+                    {
                         coordElemTotals.Add(conn, weight);
                     }
                 }
@@ -99,9 +102,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             IList<ConnectionGenes<double>> pointList)
         {
             // Special case. One item in list, therefore it is the centroid.
-            if(pointList.Count == 1) {
+            if(pointList.Count == 1)
                 return 0;
-            }
 
             // Find coord that is most central.
             // Handle first coordinate.
@@ -173,14 +175,12 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             ConnectionGenes<double> targetCoord = coordList[idx];
 
             // Measure distance to all coords before the target one.
-            for(int i=0; i < idx; i++) {
+            for(int i=0; i < idx; i++)
                 totalDistance += distanceMetric.CalcDistance(targetCoord, coordList[i]);
-            }
 
             // Measure distance to all coords after the target one.
-            for(int i = idx+1; i < count; i++) {
+            for(int i = idx+1; i < count; i++)
                 totalDistance += distanceMetric.CalcDistance(targetCoord, coordList[i]);
-            }
 
             return totalDistance / (count-1);
         }

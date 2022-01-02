@@ -140,14 +140,14 @@ namespace SharpNeat.Neat.Genome
             DirectedGraph digraph,
             int[]? connectionIndexMap)
         {
-            #if DEBUG
+#if DEBUG
 
             NeatGenomeAssertions<T>.AssertIsValid(
                 metaNeatGenome, id, birthGeneration,
                 connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
                 digraph, connectionIndexMap);
 
-            #endif
+#endif
 
             this.MetaNeatGenome = metaNeatGenome;
             this.Id = id;
@@ -203,9 +203,9 @@ namespace SharpNeat.Neat.Genome
             T[] digraphWeightArr = new T[genomeWeightArr.Length];
             int[] connIdxMap = this.ConnectionIndexMap!;
 
-            for(int i=0; i < connIdxMap.Length; i++) {
+            for(int i=0; i < connIdxMap.Length; i++)
                 digraphWeightArr[i] = genomeWeightArr[connIdxMap[i]];
-            }
+
             return digraphWeightArr;
         }
 

@@ -56,17 +56,17 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             double distance = 0.0;
             if(length1 == 0)
             {   // All p2 genes are mismatches.
-                for(int i=0; i < length2; i++) {
+                for(int i=0; i < length2; i++)
                     distance += weightArr2[i] * weightArr2[i];
-                }
+
                 return Math.Sqrt(distance);
             }
 
             if(length2 == 0)
             {   // All p1 elements are mismatches.
-                for(int i=0; i < length1; i++) {
+                for(int i=0; i < length1; i++)
                     distance += weightArr1[i] * weightArr1[i];
-                }
+
                 return Math.Sqrt(distance);
             }
 
@@ -111,17 +111,17 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 if(arr1Idx == length1)
                 {
                     // All remaining p2 elements are mismatches.
-                    for(int i=arr2Idx; i < length2; i++) {
+                    for(int i = arr2Idx; i < length2; i++)
                         distance += weightArr2[i] * weightArr2[i];
-                    }
+
                     return Math.Sqrt(distance);
                 }
 
                 if(arr2Idx == length2)
                 {   // All remaining arr1 elements are mismatches.
-                    for(int i=arr1Idx; i < weightArr1.Length; i++) {
+                    for(int i = arr1Idx; i < weightArr1.Length; i++)
                         distance += weightArr1[i] * weightArr1[i];
-                    }
+
                     return Math.Sqrt(distance);
                 }
 
@@ -178,9 +178,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             {
                 // All p2 elements are mismatches.
                 // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-                for(int i=0; i < length2; i++) {
+                for(int i=0; i < length2; i++)
                     distance += weightArr2[i] * weightArr2[i];
-                }
+
                 return distance < threshold;
             }
 
@@ -188,9 +188,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             {
                 // All p1 elements are mismatches.
                 // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-                for(int i=0; i < length1; i++) {
+                for(int i=0; i < length1; i++)
                     distance += weightArr1[i] * weightArr1[i];
-                }
+
                 return distance < threshold;
             }
 
@@ -235,24 +235,23 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 }
 
                 // Test the threshold.
-                if(distance >= threshold) {
+                if(distance >= threshold)
                     return false;
-                }
 
                 // Check if we have exhausted one or both of the arrays.
                 if(arr1Idx < 0)
                 {   // Any remaining arr2 elements are mismatches.
-                    for(int i=arr2Idx; i > -1; i--) {
+                    for(int i = arr2Idx; i > -1; i--)
                         distance += weightArr2[i] * weightArr2[i];
-                    }
+
                     return distance < threshold;
                 }
 
                 if(arr2Idx < 0)
                 {   // All remaining arr1 elements are mismatches.
-                    for(int i=arr1Idx; i > -1; i--) {
+                    for(int i = arr1Idx; i > -1; i--)
                         distance += weightArr1[i] * weightArr1[i];
-                    }
+
                     return distance < threshold;
                 }
 

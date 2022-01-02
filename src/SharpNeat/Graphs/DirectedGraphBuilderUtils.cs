@@ -33,9 +33,8 @@ namespace SharpNeat.Graphs
             // Note. the new IDs start immediately after the last input/output node ID (defined by inputOutputCount).
             var hiddenNodeIdxById = new Dictionary<int,int>(hiddenNodeIdArr.Length);
 
-            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++, nodeIdx++) {
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++, nodeIdx++)
                 hiddenNodeIdxById.Add(hiddenNodeIdArr[i], nodeIdx);
-            }
 
             return new DictionaryNodeIdMap(inputOutputCount, hiddenNodeIdxById);
         }

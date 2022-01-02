@@ -141,9 +141,9 @@ namespace SharpNeat.Graphs
         /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
         public int GetFirstConnectionIndex(int srcNodeIdx)
         {
-            if(_connIdxBySrcNodeIdx is null) {
+            if(_connIdxBySrcNodeIdx is null)
                 _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
-            }
+
             return _connIdxBySrcNodeIdx[srcNodeIdx];
         }
 
@@ -154,9 +154,8 @@ namespace SharpNeat.Graphs
         /// <returns>A span of target nodes indexes. </returns>
         public ReadOnlySpan<int> GetTargetNodeIndexes(int srcNodeIdx)
         {
-            if(_connIdxBySrcNodeIdx is null) {
+            if(_connIdxBySrcNodeIdx is null)
                 _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
-            }
 
             int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
             if(startIdx == -1)
@@ -191,15 +190,13 @@ namespace SharpNeat.Graphs
             // As such this loop is needed, i.e. don't skip this loop just because _connArr.Length is zero; there may still be a
             // non-zero number of nodes defined.
             int[] connIdxBySrcNodeIdx = new int[_totalNodeCount];
-            for(int i=0; i < _totalNodeCount; i++) {
+            for(int i=0; i < _totalNodeCount; i++)
                 connIdxBySrcNodeIdx[i] = -1;
-            }
 
             // If no connections then nothing to do.
             ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
-            if(srcIds.Length == 0) {
+            if(srcIds.Length == 0)
                 return connIdxBySrcNodeIdx;
-            }
 
             // Initialise.
             int currentSrcNodeId = srcIds[0];

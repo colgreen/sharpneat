@@ -101,8 +101,8 @@ namespace SharpNeat.Neat.ComplexityRegulation
         {
             return _currentMode switch
             {
-                ComplexityRegulationMode.Complexifying => DetermineMode_WhileComplexifying(eaStats,popStats),
-                ComplexityRegulationMode.Simplifying => DetermineMode_WhileSimplifying(eaStats,popStats),
+                ComplexityRegulationMode.Complexifying => DetermineMode_WhileComplexifying(eaStats, popStats),
+                ComplexityRegulationMode.Simplifying => DetermineMode_WhileSimplifying(eaStats, popStats),
                 _ => throw new InvalidOperationException("Unexpected complexity regulation mode."),
             };
         }
@@ -138,7 +138,7 @@ namespace SharpNeat.Neat.ComplexityRegulation
             // We allow simplification to progress for a few generations before testing of it has stalled, this allows
             // a lead in time for the effects of simplification to occur.
             // In addition we do not switch to complexifying if complexity is above the currently defined ceiling.
-            if (
+            if(
                 ((eaStats.Generation - _lastTransitionGeneration) > _minSimplifcationGenerations)
                 && (popStats.MeanComplexity < _complexityCeiling)
                 && ((popStats.MeanComplexityHistory.Mean - _prevMeanMovingAverage) >= 0.0))
