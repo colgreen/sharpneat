@@ -178,9 +178,8 @@ namespace SharpNeat.Neat
 
             // Use k-means speciation strategy; this is the default from sharpneat 2.x.
             // Create a serial (single threaded) strategy if degreeOfParallelism is one.
-            if(degreeOfParallelismResolved == 1) {
+            if(degreeOfParallelismResolved == 1)
                 return new Speciation.GeneticKMeans.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
-            }
 
             // Create a parallel (multi-threaded) strategy for degreeOfParallelism > 1.
             return new Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, degreeOfParallelismResolved);
@@ -205,12 +204,10 @@ namespace SharpNeat.Neat
             int degreeOfParallelism = neatExperiment.DegreeOfParallelism;
 
             // Resolve special value of -1 to the number of logical CPU cores.
-            if(degreeOfParallelism == -1) {
+            if(degreeOfParallelism == -1)
                 degreeOfParallelism = Environment.ProcessorCount;
-            }
-            else if(degreeOfParallelism < 1) {
+            else if(degreeOfParallelism < 1)
                 throw new ArgumentException(nameof(degreeOfParallelism));
-            }
 
             return degreeOfParallelism;
         }

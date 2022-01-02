@@ -140,22 +140,19 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             // Select gene at random if it is present on both parents.
             if(idx1 != -1 && idx2 != -1)
             {
-                if(rng.NextBool()) {
+                if(rng.NextBool())
                     return CreateConnectionGene(connGenes1, idx1);
-                } else {
+                else
                     return CreateConnectionGene(connGenes2, idx2);
-                }
             }
 
             // Use the primary parent's gene if it has one.
-            if(idx1 != -1) {
+            if(idx1 != -1)
                 return CreateConnectionGene(connGenes1, idx1);
-            }
 
             // Otherwise use the secondary parent's gene if the 'includeSecondaryParentGene' flag is set.
-            if(includeSecondaryParentGene) {
+            if(includeSecondaryParentGene)
                 return CreateConnectionGene(connGenes2, idx2);
-            }
 
             return null;
         }

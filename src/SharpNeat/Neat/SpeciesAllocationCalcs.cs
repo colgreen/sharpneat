@@ -102,7 +102,7 @@ namespace SharpNeat.Neat
             // required target population size due to rounding of each real valued target size.
             int totalTargetSizeInt = 0;
 
-            for(int i=0; i < speciesArr.Length; i++)
+            for(int i = 0; i < speciesArr.Length; i++)
             {
                 SpeciesStats stats = speciesArr[i].Stats;
                 stats.TargetSizeReal = targetSizeReal;
@@ -162,9 +162,8 @@ namespace SharpNeat.Neat
                 foreach(var speciesIdx in EnumerableUtils.RangeRandomOrder(0, speciesArr.Length, rng))
                 {
                     speciesArr[speciesIdx].Stats.TargetSizeInt++;
-                    if(++targetSizeDeltaInt == 0) {
+                    if(++targetSizeDeltaInt == 0)
                         break;
-                    }
                 }
 
                 // If we have looped through all species, but the number of target allocations is still too low,
@@ -190,9 +189,8 @@ namespace SharpNeat.Neat
                     if(stats.TargetSizeInt > 0)
                     {
                         stats.TargetSizeInt--;
-                        if(--targetSizeDeltaInt == 0) {
+                        if(--targetSizeDeltaInt == 0)
                             break;
-                        }
                     }
                 }
 
@@ -225,12 +223,12 @@ namespace SharpNeat.Neat
             int speciesCount = speciesArr.Length;
             int[] speciesIdxArr = new int[speciesCount - 1];
 
-            for(int i=0; i < bestGenomeSpeciesIdx; i++) {
+            for(int i=0; i < bestGenomeSpeciesIdx; i++)
                 speciesIdxArr[i] = i;
-            }
-            for(int i = bestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
+
+            for(int i = bestGenomeSpeciesIdx + 1; i < speciesCount; i++)
                 speciesIdxArr[i-1] = i;
-            }
+
             SpanUtils.Shuffle(speciesIdxArr.AsSpan(), rng);
 
             // Loop the species indexes.
@@ -245,9 +243,8 @@ namespace SharpNeat.Neat
                 }
             }
 
-            if(!success) {
+            if(!success)
                 throw new Exception("All species have a zero target size.");
-            }
         }
 
         #endregion
@@ -309,9 +306,8 @@ namespace SharpNeat.Neat
             // Special case: ensure the species with the best genome preserves that genome.
             // Note. This is done even for a target size of one, which would mean that no offspring are
             // produced from the best genome, apart from the (usually small) chance of a cross-species mating.
-            if(isBestGenomeSpecies && stats.EliteSizeInt == 0) {
+            if(isBestGenomeSpecies && stats.EliteSizeInt == 0)
                 stats.EliteSizeInt = 1;
-            }
 
             // Determine how many offspring to produce for the species.
             stats.OffspringCount = stats.TargetSizeInt - stats.EliteSizeInt;

@@ -44,9 +44,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         public ConnectionGeneListBuilder(bool isAcyclic, int capacity)
         {
             _isAcyclic = isAcyclic;
-            if(_isAcyclic) {
+            if(_isAcyclic)
                 _cyclicCheck = new CyclicConnectionCheck();
-            }
 
             _connList = new LightweightList<DirectedConnection>(capacity);
             _weightList = new LightweightList<T>(capacity);
@@ -64,9 +63,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         {
             // For acyclic networks, check if the connection gene would create a cycle in the new genome; if so then reject it.
             // Note. A cyclicity test is expensive, therefore we avoid it if at all possible.
-            if(_isAcyclic && IsCyclicConnection(in gene)) {
+            if(_isAcyclic && IsCyclicConnection(in gene))
                 return;
-            }
 
             // We are free to add the gene.
             AddGene(in gene);

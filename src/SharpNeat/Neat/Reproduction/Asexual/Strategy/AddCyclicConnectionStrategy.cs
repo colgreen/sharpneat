@@ -142,9 +142,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Make several attempts to find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
             {
-                if(TryGetConnectionInner(parent, rng, out conn, out insertIdx)) {
+                if(TryGetConnectionInner(parent, rng, out conn, out insertIdx))
                     return true;
-                }
             }
 
             conn = default;

@@ -153,9 +153,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             // Make several attempts at find a new connection, if not successful then give up.
             for(int attempts=0; attempts < 5; attempts++)
             {
-                if(TryGetConnectionInner(parent, rng, out conn, out insertIdx)) {
+                if(TryGetConnectionInner(parent, rng, out conn, out insertIdx))
                     return true;
-                }
             }
 
             conn = default;
@@ -181,9 +180,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             int inputHiddenCount = inputCount + hiddenCount;
             int srcIdx = rng.Next(inputHiddenCount);
 
-            if(srcIdx >= inputCount) {
+            if(srcIdx >= inputCount)
                 srcIdx += outputCount;
-            }
+
             int srcId = GetNodeIdFromIndex(parent, srcIdx);
 
             // Select a target node at random.

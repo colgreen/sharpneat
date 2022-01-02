@@ -43,13 +43,11 @@ namespace SharpNeat.Neat
         {
             GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
 
-            if(maxGenomeId >= genomeIdSeq.Peek) {
+            if(maxGenomeId >= genomeIdSeq.Peek)
                 return false;
-            }
 
-            if(maxInnovationId >= innovationIdSeq.Peek) {
+            if(maxInnovationId >= innovationIdSeq.Peek)
                 return false;
-            }
 
             return true;
         }
@@ -74,7 +72,7 @@ namespace SharpNeat.Neat
             {
                 maxGenomeId = Math.Max(maxGenomeId, genome.Id);
 
-                DirectedConnection[] connArr =  genome.ConnectionGenes._connArr;
+                DirectedConnection[] connArr = genome.ConnectionGenes._connArr;
                 for(int i=0; i < genome.ConnectionGenes.Length; i++)
                 {
                     maxInnovationId = Math.Max(maxInnovationId, connArr[i].SourceId);

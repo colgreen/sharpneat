@@ -129,9 +129,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             for(;;)
             {
                 NeatGenome<T>? childGenome = Create(parent, rng, ref mutationTypeDist);
-                if(childGenome is not null) {
+                if(childGenome is not null)
                     return childGenome;
-                }
             }
         }
 
@@ -152,16 +151,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             {
                 // Note. These subroutines will return null if they cannot produce a child genome,
                 // e.g. 'delete connection' will not succeed if there is only one connection.
-                MutationType.ConnectionWeight => _mutateWeightsStrategy.CreateChildGenome(parent,rng),
-                MutationType.AddNode => _addNodeStrategy.CreateChildGenome(parent,rng),
-                MutationType.AddConnection => _addConnectionStrategy.CreateChildGenome(parent,rng),
-                MutationType.DeleteConnection => _deleteConnectionStrategy.CreateChildGenome(parent,rng),
+                MutationType.ConnectionWeight => _mutateWeightsStrategy.CreateChildGenome(parent, rng),
+                MutationType.AddNode => _addNodeStrategy.CreateChildGenome(parent, rng),
+                MutationType.AddConnection => _addConnectionStrategy.CreateChildGenome(parent, rng),
+                MutationType.DeleteConnection => _deleteConnectionStrategy.CreateChildGenome(parent, rng),
                 _ => throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}]."),
             };
 
-            if(childGenome is not null) {
+            if(childGenome is not null)
                 return childGenome;
-            }
 
             // The chosen mutation type was not possible; remove that type from the set of possible types.
             mutationTypeDist = mutationTypeDist.RemoveOutcome((int)mutationTypeId);
@@ -174,6 +172,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
                 // always be at least one connection.
                 throw new Exception("All types of genome mutation failed.");
             }
+
             return null;
         }
 

@@ -34,24 +34,23 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             // Special case. Empty gene arrays.
             // Note. In NEAT the genomes should always have at least one connection/gene,
             // but we perform the test anyway for completeness.
-            if(parent1.Length ==  0 && parent2.Length == 0) {
+            if(parent1.Length ==  0 && parent2.Length == 0)
                 yield break;
-            }
 
             // Handle scenarios where one of the ID arrays is empty.
             if(parent1.Length == 0)
             {
-                for(int i=0; i < parent2.Length; i++) {
+                for(int i=0; i < parent2.Length; i++)
                     yield return ValueTuple.Create(-1, i);
-                }
+
                 yield break;
             }
 
             if(parent2.Length == 0)
             {
-                for(int i=0; i < parent1.Length; i++) {
+                for(int i=0; i < parent1.Length; i++)
                     yield return ValueTuple.Create(i, -1);
-                }
+
                 yield break;
             }
 
@@ -96,18 +95,18 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
                 if(parent1.Length == idx1)
                 {
                     // All remaining list2 genes are excess.
-                    for(; idx2 < parent2.Length; idx2++) {
+                    for(; idx2 < parent2.Length; idx2++)
                         yield return ValueTuple.Create(-1, idx2);
-                    }
+
                     yield break;
                 }
 
                 if(parent2.Length == idx2)
                 {
                     // All remaining list1 genes are excess.
-                    for(; idx1 < parent1.Length; idx1++) {
+                    for(; idx1 < parent1.Length; idx1++)
                         yield return ValueTuple.Create(idx1, -1);
-                    }
+
                     yield break;
                 }
             }

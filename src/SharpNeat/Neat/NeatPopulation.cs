@@ -128,7 +128,8 @@ namespace SharpNeat.Neat
             Int32Sequence genomeIdSeq,
             Int32Sequence innovationIdSeq)
         : this(metaNeatGenome, genomeBuilder, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize)
-        {}
+        {
+        }
 
         /// <summary>
         /// Construct a new population with the provided genomes and accompanying objects.
@@ -177,9 +178,9 @@ namespace SharpNeat.Neat
         {
             // Allocate the genomes to species.
             Species<T>[] speciesArr = speciationStrategy.SpeciateAll(this.GenomeList, speciesCount, rng);
-            if(speciesArr is null || speciesArr.Length != speciesCount) {
+            if(speciesArr is null || speciesArr.Length != speciesCount)
                 throw new Exception("Species array is null or has incorrect length.");
-            }
+
             this.SpeciesArray = speciesArr;
 
             // Sort the genomes in each species by primary fitness, highest fitness first.
@@ -245,9 +246,8 @@ namespace SharpNeat.Neat
         /// </summary>
         public void ClearAllSpecies()
         {
-            foreach(var species in this.SpeciesArray!) {
+            foreach(var species in this.SpeciesArray!)
                 species.GenomeList.Clear();
-            }
         }
 
         /// <summary>

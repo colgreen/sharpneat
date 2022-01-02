@@ -105,7 +105,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
                 var nearestSpeciesIdx = GetNearestSpecies(_distanceMetric, genome, speciesArr);
                 var nearestSpecies = speciesArr[nearestSpeciesIdx];
 
-                lock(nearestSpecies.GenomeList) {
+                lock(nearestSpecies.GenomeList)
+                {
                     nearestSpecies.GenomeList.Add(genome);
                 }
             });
@@ -140,7 +141,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             int subsetCount;
 
             // For 10 or fewer genomes just select all of them.
-            if(remainingGenomes.Count <= 10) {
+            if(remainingGenomes.Count <= 10)
+            {
                 subsetCount = remainingGenomes.Count;
             }
             else
@@ -175,6 +177,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
                 double distance = _distanceMetric.CalcDistance(seedGenomeList[i].ConnectionGenes, genome.ConnectionGenes);
                 minDistance = Math.Min(minDistance, distance);
             }
+
             return minDistance;
         }
 

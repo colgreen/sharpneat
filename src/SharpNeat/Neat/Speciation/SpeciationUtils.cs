@@ -150,7 +150,7 @@ namespace SharpNeat.Neat.Speciation
             // TODO: Select donor species stochastically from a pool of the largest species.
 
             // Get the species with the highest number of genomes.
-            Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ?  x : y);
+            Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ? x : y);
 
             // Get the genome furthest from the species centroid.
             double maxDistance = -1.0;
