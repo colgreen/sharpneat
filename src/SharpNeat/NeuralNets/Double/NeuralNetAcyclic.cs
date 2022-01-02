@@ -81,7 +81,8 @@ namespace SharpNeat.NeuralNets.Double
             WeightedDirectedGraphAcyclic<double> digraph,
             VecFn<double> activationFn)
             : this(digraph, digraph.WeightArray, activationFn)
-        {}
+        {
+        }
 
         /// <summary>
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.

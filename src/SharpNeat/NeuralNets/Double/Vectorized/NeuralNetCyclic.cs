@@ -59,7 +59,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// <param name="digraph">The weighted directed graph that defines the neural network structure and connection weights.</param>
         /// <param name="activationFn">The neuron activation function to use at all neurons in the network.</param>
         /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
-        public NeuralNetCyclic (
+        public NeuralNetCyclic(
             WeightedDirectedGraph<double> digraph,
             VecFn2<double> activationFn,
             int cyclesPerActivation)
@@ -68,7 +68,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
              digraph.WeightArray,
              activationFn,
              cyclesPerActivation)
-        {}
+        {
+        }
 
         /// <summary>
         /// Constructs a cyclic neural network.

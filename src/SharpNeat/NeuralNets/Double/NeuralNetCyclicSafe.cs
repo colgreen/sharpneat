@@ -62,7 +62,8 @@ namespace SharpNeat.NeuralNets.Double
              digraph.WeightArray,
              activationFn,
              cyclesPerActivation)
-        {}
+        {
+        }
 
         /// <summary>
         /// Constructs a cyclic neural network.
@@ -195,7 +196,8 @@ namespace SharpNeat.NeuralNets.Double
         /// Releases both managed and unmanaged resources.
         /// </summary>
         public void Dispose()
-        {}
+        {
+        }
 
         #endregion
     }

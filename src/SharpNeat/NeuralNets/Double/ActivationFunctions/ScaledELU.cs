@@ -39,10 +39,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             const double alpha = 1.6732632423543772848170429916717;
             const double scale = 1.0507009873554804934193349852946;
 
-            if(x >= 0) {
+            if(x >= 0)
+            {
                 x = scale * x;
             }
-            else {
+            else
+            {
                 x = scale * ((alpha * Math.Exp(x)) - alpha);
             }
         }
@@ -59,10 +61,12 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
             const double alpha = 1.6732632423543772848170429916717;
             const double scale = 1.0507009873554804934193349852946;
 
-            if(x >= 0) {
+            if(x >= 0)
+            {
                 y = scale * x;
             }
-            else {
+            else
+            {
                 y = scale * ((alpha * Math.Exp(x)) - alpha);
             }
         }
@@ -85,7 +89,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Obtain refs to the spans, and call on to the unsafe ref based overload.
-            Fn( ref MemoryMarshal.GetReference(v),
+            Fn(ref MemoryMarshal.GetReference(v),
                 ref MemoryMarshal.GetReference(w),
                 v.Length);
         }

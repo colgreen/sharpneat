@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("SharpNeat.Tests")]
+[assembly: InternalsVisibleTo("SharpNeat.Tests")]

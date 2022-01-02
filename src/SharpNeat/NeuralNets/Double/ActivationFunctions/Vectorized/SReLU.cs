@@ -36,13 +36,16 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
             const double tr = 0.999; // threshold (right).
             const double a = 0.00001;
 
-            if(x > tl && x < tr) {
+            if(x > tl && x < tr)
+            {
                 return;
             }
-            else if(x <= tl) {
+            else if(x <= tl)
+            {
                 x = tl + ((x - tl) * a);
             }
-            else {
+            else
+            {
                 x = tr + ((x - tr) * a);
             }
         }
@@ -62,13 +65,16 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 
             y = x;
 
-            if(y > tl && y < tr) {
+            if(y > tl && y < tr)
+            {
                 return;
             }
-            else if(y <= tl) {
+            else if(y <= tl)
+            {
                 y = tl + ((y - tl) * a);
             }
-            else {
+            else
+            {
                 y = tr + ((y - tr) * a);
             }
         }
@@ -91,7 +97,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Obtain refs to the spans, and call on to the unsafe ref based overload.
-            Fn( ref MemoryMarshal.GetReference(v),
+            Fn(ref MemoryMarshal.GetReference(v),
                 ref MemoryMarshal.GetReference(w),
                 v.Length);
         }
