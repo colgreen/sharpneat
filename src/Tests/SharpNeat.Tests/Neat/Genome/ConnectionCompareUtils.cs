@@ -15,7 +15,8 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(xlen, yIds.GetSourceIdSpan().Length);
             Assert.Equal(xlen, yIds.GetTargetIdSpan().Length);
 
-            for(int i=0; i < xlen; i++)  {
+            for(int i=0; i < xlen; i++)
+            {
                 Assert.True(Equal(xConnArr, yIds, i, i));
             }
         }
@@ -28,7 +29,8 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
             Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
 
-            for(int i=0; i < x.Length; i++)  {
+            for(int i=0; i < x.Length; i++)
+            {
                 Assert.True(Equal(x, yIds, i, i));
             }
         }
@@ -42,7 +44,8 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
             Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
 
-            for(int i=0; i < x.Length; i++)  {
+            for(int i=0; i < x.Length; i++)
+            {
                 Assert.True(Equal(x, yIds, i, connectionIndexMap[i]));
             }
         }
@@ -62,7 +65,8 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(xlen, yIds.GetTargetIdSpan().Length);
             Assert.Equal(xlen, yWeightArr.Length);
 
-            for(int i=0; i < xlen; i++)  {
+            for(int i=0; i < xlen; i++)
+            {
                 Assert.True(Equal(xConnArr, xWeightArr, yIds, yWeightArr, i, i));
             }
         }
@@ -77,7 +81,8 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
             Assert.Equal(x.Length, yWeightArr.Length);
 
-            for(int i=0; i < x.Length; i++) {
+            for(int i=0; i < x.Length; i++)
+            {
                 Assert.True(Equal(x, yIds, yWeightArr, i, i));
             }
         }

@@ -30,15 +30,13 @@ namespace SharpNeat.Windows.App
         {
             // Get the current best genome.
             NeatGenome<double> bestGenome = _neatPop?.BestGenome;
-            if(bestGenome is null) {
+            if(bestGenome is null)
                 return;
-            }
 
             // Ask the user to select a file path and name to save to.
             string filepath = SelectFileToSave("Save best genome", "genome", "(*.genome)|*.genome");
-            if(string.IsNullOrEmpty(filepath)) {
+            if(string.IsNullOrEmpty(filepath))
                 return;
-            }
 
             // Save the genome.
             try
@@ -58,20 +56,18 @@ namespace SharpNeat.Windows.App
         private void bestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IExperimentUI experimentUI = GetExperimentUI();
-            if(experimentUI is null) {
+            if(experimentUI is null)
                 return;
-            }
 
             GenomeControl genomeCtrl = experimentUI.CreateGenomeControl();
-            if(experimentUI is null) {
+            if(experimentUI is null)
                 return;
-            }
 
             // Create form.
             _bestGenomeForm = new GenomeForm("Best Genome", genomeCtrl);
 
             // Attach an event handler to update this main form when the genome form is closed.
-            _bestGenomeForm.FormClosed += new FormClosedEventHandler(delegate(object senderObj, FormClosedEventArgs eArgs)
+            _bestGenomeForm.FormClosed += new FormClosedEventHandler(delegate (object senderObj, FormClosedEventArgs eArgs)
             {
                 _bestGenomeForm = null;
                 bestGenomeToolStripMenuItem.Enabled = true;
@@ -107,7 +103,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _fitnessTimeSeriesForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     fitnessBestMeansToolStripMenuItem.Enabled = true;
                 });
 
@@ -125,7 +122,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _complexityTimeSeriesForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     complexityBestMeansToolStripMenuItem.Enabled = true;
                 });
 
@@ -143,7 +141,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _evalsPerSecTimeSeriesForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     evaluationsPerSecToolStripMenuItem.Enabled = true;
                 });
 
@@ -161,7 +160,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _speciesSizeRankForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     specieSizeByRankToolStripMenuItem.Enabled = true;
                 });
 
@@ -179,7 +179,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _speciesFitnessRankForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     specieFitnessByRankToolStripMenuItem.Enabled = true;
                 });
 
@@ -197,7 +198,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _speciesComplexityRankForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     specieComplexityByRankToolStripMenuItem.Enabled = true;
                 });
 
@@ -215,7 +217,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _genomeFitnessRankForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     genomeFitnessByRankToolStripMenuItem.Enabled = true;
                 });
 
@@ -233,7 +236,8 @@ namespace SharpNeat.Windows.App
 
             // Attach a event handler to update this main form when the child form is closed.
             _genomeComplexityRankForm.FormClosed += new FormClosedEventHandler(
-                delegate (object senderObj,FormClosedEventArgs eArgs) {
+                delegate (object senderObj, FormClosedEventArgs eArgs)
+                {
                     genomeComplexityByRankToolStripMenuItem.Enabled = true;
                 });
 

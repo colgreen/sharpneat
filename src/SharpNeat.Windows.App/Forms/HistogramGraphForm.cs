@@ -63,9 +63,8 @@ namespace SharpNeat.Windows.App.Forms
 
             _ppl.Clear();
 
-            for(int i=0; i < xdata.Length; i++) {
+            for(int i=0; i < xdata.Length; i++)
                 _ppl.Add(xdata[i], ydata[i]);
-            }
 
             RefreshGraph();
         }

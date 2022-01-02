@@ -78,10 +78,12 @@ namespace SharpNeat.Tasks.PreyCapture
             // Note. Given that the array indexes must begin with zero, the lookup table element at index [0,0] represents
             // relative XY coordinate (-23,-23).
             int size = (__gridSize * 2) - 1;
-            __atan2Lookup = new float[size,size];
-            for(int y=0; y < size; y++) {
-                for(int x=0; x < size; x++) {
-                    __atan2Lookup[y,x] = MathF.Atan2(y-__atan2LookupOffset, x-__atan2LookupOffset);
+            __atan2Lookup = new float[size, size];
+            for(int y=0; y < size; y++)
+            {
+                for(int x=0; x < size; x++)
+                {
+                    __atan2Lookup[y, x] = MathF.Atan2(y-__atan2LookupOffset, x-__atan2LookupOffset);
                 }
             }
         }
@@ -173,9 +175,8 @@ namespace SharpNeat.Tasks.PreyCapture
             {
                 SetAgentInputsAndActivate(agent);
                 MoveAgent(agent);
-                if(IsPreyCaptured()) {
+                if(IsPreyCaptured())
                     return true;
-                }
 
                 MovePrey();
                 if(IsPreyCaptured())
@@ -200,7 +201,7 @@ namespace SharpNeat.Tasks.PreyCapture
 
             // Agent position. The angle from the prey is chosen at random, and the distance from the prey is randomly chosen between 2 and 4.
             float t = 2f * MathF.PI * _rng.NextFloat();   // Random angle.
-            float r = MathF.FusedMultiplyAdd(2f,  _rng.NextFloat(), 2f);    // A distance between 2 and 4.
+            float r = MathF.FusedMultiplyAdd(2f, _rng.NextFloat(), 2f);    // A distance between 2 and 4.
             _agentPos.X = _preyPos.X + (int)MathF.Truncate(MathF.Cos(t) * r);
             _agentPos.Y = _preyPos.Y + (int)MathF.Truncate(MathF.Sin(t) * r);
         }
@@ -385,13 +386,16 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <param name="distance">Distance between the agent and the prey.</param>
         private static float T(float distance)
         {
-            if(distance <= 4f) {
+            if(distance <= 4f)
+            {
                 return 15f - distance;
             }
-            else if(distance <= 15f) {
+            else if(distance <= 15f)
+            {
                 return 9f - (distance * 0.5f);
             }
-            else {
+            else
+            {
                 return 1f;
             }
         }
@@ -461,7 +465,8 @@ namespace SharpNeat.Tasks.PreyCapture
         {
             radiusSqr = (p.X * p.X) + (p.Y * p.Y);
             azimuth = __atan2Lookup[p.Y + __atan2LookupOffset, p.X + __atan2LookupOffset];
-            if(azimuth < 0f) {
+            if(azimuth < 0f)
+            {
                 azimuth += 2f * MathF.PI;
             }
         }
@@ -511,12 +516,11 @@ namespace SharpNeat.Tasks.PreyCapture
             // Loop through the discrete probabilities, accumulating as we go and stopping once
             // the accumulator is greater than the random sample.
             float acc = 0f;
-            for(int i=0; i < probs.Length; i++)
+            for(int i = 0; i < probs.Length; i++)
             {
                 acc += probs[i];
-                if(acc > thresh) {
+                if(acc > thresh)
                     return i;
-                }
             }
 
             // We might get here through floating point arithmetic rounding issues.

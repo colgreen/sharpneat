@@ -31,18 +31,18 @@ namespace SharpNeat.Windows.App
 
         public static int GetValue(TextBox txtBox, int defaultVal)
         {
-            if(int.TryParse(txtBox.Text, out int tmp)) {
+            if(int.TryParse(txtBox.Text, out int tmp))
                 return tmp;
-            }
+
             __log.ErrorFormat("Error parsing value of text field [{0}]", txtBox.Name);
             return defaultVal;
         }
 
         public static double GetValue(TextBox txtBox, double defaultVal)
         {
-            if(double.TryParse(txtBox.Text, out double tmp)) {
+            if(double.TryParse(txtBox.Text, out double tmp))
                 return tmp;
-            }
+
             __log.ErrorFormat("Error parsing value of text field [{0}]", txtBox.Name);
             return defaultVal;
         }

@@ -87,9 +87,8 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             out double gradientMseWeight)
         {
             // Get the customEvaluationSchemeConfig section.
-            if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem)) {
+            if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem))
                 throw new Exception("customEvaluationSchemeConfig not defined.");
-            }
 
             // Read function ID.
             string functionIdStr = JsonReadMandatoryUtils.ReadStringMandatory(evalSchemeElem, "functionId");

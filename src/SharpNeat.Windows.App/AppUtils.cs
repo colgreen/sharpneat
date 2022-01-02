@@ -39,9 +39,8 @@ namespace SharpNeat.Windows.App
 
         public static IExperimentUI CreateAndConfigureExperimentUI(ExperimentInfo expInfo)
         {
-            if(expInfo.ExperimentUIFactory is null) {
+            if(expInfo.ExperimentUIFactory is null)
                 return null;
-            }
 
             // Create an experimentUI factory.
             IExperimentUIFactory factory = (IExperimentUIFactory)Activator.CreateInstance(
@@ -57,11 +56,11 @@ namespace SharpNeat.Windows.App
             return experimentUI;
         }
 
-		/// <summary>
-		/// Ask the user for a filename / path.
-		/// </summary>
-		public static string SelectFileToSave(string dialogTitle, string fileExtension, string filter)
-		{
+        /// <summary>
+        /// Ask the user for a filename / path.
+        /// </summary>
+        public static string SelectFileToSave(string dialogTitle, string fileExtension, string filter)
+        {
             SaveFileDialog oDialog = new()
             {
                 AddExtension = true,
@@ -72,11 +71,11 @@ namespace SharpNeat.Windows.App
             };
 
             // Show dialog and block until user selects a file.
-            if(oDialog.ShowDialog() == DialogResult.OK) {
-				return oDialog.FileName;
-            }
+            if(oDialog.ShowDialog() == DialogResult.OK)
+                return oDialog.FileName;
+
             // No selection.
             return null;
-		}
+        }
     }
 }

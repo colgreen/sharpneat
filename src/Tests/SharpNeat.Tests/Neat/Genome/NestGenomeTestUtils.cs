@@ -83,9 +83,9 @@ namespace SharpNeat.Neat.Genome.Tests
         public static HashSet<DirectedConnection> GetDirectedConnectionSet(NeatGenome<double> genome)
         {
             var idSet = new HashSet<DirectedConnection>();
-            foreach(var conn in genome.ConnectionGenes._connArr) {
+            foreach(var conn in genome.ConnectionGenes._connArr)
                 idSet.Add(conn);
-            }
+
             return idSet;
         }
 

@@ -31,9 +31,8 @@ namespace SharpNeat.Graphs.Tests
             // Assign each connection's weight to be the sum of the source and target IDs.
             // This allows us to check that the weights are sorted correctly, i.e. remain aligned with the correct source and target IDs.
             double[] weightArr = new double[len];
-            for(int i=0; i < len; i++) {
+            for(int i=0; i < len; i++)
                 weightArr[i] = srcIds[i] + tgtIds[i];
-            }
 
             // Sort the connections.
             ConnectionSorter<double>.Sort(connIds, weightArr);
@@ -60,26 +59,24 @@ namespace SharpNeat.Graphs.Tests
 
         private static void InitRandomValues(Span<int> span, IRandomSource rng)
         {
-            for(int i=0; i < span.Length; i++) {
+            for(int i=0; i < span.Length; i++)
                 span[i] = rng.Next();
-            }
         }
 
         private static int Compare(int srcIdA, int tgtIdA, int srcIdB, int tgtIdB)
         {
-            if(srcIdA < srcIdB) {
+            if(srcIdA < srcIdB)
                 return -1;
-            }
-            if(srcIdA > srcIdB) {
-                return 1;
-            }
 
-            if(tgtIdA < tgtIdB) {
-                return -1;
-            }
-            if(tgtIdA > tgtIdB) {
+            if(srcIdA > srcIdB)
                 return 1;
-            }
+
+            if(tgtIdA < tgtIdB)
+                return -1;
+
+            if(tgtIdA > tgtIdB)
+                return 1;
+
             return 0;
         }
 

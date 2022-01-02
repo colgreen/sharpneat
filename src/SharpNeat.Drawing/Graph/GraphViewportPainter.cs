@@ -101,9 +101,8 @@ namespace SharpNeat.Drawing.Graph
             var model = this.GraphViewModel;
 
             // Skip painting if nothing to paint.
-            if(model is null) {
+            if(model is null)
                 return;
-            }
 
             // Determine if the graph requires laying out within the specified viewportArea, i.e. if the previous call to Paint()
             // supplied the same viewportArea, then we can just use the layout positions determined previously.
@@ -133,9 +132,8 @@ namespace SharpNeat.Drawing.Graph
                 Point origin = viewportArea.Location;
                 Point[] nodePosByIdx = model.NodePosByIdx;
 
-                for(int i=0; i < model.NodePosByIdx.Length; i++) {
+                for(int i=0; i < model.NodePosByIdx.Length; i++)
                     nodePosByIdx[i].Offset(origin);
-                }
             }
         }
 

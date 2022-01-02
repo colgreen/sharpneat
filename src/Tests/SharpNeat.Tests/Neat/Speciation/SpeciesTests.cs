@@ -34,12 +34,14 @@ namespace SharpNeat.Neat.Speciation.Tests
 
                 // Assert that the champ genomes have been sorted to the head of the genome list.
                 int idx = 0;
-                for(; idx < champGenomeCount; idx++) {
+                for(; idx < champGenomeCount; idx++)
+                {
                     Assert.Equal(champFitness, species.GenomeList[idx].FitnessInfo.PrimaryFitness);
                 }
 
                 // Assert that all other genomes have a fitness less than the champ fitness.
-                for(; idx < species.GenomeList.Count; idx++) {
+                for(; idx < species.GenomeList.Count; idx++)
+                {
                     Assert.True(species.GenomeList[idx].FitnessInfo.PrimaryFitness < champFitness);
                 }
             }

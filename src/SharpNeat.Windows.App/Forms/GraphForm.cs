@@ -43,16 +43,16 @@ namespace SharpNeat.Windows.App.Forms
             _graphPane = zed.GraphPane;
             _graphPane.Title.Text = title;
 
-			_graphPane.XAxis.Title.Text = xAxisTitle;
-			_graphPane.XAxis.MajorGrid.IsVisible = true;
+            _graphPane.XAxis.Title.Text = xAxisTitle;
+            _graphPane.XAxis.MajorGrid.IsVisible = true;
 
-			_graphPane.YAxis.Title.Text = y1AxisTitle;
-			_graphPane.YAxis.MajorGrid.IsVisible = true;
+            _graphPane.YAxis.Title.Text = y1AxisTitle;
+            _graphPane.YAxis.MajorGrid.IsVisible = true;
 
             if(y2AxisTitle is not null)
             {
                 _graphPane.Y2Axis.Title.Text = y2AxisTitle;
-			    _graphPane.Y2Axis.MajorGrid.IsVisible = false;
+                _graphPane.Y2Axis.MajorGrid.IsVisible = false;
                 _graphPane.Y2Axis.IsVisible = true;
             }
         }

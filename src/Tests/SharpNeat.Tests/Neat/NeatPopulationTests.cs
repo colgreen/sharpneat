@@ -78,7 +78,7 @@ namespace SharpNeat.Neat.Tests
             Assert.True(genome.MetaNeatGenome.IsAcyclic);
             Assert.Equal(5.0, genome.MetaNeatGenome.ConnectionWeightScale);
 
-            double x=0.1;
+            double x = 0.1;
             genome.MetaNeatGenome.ActivationFn.Fn(ref x);
             Assert.Equal(0.1, x);
 

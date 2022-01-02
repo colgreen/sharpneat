@@ -136,9 +136,9 @@ namespace SharpNeat.Windows.Neat
         private static float[] ToFloatArray(double[] src)
         {
             var arr = new float[src.Length];
-            for(int i=0; i < src.Length; i++) {
+            for(int i=0; i < src.Length; i++)
                 arr[i] = (float)src[i];
-            }
+
             return arr;
         }
 

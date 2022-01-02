@@ -62,7 +62,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <returns>The current object's hash code.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(X,Y);
+            return HashCode.Combine(X, Y);
         }
 
         #endregion

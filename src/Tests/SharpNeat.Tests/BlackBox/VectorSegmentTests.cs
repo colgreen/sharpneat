@@ -98,14 +98,14 @@ namespace SharpNeat.BlackBox.Tests
 
             int[] tgtArr = new int[12];
 
-         //--- Two param tests.
+            //--- Two param tests.
             // Copy beyond end of tgtArr.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 10));
 
             // Invalid target index.
             Assert.Throws<ArgumentOutOfRangeException>(() => vecSeg.CopyTo(tgtArr, -1));
 
-         //--- Three param tests.
+            //--- Three param tests.
             // Copy length longer then vecSeg length.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 0, 4));
 
@@ -119,7 +119,7 @@ namespace SharpNeat.BlackBox.Tests
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 11, 2));
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 12, 1));
 
-         //--- Four param tests.
+            //--- Four param tests.
             // Copy beyond end of vecSeg.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyTo(tgtArr, 0, 1, 3));
 
@@ -203,14 +203,14 @@ namespace SharpNeat.BlackBox.Tests
 
             int[] srcArr = Enumerable.Range(100, 3).ToArray();
 
-         //--- Two param tests.
+            //--- Two param tests.
             // Copy beyond end of vecSeg.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 2));
 
             // Invalid target index.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, -1));
 
-         //--- Three param tests.
+            //--- Three param tests.
 
             // Copy length longer than srcArr.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 4));
@@ -226,7 +226,7 @@ namespace SharpNeat.BlackBox.Tests
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 3, 2));
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 4, 1));
 
-         // Four param tests.
+            // Four param tests.
 
             // Copy beyond end of srcArr.
             Assert.Throws<ArgumentException>(() => vecSeg.CopyFrom(srcArr, 0, 0, 4));

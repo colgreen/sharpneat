@@ -51,7 +51,7 @@ namespace SharpNeat.Windows.App
             // Handle calls from threads other than the GUI thread (re-invoke the method on the GUI thread, but don't wait for completion).
             if(__lbxLog.InvokeRequired)
             {
-                __lbxLog.BeginInvoke(logDelegate, new object[] {message});
+                __lbxLog.BeginInvoke(logDelegate, new object[] { message });
                 return;
             }
             __bindingList.Add(new LogItem(message));

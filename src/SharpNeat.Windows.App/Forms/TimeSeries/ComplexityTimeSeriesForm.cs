@@ -28,11 +28,11 @@ namespace SharpNeat.Windows.App.Forms.TimeSeries
             : base("Complexity (Best and Mean)", "Generation", "Complexity", null)
         {
             _bestPpl = new RollingPointPairList(__HistoryLength);
-            LineItem lineItem = _graphPane.AddCurve("Best",  _bestPpl, Color.FromArgb(0x00, 0x5b, 0x31), SymbolType.None);
+            LineItem lineItem = _graphPane.AddCurve("Best", _bestPpl, Color.FromArgb(0x00, 0x5b, 0x31), SymbolType.None);
             ApplyLineStyle(lineItem);
 
             _meanPpl = new RollingPointPairList(__HistoryLength);
-            lineItem = _graphPane.AddCurve("Mean",  _meanPpl, Color.FromArgb(0x9c, 0xd0, 0x88), SymbolType.None);
+            lineItem = _graphPane.AddCurve("Mean", _meanPpl, Color.FromArgb(0x9c, 0xd0, 0x88), SymbolType.None);
             ApplyLineStyle(lineItem);
         }
 

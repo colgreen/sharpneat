@@ -18,7 +18,8 @@ namespace SharpNeat.Graphs.Tests
             Assert.Equal(x.Length, srcIdArr.Length);
             Assert.Equal(x.Length, tgtIdArr.Length);
 
-            for(int i=0; i < x.Length; i++) {
+            for(int i=0; i < x.Length; i++)
+            {
                 CompareConnections(x[i], srcIdArr[i], tgtIdArr[i], yWeightArr[i]);
             }
         }
@@ -35,7 +36,8 @@ namespace SharpNeat.Graphs.Tests
         public static void CompareLayerInfoLists(Span<LayerInfo> x, Span<LayerInfo> y)
         {
             Assert.Equal(x.Length, y.Length);
-            for(int i=0; i < x.Length; i++) {
+            for(int i=0; i < x.Length; i++)
+            {
                 CompareLayerInfo(x[i], y[i]);
             }
         }

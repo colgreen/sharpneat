@@ -13,9 +13,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests
         public int[] SelectSubset(int supersetCount, IRandomSource rng)
         {
             var arr = new int[supersetCount];
-            for(int i=0; i < supersetCount; i++) {
+            for(int i=0; i < supersetCount; i++)
                 arr[i] = i;
-            }
+
             return arr;
         }
     }

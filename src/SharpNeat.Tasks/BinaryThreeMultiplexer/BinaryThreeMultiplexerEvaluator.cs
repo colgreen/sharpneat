@@ -97,9 +97,8 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
             }
 
             // If the correct answer was given in each case then add a bonus value to the fitness.
-            if(success) {
+            if(success)
                 fitness += 100.0;
-            }
 
             return new FitnessInfo(fitness);
         }

@@ -59,7 +59,7 @@ namespace SharpNeat.Neat.Speciation.Tests
             var genomeList2 = neatPop.GenomeList.GetRange(popSize1, popSize2);
             var genomeList3 = neatPop.GenomeList.GetRange(popSize1 + popSize2, popSize3);
 
-            for (int i = 0; i < 6; i++)
+            for(int i=0; i < 6; i++)
             {
                 int speciesCount = rng.Next(1, (neatPop.GenomeList.Count / 4) + 1);
 
@@ -104,7 +104,7 @@ namespace SharpNeat.Neat.Speciation.Tests
             Assert.Equal(fullGenomeList.Count, idSet.Count);
 
             // Confirm the genome list IDs match up with the genomes in the species.
-            fullGenomeList.ForEach(x => Assert.Contains(x.Id,idSet));
+            fullGenomeList.ForEach(x => Assert.Contains(x.Id, idSet));
 
             // Confirm all species centroids are correct.
             Array.ForEach(

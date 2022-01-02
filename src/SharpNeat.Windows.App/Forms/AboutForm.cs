@@ -36,7 +36,7 @@ namespace SharpNeat.Windows.App.Forms
         {
             Assembly assembly = Assembly.GetAssembly(typeof(FitnessInfo));
             Version version = assembly.GetName().Version;
-			txtVersionInfo.Text = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription + "\r\n" +
+            txtVersionInfo.Text = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription + "\r\n" +
                                   $"SharpNEAT core library {version}";
         }
 

@@ -60,9 +60,9 @@ namespace UISandbox
         private static INodeIdMap CreateNodeIdByIdx(int length)
         {
             var arr = new int[length];
-            for(int i=0; i < length; i++) {
+            for(int i=0; i < length; i++)
                 arr[i] = i;
-            }
+
             return new ArrayNodeIdMap(arr);
         }
 

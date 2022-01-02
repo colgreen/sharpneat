@@ -3,8 +3,8 @@ using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 using Xunit;
 using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
 
