@@ -12,10 +12,10 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Redzen;
 using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
-using Redzen.Sorting;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Speciation;
 
@@ -231,7 +231,7 @@ namespace SharpNeat.Neat
             for(int i = bestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
                 speciesIdxArr[i-1] = i;
             }
-            SortUtils.Shuffle(speciesIdxArr.AsSpan(), rng);
+            SpanUtils.Shuffle(speciesIdxArr.AsSpan(), rng);
 
             // Loop the species indexes.
             bool success = false;

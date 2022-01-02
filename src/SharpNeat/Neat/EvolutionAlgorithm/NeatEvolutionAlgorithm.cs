@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
@@ -349,8 +350,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 // i.e. when many genomes have equally high fitness.
                 foreach(var species in _pop.SpeciesArray!)
                 {
-                    // ENHANCEMENT: Use of the ListSortUtils.SortUnstable(IList) overload here is slower than SortUtils.SortUnstable(Span).
-                    ListSortUtils.SortUnstable(species.GenomeList, _genomeComparerDescending, _rng);
+                    SortUtils.SortUnstable(
+                        CollectionsMarshal.AsSpan(species.GenomeList),
+                        _genomeComparerDescending,
+                        _rng);
                 }
             }
 
