@@ -19,6 +19,8 @@ using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome.IO
 {
+    // TODO: This class conflates genome loading with checking the loaded genome with a MetaNeatGenome (i.e. are the input/output counts correct, and acyclic flag, etc.).
+
     /// <summary>
     /// For loading/deserializing instances of <see cref="NeatGenome{T}"/> from file, stream, etc.
     /// </summary>
@@ -97,6 +99,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <returns>The loaded genome.</returns>
         public NeatGenome<T> Load(string path)
         {
+            if(path is null) throw new ArgumentNullException(nameof(path));
+
             using var sr = new StreamReader(path);
             return Load(sr);
         }

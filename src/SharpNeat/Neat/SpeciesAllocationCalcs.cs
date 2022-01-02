@@ -231,7 +231,7 @@ namespace SharpNeat.Neat
             for(int i = bestGenomeSpeciesIdx + 1; i < speciesCount; i++) {
                 speciesIdxArr[i-1] = i;
             }
-            SortUtils.Shuffle((Span<int>)speciesIdxArr, rng);
+            SortUtils.Shuffle(speciesIdxArr.AsSpan(), rng);
 
             // Loop the species indexes.
             bool success = false;
