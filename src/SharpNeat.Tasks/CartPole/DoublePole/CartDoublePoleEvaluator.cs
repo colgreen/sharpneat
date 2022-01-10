@@ -63,7 +63,8 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// Default to 960 timesteps, or 960/16 = 60 seconds of clock time.</remarks>
         public CartDoublePoleEvaluator()
             : this(960)
-        {}
+        {
+        }
 
         /// <summary>
         /// Construct evaluator with the provided task arguments/variables.
@@ -172,9 +173,8 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
 
                 // Check for failure state. I.e. has the cart run off the ends of the track, or has either of the pole
                 // angles exceeded the defined threshold.
-                if(MathF.Abs(state[0]) > __TrackLengthHalf || MathF.Abs(state[2]) > __MaxPoleAngle || MathF.Abs(state[4]) > __MaxPoleAngle) {
+                if(MathF.Abs(state[0]) > __TrackLengthHalf || MathF.Abs(state[2]) > __MaxPoleAngle || MathF.Abs(state[4]) > __MaxPoleAngle)
                     break;
-                }
             }
 
             // Fitness is given by the combination of two fitness components:

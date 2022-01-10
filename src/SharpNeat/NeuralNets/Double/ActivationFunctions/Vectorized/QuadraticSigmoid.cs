@@ -46,7 +46,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 sign = -1;
             }
 
-            if(y < t) {
+            if(y < t)
+            {
                 y = t - ((y - t) * (y - t));
             }
             else // if (x >= t)
@@ -80,7 +81,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 sign = -1;
             }
 
-            if(y < t) {
+            if(y < t)
+            {
                 y = t - ((y - t) * (y - t));
             }
             else // if (x >= t)
@@ -109,7 +111,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Obtain refs to the spans, and call on to the unsafe ref based overload.
-            Fn( ref MemoryMarshal.GetReference(v),
+            Fn(ref MemoryMarshal.GetReference(v),
                 ref MemoryMarshal.GetReference(w),
                 v.Length);
         }

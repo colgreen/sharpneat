@@ -38,9 +38,8 @@ namespace SharpNeat.Graphs
                 (DirectedConnection conn, int nodeId) => conn.SourceId.CompareTo(nodeId));
 
             // Test for no match, i.e. no connections with the given source node ID.
-            if(connIdx < 0) {
+            if(connIdx < 0)
                 return connIdx;
-            }
 
             // TODO: Confirm this note. Surely binary search gives the index of the first item?
             // Note. if there are multiple connections with the given source ID then BinarySearch() will

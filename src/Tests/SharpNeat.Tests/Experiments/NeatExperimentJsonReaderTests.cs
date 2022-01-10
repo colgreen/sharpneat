@@ -60,7 +60,7 @@ namespace SharpNeat.Experiments.Tests
 
             // Init a default settings object.
             var experiment = new NeatExperiment<double>(
-                evalScheme.Object, "foo-experiment" );
+                evalScheme.Object, "foo-experiment");
 
             // Read json properties into the experiment object.
             NeatExperimentJsonReader<double>.Read(experiment, jdoc.RootElement);

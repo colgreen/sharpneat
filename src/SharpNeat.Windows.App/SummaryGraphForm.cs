@@ -55,16 +55,15 @@ namespace SharpNeat.Windows.App
             {
                 // Note. Must use Invoke(). BeginInvoke() will execute asynchronously and the evolution algorithm therefore
                 // may have moved on and will be in an intermediate and indeterminate (between generations) state.
-                this.Invoke(new MethodInvoker(delegate()
+                this.Invoke(new MethodInvoker(delegate ()
                 {
                     RefreshView();
                 }));
                 return;
             }
 
-            if(this.IsDisposed) {
+            if(this.IsDisposed)
                 return;
-            }
 
             // Update plot points for each series in turn.
             int sourceCount = _dataSourceArray.Length;
@@ -99,14 +98,14 @@ namespace SharpNeat.Windows.App
             _graphPane = zed.GraphPane;
             _graphPane.Title.Text = title;
 
-			_graphPane.XAxis.Title.Text = xAxisTitle;
-			_graphPane.XAxis.MajorGrid.IsVisible = true;
+            _graphPane.XAxis.Title.Text = xAxisTitle;
+            _graphPane.XAxis.MajorGrid.IsVisible = true;
 
-			_graphPane.YAxis.Title.Text = y1AxisTitle;
-			_graphPane.YAxis.MajorGrid.IsVisible = true;
+            _graphPane.YAxis.Title.Text = y1AxisTitle;
+            _graphPane.YAxis.MajorGrid.IsVisible = true;
 
-			_graphPane.Y2Axis.Title.Text = y2AxisTitle;
-			_graphPane.Y2Axis.MajorGrid.IsVisible = false;
+            _graphPane.Y2Axis.Title.Text = y2AxisTitle;
+            _graphPane.Y2Axis.MajorGrid.IsVisible = false;
 
             // Create point-pair lists and bind them to the graph control.
             int sourceCount = dataSourceArray.Length;
@@ -133,7 +132,8 @@ namespace SharpNeat.Windows.App
             if(delta > 0)
             {
                 // Add additional points.
-                for(int i=0; i < delta; i++) {
+                for(int i=0; i < delta; i++)
+                {
                     ppl.Add(0.0, 0.0);
                 }
             }

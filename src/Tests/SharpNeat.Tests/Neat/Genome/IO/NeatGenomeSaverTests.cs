@@ -38,9 +38,9 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             // Change the default culture to French (which uses e.g. a comma as a decimal separator).
             CultureInfo frenchCulture = new("fr-FR");
             Thread.CurrentThread.CurrentCulture = frenchCulture;
-            
+
             try
-            { 
+            {
                 // Manually build a genome.
                 var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
                 NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);

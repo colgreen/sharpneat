@@ -90,9 +90,8 @@ namespace SharpNeat.Tasks.PreyCapture
             out int trialsPerEvaluation)
         {
             // Get the customEvaluationSchemeConfig section.
-            if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem)) {
+            if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem))
                 throw new Exception("customEvaluationSchemeConfig not defined.");
-            }
 
             preyInitMoves = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "preyInitMoves");
             preySpeed = (float)JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "preySpeed");

@@ -35,9 +35,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 
             x += offset;
 
-            if (x < 0.0) {
+            if(x < 0.0)
                 x *= a;
-            }
         }
 
         /// <summary>
@@ -54,9 +53,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
 
             y = x + offset;
 
-            if (y < 0.0) {
+            if(y < 0.0)
                 y *= a;
-            }
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Obtain refs to the spans, and call on to the unsafe ref based overload.
-            Fn( ref MemoryMarshal.GetReference(v),
+            Fn(ref MemoryMarshal.GetReference(v),
                 ref MemoryMarshal.GetReference(w),
                 v.Length);
         }

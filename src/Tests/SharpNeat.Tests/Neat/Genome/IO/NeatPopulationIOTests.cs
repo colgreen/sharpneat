@@ -19,7 +19,8 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
 
             // Delete folder if it already exists.
-            if(Directory.Exists(parentPath)) {
+            if(Directory.Exists(parentPath))
+            {
                 Directory.Delete(parentPath, true);
             }
 
@@ -48,7 +49,8 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
 
             // Delete folder if it already exists.
-            if(Directory.Exists(parentPath)) {
+            if(Directory.Exists(parentPath))
+            {
                 Directory.Delete(parentPath, true);
             }
 

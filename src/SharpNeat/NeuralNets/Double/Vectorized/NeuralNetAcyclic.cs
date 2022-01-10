@@ -64,7 +64,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             WeightedDirectedGraphAcyclic<double> digraph,
             VecFn<double> activationFn)
             : this(digraph, digraph.WeightArray, activationFn)
-        {}
+        {
+        }
 
         /// <summary>
         /// Constructs a AcyclicNeuralNet with the provided neural net definition parameters.
@@ -193,9 +194,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
                     ref int tgtIdsRefSeg = ref Unsafe.Add(ref tgtIdsRef, conIdx);
 
                     for(int i=0; i < Vector<double>.Count; i++)
-                    {
                         Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRefSeg, i)) += conVec[i];
-                    }
                 }
 
                 // Loop remaining connections

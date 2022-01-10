@@ -30,9 +30,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         public void Fn(ref double x)
         {
             const double a = 0.001;
-            if (x < 0.0) {
+            if(x < 0.0)
                 x *= a;
-            }
         }
 
         /// <summary>
@@ -46,9 +45,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         {
             const double a = 0.001;
             y = x;
-            if (x < 0.0) {
+            if(x < 0.0)
                 y *= a;
-            }
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
         public void Fn(ReadOnlySpan<double> v, Span<double> w)
         {
             // Obtain refs to the spans, and call on to the unsafe ref based overload.
-            Fn( ref MemoryMarshal.GetReference(v),
+            Fn(ref MemoryMarshal.GetReference(v),
                 ref MemoryMarshal.GetReference(w),
                 v.Length);
         }
@@ -96,7 +94,7 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized
                 // Load values into a vector.
                 // The odd code pattern is taken from the Vector<T> constructor's source code.
                 var vec = Unsafe.ReadUnaligned<Vector<double>>(
-                    ref Unsafe.As<double,byte>(ref vref));
+                    ref Unsafe.As<double, byte>(ref vref));
 
                 // Apply max(val, 0) to each element in the vector.
                 var maxVec = Vector.Max(vec, Vector<double>.Zero);

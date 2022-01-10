@@ -82,13 +82,15 @@ namespace SharpNeat.Windows
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if(disposing) {
-                if(components is not null) {
+            if(disposing)
+            {
+                if(components is not null)
                     components.Dispose();
-                }
             }
+
             base.Dispose(disposing);
         }
 
@@ -159,9 +161,8 @@ namespace SharpNeat.Windows
             _viewportArea.Size = new Size(width, height);
 
             // Handle calls during control initialization (image may not be created yet).
-            if(_image is null) {
+            if(_image is null)
                 return;
-            }
 
             // If the viewport has grown beyond the size of the image, then create a new image.
             // Note. If the viewport shrinks we just paint on the existing (larger) image, this prevents unnecessary

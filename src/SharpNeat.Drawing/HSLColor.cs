@@ -123,9 +123,9 @@ namespace SharpNeat.Drawing
         public static implicit operator Color(HSLColor hslColor)
         {
             double r = 0, g = 0, b = 0;
-            if (hslColor._luminosity != 0)
+            if(hslColor._luminosity != 0)
             {
-                if (hslColor._saturation == 0)
+                if(hslColor._saturation == 0)
                 {
                     r = g = b = hslColor._luminosity;
                 }
@@ -164,11 +164,11 @@ namespace SharpNeat.Drawing
         private static double GetColorComponent(double temp1, double temp2, double temp3)
         {
             temp3 = MoveIntoRange(temp3);
-            if (temp3 < 1.0 / 6.0)
+            if(temp3 < 1.0 / 6.0)
                 return (temp1 + (temp2 - temp1)) * 6.0 * temp3;
-            else if (temp3 < 0.5)
+            else if(temp3 < 0.5)
                 return temp2;
-            else if (temp3 < 2.0 / 3.0)
+            else if(temp3 < 2.0 / 3.0)
                 return temp1 + ((temp2 - temp1) * ((2.0 / 3.0) - temp3) * 6.0);
             else
                 return temp1;
@@ -176,9 +176,9 @@ namespace SharpNeat.Drawing
 
         private static double MoveIntoRange(double temp3)
         {
-            if (temp3 < 0.0)
+            if(temp3 < 0.0)
                 temp3 += 1.0;
-            else if (temp3 > 1.0)
+            else if(temp3 > 1.0)
                 temp3 -= 1.0;
             return temp3;
         }
@@ -186,7 +186,7 @@ namespace SharpNeat.Drawing
         private static double GetTemp2(HSLColor hslColor)
         {
             double temp2;
-            if (hslColor._luminosity < 0.5)  // <= ??
+            if(hslColor._luminosity < 0.5)  // <= ??
                 temp2 = hslColor._luminosity * (1.0 + hslColor._saturation);
             else
                 temp2 = hslColor._luminosity + hslColor._saturation - (hslColor._luminosity * hslColor._saturation);
@@ -194,5 +194,5 @@ namespace SharpNeat.Drawing
         }
 
         #endregion
-     }
+    }
 }

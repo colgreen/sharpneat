@@ -32,9 +32,8 @@ namespace SharpNeat.IO
             string propertyName,
             Action<bool> setter)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 setter(propElem.GetBoolean());
-            }
         }
 
         /// <summary>
@@ -48,9 +47,8 @@ namespace SharpNeat.IO
             string propertyName,
             Action<int> setter)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 setter(propElem.GetInt32());
-            }
         }
 
         /// <summary>
@@ -64,9 +62,8 @@ namespace SharpNeat.IO
             string propertyName,
             Action<double> setter)
         {
-            if(jelem.TryGetProperty(propertyName, out JsonElement propElem)) {
+            if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
                 setter(propElem.GetDouble());
-            }
         }
 
         /// <summary>
@@ -83,9 +80,8 @@ namespace SharpNeat.IO
             if(jelem.TryGetProperty(propertyName, out JsonElement propElem))
             {
                 string? str = propElem.GetString();
-                if(str is not null) {
+                if(str is not null)
                     setter(str);
-                }
             }
         }
 

@@ -3,10 +3,10 @@ using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.Graphs.Tests;
+using SharpNeat.Neat.Genome;
 using Xunit;
 using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
 
@@ -41,9 +41,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
                 // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                 // test for this and try again. The test will be for N successful mutations rather than N attempts.
-                if(childGenome is null) {
+                if(childGenome is null)
                     continue;
-                }
 
                 // The child genome should have one more connection than parent.
                 Assert.Equal(genome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);
@@ -103,9 +102,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
                     // Note. the strategy will return a null if it cannot find an acyclic connection to add;
                     // test for this and try again. The test will be for N successful mutations rather than N attempts.
-                    if(childGenome is null) {
+                    if(childGenome is null)
                         continue;
-                    }
 
                     // The child genome should have one more connection than parent.
                     Assert.Equal(parentGenome.ConnectionGenes.Length + 1, childGenome.ConnectionGenes.Length);

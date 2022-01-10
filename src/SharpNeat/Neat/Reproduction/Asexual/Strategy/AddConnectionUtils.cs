@@ -29,9 +29,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             where T : struct
         {
             // For input/output nodes their index is their ID.
-            if(idx < parent.MetaNeatGenome.InputOutputNodeCount) {
+            if(idx < parent.MetaNeatGenome.InputOutputNodeCount)
                 return idx;
-            }
 
             // All other nodes are hidden nodes; use a pre-built array of all hidden node IDs.
             return parent.HiddenNodeIdArray[idx - parent.MetaNeatGenome.InputOutputNodeCount];

@@ -64,8 +64,9 @@ namespace SharpNeat.Evaluation
             _genomeDecoder = genomeDecoder;
             _phenomeEvaluationScheme = phenomeEvaluationScheme;
             _phenomeEvaluator = phenomeEvaluationScheme.CreateEvaluator();
-            _parallelOptions = new ParallelOptions {
-                 MaxDegreeOfParallelism = degreeOfParallelism
+            _parallelOptions = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = degreeOfParallelism
             };
         }
 

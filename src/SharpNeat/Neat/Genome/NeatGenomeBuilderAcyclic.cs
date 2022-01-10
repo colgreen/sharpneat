@@ -198,15 +198,13 @@ namespace SharpNeat.Neat.Genome
             // Insert fixed output node IDs (these will become unfixed later, hence they are added to the dictionary
             // rather than just being covered by DictionaryNodeIdMap.fixedNodeCount.)
             // Output node indexes start after the last input node index.
-            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++) {
+            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++)
                 nodeIdxById.Add(nodeIdx, nodeIdx);
-            }
 
             // Insert the hidden node ID mappings. Hidden nodes are allocated node indexes starting directly
             // after the last output node index.
-            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++) {
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++)
                 nodeIdxById.Add(hiddenNodeIdArr[i], nodeIdx + i);
-            }
 
             return nodeIdxById;
         }
@@ -230,16 +228,14 @@ namespace SharpNeat.Neat.Genome
 
             // Update the fixed output node IDs.
             // Pre-mapped output node indexes start after the last input node index.
-            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++) {
+            for(int nodeIdx = inputCount; nodeIdx < inputOutputCount; nodeIdx++)
                 nodeIdxById[nodeIdx] = newIdxByOldIdx[nodeIdx];
-            }
 
             // Update the hidden node ID mappings.
             // Pre-mapped hidden nodes are allocated node indexes starting directly
             // after the last output node index.
-            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++) {
+            for(int i=0, nodeIdx = inputOutputCount; i < hiddenNodeIdArr.Length; i++)
                 nodeIdxById[hiddenNodeIdArr[i]] = newIdxByOldIdx[nodeIdx + i];
-            }
         }
 
         #endregion

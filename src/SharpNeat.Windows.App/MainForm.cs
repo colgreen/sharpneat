@@ -211,11 +211,13 @@ namespace SharpNeat.Windows.App
         private void btnCopyLogToClipboard_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new();
-            foreach(Logger.LogItem item in lbxLog.Items) {
+            foreach(Logger.LogItem item in lbxLog.Items)
+            {
                 sb.AppendLine(item.Message);
             }
 
-            if(sb.Length > 0) {
+            if(sb.Length > 0)
+            {
                 Clipboard.SetText(sb.ToString());
             }
         }
@@ -241,14 +243,13 @@ namespace SharpNeat.Windows.App
 
         private void _eaRunner_UpdateEvent(object sender, EventArgs e)
         {
-            if(_eaRunner == null || _eaRunner.RunState == RunState.Terminated) {
+            if(_eaRunner == null || _eaRunner.RunState == RunState.Terminated)
                 return;
-            }
 
             // Switch to the UI thread, if not already on that thread.
             if(this.InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(delegate()
+                this.Invoke(new MethodInvoker(delegate ()
                 {
                     _eaRunner_UpdateEvent(sender, e);
                 }));
@@ -268,26 +269,25 @@ namespace SharpNeat.Windows.App
             }
 
             // Time series forms.
-            if(_fitnessTimeSeriesForm is not null) {
+            if(_fitnessTimeSeriesForm is not null)
                 _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
-            }
 
-            if(_complexityTimeSeriesForm is not null) {
+            if(_complexityTimeSeriesForm is not null)
                 _complexityTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
-            }
 
-            if(_evalsPerSecTimeSeriesForm is not null) {
+            if(_evalsPerSecTimeSeriesForm is not null)
                 _evalsPerSecTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
-            }
 
             // Rankings forms.
             if(_speciesSizeRankForm is not null)
             {
                 double[] speciesSizeByRank = GetSpeciesSizeByRank(out int speciesCount);
-                try {
+                try
+                {
                     _speciesSizeRankForm.UpdateData(speciesSizeByRank.AsSpan(0, speciesCount));
                 }
-                finally {
+                finally
+                {
                     ArrayPool<double>.Shared.Return(speciesSizeByRank);
                 }
             }
@@ -295,10 +295,12 @@ namespace SharpNeat.Windows.App
             if(_speciesFitnessRankForm is not null)
             {
                 GetSpeciesFitnessByRank(out double[] bestFitnessByRank, out double[] meanFitnessSeries, out int speciesCount);
-                try {
+                try
+                {
                     _speciesFitnessRankForm.UpdateData(bestFitnessByRank.AsSpan(0, speciesCount), meanFitnessSeries.AsSpan(0, speciesCount));
                 }
-                finally {
+                finally
+                {
                     ArrayPool<double>.Shared.Return(bestFitnessByRank);
                     ArrayPool<double>.Shared.Return(meanFitnessSeries);
                 }
@@ -307,10 +309,12 @@ namespace SharpNeat.Windows.App
             if(_speciesComplexityRankForm is not null)
             {
                 GetSpeciesComplexityByRank(out double[] bestComplexityByRank, out double[] meanComplexitySeries, out int speciesCount);
-                try {
+                try
+                {
                     _speciesComplexityRankForm.UpdateData(bestComplexityByRank.AsSpan(0, speciesCount), meanComplexitySeries.AsSpan(0, speciesCount));
                 }
-                finally {
+                finally
+                {
                     ArrayPool<double>.Shared.Return(bestComplexityByRank);
                     ArrayPool<double>.Shared.Return(meanComplexitySeries);
                 }
@@ -319,10 +323,12 @@ namespace SharpNeat.Windows.App
             if(_genomeFitnessRankForm is not null)
             {
                 double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
-                try {
+                try
+                {
                     _genomeFitnessRankForm.UpdateData(genomeFitnessByRank.AsSpan(0, genomeCount));
                 }
-                finally {
+                finally
+                {
                     ArrayPool<double>.Shared.Return(genomeFitnessByRank);
                 }
             }
@@ -330,10 +336,12 @@ namespace SharpNeat.Windows.App
             if(_genomeComplexityRankForm is not null)
             {
                 double[] genomeComplexityByRank = GetGenomeComplexityByRank(out int genomeCount);
-                try {
+                try
+                {
                     _genomeComplexityRankForm.UpdateData(genomeComplexityByRank.AsSpan(0, genomeCount));
                 }
-                finally {
+                finally
+                {
                     ArrayPool<double>.Shared.Return(genomeComplexityByRank);
                 }
             }
@@ -341,9 +349,8 @@ namespace SharpNeat.Windows.App
             // Write entry to log.
             __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _eaRunner.EA.Stats.Generation, _neatPop.Stats.BestFitness.PrimaryFitness));
 
-            if(_eaRunner.RunState == RunState.Paused) {
+            if(_eaRunner.RunState == RunState.Paused)
                 UpdateUIState_EaReadyPaused();
-            }
         }
 
         #endregion
@@ -353,9 +360,8 @@ namespace SharpNeat.Windows.App
         private INeatExperiment<double> GetNeatExperiment()
         {
             // Create a new experiment instance if one has not already been created.
-            if(_neatExperiment is null) {
+            if(_neatExperiment is null)
                 _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
-            }
 
             // Read settings from the UI into the experiment instance, and return.
             GetSettingsFromUI(_neatExperiment);
@@ -365,9 +371,8 @@ namespace SharpNeat.Windows.App
         private IExperimentUI GetExperimentUI()
         {
             // Create a new experiment instance if one has not already been created.
-            if(_experimentUI is null) {
+            if(_experimentUI is null)
                 _experimentUI = CreateAndConfigureExperimentUI((ExperimentInfo)cmbExperiments.SelectedItem);
-            }
 
             return _experimentUI;
         }
@@ -383,9 +388,8 @@ namespace SharpNeat.Windows.App
 
             double[] speciesSizeByRank = ArrayPool<double>.Shared.Rent(count);
 
-            for(int i=0; i < count; i++) {
+            for(int i=0; i < count; i++)
                 speciesSizeByRank[i] = speciesArr[i].GenomeList.Count;
-            }
 
             // Sort size values (highest values first).
             Array.Sort(speciesSizeByRank, 0, count, Utils.ComparerDesc);
@@ -440,7 +444,8 @@ namespace SharpNeat.Windows.App
             count = genList.Count;
             double[] genomeFitnessByRank = ArrayPool<double>.Shared.Rent(count);
 
-            for(int i=0; i < count; i++) {
+            for(int i=0; i < count; i++)
+            {
                 genomeFitnessByRank[i] = genList[i].FitnessInfo.PrimaryFitness;
             }
 
@@ -455,7 +460,8 @@ namespace SharpNeat.Windows.App
             count = genList.Count;
             double[] genomeComplexityByRank = ArrayPool<double>.Shared.Rent(count);
 
-            for(int i=0; i < count; i++) {
+            for(int i=0; i < count; i++)
+            {
                 genomeComplexityByRank[i] = genList[i].Complexity;
             }
 

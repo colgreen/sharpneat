@@ -17,7 +17,8 @@ namespace SharpNeat.Neat.Tests
         {
             IRandomSource rng = RandomDefaults.CreateRandomSource(0);
 
-            NeatEvolutionAlgorithmSettings eaSettings = new() {
+            NeatEvolutionAlgorithmSettings eaSettings = new()
+            {
                 SpeciesCount = 4
             };
 
@@ -80,7 +81,8 @@ namespace SharpNeat.Neat.Tests
             NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, connectionsProportion, populationSize, RandomDefaults.CreateRandomSource());
             neatPop.SpeciesArray = new Species<double>[speciesCount];
 
-            for(int i=0; i < speciesCount; i++) {
+            for(int i=0; i < speciesCount; i++)
+            {
                 neatPop.SpeciesArray[i] = new Species<double>(i, null);
             }
 

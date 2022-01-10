@@ -94,13 +94,13 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// </summary>
         readonly HashSet<int> _visitedNodes = new(17);
 
-        #if DEBUG
+#if DEBUG
         /// <summary>
         /// Indicates if a call to IsConnectionCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
-        #endif
+#endif
 
         #endregion
 
@@ -115,12 +115,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         /// <returns>True if <paramref name="newConn"/> would form a cycle; otherwise false.</returns>
         public bool IsConnectionCyclic(Span<DirectedConnection> connSpan, in DirectedConnection newConn)
         {
-            #if DEBUG
+#if DEBUG
             // Check for attempts to re-enter this method.
             if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
                 throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
             }
-            #endif
+#endif
 
             try
             {
@@ -140,9 +140,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         private bool IsConnectionCyclicInner(Span<DirectedConnection> connSpan, in DirectedConnection newConn)
         {
             // Test if the new connection is pointing to itself.
-            if(newConn.SourceId == newConn.TargetId) {
+            if(newConn.SourceId == newConn.TargetId)
                 return true;
-            }
 
             // Note. We traverse forwards starting at the new connection's target node. If the new connection's source node is
             // encountered during traversal then the connection would form a cycle in the graph as a whole, and we return true.
@@ -167,10 +166,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
             _traversalStack.Clear();
             _visitedNodes.Clear();
 
-            #if DEBUG
+#if DEBUG
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
+#endif
         }
 
         #endregion
@@ -212,14 +211,12 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
 
                 // Test if the next traversal child node has already been visited.
                 int childNodeId = connSpan[currConnIdx].TargetId;
-                if(_visitedNodes.Contains(childNodeId)) {
+                if(_visitedNodes.Contains(childNodeId))
                     continue;
-                }
 
                 // Test if the connection target is the terminal node.
-                if(childNodeId == terminalNodeId) {
+                if(childNodeId == terminalNodeId)
                     return true;
-                }
 
                 // We're about to traverse into childNodeId, so mark it as visited to prevent re-traversal.
                 _visitedNodes.Add(childNodeId);
@@ -244,7 +241,7 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover
         {
             // If the current node has at least one more outgoing connection leading to an unvisited node,
             // then update the node's entry on the top of the stack to point to said connection.
-            for(int i=currConnIdx + 1; i < connSpan.Length && (connSpan[currConnIdx].SourceId == connSpan[i].SourceId); i++)
+            for(int i = currConnIdx + 1; i < connSpan.Length && (connSpan[currConnIdx].SourceId == connSpan[i].SourceId); i++)
             {
                 if(!_visitedNodes.Contains(connSpan[i].TargetId))
                 {

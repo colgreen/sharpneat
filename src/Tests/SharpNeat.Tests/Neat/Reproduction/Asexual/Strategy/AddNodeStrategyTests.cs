@@ -3,8 +3,8 @@ using System.Linq;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
+using SharpNeat.Neat.Genome;
 using Xunit;
 using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
 
@@ -33,7 +33,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            for(int i=0; i < 10_000; i++) {
+            for(int i=0; i < 10_000; i++)
+            {
                 CreateAndTestChildGenome(genome, strategy, rng);
             }
         }
@@ -57,7 +58,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests
 
             IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-            for(int i=0; i < 2000; i++)
+            for(int i = 0; i < 2000; i++)
             {
                 NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 

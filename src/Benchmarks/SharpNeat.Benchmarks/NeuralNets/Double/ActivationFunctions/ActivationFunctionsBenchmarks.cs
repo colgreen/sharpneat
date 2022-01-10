@@ -46,9 +46,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Benchmarks
         {
             // Create some random Gaussian values as the inputs to the activation functions.
             var gaussian = new ZigguratGaussianSampler(0.0, 2.0, 0);
-            for(int i=0; i < _x.Length; i++) {
+            for(int i=0; i < _x.Length; i++)
                 _x[i] = gaussian.Sample();
-            }
         }
 
         #endregion
@@ -56,87 +55,104 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Benchmarks
         #region Public Methods
 
         [Benchmark]
-        public void ArcSinH() {
+        public void ArcSinH()
+        {
             RunBenchmark(__ArcSinH);
         }
 
         [Benchmark]
-        public void ArcTan() {
+        public void ArcTan()
+        {
             RunBenchmark(__ArcTan);
         }
 
         [Benchmark]
-        public void LeakyReLU() {
+        public void LeakyReLU()
+        {
             RunBenchmark(__LeakyReLU);
         }
 
         [Benchmark]
-        public void LeakyReLUShifted() {
+        public void LeakyReLUShifted()
+        {
             RunBenchmark(__LeakyReLUShifted);
         }
 
         [Benchmark]
-        public void LogisticApproximantSteep() {
+        public void LogisticApproximantSteep()
+        {
             RunBenchmark(__LogisticApproximantSteep);
         }
 
         [Benchmark]
-        public void Logistic() {
+        public void Logistic()
+        {
             RunBenchmark(__Logistic);
         }
 
         [Benchmark]
-        public void LogisticSteep() {
+        public void LogisticSteep()
+        {
             RunBenchmark(__LogisticSteep);
         }
 
         [Benchmark]
-        public void MaxMinusOne() {
+        public void MaxMinusOne()
+        {
             RunBenchmark(__MaxMinusOne);
         }
 
         [Benchmark]
-        public void NullFn() {
+        public void NullFn()
+        {
             RunBenchmark(__NullFn);
         }
 
         [Benchmark]
-        public void PolynomialApproximantSteep() {
+        public void PolynomialApproximantSteep()
+        {
             RunBenchmark(__PolynomialApproximantSteep);
         }
 
         [Benchmark]
-        public void QuadraticSigmoid() {
+        public void QuadraticSigmoid()
+        {
             RunBenchmark(__QuadraticSigmoid);
         }
 
         [Benchmark]
-        public void ReLU() {
+        public void ReLU()
+        {
             RunBenchmark(__ReLU);
         }
 
         [Benchmark]
-        public void ScaledELU() {
+        public void ScaledELU()
+        {
             RunBenchmark(__ScaledELU);
         }
 
         [Benchmark]
-        public void SoftSignSteep() {
+        public void SoftSignSteep()
+        {
             RunBenchmark(__SoftSignSteep);
         }
 
         [Benchmark]
-        public void SReLU() {
+        public void SReLU()
+        {
             RunBenchmark(__SReLU);
         }
 
         [Benchmark]
-        public void SReLUShifted() {
+        public void SReLUShifted()
+        {
             RunBenchmark(__SReLUShifted);
         }
 
         [Benchmark]
-        public void TanH() {
+        public void TanH()
+        {
             RunBenchmark(__TanH);
         }
 
@@ -150,9 +166,8 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Benchmarks
             ref double wref = ref MemoryMarshal.GetReference(_w.AsSpan());
             int len = _x.Length;
 
-            for(int i=0; i < __loops; i++) {
+            for(int i=0; i < __loops; i++)
                 actFn.Fn(ref xref, ref wref, len);
-            }
         }
 
         #endregion

@@ -31,9 +31,9 @@ namespace SharpNeat.Graphs.Tests
         /// </summary>
         readonly int[] _nodeDepthByIdx;
 
-        #if DEBUG
+#if DEBUG
         readonly CyclicGraphCheck _cyclicGraphCheck = new();
-        #endif
+#endif
 
         #endregion
 
@@ -57,13 +57,13 @@ namespace SharpNeat.Graphs.Tests
         /// </summary>
         private GraphDepthInfo CalculateNodeDepthsInner()
         {
-            #if DEBUG
+#if DEBUG
             // Debug assert the graph is acyclic.
             // Note. In a release build this test is not performed because we expect this method to be called from
             // code handling acyclic graphs only. If digraph is cyclic then the graph traversal implemented here will
             // cause a stack overflow, so at the very least there isn't a silent error.
             Debug.Assert(!_cyclicGraphCheck.IsCyclic(_digraph));
-            #endif
+#endif
 
             // Loop over all connections exiting from input nodes, and perform a depth first traversal of each in turn.
             int inputCount = _digraph.InputCount;

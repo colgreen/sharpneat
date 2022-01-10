@@ -246,7 +246,8 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // A constant bound of 4 is used instead of using the length of one of the arrays; this makes it easier for the JITter to decide
             // whether to unroll the loop or not. We do not manually unroll the loop because at time of writing that resulted in the jitter
             // generating far more instructions; let's just leave it to the jitter to decide whether to unroll or not.
-            for(int i=0; i < 4; i++) {
+            for(int i=0; i < 4; i++)
+            {
                 dest[i] = MathF.FusedMultiplyAdd(a[i], scalar, add[i]);
             }
         }

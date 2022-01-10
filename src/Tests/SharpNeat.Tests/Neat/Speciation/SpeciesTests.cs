@@ -1,4 +1,5 @@
-﻿using Redzen.Numerics.Distributions.Double;
+﻿using System.Runtime.InteropServices;
+using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;
@@ -26,16 +27,21 @@ namespace SharpNeat.Neat.Speciation.Tests
                 Species<double> species = CreateTestSpecies(10);
 
                 AssignGenomeFitnessScores(species, champGenomeCount, champFitness, rng);
-                ListSortUtils.SortUnstable(species.GenomeList, genomeComparerDescending, rng);
+                SortUtils.SortUnstable(
+                    CollectionsMarshal.AsSpan(species.GenomeList),
+                    genomeComparerDescending,
+                    rng);
 
                 // Assert that the champ genomes have been sorted to the head of the genome list.
                 int idx = 0;
-                for(; idx < champGenomeCount; idx++) {
+                for(; idx < champGenomeCount; idx++)
+                {
                     Assert.Equal(champFitness, species.GenomeList[idx].FitnessInfo.PrimaryFitness);
                 }
 
                 // Assert that all other genomes have a fitness less than the champ fitness.
-                for(; idx < species.GenomeList.Count; idx++) {
+                for(; idx < species.GenomeList.Count; idx++)
+                {
                     Assert.True(species.GenomeList[idx].FitnessInfo.PrimaryFitness < champFitness);
                 }
             }

@@ -8,7 +8,8 @@ namespace SharpNeat.Neat.Genome.IO.Tests
         public static void CompareGenomeLists(IList<NeatGenome<double>> x, IList<NeatGenome<double>> y)
         {
             Assert.Equal(x.Count, y.Count);
-            for(int i=0; i < x.Count; i++) {
+            for(int i=0; i < x.Count; i++)
+            {
                 CompareGenomes(x[i], y[i]);
             }
         }

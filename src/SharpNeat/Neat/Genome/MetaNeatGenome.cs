@@ -57,7 +57,8 @@ namespace SharpNeat.Neat.Genome
         /// <summary>
         /// The total number of input and output nodes.
         /// </summary>
-        public int InputOutputNodeCount {
+        public int InputOutputNodeCount
+        {
             get { return this.InputNodeCount + this.OutputNodeCount; }
         }
 

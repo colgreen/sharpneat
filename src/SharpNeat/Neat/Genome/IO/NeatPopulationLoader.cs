@@ -46,9 +46,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <returns>A list of the loaded genomes.</returns>
         public List<NeatGenome<T>> LoadFromFolder(string path)
         {
-            if(!Directory.Exists(path)) {
+            if(!Directory.Exists(path))
                 throw new IOException($"Directory does not exist [{path}]");
-            }
 
             // Determine the set of genome files to load.
             DirectoryInfo dirInfo = new(path);
@@ -74,9 +73,8 @@ namespace SharpNeat.Neat.Genome.IO
         /// <returns>A list of the loaded genomes.</returns>
         public List<NeatGenome<T>> LoadFromZipArchive(string path)
         {
-            if(!File.Exists(path)) {
+            if(!File.Exists(path))
                 throw new IOException($"File does not exist [{path}]");
-            }
 
             using(ZipArchive zipArchive = ZipFile.OpenRead(path))
             {
@@ -87,9 +85,8 @@ namespace SharpNeat.Neat.Genome.IO
                 foreach(ZipArchiveEntry zipEntry in zipArchive.Entries)
                 {
                     // Skip non-genome files.
-                    if(Path.GetExtension(zipEntry.Name) != ".genome") {
+                    if(Path.GetExtension(zipEntry.Name) != ".genome")
                         continue;
-                    }
 
                     using(Stream zipEntryStream = zipEntry.Open())
                     {

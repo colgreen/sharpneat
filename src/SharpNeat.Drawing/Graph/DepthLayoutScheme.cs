@@ -196,9 +196,8 @@ namespace SharpNeat.Drawing.Graph
             // Group nodes into layers.
             int layerCount = MathSpan.Max(nodeLayerByIdx) + 1;
             var nodesByLayer = new LightweightList<int>[layerCount];
-            for(int i=0; i < layerCount; i++) {
+            for(int i=0; i < layerCount; i++)
                 nodesByLayer[i] = new LightweightList<int>();
-            }
 
             for(int nodeIdx=0; nodeIdx < nodeLayerByIdx.Length; nodeIdx++)
             {
@@ -240,21 +239,21 @@ namespace SharpNeat.Drawing.Graph
                 int nodeIdx = 0;
                 foreach(LayerInfo layerInfo in digraphAcyclic.LayerArray)
                 {
-                    for(; nodeIdx < layerInfo.EndNodeIdx; nodeIdx++) {
+                    for(; nodeIdx < layerInfo.EndNodeIdx; nodeIdx++)
                         nodeLayerByIdx[nodeIdx] = layerIdx;
-                    }
+
                     layerIdx++;
                 }
             }
 
             // Assign input nodes to their own layer (layer zero).
-            for(int i=0; i < digraphAcyclic.InputCount; i++) {
+            for(int i=0; i < digraphAcyclic.InputCount; i++)
                 nodeLayerByIdx[i] = 0;
-            }
 
             // Assign output nodes to their own layer.
             int outputLayerIdx = digraphAcyclic.LayerArray.Length + 1;
-            foreach(int outputNodeIdx in digraphAcyclic.OutputNodeIdxArr) {
+            foreach(int outputNodeIdx in digraphAcyclic.OutputNodeIdxArr)
+            {
                 nodeLayerByIdx[outputNodeIdx] = outputLayerIdx;
             }
 
@@ -281,14 +280,12 @@ namespace SharpNeat.Drawing.Graph
 
             // Move all nodes up one layer, such that layer 1 is the first/top layer; layer zero will be
             // used later to represent input nodes only.
-            for(int i=digraph.InputCount; i < nodeLayerByIdx.Length; i++) {
+            for(int i=digraph.InputCount; i < nodeLayerByIdx.Length; i++)
                 nodeLayerByIdx[i]++;
-            }
 
             // Assign input nodes to their own layer (layer zero).
-            for(int i=0; i < digraph.InputCount; i++) {
+            for(int i=0; i < digraph.InputCount; i++)
                 nodeLayerByIdx[i] = 0;
-            }
 
             // Assign output nodes to their own layer.
             int outputLayerIdx = depthInfo._graphDepth + 1;
@@ -311,15 +308,13 @@ namespace SharpNeat.Drawing.Graph
             // Count how many nodes there are in each layer.
             Span<int> nodeCountByLayer = stackalloc int[layerCount];
 
-            foreach(int layerIdx in nodeLayerByIdx) {
+            foreach(int layerIdx in nodeLayerByIdx)
                 nodeCountByLayer[layerIdx]++;
-            }
 
             // Create a mapping from old to new layer indexes, and init with the identity mapping.
             Span<int> layerIdxMap = stackalloc int[nodeCountByLayer.Length];
-            for(int i=0; i < layerIdxMap.Length; i++) {
+            for(int i=0; i < layerIdxMap.Length; i++)
                 layerIdxMap[i] = i;
-            }
 
             // Loop through nodeCountByLayer backwards, testing for empty layers, and removing them as we go.
             // Removal here means adjusting layerIdxMap.
@@ -328,9 +323,8 @@ namespace SharpNeat.Drawing.Graph
                 if(nodeCountByLayer[layerIdx] == 0)
                 {
                     // Empty layer detected. Decrement all higher layer indexes to fill the gap.
-                    for(int i=layerIdx+1; i < layerIdxMap.Length; i++) {
+                    for(int i = layerIdx+1; i < layerIdxMap.Length; i++)
                         layerIdxMap[i]--;
-                    }
 
                     // Set the empty layer's layer index to -1, primarily to mark it as not a valid ID (although we don't actually use this
                     // anywhere, except maybe for debugging purposes).
@@ -343,9 +337,8 @@ namespace SharpNeat.Drawing.Graph
 
             // Apply the node layer index mappings we have just constructed; this 'moves' the nodes to their new layers, i.e. to remove/collapse
             // the empty layers (if any).
-            for(int i=0; i < nodeLayerByIdx.Length; i++) {
+            for(int i=0; i < nodeLayerByIdx.Length; i++)
                 nodeLayerByIdx[i] = layerIdxMap[nodeLayerByIdx[i]];
-            }
         }
 
         #endregion

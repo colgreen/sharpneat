@@ -48,7 +48,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual
         /// Default constructor.
         /// </summary>
         public NeatReproductionAsexualSettings()
-        {}
+        {
+        }
 
         /// <summary>
         /// Copy constructor.
@@ -101,7 +102,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual
             if(!IsProbability(AddNodeMutationProbability)) throw new InvalidOperationException("AddNodeMutationProbability must be in the interval [0,1].");
             if(!IsProbability(AddConnectionMutationProbability)) throw new InvalidOperationException("AddConnectionMutationProbability must be in the interval [0,1].");
             if(!IsProbability(DeleteConnectionMutationProbability)) throw new InvalidOperationException("DeleteConnectionMutationProbability must be in the interval [0,1].");
-            if (Math.Abs((ConnectionWeightMutationProbability + AddNodeMutationProbability + AddConnectionMutationProbability + DeleteConnectionMutationProbability) - 1.0) > 1e-6) throw new InvalidOperationException("Mutation probabilities must sum to 1.0");
+            if(Math.Abs((ConnectionWeightMutationProbability + AddNodeMutationProbability + AddConnectionMutationProbability + DeleteConnectionMutationProbability) - 1.0) > 1e-6) throw new InvalidOperationException("Mutation probabilities must sum to 1.0");
 
             static bool IsProbability(double p) => p >= 0 && p <= 1.0;
         }

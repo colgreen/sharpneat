@@ -23,7 +23,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner
         /// <summary>
         /// Gets the update scheme's mode.
         /// </summary>
-        public UpdateMode UpdateMode {  get; }
+        public UpdateMode UpdateMode { get; }
 
         /// <summary>
         /// Gets the number of generations between updates Applies to the generational update scheme only.

@@ -17,9 +17,9 @@ namespace SharpNeat.Tests
                 for(double x = min + incr; x <= max; x += incr)
                 {
                     double y = fn(x);
-                    if(y <= y_prev) {
+                    if(y <= y_prev)
                         return false;
-                    }
+
                     y_prev = y;
                 }
             }
@@ -28,12 +28,13 @@ namespace SharpNeat.Tests
                 for(double x = min + incr; x <= max; x += incr)
                 {
                     double y = fn(x);
-                    if(y < y_prev) {
+                    if(y < y_prev)
                         return false;
-                    }
+
                     y_prev = y;
                 }
             }
+
             return true;
         }
     }

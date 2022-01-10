@@ -1,8 +1,8 @@
 ﻿using Redzen;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Graphs;
-using Xunit;
+using SharpNeat.Neat.Genome;
 using SharpNeat.Tests;
+using Xunit;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double.Tests
 {
@@ -37,7 +37,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double.Tests
             var arr = new ConnectionGenes<double>[] { connGenes1, connGenes2, connGenes3 };
 
             // Calc centroid.
-            ConnectionGenes<double> centroid =  DistanceMetricUtils.CalculateEuclideanCentroid(arr);
+            ConnectionGenes<double> centroid = DistanceMetricUtils.CalculateEuclideanCentroid(arr);
 
             // Expected centroid.
             var expected = new ConnectionGenes<double>(11);

@@ -66,8 +66,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             // this constructor is invoked, and 1 is nonsensical for a parallel strategy.
             if(degreeOfParallelism < 2) throw new ArgumentException("Must be 2 or above.", nameof(degreeOfParallelism));
 
-            _parallelOptions = new ParallelOptions {
-                 MaxDegreeOfParallelism = degreeOfParallelism
+            _parallelOptions = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = degreeOfParallelism
             };
 
             _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, _parallelOptions);
@@ -87,9 +88,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
         /// <returns>A new array of species.</returns>
         public Species<T>[] SpeciateAll(IList<NeatGenome<T>> genomeList, int speciesCount, IRandomSource rng)
         {
-            if(genomeList.Count < speciesCount) {
+            if(genomeList.Count < speciesCount)
                 throw new ArgumentException("The number of genomes is less than speciesCount.");
-            }
 
             // Initialise using k-means++ initialisation method.
             var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount, rng);
@@ -118,7 +118,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
                 var nearestSpeciesIdx = SpeciationUtils.GetNearestSpecies(_distanceMetric, genome, speciesArr);
                 var nearestSpecies = speciesArr[nearestSpeciesIdx];
 
-                lock(nearestSpecies.GenomeList) {
+                lock(nearestSpecies.GenomeList)
+                {
                     nearestSpecies.GenomeList.Add(genome);
                 }
 
@@ -186,12 +187,14 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
                         // Move genome.
                         // Note. We can't modify species.GenomeById while we are enumerating through it, therefore we record the IDs
                         // of the genomes to be removed and remove them once we leave the enumeration loop.
-                        lock(species.PendingRemovesList) {
+                        lock(species.PendingRemovesList)
+                        {
                             species.PendingRemovesList.Add(genome.Id);
                         }
 
                         var nearestSpecies = speciesArr[nearestSpeciesIdx];
-                        lock(nearestSpecies.PendingAddsList) {
+                        lock(nearestSpecies.PendingAddsList)
+                        {
                             nearestSpecies.PendingAddsList.Add(genome);
                         }
 
@@ -232,9 +235,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => x.GenomeById.Count == 0).ToArray();
-            if(emptySpeciesArr.Length != 0) {
+            if(emptySpeciesArr.Length != 0)
                 SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
-            }
 
             // Transfer all genomes from GenomeById to GenomeList.
             Parallel.ForEach(speciesArr, _parallelOptions, species => species.FlushWorkingDictionary());

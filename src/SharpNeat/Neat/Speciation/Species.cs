@@ -89,9 +89,9 @@ namespace SharpNeat.Neat.Speciation
         public void LoadWorkingDictionary()
         {
             GenomeById.Clear();
-            foreach(var genome in GenomeList) {
+            foreach(var genome in GenomeList)
                 GenomeById.Add(genome.Id, genome);
-            }
+
             GenomeList.Clear();
         }
 
@@ -111,14 +111,12 @@ namespace SharpNeat.Neat.Speciation
         public void CompletePendingMoves()
         {
             // Remove genomes that are marked for removal.
-            foreach(int id in PendingRemovesList) {
+            foreach(int id in PendingRemovesList)
                 GenomeById.Remove(id);
-            }
 
             // Process pending additions.
-            foreach(var genome in PendingAddsList) {
+            foreach(var genome in PendingAddsList)
                 GenomeById.Add(genome.Id, genome);
-            }
 
             PendingRemovesList.Clear();
             PendingAddsList.Clear();
@@ -131,9 +129,9 @@ namespace SharpNeat.Neat.Speciation
         public double CalcTotalComplexity()
         {
             double total = 0.0;
-            foreach(var genome in GenomeList) {
+            foreach(var genome in GenomeList)
                 total += genome.Complexity;
-            }
+
             return total;
         }
 

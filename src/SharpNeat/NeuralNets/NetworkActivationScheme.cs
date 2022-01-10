@@ -30,7 +30,8 @@ namespace SharpNeat.NeuralNets
         /// Private constructor to restrict construction to static factory methods.
         /// </summary>
         private NetworkActivationScheme()
-        {}
+        {
+        }
 
         #endregion
 
@@ -63,9 +64,11 @@ namespace SharpNeat.NeuralNets
         /// <returns>A new instance of <see cref="NetworkActivationScheme"/>.</returns>
         public static NetworkActivationScheme CreateAcyclicScheme()
         {
-            NetworkActivationScheme scheme = new() {
+            NetworkActivationScheme scheme = new()
+            {
                 _acyclicNetwork = true
             };
+
             return scheme;
         }
 
@@ -77,10 +80,12 @@ namespace SharpNeat.NeuralNets
         /// <returns>A new instance of <see cref="NetworkActivationScheme"/>.</returns>
         public static NetworkActivationScheme CreateCyclicScheme(int cyclesPerActivation)
         {
-            NetworkActivationScheme scheme = new() {
+            NetworkActivationScheme scheme = new()
+            {
                 _acyclicNetwork = false,
                 _cyclesPerActivation = cyclesPerActivation
             };
+
             return scheme;
         }
 

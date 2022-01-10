@@ -62,10 +62,10 @@ namespace SharpNeat.Neat
             // Thus, because all of the evolved networks have a fixed number of inputs and outputs, the IDs of these nodes are always fixed.
             int firstOutputNodeId = inputCount;
 
-            for(int srcId=0, i=0; srcId < inputCount; srcId++) {
-                for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++) {
+            for(int srcId=0, i=0; srcId < inputCount; srcId++)
+            {
+                for(int tgtIdx=0; tgtIdx < outputCount; tgtIdx++)
                     _connectionDefArr[i++] = new DirectedConnection(srcId, firstOutputNodeId + tgtIdx);
-                }
             }
 
             // Init RNG and ID sequences.

@@ -5,6 +5,8 @@ using SharpNeat.Drawing;
 using SharpNeat.Drawing.Graph;
 using SharpNeat.Graphs;
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace UISandbox
 {
     public partial class Form1 : Form
@@ -60,9 +62,9 @@ namespace UISandbox
         private static INodeIdMap CreateNodeIdByIdx(int length)
         {
             var arr = new int[length];
-            for(int i=0; i < length; i++) {
+            for(int i=0; i < length; i++)
                 arr[i] = i;
-            }
+
             return new ArrayNodeIdMap(arr);
         }
 

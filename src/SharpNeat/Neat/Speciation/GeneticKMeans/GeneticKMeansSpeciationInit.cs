@@ -73,7 +73,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             seedGenomeList.Add(GetAndRemove(remainingGenomes, rng.Next(remainingGenomes.Count)));
 
             // Select all other seed genomes using k-means++ method.
-            for(int i=1; i < speciesCount; i++)
+            for(int i = 1; i < speciesCount; i++)
             {
                 var seedGenome = GetSeedGenome(seedGenomeList, remainingGenomes, rng);
                 seedGenomeList.Add(seedGenome);
@@ -132,7 +132,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             int subsetCount;
 
             // For 10 or fewer genomes just select all of them.
-            if(remainingGenomes.Count <= 10) {
+            if(remainingGenomes.Count <= 10)
+            {
                 subsetCount = remainingGenomes.Count;
             }
             else

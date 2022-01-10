@@ -87,24 +87,22 @@ namespace SharpNeat.Benchmarks
         private double[] CreateRandomDoubleArray(int length)
         {
             double[] arr = new double[length];
-            for(int i=0; i < length; i++) {
+            for(int i=0; i < length; i++)
                 arr[i] = _rng.NextDouble();
-            }
+
             return arr;
         }
 
         private void InitRandomInt32Array(Span<int> span)
         {
-            for(int i=0; i < span.Length; i++) {
+            for(int i=0; i < span.Length; i++)
                 span[i] = _rng.Next();
-            }
         }
 
         private void InitRandomDoubleArray(double[] arr)
         {
-            for(int i=0; i < arr.Length; i++) {
+            for(int i=0; i < arr.Length; i++)
                 arr[i] = _rng.NextDouble();
-            }
         }
 
         #endregion

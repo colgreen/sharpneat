@@ -85,11 +85,13 @@ namespace SharpNeat.BlackBox
         public void CopyTo(T[] targetArray, int targetIndex)
         {
             if(    targetIndex < 0
-                || targetIndex + _map.Length > targetArray.Length) {
+                || targetIndex + _map.Length > targetArray.Length)
+            {
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i < _map.Length; i++, tgtIdx++) {
+            for(int i=0, tgtIdx = targetIndex; i < _map.Length; i++, tgtIdx++)
+            {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
@@ -103,14 +105,16 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int length)
         {
-            if(    targetIndex < 0
+            if(targetIndex < 0
                 || length < 0
                 || length > _map.Length
-                || targetIndex + length > targetArray.Length) {
+                || targetIndex + length > targetArray.Length)
+            {
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i < length; i++, tgtIdx++) {
+            for(int i=0, tgtIdx = targetIndex; i < length; i++, tgtIdx++)
+            {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
@@ -126,15 +130,17 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyTo(T[] targetArray, int targetIndex, int sourceIndex, int length)
         {
-            if(    targetIndex < 0
+            if(targetIndex < 0
                 || sourceIndex < 0
                 || length < 0
                 || targetIndex + length > targetArray.Length
-                || sourceIndex + length > _map.Length) {
+                || sourceIndex + length > _map.Length)
+            {
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=sourceIndex, tgtIdx=targetIndex; i < sourceIndex+length; i++, tgtIdx++) {
+            for(int i = sourceIndex, tgtIdx = targetIndex; i < sourceIndex+length; i++, tgtIdx++)
+            {
                 targetArray[tgtIdx] = _innerArr[_map[i]];
             }
         }
@@ -147,12 +153,14 @@ namespace SharpNeat.BlackBox
         /// <param name="targetIndex">The index into the current SignalArray at which copying begins.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex)
         {
-            if(    targetIndex < 0
-                || targetIndex + sourceArray.Length > _map.Length) {
+            if(targetIndex < 0
+                || targetIndex + sourceArray.Length > _map.Length)
+            {
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i < sourceArray.Length; i++, tgtIdx++){
+            for(int i=0, tgtIdx = targetIndex; i < sourceArray.Length; i++, tgtIdx++)
+            {
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
@@ -166,14 +174,16 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int targetIndex, int length)
         {
-            if(    targetIndex < 0
+            if(targetIndex < 0
                 || length < 0
                 || length > sourceArray.Length
-                || targetIndex + length > _map.Length) {
+                || targetIndex + length > _map.Length)
+            {
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=0, tgtIdx=targetIndex; i < length; i++, tgtIdx++){
+            for(int i=0, tgtIdx = targetIndex; i < length; i++, tgtIdx++)
+            {
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
@@ -188,15 +198,17 @@ namespace SharpNeat.BlackBox
         /// <param name="length">The number of elements to copy.</param>
         public void CopyFrom(T[] sourceArray, int sourceIndex, int targetIndex, int length)
         {
-            if(    sourceIndex < 0
+            if(sourceIndex < 0
                 || targetIndex < 0
                 || length < 0
                 || sourceIndex + length > sourceArray.Length
-                || targetIndex + length > _map.Length) {
+                || targetIndex + length > _map.Length)
+            {
                 throw new ArgumentException("Invalid copy operation.");
             }
 
-            for(int i=sourceIndex, tgtIdx=targetIndex; i < sourceIndex + length; i++, tgtIdx++) {
+            for(int i = sourceIndex, tgtIdx = targetIndex; i < sourceIndex + length; i++, tgtIdx++)
+            {
                 _innerArr[_map[tgtIdx]] = sourceArray[i];
             }
         }
@@ -206,7 +218,8 @@ namespace SharpNeat.BlackBox
         /// </summary>
         public void Reset()
         {
-            for(int i=0; i < _map.Length; i++) {
+            for(int i=0; i < _map.Length; i++)
+            {
                 _innerArr[_map[i]] = default;
             }
         }
@@ -223,9 +236,8 @@ namespace SharpNeat.BlackBox
         {
             for(int i=0; i < map.Length; i++)
             {
-                if(map[i] < 0 || map[i] >= wrappedArray.Length) {
+                if(map[i] < 0 || map[i] >= wrappedArray.Length)
                     return false;
-                }
             }
             return true;
         }

@@ -60,9 +60,8 @@ namespace SharpNeat.Neat.Genome
             Debug.Assert(birthGeneration >= 0);
 
             // Acyclic graph checks.
-            if(metaNeatGenome.IsAcyclic) {
+            if(metaNeatGenome.IsAcyclic)
                 AssertAcyclicGraph(metaNeatGenome, digraph, connectionIndexMap);
-            }
 
             // Node counts.
             AssertNodeCounts(metaNeatGenome, hiddenNodeIdArr, nodeIndexByIdMap, digraph);
@@ -142,23 +141,20 @@ namespace SharpNeat.Neat.Genome
 
             // EndNodeIdx is strictly increasing, as is EndConnectionIdx.
             // Note. There is always at least one node in a layer (otherwise the layer would not exist).
-            for(int i=1; i < layerArr.Length; i++) {
+            for(int i=1; i < layerArr.Length; i++)
                 Debug.Assert(layerArr[i-1].EndNodeIdx < layerArr[i].EndNodeIdx);
-            }
 
             // EndConnectionIdx is strictly increasing, except for the last layer which has no connections by definition (if
             // there was a connection it would result in one more layer!).
-            for(int i=1; i < layerArr.Length-1; i++) {
+            for(int i=1; i < layerArr.Length-1; i++)
                 Debug.Assert(layerArr[i-1].EndConnectionIdx < layerArr[i].EndConnectionIdx);
-            }
 
             // The last layer has no connections, by definition.
             // Note. In principle there can be a single layer, i.e. a bunch of nodes with no connections between them;
             // it's nonsensical, but it's not disallowed.
             int lastLayerIdx = layerArr.Length-1;
-            if(lastLayerIdx > 0) {
+            if(lastLayerIdx > 0)
                 Debug.Assert(layerArr[lastLayerIdx].EndConnectionIdx == layerArr[lastLayerIdx-1].EndConnectionIdx);
-            }
 
             // Reconstruct a GraphDepthInfo from the layer info.
             GraphDepthInfo depthInfo = BuildGraphDepthInfo(layerArr, digraph.TotalNodeCount);
@@ -170,7 +166,7 @@ namespace SharpNeat.Neat.Genome
             ReadOnlySpan<int> tgtIds = digraph.ConnectionIds.GetTargetIdSpan();
 
             // Loop the layer infos.
-            for(int layerIdx=0; layerIdx < layerArr.Length; layerIdx++)
+            for(int layerIdx = 0; layerIdx < layerArr.Length; layerIdx++)
             {
                 LayerInfo layerInfo = layerArr[layerIdx];
 
@@ -208,13 +204,12 @@ namespace SharpNeat.Neat.Genome
         {
             int[] nodeDepthArr = new int[totalNodeCount];
 
-            for(int layerIdx=0, nodeIdx = 0; layerIdx < layerArr.Length; layerIdx++)
+            for(int layerIdx = 0, nodeIdx = 0; layerIdx < layerArr.Length; layerIdx++)
             {
                 int endNodeIdx = layerArr[layerIdx].EndNodeIdx;
 
-                for(; nodeIdx < endNodeIdx; nodeIdx++) {
+                for(; nodeIdx < endNodeIdx; nodeIdx++)
                     nodeDepthArr[nodeIdx] = layerIdx;
-                }
             }
 
             return new GraphDepthInfo(layerArr.Length, nodeDepthArr);
@@ -227,24 +222,24 @@ namespace SharpNeat.Neat.Genome
         private static bool IsSortedAscending(
             in ConnectionIds connIds)
         {
-            if(connIds.Length == 0) {
+            if(connIds.Length == 0)
+            {
                 return true;
             }
 
-            ReadOnlySpan<int> srcIds = connIds.GetSourceIdSpan();
-            ReadOnlySpan<int> tgtIds = connIds.GetTargetIdSpan();
+            Span<int> srcIds = connIds.GetSourceIdSpan();
+            Span<int> tgtIds = connIds.GetTargetIdSpan();
 
-            for(int i=0; i < srcIds.Length - 1 ; i++)
+            for(int i=0; i < srcIds.Length - 1; i++)
             {
-                if(Compare(srcIds[0], tgtIds[0], srcIds[i+1], tgtIds[i+1]) > 0) {
+                if(Compare(ref srcIds[0], ref tgtIds[0], ref srcIds[i+1], ref tgtIds[i+1]) > 0)
                     return false;
-                }
             }
 
             return true;
         }
 
-        private static int Compare(int srcIdA, int tgtIdA, int srcIdB, int tgtIdB)
+        private static int Compare(ref int srcIdA, ref int tgtIdA, ref int srcIdB, ref int tgtIdB)
         {
             if(srcIdA < srcIdB) { return -1; }
             if(srcIdA > srcIdB) { return 1; }

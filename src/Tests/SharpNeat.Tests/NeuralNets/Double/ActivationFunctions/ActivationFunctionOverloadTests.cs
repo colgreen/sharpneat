@@ -73,14 +73,16 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
 
         private static void ApplyFunc(IActivationFunction<double> actFn, double[] x)
         {
-            for(int i=0; i < x.Length; i++) {
+            for(int i=0; i < x.Length; i++)
+            {
                 actFn.Fn(ref x[i]);
             }
         }
 
         private static void ApplyFunc(IActivationFunction<double> actFn, double[] v, double[] w)
         {
-            for(int i=0; i < v.Length; i++) {
+            for(int i=0; i < v.Length; i++)
+            {
                 actFn.Fn(ref v[i], ref w[i]);
             }
         }
@@ -88,9 +90,11 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests
         private static double[] GetRandomArray(int length, Random rng)
         {
             double[] v = new double[length];
-            for(int i=0; i < v.Length; i++) {
+            for(int i=0; i < v.Length; i++)
+            {
                 v[i] = (rng.NextDouble() * 20.0) - 10.0;
             }
+
             return v;
         }
 

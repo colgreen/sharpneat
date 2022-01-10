@@ -44,7 +44,8 @@ namespace SharpNeat.Tasks.Tests.FunctionRegression
 
             // Intermediate points.
             int i=1;
-            for(; i < xArr.Length - 1; i++) {
+            for(; i < xArr.Length - 1; i++)
+            {
                 gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i + 1], yArr[i + 1]);
             }
 

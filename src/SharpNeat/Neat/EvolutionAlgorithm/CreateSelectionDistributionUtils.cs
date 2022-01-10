@@ -68,9 +68,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             {
                 int selectionSizeInt = speciesArr[i].Stats.SelectionSizeInt;
                 speciesFitnessArr[i] = selectionSizeInt;
-                if(selectionSizeInt != 0) {
+                if(selectionSizeInt != 0)
                     nonEmptySpeciesCount++;
-                }
             }
 
             // Note. Here we pass an array of SelectionSizeInt to the constructor of DiscreteDistribution.
@@ -87,16 +86,16 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // For each species build a DiscreteDistribution for genome selection within
             // that species. I.e. fitter genomes have higher probability of selection.
-            for(int i=0; i < speciesCount; i++)
+            for(int i = 0; i < speciesCount; i++)
             {
                 Species<T> species = speciesArr[i];
 
                 distArr[i] = species.Stats.SelectionSizeInt switch
-                    {
-                        0 => null,
-                        1 => DiscreteDistribution.SingleOutcome,
-                        _ => CreateIntraSpeciesGenomeSelectionDistribution(species)
-                    };
+                {
+                    0 => null,
+                    1 => DiscreteDistribution.SingleOutcome,
+                    _ => CreateIntraSpeciesGenomeSelectionDistribution(species)
+                };
             }
 
             return distArr;
@@ -108,9 +107,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             var probArr = new double[species.Stats.SelectionSizeInt];
             var genomeList = species.GenomeList;
 
-            for(int i=0; i < probArr.Length; i++) {
+            for(int i=0; i < probArr.Length; i++)
                 probArr[i] = genomeList[i].FitnessInfo.PrimaryFitness;
-            }
 
             return new DiscreteDistribution(probArr);
         }

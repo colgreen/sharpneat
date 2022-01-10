@@ -68,13 +68,13 @@ namespace SharpNeat.Graphs
         /// </summary>
         LightweightList<int>[] _nodeDepthMatrix = CreateNodeDepthMatrix(64, 8);
 
-        #if DEBUG
+#if DEBUG
         /// <summary>
         /// Indicates if a call to IsCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
-        #endif
+#endif
 
         #endregion
 
@@ -89,12 +89,12 @@ namespace SharpNeat.Graphs
         {
             // TODO/FIXME: Consider storing reusable state in a pool, to allow reentrancy from threads. See ArrayPool<T> as a baseline for how to implement, or Redzen.Random.DefaultRandomSeedSource.
 
-            #if DEBUG
+#if DEBUG
             // Check for attempts to re-enter this method.
             if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
                 throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
             }
-            #endif
+#endif
 
             _digraph = digraph;
             EnsureNodeCapacity(digraph.TotalNodeCount, digraph.InputCount);
@@ -152,9 +152,8 @@ namespace SharpNeat.Graphs
                 int prevLength = _nodeDepthMatrix.Length;
                 Array.Resize(ref _nodeDepthMatrix, newLength);
 
-                for(int i=prevLength; i < newLength; i++) {
+                for(int i = prevLength; i < newLength; i++)
                     _nodeDepthMatrix[i] = new LightweightList<int>(inputCount);
-                }
             }
         }
 
@@ -169,9 +168,8 @@ namespace SharpNeat.Graphs
             // Have we already traversed this node? And if so, was the depth assigned to it greater than the current traversal depth?
             // If so we can skip traversal into this node, as we could not assign it, or any of its descendants, a greater depth than
             // it already has.
-            if(_nodeDepthByIdx![nodeIdx] >= depth) {
+            if(_nodeDepthByIdx![nodeIdx] >= depth)
                 return;
-            }
 
             // Register the node as having been visited, and record the traversal depth.
             _nodeDepthByIdx![nodeIdx] = depth;
@@ -202,9 +200,8 @@ namespace SharpNeat.Graphs
         {
             for(int i=0; i < _nodeDepthByIdx!.Length; i++)
             {
-                if(_nodeDepthByIdx[i] != -1) {
+                if(_nodeDepthByIdx[i] != -1)
                     _nodeDepthMatrix[i].Add(_nodeDepthByIdx[i]);
-                }
             }
         }
 
@@ -230,15 +227,13 @@ namespace SharpNeat.Graphs
 
             // Calc how many nodes there are in each layer.
             Span<int> nodeCountByLayer = stackalloc int[_nodeDepthByIdx.Max() + 1];
-            foreach(int depth in _nodeDepthByIdx) {
+            foreach(int depth in _nodeDepthByIdx)
                 nodeCountByLayer[depth]++;
-            }
 
             // Create a mapping from old to new layer indexes, and init with the identity mapping.
             Span<int> layerIdxMap = stackalloc int[nodeCountByLayer.Length];
-            for(int i=0; i < layerIdxMap.Length; i++) {
+            for(int i=0; i < layerIdxMap.Length; i++)
                 layerIdxMap[i] = i;
-            }
 
             // Loop through nodeCountByLayer backwards, testing for empty layers.
             int layerCount = nodeCountByLayer.Length;
@@ -248,9 +243,8 @@ namespace SharpNeat.Graphs
                 if(nodeCountByLayer[layerIdx] == 0)
                 {
                     // Empty layer detected. Decrement all higher layer indexes to fill the gap.
-                    for(int i=layerIdx+1; i < layerIdxMap.Length; i++) {
+                    for(int i = layerIdx+1; i < layerIdxMap.Length; i++)
                         layerIdxMap[i]--;
-                    }
 
                     // Set the empty layer's layer index to -1, primarily to mark it as not a valid ID (although we don't actually use this
                     // anywhere, except maybe for debugging purposes).
@@ -262,9 +256,8 @@ namespace SharpNeat.Graphs
             }
 
             // Apply the node layer index mappings we have just constructed.
-            for(int i=0; i < _nodeDepthByIdx.Length; i++) {
+            for(int i=0; i < _nodeDepthByIdx.Length; i++)
                 _nodeDepthByIdx[i] = layerIdxMap[_nodeDepthByIdx[i]];
-            }
         }
 
         private void Cleanup()
@@ -272,14 +265,13 @@ namespace SharpNeat.Graphs
             _digraph = null;
             _ancestorNodeBitmap.Reset(false);
 
-            foreach(var list in _nodeDepthMatrix) {
+            foreach(var list in _nodeDepthMatrix)
                 list.Clear();
-            }
 
-            #if DEBUG
+#if DEBUG
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
+#endif
         }
 
         #endregion
@@ -289,9 +281,9 @@ namespace SharpNeat.Graphs
         private static LightweightList<int>[] CreateNodeDepthMatrix(int nodeCount, int inputCount)
         {
             var matrix = new LightweightList<int>[nodeCount];
-            for(int i=0; i < nodeCount; i++) {
+            for(int i=0; i < nodeCount; i++)
                 matrix[i] = new LightweightList<int>(inputCount);
-            }
+
             return matrix;
         }
 

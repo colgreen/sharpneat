@@ -60,10 +60,10 @@ namespace SharpNeat.Tasks.PreyCapture
             int fitness = 0;
             for(int i=0; i < _trialsPerEvaluation; i++)
             {
+                // TODO: Change RunTrial() to return 0 or 1, so that we can sum the result without performing a conditional branch.
                 // Run a single trial, and record if the prey was captured.
-                if(_world.RunTrial(box)) {
+                if(_world.RunTrial(box))
                     fitness++;
-                }
             }
 
             // Fitness is given by the number of trials in which the agent caught the prey.

@@ -103,9 +103,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
 
             // Resolve the interspecies mating proportion.
             double interspeciesMatingProportionResolved = _interspeciesMatingProportion;
-            if(populatedSpeciesCount <= 1) {
+            if(populatedSpeciesCount <= 1)
                 interspeciesMatingProportionResolved = 0.0;
-            }
 
             // Create the offspring.
             var offspringList = CreateOffspring(
@@ -140,15 +139,14 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             var offspringList = new List<NeatGenome<T>>(offspringCount);
 
             // Loop the species.
-            for(int speciesIdx=0; speciesIdx < speciesArr.Length; speciesIdx++)
+            for(int speciesIdx = 0; speciesIdx < speciesArr.Length; speciesIdx++)
             {
                 // Get the current species.
                 Species<T> species = speciesArr[speciesIdx];
 
                 // Skip species that have been marked to not produce any offspring.
-                if(species.Stats.SelectionSizeInt == 0) {
+                if(species.Stats.SelectionSizeInt == 0)
                     continue;
-                }
 
                 // Get the DiscreteDistribution for genome selection within the current species.
                 DiscreteDistribution genomeDist = genomeDistArr[speciesIdx]!;
@@ -228,11 +226,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         {
             // Calc the number of offspring to create via inter-species sexual reproduction.
             int offspringCountSexualInter;
-            if(interspeciesMatingProportion == 0.0) {
+            if(interspeciesMatingProportion == 0.0)
                 offspringInterspeciesCount = offspringCountSexualInter = 0;
-            } else {
+            else
                 offspringInterspeciesCount = offspringCountSexualInter = (int)NumericsUtils.StochasticRound(interspeciesMatingProportion * offspringCount, rng);
-            }
 
             // Calc the number of offspring to create via intra-species sexual reproduction.
             int offspringCountSexualIntra = offspringCount - offspringCountSexualInter;
@@ -276,9 +273,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
                 var parentGenomeB = speciesB.GenomeList[genomeIdx];
 
                 // Ensure parentA is the fittest of the two parents.
-                if(_fitnessComparer.Compare(parentGenomeA.FitnessInfo, parentGenomeB.FitnessInfo) < 0) {
+                if(_fitnessComparer.Compare(parentGenomeA.FitnessInfo, parentGenomeB.FitnessInfo) < 0)
                     VariableUtils.Swap(ref parentGenomeA!, ref parentGenomeB!);
-                }
 
                 // Create a child genome and add it to offspringList.
                 var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);

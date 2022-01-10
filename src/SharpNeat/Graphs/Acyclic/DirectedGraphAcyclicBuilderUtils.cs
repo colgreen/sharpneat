@@ -99,9 +99,8 @@ namespace SharpNeat.Graphs.Acyclic
             // Init connection index map.
             int connCount = connIds.Length;
             connectionIndexMap = new int[connCount];
-            for(int i=0; i < connCount; i++) {
+            for(int i=0; i < connCount; i++)
                 connectionIndexMap[i] = i;
-            }
 
             // Sort the connections based on sourceID, targetId; this will arrange the connections based on the depth
             // of the source nodes.
@@ -136,13 +135,13 @@ namespace SharpNeat.Graphs.Acyclic
             int[] nodeDepthArr = depthInfo._nodeDepthArr;
             ReadOnlySpan<int> srcIds = connIds.GetSourceIdSpan();
 
-            for (int currDepth = 0; currDepth < graphDepth; currDepth++)
+            for(int currDepth = 0; currDepth < graphDepth; currDepth++)
             {
                 // Scan for last node at the current depth.
-                for (; nodeIdx < nodeCount && nodeDepthArr[nodeIdx] == currDepth; nodeIdx++);
+                for(; nodeIdx < nodeCount && nodeDepthArr[nodeIdx] == currDepth; nodeIdx++);
 
                 // Scan for last connection at the current depth.
-                for (; connIdx < srcIds.Length && nodeDepthArr[srcIds[connIdx]] == currDepth; connIdx++);
+                for(; connIdx < srcIds.Length && nodeDepthArr[srcIds[connIdx]] == currDepth; connIdx++);
 
                 // Store node and connection end indexes for the layer.
                 layerInfoArr[currDepth] = new LayerInfo(nodeIdx, connIdx);
@@ -174,9 +173,8 @@ namespace SharpNeat.Graphs.Acyclic
             {
                 var nodeIds = nodeIdArr.AsSpan(0, nodeCount);
 
-                for(int i=0; i < nodeCount; i++) {
+                for(int i=0; i < nodeCount; i++)
                     nodeIds[i] = i;
-                }
 
                 // Sort nodeIdArr based on the depth of the nodes.
                 // Notes.
@@ -217,9 +215,8 @@ namespace SharpNeat.Graphs.Acyclic
                 // Each node is now assigned a new node ID based on its index in nodeIdArr, i.e. we are re-allocating IDs based on node depth.
                 // ENHANCEMENT: This mapping inversion is avoidable if the consumer of the mapping is modified to consume the 'old index to new index' mapping.
                 int[] newIdByOldId = new int[nodeCount];
-                for(int i=0; i < nodeCount; i++) {
+                for(int i=0; i < nodeCount; i++)
                     newIdByOldId[nodeIds[i]] = i;
-                }
 
                 return newIdByOldId;
             }

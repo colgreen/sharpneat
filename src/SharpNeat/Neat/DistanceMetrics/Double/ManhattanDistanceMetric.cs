@@ -68,7 +68,8 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
         /// Classical Manhattan Distance.
         /// </summary>
         public ManhattanDistanceMetric() : this(1.0, 1.0, 0.0)
-        {}
+        {
+        }
 
         /// <summary>
         /// Constructs using the provided weightings for comparisons on matching and mismatching dimensions.
@@ -120,18 +121,18 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             if(length1 == 0)
             {
                 // All p2 genes are mismatches.
-                for(int i=0; i < length2; i++) {
+                for(int i=0; i < length2; i++)
                     distance += Math.Abs(weightArr2[i]);
-                }
+
                 return (_mismatchDistanceConstant * length2) + (distance * _mismatchDistanceCoeff);
             }
 
             if(length2 == 0)
             {
                 // All p1 elements are mismatches.
-                for(int i=0; i < length1; i++) {
+                for(int i=0; i < length1; i++)
                     distance += Math.Abs(weightArr1[i]);
-                }
+
                 return (_mismatchDistanceConstant * length1) + (distance * _mismatchDistanceCoeff);
             }
 
@@ -175,18 +176,18 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 if(arr1Idx == length1)
                 {
                     // All remaining p2 elements are mismatches.
-                    for(int i=arr2Idx; i < length2; i++) {
+                    for(int i = arr2Idx; i < length2; i++)
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
-                    }
+
                     return distance;
                 }
 
                 if(arr2Idx == length2)
                 {
                     // All remaining p1 elements are mismatches.
-                    for(int i=arr1Idx; i < connArr1.Length; i++) {
+                    for(int i = arr1Idx; i < connArr1.Length; i++)
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
-                    }
+
                     return distance;
                 }
 
@@ -229,9 +230,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             {
                 // All p2 elements are mismatches.
                 // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-                for(int i=0;  i < length2; i++) {
+                for(int i=0; i < length2; i++)
                     distance += Math.Abs(weightArr2[i]);
-                }
+
                 distance = (_mismatchDistanceConstant * length2) + (distance * _mismatchDistanceCoeff);
                 return distance < threshold;
             }
@@ -240,9 +241,9 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
             {
                 // All p1 elements are mismatches.
                 // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-                for(int i=0; i < length1; i++) {
+                for(int i=0; i < length1; i++)
                     distance += Math.Abs(weightArr1[i]);
-                }
+
                 distance = (_mismatchDistanceConstant * length1) + (distance * _mismatchDistanceCoeff);
                 return distance < threshold;
             }
@@ -286,26 +287,25 @@ namespace SharpNeat.Neat.DistanceMetrics.Double
                 }
 
                 // Test the threshold.
-                if(distance >= threshold) {
+                if(distance >= threshold)
                     return false;
-                }
 
                 // Check if we have exhausted one or both of the arrays.
                 if(arr1Idx < 0)
                 {
                     // Any remaining p2 elements are mismatches.
-                    for(int i=arr2Idx; i > -1; i--) {
+                    for(int i = arr2Idx; i > -1; i--)
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
-                    }
+
                     return distance < threshold;
                 }
 
                 if(arr2Idx < 0)
                 {
                     // All remaining p1 elements are mismatches.
-                    for(int i=arr1Idx; i > -1; i--) {
+                    for(int i = arr1Idx; i > -1; i--)
                         distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
-                    }
+
                     return distance < threshold;
                 }
 

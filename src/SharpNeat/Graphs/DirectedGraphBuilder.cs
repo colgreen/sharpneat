@@ -59,7 +59,7 @@ namespace SharpNeat.Graphs
             ConnectionIds connIds = CopyAndMapIds(connections, nodeIdMap);
 
             // Construct and return a new DirectedGraph.
-            int totalNodeCount =  inputOutputCount + hiddenNodeIdArr.Length;
+            int totalNodeCount = inputOutputCount + hiddenNodeIdArr.Length;
             return new DirectedGraph(inputCount, outputCount, totalNodeCount, connIds);
         }
 
@@ -77,12 +77,11 @@ namespace SharpNeat.Graphs
             // Extract hidden node IDs from the connections, to build a complete set of hidden nodeIDs.
             for(int i=0; i < connSpan.Length; i++)
             {
-                if(connSpan[i].SourceId >= inputOutputCount) {
+                if(connSpan[i].SourceId >= inputOutputCount)
                     hiddenNodeIdSet.Add(connSpan[i].SourceId);
-                }
-                if(connSpan[i].TargetId >= inputOutputCount) {
+
+                if(connSpan[i].TargetId >= inputOutputCount)
                     hiddenNodeIdSet.Add(connSpan[i].TargetId);
-                }
             }
 
             int[] hiddenNodeIdArr = hiddenNodeIdSet.ToArray();

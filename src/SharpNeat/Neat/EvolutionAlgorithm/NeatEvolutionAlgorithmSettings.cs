@@ -68,7 +68,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
         /// Default constructor.
         /// </summary>
         public NeatEvolutionAlgorithmSettings()
-        {}
+        {
+        }
 
         /// <summary>
         /// Copy constructor.
@@ -121,7 +122,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm
             if(!IsProportion(OffspringSexualProportion)) throw new InvalidOperationException("OffspringSexualProportion must be in the interval [0,1].");
             if(!IsProportion(InterspeciesMatingProportion)) throw new InvalidOperationException("InterspeciesMatingProportion must be in the interval [0,1].");
             if(StatisticsMovingAverageHistoryLength < 1) throw new InvalidOperationException("StatisticsMovingAverageHistoryLength must be >= 1.");
-            if (Math.Abs((OffspringAsexualProportion + OffspringSexualProportion) - 1.0) > 1e-6) throw new InvalidOperationException("OffspringAsexualProportion and OffspringSexualProportion must sum to 1.0");
+            if(Math.Abs((OffspringAsexualProportion + OffspringSexualProportion) - 1.0) > 1e-6) throw new InvalidOperationException("OffspringAsexualProportion and OffspringSexualProportion must sum to 1.0");
 
             static bool IsProportion(double p) => p >= 0 && p <= 1.0;
         }

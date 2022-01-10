@@ -39,7 +39,8 @@ namespace SharpNeat.Drawing.Graph.Painting
         /// </summary>
         public GraphPainter()
             : this(new PainterSettings())
-        {}
+        {
+        }
 
         /// <summary>
         /// Construct with the provided painter settings.
@@ -271,7 +272,7 @@ namespace SharpNeat.Drawing.Graph.Painting
                 tgtSide = 1;
             }
 
-        //--- Point B.
+            //--- Point B.
             // The line AB is a connection leg emerging from the base of a node. To visually separate multiple legs
             // the first leg has a gentle gradient (almost horizontal) and each successive leg has a steeper gradient.
             // Once a vertical gradient has been reached each successive leg is made longer.
@@ -297,13 +298,13 @@ namespace SharpNeat.Drawing.Graph.Painting
             int yDelta = (int)(lenAB * slope);
             Point b = new(srcPos.X + xDelta, srcPos.Y + yDelta);
 
-        //--- Point C.
+            //--- Point C.
             // Line BC is a horizontal line from the end of the leg AB.
             int lenBC = (int)(2f * slopePre * state._backConnectionLegLength);
             xDelta = lenBC * srcSide;
             Point c = new(b.X + xDelta, b.Y);
 
-        //--- Point E. Equivalent to point B but emerging from the target node.
+            //--- Point E. Equivalent to point B but emerging from the target node.
             slopePre = slopeInit + (slopeIncr * tgtConIdx);
 
             // Leg length.
@@ -320,12 +321,12 @@ namespace SharpNeat.Drawing.Graph.Painting
             yDelta = -(int)(lenEF * slope);
             Point e = new(tgtPos.X + xDelta, tgtPos.Y + yDelta);
 
-        //--- Point D. Equivalent to point C but on the target end of the connection.
+            //--- Point D. Equivalent to point C but on the target end of the connection.
             int lenDE = (int)(2f * slopePre * state._backConnectionLegLength);
             xDelta = lenDE * tgtSide;
             Point d = new(e.X + xDelta, e.Y);
 
-            state._g.DrawLines(pen, new Point[]{ srcPos, b, c, d, e, tgtPos });
+            state._g.DrawLines(pen, new Point[] { srcPos, b, c, d, e, tgtPos });
         }
 
         #endregion

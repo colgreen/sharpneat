@@ -5,6 +5,8 @@ using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 
+#pragma warning disable CA1822 // Mark members as static
+
 namespace SharpNeat.NeuralNets.Double.Benchmarks
 {
     public class NeuralNetCyclicBenchmarks

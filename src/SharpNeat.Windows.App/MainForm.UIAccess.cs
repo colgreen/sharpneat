@@ -29,11 +29,10 @@ namespace SharpNeat.Windows.App
         {
             if(_eaRunner is null)
             {
-                if(_neatPop is null) {
+                if(_neatPop is null)
                     UpdateUIState_NoPopulation();
-                } else {
+                else
                     UpdateUIState_PopulationReady();
-                }
             }
             else
             {
@@ -213,9 +212,12 @@ namespace SharpNeat.Windows.App
 
             // Auxiliary fitness info.
             double[] auxFitnessArr = popStats.BestFitness.AuxFitnessScores;
-            if(auxFitnessArr != null && auxFitnessArr.Length > 0) {
+            if(auxFitnessArr != null && auxFitnessArr.Length > 0)
+            {
                 txtStatsAlternativeFitness.Text = auxFitnessArr[0].ToString("#.######");
-            } else {
+            }
+            else
+            {
                 txtStatsAlternativeFitness.Text = "";
             }
 

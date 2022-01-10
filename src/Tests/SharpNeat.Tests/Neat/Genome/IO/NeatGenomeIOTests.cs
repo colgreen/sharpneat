@@ -30,7 +30,7 @@ namespace SharpNeat.Neat.Genome.IO.Tests
             using(MemoryStream ms = new(1024))
             {
                 // Save the genome.
-                NeatGenomeSaver<double>.Save(genome,  ms);
+                NeatGenomeSaver<double>.Save(genome, ms);
 
                 // Load the genome.
                 ms.Position = 0;

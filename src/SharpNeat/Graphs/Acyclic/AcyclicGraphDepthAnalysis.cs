@@ -49,13 +49,13 @@ namespace SharpNeat.Graphs.Acyclic
 
         readonly CyclicGraphCheck? _cyclicGraphCheck;
 
-        #if DEBUG
+#if DEBUG
         /// <summary>
         /// Indicates if a call to IsConnectionCyclic() is currently in progress.
         /// For checking for attempts to re-enter that method while a call is in progress.
         /// </summary>
         int _reentranceFlag = 0;
-        #endif
+#endif
 
         #endregion
 
@@ -65,7 +65,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// Default constructor.
         /// </summary>
         public AcyclicGraphDepthAnalysis()
-        {}
+        {
+        }
 
         /// <summary>
         /// Construct with a <paramref name="validateAcyclic"/> flag.
@@ -79,9 +80,8 @@ namespace SharpNeat.Graphs.Acyclic
         /// </remarks>
         public AcyclicGraphDepthAnalysis(bool validateAcyclic)
         {
-            if(validateAcyclic) {
+            if(validateAcyclic)
                 _cyclicGraphCheck = new CyclicGraphCheck();
-            }
         }
 
         #endregion
@@ -104,21 +104,18 @@ namespace SharpNeat.Graphs.Acyclic
         /// </remarks>
         public GraphDepthInfo CalculateNodeDepths(DirectedGraph digraph)
         {
-            #if DEBUG
+#if DEBUG
             // Check for attempts to re-enter this method.
             if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
                 throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
             }
-
-            #endif
-
+#endif
             // Test that the graph is acyclic; if digraph is cyclic then the graph traversal implemented here will
             // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
             // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the
             // graph is acyclic.
-            if(_cyclicGraphCheck is not null && _cyclicGraphCheck.IsCyclic(digraph)) {
+            if(_cyclicGraphCheck is not null && _cyclicGraphCheck.IsCyclic(digraph))
                 throw new ArgumentException("Directed graph is not acyclic.", nameof(digraph));
-            }
 
             _nodeDepthByIdx = new int[digraph.TotalNodeCount];
 
@@ -151,9 +148,8 @@ namespace SharpNeat.Graphs.Acyclic
             {
                 // Lookup the first connection that exits the current input node (if any).
                 int connIdx = digraph.GetFirstConnectionIndex(nodeIdx);
-                if(connIdx != -1) {
+                if(connIdx != -1)
                     _traversalStack.Push(new StackFrame(connIdx, 1));
-                }
             }
 
             // Run the graph traversal algorithm.
@@ -170,7 +166,7 @@ namespace SharpNeat.Graphs.Acyclic
             ReadOnlySpan<int> tgtIds = digraph.ConnectionIds.GetTargetIdSpan();
 
             // While there are entries on the stack.
-            while (_traversalStack.Count != 0)
+            while(_traversalStack.Count != 0)
             {
                 // Get the connection index from the top of stack; this indicates next connection to be traversed.
                 StackFrame currStackFrame = _traversalStack.Peek();
@@ -188,16 +184,15 @@ namespace SharpNeat.Graphs.Acyclic
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
                 // depth than the current path.
                 int childNodeId = tgtIds[currStackFrame.ConnectionIdx];
-                if(_nodeDepthByIdx![childNodeId] >= currStackFrame.Depth) {
+                if(_nodeDepthByIdx![childNodeId] >= currStackFrame.Depth)
                     continue;
-                }
 
                 // We're about to traverse into childNodeId, so mark it as visited with the current traversal depth.
                 _nodeDepthByIdx[childNodeId] = currStackFrame.Depth;
 
                 // Search for outgoing connections from childNodeId.
                 int connIdx = digraph.GetFirstConnectionIndex(childNodeId);
-                if (connIdx >= 0)
+                if(connIdx >= 0)
                 {   // childNodeId has outgoing connections; push the first connection onto the stack to mark it for traversal.
                     _traversalStack.Push(new StackFrame(connIdx, currStackFrame.Depth + 1));
                 }
@@ -216,7 +211,7 @@ namespace SharpNeat.Graphs.Acyclic
             int currConnIdx = currStackFrame.ConnectionIdx;
             int depth = currStackFrame.Depth;
 
-            for(int i=currConnIdx + 1; i < srcIds.Length && (srcIds[currConnIdx] == srcIds[i]); i++)
+            for(int i = currConnIdx + 1; i < srcIds.Length && (srcIds[currConnIdx] == srcIds[i]); i++)
             {
                 // Skip nodes that have already been visited via a path that assigned them an equal or greater
                 // depth than the current path.
@@ -235,10 +230,10 @@ namespace SharpNeat.Graphs.Acyclic
 
         private void Cleanup()
         {
-            #if DEBUG
+#if DEBUG
             // Reset reentrancy test flag.
             Interlocked.Exchange(ref _reentranceFlag, 0);
-            #endif
+#endif
         }
 
         #endregion

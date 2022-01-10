@@ -27,7 +27,7 @@ namespace SharpNeat.Windows.App.Forms.TimeSeries
             : base("Evaluations per second", "Generation", "Evaluations/sec", null)
         {
             _ppl = new RollingPointPairList(__HistoryLength);
-            LineItem lineItem = _graphPane.AddCurve("Evaluations/sec",  _ppl, Color.Black, SymbolType.None);
+            LineItem lineItem = _graphPane.AddCurve("Evaluations/sec", _ppl, Color.Black, SymbolType.None);
             ApplyLineStyle(lineItem);
         }
 

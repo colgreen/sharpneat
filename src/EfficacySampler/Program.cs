@@ -21,17 +21,16 @@ namespace EfficacySampler
         {
             // Intercept termination of the console app, to flush and close the output file stream
             // (apparently the 'finally' block below is not executed if the app is terminated with Ctrl-C).
-            Console.CancelKeyPress += delegate {
-                if(__streamWriter is not null) {
+            Console.CancelKeyPress += delegate
+            {
+                if(__streamWriter is not null)
                     __streamWriter.Close();
-                }
             };
 
             // Read command line arguments.
             StopCondition? stopCond = ArgUtils.ReadArgs(args, out string? experimentId, out string? filename);
-            if(stopCond is null || experimentId is null || filename is null) {
+            if(stopCond is null || experimentId is null || filename is null)
                 return;
-            }
 
             // Initialise log4net (log to console).
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
@@ -39,9 +38,8 @@ namespace EfficacySampler
 
             // Create and configure a NEAT experiment instance.
             INeatExperiment<double>? experiment = InitExperiment(experimentId);
-            if(experiment is null) {
+            if(experiment is null)
                 return;
-            }
 
             // Create an evolution algorithm host.
             IEvolutionAlgorithmHost eaHost = CreateEvolutionAlgorithmHost(experiment, stopCond);
@@ -60,9 +58,8 @@ namespace EfficacySampler
             }
             finally
             {
-                if(__streamWriter is not null) {
+                if(__streamWriter is not null)
                     __streamWriter.Close();
-                }
             }
         }
 
@@ -76,8 +73,8 @@ namespace EfficacySampler
         {
             return stopCond.StopConditionType switch
             {
-                StopConditionType.ElapsedClockTime => new EvolutionAlgorithmHostClockTime(experiment,stopCond.Value),
-                StopConditionType.GenerationCount => new EvolutionAlgorithmHostGenerational(experiment,stopCond.Value),
+                StopConditionType.ElapsedClockTime => new EvolutionAlgorithmHostClockTime(experiment, stopCond.Value),
+                StopConditionType.GenerationCount => new EvolutionAlgorithmHostGenerational(experiment, stopCond.Value),
                 _ => throw new ArgumentException("Unknown StopConditionType.", nameof(stopCond)),
             };
         }

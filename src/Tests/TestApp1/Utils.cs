@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Text.Json;
-using SharpNeat;
+﻿using System.Text.Json;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.Neat;

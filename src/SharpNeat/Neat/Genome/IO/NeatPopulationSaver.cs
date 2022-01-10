@@ -49,15 +49,13 @@ namespace SharpNeat.Neat.Genome.IO
             if(name is null) throw new ArgumentNullException(nameof(name));
 
             // Check if the specified parent folder exists.
-            if(!Directory.Exists(parentPath)) {
+            if(!Directory.Exists(parentPath))
                 throw new IOException($"parentPath does not exist [{parentPath}]");
-            }
 
             // Check if the specified population folder name exists.
             string popFolderPath = Path.Combine(parentPath, name);
-            if(Directory.Exists(popFolderPath)) {
+            if(Directory.Exists(popFolderPath))
                 throw new IOException($"The specified population folder already exists [{popFolderPath}]");
-            }
 
             // Create the population folder.
             DirectoryInfo popDirInfo = Directory.CreateDirectory(popFolderPath);
@@ -91,42 +89,37 @@ namespace SharpNeat.Neat.Genome.IO
             if(name is null) throw new ArgumentNullException(nameof(name));
 
             // Check if the specified parent folder exists.
-            if(!Directory.Exists(parentPath)) {
+            if(!Directory.Exists(parentPath))
                 throw new IOException($"parentPath does not exist [{parentPath}]");
-            }
 
             // Append zip extension for filenames that do not yet have it.
             // For all other extensions we leave them in place. If it isn't .zip then we assume the caller does this with good reason.
             string extension = Path.GetExtension(name);
-            if(extension == string.Empty) {
+            if(extension == string.Empty)
                 name += ".zip";
-            }
 
             // Check if the specified population zip archive name exists.
             string popZipPath = Path.Combine(parentPath, name);
-            if(File.Exists(popZipPath)) {
+            if(File.Exists(popZipPath))
                 throw new IOException($"The specified population zip archive already exists [{popZipPath}]");
-            }
 
             string nameWithoutExt = Path.GetFileNameWithoutExtension(name);
 
             // Create a new zip archive.
-            using(FileStream fs = new(popZipPath, FileMode.CreateNew))
-            using(ZipArchive zipArchive = new(fs, ZipArchiveMode.Create))
+            using FileStream fs = new(popZipPath, FileMode.CreateNew);
+            using ZipArchive zipArchive = new(fs, ZipArchiveMode.Create);
+            // Loop the genomes; add each one in turn to the zip archive.
+            foreach(var genome in genomeList)
             {
-                // Loop the genomes; add each one in turn to the zip archive.
-                foreach(var genome in genomeList)
-                {
-                    // Build the genome's entry name.
-                    string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6") + ".genome");
+                // Build the genome's entry name.
+                string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6") + ".genome");
 
-                    // Create an new zip entry.
-                    ZipArchiveEntry zipEntry = zipArchive.CreateEntry(entryName, compressionLevel);
-                    using(Stream zipEntryStream = zipEntry.Open())
-                    {
-                        // Serialize the genome into the zip entry.
-                        NeatGenomeSaver<T>.Save(genome, zipEntryStream);
-                    }
+                // Create an new zip entry.
+                ZipArchiveEntry zipEntry = zipArchive.CreateEntry(entryName, compressionLevel);
+                using(Stream zipEntryStream = zipEntry.Open())
+                {
+                    // Serialize the genome into the zip entry.
+                    NeatGenomeSaver<T>.Save(genome, zipEntryStream);
                 }
             }
         }

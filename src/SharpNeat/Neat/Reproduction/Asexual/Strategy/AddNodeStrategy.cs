@@ -150,7 +150,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
             };
 
             // Sort by the first index value.
-            Array.Sort(stopIdxArr, ((int,int)x, (int,int)y) => x.Item1.CompareTo(y.Item1));
+            Array.Sort(stopIdxArr, ((int,int) x, (int,int) y) => x.Item1.CompareTo(y.Item1));
 
             // Loop over stopIdxArr.
             int parentIdx = 0;
@@ -189,7 +189,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy
 
             // Copy any remaining connection genes.
             int len = parentConnArr.Length - parentIdx;
-            if (len > 0)
+            if(len > 0)
             {
                 Array.Copy(parentConnArr, parentIdx, connArr, childIdx, len);
                 Array.Copy(parentWeightArr, parentIdx, weightArr, childIdx, len);

@@ -23,9 +23,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
 
             int iters = 10_000;
             double[] weightArr = new double[iters];
-            for(int i=0; i < iters; i++) {
+            for(int i=0; i < iters; i++)
                 weightArr[i] = 123.0;
-            }
 
             strategy.Invoke(weightArr, rng);
 
@@ -33,7 +32,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
             HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
 
             // We expect samples to be approximately evenly distributed over the histogram buckets.
-            for(int i=0; i < hist.FrequencyArray.Length; i++) {
+            for(int i=0; i < hist.FrequencyArray.Length; i++)
+            {
                 Assert.True(hist.FrequencyArray[i] > (iters / 8) * 0.8);
             }
 
@@ -59,9 +59,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests
 
             int iters = 100_000;
             double[] weightArr = new double[iters];
-            for(int i=0; i < iters; i++) {
+            for(int i=0; i < iters; i++)
                 weightArr[i] = 123.0;
-            }
 
             strategy.Invoke(weightArr, rng);
 

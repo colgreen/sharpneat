@@ -66,9 +66,8 @@ namespace SharpNeat.NeuralNets
             lock(_lockObj)
             {
                 // Check for an exiting instance in the activation function cache.
-                if(_fnByName.TryGetValue(name, out IActivationFunction<T>? actFn)) {
+                if(_fnByName.TryGetValue(name, out IActivationFunction<T>? actFn))
                     return actFn;
-                }
 
                 // No entry in the cache, attempt to create a new instance.
                 if(_enableHardwareAcceleration && Vector.IsHardwareAccelerated)
@@ -110,9 +109,8 @@ namespace SharpNeat.NeuralNets
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
-            if(actFn is not null) {
+            if(actFn is not null)
                 return actFn;
-            }
 
             // Attempt again in the CPPN sub-namespace.
             fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Cppn.{name}";
@@ -129,9 +127,8 @@ namespace SharpNeat.NeuralNets
 
             // Attempt to get an instance with the full name.
             var actFn = TryCreateFromFullName(fullName);
-            if(actFn is not null) {
+            if(actFn is not null)
                 return actFn;
-            }
 
             // Attempt again in the CPPN sub-namespace.
             fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Cppn.Vectorized.{name}";
@@ -144,9 +141,8 @@ namespace SharpNeat.NeuralNets
             Type? type = Type.GetType(fullName);
 
             // If no such type found then return null.
-            if(type is null) {
+            if(type is null)
                 return null;
-            }
 
             return (IActivationFunction<T>?)Activator.CreateInstance(type);
         }

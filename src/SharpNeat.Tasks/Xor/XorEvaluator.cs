@@ -63,9 +63,8 @@ namespace SharpNeat.Tasks.Xor
             fitness += 1.0 - ((1.0 - output) * (1.0 - output));
 
             // If all four responses were correct then we add 10 to the fitness.
-            if(success) {
+            if(success)
                 fitness += 10.0;
-            }
 
             return new FitnessInfo(fitness);
         }

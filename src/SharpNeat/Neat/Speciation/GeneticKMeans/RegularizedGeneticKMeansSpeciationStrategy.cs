@@ -111,9 +111,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             int speciesCount,
             IRandomSource rng)
         {
-            if(genomeList.Count < speciesCount) {
+            if(genomeList.Count < speciesCount)
                 throw new ArgumentException("The number of genomes is less than speciesCount.");
-            }
 
             // Initialise using k-means++ initialisation method.
             var speciesArr = _kmeansInit.InitialiseSpecies(genomeList, speciesCount, rng);
@@ -244,9 +243,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             }
 
             // Complete moving of genomes to their new species.
-            foreach(var species in speciesArr) {
+            foreach(var species in speciesArr)
                 species.CompletePendingMoves();
-            }
 
             // Recalc the species centroids for species that have been modified.
             RecalcCentroids_GenomeById(speciesArr, updateBits);
@@ -279,6 +277,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
                     nearestDistance = distance;
                 }
             }
+
             return nearestSpeciesIdx;
         }
 
@@ -312,9 +311,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             // Notes. moving genomes between species is more efficient when using dictionaries;
             // removal from a list has O(N) complexity because removing an item from
             // a list requires shuffling up of items to fill the gap.
-            foreach(var species in speciesArr)  {
+            foreach(var species in speciesArr)
                 species.LoadWorkingDictionary();
-            }
         }
 
         private void KMeansInit(Species<T>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
@@ -340,14 +338,12 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             // Check for empty species (this can happen with k-means), and if there are any then
             // move genomes into those empty species.
             var emptySpeciesArr = speciesArr.Where(x => x.GenomeById.Count == 0).ToArray();
-            if(emptySpeciesArr.Length != 0) {
+            if(emptySpeciesArr.Length != 0)
                 SpeciationUtils.PopulateEmptySpecies(_distanceMetric, emptySpeciesArr, speciesArr);
-            }
 
             // Transfer all genomes from GenomeById to GenomeList.
-            foreach(var species in speciesArr) {
+            foreach(var species in speciesArr)
                 species.FlushWorkingDictionary();
-            }
         }
 
         private void RecalcCentroids_GenomeById(
@@ -413,9 +409,8 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans
             // a list requires shuffling up of items to fill the gap.
             populationCount = 0;
 
-            foreach(var species in speciesArr) {
+            foreach(var species in speciesArr)
                 populationCount += species.GenomeList.Count;
-            }
         }
 
         /// <summary>

@@ -37,9 +37,8 @@ namespace SharpNeat.Tasks.FunctionRegression
 
             double[] xArr = paramSamplingInfo.XArr;
 
-            for(int i=0; i < xArr.Length; i++) {
+            for(int i=0; i < xArr.Length; i++)
                 responseArr[i] = fn(xArr[i]);
-            }
         }
 
         /// <summary>
@@ -95,7 +94,8 @@ namespace SharpNeat.Tasks.FunctionRegression
             }
 
             // Calc gradients for remaining intermediate points (if any).
-            for (; i < xArr.Length - 1; i++) {
+            for(; i < xArr.Length - 1; i++)
+            {
                 gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i + 1], yArr[i + 1]);
             }
 
