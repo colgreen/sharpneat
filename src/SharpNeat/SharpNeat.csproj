@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.14" />
-    <PackageReference Include="Redzen" Version="13.0.0-20220102-1330" />
+    <PackageReference Include="Redzen" Version="13.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

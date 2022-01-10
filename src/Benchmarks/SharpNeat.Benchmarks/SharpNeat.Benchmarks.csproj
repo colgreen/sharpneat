@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-    <PackageReference Include="Redzen" Version="13.0.0-20220102-1330" />
+    <PackageReference Include="Redzen" Version="13.0.0" />
   </ItemGroup>
 
   <ItemGroup>
