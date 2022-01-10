@@ -151,7 +151,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized
             {
                 int reallocCount = KMeansIteration(speciesArr, updateBits);
                 if(reallocCount == 0)
-                {   
+                {
                     // The last k-means iteration made no re-allocations, therefore the k-means clusters are stable.
                     break;
                 }

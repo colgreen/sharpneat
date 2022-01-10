@@ -14,6 +14,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using SharpNeat.Evaluation;
 
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace SharpNeat.Windows.App.Forms
 {
     /// <summary>

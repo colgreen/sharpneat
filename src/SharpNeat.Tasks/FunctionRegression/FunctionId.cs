@@ -12,8 +12,6 @@
 
 namespace SharpNeat.Tasks.FunctionRegression
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
     /// <summary>
     /// Enumeration of function IDs for the function regression task.
     /// </summary>

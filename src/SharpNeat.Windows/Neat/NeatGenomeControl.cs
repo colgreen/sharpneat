@@ -71,37 +71,6 @@ namespace SharpNeat.Windows.Neat
 
         #endregion
 
-        #region Private Methods
-
-        private DirectedGraphViewModel CreateGraphViewModel(IGenome genome)
-        {
-            DirectedGraph digraph;
-            float[] weightArr;
-            INodeIdMap nodeIdByIdxMap;
-
-            if(genome is NeatGenome<double> neatGenomeDouble)
-            {
-                digraph = neatGenomeDouble.DirectedGraph;
-                weightArr = ToFloatArray(neatGenomeDouble.GetDigraphWeightArray());
-                nodeIdByIdxMap = neatGenomeDouble.NodeIndexByIdMap.CreateInverseMap();
-            }
-            else if(genome is NeatGenome<float> neatGenomeFloat)
-            {
-                digraph = neatGenomeFloat.DirectedGraph;
-                weightArr = neatGenomeFloat.GetDigraphWeightArray();
-                nodeIdByIdxMap = neatGenomeFloat.NodeIndexByIdMap.CreateInverseMap();
-            }
-            else
-            {
-                throw new InvalidOperationException("The genome object is not a NeatGenome.");
-            }
-
-            DirectedGraphViewModel graphViewModel = new(digraph, weightArr, nodeIdByIdxMap);
-            return graphViewModel;
-        }
-
-        #endregion
-
         #region Private Methods [Windows.Forms Designer Code]
 
         private void InitializeComponent()
@@ -132,6 +101,33 @@ namespace SharpNeat.Windows.Neat
         #endregion
 
         #region Private Static Methods
+
+        private static DirectedGraphViewModel CreateGraphViewModel(IGenome genome)
+        {
+            DirectedGraph digraph;
+            float[] weightArr;
+            INodeIdMap nodeIdByIdxMap;
+
+            if(genome is NeatGenome<double> neatGenomeDouble)
+            {
+                digraph = neatGenomeDouble.DirectedGraph;
+                weightArr = ToFloatArray(neatGenomeDouble.GetDigraphWeightArray());
+                nodeIdByIdxMap = neatGenomeDouble.NodeIndexByIdMap.CreateInverseMap();
+            }
+            else if(genome is NeatGenome<float> neatGenomeFloat)
+            {
+                digraph = neatGenomeFloat.DirectedGraph;
+                weightArr = neatGenomeFloat.GetDigraphWeightArray();
+                nodeIdByIdxMap = neatGenomeFloat.NodeIndexByIdMap.CreateInverseMap();
+            }
+            else
+            {
+                throw new InvalidOperationException("The genome object is not a NeatGenome.");
+            }
+
+            DirectedGraphViewModel graphViewModel = new(digraph, weightArr, nodeIdByIdxMap);
+            return graphViewModel;
+        }
 
         private static float[] ToFloatArray(double[] src)
         {
