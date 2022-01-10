@@ -185,6 +185,7 @@ namespace SharpNeat.NeuralNets.Double
                     // Get a reference to the target activation level 'slot' in the activations span.
                     ref double tgtSlot = ref Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
 
+                    // TODO: Revise this approach; Math.FusedMultiplyAdd() does not emit an FMA instruction, instead, the method is backed by a call to the C++ runtime fma() function.
                     // Get the connection source signal, multiply it by the connection weight, add the result
                     // to the target node's current pre-activation level, and store the result.
                     tgtSlot = Math.FusedMultiplyAdd(
