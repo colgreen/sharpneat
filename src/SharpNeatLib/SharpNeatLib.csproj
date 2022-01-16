@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="Redzen" Version="9.1.2" />
+    <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="Redzen" Version="9.1.3" />
   </ItemGroup>
 
   <ItemGroup>
