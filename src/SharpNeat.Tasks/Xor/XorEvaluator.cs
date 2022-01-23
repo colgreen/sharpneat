@@ -45,19 +45,19 @@ namespace SharpNeat.Tasks.Xor
             fitness += 1.0 - (output * output);
 
             // Test case 1, 1.
-            box.ResetState();
+            box.Reset();
             output = Activate(box, 1.0, 1.0);
             success &= output <= 0.5;
             fitness += 1.0 - (output * output);
 
             // Test case 0, 1.
-            box.ResetState();
+            box.Reset();
             output = Activate(box, 0.0, 1.0);
             success &= output > 0.5;
             fitness += 1.0 - ((1.0 - output) * (1.0 - output));
 
             // Test case 1, 0.
-            box.ResetState();
+            box.Reset();
             output = Activate(box, 1.0, 0.0);
             success &= output > 0.5;
             fitness += 1.0 - ((1.0 - output) * (1.0 - output));

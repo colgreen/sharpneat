@@ -95,7 +95,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
                 }
 
                 // Reset black box ready for next test case.
-                box.ResetState();
+                box.Reset();
             }
 
             // If the correct answer was given in each case then add a bonus value to the fitness.

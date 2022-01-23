@@ -244,7 +244,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             }
 
             // Rest the network's internal state.
-            net.ResetState();
+            net.Reset();
             Assert.Equal(0.0, net.Outputs[0]);
 
             // Run the test again.

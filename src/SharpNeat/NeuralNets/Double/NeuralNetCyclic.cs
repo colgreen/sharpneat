@@ -195,7 +195,7 @@ namespace SharpNeat.NeuralNets.Double
         /// <summary>
         /// Reset the network's internal state.
         /// </summary>
-        public void ResetState()
+        public void Reset()
         {
             // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.

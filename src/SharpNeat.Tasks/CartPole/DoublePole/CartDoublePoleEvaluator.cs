@@ -139,7 +139,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             float poleAngle2)
         {
             // Reset black box state.
-            box.ResetState();
+            box.Reset();
 
             // Reset model state.
             _physics.ResetState(cartPos, poleAngle1, poleAngle2);

@@ -159,7 +159,7 @@ namespace SharpNeat.Tasks.PreyCapture
             InitPositions();
 
             // Clear any prior agent (neural network) state.
-            agent.ResetState();
+            agent.Reset();
 
             // The prey gets a head start. Here we simulate the world as normal for a number of timesteps, during which
             // the agent's sensors receive inputs as normal, but the it is prevented from moving.

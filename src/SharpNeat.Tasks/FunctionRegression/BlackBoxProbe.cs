@@ -56,7 +56,7 @@ namespace SharpNeat.Tasks.FunctionRegression
             for(int i=0; i < xArr.Length; i++)
             {
                 // Reset black box internal state.
-                box.ResetState();
+                box.Reset();
 
                 // Set bias input, and function input value.
                 inputs[0] = 1.0;

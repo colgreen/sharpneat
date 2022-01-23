@@ -53,7 +53,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             Debug.Assert(responseArr.Length == _sampleCount);
 
             // Reset black box internal state.
-            box.ResetState();
+            box.Reset();
 
             // Take the required number of samples.
             var inputs = box.Inputs.Span;

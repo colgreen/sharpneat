@@ -218,7 +218,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         /// <summary>
         /// Reset the network's internal state.
         /// </summary>
-        public void ResetState()
+        public void Reset()
         {
             // Unnecessary for this implementation. The node activation signal state is completely overwritten on each activation.
         }

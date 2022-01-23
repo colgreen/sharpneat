@@ -35,7 +35,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
             }
         }
 
-        public void ResetState()
+        public void Reset()
         {
             Array.Clear(_outputArr, 0, _outputArr.Length);
         }

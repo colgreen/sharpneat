@@ -45,6 +45,6 @@ namespace SharpNeat.BlackBox
         /// <summary>
         /// Reset any internal state.
         /// </summary>
-        void ResetState();
+        void Reset();
     }
 }
