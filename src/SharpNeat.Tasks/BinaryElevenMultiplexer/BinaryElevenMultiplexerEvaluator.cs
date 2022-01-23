@@ -42,8 +42,8 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer
         {
             double fitness = 0.0;
             bool success = true;
-            Span<double> inputs = box.InputVector.Span;
-            IVector<double> outputVec = box.OutputVector;
+            Span<double> inputs = box.Inputs.Span;
+            IVector<double> outputVec = box.Outputs;
 
             // 2048 test cases.
             for(int i=0; i < 2048; i++)

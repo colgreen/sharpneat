@@ -41,8 +41,8 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         {
             double fitness = 0.0;
             bool success = true;
-            Span<double> inputs = box.InputVector.Span;
-            IVector<double> outputVec = box.OutputVector;
+            Span<double> inputs = box.Inputs.Span;
+            IVector<double> outputVec = box.Outputs;
 
             // 8 test cases.
             for(int i=0; i < 8; i++)

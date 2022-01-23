@@ -27,24 +27,14 @@ namespace SharpNeat.BlackBox
         where T : struct
     {
         /// <summary>
-        /// Gets the number of inputs.
-        /// </summary>
-        int InputCount { get; }
-
-        /// <summary>
-        /// Gets the number of outputs.
-        /// </summary>
-        int OutputCount { get; }
-
-        /// <summary>
         /// Gets a vector of input values.
         /// </summary>
-        Memory<T> InputVector { get; }
+        Memory<T> Inputs { get; }
 
         /// <summary>
         /// Gets a vector of output values.
         /// </summary>
-        IVector<T> OutputVector { get; }
+        IVector<T> Outputs { get; }
 
         /// <summary>
         /// Activate the black box. This causes the black box to accept its inputs and produce output signals

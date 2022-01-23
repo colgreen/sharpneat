@@ -97,13 +97,13 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             _activationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            this.InputVector = new Memory<double>(_activationArr, 0, _inputCount);
+            this.Inputs = new Memory<double>(_activationArr, 0, _inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
             // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
             // array to abstract away the indirection described by outputNodeIdxArr.
-            this.OutputVector = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
+            this.Outputs = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
         }
 
         #endregion
@@ -111,24 +111,14 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         #region IBlackBox
 
         /// <summary>
-        /// Gets the number of input nodes.
-        /// </summary>
-        public int InputCount => _inputCount;
-
-        /// <summary>
-        /// Gets the number of output nodes.
-        /// </summary>
-        public int OutputCount => _outputCount;
-
-        /// <summary>
         /// Gets a memory segment used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public Memory<double> InputVector { get; }
+        public Memory<double> Inputs { get; }
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.
         /// </summary>
-        public IVector<double> OutputVector { get; }
+        public IVector<double> Outputs { get; }
 
         /// <summary>
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals

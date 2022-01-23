@@ -224,7 +224,7 @@ namespace SharpNeat.Tasks.PreyCapture
 
             // Determine agent sensor input values.
             // Reset all inputs.
-            var inputs = agent.InputVector.Span;
+            var inputs = agent.Inputs.Span;
             inputs.Clear();
 
             // Bias input.
@@ -271,7 +271,7 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <param name="agent">The agent.</param>
         public void MoveAgent(IBlackBox<double> agent)
         {
-            IVector<double> outputVec = agent.OutputVector;
+            IVector<double> outputVec = agent.Outputs;
 
             // Selected output is highest signal at or above 0.5. Tied signals result in no result.
             double maxSig = outputVec[0];

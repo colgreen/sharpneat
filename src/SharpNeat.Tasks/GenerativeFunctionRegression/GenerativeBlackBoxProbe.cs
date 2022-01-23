@@ -56,7 +56,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             box.ResetState();
 
             // Take the required number of samples.
-            var inputs = box.InputVector.Span;
+            var inputs = box.Inputs.Span;
 
             for(int i=0; i < _sampleCount; i++)
             {
@@ -69,7 +69,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
                 // Get the black box's output value.
                 // TODO: Review this scheme. This replicates the behaviour in SharpNEAT 2.x but not sure if it's ideal,
                 // for one it depends on the output range of the neural net activation function in use.
-                double output = box.OutputVector[0];
+                double output = box.Outputs[0];
                 Clip(ref output);
                 responseArr[i] = ((output - 0.5) * _scale) + _offset;
             }

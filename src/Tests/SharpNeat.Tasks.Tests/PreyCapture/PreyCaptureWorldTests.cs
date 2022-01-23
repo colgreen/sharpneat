@@ -17,8 +17,8 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.OutputVector.Reset();
-                agent.OutputVector[0] = 1.0;
+                agent.Outputs.Reset();
+                agent.Outputs[0] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(0, 1), posDelta);
@@ -28,8 +28,8 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.OutputVector.Reset();
-                agent.OutputVector[1] = 1.0;
+                agent.Outputs.Reset();
+                agent.Outputs[1] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(1, 0), posDelta);
@@ -39,8 +39,8 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.OutputVector.Reset();
-                agent.OutputVector[2] = 1.0;
+                agent.Outputs.Reset();
+                agent.Outputs[2] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(0, -1), posDelta);
@@ -50,8 +50,8 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.OutputVector.Reset();
-                agent.OutputVector[3] = 1.0;
+                agent.Outputs.Reset();
+                agent.Outputs[3] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(-1, 0), posDelta);

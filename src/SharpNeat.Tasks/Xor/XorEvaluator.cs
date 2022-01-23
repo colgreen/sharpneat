@@ -77,7 +77,7 @@ namespace SharpNeat.Tasks.Xor
             IBlackBox<double> box,
             double in1, double in2)
         {
-            var inputs = box.InputVector.Span;
+            var inputs = box.Inputs.Span;
 
             // Bias input.
             inputs[0] = 1.0;
@@ -90,7 +90,7 @@ namespace SharpNeat.Tasks.Xor
             box.Activate();
 
             // Read output signal.
-            double output = box.OutputVector[0];
+            double output = box.Outputs[0];
             Clip(ref output);
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
             return output;

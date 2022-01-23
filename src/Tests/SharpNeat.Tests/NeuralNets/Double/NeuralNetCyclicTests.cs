@@ -144,37 +144,37 @@ namespace SharpNeat.NeuralNets.Double.Tests
         private static void SingleInput_WeightZero_Inner(
             IBlackBox<double> net)
         {
-            var inputs = net.InputVector.Span;
+            var inputs = net.Inputs.Span;
 
             // Note. The single connection weight is zero, so the input value has no affect.
             // Activate and test.
             inputs[0] = 100.0;
             net.Activate();
-            Assert.Equal(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.Outputs[0]);
 
             // Activate and test.
             inputs[0] = 0;
             net.Activate();
-            Assert.Equal(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.Outputs[0]);
 
             // Activate and test.
             inputs[0] = -100;
             net.Activate();
-            Assert.Equal(0.5, net.OutputVector[0]);
+            Assert.Equal(0.5, net.Outputs[0]);
         }
 
         private static void SingleInput_WeightOne_Inner(
             IBlackBox<double> net,
             IActivationFunction<double> actFn)
         {
-            var inputs = net.InputVector.Span;
+            var inputs = net.Inputs.Span;
 
             // Activate and test.
             inputs[0] = 0.0;
             for(int i=0; i < 10; i++)
             {
                 net.Activate();
-                Assert.Equal(0.5, net.OutputVector[0]);
+                Assert.Equal(0.5, net.Outputs[0]);
             }
 
             // Activate and test.
@@ -185,7 +185,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             {
                 net.Activate();
                 
-                Assert.Equal(x, net.OutputVector[0]);
+                Assert.Equal(x, net.Outputs[0]);
             }
 
             // Activate and test.
@@ -194,7 +194,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             for(int i=0; i < 10; i++)
             {
                 net.Activate();
-                Assert.Equal(x, net.OutputVector[0]);
+                Assert.Equal(x, net.Outputs[0]);
             }
         }
 
@@ -204,7 +204,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
         {
             // Activate and test.
             const double input = 0.1;
-            var inputs = net.InputVector.Span;
+            var inputs = net.Inputs.Span;
 
             double inputVal = input;
             inputs[0] = inputVal;
@@ -213,7 +213,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             {
                 net.Activate();
                 double outputExpected = inputVal; actFn.Fn(ref outputExpected);
-                Assert.Equal(outputExpected, net.OutputVector[0]);
+                Assert.Equal(outputExpected, net.Outputs[0]);
                 inputVal = input + outputExpected;
             }
         }
@@ -225,7 +225,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             // Simulate network in C# and compare calculated outputs with actual network outputs.
             double[] preArr = new double[3];
             double[] postArr = new double[3];
-            var inputs = net.InputVector.Span;
+            var inputs = net.Inputs.Span;
 
             postArr[0] = 3.0;
             inputs[0] = 3.0;
@@ -240,12 +240,12 @@ namespace SharpNeat.NeuralNets.Double.Tests
 
                 net.Activate();
 
-                Assert.Equal(postArr[1], net.OutputVector[0]);
+                Assert.Equal(postArr[1], net.Outputs[0]);
             }
 
             // Rest the network's internal state.
             net.ResetState();
-            Assert.Equal(0.0, net.OutputVector[0]);
+            Assert.Equal(0.0, net.Outputs[0]);
 
             // Run the test again.
             Array.Clear(preArr, 0, preArr.Length);
@@ -264,7 +264,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
 
                 net.Activate();
 
-                Assert.Equal(postArr[1], net.OutputVector[0]);
+                Assert.Equal(postArr[1], net.Outputs[0]);
             }
         }
 
@@ -273,7 +273,7 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IActivationFunction<double> actFn)
         {
             double x;
-            var inputs = net.InputVector.Span;
+            var inputs = net.Inputs.Span;
 
             // Activate and test.
             inputs[0] = 1.0;
@@ -282,13 +282,13 @@ namespace SharpNeat.NeuralNets.Double.Tests
             net.Activate();
 
             x = 2.0; actFn.Fn(ref x);
-            Assert.Equal(x, net.OutputVector[0]);
+            Assert.Equal(x, net.Outputs[0]);
 
             x = 3.0; actFn.Fn(ref x);
-            Assert.Equal(x, net.OutputVector[1]);
+            Assert.Equal(x, net.Outputs[1]);
 
             x = 1.0; actFn.Fn(ref x);
-            Assert.Equal(x, net.OutputVector[2]);
+            Assert.Equal(x, net.Outputs[2]);
         }
 
         #endregion
