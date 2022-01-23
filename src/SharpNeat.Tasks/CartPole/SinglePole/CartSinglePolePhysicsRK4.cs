@@ -199,7 +199,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <param name="xa">Returns the cart's horizontal acceleration.</param>
         /// <param name="thetaa">Returns the pole's angular acceleration.</param>
         private static void CalcAccelerations(
-            float[] state,
+            Span<float> state,
             float f,
             out float xa,
             out float thetaa)
@@ -232,9 +232,9 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
         /// <param name="a">An array to multiply by a scalar.</param>
         /// <param name="scalar">A scalar to multiply array a by.</param>
         private static void MultiplyAdd(
-            float[] dest,
-            float[] add,
-            float[] a,
+            Span<float> dest,
+            Span<float> add,
+            Span<float> a,
             float scalar)
         {
             // ENHANCEMENT: Consider vectorizing.
