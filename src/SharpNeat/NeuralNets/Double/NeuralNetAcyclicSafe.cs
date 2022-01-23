@@ -91,7 +91,7 @@ namespace SharpNeat.NeuralNets.Double
             _activationArr = new double[digraph.TotalNodeCount];
 
             // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
-            this.InputVector = new VectorSegment<double>(_activationArr, 0, _inputCount);
+            this.InputVector = new Memory<double>(_activationArr, 0, _inputCount);
 
             // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
             // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
@@ -115,9 +115,9 @@ namespace SharpNeat.NeuralNets.Double
         public int OutputCount => _outputCount;
 
         /// <summary>
-        /// Gets an array for used for passing input signals to the network, i.e. the network input vector.
+        /// Gets a memory segment used for passing input signals to the network, i.e. the network input vector.
         /// </summary>
-        public IVector<double> InputVector { get; }
+        public Memory<double> InputVector { get; }
 
         /// <summary>
         /// Gets an array of output signals from the network, i.e. the network output vector.

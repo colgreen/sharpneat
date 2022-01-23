@@ -12,7 +12,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
 
         public MockPreyCaptureAgent()
         {
-            this.InputVector = new VectorSegment<double>(new double[14], 0, 14);
+            this.InputVector = new double[14];
             _outputArr = new double[4];
             this.OutputVector = new VectorSegment<double>(_outputArr, 0, 4);
         }
@@ -25,7 +25,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
 
         public int OutputCount => 4;
 
-        public IVector<double> InputVector { get; }
+        public Memory<double> InputVector { get; }
 
         public IVector<double> OutputVector { get; }
 

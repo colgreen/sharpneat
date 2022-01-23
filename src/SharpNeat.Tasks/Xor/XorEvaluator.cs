@@ -77,12 +77,14 @@ namespace SharpNeat.Tasks.Xor
             IBlackBox<double> box,
             double in1, double in2)
         {
+            var inputs = box.InputVector.Span;
+
             // Bias input.
-            box.InputVector[0] = 1.0;
+            inputs[0] = 1.0;
 
             // XOR inputs.
-            box.InputVector[1] = in1;
-            box.InputVector[2] = in2;
+            inputs[1] = in1;
+            inputs[2] = in2;
 
             // Activate the black box.
             box.Activate();

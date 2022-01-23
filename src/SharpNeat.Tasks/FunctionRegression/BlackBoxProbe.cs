@@ -51,6 +51,7 @@ namespace SharpNeat.Tasks.FunctionRegression
         {
             Debug.Assert(responseArr.Length == _paramSamplingInfo.SampleResolution);
 
+            var inputs = box.InputVector.Span;
             double[] xArr = _paramSamplingInfo.XArrNetwork;
             for(int i=0; i < xArr.Length; i++)
             {
@@ -58,8 +59,8 @@ namespace SharpNeat.Tasks.FunctionRegression
                 box.ResetState();
 
                 // Set bias input, and function input value.
-                box.InputVector[0] = 1.0;
-                box.InputVector[1] = xArr[i];
+                inputs[0] = 1.0;
+                inputs[1] = xArr[i];
 
                 // Activate the black box.
                 box.Activate();

@@ -24,9 +24,10 @@ namespace SharpNeat.NeuralNets.Double.Benchmarks
 
             // Set some non-zero random input values.
             var rng = RandomDefaults.CreateRandomSource();
-            for(int i=0; i < __nn.InputVector.Length; i++)
+            var inputs = __nn.InputVector.Span;
+            for(int i=0; i < inputs.Length; i++)
             {
-                __nn.InputVector[i] = rng.NextDouble();
+                inputs[i] = rng.NextDouble();
             }
         }
 

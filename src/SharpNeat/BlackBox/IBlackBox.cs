@@ -39,7 +39,7 @@ namespace SharpNeat.BlackBox
         /// <summary>
         /// Gets a vector of input values.
         /// </summary>
-        IVector<T> InputVector { get; }
+        Memory<T> InputVector { get; }
 
         /// <summary>
         /// Gets a vector of output values.

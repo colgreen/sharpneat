@@ -224,11 +224,11 @@ namespace SharpNeat.Tasks.PreyCapture
 
             // Determine agent sensor input values.
             // Reset all inputs.
-            IVector<double> inputVec = agent.InputVector;
-            inputVec.Reset();
+            var inputs = agent.InputVector.Span;
+            inputs.Clear();
 
             // Bias input.
-            inputVec[0] = 1.0;
+            inputs[0] = 1.0;
 
             // Test if prey is in sensor range.
             if(relPosRadiusSqr <= _sensorRangeSqr)
@@ -240,26 +240,26 @@ namespace SharpNeat.Tasks.PreyCapture
                 int segmentIdx = 1 + (int)MathF.Floor(thetaAdjusted * Four_over_PI);
 
                 // Set sensor segment's input.
-                inputVec[segmentIdx] = 1.0;
+                inputs[segmentIdx] = 1.0;
             }
 
             // Prey closeness detector.
-            inputVec[9] = relPosRadiusSqr <= 4 ? 1.0 : 0.0;
+            inputs[9] = relPosRadiusSqr <= 4 ? 1.0 : 0.0;
 
             // Wall detectors - N,E,S,W.
             // North.
             int d = (__gridSize-1) - _agentPos.Y;
-            if(d <= 4) { inputVec[10] = (4-d) * Quarter; }
+            if(d <= 4) { inputs[10] = (4-d) * Quarter; }
 
             // East.
             d = (__gridSize-1) - _agentPos.X;
-            if(d <= 4) { inputVec[11] = (4-d) * Quarter; }
+            if(d <= 4) { inputs[11] = (4-d) * Quarter; }
 
             // South.
-            if(_agentPos.Y <= 4) { inputVec[12] = (4 - _agentPos.Y) * Quarter; }
+            if(_agentPos.Y <= 4) { inputs[12] = (4 - _agentPos.Y) * Quarter; }
 
             // West.
-            if(_agentPos.X <= 4) { inputVec[13] = (4 - _agentPos.X) * Quarter; }
+            if(_agentPos.X <= 4) { inputs[13] = (4 - _agentPos.X) * Quarter; }
 
             // Activate agent.
             agent.Activate();

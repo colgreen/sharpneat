@@ -135,13 +135,14 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             float[] state = _physics.State;
 
             // Run the cart-pole simulation.
+            var inputs = box.InputVector.Span;
             int timestep = 0;
             for(; timestep < _maxTimesteps; timestep++)
             {
                 // Provide model state to the black box inputs (normalised to +-1.0).
-                box.InputVector[0] = 1.0; // Bias input.
-                box.InputVector[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
-                box.InputVector[2] = state[2] * __MaxPoleAngle_Reciprocal;    // Pole angle range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
+                inputs[0] = 1.0; // Bias input.
+                inputs[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
+                inputs[2] = state[2] * __MaxPoleAngle_Reciprocal;    // Pole angle range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
 
                 // Activate the network.
                 box.Activate();

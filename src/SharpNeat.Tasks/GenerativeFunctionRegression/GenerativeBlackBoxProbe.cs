@@ -55,11 +55,13 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             // Reset black box internal state.
             box.ResetState();
 
-            // Take the require number of samples.
+            // Take the required number of samples.
+            var inputs = box.InputVector.Span;
+
             for(int i=0; i < _sampleCount; i++)
             {
                 // Set bias input.
-                box.InputVector[0] = 1.0;
+                inputs[0] = 1.0;
 
                 // Activate the black box.
                 box.Activate();

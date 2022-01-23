@@ -9,6 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
+using System;
 using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
@@ -40,21 +41,21 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
         {
             double fitness = 0.0;
             bool success = true;
-            IVector<double> inputVec = box.InputVector;
+            Span<double> inputs = box.InputVector.Span;
             IVector<double> outputVec = box.OutputVector;
 
             // 8 test cases.
             for(int i=0; i < 8; i++)
             {
                 // Bias input.
-                inputVec[0] = 1.0;
+                inputs[0] = 1.0;
 
                 // Apply bitmask to i and shift left to generate the input signals.
                 // Note. We could eliminate all the boolean logic by pre-building a table of test
                 // signals and correct responses.
                 for(int tmp = i, j=1; j < 4; j++)
                 {
-                    inputVec[j] = tmp & 0x1;
+                    inputs[j] = tmp & 0x1;
                     tmp >>= 1;
                 }
 

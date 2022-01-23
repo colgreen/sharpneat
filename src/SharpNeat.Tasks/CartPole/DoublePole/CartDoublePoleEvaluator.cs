@@ -148,17 +148,18 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
             float[] state = _physics.State;
 
             // Run the cart-pole simulation.
+            var inputs = box.InputVector.Span;
             int timestep = 0;
             for(; timestep < _maxTimesteps; timestep++)
             {
                 // Provide model state to the black box inputs (normalised to +-1.0).
-                box.InputVector[0] = 1.0; // Bias input.
-                box.InputVector[1] = state[0] * __TrackLengthHalf_Reciprocal;   // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
-                box.InputVector[2] = state[1];                                  // Cart velocity. Typical range is approx. +-10.
-                box.InputVector[3] = state[2] * __MaxPoleAngle_Reciprocal;      // Pole 1 angle. Range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
-                box.InputVector[4] = state[3] * 0.2;                            // Pole 1 angular velocity. Typical range is approx. +-5.
-                box.InputVector[5] = state[4] * __MaxPoleAngle_Reciprocal;      // Pole 2 angle.
-                box.InputVector[6] = state[5] * 0.2;                            // Pole 2 angular velocity.
+                inputs[0] = 1.0; // Bias input.
+                inputs[1] = state[0] * __TrackLengthHalf_Reciprocal;   // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
+                inputs[2] = state[1];                                  // Cart velocity. Typical range is approx. +-10.
+                inputs[3] = state[2] * __MaxPoleAngle_Reciprocal;      // Pole 1 angle. Range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
+                inputs[4] = state[3] * 0.2;                            // Pole 1 angular velocity. Typical range is approx. +-5.
+                inputs[5] = state[4] * __MaxPoleAngle_Reciprocal;      // Pole 2 angle.
+                inputs[6] = state[5] * 0.2;                            // Pole 2 angular velocity.
 
                 // Activate the network.
                 box.Activate();

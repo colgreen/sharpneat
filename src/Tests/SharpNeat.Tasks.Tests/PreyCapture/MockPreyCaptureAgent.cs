@@ -13,7 +13,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
         public MockPreyCaptureAgent()
         {
             _inputArr = new double[14];
-            this.InputVector = new VectorSegment<double>(_inputArr, 0, 14);
+            this.InputVector = _inputArr;
             _outputArr = new double[4];
             this.OutputVector = new VectorSegment<double>(_outputArr, 0, 4);
         }
@@ -26,7 +26,7 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
 
         public int OutputCount => 4;
 
-        public IVector<double> InputVector { get; }
+        public Memory<double> InputVector { get; }
 
         public IVector<double> OutputVector { get; }
 

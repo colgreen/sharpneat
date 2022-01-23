@@ -234,7 +234,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// <param name="thetaa1">Returns pole 1's angular acceleration.</param>
         /// <param name="thetaa2">Returns pole 2's angular acceleration.</param>
         private static void CalcAccelerations(
-            Span<float> state,
+            float[] state,
             float f,
             out float xa,
             out float thetaa1,
@@ -282,9 +282,9 @@ namespace SharpNeat.Tasks.CartPole.DoublePole
         /// <param name="a">An array to multiply by a scalar.</param>
         /// <param name="scalar">A scalar to multiply array a by.</param>
         private static void MultiplyAdd(
-            Span<float> dest,
-            Span<float> add,
-            Span<float> a,
+            float[] dest,
+            float[] add,
+            float[] a,
             float scalar)
         {
             // ENHANCEMENT: Consider vectorizing.

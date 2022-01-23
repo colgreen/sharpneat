@@ -158,19 +158,21 @@ namespace SharpNeat.NeuralNets.Double.Tests
         private static void SingleInput_WeightZero_Inner(
             IBlackBox<double> net)
         {
+            var inputs = net.InputVector.Span;
+
             // Note. The single connection weight is zero, so the input value has no affect.
             // Activate and test.
-            net.InputVector[0] = 100.0;
+            inputs[0] = 100.0;
             net.Activate();
             Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = 0;
+            inputs[0] = 0;
             net.Activate();
             Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = -100;
+            inputs[0] = -100;
             net.Activate();
             Assert.Equal(0.5, net.OutputVector[0]);
         }
@@ -180,20 +182,21 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IActivationFunction<double> actFn)
         {
             double x;
+            var inputs = net.InputVector.Span;
 
             // Activate and test.
-            net.InputVector[0] = 0.0;
+            inputs[0] = 0.0;
             net.Activate();
             Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = 1.0;
+            inputs[0] = 1.0;
             net.Activate();
             x=1.0; actFn.Fn(ref x);
             Assert.Equal(x, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = 10.0;
+            inputs[0] = 10.0;
             net.Activate();
             x=10.0; actFn.Fn(ref x);
             Assert.Equal(x, net.OutputVector[0]);
@@ -204,23 +207,24 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IActivationFunction<double> actFn)
         {
             double x;
+            var inputs = net.InputVector.Span;
 
             // Activate and test.
-            net.InputVector[0] = 0.0;
-            net.InputVector[1] = 0.0;
+            inputs[0] = 0.0;
+            inputs[1] = 0.0;
             net.Activate();
             Assert.Equal(0.5, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = 1.0;
-            net.InputVector[1] = 2.0;
+            inputs[0] = 1.0;
+            inputs[1] = 2.0;
             net.Activate();
             x = 1.5; actFn.Fn(ref x);
             Assert.Equal(x, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = 10.0;
-            net.InputVector[1] = 20.0;
+            inputs[0] = 10.0;
+            inputs[1] = 20.0;
             net.Activate();
             x = 15.0; actFn.Fn(ref x);
             Assert.Equal(x, net.OutputVector[0]);
@@ -231,17 +235,18 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IActivationFunction<double> actFn)
         {
             double x;
+            var inputs = net.InputVector.Span;
 
             // Activate and test.
-            net.InputVector[0] = 0.0;
-            net.InputVector[1] = 0.0;
+            inputs[0] = 0.0;
+            inputs[1] = 0.0;
             net.Activate();
             x = 1.0; actFn.Fn(ref x);
             Assert.Equal(x, net.OutputVector[0]);
 
             // Activate and test.
-            net.InputVector[0] = 0.5;
-            net.InputVector[1] = 0.25;
+            inputs[0] = 0.5;
+            inputs[1] = 0.25;
             net.Activate();
             x = 0.375; actFn.Fn(ref x);
             x *= 2; actFn.Fn(ref x);
@@ -253,10 +258,11 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IActivationFunction<double> actFn)
         {
             double x;
+            var inputs = net.InputVector.Span;
 
             // Activate and test.
-            net.InputVector[0] = 0.5;
-            net.InputVector[1] = 0.25;
+            inputs[0] = 0.5;
+            inputs[1] = 0.25;
             net.Activate();
 
             x = 0.25; actFn.Fn(ref x); actFn.Fn(ref x);
@@ -274,11 +280,12 @@ namespace SharpNeat.NeuralNets.Double.Tests
             IActivationFunction<double> actFn)
         {
             double x;
+            var inputs = net.InputVector.Span;
 
             // Activate and test.
-            net.InputVector[0] = 1.0;
-            net.InputVector[1] = 2.0;
-            net.InputVector[2] = 3.0;
+            inputs[0] = 1.0;
+            inputs[1] = 2.0;
+            inputs[2] = 3.0;
             net.Activate();
 
             x = 2.0; actFn.Fn(ref x);
