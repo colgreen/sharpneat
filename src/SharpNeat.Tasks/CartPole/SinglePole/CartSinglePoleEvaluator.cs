@@ -134,8 +134,11 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
             // Get a local variable ref to the internal model state array.
             float[] state = _physics.State;
 
-            // Run the cart-pole simulation.
+            // Get the blackbox input and output spans.
             var inputs = box.Inputs.Span;
+            var outputs = box.Outputs.Span;
+
+            // Run the cart-pole simulation.
             int timestep = 0;
             for(; timestep < _maxTimesteps; timestep++)
             {
@@ -148,7 +151,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole
                 box.Activate();
 
                 // Read the output to determine the force to be applied to the cart by the controller.
-                float force = (float)(box.Outputs[0] - 0.5) * 2f;
+                float force = (float)(outputs[0] - 0.5) * 2f;
                 ClipForce(ref force);
                 force *= __MaxForce;
 

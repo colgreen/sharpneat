@@ -55,9 +55,11 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
             // Reset black box internal state.
             box.Reset();
 
-            // Take the required number of samples.
+            // Get the blackbox input and output spans.
             var inputs = box.Inputs.Span;
+            var outputs = box.Outputs.Span;
 
+            // Take the required number of samples.
             for(int i=0; i < _sampleCount; i++)
             {
                 // Set bias input.
@@ -69,7 +71,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression
                 // Get the black box's output value.
                 // TODO: Review this scheme. This replicates the behaviour in SharpNEAT 2.x but not sure if it's ideal,
                 // for one it depends on the output range of the neural net activation function in use.
-                double output = box.Outputs[0];
+                double output = outputs[0];
                 Clip(ref output);
                 responseArr[i] = ((output - 0.5) * _scale) + _offset;
             }

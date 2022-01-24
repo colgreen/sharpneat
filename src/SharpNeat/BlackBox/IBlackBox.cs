@@ -34,7 +34,7 @@ namespace SharpNeat.BlackBox
         /// <summary>
         /// Gets a vector of output values.
         /// </summary>
-        IVector<T> Outputs { get; }
+        Memory<T> Outputs { get; }
 
         /// <summary>
         /// Activate the black box. This causes the black box to accept its inputs and produce output signals

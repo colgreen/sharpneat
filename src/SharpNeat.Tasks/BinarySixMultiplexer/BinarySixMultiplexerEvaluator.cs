@@ -43,7 +43,7 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer
             double fitness = 0.0;
             bool success = true;
             Span<double> inputs = box.Inputs.Span;
-            IVector<double> outputVec = box.Outputs;
+            Span<double> outputs = box.Outputs.Span;
 
             // 64 test cases.
             for(int i=0; i < 64; i++)
@@ -64,7 +64,7 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer
                 box.Activate();
 
                 // Read output signal.
-                double output = outputVec[0];
+                double output = outputs[0];
                 Clamp(ref output);
                 Debug.Assert(output >= 0.0, "Unexpected negative output.");
                 bool trueResponse = (output > 0.5);

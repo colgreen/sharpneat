@@ -271,15 +271,15 @@ namespace SharpNeat.Tasks.PreyCapture
         /// <param name="agent">The agent.</param>
         public void MoveAgent(IBlackBox<double> agent)
         {
-            IVector<double> outputVec = agent.Outputs;
+            var outputs = agent.Outputs.Span;
 
             // Selected output is highest signal at or above 0.5. Tied signals result in no result.
-            double maxSig = outputVec[0];
+            double maxSig = outputs[0];
             int maxSigIdx = 0;
 
             for(int i=1; i < 4; i++)
             {
-                double v = outputVec[i];
+                double v = outputs[i];
                 if(v > maxSig)
                 {
                     maxSig = v;

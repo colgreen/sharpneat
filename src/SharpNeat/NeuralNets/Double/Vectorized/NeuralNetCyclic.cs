@@ -103,11 +103,11 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             _preActivationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
             _postActivationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
 
-            // Wrap sub-ranges of the neuron signal arrays as input and output vectors.
+            // Map the input and output vectors to the corresponding segments of _postActivationArr.
             this.Inputs = new Memory<double>(_postActivationArr, 0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
-            this.Outputs = new VectorSegment<double>(_postActivationArr, _inputCount, _outputCount);
+            this.Outputs = new Memory<double>(_postActivationArr, _inputCount, _outputCount);
         }
 
         #endregion
@@ -115,14 +115,14 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
         #region IBlackBox
 
         /// <summary>
-        /// Gets a memory segment used for passing input signals to the network, i.e. the network input vector.
+        /// Gets a memory segment used for passing input signals to the network, i.e., the network input vector.
         /// </summary>
         public Memory<double> Inputs { get; }
 
         /// <summary>
-        /// Gets an array of output signals from the network, i.e. the network output vector.
+        /// Gets a memory segment of output signals from the network, i.e., the network output vector.
         /// </summary>
-        public IVector<double> Outputs { get; }
+        public Memory<double> Outputs { get; }
 
         /// <summary>
         /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter

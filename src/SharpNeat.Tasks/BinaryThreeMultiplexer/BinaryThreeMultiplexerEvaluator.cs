@@ -42,7 +42,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
             double fitness = 0.0;
             bool success = true;
             Span<double> inputs = box.Inputs.Span;
-            IVector<double> outputVec = box.Outputs;
+            Span<double> outputs = box.Outputs.Span;
 
             // 8 test cases.
             for(int i=0; i < 8; i++)
@@ -63,7 +63,7 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer
                 box.Activate();
 
                 // Read output signal.
-                double output = outputVec[0];
+                double output = outputs[0];
                 Clamp(ref output);
                 Debug.Assert(output >= 0.0, "Unexpected negative output.");
                 bool trueResponse = (output > 0.5);

@@ -62,6 +62,16 @@ namespace SharpNeat.NeuralNets.Double
         // Node activation level array (used for both pre and post activation levels).
         readonly double[] _activationArr;
 
+        // Output signal array.
+        // The output signal values are copied into this array from _activationArr (see notes below).
+        readonly double[] _outputArr;
+
+        // An array containing output node indexes into _activationArr.
+        // Notes. Nodes have been sorted by depth within the network, therefore the output nodes are not guaranteed
+        // to be in a contiguous segment at a fixed location within _activationArr. As such, this array maps from
+        // output index to node index in _activationArr.
+        readonly int[] _outputNodeIdxArr;
+
         // Convenient counts.
         readonly int _inputCount;
         readonly int _outputCount;
@@ -114,14 +124,16 @@ namespace SharpNeat.NeuralNets.Double
             // Get a working array for node activation signals.
             _activationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
 
-            // Wrap a sub-range of the _activationArr that holds the activation values for the input nodes.
+            // Map the inputs vector to the corresponding segment of node activation values.
             this.Inputs = new Memory<double>(_activationArr, 0, _inputCount);
 
-            // Wrap the output nodes. Nodes have been sorted by depth within the network therefore the output
-            // nodes can no longer be guaranteed to be in a contiguous segment at a fixed location. As such their
-            // positions are indicated by outputNodeIdxArr, and so we package up this array with the node signal
-            // array to abstract away the indirection described by outputNodeIdxArr.
-            this.Outputs = new MappingVector<double>(_activationArr, digraph.OutputNodeIdxArr);
+            // TODO: This can be a segment on the end of _activationArr, to avoid having to rent two arrays.
+            // Get an array to act a as a contiguous run of output signals.
+            _outputArr = ArrayPool<double>.Shared.Rent(_outputCount);
+            this.Outputs = _outputArr;
+
+            // Store the indexes into _activationArr that give the output signals.
+            _outputNodeIdxArr = digraph.OutputNodeIdxArr;
         }
 
         #endregion
@@ -134,9 +146,9 @@ namespace SharpNeat.NeuralNets.Double
         public Memory<double> Inputs { get; }
 
         /// <summary>
-        /// Gets an array of output signals from the network, i.e. the network output vector.
+        /// Gets a memory segment of output signals from the network, i.e., the network output vector.
         /// </summary>
-        public IVector<double> Outputs { get; }
+        public Memory<double> Outputs { get; }
 
         /// <summary>
         /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals
@@ -200,6 +212,15 @@ namespace SharpNeat.NeuralNets.Double
                 // Update nodeIdx to point at first node in the next layer.
                 nodeIdx = layerInfo.EndNodeIdx;
             }
+
+            // TODO: Use Unsafe performance tweaks (as above).
+            // Copy the output signals from _activationArr into _outputArr.
+            // These signals are scattered through _activationArr, and here we bring them together into a
+            // contiguous segment of memory that is indexable by output index.
+            for(int i=0; i < _outputNodeIdxArr.Length; i++)
+            {
+                _outputArr[i] = _activationArr[_outputNodeIdxArr[i]];
+            }
         }
 
         /// <summary>
@@ -223,6 +244,7 @@ namespace SharpNeat.NeuralNets.Double
             {
                 _isDisposed = true;
                 ArrayPool<double>.Shared.Return(_activationArr);
+                ArrayPool<double>.Shared.Return(_outputArr);
             }
         }
 

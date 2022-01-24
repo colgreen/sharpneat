@@ -14,7 +14,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
         {
             this.Inputs = new double[14];
             _outputArr = new double[4];
-            this.Outputs = new VectorSegment<double>(_outputArr, 0, 4);
+            this.Outputs = _outputArr;
         }
 
         #endregion
@@ -23,7 +23,7 @@ namespace SharpNeatTasks.Benchmarks.PreyCapture
 
         public Memory<double> Inputs { get; }
 
-        public IVector<double> Outputs { get; }
+        public Memory<double> Outputs { get; }
 
         public void Activate()
         {

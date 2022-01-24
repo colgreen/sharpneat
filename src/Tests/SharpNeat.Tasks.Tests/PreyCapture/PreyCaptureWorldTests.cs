@@ -17,8 +17,9 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.Outputs.Reset();
-                agent.Outputs[0] = 1.0;
+                var outputs = agent.Outputs.Span;
+                outputs.Clear();
+                outputs[0] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(0, 1), posDelta);
@@ -28,8 +29,9 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.Outputs.Reset();
-                agent.Outputs[1] = 1.0;
+                var outputs = agent.Outputs.Span;
+                outputs.Clear();
+                outputs[1] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(1, 0), posDelta);
@@ -39,8 +41,9 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.Outputs.Reset();
-                agent.Outputs[2] = 1.0;
+                var outputs = agent.Outputs.Span;
+                outputs.Clear();
+                outputs[2] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(0, -1), posDelta);
@@ -50,8 +53,9 @@ namespace SharpNeat.Tasks.Tests.PreyCapture
             {
                 world.InitPositions();
                 Int32Point posBefore = world.AgentPosition;
-                agent.Outputs.Reset();
-                agent.Outputs[3] = 1.0;
+                var outputs = agent.Outputs.Span;
+                outputs.Clear();
+                outputs[3] = 1.0;
                 world.MoveAgent(agent);
                 Int32Point posDelta = world.AgentPosition - posBefore;
                 Assert.Equal(new Int32Point(-1, 0), posDelta);
