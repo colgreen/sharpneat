@@ -141,7 +141,7 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
             ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
-            Span<double> activations = _activationArr.AsSpan(0, _totalNodeCount);
+            Span<double> activations = _activationArr.AsSpan();
             Span<double> connInputs = _conInputArr.AsSpan();
 
             ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);

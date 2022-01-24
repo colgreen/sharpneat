@@ -134,8 +134,8 @@ namespace SharpNeat.NeuralNets.Double.Vectorized
             ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
             ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
-            Span<double> preActivations = _preActivationArr.AsSpan(0, _totalNodeCount);
-            Span<double> postActivations = _postActivationArr.AsSpan(0, _totalNodeCount);
+            Span<double> preActivations = _preActivationArr.AsSpan();
+            Span<double> postActivations = _postActivationArr.AsSpan();
 
             // Note. Here we skip over the activations corresponding to the input neurons, as these have no
             // incoming connections, and therefore have fixed post-activation values and are never activated.
