@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using SharpNeat.Tasks.FunctionRegression;
 
 namespace SharpNeatTasks.Benchmarks.FunctionRegression;

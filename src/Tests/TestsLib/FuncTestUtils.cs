@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpNeat.Tests;
+﻿namespace SharpNeat.Tests;
 
 public static class FuncTestUtils
 {

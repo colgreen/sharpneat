@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Redzen.Random;
+﻿using Redzen.Random;
 using Xunit;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests;

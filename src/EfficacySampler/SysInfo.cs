@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using SystemInfoLibrary.Hardware.CPU;
 using SystemInfoLibrary.Hardware.RAM;
 using SystemInfoLibrary.OperatingSystem;

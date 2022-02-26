@@ -9,10 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
-using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 using log4net;
 using log4net.Config;
 using log4net.Repository;

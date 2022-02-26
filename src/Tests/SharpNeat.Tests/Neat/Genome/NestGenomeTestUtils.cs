@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SharpNeat.Graphs;
+﻿using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome.Tests;
 

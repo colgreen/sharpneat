@@ -1,5 +1,4 @@
-﻿using System;
-using Redzen.Collections;
+﻿using Redzen.Collections;
 using Xunit;
 
 namespace SharpNeat.Graphs.Tests;

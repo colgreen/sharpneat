@@ -9,12 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Text;
-using System.Threading;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome.IO;

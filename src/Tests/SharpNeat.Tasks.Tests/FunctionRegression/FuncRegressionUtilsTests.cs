@@ -1,5 +1,4 @@
-﻿using System;
-using SharpNeat.Tasks.FunctionRegression;
+﻿using SharpNeat.Tasks.FunctionRegression;
 using Xunit;
 
 namespace SharpNeat.Tasks.Tests.FunctionRegression;

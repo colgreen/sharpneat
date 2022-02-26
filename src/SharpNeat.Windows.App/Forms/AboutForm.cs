@@ -9,9 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Reflection;
-using System.Windows.Forms;
 using SharpNeat.Evaluation;
 
 #pragma warning disable IDE1006 // Naming Styles

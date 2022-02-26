@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Redzen.Random;
+﻿using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;

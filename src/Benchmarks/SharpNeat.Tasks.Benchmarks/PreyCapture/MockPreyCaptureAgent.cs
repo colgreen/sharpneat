@@ -1,5 +1,4 @@
-﻿using System;
-using SharpNeat.BlackBox;
+﻿using SharpNeat.BlackBox;
 
 namespace SharpNeatTasks.Benchmarks.PreyCapture;
 

@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using System.IO;
-using System.Threading;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
 

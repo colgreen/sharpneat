@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Drawing;
 using SharpNeat.EvolutionAlgorithm;
 using ZedGraph;
 using static SharpNeat.Windows.App.Forms.ZedGraphUtils;

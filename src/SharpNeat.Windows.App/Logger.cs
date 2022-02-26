@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using Redzen.Structures;
 
 namespace SharpNeat.Windows.App;

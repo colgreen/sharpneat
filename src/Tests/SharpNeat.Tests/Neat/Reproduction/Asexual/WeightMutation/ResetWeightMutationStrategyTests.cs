@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Redzen.Numerics;
+﻿using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests;
 using Xunit;

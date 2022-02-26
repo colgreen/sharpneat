@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
-using System;
 //using SharpNeat.NeuralNets.Double.Vectorized.Benchmarks;
 
 namespace SharpNeat.Benchmarks;

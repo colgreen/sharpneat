@@ -1,7 +1,5 @@
-﻿using System;
-using SharpNeat.Tests;
+﻿using SharpNeat.Tests;
 using Xunit;
-using Vectorized = SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests;
 

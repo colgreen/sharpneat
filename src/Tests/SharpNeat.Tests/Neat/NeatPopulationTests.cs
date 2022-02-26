@@ -1,5 +1,4 @@
-﻿using System;
-using Redzen.Random;
+﻿using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;

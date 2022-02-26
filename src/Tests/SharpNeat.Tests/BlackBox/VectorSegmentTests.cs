@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Xunit;
+﻿using Xunit;
 using static SharpNeat.Tests.ArrayTestUtils;
 
 namespace SharpNeat.BlackBox.Tests;

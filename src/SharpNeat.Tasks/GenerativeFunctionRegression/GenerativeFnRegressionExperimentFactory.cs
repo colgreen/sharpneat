@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Text.Json;
 using SharpNeat.Experiments;
 using SharpNeat.IO;

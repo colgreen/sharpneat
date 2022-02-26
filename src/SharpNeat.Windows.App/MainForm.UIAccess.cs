@@ -9,8 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
-using System.Drawing;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
 using SharpNeat.Neat;

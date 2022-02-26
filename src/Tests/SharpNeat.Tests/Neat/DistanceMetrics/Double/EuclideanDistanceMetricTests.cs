@@ -1,5 +1,4 @@
-﻿using System;
-using SharpNeat.Neat.Genome;
+﻿using SharpNeat.Neat.Genome;
 using Xunit;
 
 namespace SharpNeat.Neat.DistanceMetrics.Double.Tests;

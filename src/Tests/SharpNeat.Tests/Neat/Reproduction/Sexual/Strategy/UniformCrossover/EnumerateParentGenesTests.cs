@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Redzen;
+﻿using Redzen;
 using Xunit;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests;

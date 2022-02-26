@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using SharpNeat.Neat.Genome.Tests;
+﻿using SharpNeat.Neat.Genome.Tests;
 using Xunit;
 
 namespace SharpNeat.Neat.Genome.IO.Tests;

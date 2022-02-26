@@ -9,9 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SharpNeat.Graphs;
 

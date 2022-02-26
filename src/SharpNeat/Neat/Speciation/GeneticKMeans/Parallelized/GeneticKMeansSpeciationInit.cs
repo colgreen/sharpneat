@@ -9,10 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Redzen.Linq;
 using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;

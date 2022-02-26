@@ -5,7 +5,6 @@
  *
  * http://richnewman.wordpress.com/hslcolor-class/
  */
-using System;
 using System.Drawing;
 
 namespace SharpNeat.Drawing;

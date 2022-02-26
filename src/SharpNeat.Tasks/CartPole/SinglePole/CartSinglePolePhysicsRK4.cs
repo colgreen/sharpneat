@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 
 // Note. This class contains a lot of dense arithmetic expressions; the inclusion of extra parentheses would make
 // these much harder to read.

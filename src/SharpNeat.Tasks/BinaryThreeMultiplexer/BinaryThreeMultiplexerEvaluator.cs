@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Diagnostics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using Redzen.Collections;
+﻿using Redzen.Collections;
 using SharpNeat.Drawing;
 using SharpNeat.Drawing.Graph;
 using SharpNeat.Graphs;

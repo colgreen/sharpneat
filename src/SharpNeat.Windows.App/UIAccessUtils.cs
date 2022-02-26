@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Globalization;
-using System.Windows.Forms;
 using log4net;
 
 namespace SharpNeat.Windows.App;

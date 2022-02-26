@@ -9,13 +9,10 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Buffers;
 using System.Globalization;
-using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Windows.Forms;
 using log4net;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;

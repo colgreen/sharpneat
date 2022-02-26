@@ -9,9 +9,7 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace SharpNeat.NeuralNets;
@@ -49,7 +47,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
     public DefaultActivationFunctionFactory(bool enableHardwareAcceleration)
     {
         _enableHardwareAcceleration = enableHardwareAcceleration;
-        _lockObj = ((IDictionary)_fnByName).SyncRoot;
+        _lockObj = ((ICollection)_fnByName).SyncRoot;
     }
 
     #endregion

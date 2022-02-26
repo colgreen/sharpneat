@@ -1,5 +1,4 @@
-﻿using System;
-using SharpNeat.Graphs.Acyclic;
+﻿using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
 namespace SharpNeat.Graphs.Tests;

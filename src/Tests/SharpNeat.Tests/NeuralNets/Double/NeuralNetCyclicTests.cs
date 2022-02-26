@@ -1,5 +1,4 @@
-﻿using System;
-using Redzen.Collections;
+﻿using Redzen.Collections;
 using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;

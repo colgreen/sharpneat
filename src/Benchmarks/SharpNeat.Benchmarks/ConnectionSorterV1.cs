@@ -1,6 +1,4 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
+﻿using System.Buffers;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.Benchmarks;

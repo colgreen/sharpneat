@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Redzen.Random;
+﻿using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using Xunit;

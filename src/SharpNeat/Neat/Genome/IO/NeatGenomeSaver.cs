@@ -10,7 +10,6 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Globalization;
-using System.IO;
 using System.Text;
 using SharpNeat.Graphs;
 

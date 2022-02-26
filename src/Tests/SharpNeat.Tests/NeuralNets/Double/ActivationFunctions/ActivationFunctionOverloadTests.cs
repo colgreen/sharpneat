@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
+﻿using Xunit;
 using static SharpNeat.Tests.ArrayTestUtils;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests;

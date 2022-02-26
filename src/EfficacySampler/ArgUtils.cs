@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EfficacySampler;
+﻿namespace EfficacySampler;
 
 public static class ArgUtils
 {

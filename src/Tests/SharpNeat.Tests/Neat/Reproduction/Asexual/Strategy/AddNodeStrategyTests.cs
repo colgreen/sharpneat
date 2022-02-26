@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Redzen.Random;
+﻿using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
 using SharpNeat.Graphs;

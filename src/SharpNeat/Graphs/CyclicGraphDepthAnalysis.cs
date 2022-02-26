@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Redzen;
+﻿using Redzen;
 using Redzen.Collections;
 using Redzen.Structures;
 using SharpNeat.Graphs.Acyclic;

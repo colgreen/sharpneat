@@ -1,5 +1,4 @@
-﻿using System;
-using SharpNeat.Graphs;
+﻿using SharpNeat.Graphs;
 using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 using Xunit;
 

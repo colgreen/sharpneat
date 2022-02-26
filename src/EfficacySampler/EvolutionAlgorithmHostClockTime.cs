@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
+﻿using System.Diagnostics;
 using SharpNeat.Experiments;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
