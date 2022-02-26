@@ -6,6 +6,7 @@
     <!-- Enable server GC. On the .NET framework this had much improved performance for CPU intensive workloads -->
     <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
     <ServerGarbageCollection>true</ServerGarbageCollection>
+	<ImplicitUsings>enable</ImplicitUsings>
 	<SkipLocalsInit>true</SkipLocalsInit>
   </PropertyGroup>
 

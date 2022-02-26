@@ -2,21 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>4.0.0.0</Version>
-    <Description>SharpNEAT - Evolution of Neural Networks.</Description>
-    <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
-    <Authors>Colin D. Green</Authors>
-    <Company />
-    <PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
-    <PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
-    <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <RootNamespace>SharpNeat</RootNamespace>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<SkipLocalsInit>true</SkipLocalsInit>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+	<Version>4.0.0.0</Version>
+	<Description>SharpNEAT - Evolution of Neural Networks.</Description>
+	<Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
+	<Authors>Colin D. Green</Authors>
+	<PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
+	<PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
+	<PackageTags>neuroevolution neuro evolution neural network</PackageTags>
+	<PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="Redzen" Version="13.0.0" />

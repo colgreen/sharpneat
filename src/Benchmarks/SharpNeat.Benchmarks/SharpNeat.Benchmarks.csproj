@@ -7,6 +7,7 @@
     <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <RootNamespace>SharpNeat</RootNamespace>
+	<ImplicitUsings>enable</ImplicitUsings>
 	<SkipLocalsInit>true</SkipLocalsInit>
   </PropertyGroup>
 

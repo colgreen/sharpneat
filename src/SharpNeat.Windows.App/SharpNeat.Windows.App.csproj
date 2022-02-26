@@ -2,16 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>SharpNeat.Windows.App.Program</StartupObject>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<SkipLocalsInit>true</SkipLocalsInit>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Version>4.0.0</Version>
     <Description>SharpNEAT Windows Forms application / front-end.</Description>
     <Copyright>Copyright Colin D. Green 2004 - 2020</Copyright>
     <Authors>Colin D. Green</Authors>
-    <Company />
-    <Product>SharpNEAT - Evolution of Neural Networks.</Product>
-    <UseWindowsForms>true</UseWindowsForms>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>SharpNeat.Windows.App.Program</StartupObject>
-	<SkipLocalsInit>true</SkipLocalsInit>
+    <Product>SharpNEAT - Evolution of Neural Networks.</Product>	  	  
   </PropertyGroup>
 
   <ItemGroup>

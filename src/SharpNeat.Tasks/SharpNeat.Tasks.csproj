@@ -4,13 +4,10 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>SharpNeat.Tasks</RootNamespace>
+	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<SkipLocalsInit>true</SkipLocalsInit>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>4</WarningLevel>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
