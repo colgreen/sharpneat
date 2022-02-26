@@ -13,6 +13,8 @@ using System.Diagnostics;
 
 namespace SharpNeat.Graphs.Acyclic;
 
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
+
 /// <summary>
 /// Conveys summary information from a network depth analysis.
 /// </summary>

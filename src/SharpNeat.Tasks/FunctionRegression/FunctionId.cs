@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-
 namespace SharpNeat.Tasks.FunctionRegression;
 
 /// <summary>
@@ -17,9 +16,24 @@ namespace SharpNeat.Tasks.FunctionRegression;
 /// </summary>
 public enum FunctionId
 {
+    /// <summary>
+    /// Absolute value function.
+    /// </summary>
     Abs,
+    /// <summary>
+    /// Logarithm function.
+    /// </summary>
     Log,
+    /// <summary>
+    /// Sine function.
+    /// </summary>
     Sin,
+    /// <summary>
+    /// Sin(x^2) function.
+    /// </summary>
     SinXSquared,
+    /// <summary>
+    /// Custom waveform #1 function.
+    /// </summary>
     Waveform1
 }
