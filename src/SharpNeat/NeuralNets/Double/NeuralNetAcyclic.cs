@@ -59,12 +59,15 @@ namespace SharpNeat.NeuralNets.Double
         // Node activation function.
         readonly VecFn<double> _activationFn;
 
-        // Node activation level array (used for both pre and post activation levels).
-        readonly double[] _activationArr;
+        // Working array. Used for node activation signals, and a separate output signal segment on the end.
+        readonly double[] _workingArr;
 
-        // Output signal array.
-        // The output signal values are copied into this array from _activationArr (see notes below).
-        readonly double[] _outputArr;
+        // Node activation signal segment (used for both pre and post activation levels).
+        readonly Memory<double> _activationMem;
+
+        // Output signal segment.
+        // The output signal values are copied into this array from _activationMem (see notes below).
+        readonly Memory<double> _outputMem;
 
         // An array containing output node indexes into _activationArr.
         // Notes. Nodes have been sorted by depth within the network, therefore the output nodes are not guaranteed
@@ -109,7 +112,6 @@ namespace SharpNeat.NeuralNets.Double
 
             // Store refs to network structure data.
             _connIds = digraph.ConnectionIds;
-
             _weightArr = weightArr;
             _layerInfoArr = digraph.LayerArray;
 
@@ -121,16 +123,17 @@ namespace SharpNeat.NeuralNets.Double
             _outputCount = digraph.OutputCount;
             _totalNodeCount = digraph.TotalNodeCount;
 
-            // Get a working array for node activation signals.
-            _activationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
+            // Get a working array for node activations signals and a separate output signal segment on the end.
+            // And map the memory segments onto the array.
+            _workingArr = ArrayPool<double>.Shared.Rent(_totalNodeCount + _outputCount);
+            _activationMem = _workingArr.AsMemory(0, _totalNodeCount);
+            _outputMem = _workingArr.AsMemory(_totalNodeCount, _outputCount);
 
             // Map the inputs vector to the corresponding segment of node activation values.
-            this.Inputs = new Memory<double>(_activationArr, 0, _inputCount);
+            this.Inputs = _activationMem.Slice(0, _inputCount);
 
-            // TODO: This can be a segment on the end of _activationArr, to avoid having to rent two arrays.
-            // Get an array to act a as a contiguous run of output signals.
-            _outputArr = ArrayPool<double>.Shared.Rent(_outputCount);
-            this.Outputs = _outputArr;
+            // Use the already defined outputs memory segment.
+            this.Outputs = _outputMem;
 
             // Store the indexes into _activationArr that give the output signals.
             _outputNodeIdxArr = digraph.OutputNodeIdxArr;
@@ -141,7 +144,7 @@ namespace SharpNeat.NeuralNets.Double
         #region IBlackBox
 
         /// <summary>
-        /// Gets a memory segment used for passing input signals to the network, i.e. the network input vector.
+        /// Gets a memory segment used for passing input signals to the network, i.e., the network input vector.
         /// </summary>
         public Memory<double> Inputs { get; }
 
@@ -159,17 +162,19 @@ namespace SharpNeat.NeuralNets.Double
             ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
             ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
-            Span<double> activations = _activationArr.AsSpan();
+            Span<double> activations = _activationMem.Span;
+            Span<double> outputs = _outputMem.Span;
 
             ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
             ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
             ref double weightsRef = ref MemoryMarshal.GetReference(weights);
             ref double activationsRef = ref MemoryMarshal.GetReference(activations);
 
-            // Reset hidden and output node activation levels, ready for next activation.
-            // Note. this reset is performed here instead of after the below loop because this resets the output
-            // node values, which are the outputs of the network as a whole following activation; hence
-            // they need to be remain unchanged until they have been read by the caller of Activate().
+            // Reset hidden and output node activation levels.
+            // Notes.
+            // The reset is performed here because the activations memory may not be initialized/zeroed as it was
+            // obtained via ArrayPool.Rent(). Furthermore, the output node signals must maintain their values
+            // after exiting this method, to allow the caller to read the output signal values.
             activations.Slice(_inputCount).Clear();
 
             // Process all layers in turn.
@@ -214,12 +219,12 @@ namespace SharpNeat.NeuralNets.Double
             }
 
             // TODO: Use Unsafe performance tweaks (as above).
-            // Copy the output signals from _activationArr into _outputArr.
-            // These signals are scattered through _activationArr, and here we bring them together into a
+            // Copy the output signals from _activationMem into _outputMem.
+            // These signals are scattered through _activationMem, and here we bring them together into a
             // contiguous segment of memory that is indexable by output index.
             for(int i=0; i < _outputNodeIdxArr.Length; i++)
             {
-                _outputArr[i] = _activationArr[_outputNodeIdxArr[i]];
+                outputs[i] = activations[_outputNodeIdxArr[i]];
             }
         }
 
@@ -243,8 +248,7 @@ namespace SharpNeat.NeuralNets.Double
             if(!_isDisposed)
             {
                 _isDisposed = true;
-                ArrayPool<double>.Shared.Return(_activationArr);
-                ArrayPool<double>.Shared.Return(_outputArr);
+                ArrayPool<double>.Shared.Return(_workingArr);
             }
         }
 

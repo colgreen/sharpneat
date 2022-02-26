@@ -50,9 +50,10 @@ namespace SharpNeat.NeuralNets.Double
         // Activation function.
         readonly VecFn2<double> _activationFn;
 
-        // Node pre- and post-activation signal arrays.
-        readonly double[] _preActivationArr;
-        readonly double[] _postActivationArr;
+        // Node activation signals array, and two sub-segments representing pre and post activation signals, respectively.
+        readonly double[] _activationsArr;
+        readonly Memory<double> _preActivationMem;
+        readonly Memory<double> _postActivationMem;
 
         // Convenient counts.
         readonly int _inputCount;
@@ -111,15 +112,18 @@ namespace SharpNeat.NeuralNets.Double
             _outputCount = digraph.OutputCount;
             _totalNodeCount = digraph.TotalNodeCount;
 
-            // Get a working arrays for pre and post node activation signals.
-            _preActivationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
-            _postActivationArr = ArrayPool<double>.Shared.Rent(_totalNodeCount);
+            // Get a working array for both pre and post node activation signals, and map memory segments to pre
+            // and post signal segments.
+            // Rent an array that has length of at least _totalNodeCount * 2.
+            _activationsArr = ArrayPool<double>.Shared.Rent(_totalNodeCount << 1);
+            _preActivationMem = _activationsArr.AsMemory(0, _totalNodeCount);
+            _postActivationMem = _activationsArr.AsMemory(_totalNodeCount, _totalNodeCount);
 
-            // Map the input and output vectors to the corresponding segments of _postActivationArr.
-            this.Inputs = new Memory<double>(_postActivationArr, 0, _inputCount);
+            // Map the input and output vectors to the corresponding segments of _postActivationMem.
+            this.Inputs = _postActivationMem.Slice(0, _inputCount);
 
             // Note. Output neurons follow input neurons in the arrays.
-            this.Outputs = new Memory<double>(_postActivationArr, _inputCount, _outputCount);
+            this.Outputs = _postActivationMem.Slice(_inputCount, _outputCount);
         }
 
         #endregion
@@ -146,14 +150,14 @@ namespace SharpNeat.NeuralNets.Double
             ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
             ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
             ReadOnlySpan<double> weights = _weightArr.AsSpan();
-            Span<double> preActivations = _preActivationArr.AsSpan();
-            Span<double> postActivations = _postActivationArr.AsSpan();
+            Span<double> preActivations = _preActivationMem.Span;
+            Span<double> postActivations = _postActivationMem.Span;
 
             // Note. Here we skip over the activations corresponding to the input neurons, as these have no
             // incoming connections, and therefore have fixed post-activation values and are never activated.
             int nonInputCount = _totalNodeCount - _inputCount;
-            Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount, nonInputCount);
-            Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount, nonInputCount);
+            Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount);
+            Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount);
 
             ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
             ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
@@ -185,10 +189,7 @@ namespace SharpNeat.NeuralNets.Double
                     nonInputCount);
 
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
-                Array.Clear(
-                    _preActivationArr,
-                    _inputCount,
-                    nonInputCount);
+                preActivationsNonInputs.Clear();
             }
         }
 
@@ -199,9 +200,8 @@ namespace SharpNeat.NeuralNets.Double
         {
             // Reset the elements of _preActivationArray and _postActivationArr that represent the
             // output and hidden nodes.
-            int nonInputCount = _totalNodeCount - _inputCount;
-            Array.Clear(_preActivationArr, _inputCount, nonInputCount);
-            Array.Clear(_postActivationArr, _inputCount, nonInputCount);
+            _preActivationMem.Span.Slice(_inputCount).Clear();
+            _postActivationMem.Span.Slice(_inputCount).Clear();
         }
 
         #endregion
@@ -216,8 +216,7 @@ namespace SharpNeat.NeuralNets.Double
             if(!_isDisposed)
             {
                 _isDisposed = true;
-                ArrayPool<double>.Shared.Return(_preActivationArr);
-                ArrayPool<double>.Shared.Return(_postActivationArr);
+                ArrayPool<double>.Shared.Return(_activationsArr);
             }
         }
 

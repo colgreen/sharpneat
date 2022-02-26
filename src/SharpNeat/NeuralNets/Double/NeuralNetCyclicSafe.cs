@@ -134,8 +134,8 @@ namespace SharpNeat.NeuralNets.Double
             // Note. Here we skip over the activations corresponding to the input neurons, as these have no
             // incoming connections, and therefore have fixed post-activation values and are never activated.
             int nonInputCount = _preActivationArr.Length - _inputCount;
-            Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount, nonInputCount);
-            Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount, nonInputCount);
+            Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount);
+            Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount);
 
             // Activate the network for a fixed number of timesteps.
             for(int i=0; i < _cyclesPerActivation; i++)
@@ -159,10 +159,7 @@ namespace SharpNeat.NeuralNets.Double
                     nonInputCount);
 
                 // Reset the elements of _preActivationArray that represent the output and hidden nodes.
-                Array.Clear(
-                    _preActivationArr,
-                    _inputCount,
-                    nonInputCount);
+                preActivationsNonInputs.Clear();
             }
         }
 
