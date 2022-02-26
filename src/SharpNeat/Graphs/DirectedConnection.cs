@@ -15,7 +15,9 @@ namespace SharpNeat.Graphs;
 /// Represents a connection between two nodes. Used primarily as a key into a Dictionary that
 /// uniquely identifies connections by their end points.
 /// </summary>
-public readonly struct DirectedConnection : IEquatable<DirectedConnection>, IComparable<DirectedConnection>
+public readonly struct DirectedConnection
+    : IEquatable<DirectedConnection>,
+    IComparable<DirectedConnection>
 {
     #region Auto Properties
 
@@ -107,15 +109,7 @@ public readonly struct DirectedConnection : IEquatable<DirectedConnection>, ICom
     /// <returns>The current object's hash code.</returns>
     public override int GetHashCode()
     {
-        // TODO: Consider using HashCode.Combine() instead (or lift code from that method and use it directly here).
-        // Variant on FNV hash taken from: http://stackoverflow.com/a/263416/15703
-        unchecked
-        {
-            int v = (int)2166136261;
-            v = (v * 16777619) ^ SourceId;
-            v = (v * 16777619) ^ TargetId;
-            return v;
-        }
+        return HashCode.Combine(SourceId, TargetId);
     }
 
     /// <summary>
