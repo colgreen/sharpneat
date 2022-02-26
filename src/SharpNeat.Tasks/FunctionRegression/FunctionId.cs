@@ -10,17 +10,16 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Tasks.FunctionRegression
+namespace SharpNeat.Tasks.FunctionRegression;
+
+/// <summary>
+/// Enumeration of function IDs for the function regression task.
+/// </summary>
+public enum FunctionId
 {
-    /// <summary>
-    /// Enumeration of function IDs for the function regression task.
-    /// </summary>
-    public enum FunctionId
-    {
-        Abs,
-        Log,
-        Sin,
-        SinXSquared,
-        Waveform1
-    }
+    Abs,
+    Log,
+    Sin,
+    SinXSquared,
+    Waveform1
 }

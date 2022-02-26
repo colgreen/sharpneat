@@ -1,41 +1,40 @@
 ﻿using System;
 
-namespace SharpNeat.Tests
+namespace SharpNeat.Tests;
+
+public static class FuncTestUtils
 {
-    public static class FuncTestUtils
+    /// <summary>
+    /// Function monotonicity test.
+    /// </summary>
+    public static bool IsMonotonicIncreasing(Func<double,double> fn, double min, double max, double incr, bool strict)
     {
-        /// <summary>
-        /// Function monotonicity test.
-        /// </summary>
-        public static bool IsMonotonicIncreasing(Func<double,double> fn, double min, double max, double incr, bool strict)
+        double y_prev = fn(min);
+
+        if(strict)
         {
-            double y_prev = fn(min);
-
-            if(strict)
+            // Strictly monotonic test, i.e. must be increasing and not unchanged.
+            for(double x = min + incr; x <= max; x += incr)
             {
-                // Strictly monotonic test, i.e. must be increasing and not unchanged.
-                for(double x = min + incr; x <= max; x += incr)
-                {
-                    double y = fn(x);
-                    if(y <= y_prev)
-                        return false;
+                double y = fn(x);
+                if(y <= y_prev)
+                    return false;
 
-                    y_prev = y;
-                }
+                y_prev = y;
             }
-            else
-            {
-                for(double x = min + incr; x <= max; x += incr)
-                {
-                    double y = fn(x);
-                    if(y < y_prev)
-                        return false;
-
-                    y_prev = y;
-                }
-            }
-
-            return true;
         }
+        else
+        {
+            for(double x = min + incr; x <= max; x += incr)
+            {
+                double y = fn(x);
+                if(y < y_prev)
+                    return false;
+
+                y_prev = y;
+            }
+        }
+
+        return true;
     }
 }

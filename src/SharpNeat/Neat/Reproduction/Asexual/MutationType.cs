@@ -11,16 +11,15 @@
  */
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace SharpNeat.Neat.Reproduction.Asexual
+namespace SharpNeat.Neat.Reproduction.Asexual;
+
+/// <summary>
+/// Genome mutation types.
+/// </summary>
+public enum MutationType
 {
-    /// <summary>
-    /// Genome mutation types.
-    /// </summary>
-    public enum MutationType
-    {
-        ConnectionWeight = 0,
-        AddNode = 1,
-        AddConnection = 2,
-        DeleteConnection = 3
-    }
+    ConnectionWeight = 0,
+    AddNode = 1,
+    AddConnection = 2,
+    DeleteConnection = 3
 }

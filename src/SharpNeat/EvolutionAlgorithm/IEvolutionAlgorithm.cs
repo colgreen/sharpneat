@@ -10,26 +10,25 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.EvolutionAlgorithm
+namespace SharpNeat.EvolutionAlgorithm;
+
+/// <summary>
+/// Represents a generational evolution algorithm.
+/// </summary>
+public interface IEvolutionAlgorithm
 {
     /// <summary>
-    /// Represents a generational evolution algorithm.
+    /// Gets the current evolution algorithm statistics.
     /// </summary>
-    public interface IEvolutionAlgorithm
-    {
-        /// <summary>
-        /// Gets the current evolution algorithm statistics.
-        /// </summary>
-        EvolutionAlgorithmStatistics Stats { get; }
+    EvolutionAlgorithmStatistics Stats { get; }
 
-        /// <summary>
-        /// Initialise the evolutionary algorithm.
-        /// </summary>
-        void Initialise();
+    /// <summary>
+    /// Initialise the evolutionary algorithm.
+    /// </summary>
+    void Initialise();
 
-        /// <summary>
-        /// Perform one generation of the evolutionary algorithm.
-        /// </summary>
-        void PerformOneGeneration();
-    }
+    /// <summary>
+    /// Perform one generation of the evolutionary algorithm.
+    /// </summary>
+    void PerformOneGeneration();
 }

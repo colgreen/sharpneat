@@ -12,10 +12,9 @@
 
 using System.Collections.Generic;
 
-namespace SharpNeat.Windows.App.Experiments
+namespace SharpNeat.Windows.App.Experiments;
+
+public class ExperimentRegistry
 {
-    public class ExperimentRegistry
-    {
-        public List<ExperimentInfo> Experiments { get; set; }
-    }
+    public List<ExperimentInfo> Experiments { get; set; }
 }

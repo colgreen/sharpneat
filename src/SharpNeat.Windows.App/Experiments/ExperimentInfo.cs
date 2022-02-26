@@ -10,14 +10,13 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Windows.App.Experiments
+namespace SharpNeat.Windows.App.Experiments;
+
+public class ExperimentInfo
 {
-    public class ExperimentInfo
-    {
-        public string Name { get; set; }
-        public ExperimentFactoryInfo ExperimentFactory { get; set; }
-        public string ConfigFile { get; set; }
-        public string DescriptionFile { get; set; }
-        public ExperimentUIFactoryInfo ExperimentUIFactory { get; set; }
-    }
+    public string Name { get; set; }
+    public ExperimentFactoryInfo ExperimentFactory { get; set; }
+    public string ConfigFile { get; set; }
+    public string DescriptionFile { get; set; }
+    public ExperimentUIFactoryInfo ExperimentUIFactory { get; set; }
 }

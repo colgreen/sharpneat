@@ -1,9 +1,8 @@
 ﻿
-namespace EfficacySampler
+namespace EfficacySampler;
+
+public enum StopConditionType
 {
-    public enum StopConditionType
-    {
-        ElapsedClockTime,
-        GenerationCount
-    }
+    ElapsedClockTime,
+    GenerationCount
 }

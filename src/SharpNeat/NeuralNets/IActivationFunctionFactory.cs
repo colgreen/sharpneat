@@ -10,19 +10,18 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.NeuralNets
+namespace SharpNeat.NeuralNets;
+
+/// <summary>
+/// Represents a factory for obtaining instances of <see cref="IActivationFunction{T}"/>.
+/// </summary>
+/// <typeparam name="T">Neural net numeric data type.</typeparam>
+public interface IActivationFunctionFactory<T> where T : struct
 {
     /// <summary>
-    /// Represents a factory for obtaining instances of <see cref="IActivationFunction{T}"/>.
+    /// Get an activation function instance for the given activation function name/ID.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
-    public interface IActivationFunctionFactory<T> where T : struct
-    {
-        /// <summary>
-        /// Get an activation function instance for the given activation function name/ID.
-        /// </summary>
-        /// <param name="name">Activation function name/ID.</param>
-        /// <returns>An instance of <see cref="IActivationFunction{T}"/>.</returns>
-        IActivationFunction<T> GetActivationFunction(string name);
-    }
+    /// <param name="name">Activation function name/ID.</param>
+    /// <returns>An instance of <see cref="IActivationFunction{T}"/>.</returns>
+    IActivationFunction<T> GetActivationFunction(string name);
 }

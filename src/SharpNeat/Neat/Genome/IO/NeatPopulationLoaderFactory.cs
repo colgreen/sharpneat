@@ -10,23 +10,22 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Neat.Genome.IO
+namespace SharpNeat.Neat.Genome.IO;
+
+/// <summary>
+/// <see cref="NeatPopulationLoader{Double}"/> factory.
+/// </summary>
+public static class NeatPopulationLoaderFactory
 {
     /// <summary>
-    /// <see cref="NeatPopulationLoader{Double}"/> factory.
+    /// Create a new instance of <see cref="NeatPopulationLoader{Double}"/>.
     /// </summary>
-    public static class NeatPopulationLoaderFactory
+    /// <param name="metaNeatGenome">Meta neat genome.</param>
+    /// <returns>A new instance of <see cref="NeatPopulationLoader{Double}"/>.</returns>
+    public static NeatPopulationLoader<double> CreateLoaderDouble(
+        MetaNeatGenome<double> metaNeatGenome)
     {
-        /// <summary>
-        /// Create a new instance of <see cref="NeatPopulationLoader{Double}"/>.
-        /// </summary>
-        /// <param name="metaNeatGenome">Meta neat genome.</param>
-        /// <returns>A new instance of <see cref="NeatPopulationLoader{Double}"/>.</returns>
-        public static NeatPopulationLoader<double> CreateLoaderDouble(
-            MetaNeatGenome<double> metaNeatGenome)
-        {
-            NeatGenomeLoader<double> genomeLoader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-            return new NeatPopulationLoader<double>(genomeLoader);
-        }
+        NeatGenomeLoader<double> genomeLoader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
+        return new NeatPopulationLoader<double>(genomeLoader);
     }
 }

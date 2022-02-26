@@ -11,30 +11,29 @@
  */
 using SharpNeat.EvolutionAlgorithm;
 
-namespace SharpNeat.Neat
+namespace SharpNeat.Neat;
+
+/// <summary>
+/// NeatPopulation statistics.
+/// </summary>
+public class NeatPopulationStatistics : PopulationStatistics
 {
+    #region Auto Properties [NeatPopulation Statistics]
+
     /// <summary>
-    /// NeatPopulation statistics.
+    /// Index of the species that the best genome is within.
     /// </summary>
-    public class NeatPopulationStatistics : PopulationStatistics
-    {
-        #region Auto Properties [NeatPopulation Statistics]
+    public int BestGenomeSpeciesIdx { get; set; }
 
-        /// <summary>
-        /// Index of the species that the best genome is within.
-        /// </summary>
-        public int BestGenomeSpeciesIdx { get; set; }
+    /// <summary>
+    /// Sum of species fitness means.
+    /// </summary>
+    public double SumSpeciesMeanFitness { get; set; }
 
-        /// <summary>
-        /// Sum of species fitness means.
-        /// </summary>
-        public double SumSpeciesMeanFitness { get; set; }
+    /// <summary>
+    /// The average (mean) fitness calculated over all species' best/champ genomes.
+    /// </summary>
+    public double AverageSpeciesBestFitness { get; set; }
 
-        /// <summary>
-        /// The average (mean) fitness calculated over all species' best/champ genomes.
-        /// </summary>
-        public double AverageSpeciesBestFitness { get; set; }
-
-        #endregion
-    }
+    #endregion
 }

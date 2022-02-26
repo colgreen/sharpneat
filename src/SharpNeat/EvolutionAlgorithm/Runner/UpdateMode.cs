@@ -10,24 +10,23 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.EvolutionAlgorithm.Runner
+namespace SharpNeat.EvolutionAlgorithm.Runner;
+
+/// <summary>
+/// Evolution algorithm update event modes.
+/// </summary>
+public enum UpdateMode
 {
     /// <summary>
-    /// Evolution algorithm update event modes.
+    /// Do not generate any update events.
     /// </summary>
-    public enum UpdateMode
-    {
-        /// <summary>
-        /// Do not generate any update events.
-        /// </summary>
-        None,
-        /// <summary>
-        /// Generate an update event at regular time intervals.
-        /// </summary>
-        Timespan,
-        /// <summary>
-        /// Generate an update event at regular generation intervals. (Every N generations).
-        /// </summary>
-        Generational
-    }
+    None,
+    /// <summary>
+    /// Generate an update event at regular time intervals.
+    /// </summary>
+    Timespan,
+    /// <summary>
+    /// Generate an update event at regular generation intervals. (Every N generations).
+    /// </summary>
+    Generational
 }

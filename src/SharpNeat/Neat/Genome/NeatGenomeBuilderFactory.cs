@@ -10,35 +10,34 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-namespace SharpNeat.Neat.Genome
+namespace SharpNeat.Neat.Genome;
+
+/// <summary>
+/// Static factory class for creating instances of <see cref="INeatGenomeBuilder{T}"/>.
+/// </summary>
+/// <typeparam name="T">Neural net numeric data type.</typeparam>
+public static class NeatGenomeBuilderFactory<T>
+    where T : struct
 {
     /// <summary>
-    /// Static factory class for creating instances of <see cref="INeatGenomeBuilder{T}"/>.
+    /// Create a new instance of <see cref="INeatGenomeBuilder{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
-    public static class NeatGenomeBuilderFactory<T>
-        where T : struct
+    /// <param name="metaNeatGenome">Neat genome metadata.</param>
+    /// <param name="validateAcyclic">Enable acyclic graph validation.</param>
+    /// <returns>A new instance of <see cref="INeatGenomeBuilder{T}"/>.</returns>
+    /// <remarks>
+    /// If the caller can guarantee that calls to Create() will provide acyclic graphs only when metaNeatGenome.IsAcyclic is true, then
+    /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
+    /// </remarks>
+    public static INeatGenomeBuilder<T> Create(
+        MetaNeatGenome<T> metaNeatGenome,
+        bool validateAcyclic = false)
     {
-        /// <summary>
-        /// Create a new instance of <see cref="INeatGenomeBuilder{T}"/>.
-        /// </summary>
-        /// <param name="metaNeatGenome">Neat genome metadata.</param>
-        /// <param name="validateAcyclic">Enable acyclic graph validation.</param>
-        /// <returns>A new instance of <see cref="INeatGenomeBuilder{T}"/>.</returns>
-        /// <remarks>
-        /// If the caller can guarantee that calls to Create() will provide acyclic graphs only when metaNeatGenome.IsAcyclic is true, then
-        /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
-        /// </remarks>
-        public static INeatGenomeBuilder<T> Create(
-            MetaNeatGenome<T> metaNeatGenome,
-            bool validateAcyclic = false)
+        if(metaNeatGenome.IsAcyclic)
         {
-            if(metaNeatGenome.IsAcyclic)
-            {
-                return new NeatGenomeBuilderAcyclic<T>(metaNeatGenome, validateAcyclic);
-            }
-            // else
-            return new NeatGenomeBuilderCyclic<T>(metaNeatGenome);
+            return new NeatGenomeBuilderAcyclic<T>(metaNeatGenome, validateAcyclic);
         }
+        // else
+        return new NeatGenomeBuilderCyclic<T>(metaNeatGenome);
     }
 }

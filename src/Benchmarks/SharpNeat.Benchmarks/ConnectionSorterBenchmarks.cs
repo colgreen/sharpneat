@@ -4,113 +4,112 @@ using BenchmarkDotNet.Engines;
 using Redzen.Random;
 using SharpNeat.Graphs;
 
-namespace SharpNeat.Benchmarks
+namespace SharpNeat.Benchmarks;
+
+[SimpleJob(RunStrategy.Monitoring)]
+[MemoryDiagnoser]
+public class ConnectionSorterBenchmarks
 {
-    [SimpleJob(RunStrategy.Monitoring)]
-    [MemoryDiagnoser]
-    public class ConnectionSorterBenchmarks
+    readonly Xoshiro256StarStarRandom _rng = new(123);
+    ConnectionData[] _dataArr;
+
+    public ConnectionSorterBenchmarks()
     {
-        readonly Xoshiro256StarStarRandom _rng = new(123);
-        ConnectionData[] _dataArr;
+        InitCold(1000, 4000);
+    }
 
-        public ConnectionSorterBenchmarks()
+    #region Public Methods
+
+    [IterationSetup(Target = nameof(ConnectionSorterV1Benchmark))]
+    public void ConnectionSorterV1_Init()
+    {
+        InitWarm();
+    }
+
+    [IterationSetup(Target = nameof(ConnectionSorterBenchmark))]
+    public void ConnectionSorter_Init()
+    {
+        InitWarm();
+    }
+
+    [Benchmark]
+    public void ConnectionSorterV1Benchmark()
+    {
+        for(int i = 0; i < _dataArr.Length; i++)
         {
-            InitCold(1000, 4000);
+            ConnectionData connData = _dataArr[i];
+            ConnectionSorterV1.Sort(connData._connIds, connData._weightArr);
         }
+    }
 
-        #region Public Methods
-
-        [IterationSetup(Target = nameof(ConnectionSorterV1Benchmark))]
-        public void ConnectionSorterV1_Init()
+    [Benchmark]
+    public void ConnectionSorterBenchmark()
+    {
+        for(int i = 0; i < _dataArr.Length; i++)
         {
-            InitWarm();
+            ConnectionData connData = _dataArr[i];
+            ConnectionSorter<double>.Sort(connData._connIds, connData._weightArr);
         }
+    }
 
-        [IterationSetup(Target = nameof(ConnectionSorterBenchmark))]
-        public void ConnectionSorter_Init()
-        {
-            InitWarm();
-        }
+    #endregion
 
-        [Benchmark]
-        public void ConnectionSorterV1Benchmark()
+    #region Private Methods
+
+    private void InitCold(int count, int length)
+    {
+        _dataArr = new ConnectionData[count];
+        for(int i=0; i < count; i++)
         {
-            for(int i = 0; i < _dataArr.Length; i++)
+            ConnectionData connData = new()
             {
-                ConnectionData connData = _dataArr[i];
-                ConnectionSorterV1.Sort(connData._connIds, connData._weightArr);
-            }
-        }
+                _connIds = new ConnectionIds(length),
+                _weightArr = CreateRandomDoubleArray(length)
+            };
 
-        [Benchmark]
-        public void ConnectionSorterBenchmark()
+            InitRandomInt32Array(connData._connIds.GetSourceIdSpan());
+            InitRandomInt32Array(connData._connIds.GetTargetIdSpan());
+            _dataArr[i] = connData;
+        }
+    }
+
+    private void InitWarm()
+    {
+        for(int i=0; i < _dataArr.Length; i++)
         {
-            for(int i = 0; i < _dataArr.Length; i++)
-            {
-                ConnectionData connData = _dataArr[i];
-                ConnectionSorter<double>.Sort(connData._connIds, connData._weightArr);
-            }
+            ConnectionData connData = _dataArr[i];
+            InitRandomInt32Array(connData._connIds.GetSourceIdSpan());
+            InitRandomInt32Array(connData._connIds.GetTargetIdSpan());
+            InitRandomDoubleArray(connData._weightArr);
         }
+    }
 
-        #endregion
+    private double[] CreateRandomDoubleArray(int length)
+    {
+        double[] arr = new double[length];
+        for(int i=0; i < length; i++)
+            arr[i] = _rng.NextDouble();
 
-        #region Private Methods
+        return arr;
+    }
 
-        private void InitCold(int count, int length)
-        {
-            _dataArr = new ConnectionData[count];
-            for(int i=0; i < count; i++)
-            {
-                ConnectionData connData = new()
-                {
-                    _connIds = new ConnectionIds(length),
-                    _weightArr = CreateRandomDoubleArray(length)
-                };
+    private void InitRandomInt32Array(Span<int> span)
+    {
+        for(int i=0; i < span.Length; i++)
+            span[i] = _rng.Next();
+    }
 
-                InitRandomInt32Array(connData._connIds.GetSourceIdSpan());
-                InitRandomInt32Array(connData._connIds.GetTargetIdSpan());
-                _dataArr[i] = connData;
-            }
-        }
+    private void InitRandomDoubleArray(double[] arr)
+    {
+        for(int i=0; i < arr.Length; i++)
+            arr[i] = _rng.NextDouble();
+    }
 
-        private void InitWarm()
-        {
-            for(int i=0; i < _dataArr.Length; i++)
-            {
-                ConnectionData connData = _dataArr[i];
-                InitRandomInt32Array(connData._connIds.GetSourceIdSpan());
-                InitRandomInt32Array(connData._connIds.GetTargetIdSpan());
-                InitRandomDoubleArray(connData._weightArr);
-            }
-        }
+    #endregion
 
-        private double[] CreateRandomDoubleArray(int length)
-        {
-            double[] arr = new double[length];
-            for(int i=0; i < length; i++)
-                arr[i] = _rng.NextDouble();
-
-            return arr;
-        }
-
-        private void InitRandomInt32Array(Span<int> span)
-        {
-            for(int i=0; i < span.Length; i++)
-                span[i] = _rng.Next();
-        }
-
-        private void InitRandomDoubleArray(double[] arr)
-        {
-            for(int i=0; i < arr.Length; i++)
-                arr[i] = _rng.NextDouble();
-        }
-
-        #endregion
-
-        private class ConnectionData
-        {
-            public ConnectionIds _connIds;
-            public double[] _weightArr;
-        }
+    private class ConnectionData
+    {
+        public ConnectionIds _connIds;
+        public double[] _weightArr;
     }
 }

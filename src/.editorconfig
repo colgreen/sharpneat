@@ -1,5 +1,13 @@
 ﻿[*.cs]
 
+# Organize usings 
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+csharp_style_namespace_declarations=file_scoped:suggestion
+csharp_space_around_binary_operators = ignore
+csharp_space_around_declaration_statements = ignore
+
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = none
 

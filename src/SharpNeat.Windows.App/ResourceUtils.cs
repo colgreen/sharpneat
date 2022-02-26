@@ -13,28 +13,27 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 
-namespace SharpNeat.Windows.App
-{
-    internal static class ResourceUtils
-    {
-        public static string ReadStringResource(string name)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using(Stream inputStream = assembly.GetManifestResourceStream(name))
-            using(var sr = new StreamReader(inputStream))
-            {
-                return sr.ReadToEnd();
-            }
-        }
+namespace SharpNeat.Windows.App;
 
-        public static Bitmap ReadBitmapResource(string name)
+internal static class ResourceUtils
+{
+    public static string ReadStringResource(string name)
+    {
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        using(Stream inputStream = assembly.GetManifestResourceStream(name))
+        using(var sr = new StreamReader(inputStream))
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using(Stream inputStream = assembly.GetManifestResourceStream(name))
-            using(var sr = new StreamReader(inputStream))
-            {
-                return new Bitmap(inputStream);
-            }
+            return sr.ReadToEnd();
+        }
+    }
+
+    public static Bitmap ReadBitmapResource(string name)
+    {
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        using(Stream inputStream = assembly.GetManifestResourceStream(name))
+        using(var sr = new StreamReader(inputStream))
+        {
+            return new Bitmap(inputStream);
         }
     }
 }
