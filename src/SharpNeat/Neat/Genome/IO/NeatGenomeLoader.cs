@@ -96,7 +96,7 @@ public sealed class NeatGenomeLoader<T> where T : struct
     /// <returns>The loaded genome.</returns>
     public NeatGenome<T> Load(string path)
     {
-        if(path is null) throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path);
 
         using var sr = new StreamReader(path);
         return Load(sr);
@@ -110,7 +110,7 @@ public sealed class NeatGenomeLoader<T> where T : struct
     /// <remarks>This method does not close the Stream.</remarks>
     public NeatGenome<T> Load(Stream stream)
     {
-        if(stream is null) throw new ArgumentNullException(nameof(stream));
+        ArgumentNullException.ThrowIfNull(stream);
 
         using var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, true);
         return Load(sr);
@@ -124,7 +124,7 @@ public sealed class NeatGenomeLoader<T> where T : struct
     /// <remarks>This method does not close the StreamReader.</remarks>
     public NeatGenome<T> Load(StreamReader sr)
     {
-        if(sr is null) throw new ArgumentNullException(nameof(sr));
+        ArgumentNullException.ThrowIfNull(sr);
 
 #if DEBUG
         // Check for attempts to re-enter this method.

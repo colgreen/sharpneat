@@ -42,8 +42,8 @@ public static class NeatPopulationSaver<T> where T : struct
         string parentPath,
         string name)
     {
-        if(parentPath is null) throw new ArgumentNullException(nameof(parentPath));
-        if(name is null) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(parentPath);
+        ArgumentNullException.ThrowIfNull(name);
 
         // Check if the specified parent folder exists.
         if(!Directory.Exists(parentPath))
@@ -82,8 +82,8 @@ public static class NeatPopulationSaver<T> where T : struct
         string name,
         CompressionLevel compressionLevel)
     {
-        if(parentPath is null) throw new ArgumentNullException(nameof(parentPath));
-        if(name is null) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(parentPath);
+        ArgumentNullException.ThrowIfNull(name);
 
         // Check if the specified parent folder exists.
         if(!Directory.Exists(parentPath))

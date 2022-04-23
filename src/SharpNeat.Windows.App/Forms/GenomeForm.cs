@@ -28,7 +28,7 @@ public partial class GenomeForm : Form
     /// </summary>
     public GenomeForm(string title, GenomeControl genomeCtrl)
     {
-        if(genomeCtrl is null) throw new ArgumentNullException(nameof(genomeCtrl));
+        ArgumentNullException.ThrowIfNull(genomeCtrl);
 
         this.genomeCtrl = genomeCtrl;
 
