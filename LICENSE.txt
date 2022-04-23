@@ -1,6 +1,8 @@
-The MIT License (MIT)
+SharpNEAT - Evolution of Neural Networks.
 
-Copyright (c) 2020 Colin D. Green
+Copyright 2004-2022 Colin D. Green (colin.green1@gmail.com)
+
+This software is issued under the MIT License.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
+// See LICENSE.txt for details.
+using System.Collections;
 using System.ComponentModel;
 using Redzen.Structures;
 
 namespace SharpNeat.Windows.App;
 
 /// <summary>
-/// Logging control. The log4net subsystem is configured to patch log message through to this class'
+/// Logging control. The log4net subsystem is configured to pass log message through to this class'
 /// static Log() method. Log messages are held in a circular buffer and are displayed in a referenced
 /// GUI ListBox.
 /// </summary>

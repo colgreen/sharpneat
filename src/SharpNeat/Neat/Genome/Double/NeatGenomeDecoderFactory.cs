@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
+// See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 
