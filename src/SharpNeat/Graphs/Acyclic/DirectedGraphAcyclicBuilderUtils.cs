@@ -98,10 +98,10 @@ internal static class DirectedGraphAcyclicBuilderUtils
         // here we use this to create connectionIndexMap.
         ConnectionSorter<int>.Sort(connIds, connectionIndexMap);
 
-        // Make a copy of the sub-range of newIdMap that represents the output nodes.
+        // Make a copy of the sub-range of newIdByOldId that represents the output nodes.
         // This is required later to be able to locate the output nodes now that they have been sorted by depth.
         int[] outputNodeIdxArr = new int[outputCount];
-        Array.Copy(newIdByOldId, inputCount, outputNodeIdxArr, 0, outputCount);
+        newIdByOldId.AsSpan(inputCount, outputCount).CopyTo(outputNodeIdxArr);
 
         // Create an array of LayerInfo(s).
         // Each LayerInfo contains the index + 1 of both the last node and last connection in that layer.
