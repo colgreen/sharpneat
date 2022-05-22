@@ -13,7 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="SystemInfoLibrary" Version="1.4.3" />
   </ItemGroup>
 
