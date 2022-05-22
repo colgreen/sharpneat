@@ -1,5 +1,4 @@
-﻿using SharpNeat.BlackBox;
-using Xunit;
+﻿using Xunit;
 
 namespace SharpNeat.Tests;
 
