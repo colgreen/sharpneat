@@ -85,4 +85,13 @@
     <EmbeddedResource Include="Resources\sharpneat_banner.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="MainForm.MiscUiEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainForm.ButtonEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
