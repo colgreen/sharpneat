@@ -5,15 +5,6 @@ namespace SharpNeat.Tests;
 
 public static class ArrayTestUtils
 {
-    public static void ConponentwiseEqual(int[] expectedArr, IVector<int> vec)
-    {
-        Assert.Equal(expectedArr.Length, vec.Length);
-        for(int i=0; i < expectedArr.Length; i++)
-        {
-            Assert.Equal(expectedArr[i], vec[i]);
-        }
-    }
-
     public static void ConponentwiseEqual<T>(T[] expectedArr, T[] actualArr, int startIdx, int endIdx)
     {
         for(int i = startIdx; i < endIdx; i++)
