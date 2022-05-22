@@ -21,9 +21,9 @@ internal class MockPreyCaptureAgent : IBlackBox<double>
 
     #region IBlackBox
 
-    public int InputCount => 14;
+    public static int InputCount => 14;
 
-    public int OutputCount => 4;
+    public static int OutputCount => 4;
 
     public Memory<double> Inputs { get; }
 

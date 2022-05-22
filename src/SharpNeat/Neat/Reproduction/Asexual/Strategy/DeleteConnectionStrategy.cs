@@ -100,8 +100,8 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
         DirectedConnection[] childConnArr)
     {
         // Determine which hidden nodes in the parent have been deleted, i.e. are not in the child.
-        (int?, int?) idTuple = GetDeletedNodeIds(parent, deleteIdx, childConnArr);
-        if(!idTuple.Item1.HasValue && !idTuple.Item2.HasValue)
+        (int? nodeId1, int? nodeId2) = GetDeletedNodeIds(parent, deleteIdx, childConnArr);
+        if(!nodeId1.HasValue && !nodeId2.HasValue)
         {
             // The connection deletion resulted in no hidden nodes being deleted, therefore we can re-use
             // the parent's hidden node ID array.
@@ -110,7 +110,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
 
         // Determine the length of the new ID array, and allocate memory.
         int childLen = parent.HiddenNodeIdArray.Length;
-        if(idTuple.Item1.HasValue && idTuple.Item2.HasValue)
+        if(nodeId1.HasValue && nodeId2.HasValue)
             childLen -= 2;
         else
             childLen--;
@@ -122,7 +122,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
         for(int parentIdx=0, childIdx=0; parentIdx < parentIdArr.Length; parentIdx++)
         {
             int nodeId = parentIdArr[parentIdx];
-            if(nodeId != idTuple.Item1 && nodeId != idTuple.Item2)
+            if(nodeId != nodeId1 && nodeId != nodeId2)
                 childIdArr[childIdx++] = parentIdArr[parentIdx];
         }
 
@@ -135,7 +135,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
     /// referring to a node then it has been deleted, with the exception of input and output nodes that
     /// always exist.
     /// </summary>
-    private static (int?, int?) GetDeletedNodeIds(
+    private static (int? nodeId1, int? nodeId2) GetDeletedNodeIds(
         NeatGenome<T> parent, int deleteIdx,
         DirectedConnection[] childConnArr)
     {
@@ -200,7 +200,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
     /// <summary>
     /// Are nodeId1 and nodeId2 connected to by any of the connections in connArr.
     /// </summary>
-    private static (bool, bool) AreNodesConnectedTo(DirectedConnection[] connArr, int nodeId1, int nodeId2)
+    private static (bool isNode1Connected, bool isNode2Connected) AreNodesConnectedTo(DirectedConnection[] connArr, int nodeId1, int nodeId2)
     {
         bool id1Used = false;
         bool id2Used = false;

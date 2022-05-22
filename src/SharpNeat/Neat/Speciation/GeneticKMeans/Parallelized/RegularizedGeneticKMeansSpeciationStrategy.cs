@@ -426,7 +426,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     /// </summary>
     private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
     {
-        SpinLock spinLock = new();
+        SpinLock spinLock = default;
         double maxDistance = 0.0;
 
         // Iterate through all combinations of species, except for pairs of the same species.

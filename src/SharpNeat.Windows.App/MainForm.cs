@@ -11,8 +11,6 @@ using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 
-#pragma warning disable IDE1006 // Naming Styles. Allow naming convention for Windows.Forms event handlers.
-
 namespace SharpNeat.Windows.App;
 
 /// <summary>

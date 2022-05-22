@@ -50,7 +50,7 @@ public sealed class NeatGenomeLoader<T> where T : struct
     /// <param name="tryParseWeight">Connection weight parse function.</param>
     public NeatGenomeLoader(
         MetaNeatGenome<T> metaNeatGenome,
-        Func<string, (T,bool)> tryParseWeight)
+        Func<string, (T weight, bool success)> tryParseWeight)
         : this(metaNeatGenome, tryParseWeight, 8)
     {
     }
@@ -63,7 +63,7 @@ public sealed class NeatGenomeLoader<T> where T : struct
     /// <param name="connectionCapacity">The initial connection count to use for connection lists.</param>
     public NeatGenomeLoader(
         MetaNeatGenome<T> metaNeatGenome,
-        Func<string, (T,bool)> tryParseWeight,
+        Func<string, (T weight, bool success)> tryParseWeight,
         int connectionCapacity)
     {
         _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));

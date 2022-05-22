@@ -64,27 +64,26 @@ public sealed class NeatPopulationLoader<T> where T : struct
         if(!File.Exists(path))
             throw new IOException($"File does not exist [{path}]");
 
-        using(ZipArchive zipArchive = ZipFile.OpenRead(path))
+        using ZipArchive zipArchive = ZipFile.OpenRead(path);
+
+        // Alloc genome list with an appropriate capacity.
+        List<NeatGenome<T>> genomeList = new(zipArchive.Entries.Count);
+
+        // Loop the genome file entries, loading each in turn.
+        foreach(ZipArchiveEntry zipEntry in zipArchive.Entries)
         {
-            // Alloc genome list with an appropriate capacity.
-            List<NeatGenome<T>> genomeList = new(zipArchive.Entries.Count);
+            // Skip non-genome files.
+            if(Path.GetExtension(zipEntry.Name) != ".genome")
+                continue;
 
-            // Loop the genome file entries, loading each in turn.
-            foreach(ZipArchiveEntry zipEntry in zipArchive.Entries)
+            using(Stream zipEntryStream = zipEntry.Open())
             {
-                // Skip non-genome files.
-                if(Path.GetExtension(zipEntry.Name) != ".genome")
-                    continue;
-
-                using(Stream zipEntryStream = zipEntry.Open())
-                {
-                    NeatGenome<T> genome = _genomeLoader.Load(zipEntryStream);
-                    genomeList.Add(genome);
-                }
+                NeatGenome<T> genome = _genomeLoader.Load(zipEntryStream);
+                genomeList.Add(genome);
             }
-
-            return genomeList;
         }
+
+        return genomeList;
     }
 
     #endregion

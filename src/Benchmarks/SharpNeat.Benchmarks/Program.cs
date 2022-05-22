@@ -5,7 +5,7 @@ namespace SharpNeat.Benchmarks;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
         //BenchmarkRunner.Run<NeuralNets.Double.ActivationFunctions.Benchmarks.ActivationFunctionsBenchmarks>();
         //BenchmarkRunner.Run<NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks.ActivationFunctionsBenchmarks>();

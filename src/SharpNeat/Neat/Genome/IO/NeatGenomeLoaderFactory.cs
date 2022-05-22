@@ -26,14 +26,14 @@ public static class NeatGenomeLoaderFactory
 
     #region Private Static Methods
 
-    private static (double,bool) TryParseWeight(string str)
+    private static (double weight, bool success) TryParseWeight(string str)
     {
-        (double, bool) result;
-        result.Item2 = double.TryParse(
+        (double weight, bool success) result;
+        result.success = double.TryParse(
             str,
             NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent,
             CultureInfo.InvariantCulture,
-            out result.Item1);
+            out result.weight);
 
         return result;
     }

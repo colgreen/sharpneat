@@ -216,6 +216,7 @@ public sealed class AcyclicGraphDepthAnalysis
         _traversalStack.Pop();
     }
 
+#pragma warning disable CA1822 // Mark members as static
     private void Cleanup()
     {
 #if DEBUG
@@ -223,6 +224,7 @@ public sealed class AcyclicGraphDepthAnalysis
         Interlocked.Exchange(ref _reentranceFlag, 0);
 #endif
     }
+#pragma warning restore CA1822 // Mark members as static
 
     #endregion
 

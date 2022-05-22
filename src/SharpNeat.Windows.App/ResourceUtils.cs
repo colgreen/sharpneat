@@ -9,20 +9,16 @@ internal static class ResourceUtils
     public static string ReadStringResource(string name)
     {
         Assembly assembly = Assembly.GetExecutingAssembly();
-        using(Stream inputStream = assembly.GetManifestResourceStream(name))
-        using(var sr = new StreamReader(inputStream))
-        {
-            return sr.ReadToEnd();
-        }
+        using Stream inputStream = assembly.GetManifestResourceStream(name);
+        using var sr = new StreamReader(inputStream);
+        return sr.ReadToEnd();
     }
 
     public static Bitmap ReadBitmapResource(string name)
     {
         Assembly assembly = Assembly.GetExecutingAssembly();
-        using(Stream inputStream = assembly.GetManifestResourceStream(name))
-        using(var sr = new StreamReader(inputStream))
-        {
-            return new Bitmap(inputStream);
-        }
+        using Stream inputStream = assembly.GetManifestResourceStream(name);
+        using var sr = new StreamReader(inputStream);
+        return new Bitmap(inputStream);
     }
 }

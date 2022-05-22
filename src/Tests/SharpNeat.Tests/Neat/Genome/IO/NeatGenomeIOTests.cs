@@ -26,19 +26,18 @@ public class NeatGenomeIOTests
         NeatGenome<double> genome = genomeBuilder.Create(0, 0, connGenes);
 
         // Create a memory stream to save the genome into.
-        using(MemoryStream ms = new(1024))
-        {
-            // Save the genome.
-            NeatGenomeSaver<double>.Save(genome, ms);
+        using MemoryStream ms = new(1024);
 
-            // Load the genome.
-            ms.Position = 0;
-            NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-            NeatGenome<double> genomeLoaded = loader.Load(ms);
+        // Save the genome.
+        NeatGenomeSaver<double>.Save(genome, ms);
 
-            // Compare the original genome with the loaded genome.
-            IOTestUtils.CompareGenomes(genome, genomeLoaded);
-        }
+        // Load the genome.
+        ms.Position = 0;
+        NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
+        NeatGenome<double> genomeLoaded = loader.Load(ms);
+
+        // Compare the original genome with the loaded genome.
+        IOTestUtils.CompareGenomes(genome, genomeLoaded);
     }
 
     #endregion
