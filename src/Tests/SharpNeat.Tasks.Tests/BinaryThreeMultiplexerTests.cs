@@ -1,4 +1,3 @@
-using SharpNeat.BlackBox;
 using SharpNeat.Evaluation;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;

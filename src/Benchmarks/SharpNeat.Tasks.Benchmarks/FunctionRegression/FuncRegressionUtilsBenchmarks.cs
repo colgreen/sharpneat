@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using SharpNeat.Tasks.FunctionRegression;
 
-namespace SharpNeatTasks.Benchmarks.FunctionRegression;
+namespace SharpNeat.Tasks.Benchmarks.FunctionRegression;
 
 public class FuncRegressionUtilsBenchmarks
 {

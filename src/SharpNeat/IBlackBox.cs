@@ -1,6 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.BlackBox;
+namespace SharpNeat;
 
 /// <summary>
 /// Represents an abstract 'black box' function, with and input vector, an Activate() method that takes

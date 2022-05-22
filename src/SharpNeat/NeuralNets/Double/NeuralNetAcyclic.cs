@@ -4,7 +4,6 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using SharpNeat.BlackBox;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 

@@ -1,6 +1,4 @@
-﻿using SharpNeat.BlackBox;
-
-namespace SharpNeat.Tasks.Tests.PreyCapture;
+﻿namespace SharpNeat.Tasks.Tests.PreyCapture;
 
 internal class MockPreyCaptureAgent : IBlackBox<double>
 {

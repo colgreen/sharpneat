@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
-using SharpNeatTasks.Benchmarks.FunctionRegression;
-using SharpNeatTasks.Benchmarks.PreyCapture;
+using SharpNeat.Tasks.Benchmarks.FunctionRegression;
+using SharpNeat.Tasks.Benchmarks.PreyCapture;
 
 namespace SharpNeatTasks.Benchmarks;
 
