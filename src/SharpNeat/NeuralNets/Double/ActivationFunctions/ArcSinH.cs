@@ -55,7 +55,8 @@ public sealed class ArcSinH : IActivationFunction<double>
     public void Fn(ReadOnlySpan<double> v, Span<double> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
-        Fn(ref MemoryMarshal.GetReference(v),
+        Fn(
+            ref MemoryMarshal.GetReference(v),
             ref MemoryMarshal.GetReference(w),
             v.Length);
     }

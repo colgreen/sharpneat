@@ -17,7 +17,7 @@ internal class UniformCrossoverReproductionStrategyUtils
     /// <param name="parent1">Parent 1.</param>
     /// <param name="parent2">Parent 2.</param>
     /// <returns>An enumerable over indexes into parent1 and parent2's connection genes.</returns>
-    public static IEnumerable<ValueTuple<int,int>> EnumerateParentGenes<T>(ConnectionGenes<T> parent1, ConnectionGenes<T> parent2)
+    public static IEnumerable<(int idx1, int idx2)> EnumerateParentGenes<T>(ConnectionGenes<T> parent1, ConnectionGenes<T> parent2)
         where T : struct
     {
         // Special case. Empty gene arrays.
@@ -30,7 +30,7 @@ internal class UniformCrossoverReproductionStrategyUtils
         if(parent1.Length == 0)
         {
             for(int i=0; i < parent2.Length; i++)
-                yield return ValueTuple.Create(-1, i);
+                yield return (-1, i);
 
             yield break;
         }
@@ -38,7 +38,7 @@ internal class UniformCrossoverReproductionStrategyUtils
         if(parent2.Length == 0)
         {
             for(int i=0; i < parent1.Length; i++)
-                yield return ValueTuple.Create(i, -1);
+                yield return (i, -1);
 
             yield break;
         }
@@ -55,7 +55,7 @@ internal class UniformCrossoverReproductionStrategyUtils
             if(conn2 < conn1)
             {
                 // conn2 is disjoint.
-                yield return ValueTuple.Create(-1, idx2);
+                yield return (-1, idx2);
 
                 // Move to the next element in idArr2.
                 idx2++;
@@ -63,7 +63,7 @@ internal class UniformCrossoverReproductionStrategyUtils
             else if(conn1 == conn2)
             {
                 // Matching connections.
-                yield return ValueTuple.Create(idx1, idx2);
+                yield return (idx1, idx2);
 
                 // Move to the next elements in idArr1, idArr2.
                 idx1++;
@@ -72,7 +72,7 @@ internal class UniformCrossoverReproductionStrategyUtils
             else // (id2 > id1)
             {
                 // id1 is disjoint.
-                yield return ValueTuple.Create(idx1, -1);
+                yield return (idx1, -1);
 
                 // Move to the next element in idArr1.
                 idx1++;
@@ -85,7 +85,7 @@ internal class UniformCrossoverReproductionStrategyUtils
             {
                 // All remaining list2 genes are excess.
                 for(; idx2 < parent2.Length; idx2++)
-                    yield return ValueTuple.Create(-1, idx2);
+                    yield return (-1, idx2);
 
                 yield break;
             }
@@ -94,7 +94,7 @@ internal class UniformCrossoverReproductionStrategyUtils
             {
                 // All remaining list1 genes are excess.
                 for(; idx1 < parent1.Length; idx1++)
-                    yield return ValueTuple.Create(idx1, -1);
+                    yield return (idx1, -1);
 
                 yield break;
             }

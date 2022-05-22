@@ -93,12 +93,12 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
         bool includeSecondaryParentGene = DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability);
 
         // Enumerate over the connection genes in both parents.
-        foreach(var geneIndexPair in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
+        foreach((int idx1, int idx2) in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
         {
             // Create a connection gene based on the current position in both parents.
             ConnectionGene<T>? connGene = CreateConnectionGene(
                 parent1.ConnectionGenes, parent2.ConnectionGenes,
-                geneIndexPair.Item1, geneIndexPair.Item2,
+                idx1, idx2,
                 includeSecondaryParentGene, rng);
 
             if(connGene.HasValue)
