@@ -14,13 +14,13 @@ public class NeatPopulationIOTests
         NeatPopulation<double> pop = NestGenomeTestUtils.CreateNeatPopulation();
 
         // Build path to test population folder.
-        string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
+        string parentPath = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "test-pops");
 
         // Delete folder if it already exists.
         if(Directory.Exists(parentPath))
-        {
             Directory.Delete(parentPath, true);
-        }
 
         // Create an empty parent folder to save populations into.
         Directory.CreateDirectory(parentPath);
@@ -44,19 +44,21 @@ public class NeatPopulationIOTests
         NeatPopulation<double> pop = NestGenomeTestUtils.CreateNeatPopulation();
 
         // Build path to test population folder.
-        string parentPath = Path.Combine(Directory.GetCurrentDirectory(), "test-pops");
+        string parentPath = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "test-pops");
 
         // Delete folder if it already exists.
         if(Directory.Exists(parentPath))
-        {
             Directory.Delete(parentPath, true);
-        }
 
         // Create an empty parent folder to save populations into.
         Directory.CreateDirectory(parentPath);
 
         // Save the population to the unit test output folder.
-        NeatPopulationSaver<double>.SaveToZipArchive(pop.GenomeList, parentPath, "pop2", System.IO.Compression.CompressionLevel.Optimal);
+        NeatPopulationSaver<double>.SaveToZipArchive(
+            pop.GenomeList, parentPath, "pop2",
+            System.IO.Compression.CompressionLevel.Optimal);
 
         // Load the population.
         NeatPopulationLoader<double> loader = NeatPopulationLoaderFactory.CreateLoaderDouble(pop.MetaNeatGenome);
