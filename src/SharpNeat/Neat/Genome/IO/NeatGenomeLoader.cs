@@ -148,7 +148,6 @@ public sealed class NeatGenomeLoader<T>
         // Read node counts.
         ReadInputOutputCounts(out int inputCount, out int outputCount);
         ReadEndOfSection();
-        ValidateNodeCounts(inputCount, outputCount);
 
         // Read connections.
         ReadConnections(out DirectedConnection[] connArr, out T[] weightArr);
@@ -158,10 +157,7 @@ public sealed class NeatGenomeLoader<T>
         // and a function code that specifies the function. Additional lines in the section are ignored.
         ReadActivationFunctions();
 
-        // Validate activation function(s).
-        ValidateActivationFunctions();
-
-        // Create a genome object and return.
+        // Create a genome object, and return it.
         var connGenes = new ConnectionGenes<T>(connArr, weightArr);
         return _genomeBuilder.Create(_genomeId++, 0, connGenes);
     }
@@ -194,9 +190,12 @@ public sealed class NeatGenomeLoader<T>
                 throw new IOException($"Invalid connection weight format. Line [{_lineIdx}].");
 
             // Further validation.
+            if(srcId < 0) throw new IOException($"Invalid connection source ID; negative node ID. Line [{_lineIdx}].");
+            if(tgtId < 0) throw new IOException($"Invalid connection target ID; negative node ID. Line [{_lineIdx}].");
+
             // A target ID should never refer to an input node.
             if(tgtId < _metaNeatGenome.InputNodeCount)
-                throw new IOException($"Invalid connection target ID. Refers to an input node. Line [{_lineIdx}].");
+                throw new IOException($"Invalid connection target ID; target cannot be an input node. Line [{_lineIdx}].");
 
             // Store the connection.
             _connList.Add(new DirectedConnection(srcId, tgtId));
@@ -211,6 +210,7 @@ public sealed class NeatGenomeLoader<T>
 
     private void ReadActivationFunctions()
     {
+        // Read activation function lines, until an empty line is reached.
         for(int expectedFnId = 0; ; expectedFnId++)
         {
             // Read a line.
@@ -234,6 +234,19 @@ public sealed class NeatGenomeLoader<T>
             string fnCode = fields[1];
             _actFnList.Add(new ActivationFunctionRow(fnId, fnCode));
         }
+
+        // Additional validation of the activation functions.
+        // Note. For NEAT, each node uses the same activation function, and this is defined on MetaNeatGenome.
+        // There must be at least one activation function defined.
+        if(_actFnList.Count == 0)
+            throw new IOException("No activation function defined for genome.");
+
+        // Test the code/name of the first defined activation function.
+        string actFnCode = _actFnList[0].Code;
+        if(string.CompareOrdinal(_activationFnName, actFnCode) != 0)
+            throw new IOException($"The activation function defined for the genome [{actFnCode}] does not match the expected activation function [{_activationFnName}]");
+
+        // Note. if more than one activation function is defined then all but the first are currently ignored.
     }
 
     private void Cleanup()
@@ -246,35 +259,6 @@ public sealed class NeatGenomeLoader<T>
         // Reset reentrancy test flag.
         Interlocked.Exchange(ref _reentranceFlag, 0);
 #endif
-    }
-
-    #endregion
-
-    #region Private Methods [Validation]
-
-    private void ValidateNodeCounts(
-        int inputCount, int outputCount)
-    {
-        // Validate node counts.
-        if(_metaNeatGenome.InputNodeCount != inputCount)
-            throw new IOException($"Incorrect input count. Line [{_lineIdx}].");
-
-        if(_metaNeatGenome.OutputNodeCount != outputCount)
-            throw new IOException($"Incorrect output count. Line [{_lineIdx}].");
-    }
-
-    private void ValidateActivationFunctions()
-    {
-        // For NEAT each node uses the same activation function, and this is defined on MetaNeatGenome.
-        if(_actFnList.Count == 0)
-            throw new IOException("No activation function defined for genome.");
-
-        // Test the code/name of the first defined activation function.
-        string actFnCode = _actFnList[0].Code;
-        if(string.CompareOrdinal(_activationFnName, actFnCode) != 0)
-            throw new IOException($"The activation function defined for the genome [{actFnCode}] does not match the expected activation function [{_activationFnName}]");
-
-        // Note. if more than on activation function is defined then the others are ignored.
     }
 
     #endregion
@@ -294,6 +278,13 @@ public sealed class NeatGenomeLoader<T>
 
         if(!TryParseInt32(fields[1], out outputCount))
             throw new IOException($"Invalid output count. Line [{_lineIdx}].");
+
+        // Validate node counts.
+        if(inputCount != _metaNeatGenome.InputNodeCount)
+            throw new IOException($"Incorrect input count. Line [{_lineIdx}].");
+
+        if(outputCount != _metaNeatGenome.OutputNodeCount)
+            throw new IOException($"Incorrect output count. Line [{_lineIdx}].");
     }
 
     private void ReadEndOfSection()
