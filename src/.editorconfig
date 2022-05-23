@@ -4,13 +4,12 @@
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
-csharp_style_namespace_declarations=file_scoped:suggestion
+csharp_style_namespace_declarations = file_scoped:suggestion
 csharp_space_around_binary_operators = ignore
 csharp_space_around_declaration_statements = ignore
 
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = none
-
 
 # This is disabled because we use Slice extensively and the suggested simplification results in different IL/asm that is slower to execute (https://github.com/dotnet/roslyn/issues/47629)
 dotnet_diagnostic.IDE0057.severity = none   # IDE0057: Slice can be simplified.
@@ -31,7 +30,6 @@ dotnet_diagnostic.SA1117.severity = none    # SA1117: Parameters should be on sa
 dotnet_diagnostic.SA1119.severity = none    # SA1119: Statement should not use unnecessary parenthesis
 dotnet_diagnostic.SA1121.severity = none    # SA1121: Use built-in type alias
 dotnet_diagnostic.SA1124.severity = none    # SA1124: Do not use regions
-dotnet_diagnostic.SA1128.severity = none    # SA1128: Put constructor initializers on their own line
 dotnet_diagnostic.SA1132.severity = none    # SA1132: Do not combine fields
 dotnet_diagnostic.SA1200.severity = none    # SA1200: Using directives should be placed correctly
 dotnet_diagnostic.SA1201.severity = none    # SA1201: Elements should appear in the correct order

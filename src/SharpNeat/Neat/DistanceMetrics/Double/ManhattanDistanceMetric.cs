@@ -56,7 +56,8 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     /// Constructs using default weightings for comparisons on matching and mismatching dimensions.
     /// Classical Manhattan Distance.
     /// </summary>
-    public ManhattanDistanceMetric() : this(1.0, 1.0, 0.0)
+    public ManhattanDistanceMetric()
+        : this(1.0, 1.0, 0.0)
     {
     }
 
