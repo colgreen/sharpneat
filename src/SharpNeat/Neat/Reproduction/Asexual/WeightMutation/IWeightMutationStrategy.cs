@@ -8,7 +8,8 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// A connection weight mutation strategy.
 /// </summary>
 /// <typeparam name="T">Connection weight data type.</typeparam>
-public interface IWeightMutationStrategy<T> where T : struct
+public interface IWeightMutationStrategy<T>
+    where T : struct
 {
     /// <summary>
     /// Invoke the strategy.

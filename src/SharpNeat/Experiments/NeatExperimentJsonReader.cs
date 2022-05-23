@@ -13,7 +13,8 @@ namespace SharpNeat.Experiments;
 /// Static utility methods for reading property settings of <see cref="NeatExperiment{T}"/> from json.
 /// </summary>
 /// <typeparam name="T">Black box numeric data type.</typeparam>
-public static class NeatExperimentJsonReader<T> where T : struct
+public static class NeatExperimentJsonReader<T>
+    where T : struct
 {
     #region Public Static Methods
 

@@ -6,7 +6,8 @@ namespace SharpNeat.NeuralNets;
 /// Represents a factory for obtaining instances of <see cref="IActivationFunction{T}"/>.
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
-public interface IActivationFunctionFactory<T> where T : struct
+public interface IActivationFunctionFactory<T>
+    where T : struct
 {
     /// <summary>
     /// Get an activation function instance for the given activation function name/ID.

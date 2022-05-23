@@ -8,7 +8,8 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 /// Represents a single connection gene.
 /// </summary>
 /// <typeparam name="T">Connection weight numeric data type.</typeparam>
-internal readonly struct ConnectionGene<T> where T : struct
+internal readonly struct ConnectionGene<T>
+    where T : struct
 {
     /// <summary>
     /// The source and target node IDs.

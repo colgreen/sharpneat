@@ -12,7 +12,8 @@ namespace SharpNeat.Experiments;
 /// An interface that brings together a number of settings objects that make up a given experiment.
 /// </summary>
 /// <typeparam name="T">Black box numeric data type.</typeparam>
-public interface INeatExperiment<T> where T : struct
+public interface INeatExperiment<T>
+    where T : struct
 {
     /// <summary>
     /// Matches <see cref="INeatExperimentFactory.Id"/> from the experiment factory that created the current experiment instance.

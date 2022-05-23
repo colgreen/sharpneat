@@ -31,7 +31,6 @@ dotnet_diagnostic.SA1117.severity = none    # SA1117: Parameters should be on sa
 dotnet_diagnostic.SA1119.severity = none    # SA1119: Statement should not use unnecessary parenthesis
 dotnet_diagnostic.SA1121.severity = none    # SA1121: Use built-in type alias
 dotnet_diagnostic.SA1124.severity = none    # SA1124: Do not use regions
-dotnet_diagnostic.SA1127.severity = none    # SA1127: Generic type constraints should be on their own line
 dotnet_diagnostic.SA1128.severity = none    # SA1128: Put constructor initializers on their own line
 dotnet_diagnostic.SA1132.severity = none    # SA1132: Do not combine fields
 dotnet_diagnostic.SA1200.severity = none    # SA1200: Using directives should be placed correctly

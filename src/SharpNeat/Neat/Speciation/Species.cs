@@ -9,7 +9,8 @@ namespace SharpNeat.Neat.Speciation;
 /// Represents a NEAT species.
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class Species<T> where T : struct
+public class Species<T>
+    where T : struct
 {
     #region Auto Properties
 

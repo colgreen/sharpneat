@@ -14,7 +14,8 @@ namespace SharpNeat.Neat;
 /// Static method(s) for calculating species target size allocations.
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal static class SpeciesAllocationCalcs<T> where T : struct
+internal static class SpeciesAllocationCalcs<T>
+    where T : struct
 {
     #region Public Static Methods
 

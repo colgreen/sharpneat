@@ -9,7 +9,8 @@ namespace SharpNeat.Neat.Genome;
 /// Genome related values/settings that are consistent across all genomes for the lifetime of an evolutionary algorithm run.
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class MetaNeatGenome<T> where T : struct
+public class MetaNeatGenome<T>
+    where T : struct
 {
     #region Auto Properties
 

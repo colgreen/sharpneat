@@ -13,7 +13,8 @@ namespace SharpNeat.Neat.Genome.IO;
 /// zip archive file.
 /// </remarks>
 /// <typeparam name="T">Connection weight data type.</typeparam>
-public static class NeatPopulationSaver<T> where T : struct
+public static class NeatPopulationSaver<T>
+    where T : struct
 {
     #region Public Static Methods
 

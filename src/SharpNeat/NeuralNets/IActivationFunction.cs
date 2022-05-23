@@ -26,7 +26,8 @@ public delegate void VecFn2<T>(ref T vref, ref T wref, int len)
 /// Represents a node/neuron activation function.
 /// </summary>
 /// <typeparam name="T">Activation function numeric data type.</typeparam>
-public interface IActivationFunction<T> where T : struct
+public interface IActivationFunction<T>
+    where T : struct
 {
     /// <summary>
     /// The activation function; scalar implementation, accepting a single variable reference.

@@ -14,7 +14,8 @@ namespace SharpNeat.Neat;
 /// Factory class for creating new instances of <see cref="NeatPopulationFactory{T}"/>.
 /// </summary>
 /// <typeparam name="T">Connection weight data type.</typeparam>
-public class NeatPopulationFactory<T> where T : struct
+public class NeatPopulationFactory<T>
+    where T : struct
 {
     #region Instance Fields
 

@@ -9,7 +9,8 @@ namespace SharpNeat.EvolutionAlgorithm;
 /// A population of genomes.
 /// </summary>
 /// <typeparam name="TGenome">Genome type.</typeparam>
-public abstract class Population<TGenome> where TGenome : IGenome
+public abstract class Population<TGenome>
+    where TGenome : IGenome
 {
     #region Auto Properties
 

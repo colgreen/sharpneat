@@ -18,7 +18,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// For creating new offspring genomes, from one or two parents selected stochastically from a population.
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal sealed class OffspringBuilder<T> where T : struct
+internal sealed class OffspringBuilder<T>
+    where T : struct
 {
     #region Instance Fields
 
