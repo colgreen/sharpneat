@@ -3,7 +3,7 @@
 namespace SharpNeat;
 
 /// <summary>
-/// Represents an abstract 'black box' function, with and input vector, an Activate() method that takes
+/// Represents an abstract 'black box' function, with an input vector, and an Activate() method that takes
 /// the inputs to produce an output vector. I.e. 'black box' here could also be described as a multivariate
 /// mathematical function.
 ///
