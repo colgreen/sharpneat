@@ -11,17 +11,10 @@ namespace SharpNeat.Tasks.CartPole.DoublePole;
 /// </summary>
 public sealed class CartDoublePoleExperimentFactory : INeatExperimentFactory
 {
-    /// <summary>
-    /// Gets a unique human-readable ID for the experiment.
-    /// </summary>
+    /// <inheritdoc/>
     public string Id => "cartpole-doublepole";
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(JsonElement configElem)
     {
         // Create an evaluation scheme object for the Single Pole Balancing task.
@@ -41,13 +34,7 @@ public sealed class CartDoublePoleExperimentFactory : INeatExperimentFactory
         return experiment;
     }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model, and using single-precision floating-point number format for the
-    /// genome and neural-net connection weights.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
     {
         throw new NotImplementedException();

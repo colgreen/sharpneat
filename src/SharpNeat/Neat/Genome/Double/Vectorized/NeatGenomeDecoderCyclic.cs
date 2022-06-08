@@ -13,8 +13,6 @@ public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,
 {
     readonly int _cyclesPerActivation;
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the given decode arguments.
     /// </summary>
@@ -23,10 +21,6 @@ public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,
     {
         _cyclesPerActivation = cyclesPerActivation;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Decodes a NEAT genome into a working neural network.
@@ -44,6 +38,4 @@ public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,
                 genome.MetaNeatGenome.ActivationFn.Fn,
                 _cyclesPerActivation);
     }
-
-    #endregion
 }

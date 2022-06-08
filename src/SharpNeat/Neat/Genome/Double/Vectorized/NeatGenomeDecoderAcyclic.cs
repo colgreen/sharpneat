@@ -12,8 +12,6 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized;
 /// </summary>
 public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
 {
-    #region Public Methods
-
     /// <summary>
     /// Decodes a NEAT genome into a working neural network.
     /// </summary>
@@ -36,6 +34,4 @@ public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>
                 neuralNetWeightArr,
                 genome.MetaNeatGenome.ActivationFn.Fn);
     }
-
-    #endregion
 }

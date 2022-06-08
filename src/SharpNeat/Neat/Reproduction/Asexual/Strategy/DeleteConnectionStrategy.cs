@@ -44,12 +44,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
 
     #region Public Methods
 
-    /// <summary>
-    /// Create a new child genome from a given parent genome.
-    /// </summary>
-    /// <param name="parent">The parent genome.</param>
-    /// <param name="rng">Random source.</param>
-    /// <returns>A new child genome.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
     {
         // We require at least two connections in the parent, i.e. we avoid creating genomes with

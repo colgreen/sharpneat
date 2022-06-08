@@ -21,7 +21,8 @@ public class NeatReproductionSexualSettings
     /// </remarks>
     public void Validate()
     {
-        if(!IsProbability(SecondaryParentGeneProbability)) throw new InvalidOperationException("SecondaryParentGeneProbability must be in the interval [0,1].");
+        if(!IsProbability(SecondaryParentGeneProbability))
+            throw new InvalidOperationException("SecondaryParentGeneProbability must be in the interval [0,1].");
 
         static bool IsProbability(double p) => p >= 0 && p <= 1.0;
     }

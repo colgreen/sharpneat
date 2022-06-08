@@ -98,12 +98,12 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
     #region IBlackBox
 
     /// <summary>
-    /// Gets a memory segment used for passing input signals to the network, i.e., the network input vector.
+    /// Gets a memory segment that represents a vector of input values.
     /// </summary>
     public Memory<double> Inputs { get; }
 
     /// <summary>
-    /// Gets a memory segment of output signals from the network, i.e., the network output vector.
+    /// Gets a memory segment that represents a vector of output values.
     /// </summary>
     public Memory<double> Outputs { get; }
 
@@ -168,9 +168,7 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
 
     #region IDisposable
 
-    /// <summary>
-    /// Releases both managed and unmanaged resources.
-    /// </summary>
+    /// <inheritdoc/>
     public void Dispose()
     {
     }

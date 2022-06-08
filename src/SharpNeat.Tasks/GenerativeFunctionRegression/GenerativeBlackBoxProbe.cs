@@ -33,11 +33,7 @@ public sealed class GenerativeBlackBoxProbe : IBlackBoxProbe
 
     #region Public Methods
 
-    /// <summary>
-    /// Probe the given black box, and record the responses in <paramref name="responseArr"/>.
-    /// </summary>
-    /// <param name="box">The black box to probe.</param>
-    /// <param name="responseArr">Response array.</param>
+    /// <inheritdoc/>
     public void Probe(IBlackBox<double> box, double[] responseArr)
     {
         Debug.Assert(responseArr.Length == _sampleCount);

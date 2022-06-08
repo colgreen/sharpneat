@@ -35,11 +35,7 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
 
     #region Public Methods
 
-    /// <summary>
-    /// Invoke the strategy.
-    /// </summary>
-    /// <param name="weightArr">The connection weight array to apply mutations to.</param>
-    /// <param name="rng">Random source.</param>
+    /// <inheritdoc/>
     public void Invoke(T[] weightArr, IRandomSource rng)
     {
         // Select a subset of connection genes to mutate.

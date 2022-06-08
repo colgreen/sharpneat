@@ -9,13 +9,6 @@ namespace SharpNeat.NeuralNets;
 /// </summary>
 public sealed class NetworkActivationScheme
 {
-    bool _acyclicNetwork;
-
-    // Cyclic network specific.
-    int _cyclesPerActivation;
-
-    #region Constructors
-
     /// <summary>
     /// Private constructor to restrict construction to static factory methods.
     /// </summary>
@@ -23,32 +16,18 @@ public sealed class NetworkActivationScheme
     {
     }
 
-    #endregion
-
-    #region Properties
-
     /// <summary>
     /// Gets a value indicating whether the network is acyclic or not (cyclic).
     /// </summary>
-    public bool AcyclicNetwork
-    {
-        get { return _acyclicNetwork; }
-    }
+    public bool AcyclicNetwork { get; init; }
 
     /// <summary>
     /// Gets the number of activation cycles to perform per overall activation of
     /// a cyclic network. Used for cyclic networks only.
     /// </summary>
-    public int CyclesPerActivation
-    {
-        get { return _cyclesPerActivation; }
-    }
+    public int CyclesPerActivation { get; init; }
 
-    #endregion
-
-    #region Static Factory Methods
-
-    /// <summary>
+        /// <summary>
     /// Create an activation scheme for acyclic networks.
     /// </summary>
     /// <returns>A new instance of <see cref="NetworkActivationScheme"/>.</returns>
@@ -56,7 +35,7 @@ public sealed class NetworkActivationScheme
     {
         NetworkActivationScheme scheme = new()
         {
-            _acyclicNetwork = true
+            AcyclicNetwork = true
         };
 
         return scheme;
@@ -72,12 +51,10 @@ public sealed class NetworkActivationScheme
     {
         NetworkActivationScheme scheme = new()
         {
-            _acyclicNetwork = false,
-            _cyclesPerActivation = cyclesPerActivation
+            AcyclicNetwork = false,
+            CyclesPerActivation = cyclesPerActivation
         };
 
         return scheme;
     }
-
-    #endregion
 }

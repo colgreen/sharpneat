@@ -184,11 +184,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         }
     }
 
-    /// <summary>
-    /// Update the population statistics object.
-    /// </summary>
-    /// <param name="fitnessComparer">A genome fitness comparer.</param>
-    /// <param name="rng">Random source.</param>
+    /// <inheritdoc/>
     public override void UpdateStats(
         IComparer<FitnessInfo> fitnessComparer,
         IRandomSource rng)
@@ -251,10 +247,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
 
     #region Protected Methods
 
-    /// <summary>
-    /// Create a new population statistics object.
-    /// </summary>
-    /// <returns>A new instance of <see cref="PopulationStatistics"/>.</returns>
+    /// <inheritdoc/>
     protected override PopulationStatistics CreatePopulatonStats()
     {
         return new NeatPopulationStatistics();

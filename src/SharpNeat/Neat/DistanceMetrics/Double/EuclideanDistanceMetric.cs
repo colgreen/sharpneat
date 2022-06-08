@@ -17,14 +17,7 @@ namespace SharpNeat.Neat.DistanceMetrics.Double;
 /// </summary>
 public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
 {
-    #region IDistanceMetric Members
-
-    /// <summary>
-    /// Calculates the distance between two positions.
-    /// </summary>
-    /// <param name="p1">Position one.</param>
-    /// <param name="p2">Position two.</param>
-    /// <returns>The distance between <paramref name="p1"/> and <paramref name="p2"/>.</returns>
+    /// <inheritdoc/>
     public double CalcDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
     {
         DirectedConnection[] connArr1 = p1._connArr;
@@ -121,24 +114,7 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
         }
     }
 
-    /// <summary>
-    /// Tests if the distance between two positions is less than some threshold.
-    /// </summary>
-    /// <param name="p1">Position one.</param>
-    /// <param name="p2">Position two.</param>
-    /// <param name="threshold">Distance threshold.</param>
-    /// <returns>
-    /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than
-    /// <paramref name="threshold"/>.
-    /// </returns>
-    /// <remarks>
-    /// A simple way of implementing this method would be to calculate the distance between the two
-    /// coordinates and test if it is less than the threshold. However, that approach requires that all of the
-    /// elements in both CoordinateVectors be fully compared. We can improve performance in the general case
-    /// by testing if the threshold has been passed after each vector element comparison thus allowing an
-    /// early exit from the method for many calls. Further to this, we can begin comparing from the ends of
-    /// the vectors where differences are most likely to occur.
-    /// </remarks>
+    /// <inheritdoc/>
     public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
     {
         // Instead of calculating the euclidean distance we calculate distance squared (we skip the final sqrt
@@ -251,15 +227,9 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
         }
     }
 
-    /// <summary>
-    /// Calculates the centroid for a set of points.
-    /// </summary>
-    /// <param name="pointList">The set of points.</param>
-    /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
+    /// <inheritdoc/>
     public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> pointList)
     {
         return DistanceMetricUtils.CalculateEuclideanCentroid(pointList);
     }
-
-    #endregion
 }

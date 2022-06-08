@@ -14,8 +14,6 @@ public sealed class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
 {
     readonly int _selectCount;
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the given selection count (selection cardinality).
     /// </summary>
@@ -25,16 +23,7 @@ public sealed class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
         _selectCount = selectCount;
     }
 
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Select a subset of items from a superset of a given size.
-    /// </summary>
-    /// <param name="supersetCount">The size of the superset to select from.</param>
-    /// <param name="rng">Random source.</param>
-    /// <returns>An array of indexes that are the selected items.</returns>
+    /// <inheritdoc/>
     public int[] SelectSubset(int supersetCount, IRandomSource rng)
     {
         // Note. Ideally we'd return a sorted list of indexes to improve performance of the code that consumes them,
@@ -45,6 +34,4 @@ public sealed class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
         DiscreteDistribution.SampleUniformWithoutReplacement(rng, supersetCount, idxArr);
         return idxArr;
     }
-
-    #endregion
 }

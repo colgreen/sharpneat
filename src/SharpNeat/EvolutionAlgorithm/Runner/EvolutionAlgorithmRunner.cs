@@ -212,9 +212,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
         }
     }
 
-    /// <summary>
-    /// Releases both managed and unmanaged resources.
-    /// </summary>
+    /// <inheritdoc/>
     public void Dispose()
     {
         RequestTerminateAndWait();

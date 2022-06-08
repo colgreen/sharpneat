@@ -16,12 +16,12 @@ public interface IBlackBox<T> : IDisposable
     where T : struct
 {
     /// <summary>
-    /// Gets a vector of input values.
+    /// Gets a memory segment that represents a vector of input values.
     /// </summary>
     Memory<T> Inputs { get; }
 
     /// <summary>
-    /// Gets a vector of output values.
+    /// Gets a memory segment that represents a vector of output values.
     /// </summary>
     Memory<T> Outputs { get; }
 

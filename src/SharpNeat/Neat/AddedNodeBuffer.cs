@@ -17,8 +17,6 @@ public sealed class AddedNodeBuffer
 {
     readonly KeyedCircularBuffer<DirectedConnection,int> _buffer;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
@@ -27,10 +25,6 @@ public sealed class AddedNodeBuffer
     {
         _buffer = new KeyedCircularBuffer<DirectedConnection,int>(capacity);
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Register a new added node.
@@ -52,6 +46,4 @@ public sealed class AddedNodeBuffer
     {
         return _buffer.TryGetValue(in conn, out addedNodeId);
     }
-
-    #endregion
 }

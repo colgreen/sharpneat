@@ -104,12 +104,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
 
     #region IAsexualReproductionStrategy
 
-    /// <summary>
-    /// Create a new child genome from a given parent genome.
-    /// </summary>
-    /// <param name="parent">The parent genome.</param>
-    /// <param name="rng">Random source.</param>
-    /// <returns>A new child genome.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
     {
         // Get a discrete distribution over the set of possible mutation types.

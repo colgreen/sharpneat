@@ -17,8 +17,6 @@ public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
 {
     readonly ISexualReproductionStrategy<T> _strategy;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
@@ -41,22 +39,10 @@ public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
                             genomeIdSeq, generationSeq);
     }
 
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Create a new child genome based on the genetic content of two parent genome.
-    /// </summary>
-    /// <param name="parent1">Parent 1.</param>
-    /// <param name="parent2">Parent 2.</param>
-    /// <param name="rng">Random source.</param>
-    /// <returns>A new child genome.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
     {
         // Invoke the reproduction strategy.
         return _strategy.CreateGenome(parent1, parent2, rng);
     }
-
-    #endregion
 }

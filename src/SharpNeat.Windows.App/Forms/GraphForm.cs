@@ -52,7 +52,7 @@ public partial class GraphForm : Form
     #region Public Methods
 
     /// <summary>
-    /// Clear the time series data.
+    /// Clear the graph data.
     /// </summary>
     public virtual void Clear()
     {

@@ -49,7 +49,7 @@ public class RankGraphForm : GraphForm
     }
 
     /// <summary>
-    /// Clear the time series data.
+    /// Clear the rank data.
     /// </summary>
     public override void Clear()
     {

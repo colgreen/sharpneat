@@ -29,11 +29,7 @@ public class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
 
     #region Public Methods
 
-    /// <summary>
-    /// Initialise and run the evolutionary algorithm until the stop condition occurs (either elapsed clock time, or some number of generations).
-    /// Once the stop condition is reached this method returns with the current best fitness in the population.
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public Sample Sample()
     {
         // Create a new instance of an evolution algorithm.

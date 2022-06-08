@@ -59,7 +59,7 @@ public class HistogramGraphForm : GraphForm
     }
 
     /// <summary>
-    /// Clear the time series data.
+    /// Clear the histogram data.
     /// </summary>
     public override void Clear()
     {

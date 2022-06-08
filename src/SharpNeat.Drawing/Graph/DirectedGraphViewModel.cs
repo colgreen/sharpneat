@@ -10,8 +10,6 @@ namespace SharpNeat.Drawing;
 /// </summary>
 public sealed class DirectedGraphViewModel
 {
-    #region Auto Properties
-
     /// <summary>
     /// Represents the directed graph topology.
     /// </summary>
@@ -31,8 +29,6 @@ public sealed class DirectedGraphViewModel
     /// Provides a 2D position for each node.
     /// </summary>
     public Point[] NodePosByIdx { get; }
-
-    #endregion
 
     #region Construction
 

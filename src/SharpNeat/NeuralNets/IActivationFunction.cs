@@ -69,7 +69,7 @@ public interface IActivationFunction<T>
     void Fn(ref T vref, int len);
 
     /// <summary>
-    /// The activation function; unsafe memory span implementation with a separate input and output spans.
+    /// The activation function; unsafe memory span implementation with separate input and output spans.
     /// </summary>
     /// <param name="vref">A reference to the head of a span containing pre-activation levels to pass through the function.</param>
     /// <param name="wref">A reference to the head of a span in which the post-activation levels are stored.</param>

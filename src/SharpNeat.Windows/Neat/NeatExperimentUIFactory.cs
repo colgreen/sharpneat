@@ -10,12 +10,7 @@ namespace SharpNeat.Windows.Neat;
 /// </summary>
 public class NeatExperimentUIFactory : IExperimentUIFactory
 {
-    /// <summary>
-    /// Creates a new instance of <see cref="NeatExperimentUI"/> using the experiment
-    /// configuration settings from the provided json object model.
-    /// </summary>
-    /// <param name="configElem">Experiment config in presented as json object model.</param>
-    /// <returns>A new instance of <see cref="IExperimentUI{T}"/>.</returns>
+    /// <inheritdoc/>
     public IExperimentUI CreateExperimentUI(JsonElement configElem)
     {
         return new NeatExperimentUI();

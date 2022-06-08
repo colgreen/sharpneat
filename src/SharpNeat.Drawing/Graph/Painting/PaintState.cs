@@ -9,8 +9,6 @@ namespace SharpNeat.Drawing.Graph.Painting;
 /// </summary>
 public sealed class PaintState
 {
-    #region Instance Fields
-
     /// <summary>
     /// The GDI+ painting surface.
     /// </summary>
@@ -48,10 +46,6 @@ public sealed class PaintState
     /// </summary>
     public readonly ConnectionPointInfo[] _nodeStateByIdx;
 
-    #endregion
-
-    #region Construction
-
     /// <summary>
     /// Construct with the provided Graphics painting surface and painting metadata.
     /// </summary>
@@ -78,6 +72,4 @@ public sealed class PaintState
         // Create per-node state info map.
         _nodeStateByIdx = new ConnectionPointInfo[nodeCount];
     }
-
-    #endregion
 }

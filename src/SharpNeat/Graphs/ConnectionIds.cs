@@ -69,9 +69,7 @@ public readonly struct ConnectionIds : IDisposable
         return ref _idArr[_length + connIdx];
     }
 
-    /// <summary>
-    /// Returns the connection ID array back the ArrayPool it was rented from.
-    /// </summary>
+    /// <inheritdoc/>
     public void Dispose()
     {
         ArrayPool<int>.Shared.Return(_idArr);

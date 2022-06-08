@@ -12,18 +12,10 @@ public sealed class NullComplexityRegulationStrategy : IComplexityRegulationStra
 {
     #region IComplexityRegulationStrategy
 
-    /// <summary>
-    /// Gets the current complexity regulation mode.
-    /// </summary>
+    /// <inheritdoc/>
     public ComplexityRegulationMode CurrentMode => ComplexityRegulationMode.Complexifying;
 
-    /// <summary>
-    /// Determine the complexity regulation mode that the evolution algorithm search should be in given the
-    /// provided evolution algorithm statistics object, and set the current mode to that mode.
-    /// </summary>
-    /// <param name="eaStats">Evolution algorithm statistics.</param>
-    /// <param name="popStats">Population statistics.</param>
-    /// <returns>The determined <see cref="ComplexityRegulationMode"/>.</returns>
+    /// <inheritdoc/>
     public ComplexityRegulationMode UpdateMode(
         EvolutionAlgorithmStatistics eaStats,
         PopulationStatistics popStats)

@@ -84,12 +84,7 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
 
     #region IDistanceMetric Members
 
-    /// <summary>
-    /// Calculates the distance between two positions.
-    /// </summary>
-    /// <param name="p1">Position one.</param>
-    /// <param name="p2">Position two.</param>
-    /// <returns>The distance between <paramref name="p1"/> and <paramref name="p2"/>.</returns>
+    /// <inheritdoc/>
     public double CalcDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
     {
         DirectedConnection[] connArr1 = p1._connArr;
@@ -188,16 +183,7 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
         }
     }
 
-    /// <summary>
-    /// Tests if the distance between two positions is less than some threshold.
-    /// </summary>
-    /// <param name="p1">Position one.</param>
-    /// <param name="p2">Position two.</param>
-    /// <param name="threshold">Distance threshold.</param>
-    /// <returns>
-    /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than
-    /// <paramref name="threshold"/>.
-    /// </returns>
+    /// <inheritdoc/>
     public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
     {
         DirectedConnection[] connArr1 = p1._connArr;
@@ -309,11 +295,7 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     // TODO: Determine mathematically correct centroid. This method calculates the Euclidean distance centroid and
     // is an approximation of the true centroid in L1 space (Manhattan distance).
     // Note. In practice this is possibly a near optimal centroid for all but small clusters.
-    /// <summary>
-    /// Calculates the centroid for a set of points.
-    /// </summary>
-    /// <param name="pointList">The set of points.</param>
-    /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
+    /// <inheritdoc/>
     public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> pointList)
     {
         return DistanceMetricUtils.CalculateEuclideanCentroid(pointList);

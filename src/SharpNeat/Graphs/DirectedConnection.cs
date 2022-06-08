@@ -50,22 +50,14 @@ public readonly struct DirectedConnection
 
     #region IEquatable / IComparable
 
-    /// <summary>
-    /// Determines whether the specified <see cref="DirectedConnection" /> is equal to the current <see cref="DirectedConnection" />.
-    /// </summary>
-    /// <param name="other">The object to compare with the current object.</param>
-    /// <returns>true if the objects are equal; otherwise false.</returns>
+    /// <inheritdoc/>
     public bool Equals(DirectedConnection other)
     {
         return (this.SourceId == other.SourceId)
             && (this.TargetId == other.TargetId);
     }
 
-    /// <summary>
-    /// Compares this instance to a specified instance and returns an indication of their relative values.
-    /// </summary>
-    /// <param name="other">A directed connection to compare with.</param>
-    /// <returns>A signed integer indicating result of the comparison.</returns>
+    /// <inheritdoc/>
     public int CompareTo(DirectedConnection other)
     {
         // Notes.
@@ -84,20 +76,13 @@ public readonly struct DirectedConnection
 
     #region Overrides
 
-    /// <summary>
-    /// Determines whether the specified object is equal to the current <see cref="DirectedConnection" />.
-    /// </summary>
-    /// <param name="obj">The object to compare with the current object.</param>
-    /// <returns>true if the objects are equal; otherwise false.</returns>
+    /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
         return obj is DirectedConnection connection && this.Equals(connection);
     }
 
-    /// <summary>
-    /// Get the hash code for the current object.
-    /// </summary>
-    /// <returns>The current object's hash code.</returns>
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return HashCode.Combine(SourceId, TargetId);

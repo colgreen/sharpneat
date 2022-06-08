@@ -43,19 +43,13 @@ public sealed class DictionaryNodeIdMap : INodeIdMap
 
     #region INodeIdMap
 
-    /// <summary>
-    /// Gets the total number of mapped node IDs.
-    /// </summary>
+    /// <inheritdoc/>
     public int Count
     {
         get => _fixedNodeCount + _nodeIdxById.Count;
     }
 
-    /// <summary>
-    /// Map a node ID from the source ID space, to the target ID space.
-    /// </summary>
-    /// <param name="id">A node ID in the source ID space.</param>
-    /// <returns>The mapped to ID from the target ID space.</returns>
+    /// <inheritdoc/>
     public int Map(int id)
     {
         // Input node IDs are always at the head of the array, and are fixed.
@@ -68,10 +62,7 @@ public sealed class DictionaryNodeIdMap : INodeIdMap
         return _nodeIdxById[id];
     }
 
-    /// <summary>
-    /// Create a new <see cref="INodeIdMap"/> that represents the inverse of the current mapping.
-    /// </summary>
-    /// <returns>A new <see cref="INodeIdMap"/>.</returns>
+    /// <inheritdoc/>
     public INodeIdMap CreateInverseMap()
     {
         var nodeIdByIdx = new int[this.Count];

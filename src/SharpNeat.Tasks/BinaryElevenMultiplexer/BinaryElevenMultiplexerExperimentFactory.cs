@@ -11,16 +11,10 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer;
 /// </summary>
 public sealed class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFactory
 {
-    /// <summary>
-    /// Gets a unique human-readable ID for the experiment.
-    /// </summary>
+    /// <inheritdoc/>
     public string Id => "binary-11-multiplexer";
 
-    /// <summary>
-    /// Create a new instance of <see cref="INeatExperiment{T}"/>.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(JsonElement configElem)
     {
         // Create an evaluation scheme object for the binary 11-multiplexer task.
@@ -39,13 +33,7 @@ public sealed class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFa
         return experiment;
     }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model, and using single-precision floating-point number format for the
-    /// genome and neural-net connection weights.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
     {
         throw new NotImplementedException();

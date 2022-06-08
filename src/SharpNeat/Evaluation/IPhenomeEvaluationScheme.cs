@@ -11,8 +11,6 @@ namespace SharpNeat.Evaluation;
 /// <typeparam name="TPhenome">The phenome type to be evaluated.</typeparam>
 public interface IPhenomeEvaluationScheme<TPhenome>
 {
-    #region Properties
-
     /// <summary>
     /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
     /// </summary>
@@ -47,10 +45,6 @@ public interface IPhenomeEvaluationScheme<TPhenome>
     /// </remarks>
     bool EvaluatorsHaveState { get; }
 
-    #endregion
-
-    #region Methods
-
     /// <summary>
     /// Create a new evaluator object.
     /// </summary>
@@ -64,6 +58,4 @@ public interface IPhenomeEvaluationScheme<TPhenome>
     /// <param name="fitnessInfo">The fitness info object to test.</param>
     /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
     bool TestForStopCondition(FitnessInfo fitnessInfo);
-
-    #endregion
 }

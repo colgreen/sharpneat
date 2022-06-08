@@ -11,17 +11,10 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer;
 /// </summary>
 public sealed class BinaryThreeMultiplexerExperimentFactory : INeatExperimentFactory
 {
-    /// <summary>
-    /// Gets a unique human-readable ID for the experiment.
-    /// </summary>
+    /// <inheritdoc/>
     public string Id => "binary-3-multiplexer";
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(JsonElement configElem)
     {
         // Create an evaluation scheme object for the binary 3-multiplexer task.
@@ -40,13 +33,7 @@ public sealed class BinaryThreeMultiplexerExperimentFactory : INeatExperimentFac
         return experiment;
     }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model, and using single-precision floating-point number format for the
-    /// genome and neural-net connection weights.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
     {
         throw new NotImplementedException();

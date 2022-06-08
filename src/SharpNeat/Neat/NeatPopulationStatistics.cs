@@ -9,8 +9,6 @@ namespace SharpNeat.Neat;
 /// </summary>
 public class NeatPopulationStatistics : PopulationStatistics
 {
-    #region Auto Properties [NeatPopulation Statistics]
-
     /// <summary>
     /// Index of the species that the best genome is within.
     /// </summary>
@@ -25,6 +23,4 @@ public class NeatPopulationStatistics : PopulationStatistics
     /// The average (mean) fitness calculated over all species' best/champ genomes.
     /// </summary>
     public double AverageSpeciesBestFitness { get; set; }
-
-    #endregion
 }

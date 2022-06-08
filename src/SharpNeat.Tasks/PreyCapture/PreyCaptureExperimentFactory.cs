@@ -12,19 +12,12 @@ namespace SharpNeat.Tasks.PreyCapture;
 /// </summary>
 public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
 {
-    /// <summary>
-    /// Gets a unique human-readable ID for the experiment.
-    /// </summary>
+    /// <inheritdoc/>
     public string Id => "prey-capture";
 
     #region Public Methods
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
+    /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(JsonElement configElem)
     {
         // Read the customEvaluationSchemeConfig section.

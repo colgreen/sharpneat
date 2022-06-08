@@ -22,8 +22,7 @@ public class StatsGraphForm : GraphForm
         string y1AxisTitle,
         string y2AxisTitle)
         : base(title, xAxisTitle, y1AxisTitle, y2AxisTitle)
-    {
-    }
+    {}
 
     /// <summary>
     /// Update the graph data.

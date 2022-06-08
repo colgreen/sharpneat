@@ -32,13 +32,7 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
 
     #region Public Methods
 
-    /// <summary>
-    /// Create a NeatGenome with the given meta data and connection genes.
-    /// </summary>
-    /// <param name="id">Genome ID.</param>
-    /// <param name="birthGeneration">Birth generation.</param>
-    /// <param name="connGenes">Connection genes.</param>
-    /// <returns>A new NeatGenome instance.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T> Create(
         int id,
         int birthGeneration,
@@ -50,14 +44,7 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         return Create(id, birthGeneration, connGenes, hiddenNodeIdArr);
     }
 
-    /// <summary>
-    /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
-    /// </summary>
-    /// <param name="id">Genome ID.</param>
-    /// <param name="birthGeneration">Birth generation.</param>
-    /// <param name="connGenes">Connection genes.</param>
-    /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
-    /// <returns>A new NeatGenome instance.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T> Create(
         int id, int birthGeneration,
         ConnectionGenes<T> connGenes,
@@ -70,15 +57,7 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         return Create(id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap);
     }
 
-    /// <summary>
-    /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
-    /// </summary>
-    /// <param name="id">Genome ID.</param>
-    /// <param name="birthGeneration">Birth generation.</param>
-    /// <param name="connGenes">Connection genes.</param>
-    /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
-    /// <param name="nodeIndexByIdMap">Provides a mapping from node ID to node index.</param>
-    /// <returns>A new NeatGenome instance.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T> Create(
         int id, int birthGeneration,
         ConnectionGenes<T> connGenes,
@@ -92,18 +71,7 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
     }
 
-    /// <summary>
-    /// Create a NeatGenome with the given meta data, connection genes and supplementary data.
-    /// </summary>
-    /// <param name="id">Genome ID.</param>
-    /// <param name="birthGeneration">Birth generation.</param>
-    /// <param name="connGenes">Connection genes.</param>
-    /// <param name="hiddenNodeIdArr">An array of the hidden node IDs in the genome, in ascending order.</param>
-    /// <param name="nodeIndexByIdMap">Provides a mapping from node ID to node index.</param>
-    /// <param name="digraph">A DirectedGraph that mirrors the structure described by the connection genes.</param>
-    /// <param name="connectionIndexMap">Mapping from genome connection indexes (in NeatGenome.ConnectionGenes) to reordered connections, based on depth based
-    /// node index allocations.</param>
-    /// <returns>A new NeatGenome instance.</returns>
+    /// <inheritdoc/>
     public NeatGenome<T> Create(
         int id, int birthGeneration,
         ConnectionGenes<T> connGenes,
