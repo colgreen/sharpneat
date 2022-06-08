@@ -26,8 +26,8 @@ public static class ComplexityRegulationStrategyJsonReader
             "null" => new NullComplexityRegulationStrategy(),
             "absolute" => ReadAbsoluteComplexityRegulationStrategy(jelem),
             "relative" => ReadRelativeComplexityRegulationStrategy(jelem),
-            null => throw new Exception($"strategyName json property is empty."),
-            _ => throw new Exception($"Unsupported complexity regulation strategyName [{strategyName}]"),
+            null => throw new ConfigurationException($"strategyName json property is empty."),
+            _ => throw new ConfigurationException($"Unsupported complexity regulation strategyName [{strategyName}]"),
         };
     }
 

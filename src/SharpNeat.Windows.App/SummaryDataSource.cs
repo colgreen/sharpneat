@@ -7,10 +7,8 @@ namespace SharpNeat.Windows.App;
 /// </summary>
 public class SummaryDataSource
 {
-    /// <summary>Delegate for obtaining an array of plot points.</summary>
-    public delegate Point2DDouble[] GetDataPointArrayDelegate();
-
-    readonly GetDataPointArrayDelegate _getPointArrayDelegate;
+    // A function for obtaining an array of plot points.
+    readonly Func<Point2DDouble[]> _getPointArrayFn;
 
     #region Auto Properties
 
@@ -38,12 +36,12 @@ public class SummaryDataSource
     /// </summary>
     public SummaryDataSource(
         string name, int yAxis, Color color,
-        GetDataPointArrayDelegate getPointArrayDelegate)
+        Func<Point2DDouble[]> getPointArrayFn)
     {
         Name = name;
         YAxis = yAxis;
         Color = color;
-        _getPointArrayDelegate = getPointArrayDelegate;
+        _getPointArrayFn = getPointArrayFn;
     }
 
     #endregion
@@ -55,7 +53,7 @@ public class SummaryDataSource
     /// </summary>
     public Point2DDouble[] GetPointArray()
     {
-        return _getPointArrayDelegate();
+        return _getPointArrayFn();
     }
 
     #endregion

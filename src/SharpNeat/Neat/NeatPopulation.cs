@@ -167,7 +167,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         // Allocate the genomes to species.
         Species<T>[] speciesArr = speciationStrategy.SpeciateAll(this.GenomeList, speciesCount, rng);
         if(speciesArr is null || speciesArr.Length != speciesCount)
-            throw new Exception("Species array is null or has incorrect length.");
+            throw new InvalidOperationException("Species array is null or has incorrect length.");
 
         this.SpeciesArray = speciesArr;
 

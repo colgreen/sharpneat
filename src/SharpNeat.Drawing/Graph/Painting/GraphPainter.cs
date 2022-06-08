@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Drawing;
+using System.Globalization;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.Drawing.Graph.Painting;
@@ -10,7 +11,7 @@ namespace SharpNeat.Drawing.Graph.Painting;
 /// This requires the nodes of the graph to have already been arranged in a 2D
 /// space and thus assigned 2D positions, this can be achieved with an implementation of <see cref="IGraphLayoutScheme"/>.
 /// </summary>
-public class GraphPainter
+public class GraphPainter : IDisposable
 {
     #region Instance Fields
 
@@ -128,7 +129,7 @@ public class GraphPainter
         // Draw the node label.
         pos.X += state._nodeDiameterHalf + 1;
         pos.Y -= state._nodeDiameterHalf / 2;
-        g.DrawString(id.ToString(), _settings.NodeLabelFont, _nodeLabelBrush, pos);
+        g.DrawString(id.ToString(CultureInfo.InvariantCulture), _settings.NodeLabelFont, _nodeLabelBrush, pos);
     }
 
     /// <summary>
@@ -317,6 +318,19 @@ public class GraphPainter
         Point d = new(e.X + xDelta, e.Y);
 
         state._g.DrawLines(pen, new Point[] { srcPos, b, c, d, e, tgtPos });
+    }
+
+    #endregion
+
+    #region IDisposable
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _nodeBorderPen.Dispose();
+        _nodeFillBrush.Dispose();
+        _nodeLabelBrush.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     #endregion

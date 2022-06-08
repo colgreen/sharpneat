@@ -234,7 +234,7 @@ internal static class SpeciesAllocationCalcs<T>
         }
 
         if(!success)
-            throw new Exception("All species have a zero target size.");
+            throw new InvalidOperationException("All species have a zero target size.");
     }
 
     #endregion

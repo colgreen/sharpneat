@@ -149,5 +149,29 @@ public readonly struct DirectedConnection
         return x.CompareTo(y) > 0;
     }
 
+    /// <summary>
+    /// Determines whether a specified <see cref="DirectedConnection"/> is less than or equal to another specified
+    /// <see cref="DirectedConnection"/>.
+    /// </summary>
+    /// <param name="x">The first <see cref="DirectedConnection"/> to compare.</param>
+    /// <param name="y">The second <see cref="DirectedConnection"/> to compare.</param>
+    /// <returns>true if <paramref name="x" /> is less than <paramref name="y" />; otherwise, false.</returns>
+    public static bool operator <=(in DirectedConnection x, in DirectedConnection y)
+    {
+        return x.CompareTo(y) <= 0;
+    }
+
+    /// <summary>
+    /// Determines whether a specified <see cref="DirectedConnection"/> is greater than or equal to another
+    /// specified <see cref="DirectedConnection"/>.
+    /// </summary>
+    /// <param name="x">The first <see cref="DirectedConnection"/> to compare.</param>
+    /// <param name="y">The second <see cref="DirectedConnection"/> to compare.</param>
+    /// <returns>true if <paramref name="x" /> is greater than <paramref name="y" />; otherwise, false.</returns>
+    public static bool operator >=(in DirectedConnection x, in DirectedConnection y)
+    {
+        return x.CompareTo(y) >= 0;
+    }
+
     #endregion
 }

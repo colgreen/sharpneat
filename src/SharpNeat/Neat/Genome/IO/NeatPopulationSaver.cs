@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Globalization;
 using System.IO.Compression;
 
 namespace SharpNeat.Neat.Genome.IO;
@@ -54,7 +55,7 @@ public static class NeatPopulationSaver<T>
         foreach(var genome in genomeList)
         {
             // Build the genome's filepath.
-            string genomePath = Path.Combine(popDirPath, genome.Id.ToString("D6") + ".genome");
+            string genomePath = Path.Combine(popDirPath, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".genome");
 
             // Save the genome.
             NeatGenomeSaver<T>.Save(genome, genomePath);
@@ -101,7 +102,7 @@ public static class NeatPopulationSaver<T>
         foreach(var genome in genomeList)
         {
             // Build the genome's entry name.
-            string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6") + ".genome");
+            string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".genome");
 
             // Create an new zip entry.
             ZipArchiveEntry zipEntry = zipArchive.CreateEntry(entryName, compressionLevel);

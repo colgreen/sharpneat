@@ -81,7 +81,7 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
     {
         // Get the customEvaluationSchemeConfig section.
         if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem))
-            throw new Exception("customEvaluationSchemeConfig not defined.");
+            throw new ConfigurationException("customEvaluationSchemeConfig not defined.");
 
         preyInitMoves = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "preyInitMoves");
         preySpeed = (float)JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "preySpeed");

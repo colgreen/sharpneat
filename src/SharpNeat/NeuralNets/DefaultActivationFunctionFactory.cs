@@ -5,6 +5,8 @@ using System.Numerics;
 
 namespace SharpNeat.NeuralNets;
 
+#pragma warning disable CA1805 // Do not initialize unnecessarily
+
 /// <summary>
 /// Default implementation of <see cref="IActivationFunctionFactory{T}"/>.
 ///
@@ -81,7 +83,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
             }
         }
 
-        throw new Exception("Unknown activation function name [{name}].");
+        throw new ArgumentException($"Unknown activation function name [{name}].", nameof(name));
     }
 
     #endregion

@@ -145,7 +145,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
             MutationType.AddNode => _addNodeStrategy.CreateChildGenome(parent, rng),
             MutationType.AddConnection => _addConnectionStrategy.CreateChildGenome(parent, rng),
             MutationType.DeleteConnection => _deleteConnectionStrategy.CreateChildGenome(parent, rng),
-            _ => throw new Exception($"Unexpected mutationTypeId [{mutationTypeId}]."),
+            _ => throw new InvalidOperationException($"Unexpected mutationTypeId [{mutationTypeId}]."),
         };
 
         if(childGenome is not null)
@@ -160,7 +160,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
             // This shouldn't be possible, hence this is an exceptional circumstance.
             // Note. Connection weight and 'add node' mutations should always be possible, because there should
             // always be at least one connection.
-            throw new Exception("All types of genome mutation failed.");
+            throw new InvalidOperationException("All types of genome mutation failed.");
         }
 
         return null;

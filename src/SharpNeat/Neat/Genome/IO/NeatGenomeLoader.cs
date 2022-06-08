@@ -37,7 +37,7 @@ public sealed class NeatGenomeLoader<T>
     /// Indicates if a call to Load() is currently in progress.
     /// For checking for attempts to re-enter that method while a call is in progress.
     /// </summary>
-    int _reentranceFlag = 0;
+    int _reentranceFlag;
 #endif
 
     #endregion

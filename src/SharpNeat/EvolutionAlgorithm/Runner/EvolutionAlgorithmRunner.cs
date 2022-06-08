@@ -32,7 +32,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
     // Misc working variables.
     Thread? _algorithmThread;
     volatile bool _pauseRequestFlag;
-    volatile bool _terminateFlag = false;
+    volatile bool _terminateFlag;
 
     #endregion
 
@@ -127,7 +127,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
                     break;
                 }
             default:
-                throw new Exception($"StartContinue() call failed. Unexpected RunState [{_runState}]");
+                throw new InvalidOperationException($"StartContinue() call failed. Unexpected RunState [{_runState}]");
         }
     }
 
@@ -208,7 +208,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
                 }
 
             default:
-                throw new Exception($"StartContinue() call failed. Unexpected RunState [{_runState}]");
+                throw new InvalidOperationException($"StartContinue() call failed. Unexpected RunState [{_runState}]");
         }
     }
 

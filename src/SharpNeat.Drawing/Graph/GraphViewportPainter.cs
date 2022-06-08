@@ -13,7 +13,7 @@ namespace SharpNeat.Drawing.Graph;
 /// 1) laying out the nodes of the graph within the specified paint area.
 /// 2) Painting the nodes and connections based on the node positions assigned in step 1.
 /// </remarks>
-public sealed class GraphViewportPainter : IViewportPainter
+public sealed class GraphViewportPainter : IViewportPainter, IDisposable
 {
     static readonly Brush _brushBackground = new SolidBrush(Color.White);
 
@@ -106,6 +106,17 @@ public sealed class GraphViewportPainter : IViewportPainter
 
         // Paint the graph.
         _graphPainter.PaintGraph(model, g, viewportArea, zoomFactor);
+    }
+
+    #endregion
+
+    #region IDisposable
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _graphPainter.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     #endregion

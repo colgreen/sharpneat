@@ -5,6 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<SkipLocalsInit>true</SkipLocalsInit>
+	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup>

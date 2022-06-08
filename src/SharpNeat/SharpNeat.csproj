@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
 	<SkipLocalsInit>true</SkipLocalsInit>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup>

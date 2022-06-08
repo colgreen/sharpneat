@@ -10,6 +10,7 @@
 	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<SkipLocalsInit>true</SkipLocalsInit>
+	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

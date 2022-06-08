@@ -72,7 +72,7 @@ public sealed class CyclicGraphDepthAnalysis
     /// Indicates if a call to IsCyclic() is currently in progress.
     /// For checking for attempts to re-enter that method while a call is in progress.
     /// </summary>
-    int _reentranceFlag = 0;
+    int _reentranceFlag;
 #endif
 
     #endregion

@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Globalization;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Graphs;
@@ -97,7 +98,9 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
         var newWeightArr = new T[] {
             parent.ConnectionGenes._weightArr[splitConnIdx],
-            (T)Convert.ChangeType(_metaNeatGenome.ConnectionWeightScale, typeof(T))
+            (T)Convert.ChangeType(
+                _metaNeatGenome.ConnectionWeightScale,
+                typeof(T), CultureInfo.InvariantCulture)
         };
 
         // Ensure newConnArr is sorted.

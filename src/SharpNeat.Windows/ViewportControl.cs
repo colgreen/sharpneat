@@ -14,17 +14,13 @@ public class ViewportControl : UserControl
 {
     const PixelFormat __viewportPixelFormat = PixelFormat.Format24bppRgb;
 
-    #region Instance Fields
-
     Rectangle _viewportArea;
     float _zoomFactor = 1f;
     Image _image;
 
     // Windows.Forms variables.
-    private readonly System.ComponentModel.Container components = null;
-    private PictureBox pictureBox;
-
-    #endregion
+    PictureBox pictureBox;
+    bool _disposed;
 
     #region Properties
 
@@ -73,13 +69,15 @@ public class ViewportControl : UserControl
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
+        if (_disposed)
+            return;
+
         if(disposing)
-        {
-            if(components is not null)
-                components.Dispose();
-        }
+            pictureBox.Dispose();
 
         base.Dispose(disposing);
+
+        _disposed = true;
     }
 
     #endregion

@@ -132,7 +132,7 @@ partial class MainForm
         }
 
         // Write entry to log.
-        __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _eaRunner.EA.Stats.Generation, _neatPop.Stats.BestFitness.PrimaryFitness));
+        __log.Info($"gen={_eaRunner.EA.Stats.Generation:N0} bestFitness={_neatPop.Stats.BestFitness.PrimaryFitness:N6}");
 
         if(_eaRunner.RunState == RunState.Paused)
             UpdateUIState_EaReadyPaused();

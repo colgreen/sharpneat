@@ -17,7 +17,7 @@ public class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
     readonly Thread _eaThread;
     readonly AutoResetEvent _awaitStartEvent = new(false);
     readonly AutoResetEvent _awaitStopEvent = new(false);
-    volatile bool _stopFlag = false;
+    volatile bool _stopFlag;
 
     NeatEvolutionAlgorithm<double>? _ea;
 

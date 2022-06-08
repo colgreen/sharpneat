@@ -3,7 +3,7 @@ using SharpNeat.Tasks.PreyCapture;
 
 namespace SharpNeat.Tasks.Benchmarks.PreyCapture;
 
-public class PreyCaptureWorldBenchmark
+public class PreyCaptureWorldBenchmark : IDisposable
 {
     readonly PreyCaptureWorld _world;
     readonly MockPreyCaptureAgent _agent;
@@ -26,5 +26,11 @@ public class PreyCaptureWorldBenchmark
         {
             _world.RunTrial(_agent);
         }
+    }
+
+    public void Dispose()
+    {
+        _agent.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

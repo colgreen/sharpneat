@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Globalization;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
 using SharpNeat.Neat;
@@ -35,7 +36,7 @@ partial class MainForm
                     UpdateUIState_EaRunning();
                     break;
                 default:
-                    throw new ApplicationException($"Unexpected RunState [{_eaRunner.RunState}]");
+                    throw new InvalidOperationException($"Unexpected RunState [{_eaRunner.RunState}]");
             }
         }
     }
@@ -196,35 +197,35 @@ partial class MainForm
             _ => Color.LightSkyBlue
         };
 
-        txtStatsGeneration.Text = eaStats.Generation.ToString("N0");
-        txtStatsBest.Text = popStats.BestFitness.PrimaryFitness.ToString();
+        txtStatsGeneration.Text = eaStats.Generation.ToString("N0", CultureInfo.CurrentCulture);
+        txtStatsBest.Text = popStats.BestFitness.PrimaryFitness.ToString(CultureInfo.CurrentCulture);
 
         // Auxiliary fitness info.
         double[] auxFitnessArr = popStats.BestFitness.AuxFitnessScores;
         if(auxFitnessArr != null && auxFitnessArr.Length > 0)
         {
-            txtStatsAlternativeFitness.Text = auxFitnessArr[0].ToString("#.######");
+            txtStatsAlternativeFitness.Text = auxFitnessArr[0].ToString("#.######", CultureInfo.CurrentCulture);
         }
         else
         {
             txtStatsAlternativeFitness.Text = "";
         }
 
-        txtStatsMean.Text = popStats.MeanFitness.ToString("#.######");
-        txtSpeciesChampsMean.Text = popStats.AverageSpeciesBestFitness.ToString("#.######");
-        txtStatsTotalEvals.Text = eaStats.TotalEvaluationCount.ToString("N0");
-        txtStatsEvalsPerSec.Text = eaStats.EvaluationsPerSec.ToString("##,#.##");
-        txtStatsBestGenomeComplx.Text = popStats.BestComplexity.ToString("N0");
-        txtStatsMeanGenomeComplx.Text = popStats.MeanComplexity.ToString("#.##");
-        txtStatsMaxGenomeComplx.Text = popStats.MaxComplexity.ToString("N0");
+        txtStatsMean.Text = popStats.MeanFitness.ToString("#.######", CultureInfo.CurrentCulture);
+        txtSpeciesChampsMean.Text = popStats.AverageSpeciesBestFitness.ToString("#.######", CultureInfo.CurrentCulture);
+        txtStatsTotalEvals.Text = eaStats.TotalEvaluationCount.ToString("N0", CultureInfo.CurrentCulture);
+        txtStatsEvalsPerSec.Text = eaStats.EvaluationsPerSec.ToString("##,#.##", CultureInfo.CurrentCulture);
+        txtStatsBestGenomeComplx.Text = popStats.BestComplexity.ToString("N0", CultureInfo.CurrentCulture);
+        txtStatsMeanGenomeComplx.Text = popStats.MeanComplexity.ToString("#.##", CultureInfo.CurrentCulture);
+        txtStatsMaxGenomeComplx.Text = popStats.MaxComplexity.ToString("N0", CultureInfo.CurrentCulture);
 
         ulong totalOffspringCount = eaStats.TotalOffspringCount;
         if(totalOffspringCount > 0)
         {
-            txtStatsTotalOffspringCount.Text = totalOffspringCount.ToString("N0");
-            txtStatsAsexualOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringAsexualCount, (eaStats.TotalOffspringAsexualCount / (double)totalOffspringCount));
-            txtStatsCrossoverOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringSexualCount, (eaStats.TotalOffspringSexualCount / (double)totalOffspringCount));
-            txtStatsInterspeciesOffspringCount.Text = string.Format("{0:N0} ({1:P})", eaStats.TotalOffspringInterspeciesCount, (eaStats.TotalOffspringInterspeciesCount/(double)totalOffspringCount));
+            txtStatsTotalOffspringCount.Text = totalOffspringCount.ToString("N0", CultureInfo.CurrentCulture);
+            txtStatsAsexualOffspringCount.Text = string.Format(CultureInfo.CurrentCulture,"{0:N0} ({1:P})", eaStats.TotalOffspringAsexualCount, (eaStats.TotalOffspringAsexualCount / (double)totalOffspringCount));
+            txtStatsCrossoverOffspringCount.Text = string.Format(CultureInfo.CurrentCulture, "{0:N0} ({1:P})", eaStats.TotalOffspringSexualCount, (eaStats.TotalOffspringSexualCount / (double)totalOffspringCount));
+            txtStatsInterspeciesOffspringCount.Text = string.Format(CultureInfo.CurrentCulture, "{0:N0} ({1:P})", eaStats.TotalOffspringInterspeciesCount, (eaStats.TotalOffspringInterspeciesCount/(double)totalOffspringCount));
         }
     }
 

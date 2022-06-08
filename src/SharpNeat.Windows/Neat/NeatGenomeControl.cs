@@ -13,6 +13,7 @@ namespace SharpNeat.Windows.Neat;
 /// </summary>
 public class NeatGenomeControl : GenomeControl
 {
+    // TODO: Call dispose on these disposable objects.
     private ViewportControl viewportControl1;
     private readonly GraphViewportPainter _graphViewportPainter;
 

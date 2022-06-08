@@ -5,7 +5,8 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>SharpNeat</RootNamespace>
 	<ImplicitUsings>enable</ImplicitUsings>
-	<NoWarn>SA0001</NoWarn>
+	<AnalysisLevel>latest-Recommended</AnalysisLevel>
+	<NoWarn>SA0001,CA1707</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
