@@ -1,7 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Text.Json;
-using SharpNeat.Experiments.Windows;
+using SharpNeat.Windows.Experiments;
 
 namespace SharpNeat.Windows.Neat;
 
@@ -11,7 +10,7 @@ namespace SharpNeat.Windows.Neat;
 public class NeatExperimentUIFactory : IExperimentUIFactory
 {
     /// <inheritdoc/>
-    public IExperimentUI CreateExperimentUI(JsonElement configElem)
+    public IExperimentUI CreateExperimentUI(Stream jsonConfigStream)
     {
         return new NeatExperimentUI();
     }

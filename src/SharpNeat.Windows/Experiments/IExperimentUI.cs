@@ -1,8 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Windows;
-
-namespace SharpNeat.Experiments.Windows;
+namespace SharpNeat.Windows.Experiments;
 
 /// <summary>
 /// Represents types that can create new User Interfaces (UIs) for visualisation of genomes and tasks.

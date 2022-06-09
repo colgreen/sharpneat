@@ -1,9 +1,10 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Text.Json;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.NeuralNets;
+using SharpNeat.Tasks.PreyCapture.ConfigModels;
+using static SharpNeat.Experiments.ModelHelper;
 
 namespace SharpNeat.Tasks.PreyCapture;
 
@@ -18,11 +19,14 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
     #region Public Methods
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(JsonElement configElem)
+    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
-        // Read the customEvaluationSchemeConfig section.
+        // Load experiment JSON config.
+        PreyCaptureExperimentConfig experimentConfig = JsonUtils.Deserialize<PreyCaptureExperimentConfig>(jsonConfigStream);
+
+        // Read custom evaluation scheme config.
         ReadEvaluationSchemeConfig(
-            configElem,
+            experimentConfig,
             out int preyInitMoves,
             out float preySpeed,
             out float sensorRange,
@@ -43,19 +47,13 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
             ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
         };
 
-        // Read standard neat experiment json config and use it configure the experiment.
-        NeatExperimentJsonReader<double>.Read(experiment, configElem);
+        // Apply configuration to the experiment instance.
+        experiment.Configure(experimentConfig);
         return experiment;
     }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model, and using single-precision floating-point number format for the
-    /// genome and neural-net connection weights.
-    /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
+    /// <inheritdoc/>
+    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
     {
         throw new NotImplementedException();
     }
@@ -65,7 +63,7 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
     #region Private Static Methods
 
     private static void ReadEvaluationSchemeConfig(
-        JsonElement configElem,
+        PreyCaptureExperimentConfig experimentConfig,
         out int preyInitMoves,
         out float preySpeed,
         out float sensorRange,
@@ -73,14 +71,15 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
         out int trialsPerEvaluation)
     {
         // Get the customEvaluationSchemeConfig section.
-        if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem))
+        if(experimentConfig.CustomEvaluationSchemeConfig is null)
             throw new ConfigurationException("customEvaluationSchemeConfig not defined.");
 
-        preyInitMoves = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "preyInitMoves");
-        preySpeed = (float)JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "preySpeed");
-        sensorRange = (float)JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "sensorRange");
-        maxTimesteps = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "maxTimesteps");
-        trialsPerEvaluation = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "trialsPerEvaluation");
+        PreyCaptureCustomConfig customConfig = experimentConfig.CustomEvaluationSchemeConfig;
+        preyInitMoves = GetMandatoryProperty(() => customConfig.PreyInitMoves);
+        preySpeed = GetMandatoryProperty(() => customConfig.PreySpeed);
+        sensorRange = GetMandatoryProperty(() => customConfig.SensorRange);
+        maxTimesteps = GetMandatoryProperty(() => customConfig.MaxTimesteps);
+        trialsPerEvaluation = GetMandatoryProperty(() => customConfig.TrialsPerEvaluation);
     }
 
     #endregion

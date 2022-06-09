@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Experiments.Windows;
+using SharpNeat.Windows.Experiments;
 
 namespace SharpNeat.Windows.Neat;
 

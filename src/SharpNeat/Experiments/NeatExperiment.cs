@@ -45,7 +45,7 @@ public class NeatExperiment<T> : INeatExperiment<T>
     public string ActivationFnName { get; set; } = ActivationFunctionId.LeakyReLU.ToString();
 
     /// <inheritdoc/>
-    public NeatEvolutionAlgorithmSettings NeatEvolutionAlgorithmSettings { get; }
+    public NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
 
     /// <inheritdoc/>
     public NeatReproductionAsexualSettings ReproductionAsexualSettings { get; }
@@ -76,7 +76,7 @@ public class NeatExperiment<T> : INeatExperiment<T>
 
     #endregion
 
-    #region Constructor
+    #region Construction
 
     /// <summary>
     /// Constructs with the provided name and evaluation scheme, and default settings.
@@ -96,7 +96,7 @@ public class NeatExperiment<T> : INeatExperiment<T>
         this.Name = id;
 
         // Assign a set of default settings.
-        this.NeatEvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
+        this.EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
         this.ReproductionAsexualSettings = new NeatReproductionAsexualSettings();
         this.ReproductionSexualSettings = new NeatReproductionSexualSettings();
         this.PopulationSize = 400;

@@ -1,7 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Text.Json;
 using SharpNeat.Experiments;
+using SharpNeat.Experiments.ConfigModels;
+using SharpNeat.IO;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Tasks.CartPole.DoublePole;
@@ -15,8 +16,11 @@ public sealed class CartDoublePoleExperimentFactory : INeatExperimentFactory
     public string Id => "cartpole-doublepole";
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(JsonElement configElem)
+    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
+        // Load experiment JSON config.
+        ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
+
         // Create an evaluation scheme object for the Single Pole Balancing task.
         var evalScheme = new CartDoublePoleEvaluationScheme();
 
@@ -29,13 +33,13 @@ public sealed class CartDoublePoleExperimentFactory : INeatExperimentFactory
             ActivationFnName = ActivationFunctionId.LogisticSteep.ToString()
         };
 
-        // Read standard neat experiment json config and use it configure the experiment.
-        NeatExperimentJsonReader<double>.Read(experiment, configElem);
+        // Apply configuration to the experiment instance.
+        experiment.Configure(experimentConfig);
         return experiment;
     }
 
     /// <inheritdoc/>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
+    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
     {
         throw new NotImplementedException();
     }

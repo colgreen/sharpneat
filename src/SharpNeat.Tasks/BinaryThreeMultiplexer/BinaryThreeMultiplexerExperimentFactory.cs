@@ -1,7 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Text.Json;
 using SharpNeat.Experiments;
+using SharpNeat.Experiments.ConfigModels;
+using SharpNeat.IO;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Tasks.BinaryThreeMultiplexer;
@@ -15,8 +16,11 @@ public sealed class BinaryThreeMultiplexerExperimentFactory : INeatExperimentFac
     public string Id => "binary-3-multiplexer";
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(JsonElement configElem)
+    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
+        // Load experiment JSON config.
+        ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
+
         // Create an evaluation scheme object for the binary 3-multiplexer task.
         var evalScheme = new BinaryThreeMultiplexerEvaluationScheme();
 
@@ -28,13 +32,13 @@ public sealed class BinaryThreeMultiplexerExperimentFactory : INeatExperimentFac
             ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
         };
 
-        // Read standard neat experiment json config and use it configure the experiment.
-        NeatExperimentJsonReader<double>.Read(experiment, configElem);
+        // Apply configuration to the experiment instance.
+        experiment.Configure(experimentConfig);
         return experiment;
     }
 
     /// <inheritdoc/>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
+    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
     {
         throw new NotImplementedException();
     }

@@ -1,10 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Text.Json;
 using SharpNeat.Experiments;
-using SharpNeat.Experiments.Windows;
-using SharpNeat.IO;
 using SharpNeat.Windows.App.Experiments;
+using SharpNeat.Windows.Experiments;
 
 namespace SharpNeat.Windows.App;
 
@@ -18,11 +16,8 @@ internal static class AppUtils
             expInfo.ExperimentFactory.TypeName)
             .Unwrap();
 
-        // Load experiment json config from file.
-        JsonDocument configDoc = JsonUtils.LoadUtf8(expInfo.ConfigFile);
-
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        INeatExperiment<double> experiment = factory.CreateExperiment(configDoc.RootElement);
+        INeatExperiment<double> experiment = factory.CreateExperiment(expInfo.ConfigFile);
         return experiment;
     }
 
@@ -37,11 +32,8 @@ internal static class AppUtils
             expInfo.ExperimentUIFactory.TypeName)
             .Unwrap();
 
-        // Load experiment json config from file.
-        JsonDocument configDoc = JsonUtils.LoadUtf8(expInfo.ConfigFile);
-
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        IExperimentUI experimentUI = factory.CreateExperimentUI(configDoc.RootElement);
+        IExperimentUI experimentUI = factory.CreateExperimentUI(expInfo.ConfigFile);
         return experimentUI;
     }
 

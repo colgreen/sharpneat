@@ -5,11 +5,11 @@ using System.Text.Json;
 using log4net;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
-using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat;
 using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
+using SharpNeat.Windows.Experiments;
 
 namespace SharpNeat.Windows.App;
 

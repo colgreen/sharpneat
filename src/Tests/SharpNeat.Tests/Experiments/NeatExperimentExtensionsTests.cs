@@ -1,23 +1,23 @@
-﻿using System.Text.Json;
-using Moq;
+﻿using Moq;
 using SharpNeat.Evaluation;
+using SharpNeat.Experiments.ConfigModels;
+using SharpNeat.IO;
 using Xunit;
 
 namespace SharpNeat.Experiments.Tests;
 
-public class NeatExperimentJsonReaderTests
+public class NeatExperimentExtensionsTests
 {
     [Fact]
-    public void Read()
+    public void Configure()
     {
-        JsonDocument jdoc = JsonDocument.Parse(
-@"{
+        string json = @"{
     ""description"":""bar description"",
     ""isAcyclic"":false,
     ""cyclesPerActivation"":111,
     ""activationFnName"":""bar-activation-fn"",
 
-    ""evolutionAlgorithmSettings"":
+    ""evolutionAlgorithm"":
     {
         ""speciesCount"":1111,
         ""elitismProportion"":0.11,
@@ -27,14 +27,14 @@ public class NeatExperimentJsonReaderTests
         ""interspeciesMatingProportion"":0.55,
         ""statisticsMovingAverageHistoryLength"":2222
     },
-    ""reproductionAsexualSettings"":
+    ""reproductionAsexual"":
     {
         ""connectionWeightMutationProbability"":0.11,
         ""addNodeMutationProbability"":0.22,
         ""addConnectionMutationProbability"":0.33,
         ""deleteConnectionMutationProbability"":0.34
     },
-    ""reproductionSexualSettings"":
+    ""reproductionSexual"":
     {
         ""secondaryParentGeneProbability"":0.11
     },
@@ -53,7 +53,9 @@ public class NeatExperimentJsonReaderTests
     ""enableHardwareAcceleratedNeuralNets"":true,
     ""enableHardwareAcceleratedActivationFunctions"":true,
     ""degreeOfParallelism"":6
-}");
+}";
+
+        ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(json);
 
         // Create a mock evaluation scheme.
         var evalScheme = new Mock<IBlackBoxEvaluationScheme<double>>();
@@ -62,8 +64,8 @@ public class NeatExperimentJsonReaderTests
         var experiment = new NeatExperiment<double>(
             evalScheme.Object, "foo-experiment");
 
-        // Read json properties into the experiment object.
-        NeatExperimentJsonReader<double>.Read(experiment, jdoc.RootElement);
+        // Apply the experiment config.
+        experiment.Configure(experimentConfig);
 
         // Assert the expected values.
         Assert.Equal("bar description", experiment.Description);
@@ -71,7 +73,7 @@ public class NeatExperimentJsonReaderTests
         Assert.Equal(111, experiment.CyclesPerActivation);
         Assert.Equal("bar-activation-fn", experiment.ActivationFnName);
 
-        var eaSettings = experiment.NeatEvolutionAlgorithmSettings;
+        var eaSettings = experiment.EvolutionAlgorithmSettings;
         Assert.Equal(1111, eaSettings.SpeciesCount);
         Assert.Equal(0.11, eaSettings.ElitismProportion);
         Assert.Equal(0.22, eaSettings.SelectionProportion);

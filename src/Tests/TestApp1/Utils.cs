@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using SharpNeat.Experiments;
-using SharpNeat.IO;
+﻿using SharpNeat.Experiments;
 using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
@@ -13,11 +11,8 @@ internal static class Utils
     {
         string jsonConfigFilename = $"experiments-config/{experimentFactory.Id}.config.json";
 
-        // Load experiment json config from file.
-        JsonDocument configDoc = JsonUtils.LoadUtf8(jsonConfigFilename);
-
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(configDoc.RootElement);
+        INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(jsonConfigFilename);
 
         // Create a NeatEvolutionAlgorithm instance ready to run the experiment.
         var ea = NeatUtils.CreateNeatEvolutionAlgorithm(neatExperiment);

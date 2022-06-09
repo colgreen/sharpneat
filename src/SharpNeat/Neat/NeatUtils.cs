@@ -45,7 +45,7 @@ public static class NeatUtils
 
         // Pull all of the parts together into an evolution algorithm instance.
         var ea = new NeatEvolutionAlgorithm<double>(
-            neatExperiment.NeatEvolutionAlgorithmSettings,
+            neatExperiment.EvolutionAlgorithmSettings,
             genomeListEvaluator,
             speciationStrategy,
             neatPop,
@@ -85,7 +85,7 @@ public static class NeatUtils
 
         // Pull all of the parts together into an evolution algorithm instance.
         var ea = new NeatEvolutionAlgorithm<double>(
-            neatExperiment.NeatEvolutionAlgorithmSettings,
+            neatExperiment.EvolutionAlgorithmSettings,
             genomeListEvaluator,
             speciationStrategy,
             neatPop,

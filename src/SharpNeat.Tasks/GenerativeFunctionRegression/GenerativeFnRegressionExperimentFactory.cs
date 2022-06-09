@@ -1,10 +1,11 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Text.Json;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.FunctionRegression;
+using SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
+using static SharpNeat.Experiments.ModelHelper;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression;
 
@@ -19,12 +20,15 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     #region Public Methods
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(JsonElement configElem)
+    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
-        // Read the customEvaluationSchemeConfig section.
+        // Load experiment JSON config.
+        GenerativeFnRegressionExperimentConfig experimentConfig = JsonUtils.Deserialize<GenerativeFnRegressionExperimentConfig>(jsonConfigStream);
+
+        // Read custom evaluation scheme config.
         ReadEvaluationSchemeConfig(
-            configElem,
-            out Func<double,double> fn,
+            experimentConfig,
+            out Func<double, double> fn,
             out ParamSamplingInfo paramSamplingInfo,
             out double gradientMseWeight);
 
@@ -41,14 +45,13 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
             ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
         };
 
-        // Read standard neat experiment json config and use it configure the experiment.
-        NeatExperimentJsonReader<double>.Read(experiment, configElem);
-
+        // Apply configuration to the experiment instance.
+        experiment.Configure(experimentConfig);
         return experiment;
     }
 
     /// <inheritdoc/>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem)
+    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
     {
         throw new NotImplementedException();
     }
@@ -58,29 +61,31 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     #region Private Static Methods
 
     private static void ReadEvaluationSchemeConfig(
-        JsonElement configElem,
-        out Func<double,double> fn,
+        GenerativeFnRegressionExperimentConfig experimentConfig,
+        out Func<double, double> fn,
         out ParamSamplingInfo paramSamplingInfo,
         out double gradientMseWeight)
     {
         // Get the customEvaluationSchemeConfig section.
-        if(!configElem.TryGetProperty("customEvaluationSchemeConfig", out JsonElement evalSchemeElem))
+        if(experimentConfig.CustomEvaluationSchemeConfig is null)
             throw new ConfigurationException("customEvaluationSchemeConfig not defined.");
 
+        GenerativeFnRegressionCustomConfig customConfig = experimentConfig.CustomEvaluationSchemeConfig;
+
         // Read function ID.
-        string functionIdStr = JsonReadMandatoryUtils.ReadStringMandatory(evalSchemeElem, "functionId");
+        string functionIdStr = GetMandatoryProperty(() => customConfig.FunctionId);
         FunctionId functionId = (FunctionId)Enum.Parse(typeof(FunctionId), functionIdStr);
         fn = FunctionFactory.GetFunction(functionId);
 
         // Read sample interval min and max, and sample resolution.
-        double sampleIntervalMin = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "sampleIntervalMin");
-        double sampleIntervalMax = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "sampleIntervalMax");
-        int sampleResolution = JsonReadMandatoryUtils.ReadIntMandatory(evalSchemeElem, "sampleResolution");
+        double sampleIntervalMin = GetMandatoryProperty(() => customConfig.SampleIntervalMin);
+        double sampleIntervalMax = GetMandatoryProperty(() => customConfig.SampleIntervalMax);
+        int sampleResolution = GetMandatoryProperty(() => customConfig.SampleResolution);
         paramSamplingInfo = new ParamSamplingInfo(sampleIntervalMin, sampleIntervalMax, sampleResolution);
 
         // Read the weight to apply to the gradientMse readings in the final fitness score.
         // 0 means don't use the gradient measurements, 1 means give them equal weight to the y position readings at each x sample point.
-        gradientMseWeight = JsonReadMandatoryUtils.ReadDoubleMandatory(evalSchemeElem, "gradientMseWeight");
+        gradientMseWeight = GetMandatoryProperty(() => customConfig.GradientMseWeight);
     }
 
     #endregion

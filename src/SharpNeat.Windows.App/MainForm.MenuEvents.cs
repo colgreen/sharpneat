@@ -1,11 +1,11 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Experiments.Windows;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
+using SharpNeat.Windows.Experiments;
 using static SharpNeat.Windows.App.AppUtils;
 
 #pragma warning disable IDE1006 // Naming Styles. Allow naming convention for Windows.Forms event handlers.

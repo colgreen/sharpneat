@@ -15,19 +15,19 @@ public interface INeatExperimentFactory
     string Id { get; }
 
     /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model.
+    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using the provided NEAT experiment
+    /// configuration.
     /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
+    /// <param name="jsonConfigStream">A stream from which experiment JSON configuration can be read.</param>
     /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-    INeatExperiment<double> CreateExperiment(JsonElement configElem);
+    INeatExperiment<double> CreateExperiment(Stream jsonConfigStream);
 
     /// <summary>
-    /// Creates a new instance of <see cref="INeatExperiment{T}"/> using experiment configuration settings
-    /// from the provided json object model, and using single-precision floating-point number format for the
+    ///  Creates a new instance of <see cref="INeatExperiment{T}"/> using the provided NEAT experiment
+    /// configuration, and using single-precision floating-point number format for the
     /// genome and neural-net connection weights.
     /// </summary>
-    /// <param name="configElem">Experiment config in json form.</param>
+    /// <param name="jsonConfigStream">A stream from which experiment JSON configuration can be read.</param>
     /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-    INeatExperiment<float> CreateExperimentSinglePrecision(JsonElement configElem);
+    INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream);
 }

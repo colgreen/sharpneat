@@ -93,23 +93,21 @@ class Program
 
     private static INeatExperiment<double> InitExperiment_BinaryElevenMultiplexer()
     {
-        // Load experiment json config from file.
-        JsonDocument configDoc = JsonUtils.LoadUtf8("config/binary-eleven-multiplexer.config.json");
-
         // Create an instance of INeatExperiment for the binary 11-multiplexer task, configured using the supplied json config.
         var experimentFactory = new BinaryElevenMultiplexerExperimentFactory();
-        INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(configDoc.RootElement);
+        INeatExperiment<double> neatExperiment = 
+            experimentFactory.CreateExperiment("config/binary-eleven-multiplexer.config.json");
+
         return neatExperiment;
     }
 
     private static INeatExperiment<double> InitExperiment_Sinewave()
     {
-        // Load experiment json config from file.
-        JsonDocument configDoc = JsonUtils.LoadUtf8("config/generative-sinewave.config.json");
-
         // Create an instance of INeatExperiment for the generative sinewave task, configured using the supplied json config.
         var experimentFactory = new GenerativeFnRegressionExperimentFactory();
-        INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(configDoc.RootElement);
+        INeatExperiment<double> neatExperiment =
+            experimentFactory.CreateExperiment("config/generative-sinewave.config.json");
+
         return neatExperiment;
     }
 

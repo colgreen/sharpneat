@@ -65,9 +65,9 @@ public interface INeatExperiment<T>
     string ActivationFnName { get; set; }
 
     /// <summary>
-    /// The <see cref="NeatEvolutionAlgorithmSettings"/> to be used for the experiment.
+    /// The <see cref="EvolutionAlgorithmSettings"/> to be used for the experiment.
     /// </summary>
-    NeatEvolutionAlgorithmSettings NeatEvolutionAlgorithmSettings { get; }
+    NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
 
     /// <summary>
     /// The asexual reproduction settings to use for the experiment.

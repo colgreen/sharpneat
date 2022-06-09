@@ -255,7 +255,7 @@ partial class MainForm
 
     private void SendSettingsToUI(INeatExperiment<double> experiment)
     {
-        SendSettingsToUI(experiment.NeatEvolutionAlgorithmSettings);
+        SendSettingsToUI(experiment.EvolutionAlgorithmSettings);
         SendSettingsToUI(experiment.ReproductionAsexualSettings);
 
         SetValue(txtPopulationSize, experiment.PopulationSize);
@@ -286,7 +286,7 @@ partial class MainForm
 
     private void GetSettingsFromUI(INeatExperiment<double> experiment)
     {
-        GetSettingsFromUI(experiment.NeatEvolutionAlgorithmSettings);
+        GetSettingsFromUI(experiment.EvolutionAlgorithmSettings);
         GetSettingsFromUI(experiment.ReproductionAsexualSettings);
 
         experiment.PopulationSize = GetValue(txtPopulationSize, experiment.PopulationSize);
