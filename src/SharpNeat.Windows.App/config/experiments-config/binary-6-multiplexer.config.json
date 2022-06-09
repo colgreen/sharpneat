@@ -2,7 +2,7 @@
 	"name": "Binary 6-multiplexer",
 	"isAcyclic": true,
 	"activationFnName": "LeakyReLU",
-	"evolutionAlgorithmSettings": {
+	"evolutionAlgorithm": {
 		"speciesCount": 10,
 		"elitismProportion": 0.2,
 		"selectionProportion": 0.2,
@@ -10,13 +10,13 @@
 		"offspringSexualProportion": 0.5,
 		"interspeciesMatingProportion": 0.01
 	},
-	"reproductionAsexualSettings": {
+	"reproductionAsexual": {
 		"connectionWeightMutationProbability": 0.94,
 		"addNodeMutationProbability": 0.01,
 		"addConnectionMutationProbability": 0.025,
 		"deleteConnectionMutationProbability": 0.025
 	},
-	"reproductionSexualSettings": {
+	"reproductionSexual": {
 		"secondaryParentGeneProbability": 0.1
 	},
 	"populationSize": 300,

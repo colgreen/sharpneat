@@ -3,7 +3,7 @@
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LeakyReLU",
-	"evolutionAlgorithmSettings": {
+	"evolutionAlgorithm": {
 		"speciesCount": 15,
 		"elitismProportion": 0.66,
 		"selectionProportion": 0.66,
@@ -11,13 +11,13 @@
 		"offspringSexualProportion": 0.5,
 		"interspeciesMatingProportion": 0.01
 	},
-	"reproductionAsexualSettings": {
+	"reproductionAsexual": {
 		"connectionWeightMutationProbability": 0.94,
 		"addNodeMutationProbability": 0.01,
 		"addConnectionMutationProbability": 0.025,
 		"deleteConnectionMutationProbability": 0.025
 	},
-	"reproductionSexualSettings": {
+	"reproductionSexual": {
 		"secondaryParentGeneProbability": 0.1
 	},
 	"populationSize": 225,

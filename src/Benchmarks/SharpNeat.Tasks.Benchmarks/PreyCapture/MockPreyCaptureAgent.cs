@@ -1,6 +1,6 @@
 ﻿namespace SharpNeat.Tasks.Benchmarks.PreyCapture;
 
-sealed internal class MockPreyCaptureAgent : IBlackBox<double>
+internal sealed class MockPreyCaptureAgent : IBlackBox<double>
 {
     readonly double[] _outputArr;
     int _state;
