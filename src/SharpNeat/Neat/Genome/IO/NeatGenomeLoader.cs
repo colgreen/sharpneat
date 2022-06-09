@@ -17,8 +17,6 @@ public sealed class NeatGenomeLoader<T>
 {
     static readonly char[] __separatorChars = new char[] { ' ', '\t' };
 
-    #region Instance Fields
-
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly Func<string, (T,bool)> _tryParseWeight;
     readonly INeatGenomeBuilder<T> _genomeBuilder;
@@ -40,8 +38,6 @@ public sealed class NeatGenomeLoader<T>
     int _reentranceFlag;
 #endif
 
-    #endregion
-
     #region Constructors
 
     /// <summary>
@@ -53,8 +49,7 @@ public sealed class NeatGenomeLoader<T>
         MetaNeatGenome<T> metaNeatGenome,
         Func<string, (T weight, bool success)> tryParseWeight)
         : this(metaNeatGenome, tryParseWeight, 8)
-    {
-    }
+    {}
 
     /// <summary>
     /// Construct a new genome loader.

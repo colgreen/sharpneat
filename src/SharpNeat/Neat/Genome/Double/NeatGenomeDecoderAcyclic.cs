@@ -18,7 +18,8 @@ public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>
     /// </summary>
     /// <param name="genome">The genome to decode.</param>
     /// <returns>An <see cref="IBlackBox{T}"/>.</returns>
-    public IBlackBox<double> Decode(NeatGenome<double> genome)
+    public IBlackBox<double> Decode(
+        NeatGenome<double> genome)
     {
         Debug.Assert(genome?.MetaNeatGenome?.IsAcyclic == true);
         Debug.Assert(genome?.ConnectionGenes is not null);

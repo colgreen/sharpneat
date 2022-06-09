@@ -5,7 +5,7 @@ using System.Globalization;
 namespace SharpNeat.Neat.Genome.IO;
 
 /// <summary>
-/// <see cref="NeatGenomeLoader{Double}"/> factory.
+/// <see cref="NeatGenomeLoader{T}"/> factory.
 /// </summary>
 public static class NeatGenomeLoaderFactory
 {

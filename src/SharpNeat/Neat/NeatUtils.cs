@@ -102,7 +102,8 @@ public static class NeatUtils
     /// </summary>
     /// <param name="neatExperiment">The neat experiment.</param>
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
-    public static MetaNeatGenome<double> CreateMetaNeatGenome(INeatExperiment<double> neatExperiment)
+    public static MetaNeatGenome<double> CreateMetaNeatGenome(
+        INeatExperiment<double> neatExperiment)
     {
         // Resolve the configured activation function name to an activation function instance.
         var actFnFactory = new DefaultActivationFunctionFactory<double>(neatExperiment.EnableHardwareAcceleratedActivationFunctions);
