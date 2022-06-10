@@ -1,9 +1,9 @@
 ﻿namespace SharpNeat.Experiments;
 
 /// <summary>
-/// Static helper methods for working with strongly typed model classes.
+/// Static utility methods for working with strongly typed model classes.
 /// </summary>
-public static class ModelHelper
+public static class ModelUtils
 {
     // TODO: Consider using expression tree, so that the property name can be obtained and used in the exception message.
     /// <summary>

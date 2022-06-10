@@ -5,7 +5,7 @@ using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
-using static SharpNeat.Experiments.ModelHelper;
+using static SharpNeat.Experiments.ModelUtils;
 
 namespace SharpNeat.Experiments;
 

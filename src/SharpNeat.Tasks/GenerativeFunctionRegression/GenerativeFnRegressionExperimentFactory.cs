@@ -5,7 +5,7 @@ using SharpNeat.IO;
 using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.FunctionRegression;
 using SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
-using static SharpNeat.Experiments.ModelHelper;
+using static SharpNeat.Experiments.ModelUtils;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression;
 

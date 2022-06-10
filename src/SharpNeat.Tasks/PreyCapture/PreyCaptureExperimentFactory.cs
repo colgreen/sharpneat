@@ -4,7 +4,7 @@ using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.PreyCapture.ConfigModels;
-using static SharpNeat.Experiments.ModelHelper;
+using static SharpNeat.Experiments.ModelUtils;
 
 namespace SharpNeat.Tasks.PreyCapture;
 
