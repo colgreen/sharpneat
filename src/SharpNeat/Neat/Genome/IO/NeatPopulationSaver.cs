@@ -2,6 +2,7 @@
 // See LICENSE.txt for details.
 using System.Globalization;
 using System.IO.Compression;
+using static System.FormattableString;
 
 namespace SharpNeat.Neat.Genome.IO;
 
@@ -13,9 +14,7 @@ namespace SharpNeat.Neat.Genome.IO;
 /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single
 /// zip archive file.
 /// </remarks>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public static class NeatPopulationSaver<T>
-    where T : struct
+public static class NeatPopulationSaver
 {
     #region Public Static Methods
 
@@ -25,15 +24,17 @@ public static class NeatPopulationSaver<T>
     /// <param name="genomeList">The population of genomes to save.</param>
     /// <param name="parentPath">Path to an existing folder to create the new population folder.</param>
     /// <param name="name">The name to assign to the population folder.</param>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     /// <remarks>
     /// A population is a collection of genomes. The genomes each serialized individually as when saving a single genome.
     /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single
     /// zip archive file.
     /// </remarks>
-    public static void SaveToFolder(
+    public static void SaveToFolder<T>(
         IList<NeatGenome<T>> genomeList,
         string parentPath,
         string name)
+        where T : struct
     {
         ArgumentNullException.ThrowIfNull(parentPath);
         ArgumentNullException.ThrowIfNull(name);
@@ -58,7 +59,7 @@ public static class NeatPopulationSaver<T>
             string genomePath = Path.Combine(popDirPath, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".net");
 
             // Save the genome.
-            NeatGenomeSaver<T>.Save(genome, genomePath);
+            NeatGenomeSaver.Save(genome, genomePath);
         }
     }
 
@@ -66,50 +67,42 @@ public static class NeatPopulationSaver<T>
     /// Save the given population of genomes to a single zip archive file.
     /// </summary>
     /// <param name="genomeList">The population of genomes to save.</param>
-    /// <param name="parentPath">Path to an existing folder to create the zip archive within.</param>
-    /// <param name="name">The name of the zip archive (without the .zip extension, which will be appended by default).</param>
+    /// <param name="filepath">The name of the zip archive (without the .zip extension, which will be appended by default).</param>
     /// <param name="compressionLevel">ZIP archive compression level.</param>
-    public static void SaveToZipArchive(
+    /// <typeparam name="T">Connection weight data type.</typeparam>
+    public static void SaveToZipArchive<T>(
         IList<NeatGenome<T>> genomeList,
-        string parentPath,
-        string name,
+        string filepath,
         CompressionLevel compressionLevel)
+        where T : struct
     {
-        ArgumentNullException.ThrowIfNull(parentPath);
-        ArgumentNullException.ThrowIfNull(name);
-
-        // Check if the specified parent folder exists.
-        if(!Directory.Exists(parentPath))
-            throw new IOException($"parentPath does not exist [{parentPath}]");
+        ArgumentNullException.ThrowIfNull(filepath);
 
         // Append zip extension for filenames that do not yet have it.
         // For all other extensions we leave them in place. If it isn't .zip then we assume the caller does this with good reason.
-        string extension = Path.GetExtension(name);
+        string extension = Path.GetExtension(filepath);
         if(extension == string.Empty)
-            name += ".zip";
+            filepath += ".zip";
 
         // Check if the specified population zip archive name exists.
-        string popZipPath = Path.Combine(parentPath, name);
-        if(File.Exists(popZipPath))
-            throw new IOException($"The specified population zip archive already exists [{popZipPath}]");
-
-        string nameWithoutExt = Path.GetFileNameWithoutExtension(name);
+        if(File.Exists(filepath))
+            File.Delete(filepath);
 
         // Create a new zip archive.
-        using FileStream fs = new(popZipPath, FileMode.CreateNew);
+        using FileStream fs = new(filepath, FileMode.CreateNew);
         using ZipArchive zipArchive = new(fs, ZipArchiveMode.Create);
         // Loop the genomes; add each one in turn to the zip archive.
         foreach(var genome in genomeList)
         {
             // Build the genome's entry name.
-            string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".net");
+            string entryName = Invariant($"{genome.Id:D6}.net");
 
             // Create an new zip entry.
             ZipArchiveEntry zipEntry = zipArchive.CreateEntry(entryName, compressionLevel);
             using(Stream zipEntryStream = zipEntry.Open())
             {
                 // Serialize the genome into the zip entry.
-                NeatGenomeSaver<T>.Save(genome, zipEntryStream);
+                NeatGenomeSaver.Save(genome, zipEntryStream);
             }
         }
     }

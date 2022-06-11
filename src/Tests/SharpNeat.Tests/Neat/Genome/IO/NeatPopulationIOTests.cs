@@ -1,4 +1,5 @@
-﻿using SharpNeat.Neat.Genome.Tests;
+﻿using System.IO.Compression;
+using SharpNeat.Neat.Genome.Tests;
 using Xunit;
 
 namespace SharpNeat.Neat.Genome.IO.Tests;
@@ -26,7 +27,7 @@ public class NeatPopulationIOTests
         Directory.CreateDirectory(parentPath);
 
         // Save the population to the unit test output folder.
-        NeatPopulationSaver<double>.SaveToFolder(pop.GenomeList, parentPath, "pop1");
+        NeatPopulationSaver.SaveToFolder(pop.GenomeList, parentPath, "pop1");
 
         // Load the population.
         NeatPopulationLoader<double> loader = NeatPopulationLoaderFactory.CreateLoaderDouble(pop.MetaNeatGenome);
@@ -48,22 +49,20 @@ public class NeatPopulationIOTests
             Directory.GetCurrentDirectory(),
             "test-pops");
 
-        // Delete folder if it already exists.
-        if(Directory.Exists(parentPath))
-            Directory.Delete(parentPath, true);
+        string filepath = Path.Combine(parentPath, "pop2.zip");
 
-        // Create an empty parent folder to save populations into.
-        Directory.CreateDirectory(parentPath);
+        // Delete file if it already exists.
+        if(File.Exists(filepath))
+            File.Delete(filepath);
 
         // Save the population to the unit test output folder.
-        NeatPopulationSaver<double>.SaveToZipArchive(
-            pop.GenomeList, parentPath, "pop2",
-            System.IO.Compression.CompressionLevel.Optimal);
+        NeatPopulationSaver.SaveToZipArchive(
+            pop.GenomeList, filepath,
+            CompressionLevel.Optimal);
 
         // Load the population.
         NeatPopulationLoader<double> loader = NeatPopulationLoaderFactory.CreateLoaderDouble(pop.MetaNeatGenome);
-        string populationZipPath = Path.Combine(parentPath, "pop2.zip");
-        List<NeatGenome<double>> genomeListLoaded = loader.LoadFromZipArchive(populationZipPath);
+        List<NeatGenome<double>> genomeListLoaded = loader.LoadFromZipArchive(filepath);
 
         // Compare the loaded genomes with the original genome list.
         IOTestUtils.CompareGenomeLists(pop.GenomeList, genomeListLoaded);

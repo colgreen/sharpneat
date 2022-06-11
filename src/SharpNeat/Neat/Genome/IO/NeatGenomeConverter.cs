@@ -58,4 +58,76 @@ public static class NeatGenomeConverter
             inputCount, outputCount, isAcyclic,
             connList, actFnLines);
     }
+
+    /// <summary>
+    /// Convert a <see cref="NetFileModel"/> instance into a <see cref="NeatGenome{T}"/> instance.
+    /// </summary>
+    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
+    /// <param name="metaNeatGenome">A <see cref="MetaNeatGenome{T}"/> instance; required to construct a new
+    /// <see cref="MetaNeatGenome{T}"/>.</param>
+    /// <param name="genomeId">The ID to assign to the created genome instance.</param>
+    /// <param name="throwIfActivationFnMismatch">If true then an exception is thrown if the activation function
+    /// defined on <paramref name="model"/> does not match the one defined on <paramref name="metaNeatGenome"/>.
+    /// If false, and there is a mismatch, then the activation defined on the <see cref="MetaNeatGenome{T}"/> is used.</param>
+    /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
+    public static NeatGenome<T> ToNeatGenome<T>(
+        NetFileModel model,
+        MetaNeatGenome<T> metaNeatGenome,
+        int genomeId,
+        bool throwIfActivationFnMismatch = true)
+        where T : struct
+    {
+        ArgumentNullException.ThrowIfNull(model);
+        ArgumentNullException.ThrowIfNull(metaNeatGenome);
+
+        // Check that the IsAcyclic flag is the same on metaNeatGenome and netFileModel.
+        if(model.IsAcyclic ^ metaNeatGenome.IsAcyclic)
+        {
+            throw new ArgumentException(
+                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different values for the IsAcyclic flag.",
+                nameof(model));
+        }
+
+        // Optionally check if the metaNeatGenome and netFileModel specify a different activation function.
+        if (throwIfActivationFnMismatch
+            && !string.Equals(model.ActivationFns[0].Code, metaNeatGenome.ActivationFn.GetType().Name, StringComparison.Ordinal))
+        {
+            throw new ArgumentException(
+                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different activation functions.",
+                nameof(model));
+        }
+
+        // Convert the connections.
+        ConnectionGenes<T> connGenes = ToConnectionGenes<T>(model.Connections);
+
+        // Get a genome builder instance.
+        // Note. the builder type depends on IsAcyclic.
+        INeatGenomeBuilder<T> genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome, true);
+
+        // Create a genome instance.
+        NeatGenome<T> genome = genomeBuilder.Create(genomeId, 0, connGenes);
+        return genome;
+    }
+
+    private static ConnectionGenes<T> ToConnectionGenes<T>(
+        List<ConnectionLine> connList)
+        where T : struct
+    {
+        ConnectionGenes<T> connGenes = new ConnectionGenes<T>(connList.Count);
+        DirectedConnection[] connArr = connGenes._connArr;
+        T[] weightArr = connGenes._weightArr;
+
+        for (int i=0; i < connArr.Length; i++)
+        {
+            ConnectionLine connLine = connList[i];
+            connArr[i] = new DirectedConnection(connLine.SourceId, connLine.TargetId);
+            weightArr[i] = (T)Convert.ChangeType(connLine.Weight, typeof(T), CultureInfo.InvariantCulture);
+        }
+
+        // Note. It is necessary for the connection to be sorted by sourceId, and secondary sorted by targetId.
+        connGenes.Sort();
+
+        return connGenes;
+    }
 }

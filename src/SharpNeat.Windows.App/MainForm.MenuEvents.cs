@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.IO.Compression;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Windows.App.Experiments;
@@ -31,11 +32,31 @@ partial class MainForm
         // Save the genome.
         try
         {
-            NeatGenomeSaver<double>.Save(bestGenome, filepath);
+            NeatGenomeSaver.Save(bestGenome, filepath);
         }
         catch(Exception ex)
         {
             __log.ErrorFormat("Error saving genome; [{0}]", ex.Message);
+        }
+    }
+
+    private void savePopulationToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // Ask the user to select a file path and name to save to.
+        string filepath = SelectFileToSave("Save population", "pop", "(*.pop)|*.pop");
+        if(string.IsNullOrEmpty(filepath))
+            return;
+
+        // Save the population.
+        try
+        {
+            NeatPopulationSaver.SaveToZipArchive(
+                _neatPop.GenomeList, filepath,
+                CompressionLevel.Optimal);
+        }
+        catch(Exception ex)
+        {
+            __log.ErrorFormat("Error saving population; [{0}]", ex.Message);
         }
     }
 

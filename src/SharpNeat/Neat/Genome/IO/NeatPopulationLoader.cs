@@ -73,8 +73,8 @@ public sealed class NeatPopulationLoader<T>
         // Loop the genome file entries, loading each in turn.
         foreach(ZipArchiveEntry zipEntry in zipArchive.Entries)
         {
-            // Skip non-genome files.
-            if(Path.GetExtension(zipEntry.Name) != ".genome")
+            // Skip non-net files.
+            if(Path.GetExtension(zipEntry.Name) != ".net")
                 continue;
 
             using(Stream zipEntryStream = zipEntry.Open())
