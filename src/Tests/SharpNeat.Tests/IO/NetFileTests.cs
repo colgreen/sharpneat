@@ -42,6 +42,28 @@ public class NetFileTests
         actFns[2].Validate(2, "Sine");
         actFns[3].Validate(3, "Gaussian");
     }
+
+    [Fact]
+    public void Save()
+    {
+        NetFileModel netFileModel = NetFile.Load("TestData/example1.genome");
+
+        MemoryStream ms = new();
+        NetFile.Save(netFileModel, ms);
+        ms.Position = 0;
+
+        NetFileModel netFileModel2 = NetFile.Load(ms);
+
+        // Test input/output counts.
+        netFileModel2.InputCount.Should().Be(3);
+        netFileModel2.OutputCount.Should().Be(2);
+
+        // Test Connections.
+        netFileModel2.Connections.Should().BeEquivalentTo(netFileModel.Connections);
+
+        // Test Activation functions.
+        netFileModel2.ActivationFns.Should().BeEquivalentTo(netFileModel.ActivationFns);
+    }
 }
 
 internal static class NetFileTestExtensions
