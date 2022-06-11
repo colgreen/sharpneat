@@ -12,8 +12,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests;
 
 public class AddAcyclicConnectionStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void AddAcyclicConnection()
     {
@@ -142,6 +140,4 @@ public class AddAcyclicConnectionStrategyTests
             }
         }
     }
-
-    #endregion
 }

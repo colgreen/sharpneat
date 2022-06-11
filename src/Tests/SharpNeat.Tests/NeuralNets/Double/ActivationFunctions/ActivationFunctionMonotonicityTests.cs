@@ -5,8 +5,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests;
 
 public class ActivationFunctionMonotonicityTests
 {
-    #region Test Methods
-
     [Fact]
     public void TestMonotonicity()
     {
@@ -44,8 +42,6 @@ public class ActivationFunctionMonotonicityTests
         AssertMonotonic(new Vectorized.SReLUShifted(), true);
         //AssertMonotonic(new Vectorized.TanH(), true);
     }
-
-    #endregion
 
     #region Private Static Methods
 

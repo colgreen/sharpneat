@@ -7,8 +7,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Tests;
 
 public class ResetWeightMutationStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void UniformReset()
     {
@@ -73,8 +71,6 @@ public class ResetWeightMutationStrategyTests
         TestMean(weightArr);
         TestStandardDeviation(weightArr);
     }
-
-    #endregion
 
     #region Private Static Methods
 

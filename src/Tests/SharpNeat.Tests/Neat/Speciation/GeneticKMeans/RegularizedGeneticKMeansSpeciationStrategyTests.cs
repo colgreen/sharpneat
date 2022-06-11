@@ -7,8 +7,6 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Tests;
 
 public class RegularizedGeneticKMeansSpeciationStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void SpeciateAll_Manhattan()
     {
@@ -56,6 +54,4 @@ public class RegularizedGeneticKMeansSpeciationStrategyTests
         TestSpeciateAdd(100, 10, 10, 0.2, distanceMetric, speciationStrategy, rng, false);
         TestSpeciateAdd(100, 30, 10, 0.1, distanceMetric, speciationStrategy, rng, false);
     }
-
-    #endregion
 }

@@ -5,8 +5,6 @@ namespace SharpNeat.Neat.Tests;
 
 public class AddedNodeBufferTests
 {
-    #region Test Methods
-
     [Fact]
     public void TryLookup()
     {
@@ -26,8 +24,6 @@ public class AddedNodeBufferTests
         TestLookupFail(buff, new DirectedConnection(103, 102));
         TestLookupFail(buff, new DirectedConnection(104, 103));
     }
-
-    #endregion
 
     #region Private Static Methods
 

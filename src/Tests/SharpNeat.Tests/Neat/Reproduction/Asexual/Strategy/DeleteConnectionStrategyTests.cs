@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests;
 
 public class DeleteConnectionStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void DeleteConnection()
     {
@@ -48,6 +46,4 @@ public class DeleteConnectionStrategyTests
                 childGenome.MetaNeatGenome.InputOutputNodeCount));
         }
     }
-
-    #endregion
 }

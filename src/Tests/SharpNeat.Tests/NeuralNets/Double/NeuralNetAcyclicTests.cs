@@ -8,8 +8,6 @@ namespace SharpNeat.NeuralNets.Double.Tests;
 
 public class NeuralNetAcyclicTests
 {
-    #region Test Methods
-
     [Fact]
     public void SingleInput_WeightZero()
     {
@@ -149,8 +147,6 @@ public class NeuralNetAcyclicTests
         var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         MultipleInputsOutputs_Inner(vnet, actFn);
     }
-
-    #endregion
 
     #region Private Static Methods
 

@@ -7,8 +7,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double.Tests;
 
 public class DeltaWeightMutationStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void UniformDelta()
     {
@@ -67,8 +65,6 @@ public class DeltaWeightMutationStrategyTests
         TestMean(weightArr, 1000.0);
         TestStandardDeviation(weightArr);
     }
-
-    #endregion
 
     #region Private Static Methods
 

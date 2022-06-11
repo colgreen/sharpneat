@@ -7,8 +7,6 @@ namespace SharpNeat.Neat.Genome.Tests;
 
 public class NeatGenomeBuilderTests
 {
-    #region Test Methods
-
     [Fact]
     public void Simple()
     {
@@ -94,6 +92,4 @@ public class NeatGenomeBuilderTests
         // Check the node count.
         Assert.Equal(15, digraph.TotalNodeCount);
     }
-
-    #endregion
 }

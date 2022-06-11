@@ -8,8 +8,6 @@ namespace SharpNeat.Neat.Genome.Tests;
 
 public class NeatGenomeAcyclicBuilderTests
 {
-    #region Test Methods
-
     [Fact]
     public void Simple()
     {
@@ -91,6 +89,4 @@ public class NeatGenomeAcyclicBuilderTests
         // Check the node count.
         Assert.Equal(6, acyclicDigraph.TotalNodeCount);
     }
-
-    #endregion
 }

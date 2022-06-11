@@ -5,8 +5,6 @@ namespace SharpNeat.Neat.Genome.IO.Tests;
 
 public class NeatGenomeIOTests
 {
-    #region Test Methods
-
     [Fact]
     public void SaveAndLoadGenome()
     {
@@ -38,6 +36,4 @@ public class NeatGenomeIOTests
         // Compare the original genome with the loaded genome.
         IOTestUtils.CompareGenomes(genome, genomeLoaded);
     }
-
-    #endregion
 }

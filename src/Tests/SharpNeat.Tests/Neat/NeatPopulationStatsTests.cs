@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.Tests;
 
 public class NeatPopulationStatsTests
 {
-    #region Test Methods
-
     [Fact]
     public void VerifyPopulationStats()
     {
@@ -94,8 +92,6 @@ public class NeatPopulationStatsTests
         neatPop.UpdateStats(PrimaryFitnessInfoComparer.Singleton, rng);
         Assert.Equal(1, neatPop.NeatPopulationStats.BestGenomeSpeciesIdx);
     }
-
-    #endregion
 
     #region Private Static Methods
 

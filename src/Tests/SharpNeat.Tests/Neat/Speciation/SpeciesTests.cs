@@ -11,8 +11,6 @@ namespace SharpNeat.Neat.Speciation.Tests;
 
 public class SpeciesTests
 {
-    #region Test Methods
-
     [Fact]
     public void SortByPrimaryFitness()
     {
@@ -46,8 +44,6 @@ public class SpeciesTests
             }
         }
     }
-
-    #endregion
 
     #region Private Static Methods
 

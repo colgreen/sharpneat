@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests;
 
 public class AddCyclicConnectionStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void AddCyclicConnection()
     {
@@ -64,6 +62,4 @@ public class AddCyclicConnectionStrategyTests
         double nullResponseProportion = nullResponseCount / (double)loops;
         Assert.True(nullResponseProportion <= 0.01);
     }
-
-    #endregion
 }

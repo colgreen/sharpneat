@@ -8,8 +8,6 @@ namespace SharpNeat.Neat.Tests;
 
 public class NeatPopulationTests
 {
-    #region Test Methods
-
     [Fact]
     public void CreatePopulation()
     {
@@ -63,8 +61,6 @@ public class NeatPopulationTests
         Assert.True(max > genome.MetaNeatGenome.ConnectionWeightScale * 0.98);
         Assert.True(Math.Abs(mean) < 0.1);
     }
-
-    #endregion
 
     #region Private Static Methods
 

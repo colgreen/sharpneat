@@ -9,8 +9,6 @@ namespace SharpNeat.Neat.Tests;
 
 public class SpeciesAllocationCalcsTests
 {
-    #region Test Methods
-
     [Fact]
     public void UpdateSpeciesAllocationSizes()
     {
@@ -59,8 +57,6 @@ public class SpeciesAllocationCalcsTests
         // Check that sum(TargetSizeInt) is equal to the required population size.
         Assert.Equal(speciesArr.Sum(x => x.Stats.TargetSizeInt), neatPop.GenomeList.Count);
     }
-
-    #endregion
 
     #region Private Static Methods
 

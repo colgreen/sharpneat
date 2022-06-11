@@ -5,8 +5,6 @@ namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Tests;
 
 public class ActivationFunctionOverloadTests
 {
-    #region Test Methods
-
     [Fact]
     public void Fn_Overloads()
     {
@@ -23,8 +21,6 @@ public class ActivationFunctionOverloadTests
             Fn_Overloads_Inner(actFn, rng);
         }
     }
-
-    #endregion
 
     #region Private Static Methods
 

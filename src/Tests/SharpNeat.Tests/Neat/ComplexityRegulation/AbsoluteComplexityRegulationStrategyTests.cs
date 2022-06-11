@@ -5,8 +5,6 @@ namespace SharpNeat.Neat.ComplexityRegulation.Tests;
 
 public class AbsoluteComplexityRegulationStrategyTests
 {
-    #region Test Methods
-
     [Fact]
     public void TestInitialisation()
     {
@@ -97,6 +95,4 @@ public class AbsoluteComplexityRegulationStrategyTests
             Assert.Equal(ComplexityRegulationMode.Complexifying, mode);
         }
     }
-
-    #endregion
 }

@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests;
 
 public class AddNodeStrategyTests
 {
-    #region Public Methods
-
     /// <summary>
     /// Apply 'add node' mutations to the same initial genome multiple times.
     /// Note. The mutations are random, therefore this tests different mutations on each loop.
@@ -99,8 +97,6 @@ public class AddNodeStrategyTests
             genome = genomeRing[0];
         }
     }
-
-    #endregion
 
     #region Private Static Methods
 

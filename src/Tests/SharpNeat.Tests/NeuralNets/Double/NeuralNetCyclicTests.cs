@@ -7,8 +7,6 @@ namespace SharpNeat.NeuralNets.Double.Tests;
 
 public class NeuralNetCyclicTests
 {
-    #region Test Methods
-
     /// <summary>
     /// One input and output, a single connection between them (i.e no connectivity cycle), connection weight is zero.
     /// </summary>
@@ -134,8 +132,6 @@ public class NeuralNetCyclicTests
         var vnet = new NeuralNets.Double.Vectorized.NeuralNetCyclic(digraph, actFn.Fn, 1);
         MultipleInputsOutputs_Inner(vnet, actFn);
     }
-
-    #endregion
 
     #region Private Static Methods
 
