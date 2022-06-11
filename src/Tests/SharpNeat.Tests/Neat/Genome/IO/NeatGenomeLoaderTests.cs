@@ -11,8 +11,8 @@ public class NeatGenomeLoaderTests
         var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
 
         // Load test genome.
-        NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-        NeatGenome<double> genomeLoaded = loader.Load("TestData/example1.genome");
+        NeatGenome<double> genomeLoaded = NeatGenomeLoader.Load(
+            "TestData/example1.genome", metaNeatGenome, 0);
 
         // Manually build an equivalent genome.
         NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);

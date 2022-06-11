@@ -17,8 +17,7 @@ public class NeuralNetAcyclicBenchmarks
     {
         // TODO: Load neural nets directly, instead of loading a genome and decoding.
         var metaNeatGenome = new MetaNeatGenome<double>(12, 1, true, new LeakyReLU());
-        var genomeLoader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-        var genome = genomeLoader.Load("data/genomes/binary11.genome");
+        var genome = NeatGenomeLoader.Load("data/genomes/binary11.net", metaNeatGenome, 0);
 
         var genomeDecoder = new NeatGenomeDecoderAcyclic();
         __nn = (NeuralNetAcyclic)genomeDecoder.Decode(genome);

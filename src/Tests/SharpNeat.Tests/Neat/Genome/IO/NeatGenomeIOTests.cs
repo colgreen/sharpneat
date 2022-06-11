@@ -33,8 +33,7 @@ public class NeatGenomeIOTests
 
         // Load the genome.
         ms.Position = 0;
-        NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-        NeatGenome<double> genomeLoaded = loader.Load(ms);
+        NeatGenome<double> genomeLoaded = NeatGenomeLoader.Load(ms, metaNeatGenome, 0);
 
         // Compare the original genome with the loaded genome.
         IOTestUtils.CompareGenomes(genome, genomeLoaded);

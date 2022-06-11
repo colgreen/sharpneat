@@ -19,8 +19,7 @@ public class NeatGenomeSaverTests
 
         // Load the saved genome.
         ms.Position = 0;
-        NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-        NeatGenome<double> genomeLoaded = loader.Load(ms);
+        NeatGenome<double> genomeLoaded = NeatGenomeLoader.Load(ms, metaNeatGenome, 0);
 
         // Compare the two genomes.
         IOTestUtils.CompareGenomes(genomeLoaded, genomeBuilt);
@@ -49,8 +48,7 @@ public class NeatGenomeSaverTests
 
             // Load the saved genome.
             ms.Position = 0;
-            NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-            NeatGenome<double> genomeLoaded = loader.Load(ms);
+            NeatGenome<double> genomeLoaded = NeatGenomeLoader.Load(ms, metaNeatGenome, 0);
 
             // Compare the original genome with the loaded one.
             IOTestUtils.CompareGenomes(genomeLoaded, genomeBuilt);

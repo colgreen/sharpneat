@@ -28,8 +28,7 @@ public class BinaryThreeMultiplexerTests
         var metaNeatGenome = new MetaNeatGenome<double>(4, 1, true, activationFnFactory.GetActivationFunction("LeakyReLU"));
 
         // Load test genome.
-        NeatGenomeLoader<double> loader = NeatGenomeLoaderFactory.CreateLoaderDouble(metaNeatGenome);
-        NeatGenome<double> genome = loader.Load("TestData/binary-three-multiplexer.genome");
+        NeatGenome<double> genome = NeatGenomeLoader.Load("TestData/binary-three-multiplexer.net", metaNeatGenome, 0);
 
         // Decode genome to a neural net.
         var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic();

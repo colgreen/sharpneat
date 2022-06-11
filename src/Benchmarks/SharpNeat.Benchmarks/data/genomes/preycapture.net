@@ -1,6 +1,9 @@
 # Input and output node counts.
 14	4
 
+# Cyclic/acyclic indicator.
+cyclic
+
 # Connections (source target weight).
 0	14	0.9455963831297446
 0	15	1.5266023610834427

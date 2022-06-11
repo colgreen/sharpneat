@@ -11,22 +11,18 @@ namespace SharpNeat.Neat.Genome.IO;
 public sealed class NeatPopulationLoader<T>
     where T : struct
 {
-    readonly NeatGenomeLoader<T> _genomeLoader;
-
-    #region Constructors
+    readonly MetaNeatGenome<T> _metaNeatGenome;
+    int _genomeId;
 
     /// <summary>
-    /// Construct with the provided <see cref="NeatGenomeLoader{T}"/>.
+    /// Construct with the provided <see cref="MetaNeatGenome{T}"/>.
     /// </summary>
-    /// <param name="genomeLoader">A genome loader.</param>
-    public NeatPopulationLoader(NeatGenomeLoader<T> genomeLoader)
+    /// <param name="metaNeatGenome">Neat genome metadata object.</param>
+    public NeatPopulationLoader(
+        MetaNeatGenome<T> metaNeatGenome)
     {
-        _genomeLoader = genomeLoader ?? throw new ArgumentNullException(nameof(genomeLoader));
+        _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Load a population from a folder containing one or more genome files (with a .genome file extension).
@@ -48,7 +44,9 @@ public sealed class NeatPopulationLoader<T>
         // Loop the genome files, loading each in turn.
         foreach(FileInfo fileInfo in fileInfoArr)
         {
-            NeatGenome<T> genome = _genomeLoader.Load(fileInfo.FullName);
+            NeatGenome<T> genome = NeatGenomeLoader.Load(
+                fileInfo.FullName, _metaNeatGenome, _genomeId++);
+
             genomeList.Add(genome);
         }
 
@@ -79,13 +77,13 @@ public sealed class NeatPopulationLoader<T>
 
             using(Stream zipEntryStream = zipEntry.Open())
             {
-                NeatGenome<T> genome = _genomeLoader.Load(zipEntryStream);
+                NeatGenome<T> genome = NeatGenomeLoader.Load(
+                    zipEntryStream, _metaNeatGenome, _genomeId++);
+
                 genomeList.Add(genome);
             }
         }
 
         return genomeList;
     }
-
-    #endregion
 }

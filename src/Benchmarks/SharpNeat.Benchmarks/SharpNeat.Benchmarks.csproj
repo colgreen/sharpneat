@@ -22,13 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="data\genomes\binary11-b.genome">
+    <None Update="data\genomes\binary11-b.net">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="data\genomes\binary11.genome">
+    <None Update="data\genomes\binary11.net">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="data\genomes\preycapture.genome">
+    <None Update="data\genomes\preycapture.net">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

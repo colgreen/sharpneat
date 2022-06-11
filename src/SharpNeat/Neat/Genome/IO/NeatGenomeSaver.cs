@@ -13,9 +13,9 @@ public static class NeatGenomeSaver
     /// <summary>
     /// Save a genome to the specified file.
     /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     /// <param name="genome">The genome to save.</param>
     /// <param name="path">The path of the file to save to.</param>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
     public static void Save<T>(
         NeatGenome<T> genome, string path)
         where T : struct
@@ -30,9 +30,9 @@ public static class NeatGenomeSaver
     /// <summary>
     /// Save a genome to the given stream.
     /// </summary>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     /// <param name="genome">The genome to save.</param>
     /// <param name="stream">The stream to save the genome to.</param>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
     /// <remarks>This method does not close the Stream.</remarks>
     public static void Save<T>(
         NeatGenome<T> genome, Stream stream)
