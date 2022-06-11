@@ -29,7 +29,7 @@ public class NeatGenomeIOTests
         using MemoryStream ms = new(1024);
 
         // Save the genome.
-        NeatGenomeSaver<double>.Save(genome, ms);
+        NeatGenomeSaver.Save(genome, ms);
 
         // Load the genome.
         ms.Position = 0;

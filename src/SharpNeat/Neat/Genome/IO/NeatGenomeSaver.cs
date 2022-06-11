@@ -8,16 +8,17 @@ namespace SharpNeat.Neat.Genome.IO;
 /// <summary>
 /// For saving/serializing instances of <see cref="NeatGenome{T}"/> to file, stream, etc.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public static class NeatGenomeSaver<T>
-    where T : struct
+public static class NeatGenomeSaver
 {
     /// <summary>
     /// Save a genome to the specified file.
     /// </summary>
     /// <param name="genome">The genome to save.</param>
     /// <param name="path">The path of the file to save to.</param>
-    public static void Save(NeatGenome<T> genome, string path)
+    /// <typeparam name="T">Connection weight data type.</typeparam>
+    public static void Save<T>(
+        NeatGenome<T> genome, string path)
+        where T : struct
     {
         // Convert the genome to a NetFileModel.
         NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);
@@ -31,8 +32,11 @@ public static class NeatGenomeSaver<T>
     /// </summary>
     /// <param name="genome">The genome to save.</param>
     /// <param name="stream">The stream to save the genome to.</param>
+    /// <typeparam name="T">Connection weight data type.</typeparam>
     /// <remarks>This method does not close the Stream.</remarks>
-    public static void Save(NeatGenome<T> genome, Stream stream)
+    public static void Save<T>(
+        NeatGenome<T> genome, Stream stream)
+        where T : struct
     {
         // Convert the genome to a NetFileModel.
         NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);

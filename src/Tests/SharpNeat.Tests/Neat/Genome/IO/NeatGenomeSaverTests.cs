@@ -15,7 +15,7 @@ public class NeatGenomeSaverTests
 
         // Save the genome into a MemoryStream.
         using MemoryStream ms = new();
-        NeatGenomeSaver<double>.Save(genomeBuilt, ms);
+        NeatGenomeSaver.Save(genomeBuilt, ms);
 
         // Load the saved genome.
         ms.Position = 0;
@@ -45,7 +45,7 @@ public class NeatGenomeSaverTests
 
             // Save the genome into a MemoryStream.
             using MemoryStream ms = new();
-            NeatGenomeSaver<double>.Save(genomeBuilt, ms);
+            NeatGenomeSaver.Save(genomeBuilt, ms);
 
             // Load the saved genome.
             ms.Position = 0;
