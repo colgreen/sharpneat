@@ -24,7 +24,7 @@ partial class MainForm
             return;
 
         // Ask the user to select a file path and name to save to.
-        string filepath = SelectFileToSave("Save best genome", "genome", "(*.genome)|*.genome");
+        string filepath = SelectFileToSave("Save best genome", "net", "(*.net)|*.net");
         if(string.IsNullOrEmpty(filepath))
             return;
 

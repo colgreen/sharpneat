@@ -55,7 +55,7 @@ public static class NeatPopulationSaver<T>
         foreach(var genome in genomeList)
         {
             // Build the genome's filepath.
-            string genomePath = Path.Combine(popDirPath, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".genome");
+            string genomePath = Path.Combine(popDirPath, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".net");
 
             // Save the genome.
             NeatGenomeSaver<T>.Save(genome, genomePath);
@@ -102,7 +102,7 @@ public static class NeatPopulationSaver<T>
         foreach(var genome in genomeList)
         {
             // Build the genome's entry name.
-            string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".genome");
+            string entryName = Path.Combine(nameWithoutExt, genome.Id.ToString("D6", CultureInfo.InvariantCulture) + ".net");
 
             // Create an new zip entry.
             ZipArchiveEntry zipEntry = zipArchive.CreateEntry(entryName, compressionLevel);

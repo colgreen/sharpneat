@@ -1,8 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Globalization;
-using System.Text;
-using SharpNeat.Graphs;
+using SharpNeat.IO;
+using SharpNeat.IO.Models;
 
 namespace SharpNeat.Neat.Genome.IO;
 
@@ -13,10 +12,6 @@ namespace SharpNeat.Neat.Genome.IO;
 public static class NeatGenomeSaver<T>
     where T : struct
 {
-    static readonly Encoding __utf8Encoding = new UTF8Encoding(false, true);
-
-    #region Public Static Methods
-
     /// <summary>
     /// Save a genome to the specified file.
     /// </summary>
@@ -24,8 +19,11 @@ public static class NeatGenomeSaver<T>
     /// <param name="path">The path of the file to save to.</param>
     public static void Save(NeatGenome<T> genome, string path)
     {
-        using var sw = new StreamWriter(path, false, __utf8Encoding);
-        Save(genome, sw);
+        // Convert the genome to a NetFileModel.
+        NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);
+
+        // Save the NetFileModel.
+        NetFile.Save(netFileModel, path);
     }
 
     /// <summary>
@@ -36,62 +34,10 @@ public static class NeatGenomeSaver<T>
     /// <remarks>This method does not close the Stream.</remarks>
     public static void Save(NeatGenome<T> genome, Stream stream)
     {
-        using var sw = new StreamWriter(stream, __utf8Encoding, 1024, true);
-        Save(genome, sw);
+        // Convert the genome to a NetFileModel.
+        NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);
+
+        // Save the NetFileModel.
+        NetFile.Save(netFileModel, stream);
     }
-
-    /// <summary>
-    /// Save a genome to the given StreamWriter.
-    /// </summary>
-    /// <param name="genome">The genome to save.</param>
-    /// <param name="sw">The StreamWriter to save the genome to.</param>
-    public static void Save(NeatGenome<T> genome, StreamWriter sw)
-    {
-        // Write input and output node counts.
-        sw.WriteLine("# Input and output node counts.");
-        sw.WriteLine($"{genome.MetaNeatGenome.InputNodeCount}\t{genome.MetaNeatGenome.OutputNodeCount}");
-        sw.WriteLine();
-
-        // Write connections.
-        WriteConnections(genome.ConnectionGenes, sw);
-
-        // Write activation function.
-        WriteActivationFunction(genome.MetaNeatGenome.ActivationFn.GetType().Name, sw);
-    }
-
-    #endregion
-
-    #region Private Static Methods
-
-    private static void WriteConnections(ConnectionGenes<T> connGenes, StreamWriter sw)
-    {
-        sw.WriteLine("# Connections (source target weight).");
-
-        DirectedConnection[] connArr = connGenes._connArr;
-        T[] weightArr = connGenes._weightArr;
-
-        for(int i=0; i < connArr.Length; i++)
-        {
-            var conn = connArr[i];
-
-            // Use runtime binding to access ToString(string) on the weight type,
-            // which will be either double or float. This is slow but this is not performance
-            // critical code.
-            dynamic weight = weightArr[i];
-            string weightStr = weight.ToString("R", CultureInfo.InvariantCulture);
-
-            sw.WriteLine($"{conn.SourceId}\t{conn.TargetId}\t{weightStr}");
-        }
-
-        sw.WriteLine();
-    }
-
-    private static void WriteActivationFunction(string name, StreamWriter sw)
-    {
-        sw.WriteLine("# Activation functions (functionId functionCode).");
-        sw.WriteLine($"0\t{name}");
-        sw.WriteLine();
-    }
-
-    #endregion
 }
