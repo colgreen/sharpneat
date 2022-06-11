@@ -6,9 +6,9 @@ using SharpNeat.IO.Models;
 namespace SharpNeat.IO;
 
 /// <summary>
-/// For loading of 'net' format files.
+/// For reading of 'net' format files.
 /// </summary>
-internal class NetFileLoader
+internal class NetFileReader
 {
     static readonly char[] __separatorChars = new char[] { ' ', '\t' };
 
@@ -18,7 +18,7 @@ internal class NetFileLoader
 
     #region Construction
 
-    private NetFileLoader(StreamReader sr)
+    private NetFileReader(StreamReader sr)
     {
         _sr = sr ?? throw new ArgumentNullException(nameof(sr));
     }
@@ -27,7 +27,7 @@ internal class NetFileLoader
 
     #region Private Methods
 
-    private NetFileModel Load()
+    private NetFileModel Read()
     {
         // Read node counts.
         ReadInputOutputCounts(out _inputCount, out _outputCount);
@@ -228,14 +228,14 @@ internal class NetFileLoader
     #region Public Static Methods
 
     /// <summary>
-    /// Load a 'net' format file from a stream reader.
+    /// Read a 'net' format file from a stream reader.
     /// </summary>
     /// <param name="sr">The stream reader to read from.</param>
     /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
-    public static NetFileModel Load(StreamReader sr)
+    public static NetFileModel Read(StreamReader sr)
     {
-        var loader = new NetFileLoader(sr);
-        return loader.Load();
+        var loader = new NetFileReader(sr);
+        return loader.Read();
     }
 
     #endregion

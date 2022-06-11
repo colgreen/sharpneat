@@ -19,7 +19,7 @@ public static class NetFile
     {
         ArgumentNullException.ThrowIfNull(filename);
         using var sr = new StreamReader(filename);
-        NetFileModel netFileModel = NetFileLoader.Load(sr);
+        NetFileModel netFileModel = NetFileReader.Read(sr);
         return netFileModel;
     }
 
@@ -32,7 +32,7 @@ public static class NetFile
     {
         ArgumentNullException.ThrowIfNull(stream);
         using var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, true);
-        NetFileModel netFileModel = NetFileLoader.Load(sr);
+        NetFileModel netFileModel = NetFileReader.Read(sr);
         return netFileModel;
     }
 }
