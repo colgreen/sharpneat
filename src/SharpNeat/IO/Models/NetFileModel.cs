@@ -63,5 +63,11 @@ public class NetFileModel
         IsAcyclic = isAcyclic;
         Connections = connList ?? throw new ArgumentNullException(nameof(connList));
         ActivationFns = activationFns ?? throw new ArgumentNullException(nameof(activationFns));
+
+        if (activationFns.Count == 0)
+            throw new ArgumentException("Collection cannot be empty.", nameof(activationFns));
+
+        if (activationFns[0].Id != 0)
+            throw new ArgumentException("The first activation function must have an ID of 0.", nameof(activationFns));
     }
 }
