@@ -6,8 +6,6 @@ namespace SharpNeat.Neat.Genome.IO.Tests;
 
 public class NeatPopulationIOTests
 {
-    #region Test Methods
-
     [Fact]
     public void SaveAndLoadPopulationToFolder()
     {
@@ -30,7 +28,7 @@ public class NeatPopulationIOTests
         NeatPopulationSaver.SaveToFolder(pop.GenomeList, parentPath, "pop1");
 
         // Load the population.
-        NeatPopulationLoader<double> loader = NeatPopulationLoaderFactory.CreateLoaderDouble(pop.MetaNeatGenome);
+        NeatPopulationLoader<double> loader = new NeatPopulationLoader<double>(pop.MetaNeatGenome);
         string populationFolderPath = Path.Combine(parentPath, "pop1");
         List<NeatGenome<double>> genomeListLoaded = loader.LoadFromFolder(populationFolderPath);
 
@@ -61,12 +59,10 @@ public class NeatPopulationIOTests
             CompressionLevel.Optimal);
 
         // Load the population.
-        NeatPopulationLoader<double> loader = NeatPopulationLoaderFactory.CreateLoaderDouble(pop.MetaNeatGenome);
+        NeatPopulationLoader<double> loader = new NeatPopulationLoader<double>(pop.MetaNeatGenome);
         List<NeatGenome<double>> genomeListLoaded = loader.LoadFromZipArchive(filepath);
 
         // Compare the loaded genomes with the original genome list.
         IOTestUtils.CompareGenomeLists(pop.GenomeList, genomeListLoaded);
     }
-
-    #endregion
 }

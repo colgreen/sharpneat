@@ -16,8 +16,6 @@ namespace SharpNeat.Neat.Genome.IO;
 /// </remarks>
 public static class NeatPopulationSaver
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Save the given population of genomes to the specified path on the local filesystem.
     /// </summary>
@@ -106,6 +104,4 @@ public static class NeatPopulationSaver
             }
         }
     }
-
-    #endregion
 }

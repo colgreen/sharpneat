@@ -36,7 +36,7 @@ public sealed class NeatPopulationLoader<T>
 
         // Determine the set of genome files to load.
         DirectoryInfo dirInfo = new(path);
-        FileInfo[] fileInfoArr = dirInfo.GetFiles("*.genome");
+        FileInfo[] fileInfoArr = dirInfo.GetFiles("*.net");
 
         // Alloc genome list with an appropriate capacity.
         List<NeatGenome<T>> genomeList = new(fileInfoArr.Length);
