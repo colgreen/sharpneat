@@ -14,19 +14,23 @@ namespace SharpNeat.NeuralNets.IO;
 /// </summary>
 public static class NeuralNetConverter
 {
+    // TODO: Implement.
 
     public static IBlackBox<double> ToNeuralNet(
         NetFileModel model)
     {
-
-
-
-
+        throw new NotImplementedException();
     }
 
+    public static IBlackBox<double> ToAcyclicNeuralNet(
+        NetFileModel model)
+    {
+        throw new NotImplementedException();
+    }
 
-
-
-
-
+    public static IBlackBox<double> ToCyclicNeuralNet(
+        NetFileModel model)
+    {
+        throw new NotImplementedException();
+    }
 }
