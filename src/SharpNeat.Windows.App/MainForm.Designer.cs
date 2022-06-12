@@ -1102,7 +1102,7 @@
             this.savePopulationToolStripMenuItem.Name = "savePopulationToolStripMenuItem";
             this.savePopulationToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.savePopulationToolStripMenuItem.Text = "Save Population";
-            this.saveBestGenomeToolStripMenuItem.Click += new System.EventHandler(this.savePopulationToolStripMenuItem_Click);
+            this.savePopulationToolStripMenuItem.Click += new System.EventHandler(this.savePopulationToolStripMenuItem_Click);
             // 
             // saveBestGenomeToolStripMenuItem
             // 
