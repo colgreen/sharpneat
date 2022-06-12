@@ -113,6 +113,7 @@ public static class NeatUtils
             inputNodeCount: neatExperiment.EvaluationScheme.InputCount,
             outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
             isAcyclic: neatExperiment.IsAcyclic,
+            cyclesPerActivation: neatExperiment.CyclesPerActivation,
             activationFn: activationFn,
             connectionWeightScale: neatExperiment.ConnectionWeightScale);
 
@@ -130,7 +131,10 @@ public static class NeatUtils
         INeatExperiment<double> neatExperiment)
     {
         // Create a genome decoder based on experiment config settings.
-        var genomeDecoder = CreateGenomeDecoder(neatExperiment);
+        var genomeDecoder =
+            NeatGenomeDecoderFactory.CreateGenomeDecoder(
+                neatExperiment.IsAcyclic,
+                neatExperiment.EnableHardwareAcceleratedNeuralNets);
 
         // Resolve degreeOfParallelism (-1 is allowed in config, but must be resolved here to an actual degree).
         int degreeOfParallelismResolved = ResolveDegreeOfParallelism(neatExperiment);
@@ -142,19 +146,6 @@ public static class NeatUtils
             degreeOfParallelismResolved);
 
         return genomeListEvaluator;
-    }
-
-    private static IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> CreateGenomeDecoder(
-        INeatExperiment<double> neatExperiment)
-    {
-        if(neatExperiment.IsAcyclic)
-        {
-            return NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic(
-                neatExperiment.EnableHardwareAcceleratedNeuralNets);
-        }
-        return NeatGenomeDecoderFactory.CreateGenomeDecoderCyclic(
-            neatExperiment.CyclesPerActivation,
-            neatExperiment.EnableHardwareAcceleratedNeuralNets);
     }
 
     private static ISpeciationStrategy<NeatGenome<double>, double> CreateSpeciationStrategy(

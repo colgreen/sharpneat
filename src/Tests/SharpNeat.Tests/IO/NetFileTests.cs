@@ -9,7 +9,7 @@ public class NetFileTests
     [Fact]
     public void Load()
     {
-        NetFileModel netFileModel = NetFile.Load("TestData/example1.genome");
+        NetFileModel netFileModel = NetFile.Load("TestData/example1.net");
 
         // Test input/output counts.
         netFileModel.InputCount.Should().Be(3);
@@ -46,7 +46,7 @@ public class NetFileTests
     [Fact]
     public void Save()
     {
-        NetFileModel netFileModel = NetFile.Load("TestData/example1.genome");
+        NetFileModel netFileModel = NetFile.Load("TestData/example1.net");
 
         MemoryStream ms = new();
         NetFile.Save(netFileModel, ms);

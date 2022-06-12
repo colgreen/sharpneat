@@ -8,7 +8,7 @@ public class NeatGenomeIOTests
     [Fact]
     public void SaveAndLoadGenome()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.

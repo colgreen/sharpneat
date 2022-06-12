@@ -25,13 +25,14 @@ public class BinaryThreeMultiplexerTests
     private static void VerifyNeuralNetResponseInner(bool enableHardwareAcceleration)
     {
         var activationFnFactory = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
-        var metaNeatGenome = new MetaNeatGenome<double>(4, 1, true, activationFnFactory.GetActivationFunction("LeakyReLU"));
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(
+            4, 1, activationFnFactory.GetActivationFunction("LeakyReLU"));
 
         // Load test genome.
         NeatGenome<double> genome = NeatGenomeLoader.Load("TestData/binary-three-multiplexer.net", metaNeatGenome, 0);
 
         // Decode genome to a neural net.
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoderAcyclic();
+        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(true);
         IBlackBox<double> blackBox = genomeDecoder.Decode(genome);
 
         // Evaluate the neural net.

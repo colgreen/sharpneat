@@ -13,11 +13,11 @@ public class UniformCrossoverReproductionStrategyTests
     [Fact]
     public void CreateGenome()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(
-            inputNodeCount: 10,
-            outputNodeCount: 20,
-            isAcyclic: true,
-            activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+        var metaNeatGenome =
+            MetaNeatGenome<double>.CreateAcyclic(
+                inputNodeCount: 10,
+                outputNodeCount: 20,
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

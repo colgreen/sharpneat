@@ -100,11 +100,11 @@ public class NeatPopulationStatsTests
         double defaultFitness,
         IRandomSource rng)
     {
-        MetaNeatGenome<double> metaNeatGenome = new(
-            inputNodeCount: 3,
-            outputNodeCount: 2,
-            isAcyclic: true,
-            activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+        var metaNeatGenome =
+            MetaNeatGenome<double>.CreateAcyclic(
+                inputNodeCount: 3,
+                outputNodeCount: 2,
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, rng);
         Assert.Equal(count, neatPop.GenomeList.Count);

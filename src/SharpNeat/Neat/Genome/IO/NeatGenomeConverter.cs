@@ -57,7 +57,9 @@ public static class NeatGenomeConverter
         };
 
         return new NetFileModel(
-            inputCount, outputCount, isAcyclic,
+            inputCount, outputCount,
+            isAcyclic,
+            genome.MetaNeatGenome.CyclesPerActivation,
             connList, actFnLines);
     }
 

@@ -11,7 +11,7 @@ public class NeatGenomeAcyclicBuilderTests
     [Fact]
     public void Simple()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.
@@ -38,7 +38,7 @@ public class NeatGenomeAcyclicBuilderTests
     [Fact]
     public void DepthNodeReorderTest()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(2, 2, true, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(2, 2, new ReLU());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Define graph connections.

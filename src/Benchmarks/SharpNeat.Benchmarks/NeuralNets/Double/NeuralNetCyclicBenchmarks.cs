@@ -16,10 +16,10 @@ public class NeuralNetCyclicBenchmarks
     static NeuralNetCyclicBenchmarks()
     {
         // TODO: Load neural nets directly, instead of loading a genome and decoding.
-        var metaNeatGenome = new MetaNeatGenome<double>(14, 4, false, new LeakyReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(14, 4, 1, new LeakyReLU());
         var genome = NeatGenomeLoader.Load("data/genomes/preycapture.net", metaNeatGenome, 0);
 
-        var genomeDecoder = new NeatGenomeDecoderCyclic(1);
+        var genomeDecoder = new NeatGenomeDecoderCyclic();
         __nn = (NeuralNetCyclic)genomeDecoder.Decode(genome);
 
         // Set some non-zero random input values.

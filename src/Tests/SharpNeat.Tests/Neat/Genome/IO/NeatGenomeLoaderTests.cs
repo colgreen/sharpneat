@@ -8,11 +8,11 @@ public class NeatGenomeLoaderTests
     [Fact]
     public void LoadGenome()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(3, 2, true, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
 
         // Load test genome.
         NeatGenome<double> genomeLoaded = NeatGenomeLoader.Load(
-            "TestData/example1.genome", metaNeatGenome, 0);
+            "TestData/example1.net", metaNeatGenome, 0);
 
         // Manually build an equivalent genome.
         NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
@@ -27,7 +27,7 @@ public class NeatGenomeLoaderTests
     {
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
-        // Define a genome that matches the one defined in example1.genome.
+        // Define a genome that matches the one defined in example1.net.
         var connGenes = new ConnectionGenes<double>(12);
         connGenes[0] = (0, 5, 0.5);
         connGenes[1] = (0, 7, 0.7);

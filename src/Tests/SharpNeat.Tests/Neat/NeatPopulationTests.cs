@@ -11,11 +11,11 @@ public class NeatPopulationTests
     [Fact]
     public void CreatePopulation()
     {
-        MetaNeatGenome<double> metaNeatGenome = new(
-            inputNodeCount: 3,
-            outputNodeCount: 2,
-            isAcyclic: true,
-            activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+        MetaNeatGenome<double> metaNeatGenome =
+            MetaNeatGenome<double>.CreateAcyclic(
+                inputNodeCount: 3,
+                outputNodeCount: 2,
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
         int count = 10;
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, RandomDefaults.CreateRandomSource());
@@ -43,11 +43,11 @@ public class NeatPopulationTests
     [Fact]
     public void VerifyInitialConnections()
     {
-        MetaNeatGenome<double> metaNeatGenome = new(
-            inputNodeCount: 100,
-            outputNodeCount: 200,
-            isAcyclic: true,
-            activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+        MetaNeatGenome<double> metaNeatGenome =
+            MetaNeatGenome<double>.CreateAcyclic(
+                inputNodeCount: 100,
+                outputNodeCount: 200,
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1, RandomDefaults.CreateRandomSource());
         NeatGenome<double> genome = neatPop.GenomeList[0];

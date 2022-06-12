@@ -25,7 +25,7 @@ public sealed class NeatPopulationLoader<T>
     }
 
     /// <summary>
-    /// Load a population from a folder containing one or more genome files (with a .genome file extension).
+    /// Load a population from a folder containing one or more genome files (with a .net file extension).
     /// </summary>
     /// <param name="path">Path to the folder to load genomes from.</param>
     /// <returns>A list of the loaded genomes.</returns>
@@ -54,7 +54,7 @@ public sealed class NeatPopulationLoader<T>
     }
 
     /// <summary>
-    /// Load a population from a zip archive file containing one or more genome file entries (with a .genome file extension).
+    /// Load a population from a zip archive file containing one or more genome file entries (with a .net file extension).
     /// </summary>
     /// <param name="path">Path to the zip file to load.</param>
     /// <returns>A list of the loaded genomes.</returns>

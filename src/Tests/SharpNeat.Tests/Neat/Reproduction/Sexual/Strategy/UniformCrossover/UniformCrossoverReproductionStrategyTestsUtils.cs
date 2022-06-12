@@ -46,7 +46,8 @@ public class UniformCrossoverReproductionStrategyTestsUtils
             inputNodeCount: 1,
             outputNodeCount: 1,
             isAcyclic: false,
-            activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
+            cyclesPerActivation: 1,
+            activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
     }
 
     private static NeatGenome<double> CreateNeatGenome1()

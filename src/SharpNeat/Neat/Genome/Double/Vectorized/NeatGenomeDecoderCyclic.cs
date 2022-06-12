@@ -11,17 +11,6 @@ namespace SharpNeat.Neat.Genome.Double.Vectorized;
 /// </summary>
 public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
 {
-    readonly int _cyclesPerActivation;
-
-    /// <summary>
-    /// Construct with the given decode arguments.
-    /// </summary>
-    /// <param name="cyclesPerActivation">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
-    public NeatGenomeDecoderCyclic(int cyclesPerActivation)
-    {
-        _cyclesPerActivation = cyclesPerActivation;
-    }
-
     /// <summary>
     /// Decodes a NEAT genome into a working neural network.
     /// </summary>
@@ -36,6 +25,6 @@ public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,
                 genome.DirectedGraph,
                 genome.ConnectionGenes._weightArr,
                 genome.MetaNeatGenome.ActivationFn.Fn,
-                _cyclesPerActivation);
+                genome.MetaNeatGenome.CyclesPerActivation);
     }
 }

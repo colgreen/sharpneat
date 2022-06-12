@@ -33,7 +33,7 @@ internal class NetFileReader
         ReadInputOutputCounts(out _inputCount, out _outputCount);
 
         // Read cyclic/acyclic indicator.
-        ReadCyclicIndicator(out bool isAcyclic);
+        ReadCyclicIndicator(out bool isAcyclic, out int cyclesPerActivation);
 
         // Read connections.
         ReadConnections(out List<ConnectionLine> connList);
@@ -44,7 +44,8 @@ internal class NetFileReader
         ReadActivationFunctions(out List<ActivationFnLine> activationFnList);
 
         return new NetFileModel(
-            _inputCount, _outputCount, isAcyclic,
+            _inputCount, _outputCount,
+            isAcyclic, cyclesPerActivation,
             connList, activationFnList);
     }
 
@@ -74,16 +75,38 @@ internal class NetFileReader
         ReadEndOfSection();
     }
 
-    private void ReadCyclicIndicator(out bool isAcyclic)
+    private void ReadCyclicIndicator(
+        out bool isAcyclic,
+        out int cyclesPerActivation)
     {
         string line = ReadNonEmptyLine();
 
-        isAcyclic = line switch
+        string[] fields = line.Split(__separatorChars, StringSplitOptions.RemoveEmptyEntries);
+        if (fields.Length == 0 || fields.Length > 2)
+            throw new FileFormatException($"Invalid cyclic/acyclic indicator line. Line [{line}].");
+
+        isAcyclic = fields[0] switch
         {
             "cyclic" => false,
             "acyclic" => true,
-            _ => throw new FileFormatException($"Invalid cyclic/acyclic indicator [{line}].")
+            _ => throw new FileFormatException($"Invalid cyclic/acyclic indicator. Line [{line}].")
         };
+
+        if (isAcyclic && fields.Length != 1)
+            throw new FileFormatException($"Invalid cyclic/acyclic indicator line. Unexpected data after the 'acyclic' keyword. Line [{line}].");
+
+        if (!isAcyclic && fields.Length != 2)
+            throw new FileFormatException($"Invalid cyclic/acyclic indicator line. A single 'cyclesPerActivation' integer is expected after the 'cyclic' keyword. Line [{line}].");
+
+        if (!isAcyclic)
+        {
+            if(!TryParseInt32(fields[1], out cyclesPerActivation))
+                throw new FileFormatException($"Invalid cycles-per-activation value. Line [{_lineIdx}].");
+        }
+        else
+        {
+            cyclesPerActivation = default;
+        }
 
         ReadEndOfSection();
     }

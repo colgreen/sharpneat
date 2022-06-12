@@ -11,36 +11,36 @@ namespace SharpNeat.Neat.Genome.Double;
 public static class NeatGenomeDecoderFactory
 {
     /// <summary>
-    /// Create a genome decoder that decodes to a cyclic neural network implementation.
+    /// Create a genome decoder that decodes a <see cref="NeatGenome{T}"/> to an appropriate neural network
+    /// implementation.
     /// </summary>
-    /// <param name="cyclesPerActivation">The number of cyclic neural net activation iterations per invocation of the neural net.</param>
-    /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network) implementations.</param>
+    /// <param name="isAcyclic">Decode to an acyclic neural network.</param>
+    /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network)
+    /// implementations.</param>
     /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.</returns>
-    public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderCyclic(
-        int cyclesPerActivation,
+    public static IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> CreateGenomeDecoder(
+        bool isAcyclic,
         bool enableHardwareAcceleration = false)
     {
-        if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
-        {
-            return new Vectorized.NeatGenomeDecoderCyclic(cyclesPerActivation);
-        }
-        // else
-        return new NeatGenomeDecoderCyclic(cyclesPerActivation);
-    }
+        IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> decoder;
 
-    /// <summary>
-    /// Create a genome decoder that decodes to an acyclic neural network implementation.
-    /// </summary>
-    /// <param name="enableHardwareAcceleration">Enable use of hardware accelerated black box (i.e neural network) implementations.</param>
-    /// <returns>A new instance of <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.</returns>
-    public static IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> CreateGenomeDecoderAcyclic(
-        bool enableHardwareAcceleration = false)
-    {
-        if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
+        if (isAcyclic)
         {
-            return new Vectorized.NeatGenomeDecoderAcyclic();
+            // Decode to an acyclic neural net.
+            if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
+                decoder = new Vectorized.NeatGenomeDecoderAcyclic();
+            else
+                decoder = new NeatGenomeDecoderAcyclic();
         }
-        // else
-        return new NeatGenomeDecoderAcyclic();
+        else
+        {
+            // Decode to a cyclic neural net.
+            if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
+                decoder = new Vectorized.NeatGenomeDecoderCyclic();
+            else
+                decoder = new NeatGenomeDecoderCyclic();
+        }
+
+        return decoder;
     }
 }

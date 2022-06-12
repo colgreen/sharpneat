@@ -6,11 +6,12 @@ public static class NestGenomeTestUtils
 {
     public static NeatPopulation<double> CreateNeatPopulation()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(
-            inputNodeCount: 1,
-            outputNodeCount: 1,
-            isAcyclic: false,
-            activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+        var metaNeatGenome =
+            MetaNeatGenome<double>.CreateCyclic(
+                inputNodeCount: 1,
+                outputNodeCount: 1,
+                cyclesPerActivation: 1,
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

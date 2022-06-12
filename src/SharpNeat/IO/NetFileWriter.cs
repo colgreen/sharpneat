@@ -24,7 +24,11 @@ internal class NetFileWriter
 
         // Write cyclic/acyclic indicator.
         sw.WriteLine("# Cyclic/acyclic indicator.");
-        sw.WriteLine(model.IsAcyclic ? "acyclic" : "cyclic");
+
+        if (model.IsAcyclic)
+            sw.WriteLine("acyclic");
+        else
+            sw.WriteLine(Invariant($"cyclic\t{model.CyclesPerActivation}"));
         sw.WriteLine();
 
         // Write connections.

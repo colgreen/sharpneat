@@ -10,15 +10,16 @@ public class NeatGenomeBuilderTests
     [Fact]
     public void Simple()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(0, 0, false, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 1, 1, new ReLU());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.
-        var connGenes = new ConnectionGenes<double>(4);
-        connGenes[0] = (0, 3, 0.0);
-        connGenes[1] = (1, 3, 1.0);
-        connGenes[2] = (2, 3, 2.0);
-        connGenes[3] = (2, 4, 3.0);
+        var connGenes = new ConnectionGenes<double>(5);
+        connGenes[0] = (0, 2, 0.0);
+        connGenes[1] = (0, 3, 1.0);
+        connGenes[2] = (2, 4, 2.0);
+        connGenes[3] = (3, 4, 3.0);
+        connGenes[4] = (4, 1, 4.0);
 
         // Wrap in a genome.
         var genome = genomeBuilder.Create(0, 0, connGenes);
@@ -36,7 +37,7 @@ public class NeatGenomeBuilderTests
     [Fact]
     public void Simple_DefinedNodes()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 10, 1, new ReLU());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.
@@ -62,7 +63,7 @@ public class NeatGenomeBuilderTests
     [Fact]
     public void Simple_DefinedNodes_NodeIdGap()
     {
-        var metaNeatGenome = new MetaNeatGenome<double>(0, 10, false, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 10, 1, new ReLU());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.

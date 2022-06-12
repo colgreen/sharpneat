@@ -72,11 +72,11 @@ public class SpeciesTests
     private static Species<double> CreateTestSpecies(int genomeCount)
     {
         // Create the species genomes; we use NeatPopulationFactory for this.
-        MetaNeatGenome<double> metaNeatGenome = new(
-            inputNodeCount: 1,
-            outputNodeCount: 1,
-            isAcyclic: true,
-            activationFn: new SharpNeat.NeuralNets.Double.ActivationFunctions.ReLU());
+        MetaNeatGenome<double> metaNeatGenome =
+            MetaNeatGenome<double>.CreateAcyclic(
+                inputNodeCount: 1,
+                outputNodeCount: 1,
+                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, genomeCount, RandomDefaults.CreateRandomSource());
 

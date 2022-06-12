@@ -2,7 +2,7 @@
 14	4
 
 # Cyclic/acyclic indicator.
-cyclic
+cyclic	1
 
 # Connections (source target weight).
 0	14	0.9455963831297446
