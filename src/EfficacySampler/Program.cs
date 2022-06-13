@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
-using System.Text.Json;
 using log4net;
 using log4net.Config;
 using SharpNeat.Experiments;
-using SharpNeat.IO;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
 

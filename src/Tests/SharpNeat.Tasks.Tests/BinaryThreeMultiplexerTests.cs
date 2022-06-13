@@ -1,8 +1,7 @@
 using SharpNeat.Evaluation;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Genome.Double;
-using SharpNeat.Neat.Genome.IO;
-using SharpNeat.NeuralNets;
+using SharpNeat.IO;
+using SharpNeat.IO.Models;
+using SharpNeat.NeuralNets.IO;
 using SharpNeat.Tasks.BinaryThreeMultiplexer;
 using Xunit;
 
@@ -10,30 +9,19 @@ namespace SharpNeat.Tasks.Tests;
 
 public class BinaryThreeMultiplexerTests
 {
-    [Fact]
-    public void VerifyNeuralNetResponse()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void VerifyNeuralNetResponse(bool enableHardwareAcceleration)
     {
-        VerifyNeuralNetResponseInner(false);
-    }
-
-    [Fact]
-    public void VerifyNeuralNetResponse_EnableHardwareAcceleration()
-    {
-        VerifyNeuralNetResponseInner(true);
+        VerifyNeuralNetResponseInner(enableHardwareAcceleration);
     }
 
     private static void VerifyNeuralNetResponseInner(bool enableHardwareAcceleration)
     {
-        var activationFnFactory = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
-        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(
-            4, 1, activationFnFactory.GetActivationFunction("LeakyReLU"));
-
-        // Load test genome.
-        NeatGenome<double> genome = NeatGenomeLoader.Load("TestData/binary-three-multiplexer.net", metaNeatGenome, 0);
-
-        // Decode genome to a neural net.
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(true);
-        IBlackBox<double> blackBox = genomeDecoder.Decode(genome);
+        NetFileModel netFileModel = NetFile.Load("TestData/binary-three-multiplexer.net");
+        IBlackBox<double> blackBox = NeuralNetConverter.ToNeuralNet(
+            netFileModel, enableHardwareAcceleration, enableHardwareAcceleration);
 
         // Evaluate the neural net.
         var evaluator = new BinaryThreeMultiplexerEvaluator();
