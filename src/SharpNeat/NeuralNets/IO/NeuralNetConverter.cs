@@ -11,19 +11,28 @@ namespace SharpNeat.NeuralNets.IO;
 /// </summary>
 public static class NeuralNetConverter
 {
+    // TODO: NeuralNetConverter unit tests.
+
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to a neural network instance.
     /// </summary>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
-    /// <param name="enableHardwareAcceleration">If true then hardware accelerated neural net implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
+    /// implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedActivationFunctions">If true then hardware accelerated activation
+    /// functions are used, where available.</param>
     /// <returns>A new neural net instance.</returns>
     public static IBlackBox<double> ToNeuralNet(
         NetFileModel model,
-        bool enableHardwareAcceleration = false)
+        bool enableHardwareAcceleratedNeuralNets = false,
+        bool enableHardwareAcceleratedActivationFunctions = false)
     {
         ArgumentNullException.ThrowIfNull(model);
-        var actFnlib = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
-        return ToNeuralNet(model, actFnlib, enableHardwareAcceleration);
+
+        var actFnlib = new DefaultActivationFunctionFactory<double>(
+            enableHardwareAcceleratedActivationFunctions);
+
+        return ToNeuralNet(model, actFnlib, enableHardwareAcceleratedNeuralNets);
     }
 
     /// <summary>
@@ -31,22 +40,27 @@ public static class NeuralNetConverter
     /// </summary>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="activationFnLib">Activation function library.</param>
-    /// <param name="enableHardwareAcceleration">If true then hardware accelerated neural net implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
+    /// implementations are used.</param>
     /// <returns>A new neural net instance.</returns>
     public static IBlackBox<double> ToNeuralNet(
         NetFileModel model,
         IActivationFunctionFactory<double> activationFnLib,
-        bool enableHardwareAcceleration = false)
+        bool enableHardwareAcceleratedNeuralNets = false)
     {
         ArgumentNullException.ThrowIfNull(model);
 
         if(model.IsAcyclic)
         {
-            return ToAcyclicNeuralNet(model, activationFnLib, enableHardwareAcceleration);
+            return ToAcyclicNeuralNet(
+                model, activationFnLib,
+                enableHardwareAcceleratedNeuralNets);
         }
         else
         {
-            return ToCyclicNeuralNet(model, activationFnLib, enableHardwareAcceleration);
+            return ToCyclicNeuralNet(
+                model, activationFnLib,
+                enableHardwareAcceleratedNeuralNets);
         }
     }
 
@@ -54,14 +68,20 @@ public static class NeuralNetConverter
     /// Convert a <see cref="NetFileModel"/> to an acyclic neural network instance.
     /// </summary>
     /// /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
-    /// <param name="enableHardwareAcceleration">If true then hardware accelerated neural net implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
+    /// implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedActivationFunctions">If true then hardware accelerated activation
+    /// functions are used, where available.</param>
     /// <returns>A new acyclic neural net instance.</returns>
     public static IBlackBox<double> ToAcyclicNeuralNet(
         NetFileModel model,
-        bool enableHardwareAcceleration = false)
+        bool enableHardwareAcceleratedNeuralNets = false,
+        bool enableHardwareAcceleratedActivationFunctions = false)
     {
-        var actFnlib = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
-        return ToAcyclicNeuralNet(model, actFnlib);
+        var actFnlib = new DefaultActivationFunctionFactory<double>(
+            enableHardwareAcceleratedActivationFunctions);
+
+        return ToAcyclicNeuralNet(model, actFnlib, enableHardwareAcceleratedNeuralNets);
     }
 
     /// <summary>
@@ -69,12 +89,13 @@ public static class NeuralNetConverter
     /// </summary>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="activationFnLib">Activation function library.</param>
-    /// <param name="enableHardwareAcceleration">If true then hardware accelerated neural net implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
+    /// implementations are used.</param>
     /// <returns>A new acyclic neural net instance.</returns>
     public static IBlackBox<double> ToAcyclicNeuralNet(
         NetFileModel model,
         IActivationFunctionFactory<double> activationFnLib,
-        bool enableHardwareAcceleration = false)
+        bool enableHardwareAcceleratedNeuralNets = false)
     {
         // Perform some basic validation checks.
         ArgumentNullException.ThrowIfNull(model);
@@ -94,7 +115,7 @@ public static class NeuralNetConverter
             conns, model.InputCount, model.OutputCount);
 
         // Create a working neural net.
-        if (!enableHardwareAcceleration)
+        if (!enableHardwareAcceleratedNeuralNets)
         {
             return new Double.NeuralNetAcyclic(
                 weightedDigraphAcyclic,
@@ -112,14 +133,20 @@ public static class NeuralNetConverter
     /// Convert a <see cref="NetFileModel"/> to a cyclic neural network instance.
     /// </summary>
     /// /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
-    /// <param name="enableHardwareAcceleration">If true then hardware accelerated neural net implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
+    /// implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedActivationFunctions">If true then hardware accelerated activation
+    /// functions are used, where available.</param>
     /// <returns>A new cyclic neural net instance.</returns>
     public static IBlackBox<double> ToCyclicNeuralNet(
         NetFileModel model,
-        bool enableHardwareAcceleration = false)
+        bool enableHardwareAcceleratedNeuralNets = false,
+        bool enableHardwareAcceleratedActivationFunctions = false)
     {
-        var actFnlib = new DefaultActivationFunctionFactory<double>(enableHardwareAcceleration);
-        return ToCyclicNeuralNet(model, actFnlib);
+        var actFnlib = new DefaultActivationFunctionFactory<double>(
+            enableHardwareAcceleratedActivationFunctions);
+
+        return ToCyclicNeuralNet(model, actFnlib, enableHardwareAcceleratedNeuralNets);
     }
 
     /// <summary>
@@ -127,12 +154,13 @@ public static class NeuralNetConverter
     /// </summary>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="activationFnLib">Activation function library.</param>
-    /// <param name="enableHardwareAcceleration">If true then hardware accelerated neural net implementations are used.</param>
+    /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
+    /// implementations are used.</param>
     /// <returns>A new cyclic neural net instance.</returns>
     public static IBlackBox<double> ToCyclicNeuralNet(
         NetFileModel model,
         IActivationFunctionFactory<double> activationFnLib,
-        bool enableHardwareAcceleration = false)
+        bool enableHardwareAcceleratedNeuralNets = false)
     {
         // Perform some basic validation checks.
         ArgumentNullException.ThrowIfNull(model);
@@ -152,7 +180,7 @@ public static class NeuralNetConverter
             conns, model.InputCount, model.OutputCount);
 
         // Create a working neural net.
-        if(!enableHardwareAcceleration)
+        if(!enableHardwareAcceleratedNeuralNets)
         {
             return new Double.NeuralNetCyclic(
                 weightedDigraph,

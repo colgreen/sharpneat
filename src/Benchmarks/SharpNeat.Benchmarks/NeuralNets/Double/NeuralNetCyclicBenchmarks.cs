@@ -1,9 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Redzen.Random;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Genome.Double;
-using SharpNeat.Neat.Genome.IO;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.IO;
+using SharpNeat.IO.Models;
+using SharpNeat.NeuralNets.IO;
 
 #pragma warning disable CA1822 // Mark members as static
 
@@ -15,12 +14,9 @@ public class NeuralNetCyclicBenchmarks
 
     static NeuralNetCyclicBenchmarks()
     {
-        // TODO: Load neural nets directly, instead of loading a genome and decoding.
-        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(14, 4, 1, new LeakyReLU());
-        var genome = NeatGenomeLoader.Load("data/genomes/preycapture.net", metaNeatGenome, 0);
-
-        var genomeDecoder = new NeatGenomeDecoderCyclic();
-        __nn = (NeuralNetCyclic)genomeDecoder.Decode(genome);
+        // Load neural net model from file, and convert into a neural net instance.
+        NetFileModel netFileModel = NetFile.Load("data/genomes/preycapture.net");
+        __nn = (NeuralNetCyclic)NeuralNetConverter.ToNeuralNet(netFileModel);
 
         // Set some non-zero random input values.
         var rng = RandomDefaults.CreateRandomSource();
