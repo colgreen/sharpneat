@@ -2,6 +2,8 @@
 // See LICENSE.txt for details.
 namespace SharpNeat.Graphs;
 
+#pragma warning disable CA1036 // Override methods on comparable types
+
 /// <summary>
 /// Represents a connection between two nodes, combined with a connection weight.
 /// </summary>
@@ -10,11 +12,9 @@ namespace SharpNeat.Graphs;
 /// and therefore inheritance is not possible.
 /// </remarks>
 /// <typeparam name="T">Connection weight data type.</typeparam>
-public readonly struct WeightedDirectedConnection<T>
+public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirectedConnection<T>>
     where T : struct
 {
-    #region Auto Properties
-
     /// <summary>
     /// Connection source node ID.
     /// </summary>
@@ -30,10 +30,6 @@ public readonly struct WeightedDirectedConnection<T>
     /// </summary>
     public T Weight { get; }
 
-    #endregion
-
-    #region Constructors
-
     /// <summary>
     /// Construct with the provided source and target node IDs, and weight.
     /// </summary>
@@ -45,6 +41,23 @@ public readonly struct WeightedDirectedConnection<T>
         this.SourceId = srcId;
         this.TargetId = tgtId;
         this.Weight = weight;
+    }
+
+    #region IComparable<T>
+
+    /// <inheritdoc/>
+    public int CompareTo(WeightedDirectedConnection<T> other)
+    {
+        // Notes.
+        // The comparison here uses subtraction rather than comparing IDs, this eliminates a number of branches
+        // which gives better performance. The code works and is safe because the source and target node IDs
+        // always have non-negative values, and therefore have a possible range of [0, (2^31)-1]. And if we
+        // subtract the largest possible value from zero we get -(2^31)-1 which is still within the range of
+        // an Int32, i.e., the result of that subtraction does not overflow and is therefore a negative value
+        // as required, giving a valid comparison result.
+        int diff = this.SourceId - other.SourceId;
+        if(diff != 0) return diff;
+        return this.TargetId - other.TargetId;
     }
 
     #endregion
