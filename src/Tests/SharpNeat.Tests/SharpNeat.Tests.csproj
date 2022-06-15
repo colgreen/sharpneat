@@ -26,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\example2.net">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\example1.net">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
