@@ -150,6 +150,7 @@ public sealed class CartDoublePolePhysicsRK4
     {
         // Calc the cart and pole accelerations for the current/initial model state.
         CalcAccelerations(_state, f, out float xa, out float thetaa1, out float thetaa2);
+
         // Store a set of model state gradients, e.g. state[0] is the cart x position, therefore gradient[0] is
         // cart x-axis velocity; and state[1] is cart x-axis velocity, therefore gradient[1] is cart x-axis acceleration, etc.
         _k1[0] = _state[1]; // Cart velocity.

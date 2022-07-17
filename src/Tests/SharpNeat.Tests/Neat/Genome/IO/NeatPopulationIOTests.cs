@@ -28,7 +28,7 @@ public class NeatPopulationIOTests
         NeatPopulationSaver.SaveToFolder(pop.GenomeList, parentPath, "pop1");
 
         // Load the population.
-        NeatPopulationLoader<double> loader = new NeatPopulationLoader<double>(pop.MetaNeatGenome);
+        NeatPopulationLoader<double> loader = new(pop.MetaNeatGenome);
         string populationFolderPath = Path.Combine(parentPath, "pop1");
         List<NeatGenome<double>> genomeListLoaded = loader.LoadFromFolder(populationFolderPath);
 
@@ -59,7 +59,7 @@ public class NeatPopulationIOTests
             CompressionLevel.Optimal);
 
         // Load the population.
-        NeatPopulationLoader<double> loader = new NeatPopulationLoader<double>(pop.MetaNeatGenome);
+        NeatPopulationLoader<double> loader = new(pop.MetaNeatGenome);
         List<NeatGenome<double>> genomeListLoaded = loader.LoadFromZipArchive(filepath);
 
         // Compare the loaded genomes with the original genome list.

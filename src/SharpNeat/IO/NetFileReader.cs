@@ -115,7 +115,7 @@ internal class NetFileReader
     {
         connList = new();
 
-        for(;;)
+        while(true)
         {
             // Read a line.
             string? line = ReadNextLine();
@@ -195,7 +195,7 @@ internal class NetFileReader
 
     private string? ReadNextLine()
     {
-        for(;;)
+        while(true)
         {
             // Read the next line.
             string? line = _sr!.ReadLine();

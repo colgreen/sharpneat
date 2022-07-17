@@ -47,7 +47,7 @@ internal class UniformCrossoverReproductionStrategyUtils
         int idx1 = 0;
         int idx2 = 0;
 
-        for(;;)
+        while(true)
         {
             DirectedConnection conn1 = parent1._connArr[idx1];
             DirectedConnection conn2 = parent2._connArr[idx2];

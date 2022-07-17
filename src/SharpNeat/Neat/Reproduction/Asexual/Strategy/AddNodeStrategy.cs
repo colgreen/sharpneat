@@ -85,7 +85,8 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         int addedNodeId = GetInnovationID(splitConn, parent, out bool newInnovationIdsFlag);
 
         // Create the two new connections.
-        var newConnArr = new DirectedConnection[] {
+        var newConnArr = new DirectedConnection[]
+        {
             new DirectedConnection(splitConn.SourceId, addedNodeId),
             new DirectedConnection(addedNodeId, splitConn.TargetId)
         };
@@ -96,7 +97,8 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
 
         // ENHANCEMENT: Consider a better choice of weights for the new connections; this scheme has been
         // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
-        var newWeightArr = new T[] {
+        var newWeightArr = new T[]
+        {
             parent.ConnectionGenes._weightArr[splitConnIdx],
             (T)Convert.ChangeType(
                 _metaNeatGenome.ConnectionWeightScale,

@@ -245,7 +245,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
         _prevUpdateGeneration = 0;
         _prevUpdateTimeTick = DateTime.UtcNow.Ticks;
 
-        for(;;)
+        while(true)
         {
             _ea.PerformOneGeneration();
 

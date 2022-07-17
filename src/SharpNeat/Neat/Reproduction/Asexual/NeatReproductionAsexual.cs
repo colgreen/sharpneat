@@ -111,7 +111,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
         DiscreteDistribution mutationTypeDist = GetMutationTypeDistribution(parent);
 
         // Keep trying until a child genome is created.
-        for(;;)
+        while(true)
         {
             NeatGenome<T>? childGenome = Create(parent, rng, ref mutationTypeDist);
             if(childGenome is not null)

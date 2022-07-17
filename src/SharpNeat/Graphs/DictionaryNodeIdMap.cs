@@ -55,9 +55,8 @@ public sealed class DictionaryNodeIdMap : INodeIdMap
         // Input node IDs are always at the head of the array, and are fixed.
         // Output nodes may also be included in the fixed node count (see class remarks).
         if(id < _fixedNodeCount)
-        {
             return id;
-        }
+
         // Hidden nodes have mappings stored in a dictionary.
         return _nodeIdxById[id];
     }

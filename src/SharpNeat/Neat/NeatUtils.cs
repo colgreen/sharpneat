@@ -177,6 +177,7 @@ public static class NeatUtils
         if(neatExperiment.EvaluationScheme.OutputCount != metaNeatGenome.OutputNodeCount) throw new ArgumentException("OutputNodeCount does not match INeatExperiment.", nameof(metaNeatGenome));
         if(neatExperiment.IsAcyclic != metaNeatGenome.IsAcyclic) throw new ArgumentException("IsAcyclic does not match INeatExperiment.", nameof(metaNeatGenome));
         if(neatExperiment.ConnectionWeightScale != metaNeatGenome.ConnectionWeightScale) throw new ArgumentException("ConnectionWeightScale does not match INeatExperiment.", nameof(metaNeatGenome));
+
         // Note. neatExperiment.ActivationFnName is not being checked against metaNeatGenome.ActivationFn, as the name information is not present on the ActivationFn object.
     }
 

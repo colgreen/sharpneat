@@ -8,6 +8,8 @@ using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Windows.Neat;
 
+#pragma warning disable SA1515 // Single-line comment should be preceded by blank line
+
 /// <summary>
 /// A Windows.Form <see cref="UserControl"/> for displaying NEAT genomes.
 /// </summary>

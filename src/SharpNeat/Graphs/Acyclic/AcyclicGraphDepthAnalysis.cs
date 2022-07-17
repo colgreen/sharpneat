@@ -94,10 +94,10 @@ public sealed class AcyclicGraphDepthAnalysis
     {
 #if DEBUG
         // Check for attempts to re-enter this method.
-        if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1) {
+        if(Interlocked.CompareExchange(ref _reentranceFlag, 1, 0) == 1)
             throw new InvalidOperationException("Attempt to re-enter non-reentrant method.");
-        }
 #endif
+
         // Test that the graph is acyclic; if digraph is cyclic then the graph traversal implemented here will
         // cause _traversalStack to grow indefinitely, ultimately causing an out-of-memory exception.
         // This test is relatively expensive to compute, therefore it can be disabled by callers that can guarantee the

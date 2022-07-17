@@ -6,6 +6,8 @@ using SharpNeat.Drawing;
 
 namespace SharpNeat.Windows;
 
+#pragma warning disable SA1515 // Single-line comment should be preceded by blank line
+
 /// <summary>
 /// A user control that provides an area on which content can be drawn (by a <see cref="IViewportPainter"/>.
 /// Otherwise the control is a simple one, providing no user interaction capability other than resizing.

@@ -238,17 +238,21 @@ public sealed class PreyCaptureWorld
         // Wall detectors - N,E,S,W.
         // North.
         int d = (__gridSize-1) - _agentPos.Y;
-        if(d <= 4) { inputs[10] = (4-d) * Quarter; }
+        if(d <= 4)
+            inputs[10] = (4-d) * Quarter;
 
         // East.
         d = (__gridSize-1) - _agentPos.X;
-        if(d <= 4) { inputs[11] = (4-d) * Quarter; }
+        if(d <= 4)
+            inputs[11] = (4-d) * Quarter;
 
         // South.
-        if(_agentPos.Y <= 4) { inputs[12] = (4 - _agentPos.Y) * Quarter; }
+        if(_agentPos.Y <= 4)
+            inputs[12] = (4 - _agentPos.Y) * Quarter;
 
         // West.
-        if(_agentPos.X <= 4) { inputs[13] = (4 - _agentPos.X) * Quarter; }
+        if(_agentPos.X <= 4)
+            inputs[13] = (4 - _agentPos.X) * Quarter;
 
         // Activate agent.
         agent.Activate();

@@ -231,11 +231,11 @@ internal static class NeatGenomeAssertions<T>
 
     private static int Compare(ref int srcIdA, ref int tgtIdA, ref int srcIdB, ref int tgtIdB)
     {
-        if(srcIdA < srcIdB) { return -1; }
-        if(srcIdA > srcIdB) { return 1; }
+        if(srcIdA < srcIdB) return -1;
+        if(srcIdA > srcIdB) return 1;
 
-        if(tgtIdA < tgtIdB) { return -1; }
-        if(tgtIdA > tgtIdB) { return 1; }
+        if(tgtIdA < tgtIdB) return -1;
+        if(tgtIdA > tgtIdB) return 1;
         return 0;
     }
 
