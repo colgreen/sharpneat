@@ -118,7 +118,7 @@ public static class NeatGenomeConverter
         List<ConnectionLine> connList)
         where T : struct
     {
-        ConnectionGenes<T> connGenes = new ConnectionGenes<T>(connList.Count);
+        ConnectionGenes<T> connGenes = new(connList.Count);
         DirectedConnection[] connArr = connGenes._connArr;
         T[] weightArr = connGenes._weightArr;
 

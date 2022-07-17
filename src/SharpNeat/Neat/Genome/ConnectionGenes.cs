@@ -66,10 +66,8 @@ public sealed class ConnectionGenes<T>
     /// <param name="idx">Index of the gene to get or set.</param>
     public (int srcIdx, int tgtIdx, T weight) this[int idx]
     {
-        get
-        {
-            return (_connArr[idx].SourceId, _connArr[idx].TargetId, _weightArr[idx]);
-        }
+        get => (_connArr[idx].SourceId, _connArr[idx].TargetId, _weightArr[idx]);
+
         set
         {
             _connArr[idx] = new DirectedConnection(value.srcIdx, value.tgtIdx);

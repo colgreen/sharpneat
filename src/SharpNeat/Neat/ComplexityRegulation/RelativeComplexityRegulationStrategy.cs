@@ -130,6 +130,7 @@ public sealed class RelativeComplexityRegulationStrategy : IComplexityRegulation
             _lastTransitionGeneration = eaStats.Generation;
             _prevMeanMovingAverage = 0.0;
         }
+
         // else: otherwise remain in simplifying mode.
 
         // Update previous mean moving average complexity value.

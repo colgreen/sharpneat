@@ -9,8 +9,6 @@ using SharpNeat.Tasks.Xor;
 
 namespace TestApp1;
 
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-
 public static class EvolutionAlgorithmFactory
 {
     public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm_Xor()

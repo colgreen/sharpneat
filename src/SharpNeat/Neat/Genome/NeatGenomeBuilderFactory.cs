@@ -27,7 +27,7 @@ public static class NeatGenomeBuilderFactory<T>
         {
             return new NeatGenomeBuilderAcyclic<T>(metaNeatGenome, validateAcyclic);
         }
-        // else
+
         return new NeatGenomeBuilderCyclic<T>(metaNeatGenome);
     }
 }

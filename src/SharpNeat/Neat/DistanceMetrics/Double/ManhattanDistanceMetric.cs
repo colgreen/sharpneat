@@ -129,7 +129,7 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
         double weight1 = weightArr1[arr1Idx];
         double weight2 = weightArr2[arr2Idx];
 
-        for(;;)
+        while(true)
         {
             if(conn1 < conn2)
             {
@@ -234,7 +234,7 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
         double weight1 = weightArr1[arr1Idx];
         double weight2 = weightArr2[arr2Idx];
 
-        for(;;)
+        while(true)
         {
             if(conn1 > conn2)
             {

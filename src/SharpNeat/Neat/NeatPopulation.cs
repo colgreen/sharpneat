@@ -273,7 +273,8 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         {
             primaryFitnessSum += genome.FitnessInfo.PrimaryFitness;
             complexitySum += genome.Complexity;
-            if(genome.Complexity > maxComplexity) { maxComplexity = genome.Complexity; }
+            if(genome.Complexity > maxComplexity)
+                maxComplexity = genome.Complexity;
         }
     }
 

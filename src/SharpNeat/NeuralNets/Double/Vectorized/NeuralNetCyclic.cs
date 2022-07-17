@@ -171,6 +171,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
 
                 // Load connection weights into a vector.
                 var weightVec = new Vector<double>(_weightArr, conIdx);
+
                 // TODO: This ought to be faster, but is slower at time of writing (benchmarking on dotnet 6 preview 3).
                 // var weightVec = Unsafe.ReadUnaligned<Vector<double>>(
                 //    ref Unsafe.As<double, byte>(

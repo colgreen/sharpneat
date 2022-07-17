@@ -58,7 +58,9 @@ public sealed class HSLColor
     /// <summary>
     /// Default constructor.
     /// </summary>
-    public HSLColor() { }
+    public HSLColor()
+    {
+    }
 
     /// <summary>
     /// Construct with the given <see cref="Color"/>.

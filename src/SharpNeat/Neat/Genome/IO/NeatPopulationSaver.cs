@@ -89,6 +89,7 @@ public static class NeatPopulationSaver
         // Create a new zip archive.
         using FileStream fs = new(filepath, FileMode.CreateNew);
         using ZipArchive zipArchive = new(fs, ZipArchiveMode.Create);
+
         // Loop the genomes; add each one in turn to the zip archive.
         foreach(var genome in genomeList)
         {

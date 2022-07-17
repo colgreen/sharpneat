@@ -13,7 +13,8 @@ public class ConfigurationException : Exception
     /// <param name="message">A message describing why this exception was thrown.</param>
     public ConfigurationException(string? message)
         : base(message)
-    {}
+    {
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationException"/> class.
@@ -23,5 +24,6 @@ public class ConfigurationException : Exception
     /// if any.</param>
     public ConfigurationException(string? message, Exception? innerException)
         : base(message, innerException)
-    {}
+    {
+    }
 }
