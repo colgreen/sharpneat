@@ -93,6 +93,21 @@ public static class NeatGenomeConverter
                 nameof(model));
         }
 
+        // Check input and output counts.
+        if(model.InputCount != metaNeatGenome.InputNodeCount)
+        {
+            throw new ArgumentException(
+                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different input node counts.",
+                nameof(model));
+        }
+
+        if(model.OutputCount != metaNeatGenome.OutputNodeCount)
+        {
+            throw new ArgumentException(
+                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different output node counts.",
+                nameof(model));
+        }
+
         // Optionally check if the metaNeatGenome and netFileModel specify a different activation function.
         if (throwIfActivationFnMismatch
             && !string.Equals(model.ActivationFns[0].Code, metaNeatGenome.ActivationFn.GetType().Name, StringComparison.Ordinal))

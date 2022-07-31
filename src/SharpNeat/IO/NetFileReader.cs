@@ -16,14 +16,10 @@ internal class NetFileReader
     int _lineIdx;
     int _inputCount, _outputCount;
 
-    #region Construction
-
     private NetFileReader(StreamReader sr)
     {
         _sr = sr ?? throw new ArgumentNullException(nameof(sr));
     }
-
-    #endregion
 
     #region Private Methods
 
@@ -226,6 +222,21 @@ internal class NetFileReader
 
     #endregion
 
+    #region Public Static Methods
+
+    /// <summary>
+    /// Read a 'net' format file from a stream reader.
+    /// </summary>
+    /// <param name="sr">The stream reader to read from.</param>
+    /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
+    public static NetFileModel Read(StreamReader sr)
+    {
+        var loader = new NetFileReader(sr);
+        return loader.Read();
+    }
+
+    #endregion
+
     #region Private Static Methods
 
     private static bool TryParseInt32(string s, out int result)
@@ -244,21 +255,6 @@ internal class NetFileReader
             NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent,
             CultureInfo.InvariantCulture,
             out result);
-    }
-
-    #endregion
-
-    #region Public Static Methods
-
-    /// <summary>
-    /// Read a 'net' format file from a stream reader.
-    /// </summary>
-    /// <param name="sr">The stream reader to read from.</param>
-    /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
-    public static NetFileModel Read(StreamReader sr)
-    {
-        var loader = new NetFileReader(sr);
-        return loader.Read();
     }
 
     #endregion

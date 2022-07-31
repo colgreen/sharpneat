@@ -59,10 +59,10 @@ public class NetFileTests
         netFileModel2.OutputCount.Should().Be(2);
 
         // Test Connections.
-        netFileModel2.Connections.Should().BeEquivalentTo(netFileModel.Connections);
+        netFileModel2.Connections.Should().BeEquivalentTo(netFileModel.Connections, o => o.WithStrictOrdering());
 
         // Test Activation functions.
-        netFileModel2.ActivationFns.Should().BeEquivalentTo(netFileModel.ActivationFns);
+        netFileModel2.ActivationFns.Should().BeEquivalentTo(netFileModel.ActivationFns, o => o.WithStrictOrdering());
     }
 }
 
