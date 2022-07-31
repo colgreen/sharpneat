@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Runtime.InteropServices;
 using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
 
@@ -56,20 +57,10 @@ public static class DistanceMetricUtils
                 DirectedConnection conn = connArr[i];
                 double weight = weightArr[i];
 
-                // ENHANCEMENT: Updating an existing entry here requires a second lookup; in principle this could be avoided,
-                // e.g. by using a custom dictionary implementation with InsertOrSum() method.
-
                 // If the ID has previously been encountered then add the current element value to it, otherwise
                 // add a new entry to the dictionary.
-                // TODO: [.NET 6+] Use Marshal.GetValueRefOrAddDefault here to avoid the second lookup for adding a missing item.
-                if(coordElemTotals.TryGetValue(conn, out double weightAcc))
-                {
-                    coordElemTotals[conn] = weightAcc + weight;
-                }
-                else
-                {
-                    coordElemTotals.Add(conn, weight);
-                }
+                ref double weightAcc = ref CollectionsMarshal.GetValueRefOrAddDefault(coordElemTotals, conn, out _);
+                weightAcc += weight;
             }
         }
 
