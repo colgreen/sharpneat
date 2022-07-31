@@ -6,8 +6,6 @@ using SharpNeat.IO.Models;
 
 namespace SharpNeat.Neat.Genome.IO;
 
-// TODO: Add NeatGenomeConverter unit tests.
-
 /// <summary>
 /// Static methods for converting between <see cref="NeatGenome{T}"/> and <see cref="NetFileModel"/>.
 /// </summary>
