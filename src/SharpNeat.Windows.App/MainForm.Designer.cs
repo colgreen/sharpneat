@@ -1078,6 +1078,7 @@
             this.loadPopulationToolStripMenuItem.Name = "loadPopulationToolStripMenuItem";
             this.loadPopulationToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadPopulationToolStripMenuItem.Text = "Load Population";
+            this.loadPopulationToolStripMenuItem.Click += new System.EventHandler(this.loadPopulationToolStripMenuItem_Click);
             // 
             // loadSeedGenomeToolStripMenuItem
             // 

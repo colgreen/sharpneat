@@ -20,14 +20,12 @@ namespace SharpNeat.Neat;
 public class NeatPopulation<T> : Population<NeatGenome<T>>
     where T : struct
 {
-    #region Consts / Statics
-
     // ENHANCEMENT: Consider increasing buffer capacity, and different capacities for the two different buffers.
-    const int __defaultInnovationHistoryBufferSize = 0x20000; // = 131,072.
+    const int __defaultInnovationHistoryBufferSize = 0x20_000; // = 131,072 decimal.
 
-    #endregion
-
-    #region Auto Properties
+    // A reusable/working list. Stores the index of the species with the fittest genome, or multiple indexes when
+    // two or more species are tied at first place.
+    private readonly List<int> _fittestSpeciesIndexList = new();
 
     /// <summary>
     /// NeatGenome metadata.
@@ -66,18 +64,6 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// </summary>
     public NeatPopulationStatistics NeatPopulationStats => (NeatPopulationStatistics)this.Stats;
 
-    #endregion
-
-    #region Instance Fields
-
-    /// <summary>
-    /// A reusable/working list.
-    /// Stores the index of the species with the fittest genome, or multiple indexes when two or more species are tied at first place.
-    /// </summary>
-    private readonly List<int> _fittestSpeciesIndexList = new();
-
-    #endregion
-
     #region Constructors
 
     /// <summary>
@@ -92,7 +78,10 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         List<NeatGenome<T>> genomeList)
         : base(genomeList)
     {
-        GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
+        GetMaxObservedIds(
+            genomeList,
+            out int maxGenomeId,
+            out int maxInnovationId);
 
         this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
         this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));

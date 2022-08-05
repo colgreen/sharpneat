@@ -1,6 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.IO.Compression;
+using SharpNeat.Experiments;
+using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Windows.App.Experiments;
@@ -16,6 +18,39 @@ namespace SharpNeat.Windows.App;
 partial class MainForm
 {
     #region File Menu Items
+
+    private void loadPopulationToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        string popFilePath = SelectFileToOpen("Load population", "pop", "(*.pop)|*.pop");
+        if(string.IsNullOrEmpty(popFilePath))
+            return;
+
+        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+        NeatPopulationLoader<double> popLoader = new(metaNeatGenome);
+        
+        try
+        {
+            List<NeatGenome<double>> genomeList = popLoader.LoadFromZipArchive(popFilePath);
+
+            if(genomeList.Count == 0)
+            {
+                __log.WarnFormat("No genomes loaded from population file [{0}].", popFilePath);
+                return;
+            }
+
+            INeatGenomeBuilder<double> genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
+
+            _neatPop = new NeatPopulation<double>(
+                metaNeatGenome, genomeBuilder, genomeList);
+
+            UpdateUIState();
+        }
+        catch(Exception ex)
+        {
+            __log.ErrorFormat("Error loading population. Error message [{0}]", ex.Message);
+        }
+    }
 
     private void saveBestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
     {

@@ -39,7 +39,10 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         ConnectionGenes<T> connGenes)
     {
         // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
-        int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount, _workingIdSet);
+        int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(
+            connGenes._connArr,
+            _metaNeatGenome.InputOutputNodeCount,
+            _workingIdSet);
 
         return Create(id, birthGeneration, connGenes, hiddenNodeIdArr);
     }
@@ -68,7 +71,15 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         DirectedGraph digraph = NeatGenomeBuilderUtils.CreateDirectedGraph(
             _metaNeatGenome, connGenes, nodeIndexByIdMap);
 
-        return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
+        return new NeatGenome<T>(
+            _metaNeatGenome,
+            id,
+            birthGeneration,
+            connGenes,
+            hiddenNodeIdArr,
+            nodeIndexByIdMap,
+            digraph,
+            null);
     }
 
     /// <inheritdoc/>
@@ -83,7 +94,15 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         // This should always be null when evolving cyclic genomes/graphs.
         Debug.Assert(connectionIndexMap is null);
 
-        return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, null);
+        return new NeatGenome<T>(
+            _metaNeatGenome,
+            id,
+            birthGeneration,
+            connGenes,
+            hiddenNodeIdArr,
+            nodeIndexByIdMap,
+            digraph,
+            null);
     }
 
     #endregion

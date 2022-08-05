@@ -75,7 +75,8 @@ public class NeatPopulationFactory<T>
     private NeatPopulation<T> CreatePopulation(int size)
     {
         var genomeList = CreateGenomeList(size);
-        return new NeatPopulation<T>(_metaNeatGenome, _genomeBuilder, genomeList, _genomeIdSeq, _innovationIdSeq);
+        return new NeatPopulation<T>(
+            _metaNeatGenome, _genomeBuilder, genomeList, _genomeIdSeq, _innovationIdSeq);
     }
 
     /// <summary>
@@ -151,7 +152,11 @@ public class NeatPopulationFactory<T>
         MetaNeatGenome<T> metaNeatGenome,
         double connectionsProportion, int popSize)
     {
-        var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion, RandomDefaults.CreateRandomSource());
+        var factory = new NeatPopulationFactory<T>(
+            metaNeatGenome,
+            connectionsProportion,
+            RandomDefaults.CreateRandomSource());
+
         return factory.CreatePopulation(popSize);
     }
 

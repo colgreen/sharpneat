@@ -64,7 +64,9 @@ partial class MainForm
         NeatEvolutionAlgorithm<double> ea = NeatUtils.CreateNeatEvolutionAlgorithm(neatExperiment, _neatPop);
         ea.Initialise();
 
-        _eaRunner = new EvolutionAlgorithmRunner(ea, UpdateScheme.CreateTimeSpanUpdateScheme(TimeSpan.FromSeconds(1)));
+        _eaRunner = new EvolutionAlgorithmRunner(
+            ea,
+            UpdateScheme.CreateTimeSpanUpdateScheme(TimeSpan.FromSeconds(1)));
 
         // Attach event listeners.
         _eaRunner.UpdateEvent += _eaRunner_UpdateEvent;
@@ -96,19 +98,19 @@ partial class MainForm
         UpdateUIState_ResetStats();
 
         // Clear/reset child forms (those that are open).
-        if(_bestGenomeForm is not null) { _bestGenomeForm.Genome = null; }
+        if(_bestGenomeForm is not null) _bestGenomeForm.Genome = null;
 
         // Time series forms.
-        if(_fitnessTimeSeriesForm is not null) { _fitnessTimeSeriesForm.Clear(); }
-        if(_complexityTimeSeriesForm is not null) { _complexityTimeSeriesForm.Clear(); }
-        if(_evalsPerSecTimeSeriesForm is not null) { _evalsPerSecTimeSeriesForm.Clear(); }
+        if(_fitnessTimeSeriesForm is not null) _fitnessTimeSeriesForm.Clear();
+        if(_complexityTimeSeriesForm is not null) _complexityTimeSeriesForm.Clear();
+        if(_evalsPerSecTimeSeriesForm is not null) _evalsPerSecTimeSeriesForm.Clear();
 
         // Rankings forms.
-        if(_speciesSizeRankForm is not null) { _speciesSizeRankForm.Clear(); }
-        if(_speciesFitnessRankForm is not null) { _speciesFitnessRankForm.Clear(); }
-        if(_speciesComplexityRankForm is not null) { _speciesComplexityRankForm.Clear(); }
-        if(_genomeFitnessRankForm is not null) { _genomeFitnessRankForm.Clear(); }
-        if(_genomeComplexityRankForm is not null) { _genomeComplexityRankForm.Clear(); }
+        if(_speciesSizeRankForm is not null) _speciesSizeRankForm.Clear();
+        if(_speciesFitnessRankForm is not null) _speciesFitnessRankForm.Clear();
+        if(_speciesComplexityRankForm is not null) _speciesComplexityRankForm.Clear();
+        if(_genomeFitnessRankForm is not null) _genomeFitnessRankForm.Clear();
+        if(_genomeComplexityRankForm is not null) _genomeComplexityRankForm.Clear();
 
         // Take the opportunity to clean-up the heap.
         GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);

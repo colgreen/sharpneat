@@ -40,6 +40,28 @@ internal static class AppUtils
     /// <summary>
     /// Ask the user for a filename / path.
     /// </summary>
+    public static string SelectFileToOpen(string dialogTitle, string fileExtension, string filter)
+    {
+        OpenFileDialog oDialog = new()
+        {
+            AddExtension = true,
+            DefaultExt = fileExtension,
+            Filter = filter,
+            Title = dialogTitle,
+            RestoreDirectory = true
+        };
+
+        // Show dialog and block until user selects a file.
+        if(oDialog.ShowDialog() == DialogResult.OK)
+            return oDialog.FileName;
+
+        // No selection.
+        return null;
+    }
+
+    /// <summary>
+    /// Ask the user for a filename / path.
+    /// </summary>
     public static string SelectFileToSave(string dialogTitle, string fileExtension, string filter)
     {
         SaveFileDialog oDialog = new()
