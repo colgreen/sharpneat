@@ -228,8 +228,9 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
     }
 
     /// <inheritdoc/>
-    public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> pointList)
+    public ConnectionGenes<double> CalculateCentroid(
+        ReadOnlySpan<ConnectionGenes<double>> points)
     {
-        return DistanceMetricUtils.CalculateEuclideanCentroid(pointList);
+        return DistanceMetricUtils.CalculateEuclideanCentroid(points);
     }
 }

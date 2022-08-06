@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Running;
+using SharpNeat.Neat.DistanceMetrics;
 //using SharpNeat.NeuralNets.Double.Vectorized.Benchmarks;
 
 namespace SharpNeat.Benchmarks;
@@ -16,6 +17,10 @@ class Program
 
         //BenchmarkRunner.Run<NeuralNets.Double.Benchmarks.NeuralNetCyclicBenchmarks>();
         //BenchmarkRunner.Run<NeuralNets.Double.Vectorized.Benchmarks.NeuralNetCyclicBenchmarks>();
+
+        //BenchmarkRunner.Run<DistanceMetricUtilsBenchmarks>();
+        //BenchmarkRunner.Run<EuclideanDistanceMetricBenchmarks>();
+        //BenchmarkRunner.Run<ManhattanDistanceMetricBenchmarks>();
 
         //var benchmarks = new NeuralNets.Double.Benchmarks.NeuralNetAcyclicBenchmarks();
         //for(; ; )

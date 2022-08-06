@@ -292,9 +292,10 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     // is an approximation of the true centroid in L1 space (Manhattan distance).
     // Note. In practice this is possibly a near optimal centroid for all but small clusters.
     /// <inheritdoc/>
-    public ConnectionGenes<double> CalculateCentroid(IList<ConnectionGenes<double>> pointList)
+    public ConnectionGenes<double> CalculateCentroid(
+        ReadOnlySpan<ConnectionGenes<double>> points)
     {
-        return DistanceMetricUtils.CalculateEuclideanCentroid(pointList);
+        return DistanceMetricUtils.CalculateEuclideanCentroid(points);
     }
 
     #endregion

@@ -22,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="data\binary11.pop">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="data\genomes\binary11-b.net">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
