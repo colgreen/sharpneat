@@ -168,7 +168,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
                 // Load connection weights into a vector.
                 var weightVec = new Vector<double>(_weightArr, conIdx);
 
-                // TODO: This ought to be faster, but is slower at time of writing (benchmarking on dotnet 6 preview 3).
+                // TODO: This ought to be faster, but is slower at time of writing (benchmarking on dotnet 6).
                 // var weightVec = Unsafe.ReadUnaligned<Vector<double>>(
                 //    ref Unsafe.As<double, byte>(
                 //        ref Unsafe.Add(
@@ -193,9 +193,9 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
                 ref double tgtSlot = ref Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
 
                 tgtSlot = Math.FusedMultiplyAdd(
-                            Unsafe.Add(ref postActivationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
-                            Unsafe.Add(ref weightsRef, conIdx),
-                            tgtSlot);
+                    Unsafe.Add(ref postActivationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
+                    Unsafe.Add(ref weightsRef, conIdx),
+                    tgtSlot);
             }
 
             // Pass the pre-activation levels through the activation function, storing the results in the
