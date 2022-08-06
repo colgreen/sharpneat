@@ -5,8 +5,6 @@ internal class MockPreyCaptureAgent : IBlackBox<double>
     readonly double[] _inputArr;
     readonly double[] _outputArr;
 
-    #region Constructor
-
     public MockPreyCaptureAgent()
     {
         _inputArr = new double[14];
@@ -14,8 +12,6 @@ internal class MockPreyCaptureAgent : IBlackBox<double>
         _outputArr = new double[4];
         this.Outputs = _outputArr;
     }
-
-    #endregion
 
     #region IBlackBox
 

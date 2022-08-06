@@ -17,8 +17,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
     readonly MutationTypeDistributions _mutationTypeDistributionsSimplifying;
     MutationTypeDistributions _mutationTypeDistributionsCurrent;
@@ -28,8 +26,6 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
     readonly IAsexualReproductionStrategy<T> _deleteConnectionStrategy;
     readonly IAsexualReproductionStrategy<T> _addConnectionStrategy;
     readonly IAsexualReproductionStrategy<T> _addNodeStrategy;
-
-    #endregion
 
     #region Constructor
 

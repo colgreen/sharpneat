@@ -10,13 +10,6 @@ public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
     where T : struct
 {
     /// <summary>
-    /// Connection weight array.
-    /// </summary>
-    public T[] WeightArray { get; }
-
-    #region Constructor
-
-    /// <summary>
     /// Construct with the given node counts, connection data, layer information, indexes of the output nodes,
     /// and connection weights.
     /// </summary>
@@ -40,5 +33,8 @@ public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
         this.WeightArray = weightArr;
     }
 
-    #endregion
+    /// <summary>
+    /// Connection weight array.
+    /// </summary>
+    public T[] WeightArray { get; }
 }

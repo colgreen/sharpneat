@@ -17,8 +17,6 @@ namespace SharpNeat.Neat;
 internal static class SpeciesAllocationCalcs<T>
     where T : struct
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
     /// Then calc and store the elite, selection and offspring allocations/counts, per species.
@@ -37,8 +35,6 @@ internal static class SpeciesAllocationCalcs<T>
         // Calculate elite, selection and offspring counts, per species.
         UpdateEliteSelectionOffspringCounts(pop, eaSettings, rng);
     }
-
-    #endregion
 
     #region Private Static Methods
 

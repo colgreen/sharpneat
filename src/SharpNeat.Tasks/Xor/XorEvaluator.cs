@@ -18,8 +18,6 @@ namespace SharpNeat.Tasks.Xor;
 /// </summary>
 public sealed class XorEvaluator : IPhenomeEvaluator<IBlackBox<double>>
 {
-    #region Public Methods
-
     /// <summary>
     /// Evaluate the provided black box against the logical XOR task,
     /// and return its fitness score.
@@ -60,8 +58,6 @@ public sealed class XorEvaluator : IPhenomeEvaluator<IBlackBox<double>>
 
         return new FitnessInfo(fitness);
     }
-
-    #endregion
 
     #region Private Static Methods
 

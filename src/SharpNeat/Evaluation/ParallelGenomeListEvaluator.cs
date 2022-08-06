@@ -20,14 +20,10 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
     where TGenome : IGenome
     where TPhenome : class, IDisposable
 {
-    #region Instance Fields
-
     readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
     readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
     readonly ParallelOptions _parallelOptions;
     readonly IPhenomeEvaluatorPool<TPhenome> _evaluatorPool;
-
-    #endregion
 
     #region Constructor
 

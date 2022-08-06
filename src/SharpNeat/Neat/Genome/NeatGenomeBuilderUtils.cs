@@ -9,8 +9,6 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 internal static class NeatGenomeBuilderUtils
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create a digraph from the a set of connection genes.
     /// </summary>
@@ -44,8 +42,6 @@ internal static class NeatGenomeBuilderUtils
 
         return digraph;
     }
-
-    #endregion
 
     #region Private Static Methods
 

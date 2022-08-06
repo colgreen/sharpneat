@@ -16,8 +16,6 @@ public struct Int32Point
     /// </summary>
     public int Y;
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the provided Cartesian coordinate components.
     /// </summary>
@@ -28,8 +26,6 @@ public struct Int32Point
         this.X = x;
         this.Y = y;
     }
-
-    #endregion
 
     #region Overrides [Object Equality]
 

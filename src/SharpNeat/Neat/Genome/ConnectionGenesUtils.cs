@@ -11,8 +11,6 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 internal static class ConnectionGenesUtils
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create a sorted array of hidden node IDs.
     /// </summary>
@@ -65,6 +63,4 @@ internal static class ConnectionGenesUtils
 
         return true;
     }
-
-    #endregion
 }

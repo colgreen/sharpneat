@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Speciation.Tests;
 
 internal static class SpeciationStrategyTestUtils
 {
-    #region Public Methods
+    #region Public Static Methods
 
     public static void TestSpeciateAll(
         int popSize,

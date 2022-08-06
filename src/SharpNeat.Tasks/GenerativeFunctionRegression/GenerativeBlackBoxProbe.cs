@@ -14,8 +14,6 @@ public sealed class GenerativeBlackBoxProbe : IBlackBoxProbe
     readonly double _offset;
     readonly double _scale;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
@@ -28,10 +26,6 @@ public sealed class GenerativeBlackBoxProbe : IBlackBoxProbe
         _offset = offset;
         _scale = scale;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <inheritdoc/>
     public void Probe(IBlackBox<double> box, double[] responseArr)
@@ -63,15 +57,9 @@ public sealed class GenerativeBlackBoxProbe : IBlackBoxProbe
         }
     }
 
-    #endregion
-
-    #region Private Static Methods
-
     private static void Clip(ref double x)
     {
         if(x < 0.0) x = 0.0;
         else if(x > 1.0) x = 1.0;
     }
-
-    #endregion
 }

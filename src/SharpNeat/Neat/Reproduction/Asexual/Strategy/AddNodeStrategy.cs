@@ -20,16 +20,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly INeatGenomeBuilder<T> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _innovationIdSeq;
     readonly Int32Sequence _generationSeq;
     readonly AddedNodeBuffer _addedNodeBuffer;
-
-    #endregion
 
     #region Constructor
 

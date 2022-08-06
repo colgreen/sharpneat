@@ -19,16 +19,10 @@ public class Logger
     static ListBox __lbxLog;
     static readonly BindingList<LogItem> __bindingList;
 
-    #region Static Constructor
-
     static Logger()
     {
         __bindingList = new BindingList<LogItem>(new LogBuffer(500));
     }
-
-    #endregion
-
-    #region Public Static Methods
 
     /// <summary>
     /// Assign the GUI ListBox to display log messages on.
@@ -64,8 +58,6 @@ public class Logger
     {
         __bindingList.Clear();
     }
-
-    #endregion
 
     #region Inner Classes
 

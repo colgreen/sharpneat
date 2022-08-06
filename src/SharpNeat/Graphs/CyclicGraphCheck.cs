@@ -34,38 +34,26 @@ namespace SharpNeat.Graphs;
 /// </summary>
 public sealed class CyclicGraphCheck
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The directed graph being tested.
-    /// </summary>
+    // The directed graph being tested.
     DirectedGraph? _digraph;
 
-    /// <summary>
-    /// A bitmap in which each bit represents a node in the graph.
-    /// The set bits represent the set of nodes that are ancestors of the current traversal node.
-    /// </summary>
+    // A bitmap in which each bit represents a node in the graph.
+    // The set bits represent the set of nodes that are ancestors of the current traversal node.
     BoolArray _ancestorNodeBitmap = new(1024);
 
-    /// <summary>
-    /// A bitmap in which each bit represents a node in the graph.
-    /// The set bits represent the set of nodes that have been visited by either the current traversal,
-    /// or previous traversals starting from a different node.
-    ///
-    /// This is used to quickly determine if a given path needs to be traversed or not, i.e. if a path has
-    /// previously been traversed and no cycle was found, then we do not need to traverse this pathway again.
-    /// </summary>
+    // A bitmap in which each bit represents a node in the graph.
+    // The set bits represent the set of nodes that have been visited by either the current traversal,
+    // or previous traversals starting from a different node.
+    //
+    // This is used to quickly determine if a given path needs to be traversed or not, i.e. if a path has
+    // previously been traversed and no cycle was found, then we do not need to traverse this pathway again.
     BoolArray _visitedNodeBitmap = new(1024);
 
 #if DEBUG
-    /// <summary>
-    /// Indicates if a call to IsCyclic() is currently in progress.
-    /// For checking for attempts to re-enter that method while a call is in progress.
-    /// </summary>
+    // Indicates if a call to IsCyclic() is currently in progress.
+    // For checking for attempts to re-enter that method while a call is in progress.
     int _reentranceFlag;
 #endif
-
-    #endregion
 
     #region Public Methods
 

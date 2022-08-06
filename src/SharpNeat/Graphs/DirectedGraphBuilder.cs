@@ -11,8 +11,6 @@ namespace SharpNeat.Graphs;
 /// </summary>
 public static class DirectedGraphBuilder
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of input/output
     /// node IDs defined as being in a contiguous sequence starting at ID zero.
@@ -50,8 +48,6 @@ public static class DirectedGraphBuilder
         int totalNodeCount = inputOutputCount + hiddenNodeIdArr.Length;
         return new DirectedGraph(inputCount, outputCount, totalNodeCount, connIds);
     }
-
-    #endregion
 
     #region Private Static Methods
 

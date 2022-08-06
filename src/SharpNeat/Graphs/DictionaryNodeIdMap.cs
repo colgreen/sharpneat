@@ -21,8 +21,6 @@ public sealed class DictionaryNodeIdMap : INodeIdMap
     readonly int _fixedNodeCount;
     readonly Dictionary<int,int> _nodeIdxById;
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the given pre-built dictionary, and a fixed node count.
     /// </summary>
@@ -38,8 +36,6 @@ public sealed class DictionaryNodeIdMap : INodeIdMap
         _fixedNodeCount = fixedNodeCount;
         _nodeIdxById = nodeIdxById;
     }
-
-    #endregion
 
     #region INodeIdMap
 

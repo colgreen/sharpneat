@@ -6,8 +6,6 @@ namespace SharpNeat.Graphs.Tests;
 
 public class AcyclicGraphDepthAnalysisTests
 {
-    #region Test Methods
-
     /// <summary>
     /// Input 1 has a connection coming into it; although this is not allowed in NeatGenome, it is
     /// is allowed by DirectedGraph, so we test it works as expected.
@@ -149,6 +147,4 @@ public class AcyclicGraphDepthAnalysisTests
         Assert.Equal(7, depthInfo._nodeDepthArr[9]);
         Assert.Equal(7, depthInfo._nodeDepthArr[10]);
     }
-
-    #endregion
 }

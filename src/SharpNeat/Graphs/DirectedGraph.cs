@@ -34,8 +34,6 @@ namespace SharpNeat.Graphs;
 /// </remarks>
 public class DirectedGraph
 {
-    #region Instance Fields
-
     // The number of input nodes; these are required to be assigned contiguous IDs starting at zero.
     readonly int _inputCount;
 
@@ -51,8 +49,6 @@ public class DirectedGraph
     // An array of indexes into _connArr.
     // For a given node index, gives the index of the first connection with that node as its source.
     int[]? _connIdxBySrcNodeIdx;
-
-    #endregion
 
     #region Constructor
 

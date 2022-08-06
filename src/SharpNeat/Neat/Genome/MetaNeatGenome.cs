@@ -12,8 +12,6 @@ namespace SharpNeat.Neat.Genome;
 public class MetaNeatGenome<T>
     where T : struct
 {
-    #region Properties
-
     /// <summary>
     /// Input node count.
     /// </summary>
@@ -52,12 +50,7 @@ public class MetaNeatGenome<T>
     /// <summary>
     /// The total number of input and output nodes.
     /// </summary>
-    public int InputOutputNodeCount
-    {
-        get { return this.InputNodeCount + this.OutputNodeCount; }
-    }
-
-    #endregion
+    public int InputOutputNodeCount => this.InputNodeCount + this.OutputNodeCount;
 
     #region Construction
 

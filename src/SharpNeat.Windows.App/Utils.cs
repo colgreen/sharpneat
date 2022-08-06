@@ -11,10 +11,10 @@ internal static class Utils
     /// Gets a <see cref="Comparer{double}"/> that can be used to sort items in descending order.
     /// </summary>
     public static Comparer<double> ComparerDesc => Comparer<double>.Create(
-                delegate (double x, double y)
-                {
-                    if(x > y) { return -1; }
-                    if(x < y) { return 1; }
-                    return 0;
-                });
+        delegate (double x, double y)
+        {
+            if(x > y) { return -1; }
+            if(x < y) { return 1; }
+            return 0;
+        });
 }

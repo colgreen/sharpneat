@@ -11,10 +11,12 @@ public enum UpdateMode
     /// Do not generate any update events.
     /// </summary>
     None,
+
     /// <summary>
     /// Generate an update event at regular time intervals.
     /// </summary>
     Timespan,
+
     /// <summary>
     /// Generate an update event at regular generation intervals. (Every N generations).
     /// </summary>

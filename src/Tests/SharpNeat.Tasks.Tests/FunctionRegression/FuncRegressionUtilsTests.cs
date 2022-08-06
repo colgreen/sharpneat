@@ -5,8 +5,6 @@ namespace SharpNeat.Tasks.Tests.FunctionRegression;
 
 public class FuncRegressionUtilsTests
 {
-    #region Test Methods
-
     [Fact]
     public void CalcGradients()
     {
@@ -26,8 +24,6 @@ public class FuncRegressionUtilsTests
         // Compare results.
         Assert.Equal(gradientArrExpected, gradientArr);
     }
-
-    #endregion
 
     #region Private Static Methods
 

@@ -34,8 +34,6 @@ namespace SharpNeat.Neat.DistanceMetrics.Double;
 /// </summary>
 public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
 {
-    #region Instance Fields
-
     // A coefficient to applied to the distance obtained from two coordinates that both
     // describe a position in a given dimension.
     readonly double _matchDistanceCoeff;
@@ -47,8 +45,6 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     // A constant that is added to the distance where only one of the coordinates describes a position in a given
     // dimension. This adds extra emphasis to distance when comparing coordinates that exist in different dimensions.
     readonly double _mismatchDistanceConstant;
-
-    #endregion
 
     #region Constructors
 

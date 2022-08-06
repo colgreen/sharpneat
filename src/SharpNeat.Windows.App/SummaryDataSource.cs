@@ -10,7 +10,18 @@ public class SummaryDataSource
     // A function for obtaining an array of plot points.
     readonly Func<Point2DDouble[]> _getPointArrayFn;
 
-    #region Auto Properties
+    /// <summary>
+    /// Constructs a data source with the provided source details and delegate for acquiring data.
+    /// </summary>
+    public SummaryDataSource(
+        string name, int yAxis, Color color,
+        Func<Point2DDouble[]> getPointArrayFn)
+    {
+        Name = name;
+        YAxis = yAxis;
+        Color = color;
+        _getPointArrayFn = getPointArrayFn;
+    }
 
     /// <summary>
     /// Gets the name of the data source.
@@ -27,27 +38,6 @@ public class SummaryDataSource
     /// </summary>
     public Color Color { get; }
 
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Constructs a data source with the provided source details and delegate for acquiring data.
-    /// </summary>
-    public SummaryDataSource(
-        string name, int yAxis, Color color,
-        Func<Point2DDouble[]> getPointArrayFn)
-    {
-        Name = name;
-        YAxis = yAxis;
-        Color = color;
-        _getPointArrayFn = getPointArrayFn;
-    }
-
-    #endregion
-
-    #region Public Methods
-
     /// <summary>
     /// Gets the data to be plotted.
     /// </summary>
@@ -55,6 +45,4 @@ public class SummaryDataSource
     {
         return _getPointArrayFn();
     }
-
-    #endregion
 }

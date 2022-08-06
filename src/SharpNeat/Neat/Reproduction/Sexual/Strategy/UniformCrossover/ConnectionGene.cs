@@ -15,6 +15,7 @@ internal readonly struct ConnectionGene<T>
     /// The source and target node IDs.
     /// </summary>
     public readonly DirectedConnection Endpoints;
+
     /// <summary>
     /// Connection weight.
     /// </summary>

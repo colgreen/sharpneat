@@ -20,31 +20,21 @@ namespace SharpNeat.Graphs.Acyclic;
 /// </remarks>
 public sealed class CyclicConnectionCheck
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The graph traversal stack, as required by a depth first graph traversal algorithm.
-    /// Each stack entry is an index into a connection list, representing both the current node being traversed
-    /// (the connections's source ID), and the current position in that node's outgoing connections.
-    /// </summary>
+    // The graph traversal stack, as required by a depth first graph traversal algorithm.
+    // Each stack entry is an index into a connection list, representing both the current node being traversed
+    // (the connections's source ID), and the current position in that node's outgoing connections.
     readonly IntStack _traversalStack = new(16);
 
-    /// <summary>
-    /// A bitmap in which each bit represents a node in the graph.
-    /// The set bits represent the set of visited nodes on the current traversal path.
-    /// This is used to quickly determine if a given path should be traversed or not.
-    /// </summary>
+    // A bitmap in which each bit represents a node in the graph.
+    // The set bits represent the set of visited nodes on the current traversal path.
+    // This is used to quickly determine if a given path should be traversed or not.
     BoolArray _visitedNodeBitmap = new(1024);
 
 #if DEBUG
-    /// <summary>
-    /// Indicates if a call to IsConnectionCyclic() is currently in progress.
-    /// For checking for attempts to re-enter that method while a call is in progress.
-    /// </summary>
+    // Indicates if a call to IsConnectionCyclic() is currently in progress.
+    // For checking for attempts to re-enter that method while a call is in progress.
     int _reentranceFlag;
 #endif
-
-    #endregion
 
     #region Public Methods
 

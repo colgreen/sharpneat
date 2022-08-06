@@ -14,20 +14,6 @@ namespace SharpNeat.Graphs.Acyclic;
 public readonly struct LayerInfo
 {
     /// <summary>
-    /// Specifies the last node in the current layer. Specifically, the index of that
-    /// node plus one.
-    /// </summary>
-    public int EndNodeIdx { get; }
-
-    /// <summary>
-    /// Specifies the last connection in the current layer. Specifically, the index of that
-    /// connection plus one.
-    /// </summary>
-    public int EndConnectionIdx { get; }
-
-    #region Constructor
-
-    /// <summary>
     /// Construct a new instance.
     /// </summary>
     /// <param name="endNodeIdx">Specifies the last node in the current layer. Specifically, the index of that
@@ -40,5 +26,15 @@ public readonly struct LayerInfo
         this.EndConnectionIdx = endConnectionIdx;
     }
 
-    #endregion
+    /// <summary>
+    /// Specifies the last node in the current layer. Specifically, the index of that
+    /// node plus one.
+    /// </summary>
+    public int EndNodeIdx { get; }
+
+    /// <summary>
+    /// Specifies the last connection in the current layer. Specifically, the index of that
+    /// connection plus one.
+    /// </summary>
+    public int EndConnectionIdx { get; }
 }

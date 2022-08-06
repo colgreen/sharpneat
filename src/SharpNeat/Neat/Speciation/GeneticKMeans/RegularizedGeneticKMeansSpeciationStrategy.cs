@@ -54,14 +54,10 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly IDistanceMetric<T> _distanceMetric;
     readonly int _maxKMeansIters;
     readonly double _regularizationConstant;
     readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
-
-    #endregion
 
     #region Constructor
 

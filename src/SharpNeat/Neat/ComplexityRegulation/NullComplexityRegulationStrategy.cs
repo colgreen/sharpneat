@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.ComplexityRegulation;
 /// </summary>
 public sealed class NullComplexityRegulationStrategy : IComplexityRegulationStrategy
 {
-    #region IComplexityRegulationStrategy
-
     /// <inheritdoc/>
     public ComplexityRegulationMode CurrentMode => ComplexityRegulationMode.Complexifying;
 
@@ -23,6 +21,4 @@ public sealed class NullComplexityRegulationStrategy : IComplexityRegulationStra
         // This is the null strategy, therefore do nothing.
         return ComplexityRegulationMode.Complexifying;
     }
-
-    #endregion
 }

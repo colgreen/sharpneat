@@ -5,8 +5,6 @@ namespace SharpNeat.Graphs.Tests;
 
 public static class NetworkUtils
 {
-    #region Public Static Methods
-
     public static void CompareConnectionLists(
         Span<WeightedDirectedConnection<double>> x,
         in ConnectionIds connIds, double[] yWeightArr)
@@ -46,6 +44,4 @@ public static class NetworkUtils
         Assert.Equal(x.EndNodeIdx, y.EndNodeIdx);
         Assert.Equal(x.EndConnectionIdx, y.EndConnectionIdx);
     }
-
-    #endregion
 }

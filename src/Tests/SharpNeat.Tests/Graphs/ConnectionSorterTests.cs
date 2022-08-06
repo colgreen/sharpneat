@@ -5,8 +5,6 @@ namespace SharpNeat.Graphs.Tests;
 
 public class ConnectionSorterTests
 {
-    #region Test Methods
-
     [Theory]
     [InlineData(99)]
     [InlineData(100)]
@@ -51,8 +49,6 @@ public class ConnectionSorterTests
             tgtIdPrev = tgtIds[i];
         }
     }
-
-    #endregion
 
     #region Private Static Methods
 

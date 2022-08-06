@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Genome;
 
 /// <summary>
 /// Connections genes represented as a structure of arrays (see https://en.wikipedia.org/wiki/AOS_and_SOA).
-/// Element i of each array represents a value relating to the i'th gene.
+/// Element i of each array represents a value relating to the 'i'th gene.
 /// </summary>
 /// <typeparam name="T">Connection weight data type.</typeparam>
 public sealed class ConnectionGenes<T>
@@ -53,7 +53,7 @@ public sealed class ConnectionGenes<T>
 
     #endregion
 
-    #region Properties / Indexers
+    #region Properties / Indexer
 
     /// <summary>
     /// Gets the number of connection genes.

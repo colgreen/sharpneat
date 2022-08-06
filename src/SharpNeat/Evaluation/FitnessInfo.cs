@@ -6,7 +6,7 @@ using Redzen;
 namespace SharpNeat.Evaluation;
 
 /// <summary>
-/// Conveys fitness information for a genome.
+/// Represents fitness information for a genome.
 /// </summary>
 public struct FitnessInfo
 {
@@ -14,21 +14,6 @@ public struct FitnessInfo
     /// Default singleton instance.
     /// </summary>
     public static readonly FitnessInfo DefaultFitnessInfo = new(0.0);
-
-    #region Instance Fields
-
-    readonly double _primaryFitness;
-
-    /// <summary>
-    /// An array of auxiliary fitness scores. Most problem tasks will yield just a single fitness value,
-    /// here we allow for multiple fitness values per evaluation to allow for multiple objectives, or
-    /// secondary fitness scores for reporting only.
-    /// </summary>
-    readonly double[]? _auxFitnessScores;
-
-    #endregion
-
-    #region Constructors
 
     /// <summary>
     /// Construct with a single fitness score.
@@ -39,8 +24,8 @@ public struct FitnessInfo
         if(!DoubleUtils.IsNonNegativeReal(fitness))
             throw new ArgumentOutOfRangeException(nameof(fitness), "Fitness must be non-negative and a real number.");
 
-        _primaryFitness = fitness;
-        _auxFitnessScores = null;
+        PrimaryFitness = fitness;
+        AuxFitnessScores = null;
     }
 
     /// <summary>
@@ -55,23 +40,25 @@ public struct FitnessInfo
         if(!DoubleUtils.IsNonNegativeReal(primaryFitness))
             throw new ArgumentOutOfRangeException(nameof(primaryFitness), "Fitness must be non-negative and a real number.");
 
-        _primaryFitness = primaryFitness;
-        _auxFitnessScores = auxFitnessScores;
+        PrimaryFitness = primaryFitness;
+        AuxFitnessScores = auxFitnessScores;
     }
-
-    #endregion
-
-    #region Properties / Indexer
 
     /// <summary>
     /// Gets the primary fitness score; for most evaluation schemes this is the one and only fitness score.
     /// </summary>
-    public double PrimaryFitness => _primaryFitness;
+    public double PrimaryFitness { get; }
 
     /// <summary>
     /// Gets an array of auxiliary fitness scores.
     /// </summary>
-    public double[]? AuxFitnessScores => _auxFitnessScores;
-
-    #endregion
+    /// <remarks>
+    /// Most problem tasks will yield just a single fitness value via the <see cref="PrimaryFitness"/> property,
+    /// and therefore will not use this property.
+    /// This is for problem tasks that produce multiple fitness values per evaluation; in those scenarios there
+    /// is still a single primary fitness provided by <see cref="PrimaryFitness"/>, but there are also one or more
+    /// secondary fitness scores that are for reporting purposes only, i.e., they aren't currently used by the
+    /// evolution algorithm.
+    /// </remarks>
+    public double[]? AuxFitnessScores { get; }
 }

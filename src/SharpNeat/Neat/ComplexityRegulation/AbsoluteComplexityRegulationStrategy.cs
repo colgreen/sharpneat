@@ -12,34 +12,20 @@ namespace SharpNeat.Neat.ComplexityRegulation;
 /// </summary>
 public sealed class AbsoluteComplexityRegulationStrategy : IComplexityRegulationStrategy
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The minimum number of generations we stay within simplification mode.
-    /// </summary>
+    // The minimum number of generations we stay within simplification mode.
     readonly int _minSimplifcationGenerations;
 
-    /// <summary>
-    /// The fixed/absolute complexity ceiling.
-    /// </summary>
+    // The fixed/absolute complexity ceiling.
     readonly double _complexityCeiling;
 
-    /// <summary>
-    /// The current regulation mode - simplifying or complexifying.
-    /// </summary>
+    // The current regulation mode - simplifying or complexifying.
     ComplexityRegulationMode _currentMode;
 
-    /// <summary>
-    /// The generation at which the last transition occurred.
-    /// </summary>
+    // The generation at which the last transition occurred.
     int _lastTransitionGeneration;
 
-    /// <summary>
-    /// Recorded value of popStats.MeanComplexityHistory.Mean from the previous generation.
-    /// </summary>
+    // Recorded value of popStats.MeanComplexityHistory.Mean from the previous generation.
     double _prevMeanMovingAverage;
-
-    #endregion
 
     #region Constructor
 

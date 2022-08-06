@@ -16,8 +16,6 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
     /// <inheritdoc/>
     public string Id => "prey-capture";
 
-    #region Public Methods
-
     /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
@@ -57,8 +55,6 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
     {
         throw new NotImplementedException();
     }
-
-    #endregion
 
     #region Private Static Methods
 

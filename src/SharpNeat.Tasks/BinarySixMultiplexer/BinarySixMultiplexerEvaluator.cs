@@ -21,8 +21,6 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer;
 /// </summary>
 public sealed class BinarySixMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
 {
-    #region Public Methods
-
     /// <summary>
     /// Evaluate the provided black box against the Binary 6-Multiplexer task,
     /// and return its fitness score.
@@ -96,15 +94,9 @@ public sealed class BinarySixMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<
         return new FitnessInfo(fitness);
     }
 
-    #endregion
-
-    #region Private Static Methods
-
     private static void Clamp(ref double x)
     {
         if(x < 0.0) x = 0.0;
         else if(x > 1.0) x = 1.0;
     }
-
-    #endregion
 }

@@ -16,8 +16,6 @@ namespace SharpNeat.NeuralNets.Double;
 /// </summary>
 public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
 {
-    #region Instance Fields
-
     // Connection arrays.
     readonly ConnectionIds _connIds;
     readonly double[] _weightArr;
@@ -45,8 +43,6 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
     readonly int _inputCount;
     readonly int _outputCount;
     volatile bool _isDisposed;
-
-    #endregion
 
     #region Constructors
 

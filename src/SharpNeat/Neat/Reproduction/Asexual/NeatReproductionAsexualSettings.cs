@@ -7,8 +7,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 /// </summary>
 public class NeatReproductionAsexualSettings
 {
-    #region Auto Properties [Genome Mutation Settings]
-
     /// <summary>
     /// Probability that a genome mutation is a connection weights mutation.
     /// </summary>
@@ -28,8 +26,6 @@ public class NeatReproductionAsexualSettings
     /// Probability that a genome mutation is a 'delete connection' mutation.
     /// </summary>
     public double DeleteConnectionMutationProbability { get; set; } = 0.025;
-
-    #endregion
 
     #region Constructors
 

@@ -4,8 +4,6 @@ namespace SharpNeat.Graphs.Tests;
 
 public class DirectedConnectionUtilsTests
 {
-    #region Test Methods
-
     [Fact]
     public void GetConnectionIndexBySourceNodeId()
     {
@@ -35,6 +33,4 @@ public class DirectedConnectionUtilsTests
         idx = DirectedConnectionUtils.GetConnectionIndexBySourceNodeId(connArr, 0);
         Assert.Equal(~0, idx);
     }
-
-    #endregion
 }

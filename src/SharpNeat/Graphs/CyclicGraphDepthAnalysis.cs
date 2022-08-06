@@ -33,49 +33,35 @@ namespace SharpNeat.Graphs;
 /// </summary>
 public sealed class CyclicGraphDepthAnalysis
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The directed graph being tested.
-    /// </summary>
+    // The directed graph being tested.
     DirectedGraph? _digraph;
 
-    /// <summary>
-    /// A bitmap in which each bit represents a node in the graph.
-    /// The set bits represent the set of nodes that are ancestors of the current traversal node.
-    /// </summary>
+    // A bitmap in which each bit represents a node in the graph.
+    // The set bits represent the set of nodes that are ancestors of the current traversal node.
     BoolArray _ancestorNodeBitmap = new(1024);
 
-    /// <summary>
-    /// An integer array in which each element represents a node in the graph.
-    ///
-    /// The array elements are initialised to -1. An element that remains set to -1 after graph traversal indicates a node that
-    /// was not visited by the traversal. All other values indicate that a node was visited, and the traversal depth when the node
-    /// was visited. If the node is visited multiple times in a single traversal (i.e. there are multiple routes to the node from
-    /// a single input node) then the maximum depth value of all the depths is used.
-    /// </summary>
+    // An integer array in which each element represents a node in the graph.
+    //
+    // The array elements are initialised to -1. An element that remains set to -1 after graph traversal indicates a node that
+    // was not visited by the traversal. All other values indicate that a node was visited, and the traversal depth when the node
+    // was visited. If the node is visited multiple times in a single traversal (i.e. there are multiple routes to the node from
+    // a single input node) then the maximum depth value of all the depths is used.
     int[]? _nodeDepthByIdx;
 
-    /// <summary>
-    /// A matrix of node depths.
-    ///
-    /// [nodeIdx][] gives a list of node depth values for a single node; one depth per traversal (based on multiple traversals being
-    /// performed, one starting from each input node).
-    ///
-    /// The final depth allocated to a node is some aggregate function over all node depths assigned to it, e.g. mean, median, min,
-    /// max, etc.
-    /// </summary>
+    // A matrix of node depths.
+    //
+    // [nodeIdx][] gives a list of node depth values for a single node; one depth per traversal (based on multiple traversals being
+    // performed, one starting from each input node).
+    //
+    // The final depth allocated to a node is some aggregate function over all node depths assigned to it, e.g. mean, median, min,
+    // max, etc.
     LightweightList<int>[] _nodeDepthMatrix = CreateNodeDepthMatrix(64, 8);
 
 #if DEBUG
-    /// <summary>
-    /// Indicates if a call to IsCyclic() is currently in progress.
-    /// For checking for attempts to re-enter that method while a call is in progress.
-    /// </summary>
+    // Indicates if a call to IsCyclic() is currently in progress.
+    // For checking for attempts to re-enter that method while a call is in progress.
     int _reentranceFlag;
 #endif
-
-    #endregion
 
     #region Public Methods
 

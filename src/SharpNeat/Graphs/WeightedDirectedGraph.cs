@@ -39,8 +39,6 @@ public class WeightedDirectedGraph<T> : DirectedGraph
     /// </summary>
     public T[] WeightArray { get; }
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the given node counts, connection data, and connection weights.
     /// </summary>
@@ -59,6 +57,4 @@ public class WeightedDirectedGraph<T> : DirectedGraph
     {
         this.WeightArray = weightArr;
     }
-
-    #endregion
 }

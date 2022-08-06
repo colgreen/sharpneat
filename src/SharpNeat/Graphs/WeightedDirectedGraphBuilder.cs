@@ -13,8 +13,6 @@ namespace SharpNeat.Graphs;
 public static class WeightedDirectedGraphBuilder<T>
     where T : struct
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of node IDs.
     /// Clearly the set of nodeIDs could be discovered by iterating over the connections. This overload exists to allow
@@ -58,8 +56,6 @@ public static class WeightedDirectedGraphBuilder<T>
             connIds,
             weightArr);
     }
-
-    #endregion
 
     #region Private Static Methods
 

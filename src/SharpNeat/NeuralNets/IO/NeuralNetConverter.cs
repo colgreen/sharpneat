@@ -11,8 +11,6 @@ namespace SharpNeat.NeuralNets.IO;
 /// </summary>
 public static class NeuralNetConverter
 {
-    // TODO: NeuralNetConverter unit tests.
-
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to a neural network instance.
     /// </summary>

@@ -10,8 +10,6 @@ public readonly struct DirectedConnection
     : IEquatable<DirectedConnection>,
     IComparable<DirectedConnection>
 {
-    #region Auto Properties
-
     /// <summary>
     /// Connection source node ID.
     /// </summary>
@@ -20,8 +18,6 @@ public readonly struct DirectedConnection
     /// Connection target node ID.
     /// </summary>
     public int TargetId { get; }
-
-    #endregion
 
     #region Constructors
 

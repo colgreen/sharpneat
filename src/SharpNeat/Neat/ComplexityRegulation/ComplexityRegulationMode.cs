@@ -19,6 +19,7 @@ public enum ComplexityRegulationMode
     /// Search by allowing genomes to complexify (add new structure).
     /// </summary>
     Complexifying = 0,
+
     /// <summary>
     /// Search by simplifying genomes (removing structure).
     /// </summary>

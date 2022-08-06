@@ -14,8 +14,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 internal static class CreateSelectionDistributionUtils<T>
     where T : struct
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create instances of <see cref="DiscreteDistribution"/> for sampling species, and for genomes within each given species.
     /// </summary>
@@ -35,8 +33,6 @@ internal static class CreateSelectionDistributionUtils<T>
         // Per-species genome selection distributions.
         genomeDistArr = CreateIntraSpeciesGenomeSelectionDistributions(speciesArr);
     }
-
-    #endregion
 
     #region Private Static Methods
 

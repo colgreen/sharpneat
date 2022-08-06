@@ -54,15 +54,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly IDistanceMetric<T> _distanceMetric;
     readonly int _maxKMeansIters;
     readonly double _regularizationConstant;
     readonly ParallelOptions _parallelOptions;
     readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
-
-    #endregion
 
     #region Constructors
 

@@ -21,14 +21,10 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 internal sealed class OffspringBuilder<T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly NeatReproductionAsexual<T> _reproductionAsexual;
     readonly NeatReproductionSexual<T> _reproductionSexual;
     readonly double _interspeciesMatingProportion;
     readonly IComparer<FitnessInfo> _fitnessComparer;
-
-    #endregion
 
     #region Constructor
 

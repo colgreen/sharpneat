@@ -7,22 +7,19 @@ namespace SharpNeat.Neat.Speciation;
 /// </summary>
 public class SpeciesStats
 {
-    #region Real/Continuous Stats
-
+    // Real/Continuous Stats
     /// <summary>
     /// The mean/average fitness of all genomes in the species.
     /// </summary>
     public double MeanFitness;
+
     /// <summary>
     /// The species target size. This is the real value from the target size calculation; this is 'resolved' to integer
     /// value <see cref="TargetSizeInt"/> to give the final/actual target size in the next generation.
     /// </summary>
     public double TargetSizeReal;
 
-    #endregion
-
-    #region Integer Stats
-
+    // Integer Stats
     /// <summary>
     /// The species target size.
     /// </summary>
@@ -57,6 +54,4 @@ public class SpeciesStats
     /// The number of fittest genomes in the species to be selected from for selecting parents for sexual and asexual reproduction.
     /// </summary>
     public int SelectionSizeInt;
-
-    #endregion
 }

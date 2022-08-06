@@ -18,7 +18,52 @@ namespace SharpNeat.Experiments;
 public class NeatExperiment<T> : INeatExperiment<T>
     where T : struct
 {
-    #region Auto Properties
+    #region Construction
+
+    /// <summary>
+    /// Constructs with the provided name and evaluation scheme, and default settings.
+    /// </summary>
+    /// <param name="evalScheme">Experiment evaluation scheme object.</param>
+    /// <param name="factoryId">Experiment Factory ID (optional).</param>
+    /// <param name="id">Experiment ID.</param>
+    public NeatExperiment(
+        IBlackBoxEvaluationScheme<T> evalScheme,
+        string factoryId, string id)
+    {
+        this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
+        this.Id = id ?? throw new ArgumentNullException(nameof(id));
+        this.FactoryId = factoryId ?? throw new ArgumentNullException(nameof(factoryId));
+
+        // Use the id as a default name; however this can be overwritten/set after construction.
+        this.Name = id;
+
+        // Assign a set of default settings.
+        this.EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
+        this.ReproductionAsexualSettings = new NeatReproductionAsexualSettings();
+        this.ReproductionSexualSettings = new NeatReproductionSexualSettings();
+        this.PopulationSize = 400;
+        this.InitialInterconnectionsProportion = 0.05;
+        this.ConnectionWeightScale = 5.0;
+
+        // Assign a default complexity regulation strategy.
+        this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
+    }
+
+    /// <summary>
+    /// Constructs with the provided name and evaluation scheme, and default settings.
+    /// </summary>
+    /// <param name="evalScheme">Experiment evaluation scheme object.</param>
+    /// <param name="factoryId">Experiment Factory ID (optional).</param>
+    public NeatExperiment(
+        IBlackBoxEvaluationScheme<T> evalScheme,
+        string factoryId)
+        : this(evalScheme, factoryId, factoryId)
+    {
+    }
+
+    #endregion
+
+    #region Properties
 
     /// <inheritdoc/>
     public string FactoryId { get; }
@@ -73,51 +118,6 @@ public class NeatExperiment<T> : INeatExperiment<T>
 
     /// <inheritdoc/>
     public bool EnableHardwareAcceleratedActivationFunctions { get; set; } = false;
-
-    #endregion
-
-    #region Construction
-
-    /// <summary>
-    /// Constructs with the provided name and evaluation scheme, and default settings.
-    /// </summary>
-    /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-    /// <param name="factoryId">Experiment Factory ID (optional).</param>
-    /// <param name="id">Experiment ID.</param>
-    public NeatExperiment(
-        IBlackBoxEvaluationScheme<T> evalScheme,
-        string factoryId, string id)
-    {
-        this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
-        this.Id = id ?? throw new ArgumentNullException(nameof(id));
-        this.FactoryId = factoryId ?? throw new ArgumentNullException(nameof(factoryId));
-
-        // Use the id as a default name; however this can be overwritten/set after construction.
-        this.Name = id;
-
-        // Assign a set of default settings.
-        this.EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
-        this.ReproductionAsexualSettings = new NeatReproductionAsexualSettings();
-        this.ReproductionSexualSettings = new NeatReproductionSexualSettings();
-        this.PopulationSize = 400;
-        this.InitialInterconnectionsProportion = 0.05;
-        this.ConnectionWeightScale = 5.0;
-
-        // Assign a default complexity regulation strategy.
-        this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
-    }
-
-    /// <summary>
-    /// Constructs with the provided name and evaluation scheme, and default settings.
-    /// </summary>
-    /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-    /// <param name="factoryId">Experiment Factory ID (optional).</param>
-    public NeatExperiment(
-        IBlackBoxEvaluationScheme<T> evalScheme,
-        string factoryId)
-        : this(evalScheme, factoryId, factoryId)
-    {
-    }
 
     #endregion
 }

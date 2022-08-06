@@ -5,8 +5,6 @@ namespace SharpNeat.Graphs.Tests;
 
 public class DirectedGraphTests
 {
-    #region Test Methods
-
     [Fact]
     public void SimpleAcyclic()
     {
@@ -80,8 +78,6 @@ public class DirectedGraphTests
         // Check the node count.
         Assert.Equal(15, digraph.TotalNodeCount);
     }
-
-    #endregion
 
     #region Private Static Methods
 

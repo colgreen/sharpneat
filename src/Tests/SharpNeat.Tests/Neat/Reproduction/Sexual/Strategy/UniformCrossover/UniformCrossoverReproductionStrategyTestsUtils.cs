@@ -7,15 +7,11 @@ public class UniformCrossoverReproductionStrategyTestsUtils
     static readonly MetaNeatGenome<double> __metaNeatGenome;
     static readonly INeatGenomeBuilder<double> __genomeBuilder;
 
-    #region Static Initializer
-
     static UniformCrossoverReproductionStrategyTestsUtils()
     {
         __metaNeatGenome = CreateMetaNeatGenome();
         __genomeBuilder = NeatGenomeBuilderFactory<double>.Create(__metaNeatGenome);
     }
-
-    #endregion
 
     #region Public Static Methods
 

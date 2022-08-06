@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// </summary>
 public static class WeightMutationSchemeFactory
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create the default connection weight scheme.
     /// </summary>
@@ -51,8 +49,6 @@ public static class WeightMutationSchemeFactory
 
         return new WeightMutationScheme<double>(probabilityArr, strategyArr);
     }
-
-    #endregion
 
     #region Private Static Methods
 

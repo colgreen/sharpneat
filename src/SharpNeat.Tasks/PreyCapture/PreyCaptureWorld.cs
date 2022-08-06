@@ -17,8 +17,6 @@ namespace SharpNeat.Tasks.PreyCapture;
 /// </remarks>
 public sealed class PreyCaptureWorld
 {
-    #region Statics / Consts
-
     /// <summary>
     /// The length of an edge of the square grid world, measured in grid squares. The minimum possible value here is 9,
     /// otherwise the initial position of the agent may be outside of the grid world, and also the agent wall detectors
@@ -27,10 +25,6 @@ public sealed class PreyCaptureWorld
     const int __gridSize = 24;
     const int __atan2LookupOffset = __gridSize-1;
     static readonly float[,] __atan2Lookup;
-
-    #endregion
-
-    #region Instance Fields
 
     // World parameters.
     readonly int _preyInitMoves;    // Number of initial moves (0 to 4).
@@ -45,8 +39,6 @@ public sealed class PreyCaptureWorld
     // World state.
     Int32Point _preyPos;
     Int32Point _agentPos;
-
-    #endregion
 
     #region Static Initializer
 

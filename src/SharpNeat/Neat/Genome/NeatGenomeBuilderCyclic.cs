@@ -15,8 +15,6 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly HashSet<int> _workingIdSet;
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the given NEAT genome metadata.
     /// </summary>
@@ -27,8 +25,6 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
         _metaNeatGenome = metaNeatGenome;
         _workingIdSet = new HashSet<int>();
     }
-
-    #endregion
 
     #region Public Methods
 

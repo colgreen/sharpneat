@@ -11,8 +11,6 @@ namespace SharpNeat.Neat;
 /// </summary>
 internal class NeatPopulationUtils
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Tests if the ID sequence objects represent an ID higher than any existing ID used by the genomes.
     /// </summary>
@@ -69,6 +67,4 @@ internal class NeatPopulationUtils
             }
         }
     }
-
-    #endregion
 }

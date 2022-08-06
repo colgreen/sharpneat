@@ -25,8 +25,6 @@ internal sealed class GeneticKMeansSpeciationInit<T>
     readonly IDistanceMetric<T> _distanceMetric;
     readonly ParallelOptions _parallelOptions;
 
-    #region Constructors
-
     /// <summary>
     /// Construct with the given distance metric.
     /// </summary>
@@ -39,8 +37,6 @@ internal sealed class GeneticKMeansSpeciationInit<T>
         _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
         _parallelOptions = parallelOptions;
     }
-
-    #endregion
 
     #region Public Methods
 

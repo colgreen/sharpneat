@@ -13,15 +13,11 @@ namespace SharpNeat.Drawing.Graph.Painting;
 /// </summary>
 public class GraphPainter : IDisposable
 {
-    #region Instance Fields
-
     readonly PainterSettings _settings;
     readonly Pen _nodeBorderPen;
     readonly Brush _nodeFillBrush;
     readonly Brush _nodeLabelBrush;
     readonly float _connectionWeightToWidth;
-
-    #endregion
 
     #region Construction
 

@@ -7,8 +7,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 public class NeatEvolutionAlgorithmSettings
 {
-    #region Auto Properties
-
     /// <summary>
     /// The species count.
     /// </summary>
@@ -48,8 +46,6 @@ public class NeatEvolutionAlgorithmSettings
     /// Length of the history buffer used for calculating the moving average for best fitness, mean fitness and mean complexity.
     /// </summary>
     public int StatisticsMovingAverageHistoryLength { get; set; } = 100;
-
-    #endregion
 
     #region Constructors
 

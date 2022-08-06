@@ -29,6 +29,7 @@ internal class NetFileWriter
             sw.WriteLine("acyclic");
         else
             sw.WriteLine(Invariant($"cyclic\t{model.CyclesPerActivation}"));
+
         sw.WriteLine();
 
         // Write connections.
@@ -37,6 +38,7 @@ internal class NetFileWriter
         {
             sw.WriteLine(Invariant($"{conn.SourceId}\t{conn.TargetId}\t{conn.Weight:R}"));
         }
+
         sw.WriteLine();
 
         // Write activation functions.

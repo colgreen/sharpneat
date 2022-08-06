@@ -16,8 +16,6 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
     readonly ISubsetSelectionStrategy _selectionStrategy;
     readonly IStatelessSampler<T> _weightSampler;
 
-    #region Constructor
-
     /// <summary>
     /// Construct with the given selection strategy and weight sampler.
     /// </summary>
@@ -30,8 +28,6 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
         _selectionStrategy = selectionStrategy;
         _weightSampler = weightSampler;
     }
-
-    #endregion
 
     #region Public Methods
 

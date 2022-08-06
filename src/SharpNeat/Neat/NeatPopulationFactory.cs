@@ -17,8 +17,6 @@ namespace SharpNeat.Neat;
 public class NeatPopulationFactory<T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly INeatGenomeBuilder<T> _genomeBuilder;
     readonly double _connectionsProportion;
@@ -28,8 +26,6 @@ public class NeatPopulationFactory<T>
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _innovationIdSeq;
     readonly IStatelessSampler<T> _connWeightDist;
-
-    #endregion
 
     #region Constructor
 

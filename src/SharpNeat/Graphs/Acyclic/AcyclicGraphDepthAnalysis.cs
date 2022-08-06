@@ -21,31 +21,22 @@ namespace SharpNeat.Graphs.Acyclic;
 /// </remarks>
 public sealed class AcyclicGraphDepthAnalysis
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The graph traversal stack, as required by a depth first graph traversal algorithm.
-    /// Each stack entry is an index into a connection list, representing both the current node being traversed
-    /// (the connections's source ID), and the current position in that node's outgoing connections.
-    /// </summary>
+    // The graph traversal stack, as required by a depth first graph traversal algorithm.
+    // Each stack entry is an index into a connection list, representing both the current node being traversed
+    // (the connections's source ID), and the current position in that node's outgoing connections.
     readonly LightweightStack<StackFrame> _traversalStack = new(16);
-
-    /// <summary>
-    /// Working array of node depths.
-    /// </summary>
-    int[]? _nodeDepthByIdx;
 
     readonly CyclicGraphCheck? _cyclicGraphCheck;
 
+    // Working array of node depths.
+    int[]? _nodeDepthByIdx;
+
 #if DEBUG
-    /// <summary>
-    /// Indicates if a call to IsConnectionCyclic() is currently in progress.
-    /// For checking for attempts to re-enter that method while a call is in progress.
-    /// </summary>
+
+    // Indicates if a call to IsConnectionCyclic() is currently in progress.
+    // For checking for attempts to re-enter that method while a call is in progress.
     int _reentranceFlag;
 #endif
-
-    #endregion
 
     #region Construction
 

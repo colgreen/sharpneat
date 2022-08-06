@@ -17,25 +17,15 @@ namespace SharpNeat.Graphs.Tests;
 ///
 public class AcyclicGraphDepthAnalysisByRecursion
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The directed graph being analysed.
-    /// </summary>
+    // The directed graph being analysed.
     readonly DirectedGraph _digraph;
 
-    /// <summary>
-    /// Working array of node depths.
-    /// </summary>
+    // Working array of node depths.
     readonly int[] _nodeDepthByIdx;
 
 #if DEBUG
     readonly CyclicGraphCheck _cyclicGraphCheck = new();
 #endif
-
-    #endregion
-
-    #region Constructor
 
     /// <summary>
     /// Private constructor. Prevents construction from outside of this class.
@@ -45,8 +35,6 @@ public class AcyclicGraphDepthAnalysisByRecursion
         _digraph = digraph;
         _nodeDepthByIdx = new int[digraph.TotalNodeCount];
     }
-
-    #endregion
 
     #region Private Methods
 

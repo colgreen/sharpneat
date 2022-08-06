@@ -13,8 +13,6 @@ namespace SharpNeat.Neat.Genome;
 public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly AcyclicGraphDepthAnalysis _graphDepthAnalysis;
     readonly HashSet<int> _workingIdSet;
@@ -22,8 +20,6 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     // Temp working data for timsort. Allocated once and re-used to minimise object allocate and GC overhead.
     int[]? _timesortWorkArr;
     int[]? _timesortWorkVArr;
-
-    #endregion
 
     #region Constructor
 

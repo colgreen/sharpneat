@@ -30,8 +30,6 @@ namespace SharpNeat.NeuralNets.Double;
 /// </summary>
 public sealed class NeuralNetCyclic : IBlackBox<double>
 {
-    #region Instance Fields
-
     // Connection arrays.
     readonly ConnectionIds _connIds;
     readonly double[] _weightArr;
@@ -50,8 +48,6 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     readonly int _totalNodeCount;
     readonly int _cyclesPerActivation;
     volatile bool _isDisposed;
-
-    #endregion
 
     #region Constructor
 

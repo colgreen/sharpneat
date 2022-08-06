@@ -20,8 +20,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly INeatGenomeBuilder<T> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
@@ -29,8 +27,6 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
 
     readonly IStatelessSampler<T> _weightSamplerA;
     readonly IStatelessSampler<T> _weightSamplerB;
-
-    #endregion
 
     #region Constructor
 

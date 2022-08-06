@@ -12,7 +12,21 @@ namespace SharpNeat.EvolutionAlgorithm;
 public abstract class Population<TGenome>
     where TGenome : IGenome
 {
-    #region Auto Properties
+    /// <summary>
+    /// Construct the population with the provided list of genomes that make up the initial population.
+    /// </summary>
+    /// <param name="genomeList">Genome list.</param>
+    public Population(List<TGenome> genomeList)
+    {
+        this.GenomeList = genomeList ?? throw new ArgumentNullException(nameof(genomeList));
+        if(genomeList.Count == 0)
+            throw new ArgumentException("Empty genome list. The initial population cannot be empty.", nameof(genomeList));
+
+        this.PopulationSize = genomeList.Count;
+        this.Stats = CreatePopulatonStats();
+    }
+
+    #region Properties
 
     /// <summary>
     /// The list of genomes that make up the population.
@@ -41,24 +55,6 @@ public abstract class Population<TGenome>
     /// Population statistics.
     /// </summary>
     public PopulationStatistics Stats { get; }
-
-    #endregion
-
-    #region Constructor
-
-    /// <summary>
-    /// Construct the population with the provided list of genomes that make up the initial population.
-    /// </summary>
-    /// <param name="genomeList">Genome list.</param>
-    public Population(List<TGenome> genomeList)
-    {
-        this.GenomeList = genomeList ?? throw new ArgumentNullException(nameof(genomeList));
-        if(genomeList.Count == 0)
-            throw new ArgumentException("Empty genome list. The initial population cannot be empty.", nameof(genomeList));
-
-        this.PopulationSize = genomeList.Count;
-        this.Stats = CreatePopulatonStats();
-    }
 
     #endregion
 

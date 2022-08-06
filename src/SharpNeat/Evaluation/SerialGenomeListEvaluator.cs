@@ -19,13 +19,9 @@ public class SerialGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<
     where TGenome : IGenome
     where TPhenome : IDisposable
 {
-    #region Instance Fields
-
     readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
     readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
     readonly IPhenomeEvaluator<TPhenome> _phenomeEvaluator;
-
-    #endregion
 
     #region Constructor
 

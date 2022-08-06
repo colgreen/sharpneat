@@ -14,8 +14,6 @@ public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     readonly PreyCaptureWorld _world;
     readonly int _trialsPerEvaluation;
 
-    #region Construction
-
     /// <summary>
     /// Construct with the provided task and evaluator parameters.
     /// </summary>
@@ -35,10 +33,6 @@ public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
         _world = new PreyCaptureWorld(preyInitMoves, preySpeed, sensorRange, maxTimesteps);
         _trialsPerEvaluation = trialsPerEvaluation;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Evaluate the provided black box against the prey capture task,
@@ -61,6 +55,4 @@ public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
         // Fitness is given by the number of trials in which the agent caught the prey.
         return new FitnessInfo(fitness);
     }
-
-    #endregion
 }

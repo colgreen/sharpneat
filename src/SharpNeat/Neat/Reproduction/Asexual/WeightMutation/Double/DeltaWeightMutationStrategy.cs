@@ -14,8 +14,6 @@ public sealed class DeltaWeightMutationStrategy : IWeightMutationStrategy<double
     readonly ISubsetSelectionStrategy _selectionStrategy;
     readonly IStatelessSampler<double> _weightDeltaSampler;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
@@ -28,8 +26,6 @@ public sealed class DeltaWeightMutationStrategy : IWeightMutationStrategy<double
         _selectionStrategy = selectionStrategy;
         _weightDeltaSampler = weightDeltaSampler;
     }
-
-    #endregion
 
     #region Public Methods
 

@@ -15,8 +15,6 @@ public sealed class WeightMutationScheme<T>
     readonly DiscreteDistribution _strategySelectionDist;
     readonly IWeightMutationStrategy<T>[] _mutationStrategyArr;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance with the given strategy arguments.
     /// </summary>
@@ -30,10 +28,6 @@ public sealed class WeightMutationScheme<T>
         _mutationStrategyArr = mutationStrategyArr;
     }
 
-    #endregion
-
-    #region Public Methods
-
     /// <summary>
     /// Mutate the connection weights based on a stochastically chosen <see cref="IWeightMutationStrategy{T}"/>.
     /// </summary>
@@ -46,6 +40,4 @@ public sealed class WeightMutationScheme<T>
         var strategy = _mutationStrategyArr[strategyIdx];
         strategy.Invoke(weightArr, rng);
     }
-
-    #endregion
 }

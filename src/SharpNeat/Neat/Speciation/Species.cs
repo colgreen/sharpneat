@@ -12,8 +12,6 @@ namespace SharpNeat.Neat.Speciation;
 public class Species<T>
     where T : struct
 {
-    #region Auto Properties
-
     /// <summary>
     /// Species ID.
     /// </summary>
@@ -48,8 +46,6 @@ public class Species<T>
     /// Species statistics.
     /// </summary>
     public SpeciesStats Stats { get; }
-
-    #endregion
 
     #region Constructor
 

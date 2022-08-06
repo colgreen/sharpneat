@@ -16,13 +16,9 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
     where T : struct
 {
-    #region Instance Fields
-
     readonly IDistanceMetric<T> _distanceMetric;
     readonly int _maxKMeansIters;
     readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
-
-    #endregion
 
     #region Constructor
 

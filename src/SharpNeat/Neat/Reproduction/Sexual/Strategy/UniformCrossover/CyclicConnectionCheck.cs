@@ -66,31 +66,21 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 /// </remarks>
 public sealed class CyclicConnectionCheck
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The graph traversal stack, as required by a depth first graph traversal algorithm.
-    /// Each stack entry is an index into a connection list, representing both the current node being traversed
-    /// (the connections's source ID), and the current position in that node's outgoing connections.
-    /// for one source node.
-    /// </summary>
+    // The graph traversal stack, as required by a depth first graph traversal algorithm.
+    // Each stack entry is an index into a connection list, representing both the current node being traversed
+    // (the connections's source ID), and the current position in that node's outgoing connections.
+    // for one source node.
     readonly IntStack _traversalStack = new(17);
 
-    /// <summary>
-    /// Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
-    /// re-traversal of nodes.
-    /// </summary>
+    // Maintain a set of nodes that have been visited, this allows us to avoid unnecessary
+    // re-traversal of nodes.
     readonly HashSet<int> _visitedNodes = new(17);
 
 #if DEBUG
-    /// <summary>
-    /// Indicates if a call to IsConnectionCyclic() is currently in progress.
-    /// For checking for attempts to re-enter that method while a call is in progress.
-    /// </summary>
+    // Indicates if a call to IsConnectionCyclic() is currently in progress.
+    // For checking for attempts to re-enter that method while a call is in progress.
     int _reentranceFlag;
 #endif
-
-    #endregion
 
     #region Public Methods
 

@@ -186,10 +186,6 @@ internal static class NeatGenomeAssertions<T>
         }
     }
 
-    #endregion
-
-    #region Private Static Methods
-
     private static GraphDepthInfo BuildGraphDepthInfo(LayerInfo[] layerArr, int totalNodeCount)
     {
         int[] nodeDepthArr = new int[totalNodeCount];

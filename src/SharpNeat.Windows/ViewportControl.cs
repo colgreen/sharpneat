@@ -24,6 +24,23 @@ public class ViewportControl : UserControl
     PictureBox pictureBox;
     bool _disposed;
 
+    /// <summary>
+    /// Default constructor. Required for user controls.
+    /// </summary>
+    public ViewportControl()
+    {
+        // This call is required by the Windows.Forms Form Designer.
+        InitializeComponent();
+
+        int width = Width;
+        int height = Height;
+        _viewportArea = new Rectangle(0, 0, width, height);
+
+        // Create a bitmap for the picturebox.
+        _image = new Bitmap(width, height, __viewportPixelFormat);
+        pictureBox.Image = _image;
+    }
+
     #region Properties
 
     /// <summary>
@@ -42,41 +59,6 @@ public class ViewportControl : UserControl
             _zoomFactor = value;
             Refresh();
         }
-    }
-
-    #endregion
-
-    #region Constructor / Disposal
-
-    /// <summary>
-    /// Default constructor. Required for user controls.
-    /// </summary>
-    public ViewportControl()
-    {
-        // This call is required by the Windows.Forms Form Designer.
-        InitializeComponent();
-
-        int width = Width;
-        int height = Height;
-        _viewportArea = new Rectangle(0, 0, width, height);
-
-        // Create a bitmap for the picturebox.
-        _image = new Bitmap(width, height, __viewportPixelFormat);
-        pictureBox.Image = _image;
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose(bool disposing)
-    {
-        if (_disposed)
-            return;
-
-        if(disposing)
-            pictureBox.Dispose();
-
-        base.Dispose(disposing);
-
-        _disposed = true;
     }
 
     #endregion
@@ -173,6 +155,24 @@ public class ViewportControl : UserControl
     {
         // Propagate the double click event up to the parent control.
         OnDoubleClick(e);
+    }
+
+    #endregion
+
+    #region Disposal
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if(_disposed)
+            return;
+
+        if(disposing)
+            pictureBox.Dispose();
+
+        base.Dispose(disposing);
+
+        _disposed = true;
     }
 
     #endregion

@@ -17,8 +17,6 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     /// <inheritdoc/>
     public string Id => "generative-sinewave";
 
-    #region Public Methods
-
     /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
@@ -55,8 +53,6 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     {
         throw new NotImplementedException();
     }
-
-    #endregion
 
     #region Private Static Methods
 

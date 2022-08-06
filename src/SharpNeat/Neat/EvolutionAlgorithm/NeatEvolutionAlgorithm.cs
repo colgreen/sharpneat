@@ -23,8 +23,6 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
     where T : struct
 {
-    #region Instance Fields
-
     NeatEvolutionAlgorithmSettings _eaSettingsCurrent;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsComplexifying;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsSimplifying;
@@ -46,8 +44,6 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
     static readonly TimeSpan __oneSec = TimeSpan.FromSeconds(1);
     ulong _evalCountPrev;
     DateTime _evalCountPrevSampleTime = DateTime.MinValue;
-
-    #endregion
 
     #region Constructors
 

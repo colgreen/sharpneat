@@ -7,7 +7,15 @@ namespace SharpNeat.EvolutionAlgorithm.Runner;
 /// </summary>
 public sealed class UpdateScheme
 {
-    #region Auto Properties
+    private UpdateScheme(
+        UpdateMode updateMode,
+        uint generations,
+        TimeSpan timespan)
+    {
+        this.UpdateMode = updateMode;
+        this.Generations = generations;
+        this.TimeSpan = timespan;
+    }
 
     /// <summary>
     /// Gets the update scheme's mode.
@@ -23,24 +31,6 @@ public sealed class UpdateScheme
     /// Gets the timespan between updates. Applies to the timespan update scheme only.
     /// </summary>
     public TimeSpan TimeSpan { get; }
-
-    #endregion
-
-    #region Constructors
-
-    private UpdateScheme(
-        UpdateMode updateMode,
-        uint generations,
-        TimeSpan timespan)
-    {
-        this.UpdateMode = updateMode;
-        this.Generations = generations;
-        this.TimeSpan = timespan;
-    }
-
-    #endregion
-
-    #region Public Static Factory Methods
 
     /// <summary>
     /// Create a 'no updates' update scheme.
@@ -70,6 +60,4 @@ public sealed class UpdateScheme
     {
         return new UpdateScheme(UpdateMode.Timespan, 0, timespan);
     }
-
-    #endregion
 }

@@ -16,22 +16,12 @@ namespace SharpNeat.NeuralNets;
 public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
     where T : struct
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// If true then hardware accelerated activation functions are used when available.
-    /// </summary>
+    // If true then hardware accelerated activation functions are used when available.
     readonly bool _enableHardwareAcceleration = false;
 
-    /// <summary>
-    /// A dictionary of activation function instances keyed by class name.
-    /// </summary>
+    // A dictionary of activation function instances keyed by class name.
     readonly Dictionary<string,IActivationFunction<T>> _fnByName = new();
     readonly object _lockObj;
-
-    #endregion
-
-    #region Constructor
 
     /// <summary>
     /// Construct with the provided options.
@@ -42,8 +32,6 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
         _enableHardwareAcceleration = enableHardwareAcceleration;
         _lockObj = ((ICollection)_fnByName).SyncRoot;
     }
-
-    #endregion
 
     #region Public Methods
 

@@ -10,8 +10,6 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 /// </summary>
 public sealed class MutationTypeDistributions
 {
-    #region Auto Properties [Mutation Type Distributions]
-
     /// <summary>
     /// The genome mutation type probability settings represented as a <see cref="DiscreteDistribution"/>.
     /// </summary>
@@ -23,10 +21,6 @@ public sealed class MutationTypeDistributions
     /// </summary>
     public DiscreteDistribution MutationTypeDistributionNonDestructive { get; }
 
-    #endregion
-
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
@@ -36,8 +30,6 @@ public sealed class MutationTypeDistributions
         this.MutationTypeDistribution = CreateMutationTypeDiscreteDistribution(settings);
         this.MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive(settings);
     }
-
-    #endregion
 
     #region Private Static Methods
 

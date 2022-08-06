@@ -14,8 +14,6 @@ namespace SharpNeat.Experiments;
 /// </summary>
 public static class NeatExperimentExtensions
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Apply configuration to a given <see cref="INeatExperiment{T}"/> instance.
     /// </summary>
@@ -48,8 +46,6 @@ public static class NeatExperimentExtensions
         experiment.EnableHardwareAcceleratedNeuralNets = experimentConfig.EnableHardwareAcceleratedNeuralNets ?? experiment.EnableHardwareAcceleratedNeuralNets;
         experiment.EnableHardwareAcceleratedActivationFunctions = experimentConfig.EnableHardwareAcceleratedActivationFunctions ?? experiment.EnableHardwareAcceleratedActivationFunctions;
     }
-
-    #endregion
 
     #region Private Static Methods
 

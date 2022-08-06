@@ -14,39 +14,23 @@ namespace SharpNeat.Neat.ComplexityRegulation;
 /// </summary>
 public sealed class RelativeComplexityRegulationStrategy : IComplexityRegulationStrategy
 {
-    #region Instance Fields
-
-    /// <summary>
-    /// The minimum number of generations we stay within simplification mode.
-    /// </summary>
+    // The minimum number of generations we stay within simplification mode.
     readonly int _minSimplifcationGenerations;
 
-    /// <summary>
-    /// The relative complexity ceiling.
-    /// </summary>
+    // The relative complexity ceiling.
     readonly double _relativeComplexityCeiling;
 
-    /// <summary>
-    /// The running/moving complexity ceiling.
-    /// </summary>
+    // The running/moving complexity ceiling.
     double _complexityCeiling;
 
-    /// <summary>
-    /// The current regulation mode - simplifying or complexifying.
-    /// </summary>
+    // The current regulation mode - simplifying or complexifying.
     ComplexityRegulationMode _currentMode;
 
-    /// <summary>
-    /// The generation at which the last transition occurred.
-    /// </summary>
+    // The generation at which the last transition occurred.
     int _lastTransitionGeneration;
 
-    /// <summary>
-    /// Recorded value of popStats.MeanComplexityHistory.Mean from the previous generation.
-    /// </summary>
+    // Recorded value of popStats.MeanComplexityHistory.Mean from the previous generation.
     double _prevMeanMovingAverage;
-
-    #endregion
 
     #region Constructor
 
@@ -65,8 +49,11 @@ public sealed class RelativeComplexityRegulationStrategy : IComplexityRegulation
         _currentMode = ComplexityRegulationMode.Complexifying;
         _lastTransitionGeneration = 0;
 
-        if(minSimplifcationGenerations < 1) throw new ArgumentException("Must be 1 or above.", nameof(minSimplifcationGenerations));
-        if(relativeComplexityCeiling < 1) throw new ArgumentException("Must be 1 or above.", nameof(relativeComplexityCeiling));
+        if(minSimplifcationGenerations < 1)
+            throw new ArgumentException("Must be 1 or above.", nameof(minSimplifcationGenerations));
+
+        if(relativeComplexityCeiling < 1)
+            throw new ArgumentException("Must be 1 or above.", nameof(relativeComplexityCeiling));
     }
 
     #endregion

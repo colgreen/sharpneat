@@ -13,8 +13,6 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 internal sealed class ConnectionGeneListBuilder<T>
     where T : struct
 {
-    #region Instance Fields
-
     // Indicates that we are building acyclic networks.
     readonly bool _isAcyclic;
     readonly CyclicConnectionCheck? _cyclicCheck;
@@ -22,10 +20,6 @@ internal sealed class ConnectionGeneListBuilder<T>
     // Connection gene lists.
     readonly LightweightList<DirectedConnection> _connList;
     readonly LightweightList<T> _weightList;
-
-    #endregion
-
-    #region Constructor
 
     /// <summary>
     /// Construct with the given acyclic flag and initial capacity.
@@ -41,8 +35,6 @@ internal sealed class ConnectionGeneListBuilder<T>
         _connList = new LightweightList<DirectedConnection>(capacity);
         _weightList = new LightweightList<T>(capacity);
     }
-
-    #endregion
 
     #region Public Methods
 
