@@ -31,7 +31,6 @@ internal static class DirectedConnectionUtils
         if(connIdx < 0)
             return connIdx;
 
-        // TODO: Confirm this note. Surely binary search gives the index of the first item?
         // Note. if there are multiple connections with the given source ID then BinarySearch() will
         // return the index of one of them, but makes no guarantee regarding which one. As such we scan
         // in reverse for the first connection.
