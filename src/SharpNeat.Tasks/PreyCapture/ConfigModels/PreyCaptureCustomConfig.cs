@@ -1,5 +1,5 @@
-﻿using SharpNeat.Experiments.ConfigModels;
-
+﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
+// See LICENSE.txt for details.
 namespace SharpNeat.Tasks.PreyCapture.ConfigModels;
 
 /// <summary>
