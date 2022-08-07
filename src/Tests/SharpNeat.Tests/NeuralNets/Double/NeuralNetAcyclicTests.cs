@@ -25,7 +25,7 @@ public class NeuralNetAcyclicTests
         SingleInput_WeightZero_Inner(net);
 
         // Create vectorized neural net and run tests.
-        var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         SingleInput_WeightZero_Inner(vnet);
     }
 
@@ -46,7 +46,7 @@ public class NeuralNetAcyclicTests
         SingleInput_WeightOne_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         SingleInput_WeightOne_Inner(vnet, actFn);
     }
 
@@ -69,7 +69,7 @@ public class NeuralNetAcyclicTests
         TwoInputs_WeightHalf_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         TwoInputs_WeightHalf_Inner(vnet, actFn);
     }
 
@@ -93,7 +93,7 @@ public class NeuralNetAcyclicTests
         HiddenNode_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         HiddenNode_Inner(vnet, actFn);
     }
 
@@ -120,7 +120,7 @@ public class NeuralNetAcyclicTests
         Complex_WeightOne_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         Complex_WeightOne_Inner(vnet, actFn);
     }
 
@@ -144,7 +144,7 @@ public class NeuralNetAcyclicTests
         MultipleInputsOutputs_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        var vnet = new NeuralNets.Double.Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
         MultipleInputsOutputs_Inner(vnet, actFn);
     }
 

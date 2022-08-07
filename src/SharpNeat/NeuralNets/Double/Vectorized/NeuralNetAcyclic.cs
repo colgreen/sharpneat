@@ -132,12 +132,15 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
         ReadOnlySpan<double> weights = _weightArr.AsSpan();
         Span<double> activations = _activationMem.Span;
         Span<double> outputs = _outputMem.Span;
+        Span<int> outputNodeIdxs = _outputNodeIdxArr.AsSpan();
         Span<double> connInputs = _conInputArr.AsSpan();
 
         ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
         ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
         ref double weightsRef = ref MemoryMarshal.GetReference(weights);
         ref double activationsRef = ref MemoryMarshal.GetReference(activations);
+        ref double outputsRef = ref MemoryMarshal.GetReference(outputs);
+        ref int outputNodeIdxsRef = ref MemoryMarshal.GetReference(outputNodeIdxs);
         ref double connInputsRef = ref MemoryMarshal.GetReference(connInputs);
 
         // Reset hidden and output node activation levels.
@@ -221,13 +224,13 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
             nodeIdx = layerInfo.EndNodeIdx;
         }
 
-        // TODO: Use Unsafe performance tweaks (as above).
         // Copy the output signals from _activationMem into _outputMem.
         // These signals are scattered through _activationMem, and here we bring them together into a
         // contiguous segment of memory that is indexable by output index.
-        for(int i=0; i < _outputNodeIdxArr.Length; i++)
+        for(int i=0; i < outputNodeIdxs.Length; i++)
         {
-            outputs[i] = activations[_outputNodeIdxArr[i]];
+            ref double outputSlot = ref Unsafe.Add(ref outputsRef, i);
+            outputSlot = Unsafe.Add(ref activationsRef, Unsafe.Add(ref outputNodeIdxsRef, i));
         }
     }
 
