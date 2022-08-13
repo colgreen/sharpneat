@@ -308,8 +308,7 @@ partial class MainForm
     private IExperimentUI GetExperimentUI()
     {
         // Create a new experiment instance if one has not already been created.
-        if(_experimentUI is null)
-            _experimentUI = CreateAndConfigureExperimentUI((ExperimentInfo)cmbExperiments.SelectedItem);
+        _experimentUI ??= CreateAndConfigureExperimentUI((ExperimentInfo)cmbExperiments.SelectedItem);
 
         return _experimentUI;
     }

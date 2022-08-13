@@ -55,11 +55,8 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
                 actFn = TryCreateVectorized(name);
             }
 
-            if(actFn is null)
-            {
-                // Attempt to get a non hardware-accelerated instance.
-                actFn = TryCreate(name);
-            }
+            // Attempt to get a non hardware-accelerated instance.
+            actFn ??= TryCreate(name);
 
             // TODO: Add ability to register custom functions not defined in the core sharpneat assembly; as per
             // pull request https://github.com/colgreen/sharpneat/pull/40

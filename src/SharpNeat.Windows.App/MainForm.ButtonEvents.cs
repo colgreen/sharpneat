@@ -133,8 +133,7 @@ partial class MainForm
     private INeatExperiment<double> GetNeatExperiment()
     {
         // Create a new experiment instance if one has not already been created.
-        if(_neatExperiment is null)
-            _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
+        _neatExperiment ??= CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
 
         // Read settings from the UI into the experiment instance, and return.
         GetSettingsFromUI(_neatExperiment);

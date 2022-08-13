@@ -126,8 +126,7 @@ public class DirectedGraph
     /// <returns>The index of the first connection with the given source node index, or -1 if no such connection exists.</returns>
     public int GetFirstConnectionIndex(int srcNodeIdx)
     {
-        if(_connIdxBySrcNodeIdx is null)
-            _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
+        _connIdxBySrcNodeIdx ??= CompileSourceNodeConnectionIndexes();
 
         return _connIdxBySrcNodeIdx[srcNodeIdx];
     }
@@ -139,8 +138,7 @@ public class DirectedGraph
     /// <returns>A span of target nodes indexes. </returns>
     public ReadOnlySpan<int> GetTargetNodeIndexes(int srcNodeIdx)
     {
-        if(_connIdxBySrcNodeIdx is null)
-            _connIdxBySrcNodeIdx = CompileSourceNodeConnectionIndexes();
+        _connIdxBySrcNodeIdx ??= CompileSourceNodeConnectionIndexes();
 
         int startIdx = _connIdxBySrcNodeIdx[srcNodeIdx];
         if(startIdx == -1)
