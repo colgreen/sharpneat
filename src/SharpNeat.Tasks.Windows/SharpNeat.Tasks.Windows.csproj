@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 

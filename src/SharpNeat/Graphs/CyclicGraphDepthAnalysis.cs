@@ -211,6 +211,8 @@ public sealed class CyclicGraphDepthAnalysis
 
         // Calc how many nodes there are in each layer.
         Span<int> nodeCountByLayer = stackalloc int[_nodeDepthByIdx.Max() + 1];
+        nodeCountByLayer.Clear();
+
         foreach(int depth in _nodeDepthByIdx)
             nodeCountByLayer[depth]++;
 

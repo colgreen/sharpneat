@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<IsPackable>false</IsPackable>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>

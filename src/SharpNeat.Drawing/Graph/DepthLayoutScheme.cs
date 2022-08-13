@@ -286,6 +286,7 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
     {
         // Count how many nodes there are in each layer.
         Span<int> nodeCountByLayer = stackalloc int[layerCount];
+        nodeCountByLayer.Clear();
 
         foreach(int layerIdx in nodeLayerByIdx)
             nodeCountByLayer[layerIdx]++;

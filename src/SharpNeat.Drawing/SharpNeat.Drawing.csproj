@@ -7,9 +7,9 @@
 	https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only
 	-->
     <TargetFramework>net6.0-windows</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>

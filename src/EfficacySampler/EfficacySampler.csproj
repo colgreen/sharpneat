@@ -3,13 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>efic</AssemblyName>
     <!-- Enable server GC. On the .NET framework this had much improved performance for CPU intensive workloads -->
     <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
     <ServerGarbageCollection>true</ServerGarbageCollection>
 	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 

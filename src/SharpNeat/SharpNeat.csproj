@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>

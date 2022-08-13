@@ -3,10 +3,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>SharpNeat.Tasks</RootNamespace>
 	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>

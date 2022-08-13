@@ -4,7 +4,6 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
 	<ImplicitUsings>enable</ImplicitUsings>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 

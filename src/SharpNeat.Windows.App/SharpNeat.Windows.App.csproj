@@ -6,7 +6,6 @@
     <OutputType>WinExe</OutputType>
     <StartupObject>SharpNeat.Windows.App.Program</StartupObject>
 	<ImplicitUsings>enable</ImplicitUsings>
-	<SkipLocalsInit>true</SkipLocalsInit>
 	<AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
