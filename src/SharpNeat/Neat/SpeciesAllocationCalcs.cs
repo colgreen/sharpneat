@@ -116,7 +116,7 @@ internal static class SpeciesAllocationCalcs<T>
         // Discretized target sizes may total up to a value that is not equal to the required population size.
         // Here we check this and if the total does not match the required population size then we adjust the
         // species' targetSizeInt values to compensate for the difference.
-        int targetSizeDeltaInt = totalTargetSizeInt - pop.PopulationSize;
+        int targetSizeDeltaInt = totalTargetSizeInt - pop.TargetSize;
 
         if(targetSizeDeltaInt < 0)
         {
@@ -133,7 +133,7 @@ internal static class SpeciesAllocationCalcs<T>
         AdjustSpeciesTargetSizes_AccommodateBestGenomeSpecies(pop, rng);
 
         // Assert that Sum(TargetSizeInt) == popSize.
-        Debug.Assert(pop.SpeciesArray!.Sum(x => x.Stats.TargetSizeInt) == pop.PopulationSize);
+        Debug.Assert(pop.SpeciesArray!.Sum(x => x.Stats.TargetSizeInt) == pop.TargetSize);
     }
 
     private static void AdjustSpeciesTargetSizesUp(

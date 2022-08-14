@@ -7,6 +7,8 @@ using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
+using SharpNeat.Neat.Reproduction.Asexual;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
 namespace SharpNeat.Neat;
 
@@ -72,7 +74,12 @@ public class NeatPopulationFactory<T>
     {
         var genomeList = CreateGenomeList(size);
         return new NeatPopulation<T>(
-            _metaNeatGenome, _genomeBuilder, genomeList, _genomeIdSeq, _innovationIdSeq);
+            _metaNeatGenome,
+            _genomeBuilder,
+            size,
+            genomeList,
+            _genomeIdSeq,
+            _innovationIdSeq);
     }
 
     /// <summary>
@@ -112,9 +119,9 @@ public class NeatPopulationFactory<T>
         Array.Sort(sampleArr);
 
         // Create the connection gene arrays and populate them.
-        var connGenes = new ConnectionGenes<T>(connectionCount);
-        var connArr = connGenes._connArr;
-        var weightArr = connGenes._weightArr;
+        ConnectionGenes<T> connGenes = new(connectionCount);
+        DirectedConnection[] connArr = connGenes._connArr;
+        T[] weightArr = connGenes._weightArr;
 
         for(int i=0; i < sampleArr.Length; i++)
         {
@@ -127,7 +134,7 @@ public class NeatPopulationFactory<T>
             weightArr[i] = _connWeightDist.Sample(_rng);
         }
 
-        // Get create a new genome with a new ID, birth generation of zero.
+        // Create a new genome with a new ID, birth generation of zero.
         int id = _genomeIdSeq.Next();
         return _genomeBuilder.Create(id, 0, connGenes);
     }
@@ -137,41 +144,80 @@ public class NeatPopulationFactory<T>
     #region Public Static Factory Method
 
     /// <summary>
-    /// Create a new NeatPopulation with randomly initialised genomes.
-    /// Genomes are randomly initialised by giving each a random subset of all possible connections between the input and output layer.
+    /// Create a new <see cref="NeatPopulation{T}"/> with randomly initialised genomes.
+    /// Genomes are randomly initialised by giving each a random subset of all possible connections between the
+    /// input and output layer.
     /// </summary>
-    /// <param name="metaNeatGenome">Genome metadata, e.g. the number of input and output nodes that each genome should have.</param>
-    /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
-    /// <param name="popSize">Population size. The number of new genomes to create.</param>
+    /// <param name="metaNeatGenome">Genome metadata, conveys e.g. the number of input and output nodes that each
+    /// genome should have.</param>
+    /// <param name="connectionsProportion">The proportion of possible connections between the input and output
+    /// layers, to create in each new genome.</param>
+    /// <param name="popSize">Population size.</param>
+    /// <param name="rng">Random source (optional).</param>
     /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
     public static NeatPopulation<T> CreatePopulation(
         MetaNeatGenome<T> metaNeatGenome,
-        double connectionsProportion, int popSize)
+        double connectionsProportion,
+        int popSize,
+        IRandomSource? rng = null)
     {
         var factory = new NeatPopulationFactory<T>(
             metaNeatGenome,
             connectionsProportion,
-            RandomDefaults.CreateRandomSource());
+            rng ?? RandomDefaults.CreateRandomSource());
 
         return factory.CreatePopulation(popSize);
     }
 
     /// <summary>
-    /// Create a new NeatPopulation with randomly initialised genomes.
-    /// Genomes are randomly initialised by giving each a random subset of all possible connections between the input and output layer.
+    /// Create a new <see cref="NeatPopulation{T}"/> based on a single seed genome.
     /// </summary>
-    /// <param name="metaNeatGenome">Genome metadata, e.g. the number of input and output nodes that each genome should have.</param>
-    /// <param name="connectionsProportion">The proportion of possible connections between the input and output layers, to create in each new genome.</param>
-    /// <param name="popSize">Population size. The number of new genomes to create.</param>
-    /// <param name="rng">Random source.</param>
+    /// <param name="metaNeatGenome">Genome metadata, conveys e.g. the number of input and output nodes that each
+    /// genome should have.</param>
+    /// <param name="popSize">Population size.</param>
+    /// <param name="seedGenome">The seed genome.</param>
+    /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
+    /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
+    /// <param name="rng">Random source (optional).</param>
     /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
     public static NeatPopulation<T> CreatePopulation(
         MetaNeatGenome<T> metaNeatGenome,
-        double connectionsProportion, int popSize,
-        IRandomSource rng)
+        int popSize,
+        NeatGenome<T> seedGenome,
+        NeatReproductionAsexualSettings reproductionAsexualSettings,
+        WeightMutationScheme<T> weightMutationScheme,
+        IRandomSource? rng = null)
     {
-        var factory = new NeatPopulationFactory<T>(metaNeatGenome, connectionsProportion, rng);
-        return factory.CreatePopulation(popSize);
+        rng ??= RandomDefaults.CreateRandomSource();
+
+        // Create a population with the single seed genome, and the desired population target size.
+        List<NeatGenome<T>> genomeList = new(popSize)
+        {
+            seedGenome
+        };
+
+        var genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
+
+        NeatPopulation<T> neatPop = new(metaNeatGenome, genomeBuilder, popSize, genomeList);
+
+        // Create additional genome by spawning offspring from the seed genome.
+        NeatReproductionAsexual<T> reproductionAsexual = new(
+            metaNeatGenome,
+            genomeBuilder,
+            neatPop.GenomeIdSeq,
+            neatPop.InnovationIdSeq,
+            new Int32Sequence(),
+            neatPop.AddedNodeBuffer,
+            reproductionAsexualSettings,
+            weightMutationScheme);
+
+        for(int i=1; i < popSize; i++)
+        {
+            NeatGenome<T> childGenome = reproductionAsexual.CreateChildGenome(seedGenome, rng);
+            genomeList.Add(childGenome);
+        }
+
+        return neatPop;
     }
 
     #endregion

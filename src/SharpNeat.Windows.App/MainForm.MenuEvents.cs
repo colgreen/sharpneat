@@ -1,10 +1,12 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Diagnostics;
 using System.IO.Compression;
 using SharpNeat.Experiments;
 using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
@@ -21,8 +23,8 @@ partial class MainForm
 
     private void loadPopulationToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        string popFilePath = SelectFileToOpen("Load population", "pop", "(*.pop)|*.pop");
-        if(string.IsNullOrEmpty(popFilePath))
+        string filepath = SelectFileToOpen("Load population", "pop", "(*.pop)|*.pop");
+        if(string.IsNullOrEmpty(filepath))
             return;
 
         INeatExperiment<double> neatExperiment = GetNeatExperiment();
@@ -31,24 +33,86 @@ partial class MainForm
         
         try
         {
-            List<NeatGenome<double>> genomeList = popLoader.LoadFromZipArchive(popFilePath);
+            List<NeatGenome<double>> genomeList = popLoader.LoadFromZipArchive(filepath);
 
             if(genomeList.Count == 0)
             {
-                __log.WarnFormat("No genomes loaded from population file [{0}].", popFilePath);
+                __log.WarnFormat("No genomes loaded from population file [{0}].", filepath);
                 return;
             }
 
             INeatGenomeBuilder<double> genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
             _neatPop = new NeatPopulation<double>(
-                metaNeatGenome, genomeBuilder, genomeList);
+                metaNeatGenome,
+                genomeBuilder,
+                neatExperiment.PopulationSize,
+                genomeList);
 
             UpdateUIState();
         }
         catch(Exception ex)
         {
             __log.ErrorFormat("Error loading population. Error message [{0}]", ex.Message);
+        }
+    }
+
+    private void loadSeedGenomeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        string filepath = SelectFileToOpen("Load seed genome", "net", "(*.net)|*.net");
+        if(string.IsNullOrEmpty(filepath))
+            return;
+
+        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+
+        try
+        {
+            // Load the seed genome.
+            NeatGenome<double> seedGenome = NeatGenomeLoader.Load(filepath, metaNeatGenome, 0);
+
+            // Create an instance of the default connection weight mutation scheme.
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
+                neatExperiment.ConnectionWeightScale);
+
+            _neatPop = NeatPopulationFactory<double>.CreatePopulation(
+                metaNeatGenome,
+                neatExperiment.PopulationSize,
+                seedGenome,
+                neatExperiment.ReproductionAsexualSettings,
+                weightMutationScheme);
+
+            UpdateUIState();
+        }
+        catch(Exception ex)
+        {
+            __log.ErrorFormat("Error loading genome. Error message [{0}]", ex.Message);
+        }
+    }
+
+    // TODO: Load Seed Genomes
+    private void loadSeedGenomesToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void savePopulationToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // Ask the user to select a file path and name to save to.
+        string filepath = SelectFileToSave("Save population", "pop", "(*.pop)|*.pop");
+        if(string.IsNullOrEmpty(filepath))
+            return;
+
+        // Save the population.
+        try
+        {
+            NeatPopulationSaver.SaveToZipArchive(
+                _neatPop.GenomeList, filepath,
+                CompressionLevel.Optimal);
+        }
+        catch(Exception ex)
+        {
+            __log.ErrorFormat("Error saving population; [{0}]", ex.Message);
         }
     }
 
@@ -72,26 +136,6 @@ partial class MainForm
         catch(Exception ex)
         {
             __log.ErrorFormat("Error saving genome; [{0}]", ex.Message);
-        }
-    }
-
-    private void savePopulationToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        // Ask the user to select a file path and name to save to.
-        string filepath = SelectFileToSave("Save population", "pop", "(*.pop)|*.pop");
-        if(string.IsNullOrEmpty(filepath))
-            return;
-
-        // Save the population.
-        try
-        {
-            NeatPopulationSaver.SaveToZipArchive(
-                _neatPop.GenomeList, filepath,
-                CompressionLevel.Optimal);
-        }
-        catch(Exception ex)
-        {
-            __log.ErrorFormat("Error saving population; [{0}]", ex.Message);
         }
     }
 

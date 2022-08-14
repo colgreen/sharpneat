@@ -71,12 +71,14 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// </summary>
     /// <param name="metaNeatGenome">NeatGenome metadata.</param>
     /// <param name="genomeBuilder">NeatGenome builder.</param>
+    /// <param name="targetSize">Population target size.</param>
     /// <param name="genomeList">A list of genomes that will make up the population.</param>
     public NeatPopulation(
         MetaNeatGenome<T> metaNeatGenome,
         INeatGenomeBuilder<T> genomeBuilder,
+        int targetSize,
         List<NeatGenome<T>> genomeList)
-        : base(genomeList)
+        : base(targetSize, genomeList)
     {
         GetMaxObservedIds(
             genomeList,
@@ -95,16 +97,18 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// </summary>
     /// <param name="metaNeatGenome">NeatGenome metadata.</param>
     /// <param name="genomeBuilder">NeatGenome builder.</param>
+    /// <param name="targetSize">Population target size.</param>
     /// <param name="genomeList">A list of genomes that will make up the population.</param>
     /// <param name="genomeIdSeq">Genome ID sequence.</param>
     /// <param name="innovationIdSeq">Innovation ID sequence.</param>
     public NeatPopulation(
         MetaNeatGenome<T> metaNeatGenome,
         INeatGenomeBuilder<T> genomeBuilder,
+        int targetSize,
         List<NeatGenome<T>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq)
-    : this(metaNeatGenome, genomeBuilder, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize)
+    : this(metaNeatGenome, genomeBuilder, targetSize, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize)
     {
     }
 
@@ -113,6 +117,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// </summary>
     /// <param name="metaNeatGenome">NeatGenome metadata.</param>
     /// <param name="genomeBuilder">NeatGenome builder.</param>
+    /// <param name="targetSize">Population target size.</param>
     /// <param name="genomeList">A list of genomes that will make up the population.</param>
     /// <param name="genomeIdSeq">Genome ID sequence.</param>
     /// <param name="innovationIdSeq">Innovation ID sequence.</param>
@@ -120,11 +125,12 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     public NeatPopulation(
         MetaNeatGenome<T> metaNeatGenome,
         INeatGenomeBuilder<T> genomeBuilder,
+        int targetSize,
         List<NeatGenome<T>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq,
         int addedNodeHistoryBufferSize)
-    : base(genomeList)
+    : base(targetSize, genomeList)
     {
         this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
         this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));

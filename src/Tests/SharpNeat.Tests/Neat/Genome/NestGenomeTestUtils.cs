@@ -18,7 +18,11 @@ public static class NestGenomeTestUtils
         var genome = CreateNeatGenome(genomeBuilder);
         var genome2 = CreateNeatGenome2(genomeBuilder);
         var genomeList = new List<NeatGenome<double>>() { genome, genome2 };
-        return new NeatPopulation<double>(metaNeatGenome, genomeBuilder, genomeList);
+        return new NeatPopulation<double>(
+            metaNeatGenome,
+            genomeBuilder,
+            2,
+            genomeList);
     }
 
     public static NeatGenome<double> CreateNeatGenome(

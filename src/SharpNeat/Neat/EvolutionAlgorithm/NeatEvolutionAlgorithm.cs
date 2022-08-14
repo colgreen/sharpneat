@@ -104,12 +104,15 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         IRandomSource rng)
     {
         // Perform some basic validation of the provided settings objects.
+        ArgumentNullException.ThrowIfNull(eaSettings);
+        ArgumentNullException.ThrowIfNull(reproductionAsexualSettings);
+        ArgumentNullException.ThrowIfNull(reproductionSexualSettings);
         eaSettings.Validate();
         reproductionAsexualSettings.Validate();
         reproductionSexualSettings.Validate();
 
         // Store instance fields, and null check as we go.
-        _eaSettingsCurrent = eaSettings ?? throw new ArgumentNullException(nameof(eaSettings));
+        _eaSettingsCurrent = eaSettings;
         _eaSettingsComplexifying = eaSettings;
         _eaSettingsSimplifying = eaSettings.CreateSimplifyingSettings();
 
@@ -117,15 +120,11 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
         _pop = population ?? throw new ArgumentNullException(nameof(population));
         _complexityRegulationStrategy = complexityRegulationStrategy ?? throw new ArgumentNullException(nameof(complexityRegulationStrategy));
-
-        if(reproductionAsexualSettings is null) throw new ArgumentNullException(nameof(reproductionAsexualSettings));
-        if(reproductionSexualSettings is null) throw new ArgumentNullException(nameof(reproductionSexualSettings));
-
         _rng = rng;
         _genomeComparerDescending = new GenomeComparerDescending(evaluator.FitnessComparer);
 
-        if(eaSettings.SpeciesCount > population.PopulationSize)
-            throw new ArgumentException("Species count is higher then the population size.");
+        if(eaSettings.SpeciesCount > population.TargetSize)
+            throw new ArgumentException("Species count is higher than the population size.");
 
         _generationSeq = new Int32Sequence();
 

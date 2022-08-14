@@ -29,7 +29,11 @@ public class UniformCrossoverReproductionStrategyTestsUtils
                 break;
         }
 
-        return new NeatPopulation<double>(__metaNeatGenome, __genomeBuilder, genomeList);
+        return new NeatPopulation<double>(
+            __metaNeatGenome,
+            __genomeBuilder,
+            2,
+            genomeList);
     }
 
     #endregion

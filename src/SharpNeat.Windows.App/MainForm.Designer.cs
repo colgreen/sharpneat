@@ -1085,12 +1085,14 @@
             this.loadSeedGenomeToolStripMenuItem.Name = "loadSeedGenomeToolStripMenuItem";
             this.loadSeedGenomeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadSeedGenomeToolStripMenuItem.Text = "Load Seed Genome";
+            this.loadSeedGenomeToolStripMenuItem.Click += new System.EventHandler(this.loadSeedGenomeToolStripMenuItem_Click);
             // 
             // loadSeedGenomesToolStripMenuItem
             // 
             this.loadSeedGenomesToolStripMenuItem.Name = "loadSeedGenomesToolStripMenuItem";
             this.loadSeedGenomesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadSeedGenomesToolStripMenuItem.Text = "Load Seed Genomes";
+            this.loadSeedGenomesToolStripMenuItem.Click += new System.EventHandler(this.loadSeedGenomesToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 

@@ -49,7 +49,11 @@ public class NeatPopulationTests
                 outputNodeCount: 200,
                 activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
 
-        NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.5, 1, RandomDefaults.CreateRandomSource());
+        NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(
+            metaNeatGenome,
+            0.5,
+            2);
+
         NeatGenome<double> genome = neatPop.GenomeList[0];
 
         Assert.Equal(10_000, genome.ConnectionGenes.Length);
