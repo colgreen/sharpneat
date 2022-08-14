@@ -25,7 +25,7 @@ public abstract class Population<TGenome>
         if (targetSize < __minTargetSize) throw new ArgumentOutOfRangeException(nameof(targetSize), $"Minimum target size is {__minTargetSize}");
         TargetSize = targetSize;
 
-        this.GenomeList = new List<TGenome>();
+        GenomeList = new List<TGenome>();
         Stats = CreatePopulatonStats();
     }
 
@@ -39,7 +39,7 @@ public abstract class Population<TGenome>
         if(targetSize < __minTargetSize) throw new ArgumentOutOfRangeException(nameof(targetSize), $"Minimum target size is {__minTargetSize}");
         TargetSize = targetSize;
 
-        this.GenomeList = genomeList;
+        GenomeList = genomeList;
         Stats = CreatePopulatonStats();
     }
 
@@ -58,7 +58,7 @@ public abstract class Population<TGenome>
     /// <remarks>
     /// Note. If the evolution algorithm has not yet been initialised then this will simply return the genome at index zero in the population.
     /// </remarks>
-    public TGenome BestGenome => this.GenomeList[this.Stats.BestGenomeIndex];
+    public TGenome BestGenome => GenomeList[Stats.BestGenomeIndex];
 
     /// <summary>
     /// Gets the desired number of genomes in the population.

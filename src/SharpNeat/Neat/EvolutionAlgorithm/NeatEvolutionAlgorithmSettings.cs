@@ -62,13 +62,13 @@ public class NeatEvolutionAlgorithmSettings
     /// <param name="copyFrom">The settings object to copy.</param>
     public NeatEvolutionAlgorithmSettings(NeatEvolutionAlgorithmSettings copyFrom)
     {
-        this.SpeciesCount = copyFrom.SpeciesCount;
-        this.ElitismProportion = copyFrom.ElitismProportion;
-        this.SelectionProportion = copyFrom.SelectionProportion;
-        this.OffspringAsexualProportion = copyFrom.OffspringAsexualProportion;
-        this.OffspringSexualProportion = copyFrom.OffspringSexualProportion;
-        this.InterspeciesMatingProportion = copyFrom.InterspeciesMatingProportion;
-        this.StatisticsMovingAverageHistoryLength = copyFrom.StatisticsMovingAverageHistoryLength;
+        SpeciesCount = copyFrom.SpeciesCount;
+        ElitismProportion = copyFrom.ElitismProportion;
+        SelectionProportion = copyFrom.SelectionProportion;
+        OffspringAsexualProportion = copyFrom.OffspringAsexualProportion;
+        OffspringSexualProportion = copyFrom.OffspringSexualProportion;
+        InterspeciesMatingProportion = copyFrom.InterspeciesMatingProportion;
+        StatisticsMovingAverageHistoryLength = copyFrom.StatisticsMovingAverageHistoryLength;
     }
 
     #endregion

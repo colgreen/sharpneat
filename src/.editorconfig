@@ -8,6 +8,12 @@ csharp_style_namespace_declarations = file_scoped:suggestion
 csharp_space_around_binary_operators = ignore
 csharp_space_around_declaration_statements = ignore
 
+# this. preferences
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
 # This is disabled because we use Slice extensively and the suggested simplification results in different IL/asm that is slower to execute (https://github.com/dotnet/roslyn/issues/47629)
 dotnet_diagnostic.IDE0057.severity = none   # Slice can be simplified.
 

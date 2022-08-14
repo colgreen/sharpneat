@@ -30,7 +30,7 @@ public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
         T[] weightArr)
     : base(inputCount, outputCount, totalNodeCount, in connIds, layerArr, outputNodeIdxArr)
     {
-        this.WeightArray = weightArr;
+        WeightArray = weightArr;
     }
 
     /// <summary>

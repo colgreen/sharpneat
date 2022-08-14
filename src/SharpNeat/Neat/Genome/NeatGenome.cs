@@ -37,7 +37,7 @@ public class NeatGenome<T> : IGenome
     /// <remarks>
     /// For a NEAT genome we take the number of connections as representative of genome complexity.
     /// </remarks>
-    public double Complexity { get => this.ConnectionGenes._connArr.Length; }
+    public double Complexity { get => ConnectionGenes._connArr.Length; }
 
     #endregion
 
@@ -139,14 +139,14 @@ public class NeatGenome<T> : IGenome
 
 #endif
 
-        this.MetaNeatGenome = metaNeatGenome;
-        this.Id = id;
-        this.BirthGeneration = birthGeneration;
-        this.ConnectionGenes = connGenes;
-        this.HiddenNodeIdArray = hiddenNodeIdArr;
-        this.NodeIndexByIdMap = nodeIndexByIdMap;
-        this.DirectedGraph = digraph;
-        this.ConnectionIndexMap = connectionIndexMap;
+        MetaNeatGenome = metaNeatGenome;
+        Id = id;
+        BirthGeneration = birthGeneration;
+        ConnectionGenes = connGenes;
+        HiddenNodeIdArray = hiddenNodeIdArr;
+        NodeIndexByIdMap = nodeIndexByIdMap;
+        DirectedGraph = digraph;
+        ConnectionIndexMap = connectionIndexMap;
     }
 
     #endregion

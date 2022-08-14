@@ -30,8 +30,8 @@ public class ConnectionLine
     /// <param name="weight">Connection weight.</param>
     public ConnectionLine(int srcId, int tgtId, double weight)
     {
-        this.SourceId = srcId;
-        this.TargetId = tgtId;
-        this.Weight = weight;
+        SourceId = srcId;
+        TargetId = tgtId;
+        Weight = weight;
     }
 }

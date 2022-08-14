@@ -9,9 +9,9 @@ internal sealed class MockPreyCaptureAgent : IBlackBox<double>
 
     public MockPreyCaptureAgent()
     {
-        this.Inputs = new double[14];
+        Inputs = new double[14];
         _outputArr = new double[4];
-        this.Outputs = _outputArr;
+        Outputs = _outputArr;
     }
 
     #endregion

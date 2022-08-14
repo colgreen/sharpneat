@@ -25,8 +25,8 @@ public class DirectedGraphAcyclic : DirectedGraph
         int[] outputNodeIdxArr)
     : base(inputCount, outputCount, totalNodeCount, in connIds)
     {
-        this.LayerArray = layerArr;
-        this.OutputNodeIdxArr = outputNodeIdxArr;
+        LayerArray = layerArr;
+        OutputNodeIdxArr = outputNodeIdxArr;
     }
 
     /// <summary>

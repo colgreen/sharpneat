@@ -299,7 +299,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
 
     private void OnUpdateEvent()
     {
-        this.UpdateEvent?.Invoke(this, EventArgs.Empty);
+        UpdateEvent?.Invoke(this, EventArgs.Empty);
     }
 
     #endregion

@@ -22,8 +22,8 @@ public readonly struct LayerInfo
     /// connection plus one.</param>
     public LayerInfo(int endNodeIdx, int endConnectionIdx)
     {
-        this.EndNodeIdx = endNodeIdx;
-        this.EndConnectionIdx = endConnectionIdx;
+        EndNodeIdx = endNodeIdx;
+        EndConnectionIdx = endConnectionIdx;
     }
 
     /// <summary>

@@ -28,7 +28,7 @@ public class ActivationFnLine
     /// <param name="code">Code.</param>
     public ActivationFnLine(int id, string code)
     {
-        this.Id = id;
-        this.Code = code;
+        Id = id;
+        Code = code;
     }
 }

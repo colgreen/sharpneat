@@ -38,9 +38,9 @@ public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirec
     /// <param name="weight">Connection weight.</param>
     public WeightedDirectedConnection(int srcId, int tgtId, T weight)
     {
-        this.SourceId = srcId;
-        this.TargetId = tgtId;
-        this.Weight = weight;
+        SourceId = srcId;
+        TargetId = tgtId;
+        Weight = weight;
     }
 
     #region IComparable<T>
@@ -55,9 +55,9 @@ public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirec
         // subtract the largest possible value from zero we get -(2^31)-1 which is still within the range of
         // an Int32, i.e., the result of that subtraction does not overflow and is therefore a negative value
         // as required, giving a valid comparison result.
-        int diff = this.SourceId - other.SourceId;
+        int diff = SourceId - other.SourceId;
         if(diff != 0) return diff;
-        return this.TargetId - other.TargetId;
+        return TargetId - other.TargetId;
     }
 
     #endregion

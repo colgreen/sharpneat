@@ -60,7 +60,7 @@ public sealed class DictionaryNodeIdMap : INodeIdMap
     /// <inheritdoc/>
     public INodeIdMap CreateInverseMap()
     {
-        var nodeIdByIdx = new int[this.Count];
+        var nodeIdByIdx = new int[Count];
 
         // The fixed nodes IDs are identity mappings from 0 to _fixedNodeCount-1;
         for(int i=0; i < _fixedNodeCount; i++)

@@ -228,8 +228,8 @@ public sealed class AcyclicGraphDepthAnalysis
 
         public StackFrame(int connIdx, int depth)
         {
-            this.ConnectionIdx = connIdx;
-            this.Depth = depth;
+            ConnectionIdx = connIdx;
+            Depth = depth;
         }
     }
 

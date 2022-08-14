@@ -12,9 +12,9 @@ public sealed class UpdateScheme
         uint generations,
         TimeSpan timespan)
     {
-        this.UpdateMode = updateMode;
-        this.Generations = generations;
-        this.TimeSpan = timespan;
+        UpdateMode = updateMode;
+        Generations = generations;
+        TimeSpan = timespan;
     }
 
     /// <summary>

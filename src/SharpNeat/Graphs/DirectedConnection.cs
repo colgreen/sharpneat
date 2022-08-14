@@ -28,8 +28,8 @@ public readonly struct DirectedConnection
     /// <param name="tgtId">Connection target node ID.</param>
     public DirectedConnection(int srcId, int tgtId)
     {
-        this.SourceId = srcId;
-        this.TargetId = tgtId;
+        SourceId = srcId;
+        TargetId = tgtId;
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ public readonly struct DirectedConnection
     /// <param name="copyFrom">The directed connection to copy.</param>
     public DirectedConnection(in DirectedConnection copyFrom)
     {
-        this.SourceId = copyFrom.SourceId;
-        this.TargetId = copyFrom.TargetId;
+        SourceId = copyFrom.SourceId;
+        TargetId = copyFrom.TargetId;
     }
 
     #endregion
@@ -49,8 +49,8 @@ public readonly struct DirectedConnection
     /// <inheritdoc/>
     public bool Equals(DirectedConnection other)
     {
-        return (this.SourceId == other.SourceId)
-            && (this.TargetId == other.TargetId);
+        return (SourceId == other.SourceId)
+            && (TargetId == other.TargetId);
     }
 
     /// <inheritdoc/>
@@ -63,9 +63,9 @@ public readonly struct DirectedConnection
         // subtract the largest possible value from zero we get -(2^31)-1 which is still within the range of
         // an Int32, i.e., the result of that subtraction does not overflow and is therefore a negative value
         // as required, giving a valid comparison result.
-        int diff = this.SourceId - other.SourceId;
+        int diff = SourceId - other.SourceId;
         if(diff != 0) return diff;
-        return this.TargetId - other.TargetId;
+        return TargetId - other.TargetId;
     }
 
     #endregion
@@ -75,7 +75,7 @@ public readonly struct DirectedConnection
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is DirectedConnection connection && this.Equals(connection);
+        return obj is DirectedConnection connection && Equals(connection);
     }
 
     /// <inheritdoc/>

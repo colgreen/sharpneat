@@ -31,23 +31,23 @@ public class NeatExperiment<T> : INeatExperiment<T>
         string factoryId,
         string? id = null)
     {
-        this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
-        this.FactoryId = factoryId ?? throw new ArgumentNullException(nameof(factoryId));
-        this.Id = id ?? factoryId;
+        EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
+        FactoryId = factoryId ?? throw new ArgumentNullException(nameof(factoryId));
+        Id = id ?? factoryId;
 
         // Use the id as a default name; however this can be overwritten/set after construction.
-        this.Name = id ?? this.Id;
+        Name = id ?? Id;
 
         // Assign a set of default settings.
-        this.EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
-        this.ReproductionAsexualSettings = new NeatReproductionAsexualSettings();
-        this.ReproductionSexualSettings = new NeatReproductionSexualSettings();
-        this.PopulationSize = 400;
-        this.InitialInterconnectionsProportion = 0.05;
-        this.ConnectionWeightScale = 5.0;
+        EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
+        ReproductionAsexualSettings = new NeatReproductionAsexualSettings();
+        ReproductionSexualSettings = new NeatReproductionSexualSettings();
+        PopulationSize = 400;
+        InitialInterconnectionsProportion = 0.05;
+        ConnectionWeightScale = 5.0;
 
         // Assign a default complexity regulation strategy.
-        this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
+        ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
     }
 
     #endregion
