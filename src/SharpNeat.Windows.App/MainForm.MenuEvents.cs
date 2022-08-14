@@ -89,10 +89,44 @@ partial class MainForm
         }
     }
 
-    // TODO: Load Seed Genomes
     private void loadSeedGenomesToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        string filepath = SelectFileToOpen("Load seed population", "pop", "(*.pop)|*.pop");
+        if(string.IsNullOrEmpty(filepath))
+            return;
 
+        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+        NeatPopulationLoader<double> popLoader = new(metaNeatGenome);
+
+        try
+        {
+            // Load the seed genomes.
+            List<NeatGenome<double>> seedGenomes = popLoader.LoadFromZipArchive(filepath);
+
+            if(seedGenomes.Count == 0)
+            {
+                __log.WarnFormat("No genomes loaded from population file [{0}].", filepath);
+                return;
+            }
+
+            // Create an instance of the default connection weight mutation scheme.
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
+                neatExperiment.ConnectionWeightScale);
+
+            _neatPop = NeatPopulationFactory<double>.CreatePopulation(
+                metaNeatGenome,
+                neatExperiment.PopulationSize,
+                seedGenomes,
+                neatExperiment.ReproductionAsexualSettings,
+                weightMutationScheme);
+
+            UpdateUIState();
+        }
+        catch(Exception ex)
+        {
+            __log.ErrorFormat("Error loading seed population. Error message [{0}]", ex.Message);
+        }
     }
 
     private void savePopulationToolStripMenuItem_Click(object sender, EventArgs e)

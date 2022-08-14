@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Runtime.InteropServices;
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using Redzen.Numerics.Distributions.Double;
@@ -188,19 +189,16 @@ public class NeatPopulationFactory<T>
         WeightMutationScheme<T> weightMutationScheme,
         IRandomSource? rng = null)
     {
-        rng ??= RandomDefaults.CreateRandomSource();
-
-        // Create a population with the single seed genome, and the desired population target size.
+        // Create a genome list with the single seed genome (for starters).
         List<NeatGenome<T>> genomeList = new(popSize)
         {
             seedGenome
         };
 
         var genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
-
         NeatPopulation<T> neatPop = new(metaNeatGenome, genomeBuilder, popSize, genomeList);
 
-        // Create additional genome by spawning offspring from the seed genome.
+        // Create additional genomes by spawning offspring from the seed genome.
         NeatReproductionAsexual<T> reproductionAsexual = new(
             metaNeatGenome,
             genomeBuilder,
@@ -211,8 +209,72 @@ public class NeatPopulationFactory<T>
             reproductionAsexualSettings,
             weightMutationScheme);
 
+        rng ??= RandomDefaults.CreateRandomSource();
+
         for(int i=1; i < popSize; i++)
         {
+            NeatGenome<T> childGenome = reproductionAsexual.CreateChildGenome(seedGenome, rng);
+            genomeList.Add(childGenome);
+        }
+
+        return neatPop;
+    }
+
+    /// <summary>
+    /// Create a new <see cref="NeatPopulation{T}"/> based on one of more seed genomes.
+    /// </summary>
+    /// <param name="metaNeatGenome">Genome metadata, conveys e.g. the number of input and output nodes that each
+    /// genome should have.</param>
+    /// <param name="popSize">Population size.</param>
+    /// <param name="seedGenomes">The seed genomes.</param>
+    /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
+    /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
+    /// <param name="rng">Random source (optional).</param>
+    /// <returns>A new instance of <see cref="NeatPopulation{T}"/>.</returns>
+    public static NeatPopulation<T> CreatePopulation(
+        MetaNeatGenome<T> metaNeatGenome,
+        int popSize,
+        List<NeatGenome<T>> seedGenomes,
+        NeatReproductionAsexualSettings reproductionAsexualSettings,
+        WeightMutationScheme<T> weightMutationScheme,
+        IRandomSource? rng = null)
+    {
+        // If the number of seed genomes is greater then or equal to popSizem, then we simply use the provided
+        // seed genomes directly, and truncate seedGenomes to the required size.
+        if(seedGenomes.Count >= popSize)
+        {
+            return new NeatPopulation<T>(
+                metaNeatGenome,
+                NeatGenomeBuilderFactory<T>.Create(metaNeatGenome),
+                popSize,
+                seedGenomes.Take(popSize).ToList());
+        }
+
+        // Create a genome list with the seed genomes (for starters).
+        List<NeatGenome<T>> genomeList = new(popSize);
+        genomeList.AddRange(seedGenomes);
+
+        var genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
+        NeatPopulation<T> neatPop = new(metaNeatGenome, genomeBuilder, popSize, genomeList);
+
+        // Create additional genomes by spawning offspring from the seed genomes.
+        NeatReproductionAsexual<T> reproductionAsexual = new(
+            metaNeatGenome,
+            genomeBuilder,
+            neatPop.GenomeIdSeq,
+            neatPop.InnovationIdSeq,
+            new Int32Sequence(),
+            neatPop.AddedNodeBuffer,
+            reproductionAsexualSettings,
+            weightMutationScheme);
+
+        Span<NeatGenome<T>> seedSpan = CollectionsMarshal.AsSpan(seedGenomes);
+        rng ??= RandomDefaults.CreateRandomSource();
+
+        int seedCount = genomeList.Count;
+        for (int i = genomeList.Count; i < popSize; i++)
+        {
+            NeatGenome<T> seedGenome = seedSpan[i % seedCount];
             NeatGenome<T> childGenome = reproductionAsexual.CreateChildGenome(seedGenome, rng);
             genomeList.Add(childGenome);
         }
