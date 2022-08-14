@@ -89,7 +89,7 @@ public sealed class GraphViewportPainter : IViewportPainter, IDisposable
         g.FillRectangle(_brushBackground, viewportArea);
 
         // Get a local stack reference to the class variable; this avoid the chance of another thread changing the model object from this point onwards.
-        var model = this.GraphViewModel;
+        var model = GraphViewModel;
 
         // Skip painting if nothing to paint.
         if(model is null)

@@ -331,7 +331,7 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
 
         public DepthLayoutSchemeData(LightweightList<int>[] nodesByLayer)
         {
-            this.NodesByLayer = nodesByLayer;
+            NodesByLayer = nodesByLayer;
         }
     }
 

@@ -42,10 +42,10 @@ public class NeatReproductionAsexualSettings
     /// <param name="copyFrom">The settings object to copy.</param>
     public NeatReproductionAsexualSettings(NeatReproductionAsexualSettings copyFrom)
     {
-        this.ConnectionWeightMutationProbability = copyFrom.ConnectionWeightMutationProbability;
-        this.AddNodeMutationProbability = copyFrom.AddNodeMutationProbability;
-        this.AddConnectionMutationProbability = copyFrom.AddConnectionMutationProbability;
-        this.DeleteConnectionMutationProbability = copyFrom.DeleteConnectionMutationProbability;
+        ConnectionWeightMutationProbability = copyFrom.ConnectionWeightMutationProbability;
+        AddNodeMutationProbability = copyFrom.AddNodeMutationProbability;
+        AddConnectionMutationProbability = copyFrom.AddConnectionMutationProbability;
+        DeleteConnectionMutationProbability = copyFrom.DeleteConnectionMutationProbability;
     }
 
     #endregion

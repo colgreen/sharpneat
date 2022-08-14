@@ -24,7 +24,7 @@ public partial class GenomeForm : Form
         this.genomeCtrl = genomeCtrl;
 
         InitializeComponent();
-        this.Text = title;
+        Text = title;
     }
 
     #endregion
@@ -36,8 +36,8 @@ public partial class GenomeForm : Form
     /// </summary>
     public IGenome Genome
     {
-        get => this.genomeCtrl.Genome;
-        set => this.genomeCtrl.Genome = value;
+        get => genomeCtrl.Genome;
+        set => genomeCtrl.Genome = value;
     }
 
     #endregion

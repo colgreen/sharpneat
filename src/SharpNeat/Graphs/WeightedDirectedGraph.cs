@@ -55,6 +55,6 @@ public class WeightedDirectedGraph<T> : DirectedGraph
         T[] weightArr)
     : base(inputCount, outputCount, totalNodeCount, connIds)
     {
-        this.WeightArray = weightArr;
+        WeightArray = weightArr;
     }
 }

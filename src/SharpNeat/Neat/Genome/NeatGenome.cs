@@ -160,7 +160,7 @@ public class NeatGenome<T> : IGenome
     /// <returns>True if the genome contains a hidden node with the specified ID; otherwise false.</returns>
     public bool ContainsHiddenNode(int id)
     {
-        return Array.BinarySearch(this.HiddenNodeIdArray, id) >= 0;
+        return Array.BinarySearch(HiddenNodeIdArray, id) >= 0;
     }
 
     /// <summary>
@@ -179,9 +179,9 @@ public class NeatGenome<T> : IGenome
         // array as is. We can do this because these arrays are treated as being immutable, i.e., a given genome's weight
         // array will never be changed. E.g. Weight mutation occurs on child genomes that have a copy of the parent
         // genome's weight array.
-        if(!this.MetaNeatGenome.IsAcyclic)
+        if(!MetaNeatGenome.IsAcyclic)
         {
-            return this.ConnectionGenes._weightArr;
+            return ConnectionGenes._weightArr;
         }
 
         // For acyclic genomes the digraph connections are ordered by depth of the source node in graph, and thus the
@@ -189,9 +189,9 @@ public class NeatGenome<T> : IGenome
         // digraph positions, and return the new array.
 
         // Create a new weight array, and copy in the weights from the genome into their correct positions.
-        T[] genomeWeightArr = this.ConnectionGenes._weightArr;
+        T[] genomeWeightArr = ConnectionGenes._weightArr;
         T[] digraphWeightArr = new T[genomeWeightArr.Length];
-        int[] connIdxMap = this.ConnectionIndexMap!;
+        int[] connIdxMap = ConnectionIndexMap!;
 
         for(int i=0; i < connIdxMap.Length; i++)
             digraphWeightArr[i] = genomeWeightArr[connIdxMap[i]];

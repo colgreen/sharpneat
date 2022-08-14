@@ -83,10 +83,10 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
         _postActivationArr = new double[nodeCount];
 
         // Map the input and output vectors to the corresponding segments of _postActivationArr.
-        this.Inputs = new Memory<double>(_postActivationArr, 0, _inputCount);
+        Inputs = new Memory<double>(_postActivationArr, 0, _inputCount);
 
         // Note. Output neurons follow input neurons in the arrays.
-        this.Outputs = new Memory<double>(_postActivationArr, _inputCount, _outputCount);
+        Outputs = new Memory<double>(_postActivationArr, _inputCount, _outputCount);
     }
 
     #endregion

@@ -20,7 +20,7 @@ public partial class TaskForm : Form
     public TaskForm(string title)
     {
         InitializeComponent();
-        this.Text = title;
+        Text = title;
 
         //_domainViewControl = domainViewControl;
         //domainViewControl.Dock = DockStyle.Fill;

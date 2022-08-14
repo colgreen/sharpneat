@@ -28,7 +28,7 @@ internal readonly struct ConnectionGene<T>
     /// <param name="weight">The connection weight.</param>
     public ConnectionGene(in DirectedConnection endpoints, T weight)
     {
-        this.Endpoints = endpoints;
-        this.Weight = weight;
+        Endpoints = endpoints;
+        Weight = weight;
     }
 }

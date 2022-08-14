@@ -87,11 +87,11 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
         _activationArr = new double[digraph.TotalNodeCount];
 
         // Map the inputs vector to the corresponding segment of node activation values.
-        this.Inputs = new Memory<double>(_activationArr, 0, _inputCount);
+        Inputs = new Memory<double>(_activationArr, 0, _inputCount);
 
         // Get an array to act a as a contiguous run of output signals.
         _outputArr = new double[_outputCount];
-        this.Outputs = _outputArr;
+        Outputs = _outputArr;
 
         // Store the indexes into _activationArr that give the output signals.
         _outputNodeIdxArr = digraph.OutputNodeIdxArr;

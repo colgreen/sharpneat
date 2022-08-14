@@ -100,7 +100,7 @@ public class Logger
 
         void IList<LogItem>.Insert(int index, LogItem item)
         {
-            this.Enqueue(item);
+            Enqueue(item);
         }
 
         void IList<LogItem>.RemoveAt(int index)
@@ -116,12 +116,12 @@ public class Logger
 
         void ICollection<LogItem>.Add(LogItem item)
         {
-            this.Enqueue(item);
+            Enqueue(item);
         }
 
         void ICollection<LogItem>.Clear()
         {
-            this.Clear();
+            Clear();
         }
 
         bool ICollection<LogItem>.Contains(LogItem item)
@@ -136,7 +136,7 @@ public class Logger
 
         int ICollection<LogItem>.Count
         {
-            get { return this.Length; }
+            get { return Length; }
         }
 
         bool ICollection<LogItem>.IsReadOnly
@@ -151,7 +151,7 @@ public class Logger
 
         IEnumerator<LogItem> IEnumerable<LogItem>.GetEnumerator()
         {
-            int len = this.Length;
+            int len = Length;
             for(int i=0; i < len; i++)
             {
                 yield return this[i];
@@ -160,7 +160,7 @@ public class Logger
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            int len = this.Length;
+            int len = Length;
             for(int i=0; i < len; i++)
             {
                 yield return this[i];

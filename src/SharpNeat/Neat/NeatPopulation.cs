@@ -62,7 +62,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <summary>
     /// NeatPopulation statistics.
     /// </summary>
-    public NeatPopulationStatistics NeatPopulationStats => (NeatPopulationStatistics)this.Stats;
+    public NeatPopulationStatistics NeatPopulationStats => (NeatPopulationStatistics)Stats;
 
     #region Constructors
 
@@ -85,11 +85,11 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
             out int maxGenomeId,
             out int maxInnovationId);
 
-        this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
-        this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
-        this.GenomeIdSeq = new Int32Sequence(maxGenomeId + 1);
-        this.InnovationIdSeq = new Int32Sequence(maxInnovationId + 1);
-        this.AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);
+        MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
+        GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
+        GenomeIdSeq = new Int32Sequence(maxGenomeId + 1);
+        InnovationIdSeq = new Int32Sequence(maxInnovationId + 1);
+        AddedNodeBuffer = new AddedNodeBuffer(__defaultInnovationHistoryBufferSize);
     }
 
     /// <summary>
@@ -132,11 +132,11 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         int addedNodeHistoryBufferSize)
     : base(targetSize, genomeList)
     {
-        this.MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
-        this.GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
-        this.GenomeIdSeq = genomeIdSeq ?? throw new ArgumentNullException(nameof(genomeIdSeq));
-        this.InnovationIdSeq = innovationIdSeq ?? throw new ArgumentNullException(nameof(innovationIdSeq));
-        this.AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
+        MetaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
+        GenomeBuilder = genomeBuilder ?? throw new ArgumentNullException(nameof(genomeBuilder));
+        GenomeIdSeq = genomeIdSeq ?? throw new ArgumentNullException(nameof(genomeIdSeq));
+        InnovationIdSeq = innovationIdSeq ?? throw new ArgumentNullException(nameof(innovationIdSeq));
+        AddedNodeBuffer = new AddedNodeBuffer(addedNodeHistoryBufferSize);
 
         // Assert that the ID sequence objects represent an ID higher than any existing ID used by the genomes.
         Debug.Assert(ValidateIdSequences(genomeList, genomeIdSeq, innovationIdSeq));
@@ -160,11 +160,11 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         IRandomSource rng)
     {
         // Allocate the genomes to species.
-        Species<T>[] speciesArr = speciationStrategy.SpeciateAll(this.GenomeList, speciesCount, rng);
+        Species<T>[] speciesArr = speciationStrategy.SpeciateAll(GenomeList, speciesCount, rng);
         if(speciesArr is null || speciesArr.Length != speciesCount)
             throw new InvalidOperationException("Species array is null or has incorrect length.");
 
-        this.SpeciesArray = speciesArr;
+        SpeciesArray = speciesArr;
 
         // Sort the genomes in each species by primary fitness, highest fitness first.
         // We use an unstable sort; this ensures that the order of equally fit genomes is randomized, which in turn
@@ -196,10 +196,10 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
             out int bestGenomeSpeciesIdx);
 
         // Update PopulationStatistics object.
-        PopulationStatistics stats = this.Stats;
+        PopulationStatistics stats = Stats;
 
-        int genomeCount = this.GenomeList.Count;
-        var bestGenome = this.GenomeList[bestGenomeIdx];
+        int genomeCount = GenomeList.Count;
+        var bestGenome = GenomeList[bestGenomeIdx];
 
         // Update fitness stats.
         stats.BestGenomeIndex = bestGenomeIdx;
@@ -215,9 +215,9 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         stats.MaxComplexity = maxComplexity;
 
         // Update NeatPopulationStatistics object.
-        this.NeatPopulationStats.BestGenomeSpeciesIdx = bestGenomeSpeciesIdx;
-        this.NeatPopulationStats.SumSpeciesMeanFitness = sumMeanFitness;
-        this.NeatPopulationStats.AverageSpeciesBestFitness = sumBestFitness / SpeciesArray!.Length;
+        NeatPopulationStats.BestGenomeSpeciesIdx = bestGenomeSpeciesIdx;
+        NeatPopulationStats.SumSpeciesMeanFitness = sumMeanFitness;
+        NeatPopulationStats.AverageSpeciesBestFitness = sumBestFitness / SpeciesArray!.Length;
     }
 
     /// <summary>
@@ -225,7 +225,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// </summary>
     public void ClearAllSpecies()
     {
-        foreach(var species in this.SpeciesArray!)
+        foreach(var species in SpeciesArray!)
             species.GenomeList.Clear();
     }
 
@@ -235,7 +235,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <returns>True if there is at least one empty species; otherwise false.</returns>
     public bool ContainsEmptySpecies()
     {
-        return this.SpeciesArray!.Any(x => (x.GenomeList.Count == 0));
+        return SpeciesArray!.Any(x => (x.GenomeList.Count == 0));
     }
 
     #endregion
@@ -258,7 +258,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         out double maxComplexity)
     {
         // Calc sum of PrimaryFitness, and sum of Complexity.
-        List<NeatGenome<T>> genomeList = this.GenomeList;
+        List<NeatGenome<T>> genomeList = GenomeList;
         primaryFitnessSum = 0.0;
         complexitySum = 0.0;
         maxComplexity = 0.0;
@@ -284,7 +284,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         // Loop the species; calculate the each species' mean fitness, and calc a sum over those mean fitnesses.
         sumMeanFitness = 0.0;
         sumBestFitness = 0.0;
-        Species<T>[] speciesArr = this.SpeciesArray!;
+        Species<T>[] speciesArr = SpeciesArray!;
         for(int i=0; i < speciesArr.Length; i++)
         {
             Species<T> species = speciesArr[i];
@@ -350,9 +350,9 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         // Determine the index of the fittest genome in the population-wide genome list;
         // we resort to a scan to do this.
         bestGenomeIdx = -1;
-        for(int genomeIdx=0; genomeIdx < this.GenomeList.Count; genomeIdx++)
+        for(int genomeIdx=0; genomeIdx < GenomeList.Count; genomeIdx++)
         {
-            if(this.GenomeList[genomeIdx] == bestGenome)
+            if(GenomeList[genomeIdx] == bestGenome)
             {
                 bestGenomeIdx = genomeIdx;
                 break;

@@ -57,13 +57,13 @@ public class Species<T>
     /// <param name="capacity">Initial capacity for the species genome list.</param>
     public Species(int id, ConnectionGenes<T> centroid, int capacity = 0)
     {
-        this.Id = id;
-        this.Centroid = centroid;
-        this.GenomeList = new List<NeatGenome<T>>(capacity);
-        this.GenomeById = new Dictionary<int,NeatGenome<T>>(capacity);
-        this.PendingAddsList = new List<NeatGenome<T>>(capacity);
-        this.PendingRemovesList = new List<int>(capacity);
-        this.Stats = new SpeciesStats();
+        Id = id;
+        Centroid = centroid;
+        GenomeList = new List<NeatGenome<T>>(capacity);
+        GenomeById = new Dictionary<int,NeatGenome<T>>(capacity);
+        PendingAddsList = new List<NeatGenome<T>>(capacity);
+        PendingRemovesList = new List<int>(capacity);
+        Stats = new SpeciesStats();
     }
 
     #endregion

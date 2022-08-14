@@ -26,7 +26,7 @@ public partial class SummaryGraphForm : Form
     {
         InitializeComponent();
 
-        this.Text = $"SharpNEAT - {title}";
+        Text = $"SharpNEAT - {title}";
         _dataSourceArray = dataSourceArray;
         InitGraph(title, xAxisTitle, y1AxisTitle, y2AxisTitle, dataSourceArray);
     }

@@ -90,9 +90,9 @@ public sealed class HSLColor
     /// <param name="luminosity">Luminosity.</param>
     public HSLColor(double hue, double saturation, double luminosity)
     {
-        this.Hue = hue;
-        this.Saturation = saturation;
-        this.Luminosity = luminosity;
+        Hue = hue;
+        Saturation = saturation;
+        Luminosity = luminosity;
     }
 
     #endregion
@@ -108,9 +108,9 @@ public sealed class HSLColor
     public void SetRGB(int red, int green, int blue)
     {
         HSLColor hslColor = (HSLColor)Color.FromArgb(red, green, blue);
-        this._hue = hslColor._hue;
-        this._saturation = hslColor._saturation;
-        this._luminosity = hslColor._luminosity;
+        _hue = hslColor._hue;
+        _saturation = hslColor._saturation;
+        _luminosity = hslColor._luminosity;
     }
 
     #endregion

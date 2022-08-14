@@ -47,10 +47,10 @@ public sealed class DirectedGraphViewModel
         if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
         if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
 
-        this.DirectedGraph = digraph;
-        this.WeightArr = weightArr;
-        this.NodeIdByIdx = nodeIdByIdx;
-        this.NodePosByIdx = new Point[digraph.TotalNodeCount];
+        DirectedGraph = digraph;
+        WeightArr = weightArr;
+        NodeIdByIdx = nodeIdByIdx;
+        NodePosByIdx = new Point[digraph.TotalNodeCount];
     }
 
     /// <summary>
@@ -70,10 +70,10 @@ public sealed class DirectedGraphViewModel
         if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
         if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodePosByIdx));
 
-        this.DirectedGraph = digraph;
-        this.WeightArr = weightArr;
-        this.NodeIdByIdx = nodeIdByIdx;
-        this.NodePosByIdx = nodePosByIdx;
+        DirectedGraph = digraph;
+        WeightArr = weightArr;
+        NodeIdByIdx = nodeIdByIdx;
+        NodePosByIdx = nodePosByIdx;
     }
 
     #endregion

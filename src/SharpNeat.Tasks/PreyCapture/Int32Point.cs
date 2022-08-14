@@ -23,8 +23,8 @@ public struct Int32Point
     /// <param name="y">The y-axis coordinate.</param>
     public Int32Point(int x, int y)
     {
-        this.X = x;
-        this.Y = y;
+        X = x;
+        Y = y;
     }
 
     #region Overrides [Object Equality]

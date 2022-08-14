@@ -115,10 +115,10 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
         _outputMem = _workingArr.AsMemory(_totalNodeCount, _outputCount);
 
         // Map the inputs vector to the corresponding segment of node activation values.
-        this.Inputs = _activationMem.Slice(0, _inputCount);
+        Inputs = _activationMem.Slice(0, _inputCount);
 
         // Use the already defined outputs memory segment.
-        this.Outputs = _outputMem;
+        Outputs = _outputMem;
 
         // Store the indexes into _activationArr that give the output signals.
         _outputNodeIdxArr = digraph.OutputNodeIdxArr;

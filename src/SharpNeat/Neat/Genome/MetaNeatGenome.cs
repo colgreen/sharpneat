@@ -50,7 +50,7 @@ public class MetaNeatGenome<T>
     /// <summary>
     /// The total number of input and output nodes.
     /// </summary>
-    public int InputOutputNodeCount => this.InputNodeCount + this.OutputNodeCount;
+    public int InputOutputNodeCount => InputNodeCount + OutputNodeCount;
 
     #region Construction
 

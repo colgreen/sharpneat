@@ -49,21 +49,21 @@ public readonly struct ParamSamplingInfo
     public ParamSamplingInfo(double min, double max, int resolution)
     {
         Debug.Assert(resolution>=3, "Sample count must be >= 3");
-        this.Min = min;
-        this.Max = max;
-        double incr = this.Incr = (max-min) / (resolution - 1);
-        this.SampleResolution = resolution;
+        Min = min;
+        Max = max;
+        double incr = Incr = (max-min) / (resolution - 1);
+        SampleResolution = resolution;
 
         double incrNet = 1.0 / (resolution - 1);
         double x = min;
         double xNet = 0.0;
-        this.XArr = new double[resolution];
-        this.XArrNetwork = new double[resolution];
+        XArr = new double[resolution];
+        XArrNetwork = new double[resolution];
 
         for(int i=0; i < resolution; i++, x += incr, xNet += incrNet)
         {
-            this.XArr[i] = x;
-            this.XArrNetwork[i] = xNet;
+            XArr[i] = x;
+            XArrNetwork[i] = xNet;
         }
     }
 }

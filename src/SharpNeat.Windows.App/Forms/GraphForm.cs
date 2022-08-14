@@ -28,7 +28,7 @@ public partial class GraphForm : Form
     {
         InitializeComponent();
 
-        this.Text = $"SharpNEAT - {title}";
+        Text = $"SharpNEAT - {title}";
 
         _graphPane = zed.GraphPane;
         _graphPane.Title.Text = title;

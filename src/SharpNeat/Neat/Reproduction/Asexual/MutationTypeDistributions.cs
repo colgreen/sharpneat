@@ -27,8 +27,8 @@ public sealed class MutationTypeDistributions
     /// <param name="settings">Asexual reproduction settings.</param>
     public MutationTypeDistributions(NeatReproductionAsexualSettings settings)
     {
-        this.MutationTypeDistribution = CreateMutationTypeDiscreteDistribution(settings);
-        this.MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive(settings);
+        MutationTypeDistribution = CreateMutationTypeDiscreteDistribution(settings);
+        MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive(settings);
     }
 
     #region Private Static Methods

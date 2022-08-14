@@ -93,10 +93,10 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
         _postActivationMem = _activationsArr.AsMemory(_totalNodeCount, _totalNodeCount);
 
         // Map the input and output vectors to the corresponding segments of _postActivationArr.
-        this.Inputs = _postActivationMem.Slice(0, _inputCount);
+        Inputs = _postActivationMem.Slice(0, _inputCount);
 
         // Note. Output neurons follow input neurons in the arrays.
-        this.Outputs = _postActivationMem.Slice(_inputCount, _outputCount);
+        Outputs = _postActivationMem.Slice(_inputCount, _outputCount);
     }
 
     #endregion
