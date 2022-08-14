@@ -40,7 +40,10 @@ public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
     }
 
     /// <inheritdoc/>
-    public NeatGenome<T> CreateGenome(NeatGenome<T> parent1, NeatGenome<T> parent2, IRandomSource rng)
+    public NeatGenome<T> CreateGenome(
+        NeatGenome<T> parent1,
+        NeatGenome<T> parent2,
+        IRandomSource rng)
     {
         // Invoke the reproduction strategy.
         return _strategy.CreateGenome(parent1, parent2, rng);

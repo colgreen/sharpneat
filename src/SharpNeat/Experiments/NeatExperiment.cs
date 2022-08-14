@@ -24,18 +24,19 @@ public class NeatExperiment<T> : INeatExperiment<T>
     /// Constructs with the provided name and evaluation scheme, and default settings.
     /// </summary>
     /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-    /// <param name="factoryId">Experiment Factory ID (optional).</param>
-    /// <param name="id">Experiment ID.</param>
+    /// <param name="factoryId">Experiment Factory ID.</param>
+    /// <param name="id">Experiment ID (optional).</param>
     public NeatExperiment(
         IBlackBoxEvaluationScheme<T> evalScheme,
-        string factoryId, string id)
+        string factoryId,
+        string? id = null)
     {
         this.EvaluationScheme = evalScheme ?? throw new ArgumentNullException(nameof(evalScheme));
-        this.Id = id ?? throw new ArgumentNullException(nameof(id));
         this.FactoryId = factoryId ?? throw new ArgumentNullException(nameof(factoryId));
+        this.Id = id ?? factoryId;
 
         // Use the id as a default name; however this can be overwritten/set after construction.
-        this.Name = id;
+        this.Name = id ?? this.Id;
 
         // Assign a set of default settings.
         this.EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
@@ -47,18 +48,6 @@ public class NeatExperiment<T> : INeatExperiment<T>
 
         // Assign a default complexity regulation strategy.
         this.ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
-    }
-
-    /// <summary>
-    /// Constructs with the provided name and evaluation scheme, and default settings.
-    /// </summary>
-    /// <param name="evalScheme">Experiment evaluation scheme object.</param>
-    /// <param name="factoryId">Experiment Factory ID (optional).</param>
-    public NeatExperiment(
-        IBlackBoxEvaluationScheme<T> evalScheme,
-        string factoryId)
-        : this(evalScheme, factoryId, factoryId)
-    {
     }
 
     #endregion

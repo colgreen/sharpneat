@@ -23,8 +23,6 @@ public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
     readonly Int32Sequence _generationSeq;
     readonly WeightMutationScheme<T> _weightMutationScheme;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
@@ -43,10 +41,6 @@ public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
         _generationSeq = generationSeq;
         _weightMutationScheme = weightMutationScheme;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <inheritdoc/>
     public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
@@ -76,6 +70,4 @@ public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
             parent.DirectedGraph,
             parent.ConnectionIndexMap);
     }
-
-    #endregion
 }

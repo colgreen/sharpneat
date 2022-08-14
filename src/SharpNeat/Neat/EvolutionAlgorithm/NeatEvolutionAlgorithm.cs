@@ -54,44 +54,11 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
     /// <param name="evaluator">An evaluator of lists of genomes.</param>
     /// <param name="speciationStrategy">Speciation strategy.</param>
     /// <param name="population">An initial population of genomes.</param>
-    /// <param name="complexityRegulationStrategy" > Complexity regulation strategy.</param>
-    /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
-    /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
-    /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
-    public NeatEvolutionAlgorithm(
-        NeatEvolutionAlgorithmSettings eaSettings,
-        IGenomeListEvaluator<NeatGenome<T>> evaluator,
-        ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
-        NeatPopulation<T> population,
-        IComplexityRegulationStrategy complexityRegulationStrategy,
-        NeatReproductionAsexualSettings reproductionAsexualSettings,
-        NeatReproductionSexualSettings reproductionSexualSettings,
-        WeightMutationScheme<T> weightMutationScheme)
-        : this(
-            eaSettings,
-            evaluator,
-            speciationStrategy,
-            population,
-            complexityRegulationStrategy,
-            reproductionAsexualSettings,
-            reproductionSexualSettings,
-            weightMutationScheme,
-            RandomDefaults.CreateRandomSource())
-    {
-    }
-
-    /// <summary>
-    /// Construct a new instance.
-    /// </summary>
-    /// <param name="eaSettings">NEAT evolution algorithm settings.</param>
-    /// <param name="evaluator">An evaluator of lists of genomes.</param>
-    /// <param name="speciationStrategy">Speciation strategy.</param>
-    /// <param name="population">An initial population of genomes.</param>
     /// <param name="complexityRegulationStrategy">Complexity regulation strategy.</param>
     /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
     /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
     /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
-    /// <param name="rng">Random source.</param>
+    /// <param name="rng">Random source (optional).</param>
     public NeatEvolutionAlgorithm(
         NeatEvolutionAlgorithmSettings eaSettings,
         IGenomeListEvaluator<NeatGenome<T>> evaluator,
@@ -101,7 +68,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         NeatReproductionAsexualSettings reproductionAsexualSettings,
         NeatReproductionSexualSettings reproductionSexualSettings,
         WeightMutationScheme<T> weightMutationScheme,
-        IRandomSource rng)
+        IRandomSource? rng = null)
     {
         // Perform some basic validation of the provided settings objects.
         ArgumentNullException.ThrowIfNull(eaSettings);
@@ -120,7 +87,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
         _pop = population ?? throw new ArgumentNullException(nameof(population));
         _complexityRegulationStrategy = complexityRegulationStrategy ?? throw new ArgumentNullException(nameof(complexityRegulationStrategy));
-        _rng = rng;
+        _rng = rng ?? RandomDefaults.CreateRandomSource();
         _genomeComparerDescending = new GenomeComparerDescending(evaluator.FitnessComparer);
 
         if(eaSettings.SpeciesCount > population.TargetSize)

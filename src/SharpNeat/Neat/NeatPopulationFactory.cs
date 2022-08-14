@@ -36,7 +36,7 @@ public class NeatPopulationFactory<T>
         double connectionsProportion,
         IRandomSource rng)
     {
-        _metaNeatGenome = metaNeatGenome;
+        _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
         _genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome);
         _connectionsProportion = connectionsProportion;
 
@@ -57,7 +57,7 @@ public class NeatPopulationFactory<T>
         }
 
         // Init RNG and ID sequences.
-        _rng = rng;
+        _rng = rng ?? throw new ArgumentNullException(nameof(rng));
         _genomeIdSeq = new Int32Sequence();
         int nextInnovationId = inputCount + outputCount;
         _innovationIdSeq = new Int32Sequence(nextInnovationId);
