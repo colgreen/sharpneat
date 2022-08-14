@@ -22,8 +22,4 @@
     <PackageReference Include="Redzen" Version="9.1.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
 </Project>
