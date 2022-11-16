@@ -5,8 +5,6 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.FunctionRegression;
 
-#pragma warning disable CA1725 // Parameter names should match base declaration
-
 /// <summary>
 /// Evaluator for the Function Regression task.
 ///

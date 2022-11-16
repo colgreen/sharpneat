@@ -9,8 +9,6 @@ using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Experiments;
 
-#pragma warning disable CA1805 // Do not initialize unnecessarily
-
 /// <summary>
 /// An aggregation of settings objects that make up a given experiment.
 /// </summary>

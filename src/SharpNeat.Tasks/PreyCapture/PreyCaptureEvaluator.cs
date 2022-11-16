@@ -4,8 +4,6 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.PreyCapture;
 
-#pragma warning disable CA1725 // Parameter names should match base declaration
-
 /// <summary>
 /// Evaluator for the prey capture task.
 /// </summary>

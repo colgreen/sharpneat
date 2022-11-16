@@ -5,8 +5,6 @@ using System.Numerics;
 
 namespace SharpNeat.NeuralNets;
 
-#pragma warning disable CA1805 // Do not initialize unnecessarily
-
 /// <summary>
 /// Default implementation of <see cref="IActivationFunctionFactory{T}"/>.
 ///

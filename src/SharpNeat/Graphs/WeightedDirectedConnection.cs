@@ -2,8 +2,6 @@
 // See LICENSE.txt for details.
 namespace SharpNeat.Graphs;
 
-#pragma warning disable CA1036 // Override methods on comparable types
-
 /// <summary>
 /// Represents a connection between two nodes, combined with a connection weight.
 /// </summary>
