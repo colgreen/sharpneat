@@ -101,16 +101,16 @@ partial class MainForm
         if(_bestGenomeForm is not null) _bestGenomeForm.Genome = null;
 
         // Time series forms.
-        if(_fitnessTimeSeriesForm is not null) _fitnessTimeSeriesForm.Clear();
-        if(_complexityTimeSeriesForm is not null) _complexityTimeSeriesForm.Clear();
-        if(_evalsPerSecTimeSeriesForm is not null) _evalsPerSecTimeSeriesForm.Clear();
+        _fitnessTimeSeriesForm?.Clear();
+        _complexityTimeSeriesForm?.Clear();
+        _evalsPerSecTimeSeriesForm?.Clear();
 
         // Rankings forms.
-        if(_speciesSizeRankForm is not null) _speciesSizeRankForm.Clear();
-        if(_speciesFitnessRankForm is not null) _speciesFitnessRankForm.Clear();
-        if(_speciesComplexityRankForm is not null) _speciesComplexityRankForm.Clear();
-        if(_genomeFitnessRankForm is not null) _genomeFitnessRankForm.Clear();
-        if(_genomeComplexityRankForm is not null) _genomeComplexityRankForm.Clear();
+        _speciesSizeRankForm?.Clear();
+        _speciesFitnessRankForm?.Clear();
+        _speciesComplexityRankForm?.Clear();
+        _genomeFitnessRankForm?.Clear();
+        _genomeComplexityRankForm?.Clear();
 
         // Take the opportunity to clean-up the heap.
         GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);

@@ -19,11 +19,9 @@ partial class MainForm
 
         // Close the genome form if it is open, as the content of this form is specific to each experiment.
         GenomeForm bestGenomeForm = _bestGenomeForm;
-        if(bestGenomeForm is not null)
-        {
-            // Note. This will trigger the FormClosed event which will do further clean-up; Close() will also Dispose() the form.
-            bestGenomeForm.Close();
-        }
+
+        // Note. This will trigger the FormClosed event which will do further clean-up; Close() will also Dispose() the form.
+        bestGenomeForm?.Close();
     }
 
     private void _eaRunner_UpdateEvent(object sender, EventArgs e)
@@ -54,14 +52,11 @@ partial class MainForm
         }
 
         // Time series forms.
-        if(_fitnessTimeSeriesForm is not null)
-            _fitnessTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+        _fitnessTimeSeriesForm?.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
 
-        if(_complexityTimeSeriesForm is not null)
-            _complexityTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+        _complexityTimeSeriesForm?.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
 
-        if(_evalsPerSecTimeSeriesForm is not null)
-            _evalsPerSecTimeSeriesForm.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+        _evalsPerSecTimeSeriesForm?.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
 
         // Rankings forms.
         if(_speciesSizeRankForm is not null)

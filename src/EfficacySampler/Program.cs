@@ -19,8 +19,7 @@ class Program
         // (apparently the 'finally' block below is not executed if the app is terminated with Ctrl-C).
         Console.CancelKeyPress += delegate
         {
-            if(__streamWriter is not null)
-                __streamWriter.Close();
+            __streamWriter?.Close();
         };
 
         // Read command line arguments.
@@ -54,8 +53,7 @@ class Program
         }
         finally
         {
-            if(__streamWriter is not null)
-                __streamWriter.Close();
+            __streamWriter?.Close();
         }
     }
 
