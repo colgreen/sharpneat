@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>SharpNeat.Tasks</RootNamespace>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<AnalysisLevel>latest-Recommended</AnalysisLevel>
-	<NoWarn>SA0001,CA1707</NoWarn>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <NoWarn>SA0001,CA1707</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

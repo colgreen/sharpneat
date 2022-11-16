@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>SharpNeat.Tests</RootNamespace>
     <AssemblyName>SharpNeat.TestsLib</AssemblyName>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
