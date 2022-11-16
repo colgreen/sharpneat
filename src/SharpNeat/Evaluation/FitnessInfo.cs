@@ -8,7 +8,7 @@ namespace SharpNeat.Evaluation;
 /// <summary>
 /// Represents fitness information for a genome.
 /// </summary>
-public struct FitnessInfo
+public readonly struct FitnessInfo
 {
     /// <summary>
     /// Default singleton instance.
