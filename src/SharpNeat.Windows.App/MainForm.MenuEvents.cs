@@ -221,7 +221,7 @@ partial class MainForm
         // Create form.
         _fitnessTimeSeriesForm = new FitnessTimeSeriesForm();
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         fitnessBestMeansToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -240,7 +240,7 @@ partial class MainForm
         // Create form.
         _complexityTimeSeriesForm = new ComplexityTimeSeriesForm();
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         complexityBestMeansToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -259,7 +259,7 @@ partial class MainForm
         // Create form.
         _evalsPerSecTimeSeriesForm = new EvalsPerSecTimeSeriesForm();
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         evaluationsPerSecToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -278,7 +278,7 @@ partial class MainForm
         // Create form.
         _speciesSizeRankForm = new RankGraphForm("Species Size by Rank", "Rank", "Size", "Species Size");
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         specieSizeByRankToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -297,7 +297,7 @@ partial class MainForm
         // Create form.
         _speciesFitnessRankForm = new RankPairGraphForm("Species Fitness by Rank (Best & Mean)", "Rank", "Fitness", "Best Fitness", "Mean Fitness");
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         specieFitnessByRankToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -316,7 +316,7 @@ partial class MainForm
         // Create form.
         _speciesComplexityRankForm = new RankPairGraphForm("Species Complexity by Rank (Best & Mean)", "Rank", "Complexity", "Best Genome Complexity", "Mean Complexity");
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         specieComplexityByRankToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -335,7 +335,7 @@ partial class MainForm
         // Create form.
         _genomeFitnessRankForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", "Genome Fitness");
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         genomeFitnessByRankToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -354,7 +354,7 @@ partial class MainForm
         // Create form.
         _genomeComplexityRankForm = new RankGraphForm("Genome Complexity by Rank", "Rank", "Complexity", "Genome Complexity");
 
-        // Prevent creating more then one instance of the form.
+        // Prevent creation of more than one instance of the form.
         genomeComplexityByRankToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
@@ -366,6 +366,45 @@ partial class MainForm
 
         // Show the form.
         _genomeComplexityRankForm.Show(this);
+    }
+
+    private void specieSizeDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO: Implement.
+    }
+
+    private void specieFitnessDistributionsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO: Implement.
+    }
+
+    private void specieComplexityDistributionsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO: Implement.
+    }
+
+    private void genomeFitnessDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO: Implement.
+    }
+
+    private void genomeComplexityDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // Create form.
+        _genomeComplexityHistogramForm = new HistogramGraphForm("Genome Complexity Histogram", "Complexity", "Frequency", null);
+
+        // Prevent creation of more than one instance of the form.
+        genomeComplexityDistributionToolStripMenuItem.Enabled = false;
+
+        // Attach a event handler to update this main form when the child form is closed.
+        _genomeComplexityHistogramForm.FormClosed += new FormClosedEventHandler(
+            delegate (object senderObj, FormClosedEventArgs eArgs)
+            {
+                genomeComplexityDistributionToolStripMenuItem.Enabled = true;
+            });
+
+        // Show the form.
+        _genomeComplexityHistogramForm.Show(this);
     }
 
     #endregion

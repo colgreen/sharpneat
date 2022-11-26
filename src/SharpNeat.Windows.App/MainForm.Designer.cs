@@ -1258,18 +1258,21 @@
             this.specieSizeDistributionToolStripMenuItem.Name = "specieSizeDistributionToolStripMenuItem";
             this.specieSizeDistributionToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
             this.specieSizeDistributionToolStripMenuItem.Text = "Specie Size Distribution";
+            this.specieSizeDistributionToolStripMenuItem.Click += new System.EventHandler(this.specieSizeDistributionToolStripMenuItem_Click);
             // 
             // specieFitnessDistributionsToolStripMenuItem
             // 
             this.specieFitnessDistributionsToolStripMenuItem.Name = "specieFitnessDistributionsToolStripMenuItem";
             this.specieFitnessDistributionsToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
             this.specieFitnessDistributionsToolStripMenuItem.Text = "Specie Fitness Distributions (Champ && Mean)";
+            this.specieFitnessDistributionsToolStripMenuItem.Click += new System.EventHandler(this.specieFitnessDistributionsToolStripMenuItem_Click);
             // 
             // specieComplexityDistributionsToolStripMenuItem
             // 
             this.specieComplexityDistributionsToolStripMenuItem.Name = "specieComplexityDistributionsToolStripMenuItem";
             this.specieComplexityDistributionsToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
             this.specieComplexityDistributionsToolStripMenuItem.Text = "Specie Complexity Distributions (Champ && Mean)";
+            this.specieComplexityDistributionsToolStripMenuItem.Click += new System.EventHandler(this.specieComplexityDistributionsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -1281,12 +1284,14 @@
             this.genomeFitnessDistributionToolStripMenuItem.Name = "genomeFitnessDistributionToolStripMenuItem";
             this.genomeFitnessDistributionToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
             this.genomeFitnessDistributionToolStripMenuItem.Text = "Genome Fitness Distribution";
+            this.genomeFitnessDistributionToolStripMenuItem.Click += new System.EventHandler(this.genomeFitnessDistributionToolStripMenuItem_Click);
             // 
             // genomeComplexityDistributionToolStripMenuItem
             // 
             this.genomeComplexityDistributionToolStripMenuItem.Name = "genomeComplexityDistributionToolStripMenuItem";
             this.genomeComplexityDistributionToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
             this.genomeComplexityDistributionToolStripMenuItem.Text = "Genome Complexity Distribution";
+            this.genomeComplexityDistributionToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityDistributionToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 

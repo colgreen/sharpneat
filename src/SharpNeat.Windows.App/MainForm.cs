@@ -32,12 +32,15 @@ internal sealed partial class MainForm : Form
     private ComplexityTimeSeriesForm _complexityTimeSeriesForm;
     private EvalsPerSecTimeSeriesForm _evalsPerSecTimeSeriesForm;
 
-    // Rankings forms.
+    // Rank chart forms.
     private RankGraphForm _speciesSizeRankForm;
     private RankPairGraphForm _speciesFitnessRankForm;
     private RankPairGraphForm _speciesComplexityRankForm;
     private RankGraphForm _genomeFitnessRankForm;
     private RankGraphForm _genomeComplexityRankForm;
+
+    // Histogram chart forms.
+    private HistogramGraphForm _genomeComplexityHistogramForm;
 
     /// <summary>
     /// Construct and initialize the form.

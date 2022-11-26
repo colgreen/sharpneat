@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Buffers;
+using Redzen.Numerics;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Windows.App.Forms;
@@ -64,7 +65,8 @@ partial class MainForm
             double[] speciesSizeByRank = GetSpeciesSizeByRank(out int speciesCount);
             try
             {
-                _speciesSizeRankForm.UpdateData(speciesSizeByRank.AsSpan(0, speciesCount));
+                _speciesSizeRankForm.UpdateData(
+                    speciesSizeByRank.AsSpan(0, speciesCount));
             }
             finally
             {
@@ -74,10 +76,16 @@ partial class MainForm
 
         if(_speciesFitnessRankForm is not null)
         {
-            GetSpeciesFitnessByRank(out double[] bestFitnessByRank, out double[] meanFitnessSeries, out int speciesCount);
+            GetSpeciesFitnessByRank(
+                out double[] bestFitnessByRank,
+                out double[] meanFitnessSeries,
+                out int speciesCount);
+
             try
             {
-                _speciesFitnessRankForm.UpdateData(bestFitnessByRank.AsSpan(0, speciesCount), meanFitnessSeries.AsSpan(0, speciesCount));
+                _speciesFitnessRankForm.UpdateData(
+                    bestFitnessByRank.AsSpan(0, speciesCount),
+                    meanFitnessSeries.AsSpan(0, speciesCount));
             }
             finally
             {
@@ -91,7 +99,9 @@ partial class MainForm
             GetSpeciesComplexityByRank(out double[] bestComplexityByRank, out double[] meanComplexitySeries, out int speciesCount);
             try
             {
-                _speciesComplexityRankForm.UpdateData(bestComplexityByRank.AsSpan(0, speciesCount), meanComplexitySeries.AsSpan(0, speciesCount));
+                _speciesComplexityRankForm.UpdateData(
+                    bestComplexityByRank.AsSpan(0, speciesCount),
+                    meanComplexitySeries.AsSpan(0, speciesCount));
             }
             finally
             {
@@ -105,7 +115,8 @@ partial class MainForm
             double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
             try
             {
-                _genomeFitnessRankForm.UpdateData(genomeFitnessByRank.AsSpan(0, genomeCount));
+                _genomeFitnessRankForm.UpdateData(
+                    genomeFitnessByRank.AsSpan(0, genomeCount));
             }
             finally
             {
@@ -115,14 +126,42 @@ partial class MainForm
 
         if(_genomeComplexityRankForm is not null)
         {
-            double[] genomeComplexityByRank = GetGenomeComplexityByRank(out int genomeCount);
+            // Get a rented array of genome complexities, and sort in descending order.
+            double[] genomeComplexity = GetGenomeComplexity(out int genomeCount);
+            Array.Sort(genomeComplexity, 0, genomeCount, Utils.ComparerDesc);
+
             try
             {
-                _genomeComplexityRankForm.UpdateData(genomeComplexityByRank.AsSpan(0, genomeCount));
+                _genomeComplexityRankForm.UpdateData(
+                    genomeComplexity.AsSpan(0, genomeCount));
             }
             finally
             {
-                ArrayPool<double>.Shared.Return(genomeComplexityByRank);
+                ArrayPool<double>.Shared.Return(genomeComplexity);
+            }
+        }
+
+        // Histogram forms.
+        if(_genomeComplexityHistogramForm is not null)
+        {
+            // Get a rented array of genome complexities.
+            double[] genomeComplexity = GetGenomeComplexity(out int genomeCount);
+
+            // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
+            GetHistogramData(
+                genomeComplexity.AsSpan(0, genomeCount),
+                out Span<double> binX,
+                out Span<double> binFrequency,
+                out double[] rentedArray);
+
+            try
+            {
+                _genomeComplexityHistogramForm.UpdateData(
+                    binX, binFrequency);
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(rentedArray);
             }
         }
 
@@ -206,19 +245,42 @@ partial class MainForm
         return genomeFitnessByRank;
     }
 
-    private double[] GetGenomeComplexityByRank(out int count)
+    private double[] GetGenomeComplexity(out int count)
     {
         var genList = _neatPop.GenomeList;
         count = genList.Count;
-        double[] genomeComplexityByRank = ArrayPool<double>.Shared.Rent(count);
+        double[] genomeComplexity = ArrayPool<double>.Shared.Rent(count);
 
         for(int i = 0; i < count; i++)
         {
-            genomeComplexityByRank[i] = genList[i].Complexity;
+            genomeComplexity[i] = genList[i].Complexity;
         }
 
-        // Sort fitness values (highest values first).
-        Array.Sort(genomeComplexityByRank, 0, count, Utils.ComparerDesc);
-        return genomeComplexityByRank;
+        return genomeComplexity;
+    }
+
+    private static void GetHistogramData(
+        Span<double> data,
+        out Span<double> binX,
+        out Span<double> binFrequency,
+        out double[] rentedArray)
+    {
+        // Calc histogram bin count using the Rice rule; see http://en.wikipedia.org/wiki/Histogram
+        int binCount = (int)(2.0 * Math.Pow(data.Length, 1.0/3.0));
+
+        HistogramData hd = NumericsUtils.BuildHistogramData(data, binCount);
+
+        rentedArray = ArrayPool<double>.Shared.Rent(binCount * 2);
+        binX = rentedArray.AsSpan().Slice(0, binCount);
+        binFrequency = rentedArray.AsSpan().Slice(binCount, binCount);
+
+        double incr = hd.Increment;
+        double x = hd.Min + (incr / 2.0);
+
+        for(int i = 0; i < hd.FrequencyArray.Length; i++, x += incr)
+        {
+            binX[i] = x;
+            binFrequency[i] = hd.FrequencyArray[i];
+        }
     }
 }

@@ -27,9 +27,9 @@ internal sealed class HistogramGraphForm : GraphForm
     {
         _ppl = new PointPairList();
         _graphPane.XAxis.Type = AxisType.Linear;
-        _graphPane.BarSettings.ClusterScaleWidth = 2f;
+        _graphPane.BarSettings.MinClusterGap = 0;
 
-        BarItem barItem = _graphPane.AddBar("Frequency", _ppl, Color.LightBlue);
+        BarItem barItem = _graphPane.AddBar(null, _ppl, Color.LightBlue);
 
         barItem.Bar.Fill.Type = FillType.Solid;
         barItem.Bar.Border.IsVisible = true;
@@ -40,9 +40,11 @@ internal sealed class HistogramGraphForm : GraphForm
     /// </summary>
     /// <param name="xdata">The X data values.</param>
     /// <param name="ydata">The Y data values.</param>
-    public void UpdateData(Span<double> xdata, Span<double> ydata)
+    public void UpdateData(
+        Span<double> xdata,
+        Span<double> ydata)
     {
-        if(xdata.Length != ydata.Length) { throw new ArgumentException("x and y data spans have different lengths."); }
+        if(xdata.Length != ydata.Length) throw new ArgumentException("x and y data spans have different lengths.");
 
         _ppl.Clear();
 
