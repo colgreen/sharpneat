@@ -7,11 +7,9 @@ namespace SharpNeat.Windows.App.Forms;
 /// <summary>
 /// Form for displaying a live graph.
 /// </summary>
-public partial class GraphForm : Form
+internal partial class GraphForm : Form
 {
     readonly protected GraphPane _graphPane;
-
-    #region Constructor
 
     /// <summary>
     /// Construct with the given titles.
@@ -47,10 +45,6 @@ public partial class GraphForm : Form
         }
     }
 
-    #endregion
-
-    #region Public Methods
-
     /// <summary>
     /// Clear the graph data.
     /// </summary>
@@ -60,10 +54,6 @@ public partial class GraphForm : Form
         // therefore instead it is defined as virtual with no implementation.
     }
 
-    #endregion
-
-    #region Protected Methods
-
     /// <summary>
     /// Recalc the axis scales based on the current data, and call Refresh() to redraw the graph.
     /// </summary>
@@ -72,6 +62,4 @@ public partial class GraphForm : Form
         _graphPane.AxisChange();
         zed.Refresh();
     }
-
-    #endregion
 }

@@ -6,13 +6,11 @@ using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
 namespace SharpNeat.Windows.App.Forms.TimeSeries;
 
-public class ComplexityTimeSeriesForm : StatsGraphForm
+internal sealed class ComplexityTimeSeriesForm : StatsGraphForm
 {
     const int __HistoryLength = 1_000;
     readonly RollingPointPairList _bestPpl;
     readonly RollingPointPairList _meanPpl;
-
-    #region Constructor
 
     public ComplexityTimeSeriesForm()
         : base("Complexity (Best and Mean)", "Generation", "Complexity", null)
@@ -25,10 +23,6 @@ public class ComplexityTimeSeriesForm : StatsGraphForm
         lineItem = _graphPane.AddCurve("Mean", _meanPpl, Color.FromArgb(0x9c, 0xd0, 0x88), SymbolType.None);
         ApplyLineStyle(lineItem);
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Update the time series data.
@@ -53,6 +47,4 @@ public class ComplexityTimeSeriesForm : StatsGraphForm
         _meanPpl.Clear();
         RefreshGraph();
     }
-
-    #endregion
 }

@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 namespace SharpNeat.Windows.App;
 
-public struct Point2DDouble
+internal struct Point2DDouble
 {
     public double X { get; set; }
     public double Y { get; set; }

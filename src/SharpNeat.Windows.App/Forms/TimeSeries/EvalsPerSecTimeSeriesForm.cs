@@ -6,12 +6,10 @@ using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
 namespace SharpNeat.Windows.App.Forms.TimeSeries;
 
-public class EvalsPerSecTimeSeriesForm : StatsGraphForm
+internal sealed class EvalsPerSecTimeSeriesForm : StatsGraphForm
 {
     const int __HistoryLength = 1_000;
     readonly RollingPointPairList _ppl;
-
-    #region Constructor
 
     public EvalsPerSecTimeSeriesForm()
         : base("Evaluations per second", "Generation", "Evaluations/sec", null)
@@ -20,10 +18,6 @@ public class EvalsPerSecTimeSeriesForm : StatsGraphForm
         LineItem lineItem = _graphPane.AddCurve("Evaluations/sec", _ppl, Color.Black, SymbolType.None);
         ApplyLineStyle(lineItem);
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Update the time series data.
@@ -46,6 +40,4 @@ public class EvalsPerSecTimeSeriesForm : StatsGraphForm
         _ppl.Clear();
         RefreshGraph();
     }
-
-    #endregion
 }

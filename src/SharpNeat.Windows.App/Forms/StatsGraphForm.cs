@@ -7,7 +7,7 @@ namespace SharpNeat.Windows.App.Forms;
 /// <summary>
 /// Form for displaying a live graph of data taken from the standard statistics objects.
 /// </summary>
-public class StatsGraphForm : GraphForm
+internal class StatsGraphForm : GraphForm
 {
     /// <summary>
     /// Construct with the given titles.

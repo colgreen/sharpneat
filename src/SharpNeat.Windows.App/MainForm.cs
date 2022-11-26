@@ -16,7 +16,7 @@ namespace SharpNeat.Windows.App;
 /// <summary>
 /// SharpNEAT main GUI window.
 /// </summary>
-public partial class MainForm : Form
+internal sealed partial class MainForm : Form
 {
     private static readonly ILog __log = LogManager.GetLogger(typeof(MainForm));
 

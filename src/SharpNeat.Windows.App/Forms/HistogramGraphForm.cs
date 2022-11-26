@@ -7,11 +7,9 @@ namespace SharpNeat.Windows.App.Forms;
 /// <summary>
 /// Form for displaying a live histogram.
 /// </summary>
-public class HistogramGraphForm : GraphForm
+internal sealed class HistogramGraphForm : GraphForm
 {
     readonly PointPairList _ppl;
-
-    #region Constructor
 
     /// <summary>
     /// Construct with the given titles.
@@ -36,10 +34,6 @@ public class HistogramGraphForm : GraphForm
         barItem.Bar.Fill.Type = FillType.Solid;
         barItem.Bar.Border.IsVisible = true;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Update the graph histogram data.
@@ -66,6 +60,4 @@ public class HistogramGraphForm : GraphForm
         _ppl.Clear();
         RefreshGraph();
     }
-
-    #endregion
 }

@@ -5,7 +5,7 @@ using log4net;
 
 namespace SharpNeat.Windows.App;
 
-public static class UIAccessUtils
+internal static class UIAccessUtils
 {
     private static readonly ILog __log = LogManager.GetLogger(typeof(UIAccessUtils));
 

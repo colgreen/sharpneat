@@ -5,7 +5,7 @@ namespace SharpNeat.Windows.App;
 /// <summary>
 /// Data source for the SummaryGraphForm.
 /// </summary>
-public class SummaryDataSource
+internal sealed class SummaryDataSource
 {
     // A function for obtaining an array of plot points.
     readonly Func<Point2DDouble[]> _getPointArrayFn;

@@ -7,11 +7,9 @@ namespace SharpNeat.Windows.App.Forms;
 /// <summary>
 /// Generic form for task visualization.
 /// </summary>
-public partial class TaskForm : Form
+internal partial class TaskForm : Form
 {
     //readonly AbstractDomainView _domainViewControl;
-
-    #region Constructor
 
     /// <summary>
     /// Construct with the provided form title, genome view/renderer and evolution algorithm. We listen to update events
@@ -27,10 +25,6 @@ public partial class TaskForm : Form
         //this.Controls.Add(domainViewControl);
         //this.Size = domainViewControl.WindowSize;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Refresh view.
@@ -54,6 +48,4 @@ public partial class TaskForm : Form
 
         //_domainViewControl.RefreshView(genome);
     }
-
-    #endregion
 }

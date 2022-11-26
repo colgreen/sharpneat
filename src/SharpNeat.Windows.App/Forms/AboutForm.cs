@@ -10,7 +10,7 @@ namespace SharpNeat.Windows.App.Forms;
 /// <summary>
 /// 'About box' form. Displays component version numbers and other info.
 /// </summary>
-public partial class AboutForm : Form
+internal sealed partial class AboutForm : Form
 {
     /// <summary>
     /// Default constructor.

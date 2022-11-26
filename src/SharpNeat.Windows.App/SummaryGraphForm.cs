@@ -7,7 +7,7 @@ namespace SharpNeat.Windows.App;
 /// <summary>
 /// Form for displaying a graph plot of summary information (e.g. distribution curves).
 /// </summary>
-public partial class SummaryGraphForm : Form
+internal partial class SummaryGraphForm : Form
 {
     readonly SummaryDataSource[] _dataSourceArray;
     PointPairList[] _pointPlotArray;

@@ -6,13 +6,11 @@ using static SharpNeat.Windows.App.Forms.ZedGraphUtils;
 
 namespace SharpNeat.Windows.App.Forms.TimeSeries;
 
-public class FitnessTimeSeriesForm : StatsGraphForm
+internal sealed class FitnessTimeSeriesForm : StatsGraphForm
 {
     const int __HistoryLength = 1_000;
     readonly RollingPointPairList _bestPpl;
     readonly RollingPointPairList _meanPpl;
-
-    #region Constructor
 
     public FitnessTimeSeriesForm()
         : base("Fitness (Best and Mean)", "Generation", "Fitness", null)
@@ -25,10 +23,6 @@ public class FitnessTimeSeriesForm : StatsGraphForm
         lineItem = _graphPane.AddCurve("Mean", _meanPpl, Color.FromArgb(0xed, 0x9c, 0x96), SymbolType.None);
         ApplyLineStyle(lineItem);
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Update the time series data.
@@ -53,6 +47,4 @@ public class FitnessTimeSeriesForm : StatsGraphForm
         _meanPpl.Clear();
         RefreshGraph();
     }
-
-    #endregion
 }

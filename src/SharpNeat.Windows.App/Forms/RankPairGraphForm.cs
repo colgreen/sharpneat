@@ -7,12 +7,10 @@ namespace SharpNeat.Windows.App.Forms;
 /// <summary>
 /// Form for displaying a live graph of values by rank, and a secondary set of values at each rank.
 /// </summary>
-public class RankPairGraphForm : GraphForm
+internal sealed class RankPairGraphForm : GraphForm
 {
     readonly PointPairList _ppl;
     readonly PointPairList _ppl2;
-
-    #region Constructor
 
     public RankPairGraphForm(
         string title,
@@ -34,10 +32,6 @@ public class RankPairGraphForm : GraphForm
         barItem.Bar.Fill.Type = FillType.Solid;
         barItem.Bar.Border.IsVisible = true;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Update the graph rank data.
@@ -67,6 +61,4 @@ public class RankPairGraphForm : GraphForm
         _ppl2.Clear();
         RefreshGraph();
     }
-
-    #endregion
 }
