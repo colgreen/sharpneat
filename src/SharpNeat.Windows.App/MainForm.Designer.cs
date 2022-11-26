@@ -134,13 +134,13 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.genomeFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.genomeComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.distributionPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.specieSizeDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.specieFitnessDistributionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.specieComplexityDistributionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.histogramsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speciesSizeHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speciesMeanFitnessHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speciesMeanComplexityHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.genomeFitnessDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.genomeComplexityDistributionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.genomeFitnessHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.genomeComplexityHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCopyLogToClipboard = new System.Windows.Forms.Button();
             this.lbxLog = new System.Windows.Forms.ListBox();
@@ -1150,8 +1150,8 @@
             // 
             this.graphsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.timeSeriesToolStripMenuItem,
-            this.rankPlotsToolStripMenuItem,
-            this.distributionPlotsToolStripMenuItem});
+            this.histogramsToolStripMenuItem,
+            this.rankPlotsToolStripMenuItem});
             this.graphsToolStripMenuItem.Name = "graphsToolStripMenuItem";
             this.graphsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.graphsToolStripMenuItem.Text = "Charts";
@@ -1163,7 +1163,7 @@
             this.complexityBestMeansToolStripMenuItem,
             this.evaluationsPerSecToolStripMenuItem});
             this.timeSeriesToolStripMenuItem.Name = "timeSeriesToolStripMenuItem";
-            this.timeSeriesToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.timeSeriesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.timeSeriesToolStripMenuItem.Text = "Time Series";
             // 
             // fitnessBestMeansToolStripMenuItem
@@ -1197,7 +1197,7 @@
             this.genomeFitnessByRankToolStripMenuItem,
             this.genomeComplexityByRankToolStripMenuItem});
             this.rankPlotsToolStripMenuItem.Name = "rankPlotsToolStripMenuItem";
-            this.rankPlotsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.rankPlotsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rankPlotsToolStripMenuItem.Text = "Rank Plots";
             // 
             // specieSizeByRankToolStripMenuItem
@@ -1242,56 +1242,56 @@
             // 
             // distributionPlotsToolStripMenuItem
             // 
-            this.distributionPlotsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.specieSizeDistributionToolStripMenuItem,
-            this.specieFitnessDistributionsToolStripMenuItem,
-            this.specieComplexityDistributionsToolStripMenuItem,
+            this.histogramsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.speciesSizeHistogramToolStripMenuItem,
+            this.speciesMeanFitnessHistogramToolStripMenuItem,
+            this.speciesMeanComplexityHistogramToolStripMenuItem,
             this.toolStripSeparator1,
-            this.genomeFitnessDistributionToolStripMenuItem,
-            this.genomeComplexityDistributionToolStripMenuItem});
-            this.distributionPlotsToolStripMenuItem.Name = "distributionPlotsToolStripMenuItem";
-            this.distributionPlotsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.distributionPlotsToolStripMenuItem.Text = "Distribution Plots";
+            this.genomeFitnessHistogramToolStripMenuItem,
+            this.genomeComplexityHistogramToolStripMenuItem});
+            this.histogramsToolStripMenuItem.Name = "distributionPlotsToolStripMenuItem";
+            this.histogramsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.histogramsToolStripMenuItem.Text = "Histograms";
             // 
-            // specieSizeDistributionToolStripMenuItem
+            // speciesSizeHistogramToolStripMenuItem
             // 
-            this.specieSizeDistributionToolStripMenuItem.Name = "specieSizeDistributionToolStripMenuItem";
-            this.specieSizeDistributionToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
-            this.specieSizeDistributionToolStripMenuItem.Text = "Specie Size Distribution";
-            this.specieSizeDistributionToolStripMenuItem.Click += new System.EventHandler(this.specieSizeDistributionToolStripMenuItem_Click);
+            this.speciesSizeHistogramToolStripMenuItem.Name = "speciesSizeHistogramToolStripMenuItem";
+            this.speciesSizeHistogramToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.speciesSizeHistogramToolStripMenuItem.Text = "Species Size Histogram";
+            this.speciesSizeHistogramToolStripMenuItem.Click += new System.EventHandler(this.speciesSizeHistogramToolStripMenuItem_Click);
             // 
-            // specieFitnessDistributionsToolStripMenuItem
+            // speciesMeanFitnessHistogramToolStripMenuItem
             // 
-            this.specieFitnessDistributionsToolStripMenuItem.Name = "specieFitnessDistributionsToolStripMenuItem";
-            this.specieFitnessDistributionsToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
-            this.specieFitnessDistributionsToolStripMenuItem.Text = "Specie Fitness Distributions (Champ && Mean)";
-            this.specieFitnessDistributionsToolStripMenuItem.Click += new System.EventHandler(this.specieFitnessDistributionsToolStripMenuItem_Click);
+            this.speciesMeanFitnessHistogramToolStripMenuItem.Name = "speciesMeanFitnessHistogramToolStripMenuItem";
+            this.speciesMeanFitnessHistogramToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.speciesMeanFitnessHistogramToolStripMenuItem.Text = "Species Mean Fitness Histogram";
+            this.speciesMeanFitnessHistogramToolStripMenuItem.Click += new System.EventHandler(this.speciesMeanFitnessHistogramToolStripMenuItem_Click);
             // 
-            // specieComplexityDistributionsToolStripMenuItem
+            // speciesMeanComplexityHistogramToolStripMenuItem
             // 
-            this.specieComplexityDistributionsToolStripMenuItem.Name = "specieComplexityDistributionsToolStripMenuItem";
-            this.specieComplexityDistributionsToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
-            this.specieComplexityDistributionsToolStripMenuItem.Text = "Specie Complexity Distributions (Champ && Mean)";
-            this.specieComplexityDistributionsToolStripMenuItem.Click += new System.EventHandler(this.specieComplexityDistributionsToolStripMenuItem_Click);
+            this.speciesMeanComplexityHistogramToolStripMenuItem.Name = "speciesMeanComplexityHistogramToolStripMenuItem";
+            this.speciesMeanComplexityHistogramToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.speciesMeanComplexityHistogramToolStripMenuItem.Text = "Species Mean Complexity Histogram";
+            this.speciesMeanComplexityHistogramToolStripMenuItem.Click += new System.EventHandler(this.speciesMeanComplexityHistogramToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(335, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(266, 6);
             // 
-            // genomeFitnessDistributionToolStripMenuItem
+            // genomeFitnessHistogramToolStripMenuItem
             // 
-            this.genomeFitnessDistributionToolStripMenuItem.Name = "genomeFitnessDistributionToolStripMenuItem";
-            this.genomeFitnessDistributionToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
-            this.genomeFitnessDistributionToolStripMenuItem.Text = "Genome Fitness Distribution";
-            this.genomeFitnessDistributionToolStripMenuItem.Click += new System.EventHandler(this.genomeFitnessDistributionToolStripMenuItem_Click);
+            this.genomeFitnessHistogramToolStripMenuItem.Name = "genomeFitnessHistogramToolStripMenuItem";
+            this.genomeFitnessHistogramToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.genomeFitnessHistogramToolStripMenuItem.Text = "Genome Fitness Histogram";
+            this.genomeFitnessHistogramToolStripMenuItem.Click += new System.EventHandler(this.genomeFitnessHistogramToolStripMenuItem_Click);
             // 
-            // genomeComplexityDistributionToolStripMenuItem
+            // genomeComplexityHistogramToolStripMenuItem
             // 
-            this.genomeComplexityDistributionToolStripMenuItem.Name = "genomeComplexityDistributionToolStripMenuItem";
-            this.genomeComplexityDistributionToolStripMenuItem.Size = new System.Drawing.Size(338, 22);
-            this.genomeComplexityDistributionToolStripMenuItem.Text = "Genome Complexity Distribution";
-            this.genomeComplexityDistributionToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityDistributionToolStripMenuItem_Click);
+            this.genomeComplexityHistogramToolStripMenuItem.Name = "genomeComplexityHistogramToolStripMenuItem";
+            this.genomeComplexityHistogramToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.genomeComplexityHistogramToolStripMenuItem.Text = "Genome Complexity Histogram";
+            this.genomeComplexityHistogramToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityHistogramToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1460,13 +1460,13 @@
         private System.Windows.Forms.TextBox txtStatsAlternativeFitness;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txtSpeciesCount;
-        private System.Windows.Forms.ToolStripMenuItem distributionPlotsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem specieSizeDistributionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem specieFitnessDistributionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem specieComplexityDistributionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem histogramsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem speciesSizeHistogramToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem speciesMeanFitnessHistogramToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem speciesMeanComplexityHistogramToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem genomeFitnessDistributionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem genomeComplexityDistributionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem genomeFitnessHistogramToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem genomeComplexityHistogramToolStripMenuItem;
         private System.Windows.Forms.Button btnLoadExperimentDefaultParameters;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

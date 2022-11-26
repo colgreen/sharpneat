@@ -368,53 +368,53 @@ partial class MainForm
         _genomeComplexityRankForm.Show(this);
     }
 
-    private void specieSizeDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+    private void speciesSizeHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // TODO: Implement.
     }
 
-    private void specieFitnessDistributionsToolStripMenuItem_Click(object sender, EventArgs e)
+    private void speciesMeanFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // TODO: Implement.
     }
 
-    private void specieComplexityDistributionsToolStripMenuItem_Click(object sender, EventArgs e)
+    private void speciesMeanComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // TODO: Implement.
     }
 
-    private void genomeFitnessDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+    private void genomeFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // Create form.
         _genomeFitnessHistogramForm = new HistogramGraphForm("Genome Fitness Histogram", "Fitness", "Frequency", null);
 
         // Prevent creation of more than one instance of the form.
-        genomeFitnessDistributionToolStripMenuItem.Enabled = false;
+        genomeFitnessHistogramToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
         _genomeFitnessHistogramForm.FormClosed += new FormClosedEventHandler(
             delegate (object senderObj, FormClosedEventArgs eArgs)
             {
-                genomeFitnessDistributionToolStripMenuItem.Enabled = true;
+                genomeFitnessHistogramToolStripMenuItem.Enabled = true;
             });
 
         // Show the form.
         _genomeFitnessHistogramForm.Show(this);
     }
 
-    private void genomeComplexityDistributionToolStripMenuItem_Click(object sender, EventArgs e)
+    private void genomeComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // Create form.
         _genomeComplexityHistogramForm = new HistogramGraphForm("Genome Complexity Histogram", "Complexity", "Frequency", null);
 
         // Prevent creation of more than one instance of the form.
-        genomeComplexityDistributionToolStripMenuItem.Enabled = false;
+        genomeComplexityHistogramToolStripMenuItem.Enabled = false;
 
         // Attach a event handler to update this main form when the child form is closed.
         _genomeComplexityHistogramForm.FormClosed += new FormClosedEventHandler(
             delegate (object senderObj, FormClosedEventArgs eArgs)
             {
-                genomeComplexityDistributionToolStripMenuItem.Enabled = true;
+                genomeComplexityHistogramToolStripMenuItem.Enabled = true;
             });
 
         // Show the form.
