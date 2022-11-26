@@ -7,7 +7,7 @@ namespace SharpNeat.Windows.Neat;
 /// <summary>
 /// Default implementation of <see cref="IExperimentUI"/> for NEAT and NEAT genomes."/>.
 /// </summary>
-public class NeatExperimentUI : IExperimentUI
+public sealed class NeatExperimentUI : IExperimentUI
 {
     /// <inheritdoc/>
     public GenomeControl CreateGenomeControl()
