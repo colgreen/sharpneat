@@ -385,7 +385,21 @@ partial class MainForm
 
     private void genomeFitnessDistributionToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // TODO: Implement.
+        // Create form.
+        _genomeFitnessHistogramForm = new HistogramGraphForm("Genome Fitness Histogram", "Fitness", "Frequency", null);
+
+        // Prevent creation of more than one instance of the form.
+        genomeFitnessDistributionToolStripMenuItem.Enabled = false;
+
+        // Attach a event handler to update this main form when the child form is closed.
+        _genomeFitnessHistogramForm.FormClosed += new FormClosedEventHandler(
+            delegate (object senderObj, FormClosedEventArgs eArgs)
+            {
+                genomeFitnessDistributionToolStripMenuItem.Enabled = true;
+            });
+
+        // Show the form.
+        _genomeFitnessHistogramForm.Show(this);
     }
 
     private void genomeComplexityDistributionToolStripMenuItem_Click(object sender, EventArgs e)

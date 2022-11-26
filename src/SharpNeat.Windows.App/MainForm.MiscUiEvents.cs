@@ -112,7 +112,10 @@ partial class MainForm
 
         if(_genomeFitnessRankForm is not null)
         {
-            double[] genomeFitnessByRank = GetGenomeFitnessByRank(out int genomeCount);
+            // Get a rented array of genome fitness values, and sort in descending order (highest fitness first).
+            double[] genomeFitnessByRank = GetGenomeFitness(out int genomeCount);
+            Array.Sort(genomeFitnessByRank, 0, genomeCount, Utils.ComparerDesc);
+
             try
             {
                 _genomeFitnessRankForm.UpdateData(
@@ -142,6 +145,30 @@ partial class MainForm
         }
 
         // Histogram forms.
+        if(_genomeFitnessHistogramForm is not null)
+        {
+            // Get a rented array of genome fitness values.
+            double[] genomeFitness = GetGenomeFitness(out int genomeCount);
+
+            // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
+            GetHistogramData(
+                genomeFitness.AsSpan(0, genomeCount),
+                out Span<double> binX,
+                out Span<double> binFrequency,
+                out double[] rentedArray);
+
+            try
+            {
+                _genomeFitnessHistogramForm.UpdateData(
+                    binX, binFrequency);
+            }
+            finally
+            {
+                ArrayPool<double>.Shared.Return(genomeFitness);
+                ArrayPool<double>.Shared.Return(rentedArray);
+            }
+        }
+
         if(_genomeComplexityHistogramForm is not null)
         {
             // Get a rented array of genome complexities.
@@ -161,6 +188,7 @@ partial class MainForm
             }
             finally
             {
+                ArrayPool<double>.Shared.Return(genomeComplexity);
                 ArrayPool<double>.Shared.Return(rentedArray);
             }
         }
@@ -229,7 +257,7 @@ partial class MainForm
         Array.Sort(bestComplexityByRank, meanComplexitySeries, 0, count, Utils.ComparerDesc);
     }
 
-    private double[] GetGenomeFitnessByRank(out int count)
+    private double[] GetGenomeFitness(out int count)
     {
         var genList = _neatPop.GenomeList;
         count = genList.Count;
@@ -240,8 +268,6 @@ partial class MainForm
             genomeFitnessByRank[i] = genList[i].FitnessInfo.PrimaryFitness;
         }
 
-        // Sort fitness values (highest values first).
-        Array.Sort(genomeFitnessByRank, 0, count, Utils.ComparerDesc);
         return genomeFitnessByRank;
     }
 

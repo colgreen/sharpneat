@@ -40,6 +40,7 @@ internal sealed partial class MainForm : Form
     private RankGraphForm _genomeComplexityRankForm;
 
     // Histogram chart forms.
+    private HistogramGraphForm _genomeFitnessHistogramForm;
     private HistogramGraphForm _genomeComplexityHistogramForm;
 
     /// <summary>
