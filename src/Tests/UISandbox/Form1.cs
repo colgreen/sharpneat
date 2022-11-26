@@ -17,14 +17,14 @@ public partial class Form1 : Form
     private void button1_Click(object sender,EventArgs e)
     {
         var graphViewportPainter = new GraphViewportPainter();
-        this.viewportControl1.ViewportPainter = graphViewportPainter;
+        viewportControl1.ViewportPainter = graphViewportPainter;
 
         DirectedGraphViewModel graphViewModel = CreateGraphViewModel();
 
         graphViewportPainter.GraphViewModel = graphViewModel;
 
-        this.viewportControl1.RepaintViewport();
-        this.viewportControl1.Refresh();
+        viewportControl1.RepaintViewport();
+        viewportControl1.Refresh();
     }
 
 

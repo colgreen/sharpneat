@@ -76,7 +76,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
     private IActivationFunction<T>? TryCreate(string name)
     {
         // Get the generic type parameter name (i.e. Float or Double).
-        string valueType = this.GetType().GetGenericArguments()[0].Name;
+        string valueType = GetType().GetGenericArguments()[0].Name;
 
         // Build fully namespaced type name.
         string fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.{name}";
@@ -94,7 +94,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
     private IActivationFunction<T>? TryCreateVectorized(string name)
     {
         // Get the generic type parameter name (i.e. Float or Double).
-        string valueType = this.GetType().GetGenericArguments()[0].Name;
+        string valueType = GetType().GetGenericArguments()[0].Name;
 
         // Build fully namespaced type name.
         string fullName = $"SharpNeat.NeuralNets.{valueType}.ActivationFunctions.Vectorized.{name}";

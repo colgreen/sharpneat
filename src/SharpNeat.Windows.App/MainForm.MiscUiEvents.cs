@@ -30,9 +30,9 @@ partial class MainForm
             return;
 
         // Switch to the UI thread, if not already on that thread.
-        if(this.InvokeRequired)
+        if(InvokeRequired)
         {
-            this.Invoke(new MethodInvoker(delegate ()
+            Invoke(new MethodInvoker(delegate ()
             {
                 _eaRunner_UpdateEvent(sender, e);
             }));

@@ -40,18 +40,18 @@ internal partial class SummaryGraphForm : Form
     /// </summary>
     public void RefreshView()
     {
-        if(this.InvokeRequired)
+        if(InvokeRequired)
         {
             // Note. Must use Invoke(). BeginInvoke() will execute asynchronously and the evolution algorithm therefore
             // may have moved on and will be in an intermediate and indeterminate (between generations) state.
-            this.Invoke(new MethodInvoker(delegate ()
+            Invoke(new MethodInvoker(delegate ()
             {
                 RefreshView();
             }));
             return;
         }
 
-        if(this.IsDisposed)
+        if(IsDisposed)
             return;
 
         // Update plot points for each series in turn.
