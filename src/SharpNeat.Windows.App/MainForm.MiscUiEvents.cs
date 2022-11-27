@@ -40,8 +40,6 @@ partial class MainForm
             return;
         }
 
-        // TODO: Implement.
-
         // Update stats fields.
         UpdateUIState_EaStats();
 

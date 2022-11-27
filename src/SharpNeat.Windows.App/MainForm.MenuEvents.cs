@@ -186,18 +186,11 @@ partial class MainForm
         if(experimentUI is null)
             return;
 
-        // Create form.
-        _bestGenomeForm = new GenomeForm("Best Genome", genomeCtrl);
-
-        // Attach an event handler to update this main form when the genome form is closed.
-        _bestGenomeForm.FormClosed += new FormClosedEventHandler(delegate (object senderObj, FormClosedEventArgs eArgs)
-        {
-            _bestGenomeForm = null;
-            bestGenomeToolStripMenuItem.Enabled = true;
-        });
-
-        // Prevent creation of more then one instance of the genome form.
-        bestGenomeToolStripMenuItem.Enabled = false;
+        // Create form, disable its associated menu item, and attach form-close event handlers.
+        _bestGenomeForm = HandleFormOpening(
+            new GenomeForm("Best Genome", genomeCtrl),
+            bestGenomeToolStripMenuItem,
+            () => _bestGenomeForm  = null);
 
         // Get the current best genome.
         NeatGenome<double> bestGenome = _neatPop?.BestGenome;
@@ -207,165 +200,95 @@ partial class MainForm
             // see a genome right away, regardless of whether the EA is running or not.
             _bestGenomeForm.Genome = bestGenome;
         }
-
-        // Show the form.
-        _bestGenomeForm.Show(this);
     }
 
     #endregion
 
     #region View -> Charts Items
 
-    private void fitnessBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
+    private void fitnessBestMeanToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _fitnessTimeSeriesForm = new FitnessTimeSeriesForm();
-
-        // Prevent creation of more than one instance of the form.
-        fitnessBestMeansToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _fitnessTimeSeriesForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                fitnessBestMeansToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _fitnessTimeSeriesForm.Show(this);
+        _fitnessTimeSeriesForm = HandleFormOpening(
+            new FitnessTimeSeriesForm(),
+            fitnessBestMeanToolStripMenuItem,
+            () => _fitnessTimeSeriesForm = null);
     }
 
-    private void complexityBestMeansToolStripMenuItem_Click(object sender, EventArgs e)
+    private void complexityBestMeanToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _complexityTimeSeriesForm = new ComplexityTimeSeriesForm();
-
-        // Prevent creation of more than one instance of the form.
-        complexityBestMeansToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _complexityTimeSeriesForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                complexityBestMeansToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _complexityTimeSeriesForm.Show(this);
+        _complexityTimeSeriesForm = HandleFormOpening(
+            new ComplexityTimeSeriesForm(),
+            complexityBestMeanToolStripMenuItem,
+            () => _complexityTimeSeriesForm = null);
     }
 
     private void evaluationsPerSecToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _evalsPerSecTimeSeriesForm = new EvalsPerSecTimeSeriesForm();
-
-        // Prevent creation of more than one instance of the form.
-        evaluationsPerSecToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _evalsPerSecTimeSeriesForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                evaluationsPerSecToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _evalsPerSecTimeSeriesForm.Show(this);
+        _evalsPerSecTimeSeriesForm = HandleFormOpening(
+            new EvalsPerSecTimeSeriesForm(),
+            evaluationsPerSecToolStripMenuItem,
+            () => _evalsPerSecTimeSeriesForm = null);
     }
 
-    private void specieSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
+    private void speciesSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _speciesSizeRankForm = new RankGraphForm("Species Size by Rank", "Rank", "Size", "Species Size");
-
-        // Prevent creation of more than one instance of the form.
-        specieSizeByRankToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _speciesSizeRankForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                specieSizeByRankToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _speciesSizeRankForm.Show(this);
+        _speciesSizeRankForm = HandleFormOpening(
+            new RankGraphForm(
+                "Species Size by Rank",
+                "Rank",
+                "Size",
+                null),
+            speciesSizeByRankToolStripMenuItem,
+            () => _speciesSizeRankForm = null);
     }
 
-    private void specieFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
+    private void speciesFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _speciesFitnessRankForm = new RankPairGraphForm("Species Fitness by Rank (Best & Mean)", "Rank", "Fitness", "Best Fitness", "Mean Fitness");
-
-        // Prevent creation of more than one instance of the form.
-        specieFitnessByRankToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _speciesFitnessRankForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                specieFitnessByRankToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _speciesFitnessRankForm.Show(this);
+        _speciesFitnessRankForm = HandleFormOpening(
+            new RankPairGraphForm(
+                "Species Fitness by Rank (Best & Mean)",
+                "Rank", "Fitness",
+                "Best Fitness",
+                "Mean Fitness"),
+            speciesSizeByRankToolStripMenuItem,
+            () => _speciesFitnessRankForm = null);
     }
 
-    private void specieComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
+    private void speciesComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _speciesComplexityRankForm = new RankPairGraphForm("Species Complexity by Rank (Best & Mean)", "Rank", "Complexity", "Best Genome Complexity", "Mean Complexity");
-
-        // Prevent creation of more than one instance of the form.
-        specieComplexityByRankToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _speciesComplexityRankForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                specieComplexityByRankToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _speciesComplexityRankForm.Show(this);
+        _speciesComplexityRankForm = HandleFormOpening(
+            new RankPairGraphForm(
+                "Species Complexity by Rank (Best & Mean)",
+                "Rank",
+                "Complexity",
+                "Best Genome Complexity",
+                "Mean Complexity"),
+            speciesComplexityByRankToolStripMenuItem,
+            () => _speciesComplexityRankForm = null);
     }
 
     private void genomeFitnessByRankToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _genomeFitnessRankForm = new RankGraphForm("Genome Fitness by Rank", "Rank", "Fitness", "Genome Fitness");
-
-        // Prevent creation of more than one instance of the form.
-        genomeFitnessByRankToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _genomeFitnessRankForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                genomeFitnessByRankToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _genomeFitnessRankForm.Show(this);
+        _genomeFitnessRankForm = HandleFormOpening(
+            new RankGraphForm(
+                "Genome Fitness by Rank",
+                "Rank",
+                "Fitness",
+                null),
+            genomeFitnessByRankToolStripMenuItem,
+            () => _genomeFitnessRankForm = null);
     }
 
     private void genomeComplexityByRankToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _genomeComplexityRankForm = new RankGraphForm("Genome Complexity by Rank", "Rank", "Complexity", "Genome Complexity");
-
-        // Prevent creation of more than one instance of the form.
-        genomeComplexityByRankToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _genomeComplexityRankForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                genomeComplexityByRankToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _genomeComplexityRankForm.Show(this);
+        _genomeComplexityRankForm = HandleFormOpening(
+            new RankGraphForm(
+                "Genome Complexity by Rank",
+                "Rank",
+                "Complexity",
+                null),
+            genomeComplexityByRankToolStripMenuItem,
+            () => _genomeComplexityRankForm = null);
     }
 
     private void speciesSizeHistogramToolStripMenuItem_Click(object sender, EventArgs e)
@@ -385,40 +308,26 @@ partial class MainForm
 
     private void genomeFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _genomeFitnessHistogramForm = new HistogramGraphForm("Genome Fitness Histogram", "Fitness", "Frequency", null);
-
-        // Prevent creation of more than one instance of the form.
-        genomeFitnessHistogramToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _genomeFitnessHistogramForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                genomeFitnessHistogramToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _genomeFitnessHistogramForm.Show(this);
+        _genomeFitnessHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Genome Fitness Histogram",
+                "Fitness",
+                "Frequency",
+                null),
+            genomeFitnessHistogramToolStripMenuItem,
+            () => _genomeFitnessHistogramForm = null);
     }
 
     private void genomeComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // Create form.
-        _genomeComplexityHistogramForm = new HistogramGraphForm("Genome Complexity Histogram", "Complexity", "Frequency", null);
-
-        // Prevent creation of more than one instance of the form.
-        genomeComplexityHistogramToolStripMenuItem.Enabled = false;
-
-        // Attach a event handler to update this main form when the child form is closed.
-        _genomeComplexityHistogramForm.FormClosed += new FormClosedEventHandler(
-            delegate (object senderObj, FormClosedEventArgs eArgs)
-            {
-                genomeComplexityHistogramToolStripMenuItem.Enabled = true;
-            });
-
-        // Show the form.
-        _genomeComplexityHistogramForm.Show(this);
+        _genomeComplexityHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Genome Complexity Histogram",
+                "Complexity",
+                "Frequency",
+                null),
+            genomeComplexityHistogramToolStripMenuItem,
+            () => _genomeComplexityHistogramForm = null);
     }
 
     #endregion
@@ -433,7 +342,7 @@ partial class MainForm
 
     #endregion
 
-    #region Private Methods [Event Handler Subroutines
+    #region Private Methods
 
     private IExperimentUI GetExperimentUI()
     {
@@ -441,6 +350,39 @@ partial class MainForm
         _experimentUI ??= CreateAndConfigureExperimentUI((ExperimentInfo)cmbExperiments.SelectedItem);
 
         return _experimentUI;
+    }
+
+    /// <summary>
+    /// Shows the provided form instance, and disabled the menu item used for opening the form, to prevent users
+    /// clicking on it when the form is already open.
+    /// 
+    /// Also attaches an FormClosed event handler to the form, that will re-enable the menu item when the form is
+    /// closed.
+    /// </summary>
+    /// <param name="form">The form to be shown to the user.</param>
+    /// <param name="toolStripMenuItem">Represents the menu item that was just clicked in order to open the form.</param>
+    /// <returns>The form instance that was passed in via <paramref name="form"/>.</returns>
+    private TForm HandleFormOpening<TForm>(
+        TForm form,
+        ToolStripMenuItem toolStripMenuItem,
+        Action formCloseAction)
+        where TForm : Form
+    {
+        // Disable the menu item for the form, to prevent creation of more than one instance of the form.
+        toolStripMenuItem.Enabled = false;
+
+        // Attach an event handler to re-enable the menu item when the new form is closed.
+        form.FormClosed += new FormClosedEventHandler(
+            delegate (object senderObj, FormClosedEventArgs eArgs)
+            {
+                toolStripMenuItem.Enabled = true;
+                formCloseAction();
+            });
+
+        // Show the form.
+        form.Show(this);
+
+        return form;
     }
 
     #endregion
