@@ -25,19 +25,20 @@ public class ResetWeightMutationStrategyTests
         strategy.Invoke(weightArr, rng);
 
         // Construct a histogram on the array of weights.
-        HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
+        HistogramData hd = HistogramData.BuildHistogramData(weightArr, 8);
+        Span<HistogramBin> bins = hd.GetBinSpan();
 
         // We expect samples to be approximately evenly distributed over the histogram buckets.
-        for(int i=0; i < hist.FrequencyArray.Length; i++)
+        for(int i=0; i < bins.Length; i++)
         {
-            Assert.True(hist.FrequencyArray[i] > (iters / 8) * 0.8);
+            Assert.True(bins[i].Frequency > (iters / 8) * 0.8);
         }
 
         // We expect min and max to be close to -weightScale and +weightScale respectively.
-        double delta = weightScale - hist.Max;
+        double delta = weightScale - hd.Max;
         Assert.True(delta >= 0.0 && delta < 0.1);
 
-        delta = weightScale + hist.Min;
+        delta = weightScale + hd.Min;
         Assert.True(delta >= 0.0 && delta < 0.1);
 
         // Mean should be near to zero.
@@ -61,12 +62,12 @@ public class ResetWeightMutationStrategyTests
         strategy.Invoke(weightArr, rng);
 
         // Construct a histogram on the array of weights.
-        HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
+        HistogramData hd = HistogramData.BuildHistogramData(weightArr, 8);
 
         // We expect min and max to be close to be about -4.5 and +4.5 respectively
         // (but they could be higher in magnitude, with no bound).
-        Assert.True(hist.Max >= 3.8);
-        Assert.True(hist.Min <= -3.8);
+        Assert.True(hd.Max >= 3.8);
+        Assert.True(hd.Min <= -3.8);
 
         TestMean(weightArr);
         TestStandardDeviation(weightArr);

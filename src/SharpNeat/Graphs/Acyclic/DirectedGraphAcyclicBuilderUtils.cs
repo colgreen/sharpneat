@@ -197,7 +197,7 @@ internal static class DirectedGraphAcyclicBuilderUtils
             }
 
             // Sort the node IDs by depth.
-            TimSort<int,int>.Sort(
+            TimSort.Sort(
                 depthInfo._nodeDepthArr.AsSpan(inputCount),
                 nodeIds.Slice(inputCount),
                 ref timsortWorkArr, ref timsortWorkVArr);

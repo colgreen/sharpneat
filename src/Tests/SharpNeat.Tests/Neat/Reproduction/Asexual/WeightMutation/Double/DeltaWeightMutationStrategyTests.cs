@@ -25,12 +25,14 @@ public class DeltaWeightMutationStrategyTests
         strategy.Invoke(weightArr, rng);
 
         // Construct a histogram on the array of weights.
-        HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
+        HistogramData hist = HistogramData.BuildHistogramData(weightArr, 8);
 
         // We expect samples to be approximately evenly distributed over the histogram buckets.
-        for(int i=0; i < hist.FrequencyArray.Length; i++)
+        Span<HistogramBin> bins = hist.GetBinSpan();
+
+        for(int i=0; i < bins.Length; i++)
         {
-            Assert.True(hist.FrequencyArray[i] > (iters / 8) * 0.8);
+            Assert.True(bins[i].Frequency > (iters / 8) * 0.8);
         }
 
         // We expect min and max to be close to 1000-weightScale and 1000+weightScale respectively.
@@ -55,7 +57,7 @@ public class DeltaWeightMutationStrategyTests
         strategy.Invoke(weightArr, rng);
 
         // Construct a histogram on the array of weights.
-        HistogramData hist = NumericsUtils.BuildHistogramData(weightArr, 8);
+        HistogramData hist = HistogramData.BuildHistogramData(weightArr, 8);
 
         // We expect min and max to be close to be about -995.5 and +1004.5 respectively
         // (but they could be further from the mean of 1000, with no bound).

@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using Redzen.Numerics;
 using ZedGraph;
 
 namespace SharpNeat.Windows.App.Forms;
@@ -41,15 +42,18 @@ internal sealed class HistogramGraphForm : GraphForm
     /// <param name="xdata">The X data values.</param>
     /// <param name="ydata">The Y data values.</param>
     public void UpdateData(
-        Span<double> xdata,
-        Span<double> ydata)
+        HistogramData histogramData)
     {
-        if(xdata.Length != ydata.Length) throw new ArgumentException("x and y data spans have different lengths.");
-
         _ppl.Clear();
 
-        for(int i=0; i < xdata.Length; i++)
-            _ppl.Add(xdata[i], ydata[i]);
+        Span<HistogramBin> bins = histogramData.GetBinSpan();
+
+        for(int i=0; i < bins.Length; i++)
+        { 
+            _ppl.Add(
+                (bins[i].LowerBound + bins[i].UpperBound) * 0.5,
+                bins[i].Frequency);
+        }
 
         RefreshGraph();
     }
