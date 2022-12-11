@@ -37,7 +37,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     readonly double[] _conInputArr = new double[Vector<double>.Count];
     volatile bool _isDisposed;
 
-    #region Constructor
+    #region Constructors
 
     /// <summary>
     /// Constructs a cyclic neural network.
@@ -91,6 +91,9 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
         _activationsArr = ArrayPool<double>.Shared.Rent(_totalNodeCount << 1);
         _preActivationMem = _activationsArr.AsMemory(0, _totalNodeCount);
         _postActivationMem = _activationsArr.AsMemory(_totalNodeCount, _totalNodeCount);
+
+        // Clear the rented array; rented arrays may contain data left over from when they were previously rented.
+        Array.Clear(_activationsArr);
 
         // Map the input and output vectors to the corresponding segments of _postActivationArr.
         Inputs = _postActivationMem.Slice(0, _inputCount);
