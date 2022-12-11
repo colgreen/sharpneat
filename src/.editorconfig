@@ -12,13 +12,15 @@ csharp_space_around_declaration_statements = ignore
 dotnet_diagnostic.IDE0057.severity = none   # Slice can be simplified.
 
 # .NET Analyzers.
-dotnet_diagnostic.CA1000.severity = none    # Do not declare static members on generic types.
-dotnet_diagnostic.CA1051.severity = none    # Do not declare visible instance fields.
-dotnet_diagnostic.CA1707.severity = none    # Identifiers should not contain underscores.
-dotnet_diagnostic.CA1711.severity = none    # An identifier has an incorrect suffix.
-dotnet_diagnostic.CA1715.severity = none    # Identifiers should have correct prefix.
-dotnet_diagnostic.CA1716.severity = none    # Identifiers should not match keywords.
-dotnet_diagnostic.CA1720.severity = none    # Identifiers should not contain type names.
+dotnet_diagnostic.CA1000.severity = none        # Do not declare static members on generic types.
+dotnet_diagnostic.CA1051.severity = none        # Do not declare visible instance fields.
+dotnet_diagnostic.CA1707.severity = none        # Identifiers should not contain underscores.
+dotnet_diagnostic.CA1711.severity = none        # An identifier has an incorrect suffix.
+dotnet_diagnostic.CA1715.severity = none        # Identifiers should have correct prefix.
+dotnet_diagnostic.CA1716.severity = none        # Identifiers should not match keywords.
+dotnet_diagnostic.CA1720.severity = none        # Identifiers should not contain type names.
+dotnet_diagnostic.CA2000.severity = suggestion  # Dispose objects before losing scope.
+dotnet_diagnostic.CA2213.severity = suggestion  # Disposable fields should be disposed.
 
 # Stylecop Analyzers.
 dotnet_diagnostic.SA1000.severity = none    # The spacing around a C# keyword is incorrect.

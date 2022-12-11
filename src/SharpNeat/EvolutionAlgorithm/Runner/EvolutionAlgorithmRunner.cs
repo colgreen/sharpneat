@@ -215,7 +215,11 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
+        // TODO: Consider doing this outside of the Dispose() method.
         RequestTerminateAndWait();
+
+        _awaitPauseEvent.Dispose();
+        _awaitRestartEvent.Dispose();
     }
 
     #endregion

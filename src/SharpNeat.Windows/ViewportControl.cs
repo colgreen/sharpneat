@@ -168,7 +168,10 @@ public class ViewportControl : UserControl
             return;
 
         if(disposing)
+        {
+            _image.Dispose();
             pictureBox.Dispose();
+        }
 
         base.Dispose(disposing);
 

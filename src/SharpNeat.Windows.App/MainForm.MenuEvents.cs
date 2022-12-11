@@ -336,7 +336,7 @@ partial class MainForm
 
     private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        Form frmAboutBox = new AboutForm();
+        using Form frmAboutBox = new AboutForm();
         frmAboutBox.ShowDialog(this);
     }
 

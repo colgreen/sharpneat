@@ -42,7 +42,7 @@ internal static class AppUtils
     /// </summary>
     public static string SelectFileToOpen(string dialogTitle, string fileExtension, string filter)
     {
-        OpenFileDialog oDialog = new()
+        using OpenFileDialog oDialog = new()
         {
             AddExtension = true,
             DefaultExt = fileExtension,
@@ -64,7 +64,7 @@ internal static class AppUtils
     /// </summary>
     public static string SelectFileToSave(string dialogTitle, string fileExtension, string filter)
     {
-        SaveFileDialog oDialog = new()
+        using SaveFileDialog oDialog = new()
         {
             AddExtension = true,
             DefaultExt = fileExtension,

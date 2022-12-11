@@ -187,7 +187,7 @@ public class GraphPainter : IDisposable
         width = width * _connectionWeightToWidth * state._zoomFactor;
 
         width = Math.Max(1f, Math.Abs(width));
-        Pen pen = new(weight < 0f ? _settings.NegativeWeightColor : _settings.PositiveWeightColor, width);
+        using Pen pen = new(weight < 0f ? _settings.NegativeWeightColor : _settings.PositiveWeightColor, width);
 
         // Draw the connection line.
         if(tgtPos.Y > srcPos.Y)

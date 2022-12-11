@@ -10,7 +10,7 @@ public class PreyCaptureWorldTests
     public void MoveAgent()
     {
         var world = new PreyCaptureWorld(4, 1f, 4f, 100);
-        var agent = new MockPreyCaptureAgent();
+        using var agent = new MockPreyCaptureAgent();
 
         // Agent moving north test.
         {
