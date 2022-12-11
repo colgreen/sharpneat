@@ -22,6 +22,7 @@ internal sealed class Logger
     static Logger()
     {
         __bindingList = new BindingList<LogItem>(new LogBuffer(500));
+        __bindingList.Add(new LogItem(""));
     }
 
     /// <summary>
