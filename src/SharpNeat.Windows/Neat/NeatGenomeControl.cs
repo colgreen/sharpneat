@@ -15,11 +15,8 @@ namespace SharpNeat.Windows.Neat;
 /// </summary>
 public class NeatGenomeControl : GenomeControl
 {
-    // TODO: Call dispose on these disposable objects.
     private ViewportControl viewportControl1;
     private readonly GraphViewportPainter _graphViewportPainter;
-
-    #region Construction
 
     /// <summary>
     /// Constructs a new instance of <see cref="NeatGenomeControl"/>.
@@ -30,10 +27,6 @@ public class NeatGenomeControl : GenomeControl
         _graphViewportPainter = new GraphViewportPainter();
         viewportControl1.ViewportPainter = _graphViewportPainter;
     }
-
-    #endregion
-
-    #region Public Methods
 
     /// <summary>
     /// Genome updated handler.
@@ -62,7 +55,17 @@ public class NeatGenomeControl : GenomeControl
         viewportControl1.Refresh();
     }
 
-    #endregion
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if(disposing)
+        {
+            viewportControl1?.Dispose();
+            _graphViewportPainter?.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 
     #region Private Methods [Windows.Forms Designer Code]
 

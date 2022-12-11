@@ -1,4 +1,6 @@
-﻿namespace SharpNeat.Windows.App
+﻿using System.Diagnostics;
+
+namespace SharpNeat.Windows.App
 {
     partial class MainForm
     {
@@ -13,11 +15,31 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            Debug.WriteLine("MainForm.Dispose() enter");
+
+            if (disposing)
             {
-                components.Dispose();
+                _eaRunner?.Dispose();
+                _bestGenomeForm?.Dispose();
+                _fitnessTimeSeriesForm?.Dispose();
+                _complexityTimeSeriesForm?.Dispose();
+                _evalsPerSecTimeSeriesForm?.Dispose();
+                _speciesSizeRankForm?.Dispose();
+                _speciesFitnessRankForm?.Dispose();
+                _speciesComplexityRankForm?.Dispose();
+                _genomeFitnessRankForm?.Dispose();
+                _genomeComplexityRankForm?.Dispose();
+                _speciesSizeHistogramForm?.Dispose();
+                _speciesMeanFitnessHistogramForm?.Dispose();
+                _speciesMeanComplexityHistogramForm?.Dispose();
+                _genomeFitnessHistogramForm?.Dispose();
+                _genomeComplexityHistogramForm?.Dispose();
+
+                components?.Dispose();
             }
             base.Dispose(disposing);
+
+            Debug.WriteLine("MainForm.Dispose() exit");
         }
 
         #region Windows Form Designer generated code
@@ -127,13 +149,6 @@
             this.fitnessBestMeanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.complexityBestMeanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.evaluationsPerSecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rankPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.speciesSizeByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.speciesFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.speciesComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.genomeFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.genomeComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.histogramsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speciesSizeHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speciesMeanFitnessHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -141,6 +156,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.genomeFitnessHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.genomeComplexityHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rankPlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speciesSizeByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speciesFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speciesComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.genomeFitnessByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.genomeComplexityByRankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCopyLogToClipboard = new System.Windows.Forms.Button();
             this.lbxLog = new System.Windows.Forms.ListBox();
@@ -1163,84 +1185,31 @@
             this.complexityBestMeanToolStripMenuItem,
             this.evaluationsPerSecToolStripMenuItem});
             this.timeSeriesToolStripMenuItem.Name = "timeSeriesToolStripMenuItem";
-            this.timeSeriesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.timeSeriesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.timeSeriesToolStripMenuItem.Text = "Time Series";
             // 
             // fitnessBestMeanToolStripMenuItem
             // 
             this.fitnessBestMeanToolStripMenuItem.Name = "fitnessBestMeanToolStripMenuItem";
-            this.fitnessBestMeanToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.fitnessBestMeanToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.fitnessBestMeanToolStripMenuItem.Text = "Fitness (Best && Mean)";
             this.fitnessBestMeanToolStripMenuItem.Click += new System.EventHandler(this.fitnessBestMeanToolStripMenuItem_Click);
             // 
             // complexityBestMeanToolStripMenuItem
             // 
             this.complexityBestMeanToolStripMenuItem.Name = "complexityBestMeanToolStripMenuItem";
-            this.complexityBestMeanToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.complexityBestMeanToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.complexityBestMeanToolStripMenuItem.Text = "Complexity (Best && Mean)";
             this.complexityBestMeanToolStripMenuItem.Click += new System.EventHandler(this.complexityBestMeanToolStripMenuItem_Click);
             // 
             // evaluationsPerSecToolStripMenuItem
             // 
             this.evaluationsPerSecToolStripMenuItem.Name = "evaluationsPerSecToolStripMenuItem";
-            this.evaluationsPerSecToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.evaluationsPerSecToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.evaluationsPerSecToolStripMenuItem.Text = "Evaluations per second";
             this.evaluationsPerSecToolStripMenuItem.Click += new System.EventHandler(this.evaluationsPerSecToolStripMenuItem_Click);
             // 
-            // rankPlotsToolStripMenuItem
-            // 
-            this.rankPlotsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.speciesSizeByRankToolStripMenuItem,
-            this.speciesFitnessByRankToolStripMenuItem,
-            this.speciesComplexityByRankToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.genomeFitnessByRankToolStripMenuItem,
-            this.genomeComplexityByRankToolStripMenuItem});
-            this.rankPlotsToolStripMenuItem.Name = "rankPlotsToolStripMenuItem";
-            this.rankPlotsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.rankPlotsToolStripMenuItem.Text = "Rank Plots";
-            // 
-            // speciesSizeByRankToolStripMenuItem
-            // 
-            this.speciesSizeByRankToolStripMenuItem.Name = "speciesSizeByRankToolStripMenuItem";
-            this.speciesSizeByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
-            this.speciesSizeByRankToolStripMenuItem.Text = "Species Size by Rank";
-            this.speciesSizeByRankToolStripMenuItem.Click += new System.EventHandler(this.speciesSizeByRankToolStripMenuItem_Click);
-            // 
-            // speciesFitnessByRankToolStripMenuItem
-            // 
-            this.speciesFitnessByRankToolStripMenuItem.Name = "speciesFitnessByRankToolStripMenuItem";
-            this.speciesFitnessByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
-            this.speciesFitnessByRankToolStripMenuItem.Text = "Species Fitness by Rank (Best && Mean)";
-            this.speciesFitnessByRankToolStripMenuItem.Click += new System.EventHandler(this.speciesFitnessByRankToolStripMenuItem_Click);
-            // 
-            // speciesComplexityByRankToolStripMenuItem
-            // 
-            this.speciesComplexityByRankToolStripMenuItem.Name = "speciesComplexityByRankToolStripMenuItem";
-            this.speciesComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
-            this.speciesComplexityByRankToolStripMenuItem.Text = "Species Complexity by Rank (Best && Mean)";
-            this.speciesComplexityByRankToolStripMenuItem.Click += new System.EventHandler(this.speciesComplexityByRankToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(298, 6);
-            // 
-            // genomeFitnessByRankToolStripMenuItem
-            // 
-            this.genomeFitnessByRankToolStripMenuItem.Name = "genomeFitnessByRankToolStripMenuItem";
-            this.genomeFitnessByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
-            this.genomeFitnessByRankToolStripMenuItem.Text = "Genome Fitness by Rank";
-            this.genomeFitnessByRankToolStripMenuItem.Click += new System.EventHandler(this.genomeFitnessByRankToolStripMenuItem_Click);
-            // 
-            // genomeComplexityByRankToolStripMenuItem
-            // 
-            this.genomeComplexityByRankToolStripMenuItem.Name = "genomeComplexityByRankToolStripMenuItem";
-            this.genomeComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
-            this.genomeComplexityByRankToolStripMenuItem.Text = "Genome Complexity by Rank";
-            this.genomeComplexityByRankToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityByRankToolStripMenuItem_Click);
-            // 
-            // distributionPlotsToolStripMenuItem
+            // histogramsToolStripMenuItem
             // 
             this.histogramsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.speciesSizeHistogramToolStripMenuItem,
@@ -1249,8 +1218,8 @@
             this.toolStripSeparator1,
             this.genomeFitnessHistogramToolStripMenuItem,
             this.genomeComplexityHistogramToolStripMenuItem});
-            this.histogramsToolStripMenuItem.Name = "distributionPlotsToolStripMenuItem";
-            this.histogramsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.histogramsToolStripMenuItem.Name = "histogramsToolStripMenuItem";
+            this.histogramsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.histogramsToolStripMenuItem.Text = "Histograms";
             // 
             // speciesSizeHistogramToolStripMenuItem
@@ -1292,6 +1261,59 @@
             this.genomeComplexityHistogramToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.genomeComplexityHistogramToolStripMenuItem.Text = "Genome Complexity Histogram";
             this.genomeComplexityHistogramToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityHistogramToolStripMenuItem_Click);
+            // 
+            // rankPlotsToolStripMenuItem
+            // 
+            this.rankPlotsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.speciesSizeByRankToolStripMenuItem,
+            this.speciesFitnessByRankToolStripMenuItem,
+            this.speciesComplexityByRankToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.genomeFitnessByRankToolStripMenuItem,
+            this.genomeComplexityByRankToolStripMenuItem});
+            this.rankPlotsToolStripMenuItem.Name = "rankPlotsToolStripMenuItem";
+            this.rankPlotsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.rankPlotsToolStripMenuItem.Text = "Rank Plots";
+            // 
+            // speciesSizeByRankToolStripMenuItem
+            // 
+            this.speciesSizeByRankToolStripMenuItem.Name = "speciesSizeByRankToolStripMenuItem";
+            this.speciesSizeByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.speciesSizeByRankToolStripMenuItem.Text = "Species Size by Rank";
+            this.speciesSizeByRankToolStripMenuItem.Click += new System.EventHandler(this.speciesSizeByRankToolStripMenuItem_Click);
+            // 
+            // speciesFitnessByRankToolStripMenuItem
+            // 
+            this.speciesFitnessByRankToolStripMenuItem.Name = "speciesFitnessByRankToolStripMenuItem";
+            this.speciesFitnessByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.speciesFitnessByRankToolStripMenuItem.Text = "Species Fitness by Rank (Best && Mean)";
+            this.speciesFitnessByRankToolStripMenuItem.Click += new System.EventHandler(this.speciesFitnessByRankToolStripMenuItem_Click);
+            // 
+            // speciesComplexityByRankToolStripMenuItem
+            // 
+            this.speciesComplexityByRankToolStripMenuItem.Name = "speciesComplexityByRankToolStripMenuItem";
+            this.speciesComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.speciesComplexityByRankToolStripMenuItem.Text = "Species Complexity by Rank (Best && Mean)";
+            this.speciesComplexityByRankToolStripMenuItem.Click += new System.EventHandler(this.speciesComplexityByRankToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(298, 6);
+            // 
+            // genomeFitnessByRankToolStripMenuItem
+            // 
+            this.genomeFitnessByRankToolStripMenuItem.Name = "genomeFitnessByRankToolStripMenuItem";
+            this.genomeFitnessByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.genomeFitnessByRankToolStripMenuItem.Text = "Genome Fitness by Rank";
+            this.genomeFitnessByRankToolStripMenuItem.Click += new System.EventHandler(this.genomeFitnessByRankToolStripMenuItem_Click);
+            // 
+            // genomeComplexityByRankToolStripMenuItem
+            // 
+            this.genomeComplexityByRankToolStripMenuItem.Name = "genomeComplexityByRankToolStripMenuItem";
+            this.genomeComplexityByRankToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.genomeComplexityByRankToolStripMenuItem.Text = "Genome Complexity by Rank";
+            this.genomeComplexityByRankToolStripMenuItem.Click += new System.EventHandler(this.genomeComplexityByRankToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1341,6 +1363,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MainForm";
             this.Text = "SharpNEAT";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

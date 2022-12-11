@@ -98,7 +98,8 @@ partial class MainForm
         UpdateUIState_ResetStats();
 
         // Clear/reset child forms (those that are open).
-        if(_bestGenomeForm is not null) _bestGenomeForm.Genome = null;
+        if(_bestGenomeForm is not null) 
+            _bestGenomeForm.Genome = null;
 
         // Time series forms.
         _fitnessTimeSeriesForm?.Clear();

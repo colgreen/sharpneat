@@ -215,8 +215,8 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        // TODO: Consider doing this outside of the Dispose() method.
-        RequestTerminateAndWait();
+        if(_runState == RunState.Running)
+            throw new InvalidOperationException("Dispose() called while EvolutionAlgorithmRunner is running.");
 
         _awaitPauseEvent.Dispose();
         _awaitRestartEvent.Dispose();
