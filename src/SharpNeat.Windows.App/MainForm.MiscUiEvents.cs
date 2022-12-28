@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Buffers;
+using Redzen.Buffers;
 using Redzen.Numerics;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Neat.EvolutionAlgorithm;
@@ -46,149 +46,139 @@ partial class MainForm
         // Update child forms (those that are open).
         if(_bestGenomeForm is not null)
         {
-            NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)(_eaRunner.EA);
+            NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)_eaRunner.EA;
             _bestGenomeForm.Genome = neatEa.Population.BestGenome;
         }
 
         // Time series forms.
-        _fitnessTimeSeriesForm?.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+        _fitnessTimeSeriesForm?.UpdateData(
+            _eaRunner.EA.Stats,
+            _neatPop.NeatPopulationStats);
 
-        _complexityTimeSeriesForm?.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
+        _complexityTimeSeriesForm?.UpdateData(
+            _eaRunner.EA.Stats,
+            _neatPop.NeatPopulationStats);
 
-        _evalsPerSecTimeSeriesForm?.UpdateData(_eaRunner.EA.Stats, _neatPop.NeatPopulationStats);
-
-        // Rankings forms.
-        if(_speciesSizeRankForm is not null)
-        {
-            double[] speciesSizeByRank = GetSpeciesSizeByRank(out int speciesCount);
-            try
-            {
-                _speciesSizeRankForm.UpdateData(
-                    speciesSizeByRank.AsSpan(0, speciesCount));
-            }
-            finally
-            {
-                ArrayPool<double>.Shared.Return(speciesSizeByRank);
-            }
-        }
-
-        if(_speciesFitnessRankForm is not null)
-        {
-            GetSpeciesFitnessByRank(
-                out double[] bestFitnessByRank,
-                out double[] meanFitnessSeries,
-                out int speciesCount);
-
-            try
-            {
-                _speciesFitnessRankForm.UpdateData(
-                    bestFitnessByRank.AsSpan(0, speciesCount),
-                    meanFitnessSeries.AsSpan(0, speciesCount));
-            }
-            finally
-            {
-                ArrayPool<double>.Shared.Return(bestFitnessByRank);
-                ArrayPool<double>.Shared.Return(meanFitnessSeries);
-            }
-        }
-
-        if(_speciesComplexityRankForm is not null)
-        {
-            GetSpeciesComplexityByRank(out double[] bestComplexityByRank, out double[] meanComplexitySeries, out int speciesCount);
-            try
-            {
-                _speciesComplexityRankForm.UpdateData(
-                    bestComplexityByRank.AsSpan(0, speciesCount),
-                    meanComplexitySeries.AsSpan(0, speciesCount));
-            }
-            finally
-            {
-                ArrayPool<double>.Shared.Return(bestComplexityByRank);
-                ArrayPool<double>.Shared.Return(meanComplexitySeries);
-            }
-        }
-
-        if(_genomeFitnessRankForm is not null)
-        {
-            // Get a rented array of genome fitness values, and sort in descending order (highest fitness first).
-            double[] genomeFitnessByRank = GetGenomeFitness(out int genomeCount);
-            Array.Sort(genomeFitnessByRank, 0, genomeCount, Utils.ComparerDesc);
-
-            try
-            {
-                _genomeFitnessRankForm.UpdateData(
-                    genomeFitnessByRank.AsSpan(0, genomeCount));
-            }
-            finally
-            {
-                ArrayPool<double>.Shared.Return(genomeFitnessByRank);
-            }
-        }
-
-        if(_genomeComplexityRankForm is not null)
-        {
-            // Get a rented array of genome complexities, and sort in descending order.
-            double[] genomeComplexity = GetGenomeComplexity(out int genomeCount);
-            Array.Sort(genomeComplexity, 0, genomeCount, Utils.ComparerDesc);
-
-            try
-            {
-                _genomeComplexityRankForm.UpdateData(
-                    genomeComplexity.AsSpan(0, genomeCount));
-            }
-            finally
-            {
-                ArrayPool<double>.Shared.Return(genomeComplexity);
-            }
-        }
+        _evalsPerSecTimeSeriesForm?.UpdateData(
+            _eaRunner.EA.Stats,
+            _neatPop.NeatPopulationStats);
 
         // Histogram forms.
+        if(_speciesSizeHistogramForm is not null)
+        {
+            // Get rented array of species sizes.
+            using RentedArray<double> speciesSizes = GetSpeciesSizes();
+
+            // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
+            HistogramData hd = HistogramData.BuildHistogramData(
+                speciesSizes.AsSpan());
+
+            _speciesSizeHistogramForm.UpdateData(hd);
+        }
+
+        if(_speciesMeanFitnessHistogramForm is not null)
+        {
+            // Get rented array of species mean fitnesses.
+            using RentedArray<double> speciesMeanFitnesses = GetSpeciesMeanFitnesses();
+
+            // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
+            HistogramData hd = HistogramData.BuildHistogramData(
+                speciesMeanFitnesses.AsSpan());
+
+            _speciesMeanFitnessHistogramForm.UpdateData(hd);
+        }
+
+        if(_speciesMeanComplexityHistogramForm is not null)
+        {
+            // Get rented array of species mean complexities.
+            using RentedArray<double> speciesMeanComplexities = GetSpeciesMeanComplexities();
+
+            // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
+            HistogramData hd = HistogramData.BuildHistogramData(
+                speciesMeanComplexities.AsSpan());
+
+            _speciesMeanComplexityHistogramForm.UpdateData(hd);
+        }
+
         if(_genomeFitnessHistogramForm is not null)
         {
             // Get a rented array of genome fitness values.
-            double[] genomeFitness = GetGenomeFitness(out int genomeCount);
+            using RentedArray<double> genomeFitness = GetGenomeFitnesses();
 
             // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
-            GetHistogramData(
-                genomeFitness.AsSpan(0, genomeCount),
-                out Span<double> binX,
-                out Span<double> binFrequency,
-                out double[] rentedArray);
+            HistogramData hd = HistogramData.BuildHistogramData(
+                genomeFitness.AsSpan());
 
-            try
-            {
-                _genomeFitnessHistogramForm.UpdateData(
-                    binX, binFrequency);
-            }
-            finally
-            {
-                ArrayPool<double>.Shared.Return(genomeFitness);
-                ArrayPool<double>.Shared.Return(rentedArray);
-            }
+            _genomeFitnessHistogramForm.UpdateData(hd);
         }
 
         if(_genomeComplexityHistogramForm is not null)
         {
             // Get a rented array of genome complexities.
-            double[] genomeComplexity = GetGenomeComplexity(out int genomeCount);
+            using RentedArray<double> genomeComplexity = GetGenomeComplexities();
 
             // Calculate histogram data (i.e., the number of histogram bins, and frequency of each bin).
-            GetHistogramData(
-                genomeComplexity.AsSpan(0, genomeCount),
-                out Span<double> binX,
-                out Span<double> binFrequency,
-                out double[] rentedArray);
+            HistogramData hd = HistogramData.BuildHistogramData(
+                genomeComplexity.AsSpan());
 
-            try
+            _genomeComplexityHistogramForm.UpdateData(hd);
+        }
+
+        // Rankings forms.
+        if(_speciesSizeRankForm is not null)
+        {
+            using RentedArray<double> speciesSizeByRank = GetSpeciesSizeByRank();
+            _speciesSizeRankForm.UpdateData(
+                speciesSizeByRank.AsSpan());
+        }
+
+        if(_speciesFitnessRankForm is not null)
+        {
+            GetSpeciesFitnessByRank(
+                out RentedArray<double> bestFitnessByRank,
+                out RentedArray<double> meanFitnessSeries);
+
+            using (bestFitnessByRank)
+            using (meanFitnessSeries)
             {
-                _genomeComplexityHistogramForm.UpdateData(
-                    binX, binFrequency);
+                _speciesFitnessRankForm.UpdateData(
+                    bestFitnessByRank.AsSpan(),
+                    meanFitnessSeries.AsSpan());
             }
-            finally
+        }
+
+        if(_speciesComplexityRankForm is not null)
+        {
+            GetSpeciesComplexityByRank(
+                out RentedArray<double> bestComplexityByRank,
+                out RentedArray<double> meanComplexitySeries);
+
+            using(bestComplexityByRank)
+            using(meanComplexitySeries)
             {
-                ArrayPool<double>.Shared.Return(genomeComplexity);
-                ArrayPool<double>.Shared.Return(rentedArray);
+                _speciesComplexityRankForm.UpdateData(
+                    bestComplexityByRank.AsSpan(),
+                    meanComplexitySeries.AsSpan());
+
             }
+        }
+
+        if(_genomeFitnessRankForm is not null)
+        {            
+            using RentedArray<double> genomeFitnessByRank = GetGenomeFitnesses();
+            Span<double> span = genomeFitnessByRank.AsSpan();
+            MemoryExtensions.Sort(span, Utils.ComparerDesc);
+
+            _genomeFitnessRankForm.UpdateData(span);            
+        }
+
+        if(_genomeComplexityRankForm is not null)
+        {
+            using RentedArray<double> genomeComplexity = GetGenomeComplexities();
+            Span<double> span = genomeComplexity.AsSpan();
+            MemoryExtensions.Sort(span, Utils.ComparerDesc);
+
+            _genomeComplexityRankForm.UpdateData(span);            
         }
 
         // Write entry to log.
@@ -198,113 +188,148 @@ partial class MainForm
             UpdateUIState_EaReadyPaused();
     }
 
-    private double[] GetSpeciesSizeByRank(out int count)
+    private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        var speciesArr = _neatPop.SpeciesArray;
-        count = speciesArr.Length;
-
-        double[] speciesSizeByRank = ArrayPool<double>.Shared.Rent(count);
-
-        for(int i = 0; i < count; i++)
-            speciesSizeByRank[i] = speciesArr[i].GenomeList.Count;
-
-        // Sort size values (highest values first).
-        Array.Sort(speciesSizeByRank, 0, count, Utils.ComparerDesc);
-        return speciesSizeByRank;
-    }
-
-    private void GetSpeciesFitnessByRank(
-        out double[] bestFitnessByRank,
-        out double[] meanFitnessSeries,
-        out int count)
-    {
-        var speciesArr = _neatPop.SpeciesArray;
-        count = speciesArr.Length;
-
-        bestFitnessByRank = ArrayPool<double>.Shared.Rent(count);
-        meanFitnessSeries = ArrayPool<double>.Shared.Rent(count);
-
-        for(int i = 0; i < count; i++)
+        if(_eaRunner.RunState == RunState.Running)
         {
-            bestFitnessByRank[i] = speciesArr[i].GenomeList[0].FitnessInfo.PrimaryFitness;
-            meanFitnessSeries[i] = speciesArr[i].Stats.MeanFitness;
+            MessageBox.Show("Evolution Algorithm is still running. Please click 'Stop' before closing the app.");
+            e.Cancel = true;
         }
-
-        // Sort best fitness values (highest values first).
-        Array.Sort(bestFitnessByRank, meanFitnessSeries, 0, count, Utils.ComparerDesc);
     }
 
-    private void GetSpeciesComplexityByRank(
-        out double[] bestComplexityByRank,
-        out double[] meanComplexitySeries,
-        out int count)
-    {
-        var speciesArr = _neatPop.SpeciesArray;
-        count = speciesArr.Length;
-
-        bestComplexityByRank = ArrayPool<double>.Shared.Rent(count);
-        meanComplexitySeries = ArrayPool<double>.Shared.Rent(count);
-
-        for(int i = 0; i < count; i++)
-        {
-            bestComplexityByRank[i] = speciesArr[i].GenomeList[0].Complexity;
-            meanComplexitySeries[i] = speciesArr[i].CalcMeanComplexity();
-        }
-
-        // Sort best fitness values (highest values first).
-        Array.Sort(bestComplexityByRank, meanComplexitySeries, 0, count, Utils.ComparerDesc);
-    }
-
-    private double[] GetGenomeFitness(out int count)
+    private RentedArray<double> GetGenomeFitnesses()
     {
         var genList = _neatPop.GenomeList;
-        count = genList.Count;
-        double[] genomeFitnessByRank = ArrayPool<double>.Shared.Rent(count);
+        int count = genList.Count;
+
+        RentedArray<double> genomeFitnessByRank = new(count);
+        Span<double> span = genomeFitnessByRank.AsSpan();
 
         for(int i = 0; i < count; i++)
-        {
-            genomeFitnessByRank[i] = genList[i].FitnessInfo.PrimaryFitness;
-        }
+            span[i] = genList[i].FitnessInfo.PrimaryFitness;
 
         return genomeFitnessByRank;
     }
 
-    private double[] GetGenomeComplexity(out int count)
+    private RentedArray<double> GetGenomeComplexities()
     {
         var genList = _neatPop.GenomeList;
-        count = genList.Count;
-        double[] genomeComplexity = ArrayPool<double>.Shared.Rent(count);
+        int count = genList.Count;
+        RentedArray<double> genomeComplexity = new(count);
+        Span<double> span = genomeComplexity.AsSpan();
 
         for(int i = 0; i < count; i++)
-        {
-            genomeComplexity[i] = genList[i].Complexity;
-        }
+            span[i] = genList[i].Complexity;
 
         return genomeComplexity;
     }
 
-    private static void GetHistogramData(
-        Span<double> data,
-        out Span<double> binX,
-        out Span<double> binFrequency,
-        out double[] rentedArray)
+    private RentedArray<double> GetSpeciesSizes()
     {
-        // Calc histogram bin count using the Rice rule; see http://en.wikipedia.org/wiki/Histogram
-        int binCount = (int)(2.0 * Math.Pow(data.Length, 1.0/3.0));
+        var speciesArr = _neatPop.SpeciesArray;
+        int count = speciesArr.Length;
 
-        HistogramData hd = NumericsUtils.BuildHistogramData(data, binCount);
+        RentedArray<double> speciesSizes = new(count);
+        Span<double> span = speciesSizes.AsSpan();
 
-        rentedArray = ArrayPool<double>.Shared.Rent(binCount * 2);
-        binX = rentedArray.AsSpan().Slice(0, binCount);
-        binFrequency = rentedArray.AsSpan().Slice(binCount, binCount);
+        for(int i = 0; i < count; i++)
+            span[i] = speciesArr[i].GenomeList.Count;
 
-        double incr = hd.Increment;
-        double x = hd.Min + (incr / 2.0);
+        return speciesSizes;
+    }
 
-        for(int i = 0; i < hd.FrequencyArray.Length; i++, x += incr)
+    private RentedArray<double> GetSpeciesMeanFitnesses()
+    {
+        var speciesArr = _neatPop.SpeciesArray;
+        int count = speciesArr.Length;
+
+        RentedArray<double> speciesMeanFitnesses = new(count);
+        Span<double> span = speciesMeanFitnesses.AsSpan();
+
+        for(int i = 0; i < count; i++)
+            span[i] = speciesArr[i].Stats.MeanFitness;
+
+        return speciesMeanFitnesses;
+    }
+
+    private RentedArray<double> GetSpeciesMeanComplexities()
+    {
+        var speciesArr = _neatPop.SpeciesArray;
+        int count = speciesArr.Length;
+
+        RentedArray<double> speciesMeanComplexities = new(count);
+        Span<double> span = speciesMeanComplexities.AsSpan();
+
+        for(int i = 0; i < count; i++)
+            span[i] = speciesArr[i].CalcMeanComplexity();
+
+        return speciesMeanComplexities;
+    }
+
+    private RentedArray<double> GetSpeciesSizeByRank()
+    {
+        var speciesArr = _neatPop.SpeciesArray;
+        int count = speciesArr.Length;
+
+        RentedArray<double> speciesSizeByRank = new(count);
+        Span<double> span = speciesSizeByRank.AsSpan();
+
+        for(int i = 0; i < count; i++)
+            span[i] = speciesArr[i].GenomeList.Count;
+
+        // Sort size values (highest values first).
+        MemoryExtensions.Sort(span, Utils.ComparerDesc);
+
+        return speciesSizeByRank;
+    }
+
+    private void GetSpeciesFitnessByRank(
+        out RentedArray<double> bestFitnessByRank,
+        out RentedArray<double> meanFitnessSeries)
+    {
+        var speciesArr = _neatPop.SpeciesArray;
+        int count = speciesArr.Length;
+
+        bestFitnessByRank = new(count);
+        meanFitnessSeries = new(count);
+
+        var bestFitnessByRankSpan = bestFitnessByRank.AsSpan();
+        var meanFitnessSeriesSpan = meanFitnessSeries.AsSpan();
+
+        for(int i = 0; i < count; i++)
         {
-            binX[i] = x;
-            binFrequency[i] = hd.FrequencyArray[i];
+            bestFitnessByRankSpan[i] = speciesArr[i].GenomeList[0].FitnessInfo.PrimaryFitness;
+            meanFitnessSeriesSpan[i] = speciesArr[i].Stats.MeanFitness;
         }
+
+        // Sort best fitness values (highest values first).
+        MemoryExtensions.Sort(
+            bestFitnessByRankSpan,
+            meanFitnessSeriesSpan,
+            Utils.ComparerDesc);
+    }
+
+    private void GetSpeciesComplexityByRank(
+        out RentedArray<double> bestComplexityByRank,
+        out RentedArray<double> meanComplexitySeries)
+    {
+        var speciesArr = _neatPop.SpeciesArray;
+        int count = speciesArr.Length;
+
+        bestComplexityByRank = new(count);
+        meanComplexitySeries = new(count);
+
+        var bestComplexityByRankSpan = bestComplexityByRank.AsSpan();
+        var meanComplexitySeriesSpan = meanComplexitySeries.AsSpan();
+
+        for(int i = 0; i < count; i++)
+        {
+            bestComplexityByRankSpan[i] = speciesArr[i].GenomeList[0].Complexity;
+            meanComplexitySeriesSpan[i] = speciesArr[i].CalcMeanComplexity();
+        }
+
+        // Sort best fitness values (highest values first).
+        MemoryExtensions.Sort(
+            bestComplexityByRankSpan, meanComplexitySeriesSpan, Utils.ComparerDesc);
     }
 }

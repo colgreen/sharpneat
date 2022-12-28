@@ -230,6 +230,66 @@ partial class MainForm
             () => _evalsPerSecTimeSeriesForm = null);
     }
 
+    private void speciesSizeHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        _speciesSizeHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Species Size Histogram",
+                "Species Size",
+                "Frequency",
+                null),
+            speciesSizeHistogramToolStripMenuItem,
+            () => _speciesSizeHistogramForm = null);
+    }
+
+    private void speciesMeanFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        _speciesMeanFitnessHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Species Mean Fitness Histogram",
+                "Species Mean Fitness",
+                "Frequency",
+                null),
+            speciesMeanFitnessHistogramToolStripMenuItem,
+            () => _speciesMeanFitnessHistogramForm = null);
+    }
+
+    private void speciesMeanComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        _speciesMeanComplexityHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Species Mean Complexity Histogram",
+                "Species Mean Complexity",
+                "Frequency",
+                null),
+            speciesMeanComplexityHistogramToolStripMenuItem,
+            () => _speciesMeanComplexityHistogramForm = null);
+    }
+
+    private void genomeFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        _genomeFitnessHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Genome Fitness Histogram",
+                "Fitness",
+                "Frequency",
+                null),
+            genomeFitnessHistogramToolStripMenuItem,
+            () => _genomeFitnessHistogramForm = null);
+    }
+
+    private void genomeComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        _genomeComplexityHistogramForm = HandleFormOpening(
+            new HistogramGraphForm(
+                "Genome Complexity Histogram",
+                "Complexity",
+                "Frequency",
+                null),
+            genomeComplexityHistogramToolStripMenuItem,
+            () => _genomeComplexityHistogramForm = null);
+    }
+
     private void speciesSizeByRankToolStripMenuItem_Click(object sender, EventArgs e)
     {
         _speciesSizeRankForm = HandleFormOpening(
@@ -250,7 +310,7 @@ partial class MainForm
                 "Rank", "Fitness",
                 "Best Fitness",
                 "Mean Fitness"),
-            speciesSizeByRankToolStripMenuItem,
+            speciesFitnessByRankToolStripMenuItem,
             () => _speciesFitnessRankForm = null);
     }
 
@@ -289,45 +349,6 @@ partial class MainForm
                 null),
             genomeComplexityByRankToolStripMenuItem,
             () => _genomeComplexityRankForm = null);
-    }
-
-    private void speciesSizeHistogramToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        // TODO: Implement.
-    }
-
-    private void speciesMeanFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        // TODO: Implement.
-    }
-
-    private void speciesMeanComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        // TODO: Implement.
-    }
-
-    private void genomeFitnessHistogramToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        _genomeFitnessHistogramForm = HandleFormOpening(
-            new HistogramGraphForm(
-                "Genome Fitness Histogram",
-                "Fitness",
-                "Frequency",
-                null),
-            genomeFitnessHistogramToolStripMenuItem,
-            () => _genomeFitnessHistogramForm = null);
-    }
-
-    private void genomeComplexityHistogramToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        _genomeComplexityHistogramForm = HandleFormOpening(
-            new HistogramGraphForm(
-                "Genome Complexity Histogram",
-                "Complexity",
-                "Frequency",
-                null),
-            genomeComplexityHistogramToolStripMenuItem,
-            () => _genomeComplexityHistogramForm = null);
     }
 
     #endregion
