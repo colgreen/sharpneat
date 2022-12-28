@@ -21,8 +21,12 @@ internal sealed class Logger
 
     static Logger()
     {
-        __bindingList = new BindingList<LogItem>(new LogBuffer(500));
-        __bindingList.Add(new LogItem(""));
+        __bindingList = new BindingList<LogItem>(
+            new LogBuffer(500))
+            {
+                // Add an initial empty log item; otherwise ListBox throws an exception when the first item is added.
+                new LogItem("")
+            };
     }
 
     /// <summary>
