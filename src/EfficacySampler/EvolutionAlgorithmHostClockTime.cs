@@ -8,7 +8,7 @@ namespace EfficacySampler;
 /// <summary>
 /// An <see cref="IEvolutionAlgorithmHost"/> that is based on a clock time stop condition, e.g. run for 60 seconds.
 /// </summary>
-public class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
+public sealed class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
 {
     readonly INeatExperiment<double> _experiment;
     readonly TimeSpan _stopTimeSpan;
@@ -86,6 +86,13 @@ public class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
 
         // Return the sample.
         return sample;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _awaitStartEvent?.Dispose();
+        _awaitStopEvent?.Dispose();
     }
 
     #endregion

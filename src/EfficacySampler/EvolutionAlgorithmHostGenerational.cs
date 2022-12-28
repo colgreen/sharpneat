@@ -8,7 +8,7 @@ namespace EfficacySampler;
 /// <summary>
 /// An <see cref="IEvolutionAlgorithmHost"/> that is based on a generation count stop condition, e.g. run for 100 generations.
 /// </summary>
-public class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
+public sealed class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
 {
     readonly INeatExperiment<double> _experiment;
     readonly int _stopGenerationCount;
@@ -72,6 +72,11 @@ public class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
 
         // Return the sample.
         return sample;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
     }
 
     #endregion

@@ -1,7 +1,6 @@
-﻿
-namespace EfficacySampler;
+﻿namespace EfficacySampler;
 
-public class StopCondition
+public sealed class StopCondition
 {
     public StopConditionType StopConditionType;
     public int Value;

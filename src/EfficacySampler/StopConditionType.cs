@@ -1,5 +1,4 @@
-﻿
-namespace EfficacySampler;
+﻿namespace EfficacySampler;
 
 public enum StopConditionType
 {

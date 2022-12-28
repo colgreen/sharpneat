@@ -4,7 +4,7 @@ namespace EfficacySampler;
 /// <summary>
 /// A single efficacy sampler sample; this conveys statistics recorded from an evolution algorithm instance.
 /// </summary>
-public class Sample
+public sealed class Sample
 {
     /// <summary>
     /// Elapsed time in seconds.
