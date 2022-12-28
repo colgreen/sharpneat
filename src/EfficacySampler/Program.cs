@@ -7,7 +7,7 @@ using SharpNeat.Tasks.GenerativeFunctionRegression;
 
 namespace EfficacySampler;
 
-class Program
+sealed class Program
 {
     static StreamWriter? __streamWriter;
 

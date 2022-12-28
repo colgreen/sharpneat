@@ -325,7 +325,7 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
 
     #region Inner Class
 
-    private class DepthLayoutSchemeData
+    private sealed class DepthLayoutSchemeData
     {
         public LightweightList<int>[] NodesByLayer { get; }
 

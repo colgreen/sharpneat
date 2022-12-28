@@ -69,7 +69,7 @@ internal sealed class Logger
     /// <summary>
     /// Represents a single log item.
     /// </summary>
-    internal class LogItem
+    internal sealed class LogItem
     {
         readonly string _message;
 
@@ -90,11 +90,11 @@ internal sealed class Logger
         }
     }
 
-    class LogBuffer : CircularBuffer<LogItem>, IList<LogItem>
+    sealed class LogBuffer : CircularBuffer<LogItem>, IList<LogItem>
     {
-        public LogBuffer(int capacity) : base(capacity)
-        {
-        }
+        public LogBuffer(int capacity) 
+            : base(capacity)
+        {}
 
         #region IList<LogItem>
 

@@ -4,7 +4,7 @@ using SharpNeat.Tasks.Benchmarks.PreyCapture;
 
 namespace SharpNeatTasks.Benchmarks;
 
-class Program
+sealed class Program
 {
     static void Main()
     {

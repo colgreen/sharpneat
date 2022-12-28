@@ -106,7 +106,7 @@ public class ConnectionSorterBenchmarks
 
     #endregion
 
-    private class ConnectionData
+    private sealed class ConnectionData
     {
         public ConnectionIds _connIds;
         public double[] _weightArr;

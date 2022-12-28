@@ -4,7 +4,7 @@ using SharpNeat.Neat.DistanceMetrics;
 
 namespace SharpNeat.Benchmarks;
 
-class Program
+sealed class Program
 {
     static void Main()
     {
