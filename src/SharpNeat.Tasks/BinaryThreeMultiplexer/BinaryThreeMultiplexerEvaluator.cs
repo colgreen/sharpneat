@@ -5,6 +5,8 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.BinaryThreeMultiplexer;
 
+#pragma warning disable CA1725 // Parameter names should match base declaration.
+
 // TODO: Consider a variant on this evaluator that uses two outputs instead of one, i.e. 'false' and 'true' outputs;
 // (if both outputs are low or high then that's just an invalid response).
 

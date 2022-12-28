@@ -4,6 +4,8 @@ using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.CartPole.SinglePole;
 
+#pragma warning disable CA1725 // Parameter names should match base declaration.
+
 /// <summary>
 /// Evaluator for the cart and single pole balancing task.
 /// </summary>
