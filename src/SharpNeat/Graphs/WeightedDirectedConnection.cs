@@ -2,6 +2,8 @@
 // See LICENSE.txt for details.
 namespace SharpNeat.Graphs;
 
+#pragma warning disable CA1036 // Override methods on comparable types
+
 /// <summary>
 /// Represents a connection between two nodes, combined with a connection weight.
 /// </summary>
@@ -54,7 +56,9 @@ public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirec
         // an Int32, i.e., the result of that subtraction does not overflow and is therefore a negative value
         // as required, giving a valid comparison result.
         int diff = SourceId - other.SourceId;
-        if(diff != 0) return diff;
+        if(diff != 0)
+            return diff;
+
         return TargetId - other.TargetId;
     }
 
