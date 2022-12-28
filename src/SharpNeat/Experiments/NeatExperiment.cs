@@ -68,7 +68,7 @@ public class NeatExperiment<T> : INeatExperiment<T>
     public IBlackBoxEvaluationScheme<T> EvaluationScheme { get; }
 
     /// <inheritdoc/>
-    public bool IsAcyclic { get; set; } = false;
+    public bool IsAcyclic { get; set; }
 
     /// <inheritdoc/>
     public int CyclesPerActivation { get; set; } = 1;
@@ -101,10 +101,10 @@ public class NeatExperiment<T> : INeatExperiment<T>
     public int DegreeOfParallelism { get; set; } = -1;
 
     /// <inheritdoc/>
-    public bool EnableHardwareAcceleratedNeuralNets { get; set; } = false;
+    public bool EnableHardwareAcceleratedNeuralNets { get; set; }
 
     /// <inheritdoc/>
-    public bool EnableHardwareAcceleratedActivationFunctions { get; set; } = false;
+    public bool EnableHardwareAcceleratedActivationFunctions { get; set; }
 
     #endregion
 }

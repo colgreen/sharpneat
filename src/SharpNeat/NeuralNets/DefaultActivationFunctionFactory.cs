@@ -15,7 +15,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
     where T : struct
 {
     // If true then hardware accelerated activation functions are used when available.
-    readonly bool _enableHardwareAcceleration = false;
+    readonly bool _enableHardwareAcceleration;
 
     // A dictionary of activation function instances keyed by class name.
     readonly Dictionary<string,IActivationFunction<T>> _fnByName = new();
