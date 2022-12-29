@@ -44,8 +44,11 @@ public sealed class DirectedGraphViewModel
         float[] weightArr,
         INodeIdMap nodeIdByIdx)
     {
-        if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
-        if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
+        if(weightArr.Length != digraph.ConnectionIds.Length)
+            throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
+
+        if(nodeIdByIdx.Count != digraph.TotalNodeCount)
+            throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
 
         DirectedGraph = digraph;
         WeightArr = weightArr;
@@ -66,9 +69,14 @@ public sealed class DirectedGraphViewModel
         INodeIdMap nodeIdByIdx,
         Point[] nodePosByIdx)
     {
-        if(weightArr.Length != digraph.ConnectionIds.Length) throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
-        if(nodeIdByIdx.Count != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
-        if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node counts must match.", nameof(nodePosByIdx));
+        if(weightArr.Length != digraph.ConnectionIds.Length)
+            throw new ArgumentException("Weight and connection ID arrays must have same length.", nameof(weightArr));
+
+        if(nodeIdByIdx.Count != digraph.TotalNodeCount)
+            throw new ArgumentException("Node counts must match.", nameof(nodeIdByIdx));
+
+        if(nodePosByIdx.Length != digraph.TotalNodeCount)
+            throw new ArgumentException("Node counts must match.", nameof(nodePosByIdx));
 
         DirectedGraph = digraph;
         WeightArr = weightArr;
