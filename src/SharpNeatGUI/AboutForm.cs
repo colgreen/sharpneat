@@ -10,8 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 using SharpNeatGUI.Properties;
 
 namespace SharpNeatGUI

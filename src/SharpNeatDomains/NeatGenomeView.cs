@@ -9,8 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using SharpNeat.View.Graph;
 using SharpNeat.Genomes.Neat;
+using SharpNeat.View.Graph;
 
 namespace SharpNeat.Domains
 {

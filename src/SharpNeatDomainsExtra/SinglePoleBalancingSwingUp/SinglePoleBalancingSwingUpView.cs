@@ -12,9 +12,9 @@
 using System;
 using SharpNeat.Core;
 using SharpNeat.DomainsExtra.Box2D;
+using SharpNeat.DomainsExtra.SinglePoleBalancingBox2d;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
-using SharpNeat.DomainsExtra.SinglePoleBalancingBox2d;
 
 namespace SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp
 {

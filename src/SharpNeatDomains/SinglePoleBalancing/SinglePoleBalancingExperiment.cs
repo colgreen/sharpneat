@@ -22,7 +22,6 @@ using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
-using SharpNeat.Network;
 
 namespace SharpNeat.Domains.SinglePoleBalancing
 {

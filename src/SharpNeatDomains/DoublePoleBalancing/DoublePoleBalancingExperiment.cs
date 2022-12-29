@@ -10,19 +10,18 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 using log4net;
-
-using SharpNeat.EvolutionAlgorithms;
-using SharpNeat.Genomes.Neat;
-using SharpNeat.DistanceMetrics;
 using SharpNeat.Core;
-using SharpNeat.SpeciationStrategies;
-using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
-using SharpNeat.Phenomes;
-using SharpNeat.Decoders.Neat;
 using SharpNeat.Decoders;
-using System.Threading.Tasks;
+using SharpNeat.Decoders.Neat;
+using SharpNeat.DistanceMetrics;
+using SharpNeat.EvolutionAlgorithms;
+using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
+using SharpNeat.Genomes.Neat;
+using SharpNeat.Phenomes;
+using SharpNeat.SpeciationStrategies;
 
 namespace SharpNeat.Domains.DoublePoleBalancing
 {

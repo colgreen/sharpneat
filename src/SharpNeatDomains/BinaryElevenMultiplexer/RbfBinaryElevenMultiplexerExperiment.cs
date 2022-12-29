@@ -20,10 +20,10 @@ using SharpNeat.DistanceMetrics;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNeat.Genomes.Neat;
+using SharpNeat.Genomes.RbfNeat;
+using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
-using SharpNeat.Network;
-using SharpNeat.Genomes.RbfNeat;
 
 namespace SharpNeat.Domains.BinaryElevenMultiplexer
 {

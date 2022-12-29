@@ -10,9 +10,7 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using SharpNeat.Core;
 
 namespace SharpNeat.DistanceMetrics

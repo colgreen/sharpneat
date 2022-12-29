@@ -11,8 +11,8 @@
  */
 using System;
 using SharpNeat.Core;
-using SharpNeat.Phenomes;
 using SharpNeat.DomainsExtra.SinglePoleBalancingBox2d;
+using SharpNeat.Phenomes;
 
 namespace SharpNeat.DomainsExtra.SinglePoleBalancingSwingUp
 {

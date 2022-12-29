@@ -10,8 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 
-using SharpNeat.Network;
 using System.Collections.Generic;
+using SharpNeat.Network;
 
 namespace SharpNeat.Genomes.Neat
 {

@@ -10,8 +10,8 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System.Collections.Generic;
-using SharpNeat.Core;
 using System.Diagnostics;
+using SharpNeat.Core;
 
 namespace SharpNeat.SpeciationStrategies
 {

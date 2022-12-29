@@ -9,8 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 using log4net;
 using SharpNeat.Core;
@@ -24,7 +24,6 @@ using SharpNeat.Genomes.Neat;
 using SharpNeat.Network;
 using SharpNeat.Phenomes;
 using SharpNeat.SpeciationStrategies;
-using System.Threading.Tasks;
 
 namespace SharpNeat.Domains.BoxesVisualDiscrimination
 {

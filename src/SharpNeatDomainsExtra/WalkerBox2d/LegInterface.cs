@@ -9,9 +9,8 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
-using Box2DX.Dynamics;
 using Box2DX.Common;
+using Box2DX.Dynamics;
 using SysMath = System.Math;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d

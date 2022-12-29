@@ -11,7 +11,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 
 namespace SharpNeat.Network
 {
@@ -61,8 +60,8 @@ namespace SharpNeat.Network
 
         public bool Equals(ConnectionEndpointsStruct other)
         {
-            return (this.SourceNodeId == other.SourceNodeId) 
-                && (this.TargetNodeId == other.TargetNodeId);
+            return (_srcNodeId == other.SourceNodeId) 
+                && (_tgtNodeId == other.TargetNodeId);
         }
 
         #endregion
@@ -72,7 +71,7 @@ namespace SharpNeat.Network
         public override bool Equals(object obj)
         {
             if(obj is ConnectionEndpointsStruct) {
-                return this.Equals((ConnectionEndpointsStruct)obj);
+                return Equals((ConnectionEndpointsStruct)obj);
             }
             return false;
         }

@@ -13,12 +13,11 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Threading;
 using System.Windows.Forms;
 using SharpNeat.Core;
-using SharpNeat.Domains.BoxesVisualDiscrimination;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Phenomes;
-using System.Threading;
 
 namespace SharpNeat.Domains.PreyCapture
 {

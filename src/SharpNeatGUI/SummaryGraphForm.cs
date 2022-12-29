@@ -10,12 +10,12 @@
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using SharpNeat.EvolutionAlgorithms;
 using SharpNeat.Genomes.Neat;
 using SharpNeat.Utility;
 using ZedGraph;
-using System.Drawing;
 
 namespace SharpNeatGUI
 {
