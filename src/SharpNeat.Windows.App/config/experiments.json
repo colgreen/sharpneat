@@ -11,9 +11,9 @@
       "configFile": "config/experiments-config/xor.config.json",
       "descriptionFile": "config/experiments-descriptions/xor.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     },
 
@@ -27,9 +27,9 @@
       "configFile": "config/experiments-config/prey-capture.config.json",
       "descriptionFile": "config/experiments-descriptions/prey-capture.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     },
 
@@ -43,9 +43,9 @@
       "configFile": "config/experiments-config/binary-6-multiplexer.config.json",
       "descriptionFile": "config/experiments-descriptions/binary-6-multiplexer.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     },
 
@@ -59,9 +59,9 @@
       "configFile": "config/experiments-config/binary-11-multiplexer.config.json",
       "descriptionFile": "config/experiments-descriptions/binary-11-multiplexer.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     },
 
@@ -75,9 +75,9 @@
       "configFile": "config/experiments-config/cartpole-singlepole.config.json",
       "descriptionFile": "config/experiments-descriptions/cartpole-singlepole.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     },
 
@@ -91,9 +91,9 @@
       "configFile": "config/experiments-config/cartpole-doublepole.config.json",
       "descriptionFile": "config/experiments-descriptions/cartpole-doublepole.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     },
 
@@ -107,9 +107,9 @@
       "configFile": "config/experiments-config/generative-sinewave.config.json",
       "descriptionFile": "config/experiments-descriptions/generative-sinewave.txt",
       // UI settings.
-      "experimentUIFactory": {
+      "experimentUiFactory": {
         "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUIFactory"
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
       }
     }
   ]
