@@ -71,8 +71,15 @@ internal sealed partial class MainForm : Form
         // Note. Use of ReadAllText() isn't ideal, but for a small file it's fine, and this avoids the complexities of dealign
         // with async code in a synchronous context.
         string experimentsJson = File.ReadAllText("config/experiments.json");
-        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, ReadCommentHandling = JsonCommentHandling.Skip };
-        ExperimentRegistry registry = JsonSerializer.Deserialize<ExperimentRegistry>(experimentsJson, options);
+
+        var options = new JsonSerializerOptions 
+        { 
+            PropertyNameCaseInsensitive = true,
+            ReadCommentHandling = JsonCommentHandling.Skip
+        };
+
+        ExperimentRegistry registry = JsonSerializer.Deserialize<ExperimentRegistry>(
+            experimentsJson, options);
 
         // Populate the combo box.
         foreach(ExperimentInfo expInfo in registry.Experiments)
