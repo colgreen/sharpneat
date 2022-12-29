@@ -21,6 +21,7 @@ namespace SharpNeat.Windows.App
             {
                 _eaRunner?.Dispose();
                 _bestGenomeForm?.Dispose();
+                _taskForm?.Dispose();
                 _fitnessTimeSeriesForm?.Dispose();
                 _complexityTimeSeriesForm?.Dispose();
                 _evalsPerSecTimeSeriesForm?.Dispose();
@@ -1167,6 +1168,7 @@ namespace SharpNeat.Windows.App
             this.taskToolStripMenuItem.Name = "taskToolStripMenuItem";
             this.taskToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.taskToolStripMenuItem.Text = "Task";
+            this.taskToolStripMenuItem.Click += new System.EventHandler(this.taskToolStripMenuItem_Click);
             // 
             // graphsToolStripMenuItem
             // 

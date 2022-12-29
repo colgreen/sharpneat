@@ -26,6 +26,7 @@ internal sealed partial class MainForm : Form
     private EvolutionAlgorithmRunner _eaRunner;
     private IExperimentUi _experimentUi;
     private GenomeForm _bestGenomeForm;
+    private GenomeForm _taskForm;
 
     // Time series forms.
     private FitnessTimeSeriesForm _fitnessTimeSeriesForm;

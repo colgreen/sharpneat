@@ -183,7 +183,7 @@ partial class MainForm
             return;
 
         GenomeControl genomeCtrl = experimentUi.CreateGenomeControl();
-        if(experimentUi is null)
+        if(genomeCtrl is null)
             return;
 
         // Create form, disable its associated menu item, and attach form-close event handlers.
@@ -191,6 +191,32 @@ partial class MainForm
             new GenomeForm("Best Genome", genomeCtrl),
             bestGenomeToolStripMenuItem,
             () => _bestGenomeForm  = null);
+
+        // Get the current best genome.
+        NeatGenome<double> bestGenome = _neatPop?.BestGenome;
+        if(bestGenome is not null)
+        {
+            // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we
+            // see a genome right away, regardless of whether the EA is running or not.
+            _bestGenomeForm.Genome = bestGenome;
+        }
+    }
+
+    private void taskToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        IExperimentUi experimentUi = GetExperimentUi();
+        if(experimentUi is null)
+            return;
+
+        GenomeControl taskCtrl = experimentUi.CreateTaskControl();
+        if(taskCtrl is null)
+            return;
+
+        // Create form, disable its associated menu item, and attach form-close event handlers.
+        _taskForm = HandleFormOpening(
+            new GenomeForm("Task View", taskCtrl),
+            taskToolStripMenuItem,
+            () => _taskForm  = null);
 
         // Get the current best genome.
         NeatGenome<double> bestGenome = _neatPop?.BestGenome;

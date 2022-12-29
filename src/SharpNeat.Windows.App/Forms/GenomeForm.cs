@@ -6,14 +6,15 @@ namespace SharpNeat.Windows.App.Forms;
 
 /// <summary>
 /// Form for genome visualization.
+/// </summary>
+/// <remarks>
 /// This is used for displaying genome's directly (e.g. a neural net structure), or some other type of visualization
 /// that uses the genome, e.g. a task view that shows how the genome performs on some task.
-/// </summary>
+/// </remarks>
 internal sealed partial class GenomeForm : Form
 {
     /// <summary>
-    /// Construct with the provided form title, genome view/renderer and evolution algorithm. We listen to update events
-    /// from the evolution algorithm and cleanly detach from it when this form closes.
+    /// Construct with the provided form title, and genome control that will produce the desired view.
     /// </summary>
     public GenomeForm(string title, GenomeControl genomeCtrl)
     {
