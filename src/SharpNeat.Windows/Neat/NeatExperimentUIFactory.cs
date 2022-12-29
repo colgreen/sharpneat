@@ -5,13 +5,13 @@ using SharpNeat.Windows.Experiments;
 namespace SharpNeat.Windows.Neat;
 
 /// <summary>
-/// Default implementation of <see cref="IExperimentUIFactory"/> for NEAT and NEAT genomes."/>.
+/// Default implementation of <see cref="IExperimentUiFactory"/> for NEAT and NEAT genomes."/>.
 /// </summary>
-public sealed class NeatExperimentUIFactory : IExperimentUIFactory
+public sealed class NeatExperimentUiFactory : IExperimentUiFactory
 {
     /// <inheritdoc/>
-    public IExperimentUI CreateExperimentUI(Stream jsonConfigStream)
+    public IExperimentUi CreateExperimentUi(Stream jsonConfigStream)
     {
-        return new NeatExperimentUI();
+        return new NeatExperimentUi();
     }
 }

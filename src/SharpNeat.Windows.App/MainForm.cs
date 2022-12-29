@@ -24,7 +24,7 @@ internal sealed partial class MainForm : Form
     private INeatExperiment<double> _neatExperiment;
     private NeatPopulation<double> _neatPop;
     private EvolutionAlgorithmRunner _eaRunner;
-    private IExperimentUI _experimentUI;
+    private IExperimentUi _experimentUi;
     private GenomeForm _bestGenomeForm;
 
     // Time series forms.

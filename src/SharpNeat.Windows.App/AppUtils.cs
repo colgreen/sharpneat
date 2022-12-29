@@ -21,20 +21,20 @@ internal static class AppUtils
         return experiment;
     }
 
-    public static IExperimentUI CreateAndConfigureExperimentUI(ExperimentInfo expInfo)
+    public static IExperimentUi CreateAndConfigureExperimentUi(ExperimentInfo expInfo)
     {
-        if(expInfo.ExperimentUIFactory is null)
+        if(expInfo.ExperimentUiFactory is null)
             return null;
 
-        // Create an experimentUI factory.
-        IExperimentUIFactory factory = (IExperimentUIFactory)Activator.CreateInstance(
-            expInfo.ExperimentUIFactory.AssemblyName,
-            expInfo.ExperimentUIFactory.TypeName)
+        // Create an experiment UI factory.
+        IExperimentUiFactory factory = (IExperimentUiFactory)Activator.CreateInstance(
+            expInfo.ExperimentUiFactory.AssemblyName,
+            expInfo.ExperimentUiFactory.TypeName)
             .Unwrap();
 
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        IExperimentUI experimentUI = factory.CreateExperimentUI(expInfo.ConfigFile);
-        return experimentUI;
+        IExperimentUi experimentUi = factory.CreateExperimentUi(expInfo.ConfigFile);
+        return experimentUi;
     }
 
     /// <summary>

@@ -5,9 +5,9 @@ using SharpNeat.Windows.Experiments;
 namespace SharpNeat.Windows.Neat;
 
 /// <summary>
-/// Default implementation of <see cref="IExperimentUI"/> for NEAT and NEAT genomes."/>.
+/// Default implementation of <see cref="IExperimentUi"/> for NEAT and NEAT genomes."/>.
 /// </summary>
-public sealed class NeatExperimentUI : IExperimentUI
+public sealed class NeatExperimentUi : IExperimentUi
 {
     /// <inheritdoc/>
     public GenomeControl CreateGenomeControl()

@@ -1,4 +1,4 @@
-﻿namespace UISandbox
+﻿namespace UiSandbox
 {
     partial class Form1
     {

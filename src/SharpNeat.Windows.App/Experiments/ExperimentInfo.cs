@@ -8,5 +8,5 @@ internal sealed class ExperimentInfo
     public ExperimentFactoryInfo ExperimentFactory { get; set; }
     public string ConfigFile { get; set; }
     public string DescriptionFile { get; set; }
-    public ExperimentUIFactoryInfo ExperimentUIFactory { get; set; }
+    public ExperimentUiFactoryInfo ExperimentUiFactory { get; set; }
 }

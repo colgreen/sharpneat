@@ -5,9 +5,9 @@ using log4net;
 
 namespace SharpNeat.Windows.App;
 
-internal static class UIAccessUtils
+internal static class UiAccessUtils
 {
-    private static readonly ILog __log = LogManager.GetLogger(typeof(UIAccessUtils));
+    private static readonly ILog __log = LogManager.GetLogger(typeof(UiAccessUtils));
 
     public static void SetValue(TextBox txtBox, int val)
     {

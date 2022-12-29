@@ -1,4 +1,4 @@
-namespace UISandbox;
+namespace UiSandbox;
 
 static class Program
 {

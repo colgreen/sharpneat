@@ -48,7 +48,7 @@ partial class MainForm
                 neatExperiment.PopulationSize,
                 genomeList);
 
-            UpdateUIState();
+            UpdateUiState();
         }
         catch(Exception ex)
         {
@@ -81,7 +81,7 @@ partial class MainForm
                 neatExperiment.ReproductionAsexualSettings,
                 weightMutationScheme);
 
-            UpdateUIState();
+            UpdateUiState();
         }
         catch(Exception ex)
         {
@@ -121,7 +121,7 @@ partial class MainForm
                 neatExperiment.ReproductionAsexualSettings,
                 weightMutationScheme);
 
-            UpdateUIState();
+            UpdateUiState();
         }
         catch(Exception ex)
         {
@@ -178,12 +178,12 @@ partial class MainForm
 
     private void bestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        IExperimentUI experimentUI = GetExperimentUI();
-        if(experimentUI is null)
+        IExperimentUi experimentUi = GetExperimentUi();
+        if(experimentUi is null)
             return;
 
-        GenomeControl genomeCtrl = experimentUI.CreateGenomeControl();
-        if(experimentUI is null)
+        GenomeControl genomeCtrl = experimentUi.CreateGenomeControl();
+        if(experimentUi is null)
             return;
 
         // Create form, disable its associated menu item, and attach form-close event handlers.
@@ -365,12 +365,12 @@ partial class MainForm
 
     #region Private Methods
 
-    private IExperimentUI GetExperimentUI()
+    private IExperimentUi GetExperimentUi()
     {
         // Create a new experiment instance if one has not already been created.
-        _experimentUI ??= CreateAndConfigureExperimentUI((ExperimentInfo)cmbExperiments.SelectedItem);
+        _experimentUi ??= CreateAndConfigureExperimentUi((ExperimentInfo)cmbExperiments.SelectedItem);
 
-        return _experimentUI;
+        return _experimentUi;
     }
 
     /// <summary>

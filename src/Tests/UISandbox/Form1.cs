@@ -5,7 +5,7 @@ using SharpNeat.Graphs;
 
 #pragma warning disable IDE1006 // Naming Styles
 
-namespace UISandbox;
+namespace UiSandbox;
 
 public partial class Form1 : Form
 {

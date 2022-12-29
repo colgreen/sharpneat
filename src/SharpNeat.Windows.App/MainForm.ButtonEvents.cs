@@ -30,7 +30,7 @@ partial class MainForm
     private void btnLoadExperimentDefaultParameters_Click(object sender, EventArgs e)
     {
         _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
-        SendSettingsToUI(_neatExperiment);
+        SendSettingsToUi(_neatExperiment);
     }
 
     private void btnCreateRandomPop_Click(object sender, EventArgs e)
@@ -45,7 +45,7 @@ partial class MainForm
             popSize: neatExperiment.PopulationSize);
 
         // Update UI.
-        UpdateUIState();
+        UpdateUiState();
     }
 
     private void btnSearchStart_Click(object sender, EventArgs e)
@@ -53,7 +53,7 @@ partial class MainForm
         if(_eaRunner is not null)
         {   // Resume existing EA & update GUI state.
             _eaRunner.StartOrResume();
-            UpdateUIState();
+            UpdateUiState();
             return;
         }
 
@@ -73,7 +73,7 @@ partial class MainForm
 
         // Start the algorithm & update GUI state.
         _eaRunner.StartOrResume();
-        UpdateUIState();
+        UpdateUiState();
     }
 
     private void btnSearchStop_Click(object sender, EventArgs e)
@@ -94,8 +94,8 @@ partial class MainForm
 
         // Reset/update UI state.
         Logger.Clear();
-        UpdateUIState();
-        UpdateUIState_ResetStats();
+        UpdateUiState();
+        UpdateUiState_ResetStats();
 
         // Clear/reset child forms (those that are open).
         if(_bestGenomeForm is not null) 
@@ -137,7 +137,7 @@ partial class MainForm
         _neatExperiment ??= CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
 
         // Read settings from the UI into the experiment instance, and return.
-        GetSettingsFromUI(_neatExperiment);
+        GetSettingsFromUi(_neatExperiment);
         return _neatExperiment;
     }
 }

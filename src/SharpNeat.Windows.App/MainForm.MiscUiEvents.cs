@@ -16,7 +16,7 @@ partial class MainForm
     {
         // Clear any existing references, as these are specific to each experiment.
         _neatExperiment = null;
-        _experimentUI = null;
+        _experimentUi = null;
 
         // Close the genome form if it is open, as the content of this form is specific to each experiment.
         GenomeForm bestGenomeForm = _bestGenomeForm;
@@ -41,7 +41,7 @@ partial class MainForm
         }
 
         // Update stats fields.
-        UpdateUIState_EaStats();
+        UpdateUiState_EaStats();
 
         // Update child forms (those that are open).
         if(_bestGenomeForm is not null)
@@ -185,7 +185,7 @@ partial class MainForm
         __log.Info($"gen={_eaRunner.EA.Stats.Generation:N0} bestFitness={_neatPop.Stats.BestFitness.PrimaryFitness:N6}");
 
         if(_eaRunner.RunState == RunState.Paused)
-            UpdateUIState_EaReadyPaused();
+            UpdateUiState_EaReadyPaused();
     }
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

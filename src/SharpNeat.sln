@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Windows", "SharpN
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Windows.App", "SharpNeat.Windows.App\SharpNeat.Windows.App.csproj", "{13514FBA-19A2-46A1-8566-5DDF60ECF4B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UISandbox", "Tests\UISandbox\UISandbox.csproj", "{8CDC9EF1-1598-4806-BE43-CC87459B2665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UiSandbox", "Tests\UISandbox\UiSandbox.csproj", "{8CDC9EF1-1598-4806-BE43-CC87459B2665}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpNeat.Tasks.Windows", "SharpNeat.Tasks.Windows\SharpNeat.Tasks.Windows.csproj", "{1BCF2975-0397-455A-A1EE-9835A44079AA}"
 EndProject

@@ -7,7 +7,7 @@ using SharpNeat.Neat;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
-using static SharpNeat.Windows.App.UIAccessUtils;
+using static SharpNeat.Windows.App.UiAccessUtils;
 
 namespace SharpNeat.Windows.App;
 
@@ -15,14 +15,14 @@ partial class MainForm
 {
     #region Private Methods
 
-    private void UpdateUIState()
+    private void UpdateUiState()
     {
         if(_eaRunner is null)
         {
             if(_neatPop is null)
-                UpdateUIState_NoPopulation();
+                UpdateUiState_NoPopulation();
             else
-                UpdateUIState_PopulationReady();
+                UpdateUiState_PopulationReady();
         }
         else
         {
@@ -30,10 +30,10 @@ partial class MainForm
             {
                 case RunState.Ready:
                 case RunState.Paused:
-                    UpdateUIState_EaReadyPaused();
+                    UpdateUiState_EaReadyPaused();
                     break;
                 case RunState.Running:
-                    UpdateUIState_EaRunning();
+                    UpdateUiState_EaRunning();
                     break;
                 default:
                     throw new InvalidOperationException($"Unexpected RunState [{_eaRunner.RunState}]");
@@ -43,9 +43,9 @@ partial class MainForm
 
     #endregion
 
-    #region Private Methods [UpdateUIState Subroutines]
+    #region Private Methods [UpdateUiState Subroutines]
 
-    private void UpdateUIState_NoPopulation()
+    private void UpdateUiState_NoPopulation()
     {
         // Enable experiment selection and initialization buttons.
         cmbExperiments.Enabled = true;
@@ -75,7 +75,7 @@ partial class MainForm
         saveBestGenomeToolStripMenuItem.Enabled = false;
     }
 
-    private void UpdateUIState_PopulationReady()
+    private void UpdateUiState_PopulationReady()
     {
         // Disable anything to do with initialization now that we are initialized.
         cmbExperiments.Enabled = false;
@@ -107,7 +107,7 @@ partial class MainForm
         saveBestGenomeToolStripMenuItem.Enabled = true;
     }
 
-    private void UpdateUIState_EaReadyPaused()
+    private void UpdateUiState_EaReadyPaused()
     {
         // Disable anything to do with initialization now that we are initialized.
         cmbExperiments.Enabled = false;
@@ -137,7 +137,7 @@ partial class MainForm
         saveBestGenomeToolStripMenuItem.Enabled = true;
     }
 
-    private void UpdateUIState_EaRunning()
+    private void UpdateUiState_EaRunning()
     {
         // Disable anything to do with initialization now that we are initialized.
         cmbExperiments.Enabled = false;
@@ -183,7 +183,7 @@ partial class MainForm
         txtDeleteConnectionMutationProbability.Enabled = enabled;
     }
 
-    private void UpdateUIState_EaStats()
+    private void UpdateUiState_EaStats()
     {
         NeatEvolutionAlgorithmStatistics eaStats = (NeatEvolutionAlgorithmStatistics)_eaRunner.EA.Stats;
         NeatPopulationStatistics popStats = _neatPop.NeatPopulationStats;
@@ -229,7 +229,7 @@ partial class MainForm
         }
     }
 
-    private void UpdateUIState_ResetStats()
+    private void UpdateUiState_ResetStats()
     {
         txtSearchStatsMode.Text = string.Empty;
         txtSearchStatsMode.BackColor = Color.LightSkyBlue;
@@ -253,16 +253,16 @@ partial class MainForm
 
     #region Private Methods [Send Settings to UI]
 
-    private void SendSettingsToUI(INeatExperiment<double> experiment)
+    private void SendSettingsToUi(INeatExperiment<double> experiment)
     {
-        SendSettingsToUI(experiment.EvolutionAlgorithmSettings);
-        SendSettingsToUI(experiment.ReproductionAsexualSettings);
+        SendSettingsToUi(experiment.EvolutionAlgorithmSettings);
+        SendSettingsToUi(experiment.ReproductionAsexualSettings);
 
         SetValue(txtPopulationSize, experiment.PopulationSize);
         SetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
     }
 
-    private void SendSettingsToUI(NeatEvolutionAlgorithmSettings settings)
+    private void SendSettingsToUi(NeatEvolutionAlgorithmSettings settings)
     {
         SetValue(txtSpeciesCount, settings.SpeciesCount);
         SetValue(txtElitismProportion, settings.ElitismProportion);
@@ -272,7 +272,7 @@ partial class MainForm
         SetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
     }
 
-    private void SendSettingsToUI(NeatReproductionAsexualSettings settings)
+    private void SendSettingsToUi(NeatReproductionAsexualSettings settings)
     {
         SetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
         SetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
@@ -284,16 +284,16 @@ partial class MainForm
 
     #region Private Methods [Get Settings from UI]
 
-    private void GetSettingsFromUI(INeatExperiment<double> experiment)
+    private void GetSettingsFromUi(INeatExperiment<double> experiment)
     {
-        GetSettingsFromUI(experiment.EvolutionAlgorithmSettings);
-        GetSettingsFromUI(experiment.ReproductionAsexualSettings);
+        GetSettingsFromUi(experiment.EvolutionAlgorithmSettings);
+        GetSettingsFromUi(experiment.ReproductionAsexualSettings);
 
         experiment.PopulationSize = GetValue(txtPopulationSize, experiment.PopulationSize);
         experiment.InitialInterconnectionsProportion = GetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
     }
 
-    private void GetSettingsFromUI(NeatEvolutionAlgorithmSettings settings)
+    private void GetSettingsFromUi(NeatEvolutionAlgorithmSettings settings)
     {
         settings.SpeciesCount = GetValue(txtSpeciesCount, settings.SpeciesCount);
         settings.ElitismProportion = GetValue(txtElitismProportion, settings.ElitismProportion);
@@ -310,7 +310,7 @@ partial class MainForm
         settings.InterspeciesMatingProportion = GetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
     }
 
-    private void GetSettingsFromUI(NeatReproductionAsexualSettings settings)
+    private void GetSettingsFromUi(NeatReproductionAsexualSettings settings)
     {
         double connectionWeightMutationProbability = GetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
         double addNodeMutationProbability = GetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
