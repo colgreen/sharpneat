@@ -5,7 +5,7 @@ namespace SharpNeat.Windows.Experiments;
 /// <summary>
 /// Represents types that can create new User Interfaces (UIs) for visualisation of genomes and tasks.
 /// </summary>
-public interface IExperimentUI
+public interface IExperimentUi
 {
     /// <summary>
     /// Create a new Windows.Forms UI control for direct visualisation of the genomes, i.e. the showing the
