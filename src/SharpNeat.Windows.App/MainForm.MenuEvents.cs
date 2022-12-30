@@ -203,11 +203,17 @@ partial class MainForm
 
     private void taskToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+        if(neatExperiment is null)
+            return;
+
         IExperimentUi experimentUi = GetExperimentUi();
         if(experimentUi is null)
             return;
 
-        GenomeControl taskCtrl = experimentUi.CreateTaskControl();
+        GenomeControl taskCtrl = experimentUi.CreateTaskControl(
+            neatExperiment.EnableHardwareAcceleratedNeuralNets);
+
         if(taskCtrl is null)
             return;
 
