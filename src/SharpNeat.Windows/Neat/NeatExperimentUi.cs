@@ -16,8 +16,7 @@ public class NeatExperimentUi : IExperimentUi
     }
 
     /// <inheritdoc/>
-    public virtual GenomeControl CreateTaskControl(
-        bool enableHardwareAcceleratedNeuralNets)
+    public virtual GenomeControl CreateTaskControl()
     {
         return null;
     }

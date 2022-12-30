@@ -20,11 +20,8 @@ public interface IExperimentUi
     /// Create a new Windows.Forms UI control for visualisation of tasks. E.g. for a prey capture task we might
     /// have a UI control that shows the prey capture world, and how the current best genome performs in that world.
     /// </summary>
-    /// <param name="enableHardwareAcceleratedNeuralNets">Enable use of hardware accelerated neural network
-    /// implementations, i.e. alternate implementations that use CPU SIMD/vector instructions.</param>
     /// <returns>
     /// A new instance of <see cref="GenomeControl"/>; or null if the experiment does not provide a task control.
     /// </returns>
-    GenomeControl CreateTaskControl(
-        bool enableHardwareAcceleratedNeuralNets);
+    GenomeControl CreateTaskControl();
 }
