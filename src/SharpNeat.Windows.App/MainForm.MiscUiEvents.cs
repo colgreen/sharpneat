@@ -190,7 +190,7 @@ partial class MainForm
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        if(_eaRunner.RunState == RunState.Running)
+        if(_eaRunner?.RunState == RunState.Running)
         {
             MessageBox.Show("Evolution Algorithm is still running. Please click 'Stop' before closing the app.");
             e.Cancel = true;
