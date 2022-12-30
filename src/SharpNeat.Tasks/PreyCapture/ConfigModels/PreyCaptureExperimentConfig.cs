@@ -12,5 +12,5 @@ public class PreyCaptureExperimentConfig : ExperimentConfig
     /// <summary>
     /// Custom config for the prey capture experiment.
     /// </summary>
-    public PreyCaptureCustomConfig? CustomEvaluationSchemeConfig { get; set; }
+    public required PreyCaptureCustomConfig CustomEvaluationSchemeConfig { get; init; }
 }
