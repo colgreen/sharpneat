@@ -5,10 +5,10 @@ namespace SharpNeat.Experiments.ConfigModels;
 /// <summary>
 /// Model type for NEAT sexual reproduction configuration.
 /// </summary>
-public class NeatReproductionSexualConfig
+public sealed record NeatReproductionSexualConfig
 {
     /// <summary>
     /// The probability that a gene that exists only on the secondary parent is copied into the child genome.
     /// </summary>
-    public double? SecondaryParentGeneProbability { get; set; }
+    public double? SecondaryParentGeneProbability { get; init; }
 }

@@ -7,7 +7,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
 /// <summary>
 /// Model type for generative function regression experiment configuration.
 /// </summary>
-public class GenerativeFnRegressionExperimentConfig : ExperimentConfig
+public sealed record GenerativeFnRegressionExperimentConfig : ExperimentConfig
 {
     /// <summary>
     /// Custom config for the generative function regression experiment.

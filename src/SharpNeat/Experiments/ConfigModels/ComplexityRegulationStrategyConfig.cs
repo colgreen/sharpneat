@@ -20,10 +20,10 @@ public sealed record ComplexityRegulationStrategyConfig
     /// <summary>
     /// The relative complexity ceiling.
     /// </summary>
-    public int? RelativeComplexityCeiling { get; set; }
+    public int? RelativeComplexityCeiling { get; init; }
 
     /// <summary>
     /// The fixed/absolute complexity ceiling.
     /// </summary>
-    public int? ComplexityCeiling { get; set; }
+    public int? ComplexityCeiling { get; init; }
 }

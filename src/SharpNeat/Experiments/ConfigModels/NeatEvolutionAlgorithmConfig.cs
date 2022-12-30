@@ -5,19 +5,19 @@ namespace SharpNeat.Experiments.ConfigModels;
 /// <summary>
 /// Model type for NEAT evolution algorithm configuration.
 /// </summary>
-public class NeatEvolutionAlgorithmConfig
+public sealed record NeatEvolutionAlgorithmConfig
 {
     /// <summary>
     /// The species count.
     /// </summary>
-    public int? SpeciesCount { get; set; }
+    public int? SpeciesCount { get; init; }
 
     /// <summary>
     /// Elitism proportion.
     /// We sort species genomes by fitness and keep the top N%, the other genomes are
     /// removed to make way for the offspring.
     /// </summary>
-    public double? ElitismProportion { get; set; }
+    public double? ElitismProportion { get; init; }
 
     /// <summary>
     /// Selection proportion.
@@ -25,25 +25,25 @@ public class NeatEvolutionAlgorithmConfig
     /// the top N%. Selection is performed prior to elitism being applied, therefore selecting from more
     /// genomes than will be made elite is possible.
     /// </summary>
-    public double? SelectionProportion { get; set; }
+    public double? SelectionProportion { get; init; }
 
     /// <summary>
     /// The proportion of offspring to be produced from asexual reproduction (mutation).
     /// </summary>
-    public double? OffspringAsexualProportion { get; set; }
+    public double? OffspringAsexualProportion { get; init; }
 
     /// <summary>
     /// The proportion of offspring to be produced from sexual reproduction.
     /// </summary>
-    public double? OffspringSexualProportion { get; set; }
+    public double? OffspringSexualProportion { get; init; }
 
     /// <summary>
     /// The proportion of sexual reproductions that will use genomes from different species.
     /// </summary>
-    public double? InterspeciesMatingProportion { get; set; }
+    public double? InterspeciesMatingProportion { get; init; }
 
     /// <summary>
     /// Length of the history buffer used for calculating the moving average for best fitness, mean fitness and mean complexity.
     /// </summary>
-    public int? StatisticsMovingAverageHistoryLength { get; set; }
+    public int? StatisticsMovingAverageHistoryLength { get; init; }
 }
