@@ -2,11 +2,11 @@
 // See LICENSE.txt for details.
 namespace SharpNeat.Windows.App.Experiments;
 
-internal sealed class ExperimentInfo
+internal sealed record ExperimentInfo
 {
-    public string Name { get; set; }
-    public ExperimentFactoryInfo ExperimentFactory { get; set; }
-    public string ConfigFile { get; set; }
-    public string DescriptionFile { get; set; }
-    public ExperimentUiFactoryInfo ExperimentUiFactory { get; set; }
+    public required string Name { get; init; }
+    public required ExperimentFactoryInfo ExperimentFactory { get; init; }
+    public required string ConfigFile { get; init; }
+    public required string DescriptionFile { get; init; }
+    public required ExperimentUiFactoryInfo ExperimentUiFactory { get; init; }
 }

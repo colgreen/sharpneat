@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 namespace SharpNeat.Windows.App.Experiments;
 
-internal sealed class ExperimentRegistry
+internal sealed record ExperimentRegistry
 {
-    public List<ExperimentInfo> Experiments { get; set; }
+    public required List<ExperimentInfo> Experiments { get; init; }
 }
