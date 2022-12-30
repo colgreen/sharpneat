@@ -1,38 +1,37 @@
-﻿namespace SharpNeat.Experiments;
+﻿using System.Linq.Expressions;
+
+namespace SharpNeat.Experiments;
 
 /// <summary>
 /// Static utility methods for working with strongly typed model classes.
 /// </summary>
 public static class ModelUtils
 {
-    // TODO: Consider using expression tree, so that the property name can be obtained and used in the exception message.
     /// <summary>
-    /// Invoke a property getter functions, and throw a <see cref="ConfigurationException"/> if the retrieved value is null.
+    /// Attempt to get a mandatory property from a model object.
     /// </summary>
-    /// <typeparam name="T">Property type.</typeparam>
-    /// <param name="getter">Property getter functions.</param>
-    /// <returns>The property value.</returns>
-    /// <exception cref="ConfigurationException">Thrown if the retrieved property value is null.</exception>
-    public static T GetMandatoryProperty<T>(Func<T?> getter)
-        where T : class
+    /// <typeparam name="TModel">Model type.</typeparam>
+    /// <typeparam name="TPropertyValue">Type of the property to get.</typeparam>
+    /// <param name="model">The model object that contains the property to get.</param>
+    /// <param name="propertyExpression">Expression that refers to the required property on the model type.</param>
+    /// <returns>The property value, if the property is not null.</returns>
+    /// <exception cref="ConfigurationException">Throw if the required property is null.</exception>
+    public static TPropertyValue GetMandatoryProperty<TModel, TPropertyValue>(
+        TModel model,
+        Expression<Func<TModel, TPropertyValue?>> propertyExpression)
+        where TModel : class
+        where TPropertyValue : struct
     {
-        T? val = getter();
-        if(val is null) throw new ConfigurationException("Missing mandatory property.");
-        return val;
-    }
+        var fn = propertyExpression.Compile();
+        TPropertyValue? val = fn(model);
 
-    /// <summary>
-    /// Invoke a property getter functions, and throw a <see cref="ConfigurationException"/> if the retrieved value is null.
-    /// </summary>
-    /// <typeparam name="T">Property type.</typeparam>
-    /// <param name="getter">Property getter functions.</param>
-    /// <returns>The property value.</returns>
-    /// <exception cref="ConfigurationException">Thrown if the retrieved property value is null.</exception>
-    public static T GetMandatoryProperty<T>(Func<T?> getter)
-        where T : struct
-    {
-        T? val = getter();
-        if(!val.HasValue) throw new ConfigurationException("Missing mandatory property.");
+        if(!val.HasValue)
+        {
+            string propertyName = ((MemberExpression)propertyExpression.Body).Member.Name;
+            throw new ConfigurationException(
+                $"Missing mandatory value for model property [{model.GetType().Name}.{propertyName}].");
+        }
+
         return val.Value;
     }
 }

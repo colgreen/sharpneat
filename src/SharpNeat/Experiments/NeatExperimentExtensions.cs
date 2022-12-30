@@ -114,16 +114,28 @@ public static class NeatExperimentExtensions
     private static AbsoluteComplexityRegulationStrategy ReadAbsoluteComplexityRegulationStrategy(
         ComplexityRegulationStrategyConfig config)
     {
-        int complexityCeiling = GetMandatoryProperty(() => config.ComplexityCeiling);
-        int minSimplifcationGenerations = GetMandatoryProperty(() => config.MinSimplifcationGenerations);
+        int complexityCeiling = GetMandatoryProperty(
+            config,
+            x => x.ComplexityCeiling);
+
+        int minSimplifcationGenerations = GetMandatoryProperty(
+            config,
+            x => x.MinSimplifcationGenerations);
+
         return new AbsoluteComplexityRegulationStrategy(minSimplifcationGenerations, complexityCeiling);
     }
 
     private static RelativeComplexityRegulationStrategy ReadRelativeComplexityRegulationStrategy(
         ComplexityRegulationStrategyConfig config)
     {
-        int relativeComplexityCeiling = GetMandatoryProperty(() => config.RelativeComplexityCeiling);
-        int minSimplifcationGenerations = GetMandatoryProperty(() => config.MinSimplifcationGenerations);
+        int relativeComplexityCeiling = GetMandatoryProperty(
+            config,
+            x => x.RelativeComplexityCeiling);
+
+        int minSimplifcationGenerations = GetMandatoryProperty(
+            config,
+            x => x.MinSimplifcationGenerations);
+
         return new RelativeComplexityRegulationStrategy(minSimplifcationGenerations, relativeComplexityCeiling);
     }
 

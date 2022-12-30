@@ -5,17 +5,17 @@ namespace SharpNeat.Experiments.ConfigModels;
 /// <summary>
 /// Model type for NEAT complexity regulation strategy configuration.
 /// </summary>
-public class ComplexityRegulationStrategyConfig
+public sealed record ComplexityRegulationStrategyConfig
 {
     /// <summary>
     /// Regulation strategy name.
     /// </summary>
-    public string? StrategyName { get; set; }
+    public required string StrategyName { get; init; }
 
     /// <summary>
     /// The minimum number of generations we stay within simplification mode.
     /// </summary>
-    public int? MinSimplifcationGenerations { get; set; }
+    public int? MinSimplifcationGenerations { get; init; }
 
     /// <summary>
     /// The relative complexity ceiling.
