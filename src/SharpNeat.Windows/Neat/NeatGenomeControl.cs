@@ -35,7 +35,7 @@ public class NeatGenomeControl : GenomeControl
     {
         base.OnGenomeUpdated();
 
-        // Take a local reference to avoid possible race conditions on the class field.
+        // Get a local reference to avoid possible race conditions on the class field.
         IGenome genome = _genome;
 
         if(genome is null)
