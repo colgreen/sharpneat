@@ -6,7 +6,6 @@ using SharpNeat.Neat;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 using SharpNeat.Windows.Experiments;
@@ -390,14 +389,6 @@ partial class MainForm
     #endregion
 
     #region Private Methods
-
-    private IExperimentUi GetExperimentUi()
-    {
-        // Create a new experiment instance if one has not already been created.
-        _experimentUi ??= CreateAndConfigureExperimentUi((ExperimentInfo)cmbExperiments.SelectedItem);
-
-        return _experimentUi;
-    }
 
     /// <summary>
     /// Shows the provided form instance, and disabled the menu item used for opening the form, to prevent users

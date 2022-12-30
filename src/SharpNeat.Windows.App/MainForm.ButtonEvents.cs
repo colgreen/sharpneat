@@ -50,7 +50,8 @@ partial class MainForm
     private void btnSearchStart_Click(object sender, EventArgs e)
     {
         if(_eaRunner is not null)
-        {   // Resume existing EA & update GUI state.
+        {   
+            // Resume existing EA, and update GUI state.
             _eaRunner.StartOrResume();
             UpdateUiState();
             return;

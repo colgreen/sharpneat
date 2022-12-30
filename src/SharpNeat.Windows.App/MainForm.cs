@@ -10,6 +10,7 @@ using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.App.Forms;
 using SharpNeat.Windows.App.Forms.TimeSeries;
 using SharpNeat.Windows.Experiments;
+using static SharpNeat.Windows.App.AppUtils;
 
 namespace SharpNeat.Windows.App;
 
@@ -89,5 +90,23 @@ internal sealed partial class MainForm : Form
 
         // Pre-select first item.
         cmbExperiments.SelectedIndex = 0;
+    }
+
+    private INeatExperiment<double> GetNeatExperiment()
+    {
+        // Create a new experiment instance if one has not already been created.
+        _neatExperiment ??= CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
+
+        // Read settings from the UI into the experiment instance, and return.
+        GetSettingsFromUi(_neatExperiment);
+        return _neatExperiment;
+    }
+
+    private IExperimentUi GetExperimentUi()
+    {
+        // Create a new experiment instance if one has not already been created.
+        _experimentUi ??= CreateAndConfigureExperimentUi((ExperimentInfo)cmbExperiments.SelectedItem);
+
+        return _experimentUi;
     }
 }
