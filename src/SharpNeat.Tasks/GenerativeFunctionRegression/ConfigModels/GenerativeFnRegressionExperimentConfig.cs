@@ -1,4 +1,6 @@
-﻿using SharpNeat.Experiments.ConfigModels;
+﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
+// See LICENSE.txt for details.
+using SharpNeat.Experiments.ConfigModels;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
 
@@ -10,5 +12,5 @@ public class GenerativeFnRegressionExperimentConfig : ExperimentConfig
     /// <summary>
     /// Custom config for the generative function regression experiment.
     /// </summary>
-    public GenerativeFnRegressionCustomConfig? CustomEvaluationSchemeConfig {  get; set; }
+    public required GenerativeFnRegressionCustomConfig CustomEvaluationSchemeConfig { get; init; }
 }

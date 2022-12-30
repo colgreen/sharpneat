@@ -1,32 +1,34 @@
-﻿namespace SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
+﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
+// See LICENSE.txt for details.
+namespace SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
 
 /// <summary>
 /// Model type for generative function regression custom config section.
 /// </summary>
-public class GenerativeFnRegressionCustomConfig
+public sealed record GenerativeFnRegressionCustomConfig
 {
     /// <summary>
     /// Function ID. E.g. "Sin", "Cos", etc.
     /// </summary>
-    public string? FunctionId { get; set; }
+    public required string FunctionId { get; init; }
 
     /// <summary>
     /// Sample interval minimum.
     /// </summary>
-    public double? SampleIntervalMin { get; set; }
+    public required double SampleIntervalMin { get; init; }
 
     /// <summary>
     /// Sample interval maximum.
     /// </summary>
-    public double? SampleIntervalMax { get; set; }
+    public required double SampleIntervalMax { get; init; }
 
     /// <summary>
     /// Sampling resolution, within the defined min-max interval.
     /// </summary>
-    public int? SampleResolution { get; set; }
+    public required int SampleResolution { get; init; }
 
     /// <summary>
     /// The fitness weighting to assign to the gradient mean squared error (MSE) score.
     /// </summary>
-    public double? GradientMseWeight { get; set; }
+    public required double GradientMseWeight { get; init; }
 }

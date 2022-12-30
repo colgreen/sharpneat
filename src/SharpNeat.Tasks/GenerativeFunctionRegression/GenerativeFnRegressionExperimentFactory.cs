@@ -5,7 +5,6 @@ using SharpNeat.IO;
 using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.FunctionRegression;
 using SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
-using static SharpNeat.Experiments.ModelUtils;
 
 namespace SharpNeat.Tasks.GenerativeFunctionRegression;
 
@@ -63,25 +62,24 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
         out double gradientMseWeight)
     {
         // Get the customEvaluationSchemeConfig section.
-        if(experimentConfig.CustomEvaluationSchemeConfig is null)
-            throw new ConfigurationException("customEvaluationSchemeConfig not defined.");
-
         GenerativeFnRegressionCustomConfig customConfig = experimentConfig.CustomEvaluationSchemeConfig;
 
         // Read function ID.
-        string functionIdStr = GetMandatoryProperty(() => customConfig.FunctionId);
-        FunctionId functionId = (FunctionId)Enum.Parse(typeof(FunctionId), functionIdStr);
+        FunctionId functionId = (FunctionId)Enum.Parse(
+            typeof(FunctionId),
+            customConfig.FunctionId);
+
         fn = FunctionFactory.GetFunction(functionId);
 
         // Read sample interval min and max, and sample resolution.
-        double sampleIntervalMin = GetMandatoryProperty(() => customConfig.SampleIntervalMin);
-        double sampleIntervalMax = GetMandatoryProperty(() => customConfig.SampleIntervalMax);
-        int sampleResolution = GetMandatoryProperty(() => customConfig.SampleResolution);
-        paramSamplingInfo = new ParamSamplingInfo(sampleIntervalMin, sampleIntervalMax, sampleResolution);
+        paramSamplingInfo = new ParamSamplingInfo(
+            customConfig.SampleIntervalMin,
+            customConfig.SampleIntervalMax,
+            customConfig.SampleResolution);
 
         // Read the weight to apply to the gradientMse readings in the final fitness score.
         // 0 means don't use the gradient measurements, 1 means give them equal weight to the y position readings at each x sample point.
-        gradientMseWeight = GetMandatoryProperty(() => customConfig.GradientMseWeight);
+        gradientMseWeight = customConfig.GradientMseWeight;
     }
 
     #endregion
