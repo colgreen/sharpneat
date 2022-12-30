@@ -37,7 +37,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     readonly double[] _conInputArr = new double[Vector<double>.Count];
     volatile bool _isDisposed;
 
-    #region Constructor
+    #region Constructors
 
     /// <summary>
     /// Constructs a cyclic neural network.

@@ -49,7 +49,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     readonly int _cyclesPerActivation;
     volatile bool _isDisposed;
 
-    #region Constructor
+    #region Constructors
 
     /// <summary>
     /// Constructs a cyclic neural network.
