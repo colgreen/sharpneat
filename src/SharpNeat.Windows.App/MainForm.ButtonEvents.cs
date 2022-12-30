@@ -17,13 +17,12 @@ partial class MainForm
 {
     private void btnExperimentInfo_Click(object sender, EventArgs e)
     {
-        if(cmbExperiments.SelectedItem is ExperimentInfo expInfo)
+        if(cmbExperiments.SelectedItem is ExperimentInfo expInfo
+            && !string.IsNullOrEmpty(expInfo.DescriptionFile) 
+            && File.Exists(expInfo.DescriptionFile))
         {
-            if(!string.IsNullOrEmpty(expInfo.DescriptionFile) && File.Exists(expInfo.DescriptionFile))
-            {
-                string description = File.ReadAllText(expInfo.DescriptionFile);
-                MessageBox.Show(description, "Experiment Description");
-            }
+            string description = File.ReadAllText(expInfo.DescriptionFile);
+            MessageBox.Show(description, "Experiment Description");
         }
     }
 
@@ -129,15 +128,5 @@ partial class MainForm
         {
             Clipboard.SetText(sb.ToString());
         }
-    }
-
-    private INeatExperiment<double> GetNeatExperiment()
-    {
-        // Create a new experiment instance if one has not already been created.
-        _neatExperiment ??= CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
-
-        // Read settings from the UI into the experiment instance, and return.
-        GetSettingsFromUi(_neatExperiment);
-        return _neatExperiment;
     }
 }
