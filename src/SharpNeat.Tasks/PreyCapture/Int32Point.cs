@@ -88,4 +88,35 @@ public struct Int32Point
     }
 
     #endregion
+
+    #region Public Static Methods
+
+    /// <summary>
+    /// Calculate Euclidean distance between two points.
+    /// </summary>
+    /// <param name="a">Point A.</param>
+    /// <param name="b">Point B.</param>
+    /// <returns>The Euclidean distance between the two points.</returns>
+    public static double CalculateDistance(Int32Point a, Int32Point b)
+    {
+        double xdelta = (a.X - b.X);
+        double ydelta = (a.Y - b.Y);
+        return Math.Sqrt((xdelta*xdelta) + (ydelta*ydelta));
+    }
+
+    /// <summary>
+    /// Calculate Euclidean distance between two points.
+    /// </summary>
+    /// <param name="a">Point A.</param>
+    /// <param name="x">Point B x coordinate.</param>
+    /// <param name="y">Point B y coordinate.</param>
+    /// <returns>The Euclidean distance between the two points.</returns>
+    public static double CalculateDistance(Int32Point a, int x, int y)
+    {
+        double xdelta = (a.X - x);
+        double ydelta = (a.Y - y);
+        return Math.Sqrt((xdelta*xdelta) + (ydelta*ydelta));
+    }
+
+    #endregion
 }

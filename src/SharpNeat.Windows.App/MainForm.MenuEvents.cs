@@ -224,7 +224,7 @@ partial class MainForm
         {
             // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we
             // see a genome right away, regardless of whether the EA is running or not.
-            _bestGenomeForm.Genome = bestGenome;
+            _taskForm.Genome = bestGenome;
         }
     }
 

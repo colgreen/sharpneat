@@ -28,8 +28,8 @@
       "descriptionFile": "config/experiments-descriptions/prey-capture.txt",
       // UI settings.
       "experimentUiFactory": {
-        "assemblyName": "SharpNeat.Windows",
-        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+        "assemblyName": "SharpNeat.Tasks.Windows",
+        "typeName": "SharpNeat.Tasks.Windows.PreyCapture.PreyCaptureExperimentUiFactory"
       }
     },
 

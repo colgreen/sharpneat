@@ -104,8 +104,12 @@ internal sealed partial class MainForm : Form
 
     private IExperimentUi GetExperimentUi()
     {
+        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+
         // Create a new experiment instance if one has not already been created.
-        _experimentUi ??= CreateAndConfigureExperimentUi((ExperimentInfo)cmbExperiments.SelectedItem);
+        _experimentUi ??= CreateAndConfigureExperimentUi(
+            neatExperiment,
+            (ExperimentInfo)cmbExperiments.SelectedItem);
 
         return _experimentUi;
     }

@@ -18,11 +18,11 @@ internal static class AppUtils
             .Unwrap();
 
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        INeatExperiment<double> experiment = factory.CreateExperiment(expInfo.ConfigFile);
-        return experiment;
+        return factory.CreateExperiment(expInfo.ConfigFile);
     }
 
     public static IExperimentUi CreateAndConfigureExperimentUi(
+        INeatExperiment<double> neatExperiment,
         ExperimentInfo expInfo)
     {
         if(expInfo.ExperimentUiFactory is null)
@@ -35,7 +35,10 @@ internal static class AppUtils
             .Unwrap();
 
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        IExperimentUi experimentUi = factory.CreateExperimentUi(expInfo.ConfigFile);
+        IExperimentUi experimentUi = factory.CreateExperimentUi(
+            neatExperiment,
+            expInfo.ConfigFile);
+
         return experimentUi;
     }
 

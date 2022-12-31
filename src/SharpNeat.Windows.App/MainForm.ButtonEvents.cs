@@ -28,7 +28,9 @@ partial class MainForm
 
     private void btnLoadExperimentDefaultParameters_Click(object sender, EventArgs e)
     {
-        _neatExperiment = CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
+        _neatExperiment = CreateAndConfigureExperiment(
+            (ExperimentInfo)cmbExperiments.SelectedItem);
+
         SendSettingsToUi(_neatExperiment);
     }
 

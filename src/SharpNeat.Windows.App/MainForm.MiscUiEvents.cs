@@ -44,11 +44,13 @@ partial class MainForm
         UpdateUiState_EaStats();
 
         // Update child forms (those that are open).
+        var bestGenome = ((NeatEvolutionAlgorithm<double>)_eaRunner.EA).Population.BestGenome;
+
         if(_bestGenomeForm is not null)
-        {
-            NeatEvolutionAlgorithm<double> neatEa = (NeatEvolutionAlgorithm<double>)_eaRunner.EA;
-            _bestGenomeForm.Genome = neatEa.Population.BestGenome;
-        }
+            _bestGenomeForm.Genome = bestGenome;
+
+        if(_taskForm is not null)
+            _taskForm.Genome = bestGenome;
 
         // Time series forms.
         _fitnessTimeSeriesForm?.UpdateData(

@@ -253,7 +253,8 @@ partial class MainForm
 
     #region Private Methods [Send Settings to UI]
 
-    private void SendSettingsToUi(INeatExperiment<double> experiment)
+    private void SendSettingsToUi(
+        INeatExperiment<double> experiment)
     {
         SendSettingsToUi(experiment.EvolutionAlgorithmSettings);
         SendSettingsToUi(experiment.ReproductionAsexualSettings);
@@ -262,7 +263,8 @@ partial class MainForm
         SetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
     }
 
-    private void SendSettingsToUi(NeatEvolutionAlgorithmSettings settings)
+    private void SendSettingsToUi(
+        NeatEvolutionAlgorithmSettings settings)
     {
         SetValue(txtSpeciesCount, settings.SpeciesCount);
         SetValue(txtElitismProportion, settings.ElitismProportion);
@@ -272,7 +274,8 @@ partial class MainForm
         SetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
     }
 
-    private void SendSettingsToUi(NeatReproductionAsexualSettings settings)
+    private void SendSettingsToUi(
+        NeatReproductionAsexualSettings settings)
     {
         SetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
         SetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
@@ -284,7 +287,8 @@ partial class MainForm
 
     #region Private Methods [Get Settings from UI]
 
-    private void GetSettingsFromUi(INeatExperiment<double> experiment)
+    private void GetSettingsFromUi(
+        INeatExperiment<double> experiment)
     {
         GetSettingsFromUi(experiment.EvolutionAlgorithmSettings);
         GetSettingsFromUi(experiment.ReproductionAsexualSettings);
@@ -293,7 +297,8 @@ partial class MainForm
         experiment.InitialInterconnectionsProportion = GetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
     }
 
-    private void GetSettingsFromUi(NeatEvolutionAlgorithmSettings settings)
+    private void GetSettingsFromUi(
+        NeatEvolutionAlgorithmSettings settings)
     {
         settings.SpeciesCount = GetValue(txtSpeciesCount, settings.SpeciesCount);
         settings.ElitismProportion = GetValue(txtElitismProportion, settings.ElitismProportion);
@@ -310,7 +315,8 @@ partial class MainForm
         settings.InterspeciesMatingProportion = GetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
     }
 
-    private void GetSettingsFromUi(NeatReproductionAsexualSettings settings)
+    private void GetSettingsFromUi(
+        NeatReproductionAsexualSettings settings)
     {
         double connectionWeightMutationProbability = GetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
         double addNodeMutationProbability = GetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);

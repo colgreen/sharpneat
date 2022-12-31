@@ -4,6 +4,8 @@ using Redzen.Random;
 
 namespace SharpNeat.Tasks.PreyCapture;
 
+#pragma warning disable CA1822 // Mark members as static
+
 /// <summary>
 /// The prey capture task's grid world, as defined in:
 ///
@@ -23,7 +25,7 @@ public sealed class PreyCaptureWorld
     /// would all be always on.
     /// </summary>
     const int __gridSize = 24;
-    const int __atan2LookupOffset = __gridSize-1;
+    const int __atan2LookupOffset = __gridSize - 1;
     static readonly float[,] __atan2Lookup;
 
     // World parameters.
@@ -97,7 +99,7 @@ public sealed class PreyCaptureWorld
     /// <summary>
     /// Gets the size of the square grid, stated as the number length of an edge measured in grid squares.
     /// </summary>
-    public static int GridSize => __gridSize;
+    public int GridSize => __gridSize;
 
     /// <summary>
     /// Gets the number of moves the prey is allowed to move before the agent can move.
