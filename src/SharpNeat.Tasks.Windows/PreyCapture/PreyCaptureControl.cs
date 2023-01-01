@@ -21,7 +21,7 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
     const int GridLeft = 2;
     const PixelFormat ViewportPixelFormat = PixelFormat.Format16bppRgb565;
 
-    readonly Pen _penGrey = new Pen(Color.LightGray, 1F);
+    readonly Pen _penGrey = new(Color.LightGray, 1F);
     readonly Brush _brushBackground = new SolidBrush(Color.Lavender);
     readonly Brush _brushBackgroundSensor = new SolidBrush(Color.LightBlue);
     readonly Brush _brushBackgroundSensorCaptured = new SolidBrush(Color.Orange);
@@ -35,7 +35,7 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
     volatile IBlackBox<double> _agent;
     PictureBox _pbx;
     Image _image;
-    bool _initializing = true;
+    readonly bool _initializing = true;
 
     // Thread for running simulation.
     readonly Thread _simThread;
@@ -70,8 +70,10 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
             _pbx.Image = _image;
 
             // Create background thread for running simulation alongside NEAT algorithm.
-            _simThread = new Thread(new ThreadStart(SimulationThread));
-            _simThread.IsBackground = true;
+            _simThread = new(new ThreadStart(SimulationThread))
+            {
+                IsBackground = true
+            };
             _simThread.Start();
         }
         finally
@@ -87,8 +89,13 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
         // Get a local reference to avoid possible race conditions on the class field.
         IGenome genome = _genome;
 
-        if(genome is null || _terminateSimThread)
+        if(genome is null || _terminateSimThread || _initializing)
             return;
+
+        // Dispose any existing agent.
+        var existingAgent = _agent;
+        Thread.MemoryBarrier();
+        existingAgent?.Dispose();
 
         // Decode the genome, and store the resulting IBlackBox agent in an instance field.
         NeatGenome<double> neatGenome = genome as NeatGenome<double>;
@@ -123,8 +130,6 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
     }
 
     #endregion
-
-    #region Private Methods
 
     /// <summary>
     /// Simulate prey capture until thread is terminated.
@@ -284,10 +289,6 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
         Refresh();
     }
 
-    #endregion
-
-    #region Event Handlers
-
     private void pbx_SizeChanged(object sender, EventArgs e)
     {
         const float ImageSizeChangeDelta = 100f;
@@ -334,10 +335,11 @@ public class PreyCaptureControl : GenomeControl // UserControl  //
             _brushBackgroundSensorCaptured.Dispose();
             _brushAgent.Dispose();
             _brushPrey.Dispose();
+            _agent.Dispose();
+            _pbx.Dispose();
+            _image.Dispose();
             _simStartEvent.Dispose();
             _simNotRunningEvent.Dispose();
         }
     }
-
-    #endregion
 }
