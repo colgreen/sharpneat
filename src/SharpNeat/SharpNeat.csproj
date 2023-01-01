@@ -14,12 +14,21 @@
 	<Description>SharpNEAT - Evolution of Neural Networks.</Description>
 	<Copyright>Copyright 2004-2023 Colin Green</Copyright>
 	<Authors>Colin D. Green</Authors>
-	<PackageProjectUrl>http://sharpneat.sourceforge.net/</PackageProjectUrl>
-	<RepositoryUrl>http://sharpneat.sourceforge.net/</RepositoryUrl>
-	<PackageLicenseUrl>http://sharpneat.sourceforge.net/licensing.html</PackageLicenseUrl>
+	<PackageProjectUrl>https://sharpneat.sourceforge.net/</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/colgreen/sharpneat</RepositoryUrl>
+	<PackageLicenseUrl>https://github.com/colgreen/sharpneat/blob/main/LICENSE.txt</PackageLicenseUrl>
 	<PackageTags>neuroevolution neuro evolution neural network</PackageTags>
-	<PackageReleaseNotes></PackageReleaseNotes>
+	<PackageReleaseNotes>
+		Major rewrite/refactor performed over a period of about 6 years (between 2017 and 2022).
+
+		Target platform is now .NET [Core] 7. Previously SharpNEAT was a .NET Framework project, with some core parts later targeting .NET Standard. All code in this project now targets .NET 7.
+
+		Significant performance improvements, through use of Span{T}, ArrayPool, Vector{T}, and general improvements, e.g. to reduce memory allocations and Garbage Collection overhead.
+
+		Improved / cleaner API, code structure, and just generally provides a good foundation for future NEAT research.
+	</PackageReleaseNotes>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
