@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "EfficacySampler": {
+      "commandName": "Project",
+      "commandLineArgs": "binary11 secs 60 out.csv"
+      //"commandLineArgs": "sinewave secs 60 out.csv"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+﻿# Input and output node counts.
+3 2
+
+# Cyclic/acyclic indicator.
+acyclic
+
+# Connections (source target weight).
+0 5 0.5
+0 7 0.7
+0 3 0.3
+1 5 1.5
+1 7 1.7
+1 3 1.3
+1 6 1.6
+1 8 1.8
+1 4 1.4
+2 6 2.6
+2 8 2.8
+2 4 2.4
+
+# Activation functions (functionId functionCode).
+0 ReLU
+1 Logistic
+2 Sine
+3 Gaussian
+
+# Per node activation function (nodeId, functionId).
+3 0
+4 0
+5 0
+6 1
+7 1
+8 3

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <!-- Enable server GC. On the .NET framework this had much improved performance for CPU intensive workloads -->
+    <!-- compared to the client GC (which is optimised for responsiveness rather than overall throughput. -->
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharpNeat\SharpNeat.csproj" />
+    <ProjectReference Include="..\..\SharpNeat.Tasks\SharpNeat.Tasks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="experiments-config\cartpole-doublepole.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="experiments-config\cartpole-singlepole.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="experiments-config\prey-capture.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="experiments-config\xor.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="experiments-config\binary-6-multiplexer.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="experiments-config\generative-sinewave.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="experiments-config\binary-11-multiplexer.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

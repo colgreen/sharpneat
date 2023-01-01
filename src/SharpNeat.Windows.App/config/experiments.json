@@ -1,0 +1,116 @@
+{
+  "experiments": [
+
+    // === Logical XOR ===
+    {
+      "name": "Logical XOR",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.Xor.XorExperimentFactory"
+      },
+      "configFile": "config/experiments-config/xor.config.json",
+      "descriptionFile": "config/experiments-descriptions/xor.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
+    // === Prey Capture ===
+    {
+      "name": "Prey Capture",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.PreyCapture.PreyCaptureExperimentFactory"
+      },
+      "configFile": "config/experiments-config/prey-capture.config.json",
+      "descriptionFile": "config/experiments-descriptions/prey-capture.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Tasks.Windows",
+        "typeName": "SharpNeat.Tasks.Windows.PreyCapture.PreyCaptureExperimentUiFactory"
+      }
+    },
+
+    // === Binary 6-multiplexer ===
+    {
+      "name": "Binary 6-multiplexer",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.BinarySixMultiplexer.BinarySixMultiplexerExperimentFactory"
+      },
+      "configFile": "config/experiments-config/binary-6-multiplexer.config.json",
+      "descriptionFile": "config/experiments-descriptions/binary-6-multiplexer.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
+    // === Binary 11-multiplexer ===
+    {
+      "name": "Binary 11-multiplexer",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.BinaryElevenMultiplexer.BinaryElevenMultiplexerExperimentFactory"
+      },
+      "configFile": "config/experiments-config/binary-11-multiplexer.config.json",
+      "descriptionFile": "config/experiments-descriptions/binary-11-multiplexer.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
+    // === Cart-Pole Balancing (single pole) ===
+    {
+      "name": "Cart-Pole Balancing (single pole)",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.CartPole.SinglePole.CartSinglePoleExperimentFactory"
+      },
+      "configFile": "config/experiments-config/cartpole-singlepole.config.json",
+      "descriptionFile": "config/experiments-descriptions/cartpole-singlepole.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
+    // === Cart-Pole Balancing (double pole) ===
+    {
+      "name": "Cart-Pole Balancing (double pole)",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.CartPole.DoublePole.CartDoublePoleExperimentFactory"
+      },
+      "configFile": "config/experiments-config/cartpole-doublepole.config.json",
+      "descriptionFile": "config/experiments-descriptions/cartpole-doublepole.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
+    // === Generative Function Regression - Sin(x) ===
+    {
+      "name": "Generative Function Regression - Sin(x)",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
+      },
+      "configFile": "config/experiments-config/generative-sinewave.config.json",
+      "descriptionFile": "config/experiments-descriptions/generative-sinewave.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    }
+  ]
+}

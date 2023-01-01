@@ -1,0 +1,93 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>SharpNeat.Windows.App.Program</StartupObject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>4.0.0</Version>
+    <Description>SharpNEAT Windows Forms application / front-end.</Description>
+    <Copyright>Copyright 2004-2022 Colin Green</Copyright>
+    <Authors>Colin D. Green</Authors>
+    <Product>SharpNEAT - Evolution of Neural Networks.</Product>	  	  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZedGraph" Version="5.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpNeat.Tasks.Windows\SharpNeat.Tasks.Windows.csproj" />
+    <ProjectReference Include="..\SharpNeat.Tasks\SharpNeat.Tasks.csproj" />
+    <ProjectReference Include="..\SharpNeat.Windows\SharpNeat.Windows.csproj" />
+    <ProjectReference Include="..\SharpNeat\SharpNeat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config\experiments-config\binary-11-multiplexer.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-config\binary-6-multiplexer.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-config\cartpole-doublepole.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-config\cartpole-singlepole.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-config\generative-sinewave.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-config\prey-capture.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-config\xor.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\binary-11-multiplexer.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\binary-6-multiplexer.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\cartpole-doublepole.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\prey-capture.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\cartpole-singlepole.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\generative-sinewave.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments-descriptions\xor.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="config\experiments.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="log4net.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\license.txt" />
+    <EmbeddedResource Include="Resources\about.txt" />
+    <EmbeddedResource Include="Resources\sharpneat_banner.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MainForm.MiscUiEvents.cs" />
+    <Compile Update="MainForm.ButtonEvents.cs" />
+  </ItemGroup>
+
+</Project>

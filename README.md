@@ -1,7 +1,3 @@
-# **NOTICE:** SharpNEAT is currently undergoing a major refactor at [sharpneat-refactor](https://github.com/colgreen/sharpneat-refactor). New projects should endeavour to use that code base (SharpNEAT 4.0 preview).
-
----
-
 # SharpNEAT - Evolution of Neural Networks
  
 NEAT is NeuroEvolution of Augmenting Topologies; an evolutionary algorithm devised by Kenneth O. Stanley. 

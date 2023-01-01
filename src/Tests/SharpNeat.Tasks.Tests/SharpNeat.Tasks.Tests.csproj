@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>SharpNeat.Tasks</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <NoWarn>SA0001,CA1707</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharpNeat\SharpNeat.csproj" />
+    <ProjectReference Include="..\..\SharpNeat.Tasks\SharpNeat.Tasks.csproj" />
+    <ProjectReference Include="..\TestsLib\TestsLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\binary-three-multiplexer.net">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

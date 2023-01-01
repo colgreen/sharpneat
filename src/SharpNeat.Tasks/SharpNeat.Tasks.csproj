@@ -1,0 +1,25 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>SharpNeat.Tasks</RootNamespace>
+	<ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<AnalysisLevel>latest-Recommended</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SharpNeat\SharpNeat.csproj" />
+  </ItemGroup>
+
+</Project>

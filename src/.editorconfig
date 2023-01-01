@@ -1,0 +1,62 @@
+﻿[*.cs]
+
+# Organize usings 
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+csharp_style_namespace_declarations = file_scoped:suggestion
+csharp_space_around_binary_operators = ignore
+csharp_space_around_declaration_statements = ignore
+
+# This is disabled because we use Slice extensively and the suggested simplification results in different IL/asm that is slower to execute (https://github.com/dotnet/roslyn/issues/47629)
+dotnet_diagnostic.IDE0057.severity = none   # Slice can be simplified.
+
+# .NET Analyzers.
+dotnet_diagnostic.CA1000.severity = none        # Do not declare static members on generic types.
+dotnet_diagnostic.CA1051.severity = none        # Do not declare visible instance fields.
+dotnet_diagnostic.CA1707.severity = none        # Identifiers should not contain underscores.
+dotnet_diagnostic.CA1711.severity = none        # An identifier has an incorrect suffix.
+dotnet_diagnostic.CA1715.severity = none        # Identifiers should have correct prefix.
+dotnet_diagnostic.CA1716.severity = none        # Identifiers should not match keywords.
+dotnet_diagnostic.CA1720.severity = none        # Identifiers should not contain type names.
+dotnet_diagnostic.CA2000.severity = suggestion  # Dispose objects before losing scope.
+dotnet_diagnostic.CA2213.severity = suggestion  # Disposable fields should be disposed.
+
+# Stylecop Analyzers.
+dotnet_diagnostic.SA1000.severity = none    # The spacing around a C# keyword is incorrect.
+dotnet_diagnostic.SA1001.severity = none    # Commas should be spaced correctly.
+dotnet_diagnostic.SA1003.severity = none    # Symbols should be spaced correctly.
+dotnet_diagnostic.SA1008.severity = none    # Opening parenthesis should be spaced correctly.
+dotnet_diagnostic.SA1009.severity = none    # Closing parenthesis should be spaced correctly.
+dotnet_diagnostic.SA1025.severity = none    # Code should not contain multiple whitespace in a row.
+dotnet_diagnostic.SA1101.severity = none    # A call to an instance member of the local class or a base class is not prefixed with 'this.', within a C# code file.
+dotnet_diagnostic.SA1106.severity = none    # Code should not contain empty statements.
+dotnet_diagnostic.SA1108.severity = none    # Block statements should not contain embedded comments.
+dotnet_diagnostic.SA1117.severity = none    # Parameters should be on same line or separate lines.
+dotnet_diagnostic.SA1119.severity = none    # Statement should not use unnecessary parenthesis.
+dotnet_diagnostic.SA1121.severity = none    # Use built-in type alias.
+dotnet_diagnostic.SA1124.severity = none    # Do not use regions.
+dotnet_diagnostic.SA1132.severity = none    # Do not combine fields.
+dotnet_diagnostic.SA1200.severity = none    # Using directives should be placed correctly.
+dotnet_diagnostic.SA1201.severity = none    # Elements should appear in the correct order.
+dotnet_diagnostic.SA1202.severity = none    # Elements should be ordered by access.
+dotnet_diagnostic.SA1204.severity = none    # Static elements should appear before instance elements.
+dotnet_diagnostic.SA1206.severity = none    # The keywords within the declaration of an element do not follow a standard ordering scheme. (suppressed temporarily to allow use of 'required' modifier after 'public').
+dotnet_diagnostic.SA1214.severity = none    # Readonly fields should appear before non-readonly fields.
+dotnet_diagnostic.SA1309.severity = none    # A field name in C# begins with an underscore.
+dotnet_diagnostic.SA1310.severity = none    # Field names should not contain underscore.
+dotnet_diagnostic.SA1314.severity = none    # Type parameter names should begin with T.
+dotnet_diagnostic.SA1316.severity = none    # Tuple element names should use correct casing.
+dotnet_diagnostic.SA1400.severity = none    # The access modifier for a C# element has not been explicitly defined.
+dotnet_diagnostic.SA1401.severity = none    # Fields should be private.
+dotnet_diagnostic.SA1405.severity = none    # Debug.Assert should provide message text.
+dotnet_diagnostic.SA1413.severity = none    # Use trailing comma in multi-line initializers.
+dotnet_diagnostic.SA1503.severity = none    # The opening and closing braces for a C# statement have been omitted.
+dotnet_diagnostic.SA1512.severity = none    # Single-line comments should not be followed by blank line.
+dotnet_diagnostic.SA1513.severity = none    # Closing brace should be followed by blank line.
+dotnet_diagnostic.SA1514.severity = none    # Element documentation header should be preceded by blank line.
+dotnet_diagnostic.SA1600.severity = none    # Elements should be documented.
+dotnet_diagnostic.SA1602.severity = none    # Enumeration items should be documented.
+dotnet_diagnostic.SA1623.severity = none    # Property summary documentation should match accessors.
+dotnet_diagnostic.SA1633.severity = none    # A C# code file is missing a standard file header.
+dotnet_diagnostic.SA1642.severity = none    # Constructor summary documentation should begin with standard text.

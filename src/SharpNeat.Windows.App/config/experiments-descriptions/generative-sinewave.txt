@@ -1,0 +1,7 @@
+﻿Generative Function Regression - Sin(x)
+
+A neural net has a single input and a single output. The single input is fixed at a value of 1.0, i.e. there is no input information presented to the neural net.
+
+The net is assumed to be cyclic, as it is activated over N timesteps, and the goal is for the single output to describe a sinewave over time, matching the amplitude, wavelength, and phase of a predetermined sinewave.
+
+The goal sinewave represents sin(x) evaluated over the x interval [0, 8*PI]
