@@ -2,9 +2,6 @@
 // See LICENSE.txt for details.
 using System.Diagnostics;
 using Redzen.Numerics.Distributions;
-using Redzen.Random;
-using Redzen.Structures;
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
 

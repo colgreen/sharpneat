@@ -3,7 +3,6 @@
 using System.Diagnostics;
 using Redzen.Linq;
 using Redzen.Numerics;
-using Redzen.Random;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
 namespace SharpNeat.Neat;

@@ -1,7 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Graphs;
-
 namespace SharpNeat.Neat.DistanceMetrics.Double;
 
 // TODO: Performance tuning target. E.g. use Math.Fma(), vectorisation, or use single-precision floats for some of the calcs.

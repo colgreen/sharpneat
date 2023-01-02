@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using Redzen.Linq;
 using Redzen.Numerics.Distributions.Double;
-using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using static SharpNeat.Neat.Speciation.SpeciationUtils;
 

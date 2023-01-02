@@ -2,9 +2,7 @@
 // See LICENSE.txt for details.
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Redzen.Random;
 using Redzen.Sorting;
-using Redzen.Structures;
 using static SharpNeat.Neat.NeatPopulationUtils;
 
 namespace SharpNeat.Neat;

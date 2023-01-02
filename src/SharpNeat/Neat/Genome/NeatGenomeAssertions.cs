@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using System.Diagnostics;
 using Redzen.Sorting;
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.Neat.Genome;

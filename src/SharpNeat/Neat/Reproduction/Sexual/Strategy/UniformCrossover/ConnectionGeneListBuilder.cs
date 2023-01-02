@@ -1,8 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen.Collections;
-using SharpNeat.Graphs;
-
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 
 /// <summary>

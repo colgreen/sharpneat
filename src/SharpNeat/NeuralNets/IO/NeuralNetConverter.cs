@@ -1,6 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.IO.Models;
 

@@ -1,7 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Globalization;
-using SharpNeat.Graphs;
 using SharpNeat.IO.Models;
 
 namespace SharpNeat.Neat.Genome.IO;

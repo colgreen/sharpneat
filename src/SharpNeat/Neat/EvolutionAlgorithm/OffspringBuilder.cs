@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions.Double;
-using Redzen.Random;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
 

@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using System.Buffers;
 using System.Diagnostics;
-using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
 
 namespace SharpNeat.NeuralNets.Double;
