@@ -1,6 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen;
 using Redzen.Collections;
 using Redzen.Structures;
 using SharpNeat.Graphs.Acyclic;

@@ -4,7 +4,6 @@ using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 

@@ -5,10 +5,6 @@ using System.Runtime.InteropServices;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
-using SharpNeat.Evaluation;
-using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.Neat.Genome;
-using SharpNeat.Neat.Speciation;
 using static SharpNeat.Neat.NeatPopulationUtils;
 
 namespace SharpNeat.Neat;

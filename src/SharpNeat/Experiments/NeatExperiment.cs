@@ -1,6 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Evaluation;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;

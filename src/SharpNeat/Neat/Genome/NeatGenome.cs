@@ -1,7 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Evaluation;
-using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Graphs;
 
 namespace SharpNeat.Neat.Genome;

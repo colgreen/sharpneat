@@ -5,14 +5,10 @@ using System.Runtime.InteropServices;
 using Redzen.Random;
 using Redzen.Sorting;
 using Redzen.Structures;
-using SharpNeat.Evaluation;
-using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm;
 

@@ -7,7 +7,6 @@ using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Graphs;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 

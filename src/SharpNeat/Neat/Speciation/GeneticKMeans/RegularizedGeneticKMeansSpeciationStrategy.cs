@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 

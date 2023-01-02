@@ -1,14 +1,11 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Evaluation;
 using SharpNeat.Experiments;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeat.Neat.Speciation;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Neat;

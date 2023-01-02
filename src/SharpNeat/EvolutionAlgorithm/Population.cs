@@ -1,7 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using Redzen.Random;
-using SharpNeat.Evaluation;
 
 namespace SharpNeat.EvolutionAlgorithm;
 

@@ -1,14 +1,10 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen;
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
-using SharpNeat.Evaluation;
-using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
-using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm;
 

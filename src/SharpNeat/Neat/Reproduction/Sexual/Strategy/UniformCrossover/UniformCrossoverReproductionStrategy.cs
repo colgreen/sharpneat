@@ -3,7 +3,6 @@
 using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using Redzen.Structures;
-using SharpNeat.Neat.Genome;
 using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverReproductionStrategyUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;

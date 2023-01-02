@@ -1,7 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using Redzen.Numerics.Distributions.Double;
-using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm;
 

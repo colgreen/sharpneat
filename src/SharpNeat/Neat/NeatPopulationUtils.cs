@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using Redzen.Structures;
 using SharpNeat.Graphs;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat;
 

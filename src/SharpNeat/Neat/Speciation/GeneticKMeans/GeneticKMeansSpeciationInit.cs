@@ -4,7 +4,6 @@ using Redzen.Linq;
 using Redzen.Numerics.Distributions.Double;
 using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
-using SharpNeat.Neat.Genome;
 using static SharpNeat.Neat.Speciation.SpeciationUtils;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans;

@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using System.Buffers;
 using System.Diagnostics;
-using Redzen;
 using Redzen.Sorting;
 
 namespace SharpNeat.Graphs.Acyclic;

@@ -3,7 +3,6 @@
 using Redzen.Random;
 using Redzen.Structures;
 using SharpNeat.Graphs;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 

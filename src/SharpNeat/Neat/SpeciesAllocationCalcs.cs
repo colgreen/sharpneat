@@ -1,12 +1,10 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
-using Redzen;
 using Redzen.Linq;
 using Redzen.Numerics;
 using Redzen.Random;
 using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Speciation;
 
 namespace SharpNeat.Neat;
 

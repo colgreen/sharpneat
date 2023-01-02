@@ -1,7 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
-using SharpNeat.Evaluation;
 using SharpNeat.NeuralNets.Double;
 
 namespace SharpNeat.Neat.Genome.Double;

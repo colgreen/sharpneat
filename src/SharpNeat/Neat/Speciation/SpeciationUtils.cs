@@ -1,8 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen;
 using SharpNeat.Neat.DistanceMetrics;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Speciation;
 

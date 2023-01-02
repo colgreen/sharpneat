@@ -1,7 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Runtime.InteropServices;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.DistanceMetrics;
 

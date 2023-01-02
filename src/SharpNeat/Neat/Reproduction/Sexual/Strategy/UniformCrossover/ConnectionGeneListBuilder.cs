@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using Redzen.Collections;
 using SharpNeat.Graphs;
-using SharpNeat.Neat.Genome;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 
