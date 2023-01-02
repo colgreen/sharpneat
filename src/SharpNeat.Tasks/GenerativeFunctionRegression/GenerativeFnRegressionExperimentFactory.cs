@@ -20,7 +20,9 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
     {
         // Load experiment JSON config.
-        GenerativeFnRegressionExperimentConfig experimentConfig = JsonUtils.Deserialize<GenerativeFnRegressionExperimentConfig>(jsonConfigStream);
+        GenerativeFnRegressionExperimentConfig experimentConfig =
+            JsonUtils.Deserialize<GenerativeFnRegressionExperimentConfig>(
+                jsonConfigStream);
 
         // Read custom evaluation scheme config.
         ReadEvaluationSchemeConfig(

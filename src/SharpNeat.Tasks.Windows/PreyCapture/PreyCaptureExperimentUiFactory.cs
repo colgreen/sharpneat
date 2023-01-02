@@ -8,7 +8,7 @@ using SharpNeat.Windows.Experiments;
 namespace SharpNeat.Tasks.Windows.PreyCapture;
 
 /// <summary>
-/// Implementation of <see cref="IExperimentUiFactory"/> for the Prey Capture task.
+/// An <see cref="IExperimentUiFactory"/> for the Prey Capture task.
 /// </summary>
 public sealed class PreyCaptureExperimentUiFactory : IExperimentUiFactory
 {

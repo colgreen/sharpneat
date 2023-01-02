@@ -8,7 +8,7 @@ namespace SharpNeat.Tasks.FunctionRegression;
 /// <summary>
 /// Static utility methods related to the function regression family of tasks.
 /// </summary>
-internal static class FuncRegressionUtils
+public static class FuncRegressionUtils
 {
     #region Public Static Methods
 

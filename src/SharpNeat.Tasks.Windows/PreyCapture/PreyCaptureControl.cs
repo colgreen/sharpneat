@@ -14,7 +14,7 @@ namespace SharpNeat.Tasks.Windows.PreyCapture;
 
 #pragma warning disable SA1300 // Element should begin with upper-case letter.
 
-public class PreyCaptureControl : GenomeControl // UserControl  //
+public class PreyCaptureControl : GenomeControl
 {
     // View painting consts & objects.
     const int GridTop = 2;
