@@ -1,0 +1,11 @@
+﻿Generative Function Regression - Waveform #1
+
+A neural net has a single input and a single output. The single input is fixed at a value of 1.0.
+
+The net is assumed to be cyclic, as it is activated over N timesteps, and the goal is for the single output to describe the target waveform, matching its amplitude, wavelength, and phase.
+
+The target waveform is as follows:
+
+   y = sin(x + sin(x))
+
+Evaluated over the x interval [0, 8*PI]

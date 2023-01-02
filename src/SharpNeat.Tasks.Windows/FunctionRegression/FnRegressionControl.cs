@@ -16,8 +16,6 @@ namespace SharpNeat.Domains.FunctionRegression;
 public partial class FnRegressionControl : GenomeControl
 {
     readonly Func<double,double> _fn;
-    readonly ParamSamplingInfo _paramSamplingInfo;
-    readonly bool _generativeMode;
     readonly IBlackBoxProbe _blackBoxProbe;
     readonly double[] _yArrTarget;
     readonly IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> _genomeDecoder;
@@ -41,8 +39,6 @@ public partial class FnRegressionControl : GenomeControl
         InitGraph(string.Empty, string.Empty, string.Empty);
 
         _fn = fn;
-        _paramSamplingInfo = paramSamplingInfo;
-        _generativeMode = generativeMode;
         _genomeDecoder = genomeDecoder;
 
         // Determine the mid output value of the function (over the specified sample points) and a scaling factor

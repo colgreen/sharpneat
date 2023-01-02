@@ -19,6 +19,7 @@ public static class FunctionFactory
             FunctionId.Abs => (x) => Math.Abs(x),
             FunctionId.Log => (x) => Math.Log(x),
             FunctionId.Sin => (x) => Math.Sin(x),
+            FunctionId.BeatSinewave => (x) => Math.Sin(x) + Math.Sin(x * 1.2),
             FunctionId.SinXSquared => (x) => (Math.Sin(x * x) * 0.4) + 0.5,
             FunctionId.Waveform1 => (x) => Math.Sin(x + Math.Sin(x)),
             _ => throw new ArgumentException($"Unknown FunctionId type [{fnId}]"),

@@ -20,6 +20,10 @@ public enum FunctionId
     /// </summary>
     Sin,
     /// <summary>
+    /// The sum of two sine waves with different periods.
+    /// </summary>
+    BeatSinewave,
+    /// <summary>
     /// Sin(x^2) function.
     /// </summary>
     SinXSquared,

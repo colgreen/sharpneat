@@ -99,13 +99,45 @@
 
     // === Generative Function Regression - Sin(x) ===
     {
-      "name": "Generative Function Regression - Sin(x)",
+      "name": "Generative Function Regression - sin(x)",
       "experimentFactory": {
         "assemblyName": "SharpNeat.Tasks",
         "typeName": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
       },
       "configFile": "config/experiments-config/generative-sinewave.config.json",
       "descriptionFile": "config/experiments-descriptions/generative-sinewave.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Tasks.Windows",
+        "typeName": "SharpNeat.Tasks.Windows.GenerativeFunctionRegression.GenerativeFnRegressionUiFactory"
+      }
+    },
+
+    // === Generative Function Regression - Beat sine wave ===
+    {
+      "name": "Generative Function Regression - Beat sine wave",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
+      },
+      "configFile": "config/experiments-config/generative-beat-sinewave.config.json",
+      "descriptionFile": "config/experiments-descriptions/generative-beat-sinewave.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Tasks.Windows",
+        "typeName": "SharpNeat.Tasks.Windows.GenerativeFunctionRegression.GenerativeFnRegressionUiFactory"
+      }
+    },
+
+    // === Generative Function Regression - Waveform #1 ===
+    {
+      "name": "Generative Function Regression - Waveform #1",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.GenerativeFunctionRegression.GenerativeFnRegressionExperimentFactory"
+      },
+      "configFile": "config/experiments-config/generative-waveform1.config.json",
+      "descriptionFile": "config/experiments-descriptions/generative-waveform1.txt",
       // UI settings.
       "experimentUiFactory": {
         "assemblyName": "SharpNeat.Tasks.Windows",

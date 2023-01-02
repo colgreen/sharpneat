@@ -1,6 +1,6 @@
 ﻿{
-	"name": "Generative Function Regression - sin(x)",
-	"description": "Generative Function Regression: sin(x) evaluated over interval [0, 8*PI]",
+	"name": "Generative Function Regression - Beat sine wave",
+	"description": "Generative Function Regression: sin(x) + sin(x * 1.2) evaluated over interval [0, 16*PI]",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LeakyReLU",
@@ -33,10 +33,10 @@
 	"enableHardwareAcceleratedNeuralNets": false,
 	"enableHardwareAcceleratedActivationFunctions": false,
 	"customEvaluationSchemeConfig": {
-		"functionId": "Sin",
+		"functionId": "BeatSinewave",
 		"sampleIntervalMin": 0,
-		"sampleIntervalMax": 25.13274123,
-		"sampleResolution": 80,
+		"sampleIntervalMax": 50.265,
+		"sampleResolution": 160,
 		"gradientMseWeight": 0.9
 	}
 }

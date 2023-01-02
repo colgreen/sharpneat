@@ -1,6 +1,6 @@
 ﻿{
-	"name": "Generative Function Regression - sin(x)",
-	"description": "Generative Function Regression: sin(x) evaluated over interval [0, 8*PI]",
+	"name": "Generative Function Regression - Waveform #1",
+	"description": "Generative Function Regression: Waveform #1 evaluated over interval [0, 8*PI]",
 	"isAcyclic": false,
 	"cyclesPerActivation": 1,
 	"activationFnName": "LeakyReLU",
@@ -33,7 +33,7 @@
 	"enableHardwareAcceleratedNeuralNets": false,
 	"enableHardwareAcceleratedActivationFunctions": false,
 	"customEvaluationSchemeConfig": {
-		"functionId": "Sin",
+		"functionId": "Waveform1",
 		"sampleIntervalMin": 0,
 		"sampleIntervalMax": 25.13274123,
 		"sampleResolution": 80,
