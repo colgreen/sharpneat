@@ -1,42 +1,42 @@
 ﻿{
-	"name": "Generative Function Regression - Waveform #1",
-	"description": "Generative Function Regression: Waveform #1 evaluated over interval [0, 8*PI]",
-	"isAcyclic": false,
-	"cyclesPerActivation": 1,
-	"activationFnName": "LeakyReLU",
-	"evolutionAlgorithm": {
-		"speciesCount": 10,
-		"elitismProportion": 0.5,
-		"selectionProportion": 0.5,
-		"offspringAsexualProportion": 0.5,
-		"offspringSexualProportion": 0.5,
-		"interspeciesMatingProportion": 0.01
-	},
-	"reproductionAsexual": {
-		"connectionWeightMutationProbability": 0.94,
-		"addNodeMutationProbability": 0.01,
-		"addConnectionMutationProbability": 0.025,
-		"deleteConnectionMutationProbability": 0.025
-	},
-	"reproductionSexual": {
-		"secondaryParentGeneProbability": 0.1
-	},
-	"populationSize": 600,
-	"initialInterconnectionsProportion": 0.05,
-	"connectionWeightScale": 5.0,
-	"complexityRegulationStrategy": {
-		"strategyName": "relative",
-		"relativeComplexityCeiling": 10,
-		"minSimplifcationGenerations": 10
-	},
-	"degreeOfParallelism": 4,
-	"enableHardwareAcceleratedNeuralNets": false,
-	"enableHardwareAcceleratedActivationFunctions": false,
-	"customEvaluationSchemeConfig": {
-		"functionId": "Waveform1",
-		"sampleIntervalMin": 0,
-		"sampleIntervalMax": 25.13274123,
-		"sampleResolution": 80,
-		"gradientMseWeight": 0.9
-	}
+  "name": "Generative Function Regression - Waveform #1",
+  "description": "Generative Function Regression: Waveform #1 evaluated over interval [0, 8*PI]",
+  "isAcyclic": false,
+  "cyclesPerActivation": 1,
+  "activationFnName": "LeakyReLU",
+  "evolutionAlgorithm": {
+    "speciesCount": 10,
+    "elitismProportion": 0.5,
+    "selectionProportion": 0.5,
+    "offspringAsexualProportion": 0.5,
+    "offspringSexualProportion": 0.5,
+    "interspeciesMatingProportion": 0.01
+  },
+  "reproductionAsexual": {
+    "connectionWeightMutationProbability": 0.94,
+    "addNodeMutationProbability": 0.01,
+    "addConnectionMutationProbability": 0.025,
+    "deleteConnectionMutationProbability": 0.025
+  },
+  "reproductionSexual": {
+    "secondaryParentGeneProbability": 0.1
+  },
+  "populationSize": 600,
+  "initialInterconnectionsProportion": 0.05,
+  "connectionWeightScale": 5.0,
+  "complexityRegulationStrategy": {
+    "strategyName": "relative",
+    "relativeComplexityCeiling": 10,
+    "minSimplifcationGenerations": 10
+  },
+  "degreeOfParallelism": 4,
+  "enableHardwareAcceleratedNeuralNets": false,
+  "enableHardwareAcceleratedActivationFunctions": false,
+  "customEvaluationSchemeConfig": {
+    "functionId": "Waveform1",
+    "sampleIntervalMin": 0,
+    "sampleIntervalMax": 25.13274123,
+    "sampleResolution": 80,
+    "gradientMseWeight": 0.9
+  }
 }

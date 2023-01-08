@@ -1,41 +1,41 @@
 ﻿{
-	"name": "Prey Capture",
-	"isAcyclic": false,
-	"cyclesPerActivation": 1,
-	"activationFnName": "LeakyReLU",
-	"evolutionAlgorithm": {
-		"speciesCount": 15,
-		"elitismProportion": 0.66,
-		"selectionProportion": 0.66,
-		"offspringAsexualProportion": 0.5,
-		"offspringSexualProportion": 0.5,
-		"interspeciesMatingProportion": 0.01
-	},
-	"reproductionAsexual": {
-		"connectionWeightMutationProbability": 0.94,
-		"addNodeMutationProbability": 0.01,
-		"addConnectionMutationProbability": 0.025,
-		"deleteConnectionMutationProbability": 0.025
-	},
-	"reproductionSexual": {
-		"secondaryParentGeneProbability": 0.1
-	},
-	"populationSize": 225,
-	"initialInterconnectionsProportion": 0.05,
-	"connectionWeightScale": 5.0,
-	"complexityRegulationStrategy": {
-		"strategyName": "relative",
-		"relativeComplexityCeiling": 30,
-		"minSimplifcationGenerations": 10
-	},
-	"degreeOfParallelism": 4,
-	"enableHardwareAcceleratedNeuralNets": false,
-	"enableHardwareAcceleratedActivationFunctions": false,
-	"customEvaluationSchemeConfig": {
-		"preyInitMoves": 4,
-		"preySpeed": 1.0,
-		"sensorRange": 4.0,
-		"maxTimesteps": 70,
-		"trialsPerEvaluation": 100
-	}
+  "name": "Prey Capture",
+  "isAcyclic": false,
+  "cyclesPerActivation": 1,
+  "activationFnName": "LeakyReLU",
+  "evolutionAlgorithm": {
+    "speciesCount": 15,
+    "elitismProportion": 0.66,
+    "selectionProportion": 0.66,
+    "offspringAsexualProportion": 0.5,
+    "offspringSexualProportion": 0.5,
+    "interspeciesMatingProportion": 0.01
+  },
+  "reproductionAsexual": {
+    "connectionWeightMutationProbability": 0.94,
+    "addNodeMutationProbability": 0.01,
+    "addConnectionMutationProbability": 0.025,
+    "deleteConnectionMutationProbability": 0.025
+  },
+  "reproductionSexual": {
+    "secondaryParentGeneProbability": 0.1
+  },
+  "populationSize": 225,
+  "initialInterconnectionsProportion": 0.05,
+  "connectionWeightScale": 5.0,
+  "complexityRegulationStrategy": {
+    "strategyName": "relative",
+    "relativeComplexityCeiling": 30,
+    "minSimplifcationGenerations": 10
+  },
+  "degreeOfParallelism": 4,
+  "enableHardwareAcceleratedNeuralNets": false,
+  "enableHardwareAcceleratedActivationFunctions": false,
+  "customEvaluationSchemeConfig": {
+    "preyInitMoves": 4,
+    "preySpeed": 1.0,
+    "sensorRange": 4.0,
+    "maxTimesteps": 70,
+    "trialsPerEvaluation": 100
+  }
 }

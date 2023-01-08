@@ -14,7 +14,7 @@
     <Description>SharpNEAT Windows Forms application / front-end.</Description>
     <Copyright>Copyright 2004-2023 Colin Green</Copyright>
     <Authors>Colin D. Green</Authors>
-    <Product>SharpNEAT - Evolution of Neural Networks.</Product>	  	  
+    <Product>SharpNEAT - Evolution of Neural Networks.</Product>
   </PropertyGroup>
 
   <ItemGroup>
