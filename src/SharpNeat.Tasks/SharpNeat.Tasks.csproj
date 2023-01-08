@@ -3,12 +3,12 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>SharpNeat.Tasks</RootNamespace>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

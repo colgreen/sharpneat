@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<!-- 
-	This project was originally intended to be cross platform, however, it relies on System.Drawing.Common
-	to achieve this, and that package is now being marked as Windows only. For an explanation, see:
-	https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only
-	-->
+    <!-- 
+    This project was originally intended to be cross platform, however, it relies on System.Drawing.Common
+    to achieve this, and that package is now being marked as Windows only. For an explanation, see:
+    https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only
+    -->
     <TargetFramework>net7.0-windows</TargetFramework>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,7 +21,7 @@
     <Authors>Colin D. Green</Authors>
     <Product>SharpNEAT - Evolution of Neural Networks.</Product>
   </PropertyGroup>
-	
+    
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
