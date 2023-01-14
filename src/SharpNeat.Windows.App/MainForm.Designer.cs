@@ -895,7 +895,7 @@ namespace SharpNeat.Windows.App
             this.label34.Location = new System.Drawing.Point(69, 85);
             this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(159, 18);
+            this.label34.Size = new System.Drawing.Size(175, 18);
             this.label34.TabIndex = 25;
             this.label34.Text = "Add Connection (probability)";
             // 
