@@ -26,6 +26,6 @@ Motivation for the development of SharpNEAT derives from a broader interest in b
 
 ## More Info / Links
 
-* [SharpNEAT YouTube channel](youtube.com/@sharpneat)
+* [SharpNEAT YouTube channel](https://www.youtube.com/@sharpneat)
 * [SharpNEAT 4: Introduction & Walkthrough](https://youtu.be/pqVOAo669n0)
 
