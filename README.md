@@ -4,8 +4,6 @@
 
 SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET \[Core\] 7.
 
-<br/>
-
 ## What is SharpNEAT?
 
 SharpNEAT provides an implementation of an [Evolutionary Algorithm](https://en.wikipedia.org/wiki/Evolutionary_algorithm) (EA) with the specific goal of evolving a population of neural networks towards solving some goal problem task (known as as the Objective function).
