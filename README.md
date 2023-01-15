@@ -20,7 +20,7 @@ A notable point is that NEAT and SharpNEAT search both neural network structure 
 
 SharpNEAT is a framework, or 'kit of parts', that facilitates research into evolutionary computation and specifically evolution of neural networks. The framework provides a number of example problem tasks that demonstrate how it can be used to produce a complete working EA.
 
-This project aims to be modular, e.g. an alternative genetic coding or entirely new evolutionary algorithm could be used alongside the other parts/classes provided by SharpNEAT. The provision for such modular experimentation was a major design goal of SharpNEAT, and is facilitated by abstractions made in SharpNEAT's architecture around key concepts such as genome (genetic representation and coding) and evolutionary algorithm (mutations, recombination, selection strategy).
+This project aims to be modular, e.g. an alternative genetic coding or entirely new evolutionary algorithm could be used alongside the other parts/classes provided by SharpNEAT. The provision for such modular experimentation was a major design goal of SharpNEAT, and is facilitated by abstractions made in SharpNEAT's architecture around key concepts such as 'genome' (genetic representation / encoding) and 'evolutionary algorithm' (mutations, recombination, selection strategy, etc.).
 
 Motivation for the development of SharpNEAT derives from a broader interest in biological evolution, and curiosity around the limits of [neuro-evolution](https://en.wikipedia.org/wiki/Neuroevolution), in terms of the of problems and level of problem complexity it can produce satisfactory solutions for.
 
