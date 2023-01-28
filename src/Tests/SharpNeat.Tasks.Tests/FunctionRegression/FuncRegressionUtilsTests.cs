@@ -1,7 +1,6 @@
-﻿using SharpNeat.Tasks.FunctionRegression;
-using Xunit;
+﻿using Xunit;
 
-namespace SharpNeat.Tasks.Tests.FunctionRegression;
+namespace SharpNeat.Tasks.FunctionRegression;
 
 public class FuncRegressionUtilsTests
 {

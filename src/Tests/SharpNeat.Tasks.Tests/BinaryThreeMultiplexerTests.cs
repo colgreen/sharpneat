@@ -5,7 +5,7 @@ using SharpNeat.NeuralNets.IO;
 using SharpNeat.Tasks.BinaryThreeMultiplexer;
 using Xunit;
 
-namespace SharpNeat.Tasks.Tests;
+namespace SharpNeat.Tasks;
 
 public class BinaryThreeMultiplexerTests
 {
