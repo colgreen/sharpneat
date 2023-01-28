@@ -1,7 +1,7 @@
 ﻿using Redzen.Collections;
 using Xunit;
 
-namespace SharpNeat.Graphs.Tests;
+namespace SharpNeat.Graphs;
 
 public class DirectedGraphTests
 {

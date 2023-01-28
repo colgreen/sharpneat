@@ -4,7 +4,7 @@ using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
 
-namespace SharpNeat.NeuralNets.Double.Tests;
+namespace SharpNeat.NeuralNets.Double;
 
 public class NeuralNetAcyclicTests
 {

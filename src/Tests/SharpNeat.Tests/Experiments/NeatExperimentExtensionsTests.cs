@@ -4,7 +4,7 @@ using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.IO;
 using Xunit;
 
-namespace SharpNeat.Experiments.Tests;
+namespace SharpNeat.Experiments;
 
 public class NeatExperimentExtensionsTests
 {

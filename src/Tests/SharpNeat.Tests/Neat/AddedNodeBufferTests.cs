@@ -1,7 +1,7 @@
 ﻿using SharpNeat.Graphs;
 using Xunit;
 
-namespace SharpNeat.Neat.Tests;
+namespace SharpNeat.Neat;
 
 public class AddedNodeBufferTests
 {

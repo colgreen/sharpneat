@@ -1,7 +1,7 @@
 ﻿using SharpNeat.Graphs.Acyclic;
 using Xunit;
 
-namespace SharpNeat.Graphs.Tests;
+namespace SharpNeat.Graphs;
 
 public static class NetworkUtils
 {

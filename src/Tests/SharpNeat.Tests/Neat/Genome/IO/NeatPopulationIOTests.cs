@@ -1,8 +1,7 @@
 ﻿using System.IO.Compression;
-using SharpNeat.Neat.Genome.Tests;
 using Xunit;
 
-namespace SharpNeat.Neat.Genome.IO.Tests;
+namespace SharpNeat.Neat.Genome.IO;
 
 public class NeatPopulationIOTests
 {

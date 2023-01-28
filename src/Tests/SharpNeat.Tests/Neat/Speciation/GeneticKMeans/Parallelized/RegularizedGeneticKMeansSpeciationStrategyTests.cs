@@ -1,9 +1,9 @@
 ﻿using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics.Double;
 using Xunit;
-using static SharpNeat.Neat.Speciation.Tests.SpeciationStrategyTestUtils;
+using static SharpNeat.Neat.Speciation.SpeciationStrategyTestUtils;
 
-namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized.Tests;
+namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 
 public class RegularizedGeneticKMeansSpeciationStrategyTests
 {

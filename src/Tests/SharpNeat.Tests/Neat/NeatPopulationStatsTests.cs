@@ -6,7 +6,7 @@ using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Neat.Tests;
+namespace SharpNeat.Neat;
 
 public class NeatPopulationStatsTests
 {

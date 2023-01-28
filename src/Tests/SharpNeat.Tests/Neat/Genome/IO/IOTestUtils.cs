@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace SharpNeat.Neat.Genome.IO.Tests;
+namespace SharpNeat.Neat.Genome.IO;
 
 public static class IOTestUtils
 {

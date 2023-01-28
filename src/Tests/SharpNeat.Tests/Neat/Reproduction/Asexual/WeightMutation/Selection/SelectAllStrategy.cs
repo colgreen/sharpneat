@@ -1,6 +1,6 @@
 ﻿using Redzen.Random;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests;
+namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 public class SelectAllStrategy : ISubsetSelectionStrategy
 {

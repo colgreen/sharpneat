@@ -1,6 +1,6 @@
 ﻿using SharpNeat.Graphs;
 
-namespace SharpNeat.Neat.Genome.Tests;
+namespace SharpNeat.Neat.Genome;
 
 public static class NestGenomeTestUtils
 {

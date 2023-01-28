@@ -1,7 +1,7 @@
 ﻿using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Graphs.Tests;
+namespace SharpNeat.Graphs;
 
 public static class ConnectionCompareUtils
 {

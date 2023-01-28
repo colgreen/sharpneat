@@ -4,7 +4,7 @@ using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Neat.Tests;
+namespace SharpNeat.Neat;
 
 public class NeatPopulationTests
 {

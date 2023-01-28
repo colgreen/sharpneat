@@ -2,9 +2,9 @@
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
-using static SharpNeat.Graphs.Tests.ConnectionCompareUtils;
+using static SharpNeat.Graphs.ConnectionCompareUtils;
 
-namespace SharpNeat.Neat.Genome.Tests;
+namespace SharpNeat.Neat.Genome;
 
 public class NeatGenomeAcyclicBuilderTests
 {

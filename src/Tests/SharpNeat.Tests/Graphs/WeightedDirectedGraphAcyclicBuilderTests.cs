@@ -1,9 +1,9 @@
 ﻿using Redzen.Collections;
 using SharpNeat.Graphs.Acyclic;
 using Xunit;
-using static SharpNeat.Graphs.Tests.NetworkUtils;
+using static SharpNeat.Graphs.NetworkUtils;
 
-namespace SharpNeat.Graphs.Tests;
+namespace SharpNeat.Graphs;
 
 public class WeightedDirectedGraphAcyclicBuilderTests
 {

@@ -2,7 +2,7 @@
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
 
-namespace SharpNeat.Neat.Genome.IO.Tests;
+namespace SharpNeat.Neat.Genome.IO;
 
 public class NeatGenomeSaverTests
 {

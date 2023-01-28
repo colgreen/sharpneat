@@ -1,9 +1,9 @@
 ﻿using Redzen.Numerics;
 using Redzen.Random;
-using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection.Tests;
+using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 using Xunit;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double.Tests;
+namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
 
 public class DeltaWeightMutationStrategyTests
 {

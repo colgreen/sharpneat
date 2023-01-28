@@ -3,7 +3,7 @@ using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Neat.Speciation.Tests;
+namespace SharpNeat.Neat.Speciation;
 
 internal static class SpeciationStrategyTestUtils
 {

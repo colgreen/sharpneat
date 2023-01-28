@@ -1,7 +1,7 @@
 ﻿using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Neat.DistanceMetrics.Double.Tests;
+namespace SharpNeat.Neat.DistanceMetrics.Double;
 
 public class EuclideanDistanceMetricTests
 {

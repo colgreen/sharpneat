@@ -4,9 +4,9 @@ using Redzen.Structures;
 using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
 using Xunit;
-using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
+using static SharpNeat.Neat.Genome.NestGenomeTestUtils;
 
-namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.Tests;
+namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 
 public class UniformCrossoverReproductionStrategyTests
 {

@@ -4,9 +4,9 @@ using Redzen.Structures;
 using SharpNeat.Graphs;
 using SharpNeat.Neat.Genome;
 using Xunit;
-using static SharpNeat.Neat.Genome.Tests.NestGenomeTestUtils;
+using static SharpNeat.Neat.Genome.NestGenomeTestUtils;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy.Tests;
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 
 public class AddNodeStrategyTests
 {

@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace SharpNeat.Graphs.Acyclic.Tests;
+namespace SharpNeat.Graphs.Acyclic;
 
 public class CyclicConnectionCheckTests
 {
