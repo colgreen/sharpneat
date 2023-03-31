@@ -19,7 +19,6 @@ public class ActivationFunctionMonotonicityTests
         AssertMonotonic(new PolynomialApproximantSteep(), true);
         AssertMonotonic(new QuadraticSigmoid(), false);
         AssertMonotonic(new ReLU(), false);
-        AssertMonotonic(new BitwiseReLU(), false);
         AssertMonotonic(new ScaledELU(), true);
         AssertMonotonic(new SoftSignSteep(), true);
         AssertMonotonic(new SReLU(), true);

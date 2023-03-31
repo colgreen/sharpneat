@@ -23,7 +23,6 @@ public class ActivationFunctionsBenchmarks
     static readonly IActivationFunction<double> __PolynomialApproximantSteep = new PolynomialApproximantSteep();
     static readonly IActivationFunction<double> __QuadraticSigmoid = new QuadraticSigmoid();
     static readonly IActivationFunction<double> __ReLU = new ReLU();
-    static readonly IActivationFunction<double> __BitwiseReLU = new BitwiseReLU();
     static readonly IActivationFunction<double> __ScaledELU = new ScaledELU();
     static readonly IActivationFunction<double> __SoftSignSteep = new SoftSignSteep();
     static readonly IActivationFunction<double> __SReLU = new SReLU();
@@ -124,12 +123,6 @@ public class ActivationFunctionsBenchmarks
     public void ReLU()
     {
         RunBenchmark(__ReLU);
-    }
-
-    [Benchmark]
-    public void BitwiseReLU()
-    {
-        RunBenchmark(__BitwiseReLU);
     }
 
     [Benchmark]
