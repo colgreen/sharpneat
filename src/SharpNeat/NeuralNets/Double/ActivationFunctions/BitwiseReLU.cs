@@ -14,16 +14,16 @@ public sealed class BitwiseReLU : IActivationFunction<double>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fn(ref double x)
     {
-        long sign = BitConverter.DoubleToInt64Bits(x) >> 63;
-        x *= (~sign & 1);
+        long xlong = BitConverter.DoubleToInt64Bits(x);
+        x = BitConverter.Int64BitsToDouble(xlong & ~(xlong >> 63));
     }
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fn(ref double x, ref double y)
     {
-        long sign = BitConverter.DoubleToInt64Bits(x) >> 63;
-        y = x * (~sign & 1);
+        long xlong = BitConverter.DoubleToInt64Bits(x);
+        y = BitConverter.Int64BitsToDouble(xlong & ~(xlong >> 63));
     }
 
     /// <inheritdoc/>
