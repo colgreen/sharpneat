@@ -14,7 +14,7 @@ public sealed class BitwiseReLU : IActivationFunction<double>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fn(ref double x)
     {
-        long xlong = BitConverter.DoubleToInt64Bits(x);
+        long xlong = Unsafe.As<double,long>(ref x);
         x = BitConverter.Int64BitsToDouble(xlong & ~(xlong >> 63));
     }
 
@@ -22,7 +22,7 @@ public sealed class BitwiseReLU : IActivationFunction<double>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fn(ref double x, ref double y)
     {
-        long xlong = BitConverter.DoubleToInt64Bits(x);
+        long xlong = Unsafe.As<double,long>(ref x);
         y = BitConverter.Int64BitsToDouble(xlong & ~(xlong >> 63));
     }
 
