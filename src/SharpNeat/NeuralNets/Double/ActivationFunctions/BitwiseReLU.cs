@@ -15,7 +15,7 @@ public sealed class BitwiseReLU : IActivationFunction<double>
     public void Fn(ref double x)
     {
         long sign = BitConverter.DoubleToInt64Bits(x) >> 63;
-        x *= (sign & (-sign >> 63)) | (~sign & 1);
+        x *= (~sign & 1);
     }
 
     /// <inheritdoc/>
@@ -23,7 +23,7 @@ public sealed class BitwiseReLU : IActivationFunction<double>
     public void Fn(ref double x, ref double y)
     {
         long sign = BitConverter.DoubleToInt64Bits(x) >> 63;
-        y = x * ((sign & (-sign >> 63)) | (~sign & 1));
+        y = x * (~sign & 1);
     }
 
     /// <inheritdoc/>
