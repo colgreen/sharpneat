@@ -1,7 +1,5 @@
-﻿using System.Windows.Forms;
-using SharpNeat.Evaluation;
+﻿using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.Experiments;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Tasks.Gymnasium;
 using SharpNeat.Windows;

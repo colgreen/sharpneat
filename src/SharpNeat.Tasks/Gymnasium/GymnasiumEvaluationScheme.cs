@@ -1,6 +1,7 @@
 ﻿using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.Gymnasium;
+
 internal class GymnasiumEvaluationScheme : IBlackBoxEvaluationScheme<double>
 {
     /// <inheritdoc/>
