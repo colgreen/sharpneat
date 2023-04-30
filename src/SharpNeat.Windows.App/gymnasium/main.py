@@ -1,3 +1,4 @@
+import collections
 import struct
 import time
 import traceback
@@ -11,29 +12,31 @@ from argparse import ArgumentParser
 import numpy as np
 import logging
 
-
 logging.basicConfig(filename='debug.log', encoding='utf-8', level=logging.FATAL)
 logging.debug("start")
 
 parser = ArgumentParser()
-parser.add_argument("-uuid", dest="uuid")
-parser.add_argument("-render", dest="render")
+parser.add_argument("-uuid", dest="uuid", default="test")
+parser.add_argument("-render", dest="render", default="False")
+parser.add_argument("-test", dest="test", default="True")
 args = parser.parse_args()
 render = args.render == "True"
+test = args.test == "True"
 
-pipe = win32pipe.CreateNamedPipe("\\\\.\\pipe\\gymnasium_pipe_" + args.uuid,
-                                 win32pipe.PIPE_ACCESS_DUPLEX,
-                                 win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_READMODE_MESSAGE | win32pipe.PIPE_WAIT,
-                                 1, 1024, 1024, 0, None)
-logging.debug("Connecting pipe...")
-win32pipe.ConnectNamedPipe(pipe, None)
-logging.debug("Pipe connected")
+if not test:
+    pipe = win32pipe.CreateNamedPipe("\\\\.\\pipe\\gymnasium_pipe_" + args.uuid,
+                                     win32pipe.PIPE_ACCESS_DUPLEX,
+                                     win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_READMODE_MESSAGE | win32pipe.PIPE_WAIT,
+                                     1, 1024, 1024, 0, None)
+    logging.debug("Connecting pipe...")
+    win32pipe.ConnectNamedPipe(pipe, None)
+    logging.debug("Pipe connected")
 
 # env = gym.make("BipedalWalker-v3", hardcore=False, render_mode="human" if render else None)
 # env = gym.make("LunarLander-v2", render_mode="human" if render else None)
 try:
     # env = gym.make("LunarLander-v2", enable_wind=True, render_mode="human" if render else None)
-    env = gym.make("BipedalWalker-v3", hardcore=True, render_mode="human" if render else None)
+    env = gym.make("BipedalWalker-v3", hardcore=False, render_mode="human" if render else None)
     env = ClipAction(env)
 
     logging.debug("Environment created")
@@ -48,17 +51,23 @@ except Exception as e:
 def run_episode():
     observation, info = env.reset()
 
-    logging.debug("Initial observation:", observation)
-    send_observation(observation, 0, False)
-    logging.debug("Initial observation sent")
+    if not test:
+        logging.debug("Initial observation:", observation)
+        send_observation(observation, 0, False)
+        logging.debug("Initial observation sent")
 
+    max_reward_history_len = 100
     total_reward = 0
     total_timesteps = 0
+    latest_rewards = collections.deque(maxlen=max_reward_history_len)
 
     while 1:
         logging.debug("Starting step")
-        a = read_action(env.action_space)
-        logging.debug("Action read:", a)
+
+        if not test:
+            a = read_action(env.action_space)
+        else:
+            a = env.action_space.sample()
 
         total_timesteps += 1
 
@@ -71,20 +80,28 @@ def run_episode():
         #     print("reward %0.3f" % reward)
 
         total_reward += reward
+        latest_rewards.append(float(reward))
 
         masked_done = done
 
-        # if render:
-        #     masked_done = False
+        if total_timesteps >= max_reward_history_len:
+            low_performing = True
+            for historical_reward in latest_rewards:
+                if historical_reward > 0:
+                    low_performing = False
+                    break
+            if low_performing:
+                masked_done = True
 
-        send_observation(observation, float(total_reward), masked_done)
-        logging.debug("Observation sent")
+        if not test:
+            send_observation(observation, float(total_reward), masked_done)
+            logging.debug("Observation sent")
 
         if render:
             env.render()
-            time.sleep(0.02)
+            time.sleep(0.01)
 
-        if done:
+        if masked_done:
             logging.debug("Terminated")
             if not render:
                 # pipe.close()
@@ -99,7 +116,8 @@ def run_episode():
 
 
 def send_observation(observation: np.array, reward: float, done: bool):
-    win32file.WriteFile(pipe, bytes(observation.astype(float)) + bytes(np.array([reward]).astype(float)) + bytes(np.array([int(done)])))
+    win32file.WriteFile(pipe, bytes(observation.astype(float)) + bytes(np.array([reward]).astype(float)) + bytes(
+        np.array([int(done)])))
 
 
 def read_action(space: spaces.Space):

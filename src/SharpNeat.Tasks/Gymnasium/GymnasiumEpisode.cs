@@ -7,16 +7,16 @@ namespace SharpNeat.Tasks.Gymnasium;
 
 public sealed class GymnasiumEpisode
 {
-    readonly int _inputCount;
-    readonly int _outputCount;
-    readonly bool _isContinious;
-    readonly bool _test;
+    private readonly int _inputCount;
+    private readonly int _outputCount;
+    private readonly bool _isContinuous;
+    private readonly bool _test;
 
-    public GymnasiumEpisode(int inputCount, int outputCount, bool isContinious, bool test)
+    public GymnasiumEpisode(int inputCount, int outputCount, bool isContinuous, bool test)
     {
         _inputCount = inputCount;
         _outputCount = outputCount;
-        _isContinious = isContinious;
+        _isContinuous = isContinuous;
         _test = test;
     }
 
@@ -28,12 +28,12 @@ public sealed class GymnasiumEpisode
         {
             FileName = @"pythonw.exe",
             WorkingDirectory = @"./",
-            Arguments = string.Format(CultureInfo.InvariantCulture, @"gymnasium/main.py -uuid {0} -render {1}", uuid.ToString(), _test),
+            Arguments = string.Format(CultureInfo.InvariantCulture, @"gymnasium/main.py -uuid {0} -render {1} -test False", uuid.ToString(), _test),
             UseShellExecute = false,
             RedirectStandardOutput = false
         };
 
-        var process = Process.Start(start) ?? throw new InvalidOperationException("No proccess resource is started");
+        var process = Process.Start(start) ?? throw new InvalidOperationException("No process resource is started");
         var totalReward = 0.0;
 
         try
@@ -52,10 +52,9 @@ public sealed class GymnasiumEpisode
                 var inputs = phenome.Inputs.Span;
                 inputs.Clear();
 
-                var observationTuple = ReadObservation(namedPipeClientStream, _inputCount);
-                var observation = observationTuple.observation;
-                totalReward = observationTuple.reward[0];
-                var done = observationTuple.done[0];
+                var (observation, rewardArray, doneArray) = ReadObservation(namedPipeClientStream, _inputCount);
+                totalReward = rewardArray[0];
+                var done = doneArray[0];
 
                 if (done == 1)
                 {
@@ -66,7 +65,7 @@ public sealed class GymnasiumEpisode
                 phenome.Activate();
 
                 // var clampedOutputs = outputs.Select(output => Math.Clamp(output, -1.0, 1.0)).ToArray();
-                if (_isContinious)
+                if (_isContinuous)
                 {
                     var outputBuffer = new byte[_outputCount * sizeof(float)];
                     var outputs = new double[_outputCount];
@@ -76,7 +75,7 @@ public sealed class GymnasiumEpisode
                 }
                 else
                 {
-                    int maxSigIndex = ReadMaxSigIndex(phenome);
+                    var maxSigIndex = ReadMaxSigIndex(phenome);
                     var outputBuffer = new byte[sizeof(int)];
                     Buffer.BlockCopy(new int[] { maxSigIndex }, 0, outputBuffer, 0, outputBuffer.Length);
                     namedPipeClientStream.Write(outputBuffer, 0, outputBuffer.Length);
@@ -101,16 +100,16 @@ public sealed class GymnasiumEpisode
         return new FitnessInfo(maskedReward);
     }
 
-    static (double[] observation, double[] reward, int[] done) ReadObservation(NamedPipeClientStream namedPipeClientStream, int count)
+    private static (double[] observation, double[] reward, int[] done) ReadObservation(Stream namedPipeClientStream, int count)
     {
         var count0 = count * sizeof(double);
-        var count1 = sizeof(double);
-        var count2 = sizeof(int);
+        const int count1 = sizeof(double);
+        const int count2 = sizeof(int);
         var inputBuffer = new byte[count0 + count1 + count2];
         namedPipeClientStream.Read(inputBuffer, 0, inputBuffer.Length);
-        double[] observation = new double[count];
-        double[] reward = new double[1];
-        int[] done = new int[1];
+        var observation = new double[count];
+        var reward = new double[1];
+        var done = new int[1];
         var offset1 = count0;
         var offset2 = count0 + count1;
         Buffer.BlockCopy(inputBuffer, 0, observation, 0, count0);
@@ -119,46 +118,44 @@ public sealed class GymnasiumEpisode
         return (observation, reward, done);
     }
 
-    static double[] ReadDoubleArray(NamedPipeClientStream namedPipeClientStream, int count)
+    private static double[] ReadDoubleArray(Stream namedPipeClientStream, int count)
     {
         var inputBuffer = new byte[count * sizeof(double)];
         namedPipeClientStream.Read(inputBuffer, 0, inputBuffer.Length);
-        double[] values = new double[inputBuffer.Length / sizeof(double)];
+        var values = new double[inputBuffer.Length / sizeof(double)];
         Buffer.BlockCopy(inputBuffer, 0, values, 0, values.Length * sizeof(double));
         return values;
     }
 
-    static float[] ReadFloatArray(NamedPipeClientStream namedPipeClientStream, int count)
+    private static float[] ReadFloatArray(Stream namedPipeClientStream, int count)
     {
         var inputBuffer = new byte[count * sizeof(float)];
         namedPipeClientStream.Read(inputBuffer, 0, inputBuffer.Length);
-        float[] values = new float[inputBuffer.Length / sizeof(float)];
+        var values = new float[inputBuffer.Length / sizeof(float)];
         Buffer.BlockCopy(inputBuffer, 0, values, 0, values.Length * sizeof(float));
         return values;
     }
 
-    static int[] ReadIntArray(NamedPipeClientStream namedPipeClientStream, int count)
+    private static int[] ReadIntArray(Stream namedPipeClientStream, int count)
     {
         var inputBuffer = new byte[count * sizeof(int)];
         namedPipeClientStream.Read(inputBuffer, 0, inputBuffer.Length);
-        int[] values = new int[inputBuffer.Length / sizeof(int)];
+        var values = new int[inputBuffer.Length / sizeof(int)];
         Buffer.BlockCopy(inputBuffer, 0, values, 0, values.Length * sizeof(int));
         return values;
     }
 
-    int ReadMaxSigIndex(IBlackBox<double> phenome)
+    private int ReadMaxSigIndex(IBlackBox<double> phenome)
     {
-        double maxSig = phenome.Outputs.Span[0];
-        int maxSigIdx = 0;
+        var maxSig = phenome.Outputs.Span[0];
+        var maxSigIdx = 0;
 
-        for (int i = 1; i < _outputCount; i++)
+        for (var i = 1; i < _outputCount; i++)
         {
-            double v = phenome.Outputs.Span[i];
-            if (v > maxSig)
-            {
-                maxSig = v;
-                maxSigIdx = i;
-            }
+            var v = phenome.Outputs.Span[i];
+            if (!(v > maxSig)) continue;
+            maxSig = v;
+            maxSigIdx = i;
         }
 
         return maxSigIdx;

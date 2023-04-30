@@ -86,7 +86,7 @@ public class GymnasiumControl : GenomeControl
     /// </summary>
     private void SimulationThread()
     {
-        // Wait to be signalled to start the next trial run.
+        // Wait to be signaled to start the next trial run.
         _simStartEvent.WaitOne();
 
         IBlackBox<double> agent = _agent;
@@ -96,7 +96,7 @@ public class GymnasiumControl : GenomeControl
 
         while (true)
         {
-            // Check if we have been signalled to terminate before starting a simulation run.
+            // Check if we have been signaled to terminate before starting a simulation run.
             if(_terminateSimThread)
                 break;
 

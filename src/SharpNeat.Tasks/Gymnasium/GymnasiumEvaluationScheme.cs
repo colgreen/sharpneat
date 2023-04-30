@@ -11,7 +11,7 @@ internal class GymnasiumEvaluationScheme : IBlackBoxEvaluationScheme<double>
     public int OutputCount => 4;
 
     /// <inheritdoc/>
-    public bool IsDeterministic => true;
+    public bool IsDeterministic => false;
 
     /// <inheritdoc/>
     public IComparer<FitnessInfo> FitnessComparer => PrimaryFitnessInfoComparer.Singleton;

@@ -8,7 +8,7 @@ namespace SharpNeat.Tasks.Gymnasium;
 internal class GymnasiumExperimentFactory : INeatExperimentFactory
 {
     /// <inheritdoc/>
-    public string Id => "gmnasium";
+    public string Id => "gymnasium";
 
     /// <inheritdoc/>
     public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
