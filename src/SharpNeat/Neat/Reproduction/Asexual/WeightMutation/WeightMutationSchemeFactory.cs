@@ -35,9 +35,9 @@ public static class WeightMutationSchemeFactory
         probabilityArr[0] = 0.5985;
         probabilityArr[1] = 0.2985;
         probabilityArr[2] = 0.0985;
-        strategyArr[0] = CreateCardinalGaussianDeltaStrategy(1, 0.1);
-        strategyArr[1] = CreateCardinalGaussianDeltaStrategy(2, 0.1);
-        strategyArr[2] = CreateCardinalGaussianDeltaStrategy(3, 0.1);
+        strategyArr[0] = CreateCardinalGaussianDeltaStrategy(1, 0.01);
+        strategyArr[1] = CreateCardinalGaussianDeltaStrategy(2, 0.01);
+        strategyArr[2] = CreateCardinalGaussianDeltaStrategy(3, 0.01);
 
         // Reset mutations. 1, 2 and 3 connections respectively.
         probabilityArr[3] = 0.015;

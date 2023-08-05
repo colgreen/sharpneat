@@ -60,6 +60,7 @@ public class NeatPopulationFactory<T>
         _innovationIdSeq = new Int32Sequence(nextInnovationId);
 
         // Init random connection weight source.
+        // TODO: Consider using gaussian samples here. One of the big leaps in backpropagation learning was related to avoiding large connection weights in the initial random weights.
         _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(_metaNeatGenome.ConnectionWeightScale, true);
     }
 
