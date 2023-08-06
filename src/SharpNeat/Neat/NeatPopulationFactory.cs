@@ -1,9 +1,9 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
-using Redzen.Numerics.Distributions.Double;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
@@ -14,7 +14,7 @@ namespace SharpNeat.Neat;
 /// </summary>
 /// <typeparam name="T">Connection weight data type.</typeparam>
 public class NeatPopulationFactory<T>
-    where T : struct
+    where T : struct, IBinaryFloatingPointIeee754<T>
 {
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly INeatGenomeBuilder<T> _genomeBuilder;
@@ -61,7 +61,8 @@ public class NeatPopulationFactory<T>
 
         // Init random connection weight source.
         // TODO: Consider using gaussian samples here. One of the big leaps in backpropagation learning was related to avoiding large connection weights in the initial random weights.
-        _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(_metaNeatGenome.ConnectionWeightScale, true);
+        _connWeightDist = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
+            T.CreateChecked(_metaNeatGenome.ConnectionWeightScale), true);
     }
 
     #endregion
@@ -109,8 +110,8 @@ public class NeatPopulationFactory<T>
 
         // Select a random subset of all possible connections between the input and output nodes.
         int[] sampleArr = new int[connectionCount];
-        DiscreteDistribution.SampleUniformWithoutReplacement(
-            _rng, _connectionDefArr.Length, sampleArr);
+        DiscreteDistributionUtils.SampleUniformWithoutReplacement(
+            _connectionDefArr.Length, sampleArr, _rng);
 
         // Sort the samples.
         // Note. This results in the neural net connections being sorted by sourceID then targetID.

@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverReproductionStrategyUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
@@ -81,7 +81,7 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
     {
         // Resolve a flag that determines if *all* disjoint genes from the secondary parent will be included in the child genome, or not.
         // This approach is from SharpNEAT v2.x and is preserved to act as baseline in v4.x, but better strategies may exist.
-        bool includeSecondaryParentGene = DiscreteDistribution.SampleBernoulli(rng, _secondaryParentGeneProbability);
+        bool includeSecondaryParentGene = DiscreteDistributionUtils.SampleBernoulli(_secondaryParentGeneProbability, rng);
 
         // Enumerate over the connection genes in both parents.
         foreach((int idx1, int idx2) in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))

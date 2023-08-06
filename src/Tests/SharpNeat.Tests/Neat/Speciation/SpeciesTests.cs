@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;
@@ -61,7 +61,10 @@ public class SpeciesTests
         }
 
         // Select a random subset to be the champ genomes, and assign them the champ fitness.
-        int[] idxArr = DiscreteDistribution.SampleUniformWithoutReplacement(rng, species.GenomeList.Count, champGenomeCount);
+        int[] idxArr = DiscreteDistributionUtils.SampleUniformWithoutReplacement(
+            species.GenomeList.Count,
+            champGenomeCount, rng);
+
         foreach(int idx in idxArr)
         {
             var genome = species.GenomeList[idx];

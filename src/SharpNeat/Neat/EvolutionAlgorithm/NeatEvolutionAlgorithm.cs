@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Redzen.Sorting;
 using SharpNeat.Neat.ComplexityRegulation;
@@ -15,7 +16,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 /// <typeparam name="T">Connection weight data type.</typeparam>
 public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
-    where T : struct
+    where T : struct, IBinaryFloatingPointIeee754<T>
 {
     NeatEvolutionAlgorithmSettings _eaSettingsCurrent;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsComplexifying;

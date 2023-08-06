@@ -173,7 +173,7 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
         int[] nodeLayerByIdx = BuildNodeLayerByIdx(digraph);
 
         // Group nodes into layers.
-        int layerCount = MathSpan.Max(nodeLayerByIdx) + 1;
+        int layerCount = MathSpan.Max<int>(nodeLayerByIdx) + 1;
         var nodesByLayer = new LightweightList<int>[layerCount];
         for(int i=0; i < layerCount; i++)
             nodesByLayer[i] = new LightweightList<int>();

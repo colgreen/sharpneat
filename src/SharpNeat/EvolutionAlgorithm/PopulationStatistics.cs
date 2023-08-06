@@ -29,7 +29,7 @@ public class PopulationStatistics
     /// This object can also provide a mean over the historical fitness scores, thus providing
     /// a moving average value.
     /// </summary>
-    public CircularBufferWithStats BestFitnessHistory { get; set; } = new CircularBufferWithStats(100);
+    public CircularBufferWithStats<double> BestFitnessHistory { get; set; } = new CircularBufferWithStats<double>(100);
 
     #endregion
 
@@ -55,7 +55,7 @@ public class PopulationStatistics
     /// This object can also provide a mean over the historical values, thus providing
     /// a moving average value.
     /// </summary>
-    public CircularBufferWithStats MeanComplexityHistory { get; set; } = new CircularBufferWithStats(100);
+    public CircularBufferWithStats<double> MeanComplexityHistory { get; set; } = new CircularBufferWithStats<double>(100);
 
     #endregion
 }

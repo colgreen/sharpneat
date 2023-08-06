@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
@@ -10,7 +11,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// </summary>
 /// <typeparam name="T">Connection weight data type.</typeparam>
 public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
-    where T : struct
+    where T : struct, IBinaryFloatingPointIeee754<T>
 {
     readonly ISubsetSelectionStrategy _selectionStrategy;
     readonly IStatelessSampler<T> _weightSampler;
@@ -56,7 +57,9 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
         ISubsetSelectionStrategy selectionStrategy,
         double weightScale)
     {
-        var sampler = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(weightScale, true);
+        var sampler = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
+            T.CreateChecked(weightScale), true);
+
         return new ResetWeightMutationStrategy<T>(selectionStrategy, sampler);
     }
 
@@ -73,7 +76,9 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
         ISubsetSelectionStrategy selectionStrategy,
         double stdDev)
     {
-        var sampler = GaussianDistributionSamplerFactory.CreateStatelessSampler<T>(0, stdDev);
+        var sampler = GaussianDistributionSamplerFactory.CreateStatelessSampler(
+            T.Zero, T.CreateChecked(stdDev));
+
         return new ResetWeightMutationStrategy<T>(selectionStrategy, sampler);
     }
 

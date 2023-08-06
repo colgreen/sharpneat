@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
@@ -30,7 +30,7 @@ public sealed class CardinalSubsetSelectionStrategy : ISubsetSelectionStrategy
         // to sort or not depends on the cost to the code using the samples. I.e. don't sort here!
         int selectionCount = Math.Min(_selectCount, supersetCount);
         int[] idxArr = new int[selectionCount];
-        DiscreteDistribution.SampleUniformWithoutReplacement(rng, supersetCount, idxArr);
+        DiscreteDistributionUtils.SampleUniformWithoutReplacement(supersetCount, idxArr, rng);
         return idxArr;
     }
 }

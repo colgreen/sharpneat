@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using System.Numerics;
 using Redzen.Numerics.Distributions;
 using SharpNeat.Graphs.Acyclic;
 using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
@@ -16,7 +17,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 /// if possible.
 /// </remarks>
 public sealed class AddAcyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
-    where T : struct
+    where T : struct, IBinaryFloatingPointIeee754<T>
 {
     readonly MetaNeatGenome<T> _metaNeatGenome;
     readonly INeatGenomeBuilder<T> _genomeBuilder;
@@ -47,8 +48,12 @@ public sealed class AddAcyclicConnectionStrategy<T> : IAsexualReproductionStrate
         _genomeIdSeq = genomeIdSeq;
         _generationSeq = generationSeq;
 
-        _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale, true);
-        _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(metaNeatGenome.ConnectionWeightScale * 0.01, true);
+        _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
+            T.CreateChecked(metaNeatGenome.ConnectionWeightScale), true);
+
+        _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
+            T.CreateChecked(metaNeatGenome.ConnectionWeightScale * 0.01), true);
+
         _cyclicCheck = new CyclicConnectionCheck();
     }
 

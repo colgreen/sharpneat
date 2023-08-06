@@ -1,7 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using Redzen.Numerics;
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Sexual;
 
@@ -14,7 +15,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
 internal sealed class OffspringBuilder<T>
-    where T : struct
+    where T : struct, IBinaryFloatingPointIeee754<T>
 {
     readonly NeatReproductionAsexual<T> _reproductionAsexual;
     readonly NeatReproductionSexual<T> _reproductionSexual;
@@ -78,8 +79,8 @@ internal sealed class OffspringBuilder<T>
         // genomeDistArr is an array of distributions, one per species; this is for selecting genomes for intra-species reproduction.
         CreateSelectionDistributionUtils<T>.CreateSelectionDistributions(
             speciesArr,
-            out DiscreteDistribution speciesDist,
-            out DiscreteDistribution?[] genomeDistArr,
+            out DiscreteDistribution<double> speciesDist,
+            out DiscreteDistribution<double>?[] genomeDistArr,
             out int populatedSpeciesCount);
 
         // Resolve the interspecies mating proportion.
@@ -104,8 +105,8 @@ internal sealed class OffspringBuilder<T>
 
     private List<NeatGenome<T>> CreateOffspring(
         Species<T>[] speciesArr,
-        DiscreteDistribution speciesDist,
-        DiscreteDistribution?[] genomeDistArr,
+        DiscreteDistribution<double> speciesDist,
+        DiscreteDistribution<double>?[] genomeDistArr,
         double interspeciesMatingProportion,
         IRandomSource rng,
         out int asexualCount, out int sexualCount,
@@ -130,7 +131,7 @@ internal sealed class OffspringBuilder<T>
                 continue;
 
             // Get the DiscreteDistribution for genome selection within the current species.
-            DiscreteDistribution genomeDist = genomeDistArr[speciesIdx]!;
+            var genomeDist = genomeDistArr[speciesIdx]!;
 
             // Determine how many offspring to create through asexual and sexual reproduction.
             SpeciesStats stats = species.Stats;
@@ -149,7 +150,7 @@ internal sealed class OffspringBuilder<T>
 
             // Create a copy of speciesDist with the current species removed from the set of possibilities.
             // Note. The remaining probabilities are normalised to sum to one.
-            DiscreteDistribution speciesDistUpdated = speciesDist.RemoveOutcome(speciesIdx);
+            var speciesDistUpdated = speciesDist.RemoveOutcome(speciesIdx);
 
             // Create offspring from the current species.
             CreateSpeciesOffspringAsexual(
@@ -173,7 +174,7 @@ internal sealed class OffspringBuilder<T>
 
     private void CreateSpeciesOffspringAsexual(
         Species<T> species,
-        DiscreteDistribution genomeDist,
+        DiscreteDistribution<double> genomeDist,
         int offspringCount,
         List<NeatGenome<T>> offspringList,
         IRandomSource rng)
@@ -184,7 +185,7 @@ internal sealed class OffspringBuilder<T>
         for(int i=0; i < offspringCount; i++)
         {
             // Select/sample a genome from the species.
-            int genomeIdx = DiscreteDistribution.Sample(rng, genomeDist);
+            int genomeIdx = genomeDist.Sample(rng);
             var parentGenome = genomeList[genomeIdx];
 
             // Spawn a child genome and add it to offspringList.
@@ -196,9 +197,9 @@ internal sealed class OffspringBuilder<T>
     private void CreateSpeciesOffspringSexual(
         Species<T>[] speciesArr,
         Species<T> species,
-        DiscreteDistribution speciesDistUpdated,
-        DiscreteDistribution?[] genomeDistArr,
-        DiscreteDistribution genomeDist,
+        DiscreteDistribution<double> speciesDistUpdated,
+        DiscreteDistribution<double>?[] genomeDistArr,
+        DiscreteDistribution<double> genomeDist,
         int offspringCount,
         List<NeatGenome<T>> offspringList,
         double interspeciesMatingProportion,
@@ -222,14 +223,14 @@ internal sealed class OffspringBuilder<T>
         for(int i=0; i < offspringCountSexualIntra; i++)
         {
             // Select/sample parent A from the species.
-            int genomeIdx = DiscreteDistribution.Sample(rng, genomeDist);
+            int genomeIdx = genomeDist.Sample(rng);
             var parentGenomeA = genomeList[genomeIdx];
 
             // Create a new distribution with parent A removed from the set of possibilities.
-            DiscreteDistribution genomeDistUpdated = genomeDist.RemoveOutcome(genomeIdx);
+            var genomeDistUpdated = genomeDist.RemoveOutcome(genomeIdx);
 
             // Select/sample parent B from the species.
-            genomeIdx = DiscreteDistribution.Sample(rng, genomeDistUpdated);
+            genomeIdx = genomeDistUpdated.Sample(rng);
             var parentGenomeB = genomeList[genomeIdx];
 
             // Create a child genome and add it to offspringList.
@@ -241,16 +242,16 @@ internal sealed class OffspringBuilder<T>
         for(int i=0; i < offspringCountSexualInter; i++)
         {
             // Select/sample parent A from the current species.
-            int genomeIdx = DiscreteDistribution.Sample(rng, genomeDist);
+            int genomeIdx = genomeDist.Sample(rng);
             var parentGenomeA = genomeList[genomeIdx];
 
             // Select another species to select parent B from.
-            int speciesIdx = DiscreteDistribution.Sample(rng, speciesDistUpdated);
+            int speciesIdx = speciesDistUpdated.Sample(rng);
             Species<T> speciesB = speciesArr[speciesIdx];
 
             // Select parent B from species B.
-            DiscreteDistribution genomeDistB = genomeDistArr[speciesIdx]!;
-            genomeIdx = DiscreteDistribution.Sample(rng, genomeDistB);
+            var genomeDistB = genomeDistArr[speciesIdx]!;
+            genomeIdx = genomeDistB.Sample(rng);
             var parentGenomeB = speciesB.GenomeList[genomeIdx];
 
             // Ensure parentA is the fittest of the two parents.

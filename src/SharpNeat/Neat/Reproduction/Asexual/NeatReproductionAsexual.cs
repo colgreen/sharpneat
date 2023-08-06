@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen.Numerics.Distributions.Double;
+using System.Numerics;
+using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.Reproduction.Asexual.Strategy;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
@@ -12,7 +13,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 /// </summary>
 /// <typeparam name="T">Neural net numeric data type.</typeparam>
 public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
-    where T : struct
+    where T : struct, IBinaryFloatingPointIeee754<T>
 {
     readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
     readonly MutationTypeDistributions _mutationTypeDistributionsSimplifying;
@@ -101,7 +102,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
     public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
     {
         // Get a discrete distribution over the set of possible mutation types.
-        DiscreteDistribution mutationTypeDist = GetMutationTypeDistribution(parent);
+        var mutationTypeDist = GetMutationTypeDistribution(parent);
 
         // Keep trying until a child genome is created.
         while(true)
@@ -119,10 +120,10 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
     private NeatGenome<T>? Create(
         NeatGenome<T> parent,
         IRandomSource rng,
-        ref DiscreteDistribution mutationTypeDist)
+        ref DiscreteDistribution<double> mutationTypeDist)
     {
         // Determine the type of mutation to attempt.
-        MutationType mutationTypeId = (MutationType)DiscreteDistribution.Sample(rng, mutationTypeDist);
+        MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample(rng);
 
         // Attempt to create a child genome using the selected mutation type.
         NeatGenome<T>? childGenome = mutationTypeId switch
@@ -158,11 +159,11 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
 
     #region Private Methods
 
-    private DiscreteDistribution GetMutationTypeDistribution(NeatGenome<T> parent)
+    private DiscreteDistribution<double> GetMutationTypeDistribution(NeatGenome<T> parent)
     {
         // If there is only one connection then avoid destructive mutations to avoid the
         // creation of genomes with no connections.
-        DiscreteDistribution dist = (parent.ConnectionGenes.Length < 2) ?
+        DiscreteDistribution<double> dist = (parent.ConnectionGenes.Length < 2) ?
               _mutationTypeDistributionsCurrent.MutationTypeDistributionNonDestructive
             : _mutationTypeDistributionsCurrent.MutationTypeDistribution;
 

@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 public sealed class WeightMutationScheme<T>
     where T : struct
 {
-    readonly DiscreteDistribution _strategySelectionDist;
+    readonly DiscreteDistribution<double> _strategySelectionDist;
     readonly IWeightMutationStrategy<T>[] _mutationStrategyArr;
 
     /// <summary>
@@ -23,7 +23,7 @@ public sealed class WeightMutationScheme<T>
         double[] strategyProbabilityArr,
         IWeightMutationStrategy<T>[] mutationStrategyArr)
     {
-        _strategySelectionDist = new DiscreteDistribution(strategyProbabilityArr);
+        _strategySelectionDist = new DiscreteDistribution<double>(strategyProbabilityArr);
         _mutationStrategyArr = mutationStrategyArr;
     }
 
@@ -35,7 +35,7 @@ public sealed class WeightMutationScheme<T>
     public void MutateWeights(T[] weightArr, IRandomSource rng)
     {
         // Select a mutation strategy, and apply it to the array of connection genes.
-        int strategyIdx = DiscreteDistribution.Sample(rng, _strategySelectionDist);
+        int strategyIdx = _strategySelectionDist.Sample(rng);
         var strategy = _mutationStrategyArr[strategyIdx];
         strategy.Invoke(weightArr, rng);
     }

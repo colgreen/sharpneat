@@ -1,7 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using Redzen.Linq;
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.DistanceMetrics;
 using static SharpNeat.Neat.Speciation.SpeciationUtils;
 
@@ -146,7 +146,7 @@ internal sealed class GeneticKMeansSpeciationInit<T>
         });
 
         // Select a remaining genome at random based on pArr; remove it from remainingGenomes and return it.
-        int selectIdx = DiscreteDistribution.Sample(rng, new DiscreteDistribution(pArr));
+        int selectIdx = new DiscreteDistribution<double>(pArr).Sample(rng);
         return GetAndRemove(remainingGenomes, genomeIdxArr[selectIdx]);
     }
 

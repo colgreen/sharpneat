@@ -198,7 +198,7 @@ public sealed class CyclicGraphDepthAnalysis
             {
                 // Take the average node depth, and round up to the nearest integer.
                 // Other aggregate schemes are possible, this is merely one I thought might work OK.
-                _nodeDepthByIdx[i] = (int)MathF.Ceiling((MathSpan.Sum(_nodeDepthMatrix[i].AsSpan()) / (float)_nodeDepthMatrix[i].Count));
+                _nodeDepthByIdx[i] = (int)MathF.Ceiling((MathSpan.Sum<int>(_nodeDepthMatrix[i].AsSpan()) / (float)_nodeDepthMatrix[i].Count));
             }
         }
 

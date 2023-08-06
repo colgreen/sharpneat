@@ -20,7 +20,7 @@ public readonly struct FitnessInfo
     /// <param name="fitness">Genome fitness score.</param>
     public FitnessInfo(double fitness)
     {
-        if(!DoubleUtils.IsNonNegativeReal(fitness))
+        if(!FloatUtils.IsNonNegativeReal(fitness))
             throw new ArgumentOutOfRangeException(nameof(fitness), "Fitness must be non-negative and a real number.");
 
         PrimaryFitness = fitness;
@@ -36,7 +36,7 @@ public readonly struct FitnessInfo
     {
         Debug.Assert(auxFitnessScores.Length > 0);
 
-        if(!DoubleUtils.IsNonNegativeReal(primaryFitness))
+        if(!FloatUtils.IsNonNegativeReal(primaryFitness))
             throw new ArgumentOutOfRangeException(nameof(primaryFitness), "Fitness must be non-negative and a real number.");
 
         PrimaryFitness = primaryFitness;

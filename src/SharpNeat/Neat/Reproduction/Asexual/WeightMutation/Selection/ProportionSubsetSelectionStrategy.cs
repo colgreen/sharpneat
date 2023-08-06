@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using System.Diagnostics;
 using Redzen.Numerics;
-using Redzen.Numerics.Distributions.Double;
+using Redzen.Numerics.Distributions;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
@@ -33,7 +33,7 @@ public sealed class ProportionSubsetSelectionStrategy : ISubsetSelectionStrategy
         // to sort or not depends on the cost to the code using the samples. I.e. don't sort here!
         int selectionCount = (int)NumericsUtils.StochasticRound(supersetCount * _selectionProportion, rng);
         int[] idxArr = new int[selectionCount];
-        DiscreteDistribution.SampleUniformWithoutReplacement(rng, supersetCount, idxArr);
+        DiscreteDistributionUtils.SampleUniformWithoutReplacement(supersetCount, idxArr, rng);
         return idxArr;
     }
 }
