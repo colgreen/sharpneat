@@ -24,7 +24,7 @@
   "complexityRegulationStrategy": {
     "strategyName": "null"
   },
-  "degreeOfParallelism": 4,
+  "degreeOfParallelism": 8,
   "enableHardwareAcceleratedNeuralNets": false,
   "enableHardwareAcceleratedActivationFunctions": false
 }

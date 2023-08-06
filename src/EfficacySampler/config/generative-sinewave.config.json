@@ -28,7 +28,7 @@
     "relativeComplexityCeiling": 10,
     "minSimplifcationGenerations": 10
   },
-  "degreeOfParallelism": 4,
+  "degreeOfParallelism": 8,
   "enableHardwareAcceleratedNeuralNets": false,
   "enableHardwareAcceleratedActivationFunctions": false,
   "customEvaluationSchemeConfig": {
