@@ -8,11 +8,4 @@ A binary address is presented to the three address inputs, and this indicates wh
 
 Evaluation consists of exhaustively evaluating the network against each of the 2048 (2^11) possible input combinations. For each evaluation, the output value must match the value being presented to the data input selected by the address inputs.
 
-An output less than 0.5 is considered a binary 0 response, and >=0.5 a binary 1. However, fitness at each evaluation is on a continuous linear scale, and these are summed across all evaluations to give a maximum possible fitness of 2048.
-
-An additional fitness of 10,000 is added to the total if all 64 test cases are passed, giving a maximum possible fitness of 12,048
-
-This task consists of two major subtasks:
-
-1) Decode a 3-bit binary address value to a simple 8-bit address code, consisting of one bit per address, with a single address bit high and all other bits low.
-2) Use the simple 8-bit address to select the corresponding data input.
+An output less than 0.5 is considered a binary 0 response, and >=0.5 a binary 1. However, fitness at each evaluation is on a continuous scale, and these are summed across all evaluations to give a maximum possible fitness of 2048.

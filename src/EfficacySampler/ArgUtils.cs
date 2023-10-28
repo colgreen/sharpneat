@@ -67,6 +67,7 @@ public static class ArgUtils
         Console.WriteLine("");
         Console.WriteLine("  Experiment options are:  ");
         Console.WriteLine("    binary11");
+        Console.WriteLine("    binary20");
         Console.WriteLine("    sinewave");
     }
 

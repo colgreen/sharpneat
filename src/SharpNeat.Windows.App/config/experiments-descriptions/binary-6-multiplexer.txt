@@ -11,8 +11,3 @@ Evaluation consists of exhaustively evaluating the network against each of the 6
 An output less than 0.5 is considered a binary 0 response, and >=0.5 a binary 1. However, fitness at each evaluation is on a continuous linear scale, and these are summed across all evaluations to give a maximum possible fitness of 64.
 
 An additional fitness of 1000 is added to the total if all 64 test cases are passed, giving a maximum possible fitness of 1064.
-
-This task consists of two major subtasks:
-
-1) Decode a 2-bit binary address value to a simple 4-bit address code, consisting of one bit per address, with a single address bit high and all other bits low.
-2) Use the simple 4-bit address to select the corresponding data input.

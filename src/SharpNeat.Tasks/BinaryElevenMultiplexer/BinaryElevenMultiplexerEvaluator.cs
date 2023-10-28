@@ -30,7 +30,6 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
     public FitnessInfo Evaluate(IBlackBox<double> box)
     {
         double fitness = 0.0;
-        bool success = true;
         Span<double> inputs = box.Inputs.Span;
         Span<double> outputs = box.Outputs.Span;
 
@@ -56,7 +55,6 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
             double output = outputs[0];
             Clamp(ref output);
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
-            bool trueResponse = (output > 0.5);
 
             // Determine the correct answer with somewhat cryptic bit manipulation.
             // The condition is true if the correct answer is true (1.0).
@@ -67,9 +65,6 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
                 // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                 // Note. To base fitness on absolute error use: fitness += output;
                 fitness += 1.0 - ((1.0 - output) * (1.0 - output));
-
-                // Reset success flag if at least one response is wrong.
-                success &= trueResponse;
             }
             else
             {
@@ -78,18 +73,11 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
                 // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                 // Note. To base fitness on absolute error use: fitness += 1.0-output;
                 fitness += 1.0 - (output * output);
-
-                // Reset success flag if at least one response is wrong.
-                success &= !trueResponse;
             }
 
             // Reset black box ready for next test case.
             box.Reset();
         }
-
-        // If the correct answer was given in each case then add a bonus value to the fitness.
-        if(success)
-            fitness += 10_000.0;
 
         return new FitnessInfo(fitness);
     }

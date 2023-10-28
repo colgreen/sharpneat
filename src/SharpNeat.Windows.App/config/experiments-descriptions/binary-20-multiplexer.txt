@@ -1,0 +1,13 @@
+﻿Binary 20-Multiplexer Task.
+
+A neural net has 20 inputs, four are address inputs, and 16 are data inputs. All of the inputs accept a binary value (zero or one).
+
+There is a single output.
+
+A binary address is presented to the four address inputs, and this indicates which of the sixteen data input values are to be selected for the output.
+
+Evaluation consists of looping through the 16 addresses, and for each one evaluating the network against a series of 128 test patterns on the data inputs, giving a total of 2,048 test cases per evaluation. For each evaluation, the output value must match the value being presented to the data input selected by the address inputs.
+
+An output less than 0.5 is considered a binary 0 response, and >=0.5 a binary 1. However, fitness at each evaluation is on a continuous scale, and these are summed across all evaluations to give a maximum possible fitness of 16 * 128 = 2,048.
+
+Unlike for binary-11 and binary-6 multiplexer problems, the test inputs are not exhaustively evaluated with every possible input combination, due to the large number of combinations (2^20 = 1,048,576).

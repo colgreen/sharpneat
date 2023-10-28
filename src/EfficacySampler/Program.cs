@@ -3,6 +3,7 @@ using log4net;
 using log4net.Config;
 using SharpNeat.Experiments;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
+using SharpNeat.Tasks.BinaryTwentyMultiplexer;
 using SharpNeat.Tasks.GenerativeFunctionRegression;
 
 namespace EfficacySampler;
@@ -79,6 +80,8 @@ sealed class Program
         {
             case "binary11":
                 return InitExperiment_BinaryElevenMultiplexer();
+            case "binary20":
+                return InitExperiment_BinaryTwentyMultiplexer();
             case "sinewave":
                 return InitExperiment_Sinewave();
         }
@@ -93,6 +96,16 @@ sealed class Program
         var experimentFactory = new BinaryElevenMultiplexerExperimentFactory();
         INeatExperiment<double> neatExperiment = 
             experimentFactory.CreateExperiment("config/binary-eleven-multiplexer.config.json");
+
+        return neatExperiment;
+    }
+
+    private static INeatExperiment<double> InitExperiment_BinaryTwentyMultiplexer()
+    {
+        // Create an instance of INeatExperiment for the binary 20-multiplexer task, configured using the supplied json config.
+        var experimentFactory = new BinaryTwentyMultiplexerExperimentFactory();
+        INeatExperiment<double> neatExperiment =
+            experimentFactory.CreateExperiment("config/binary-twenty-multiplexer.config.json");
 
         return neatExperiment;
     }

@@ -65,6 +65,22 @@
       }
     },
 
+    // === Binary 20-multiplexer ===
+    {
+      "name": "Binary 20-multiplexer",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.BinaryTwentyMultiplexer.BinaryTwentyMultiplexerExperimentFactory"
+      },
+      "configFile": "config/experiments-config/binary-20-multiplexer.config.json",
+      "descriptionFile": "config/experiments-descriptions/binary-20-multiplexer.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
     // === Cart-Pole Balancing (single pole) ===
     {
       "name": "Cart-Pole Balancing (single pole)",

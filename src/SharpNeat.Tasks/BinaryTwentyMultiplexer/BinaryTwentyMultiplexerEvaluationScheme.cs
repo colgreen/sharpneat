@@ -2,15 +2,15 @@
 // See LICENSE.txt for details.
 using SharpNeat.Evaluation;
 
-namespace SharpNeat.Tasks.BinaryElevenMultiplexer;
+namespace SharpNeat.Tasks.BinaryTwentyMultiplexer;
 
 /// <summary>
-/// Evaluation scheme for the Binary 11-Multiplexer task.
+/// Evaluation scheme for the Binary 20-Multiplexer task.
 /// </summary>
-public sealed class BinaryElevenMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
+public sealed class BinaryTwentyMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
 {
     /// <inheritdoc/>
-    public int InputCount => 12;
+    public int InputCount => 21;
 
     /// <inheritdoc/>
     public int OutputCount => 1;
@@ -30,7 +30,7 @@ public sealed class BinaryElevenMultiplexerEvaluationScheme : IBlackBoxEvaluatio
     /// <inheritdoc/>
     public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
     {
-        return new BinaryElevenMultiplexerEvaluator();
+        return new BinaryTwentyMultiplexerEvaluator();
     }
 
     /// <inheritdoc/>
