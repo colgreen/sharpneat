@@ -42,11 +42,17 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
             // Apply bitmask to i and shift left to generate the input signals.
             // Note. We could eliminate all the boolean logic by pre-building a table of test
             // signals and correct responses.
-            for(int tmp = i, j=1; j < 12; j++)
-            {
-                inputs[j] = tmp & 0x1;
-                tmp >>= 1;
-            }
+            inputs[1] = i & 0x1;
+            inputs[2] = (i>>1) & 0x1;
+            inputs[3] = (i>>2) & 0x1;
+            inputs[4] = (i>>3) & 0x1;
+            inputs[5] = (i>>4) & 0x1;
+            inputs[6] = (i>>5) & 0x1;
+            inputs[7] = (i>>6) & 0x1;
+            inputs[8] = (i>>7) & 0x1;
+            inputs[9] = (i>>8) & 0x1;
+            inputs[10] = (i>>9) & 0x1;
+            inputs[11] = (i>>10) & 0x1;
 
             // Activate the black box.
             box.Activate();

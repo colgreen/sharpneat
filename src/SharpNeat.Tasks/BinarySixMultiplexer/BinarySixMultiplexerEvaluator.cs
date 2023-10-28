@@ -43,11 +43,12 @@ public sealed class BinarySixMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<
             // Apply bitmask to i and shift left to generate the input signals.
             // Note. We could eliminate all the boolean logic by pre-building a table of test
             // signals and correct responses.
-            for(int tmp = i, j=1; j < 7; j++)
-            {
-                inputs[j] = tmp & 0x1;
-                tmp >>= 1;
-            }
+            inputs[1] = i & 0x1;
+            inputs[2] = (i>>1) & 0x1;
+            inputs[3] = (i>>2) & 0x1;
+            inputs[4] = (i>>3) & 0x1;
+            inputs[5] = (i>>4) & 0x1;
+            inputs[6] = (i>>5) & 0x1;
 
             // Activate the black box.
             box.Activate();

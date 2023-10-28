@@ -12,7 +12,7 @@ sealed class Program
         //BenchmarkRunner.Run<NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks.ActivationFunctionsBenchmarks>();
         //BenchmarkRunner.Run<ConnectionSorterBenchmarks>();
 
-        BenchmarkRunner.Run<NeuralNets.Double.Benchmarks.NeuralNetAcyclicBenchmarks>();
+        //BenchmarkRunner.Run<NeuralNets.Double.Benchmarks.NeuralNetAcyclicBenchmarks>();
         //BenchmarkRunner.Run<NeuralNets.Double.Vectorized.Benchmarks.NeuralNetAcyclicBenchmarks>();
 
         //BenchmarkRunner.Run<NeuralNets.Double.Benchmarks.NeuralNetCyclicBenchmarks>();
@@ -33,5 +33,9 @@ sealed class Program
         //{
         //    benchmarks.LeakyReLU();
         //}
+
+        BenchmarkRunner.Run<Tasks.BinarySixMultiplexerEvaluatorBenchmarks>();
+        //BenchmarkRunner.Run<Tasks.BinaryElevenMultiplexerEvaluatorBenchmarks>();
+        //BenchmarkRunner.Run<Tasks.BinaryTwentyMultiplexerEvaluatorBenchmarks>();
     }
 }
