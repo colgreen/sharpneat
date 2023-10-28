@@ -32,7 +32,7 @@ public sealed class BinarySixMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<
         double fitness = 0.0;
         bool success = true;
         Span<double> inputs = box.Inputs.Span;
-        Span<double> outputs = box.Outputs.Span;
+        ref double output = ref box.Outputs.Span[0];
 
         // 64 test cases.
         for(int i=0; i < 64; i++)
@@ -54,7 +54,6 @@ public sealed class BinarySixMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<
             box.Activate();
 
             // Read output signal.
-            double output = outputs[0];
             Clamp(ref output);
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
             bool trueResponse = (output > 0.5);

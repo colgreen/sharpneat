@@ -31,7 +31,7 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
     {
         double fitness = 0.0;
         Span<double> inputs = box.Inputs.Span;
-        Span<double> outputs = box.Outputs.Span;
+        ref double output = ref box.Outputs.Span[0];
 
         // 2048 test cases.
         for(int i=0; i < 2048; i++)
@@ -58,7 +58,6 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
             box.Activate();
 
             // Read output signal.
-            double output = outputs[0];
             Clamp(ref output);
             Debug.Assert(output >= 0.0, "Unexpected negative output.");
 

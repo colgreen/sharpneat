@@ -26,9 +26,8 @@ public sealed class BinaryTwentyMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
     {
         double fitness = 0.0;
         Span<double> inputs = box.Inputs.Span;
-        Span<double> addressInputs = inputs.Slice(1, 4);
         Span<double> dataInputs = inputs.Slice(5, 16);
-        Span<double> outputs = box.Outputs.Span;
+        ref double output = ref box.Outputs.Span[0];
 
         // Bias input.
         inputs[0] = 1.0;
@@ -37,15 +36,15 @@ public sealed class BinaryTwentyMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
         for(int addr=0; addr < 16; addr++)
         {
             // Set the four address inputs.
-            addressInputs[0] = addr & 0x1;
-            addressInputs[1] = (addr >> 1) & 0x1;
-            addressInputs[2] = (addr >> 2) & 0x1;
-            addressInputs[3] = (addr >> 3) & 0x1;
+            inputs[1] = addr & 0x1;
+            inputs[2] = (addr >> 1) & 0x1;
+            inputs[3] = (addr >> 2) & 0x1;
+            inputs[4] = (addr >> 3) & 0x1;
 
             // Evaluate against 128 test input patterns.
             EvaluateTestInputPatterns(
                 box, dataInputs,
-                ref outputs[0],
+                ref output,
                 addr,
                 ref fitness);
         }
