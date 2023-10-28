@@ -67,11 +67,12 @@ public sealed class BinaryTwentyMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
         for(int i=0; i < 64; i++)
         {
             // Copy the first 6 bits of 'i' into the elements of 'pattern'.
-            for(int tmp=i, j=0; j < 6; j++)
-            {
-                pattern[j] = tmp & 0x1;
-                tmp >>= 1;
-            }
+            pattern[0] = i & 0x1;
+            pattern[1] = (i>>1) & 0x1;
+            pattern[2] = (i>>2) & 0x1;
+            pattern[3] = (i>>3) & 0x1;
+            pattern[4] = (i>>4) & 0x1;
+            pattern[5] = (i>>5) & 0x1;
 
             // Repeat the pattern in the slice before the addressed input.
             Fill(dataInputs.Slice(0, addr), pattern);
