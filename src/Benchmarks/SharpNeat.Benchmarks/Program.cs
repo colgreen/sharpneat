@@ -33,9 +33,5 @@ sealed class Program
         //{
         //    benchmarks.LeakyReLU();
         //}
-
-        //BenchmarkRunner.Run<Tasks.BinarySixMultiplexerEvaluatorBenchmarks>();
-        //BenchmarkRunner.Run<Tasks.BinaryElevenMultiplexerEvaluatorBenchmarks>();
-        BenchmarkRunner.Run<Tasks.BinaryTwentyMultiplexerEvaluatorBenchmarks>();
     }
 }
