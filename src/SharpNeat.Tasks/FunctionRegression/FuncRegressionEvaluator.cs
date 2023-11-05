@@ -78,10 +78,15 @@ public sealed class FuncRegressionEvaluator : IPhenomeEvaluator<IBlackBox<double
         // Probe the black box over the full range of the input parameter.
         _blackBoxProbe.Probe(box, _yArr);
 
-        // Certain activations can result in 'run away' values in a cyclic neural net that is run for a large number of
-        // iterations, e.g. ReLU doesn't have the natural limiting to the upper bound that logistic function S-curve has.
-        // Arguably such networks should use such an S-curve like activation function rather than 'fixing' the problem here.
-        MathSpan.Clip(_yArr, -1_000_000.0, 1_000_000);
+        // Return a zero fitness if there are any NaN or Infinity values in the response array.
+        // Notes.
+        // Certain activation functions can result in 'run away' values in a cyclic neural net that is run for a large
+        // number of cycles, e.g. ReLU doesn't have the natural limiting to the upper bound that the logistic function
+        // S-curve has. Arguably such networks should use such an S-curve like activation function rather than 'fixing'
+        // the problem here.
+        // TODO: Optimisation candidate. Vectorize the search for the non-finite bit pattern.
+        if(Array.Exists(_yArr, x => !double.IsFinite(x)))
+            return FitnessInfo.DefaultFitnessInfo;
 
         // Calc gradients.
         FuncRegressionUtils.CalcGradients(_paramSamplingInfo, _yArr, _gradientArr);
