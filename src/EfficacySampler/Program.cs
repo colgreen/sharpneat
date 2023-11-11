@@ -84,6 +84,8 @@ sealed class Program
                 return InitExperiment_BinaryTwentyMultiplexer();
             case "sinewave":
                 return InitExperiment_Sinewave();
+            case "beatsinewave":
+                return InitExperiment_BeatSinewave();
         }
 
         Console.WriteLine($"Unrecognised experiment [{experimentId}]");
@@ -116,6 +118,16 @@ sealed class Program
         var experimentFactory = new GenerativeFnRegressionExperimentFactory();
         INeatExperiment<double> neatExperiment =
             experimentFactory.CreateExperiment("config/generative-sinewave.config.json");
+
+        return neatExperiment;
+    }
+
+    private static INeatExperiment<double> InitExperiment_BeatSinewave()
+    {
+        // Create an instance of INeatExperiment for the generative beat-sinewave task, configured using the supplied json config.
+        var experimentFactory = new GenerativeFnRegressionExperimentFactory();
+        INeatExperiment<double> neatExperiment =
+            experimentFactory.CreateExperiment("config/generative-beat-sinewave.config.json");
 
         return neatExperiment;
     }

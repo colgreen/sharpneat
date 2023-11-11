@@ -69,6 +69,7 @@ public static class ArgUtils
         Console.WriteLine("    binary11");
         Console.WriteLine("    binary20");
         Console.WriteLine("    sinewave");
+        Console.WriteLine("    beatsinewave");
     }
 
     #endregion
