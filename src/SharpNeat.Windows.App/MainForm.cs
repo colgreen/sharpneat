@@ -20,6 +20,11 @@ namespace SharpNeat.Windows.App;
 internal sealed partial class MainForm : Form
 {
     private static readonly ILog __log = LogManager.GetLogger(typeof(MainForm));
+    private static readonly JsonSerializerOptions __jsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip
+    };
 
     // The current NEAT experiment.
     private INeatExperiment<double> _neatExperiment;
@@ -73,14 +78,8 @@ internal sealed partial class MainForm : Form
         // with async code in a synchronous context.
         string experimentsJson = File.ReadAllText("config/experiments.json");
 
-        var options = new JsonSerializerOptions 
-        { 
-            PropertyNameCaseInsensitive = true,
-            ReadCommentHandling = JsonCommentHandling.Skip
-        };
-
         ExperimentRegistry registry = JsonSerializer.Deserialize<ExperimentRegistry>(
-            experimentsJson, options);
+            experimentsJson, __jsonOptions);
 
         // Populate the combo box.
         foreach(ExperimentInfo expInfo in registry.Experiments)

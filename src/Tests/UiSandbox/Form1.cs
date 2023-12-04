@@ -57,7 +57,7 @@ public partial class Form1 : Form
         return graphViewModel;
     }
 
-    private static INodeIdMap CreateNodeIdByIdx(int length)
+    private static ArrayNodeIdMap CreateNodeIdByIdx(int length)
     {
         var arr = new int[length];
         for(int i=0; i < length; i++)

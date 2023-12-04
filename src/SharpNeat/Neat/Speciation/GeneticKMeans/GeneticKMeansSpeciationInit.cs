@@ -156,7 +156,7 @@ internal sealed class GeneticKMeansSpeciationInit<T>
         return minDistance;
     }
 
-    private static U GetAndRemove<U>(IList<U> list, int idx)
+    private static U GetAndRemove<U>(List<U> list, int idx)
     {
         U tmp = list[idx];
         list.RemoveAt(idx);

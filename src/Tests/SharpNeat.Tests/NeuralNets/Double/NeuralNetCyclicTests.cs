@@ -3,6 +3,8 @@ using SharpNeat.Graphs;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
 
+#pragma warning disable CA1859 // Use concrete types when possible for improved performance
+
 namespace SharpNeat.NeuralNets.Double;
 
 public class NeuralNetCyclicTests
