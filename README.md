@@ -2,7 +2,7 @@
  
 [NEAT](https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies) is an [evolutionary algorithm](https://en.wikipedia.org/wiki/Evolutionary_algorithm) devised by [Kenneth O. Stanley](https://en.wikipedia.org/wiki/Kenneth_Stanley). 
 
-SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET \[Core\] 7.
+SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET 8.
 
 ## What is SharpNEAT?
 
