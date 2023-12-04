@@ -12,7 +12,7 @@ internal sealed partial class SummaryGraphForm : Form
     readonly SummaryDataSource[] _dataSourceArray;
     PointPairList[] _pointPlotArray;
     GraphPane _graphPane;
-    readonly Color[] _plotColorArr = new Color[] { Color.LightSlateGray, Color.LightBlue, Color.LightGreen };
+    readonly Color[] _plotColorArr = [Color.LightSlateGray, Color.LightBlue, Color.LightGreen];
 
     #region Constructor
 
@@ -103,7 +103,7 @@ internal sealed partial class SummaryGraphForm : Form
         for(int i=0; i < sourceCount; i++)
         {
             SummaryDataSource ds = dataSourceArray[i];
-            _pointPlotArray[i] =new PointPairList();
+            _pointPlotArray[i] = [];
 
             Color color = _plotColorArr[i % 3];
             BarItem barItem = _graphPane.AddBar(ds.Name, _pointPlotArray[i], color);

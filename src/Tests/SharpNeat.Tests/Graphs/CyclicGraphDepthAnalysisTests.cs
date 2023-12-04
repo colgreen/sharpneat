@@ -12,11 +12,11 @@ public class CyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 3),
-            new DirectedConnection(1, 3),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(4, 3)
+            new(0, 3),
+            new(1, 3),
+            new(2, 3),
+            new(2, 4),
+            new(4, 3)
         };
 
         // Create graph.
@@ -45,11 +45,11 @@ public class CyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 3),
-            new DirectedConnection(1, 3),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(3, 4)
+            new(0, 3),
+            new(1, 3),
+            new(2, 3),
+            new(2, 4),
+            new(3, 4)
         };
 
         // Create graph.
@@ -78,11 +78,11 @@ public class CyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 2),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(4, 3),
-            new DirectedConnection(3, 1)
+            new(0, 2),
+            new(2, 3),
+            new(2, 4),
+            new(4, 3),
+            new(3, 1)
         };
 
         // Create graph.
@@ -111,11 +111,11 @@ public class CyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 2),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(3, 4),
-            new DirectedConnection(4, 1)
+            new(0, 2),
+            new(2, 3),
+            new(2, 4),
+            new(3, 4),
+            new(4, 1)
         };
 
         // Create graph.
@@ -144,10 +144,10 @@ public class CyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 2),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(3, 1),
-            new DirectedConnection(1, 2)
+            new(0, 2),
+            new(2, 3),
+            new(3, 1),
+            new(1, 2)
         };
 
         // Create graph.
@@ -175,16 +175,16 @@ public class CyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 4),
-            new DirectedConnection(1, 5),
-            new DirectedConnection(4, 4),
-            new DirectedConnection(4, 6),
-            new DirectedConnection(5, 5),
-            new DirectedConnection(5, 7),
-            new DirectedConnection(6, 2),
-            new DirectedConnection(6, 5),
-            new DirectedConnection(7, 3),
-            new DirectedConnection(7, 4)
+            new(0, 4),
+            new(1, 5),
+            new(4, 4),
+            new(4, 6),
+            new(5, 5),
+            new(5, 7),
+            new(6, 2),
+            new(6, 5),
+            new(7, 3),
+            new(7, 4)
         };
 
         // Create graph.

@@ -10,7 +10,7 @@ namespace SharpNeat.IO;
 /// </summary>
 internal class NetFileReader
 {
-    static readonly char[] __separatorChars = new char[] { ' ', '\t' };
+    static readonly char[] __separatorChars = [' ', '\t'];
 
     readonly StreamReader _sr;
     int _lineIdx;
@@ -109,7 +109,7 @@ internal class NetFileReader
 
     private void ReadConnections(out List<ConnectionLine> connList)
     {
-        connList = new();
+        connList = [];
 
         while(true)
         {
@@ -149,7 +149,7 @@ internal class NetFileReader
 
     private void ReadActivationFunctions(out List<ActivationFnLine> activationFnList)
     {
-        activationFnList = new();
+        activationFnList = [];
 
         // Read activation function lines, until an empty line is reached.
         for(int expectedFnId = 0; ; expectedFnId++)

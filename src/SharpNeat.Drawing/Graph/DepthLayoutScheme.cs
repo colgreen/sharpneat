@@ -176,7 +176,7 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
         int layerCount = MathSpan.Max<int>(nodeLayerByIdx) + 1;
         var nodesByLayer = new LightweightList<int>[layerCount];
         for(int i=0; i < layerCount; i++)
-            nodesByLayer[i] = new LightweightList<int>();
+            nodesByLayer[i] = [];
 
         for(int nodeIdx=0; nodeIdx < nodeLayerByIdx.Length; nodeIdx++)
         {

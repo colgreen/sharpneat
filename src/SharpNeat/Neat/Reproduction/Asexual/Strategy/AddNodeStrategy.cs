@@ -79,8 +79,8 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         // Create the two new connections.
         var newConnArr = new DirectedConnection[]
         {
-            new DirectedConnection(splitConn.SourceId, addedNodeId),
-            new DirectedConnection(addedNodeId, splitConn.TargetId)
+            new(splitConn.SourceId, addedNodeId),
+            new(addedNodeId, splitConn.TargetId)
         };
 
         // Get weights for the new connections.
@@ -129,12 +129,12 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
         // and -1 for the split index (the connection to be removed)
         int insertIdx1 = ~Array.BinarySearch(parent.ConnectionGenes._connArr, newConnArr[0]);
         int insertIdx2 = ~Array.BinarySearch(parent.ConnectionGenes._connArr, newConnArr[1]);
-        (int,int)[] stopIdxArr = new[]
-        {
+        (int,int)[] stopIdxArr =
+        [
             (splitConnIdx, -1),
             (insertIdx1, 0),
             (insertIdx2, 1)
-        };
+        ];
 
         // Sort by the first index value.
         Array.Sort(stopIdxArr, ((int,int) x, (int,int) y) => x.Item1.CompareTo(y.Item1));

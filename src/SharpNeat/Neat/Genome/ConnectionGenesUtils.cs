@@ -55,7 +55,7 @@ internal static class ConnectionGenesUtils
             return false;
 
         // Get the set of hidden node IDs described by the connections, and test that they match the supplied hiddenNodeIdArr.
-        int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, new HashSet<int>());
+        int[] idArr = CreateHiddenNodeIdArray(connArr, inputOutputCount, []);
         if(!SpanUtils.Equal<int>(idArr, hiddenNodeIdArr))
             return false;
 

@@ -11,10 +11,10 @@ public class DirectedGraphTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 3),
-            new DirectedConnection(1, 3),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4)
+            new(0, 3),
+            new(1, 3),
+            new(2, 3),
+            new(2, 4)
         };
 
         // Create graph.
@@ -33,10 +33,10 @@ public class DirectedGraphTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(10, 13),
-            new DirectedConnection(11, 13),
-            new DirectedConnection(12, 13),
-            new DirectedConnection(12, 14)
+            new(10, 13),
+            new(11, 13),
+            new(12, 13),
+            new(12, 14)
         };
 
         // Create graph.
@@ -55,10 +55,10 @@ public class DirectedGraphTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(100, 103),
-            new DirectedConnection(101, 103),
-            new DirectedConnection(102, 103),
-            new DirectedConnection(102, 104)
+            new(100, 103),
+            new(101, 103),
+            new(102, 103),
+            new(102, 104)
         };
 
         // Create graph.
@@ -67,10 +67,10 @@ public class DirectedGraphTests
         // The gaps in the node IDs should be removed such that node IDs form a contiguous span starting from zero.
         var connListExpected = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(10, 13),
-            new DirectedConnection(11, 13),
-            new DirectedConnection(12, 13),
-            new DirectedConnection(12, 14)
+            new(10, 13),
+            new(11, 13),
+            new(12, 13),
+            new(12, 14)
         };
 
         CompareConnectionLists(connListExpected.AsSpan(), digraph.ConnectionIds);

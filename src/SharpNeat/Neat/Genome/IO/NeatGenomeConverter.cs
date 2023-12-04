@@ -48,10 +48,7 @@ public static class NeatGenomeConverter
         // Note. By convention we use the activation function type short name as function code (e.g. "ReLU",
         // or "Logistic").
         ActivationFnLine actFnLine = new(0, genome.MetaNeatGenome.ActivationFn.GetType().Name);
-        List<ActivationFnLine> actFnLines = new()
-        {
-            actFnLine
-        };
+        List<ActivationFnLine> actFnLines = [actFnLine];
 
         return new NetFileModel(
             inputCount, outputCount,

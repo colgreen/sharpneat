@@ -22,7 +22,7 @@ public sealed class NeatGenomeBuilderCyclic<T> : INeatGenomeBuilder<T>
     {
         Debug.Assert(metaNeatGenome is not null && !metaNeatGenome.IsAcyclic);
         _metaNeatGenome = metaNeatGenome;
-        _workingIdSet = new HashSet<int>();
+        _workingIdSet = [];
     }
 
     #region Public Methods

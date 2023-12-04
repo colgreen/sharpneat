@@ -18,7 +18,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
     readonly bool _enableHardwareAcceleration;
 
     // A dictionary of activation function instances keyed by class name.
-    readonly Dictionary<string,IActivationFunction<T>> _fnByName = new();
+    readonly Dictionary<string,IActivationFunction<T>> _fnByName = [];
     readonly object _lockObj;
 
     /// <summary>

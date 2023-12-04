@@ -25,7 +25,7 @@ internal sealed class Logger
             new LogBuffer(500))
             {
                 // Add an initial empty log item; otherwise ListBox throws an exception when the first item is added.
-                new LogItem("")
+                new("")
             };
     }
 

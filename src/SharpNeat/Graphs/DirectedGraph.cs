@@ -144,7 +144,7 @@ public class DirectedGraph
         if(startIdx == -1)
         {   // There are no connections that have the specified node as their source.
             // Return an empty array segment.
-            return Span<int>.Empty;
+            return [];
         }
 
         // Scan for the last connection with the specified source node.

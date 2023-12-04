@@ -64,8 +64,8 @@ public partial class FnRegressionControl : GenomeControl
         _yArrTarget = new double[paramSamplingInfo.SampleResolution];
 
         // Pre-build plot point objects.
-        _pplTarget = new PointPairList();
-        _pplResponse = new PointPairList();
+        _pplTarget = [];
+        _pplResponse = [];
 
         double[] xArr = paramSamplingInfo.XArr;
         for(int i=0; i<xArr.Length; i++)

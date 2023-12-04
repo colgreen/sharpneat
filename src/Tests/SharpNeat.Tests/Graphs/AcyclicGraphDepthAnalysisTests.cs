@@ -16,11 +16,11 @@ public class AcyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 3),
-            new DirectedConnection(1, 3),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(4, 1)
+            new(0, 3),
+            new(1, 3),
+            new(2, 3),
+            new(2, 4),
+            new(4, 1)
         };
 
         // Create graph.
@@ -59,11 +59,11 @@ public class AcyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 4),
-            new DirectedConnection(4, 5),
-            new DirectedConnection(5, 2),
-            new DirectedConnection(1, 2),
-            new DirectedConnection(2, 3)
+            new(0, 4),
+            new(4, 5),
+            new(5, 2),
+            new(1, 2),
+            new(2, 3)
         };
 
         // Create graph.
@@ -97,29 +97,29 @@ public class AcyclicGraphDepthAnalysisTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 2),
-            new DirectedConnection(0, 3),
-            new DirectedConnection(0, 4),
-            new DirectedConnection(2, 5),
-            new DirectedConnection(2, 10),
-            new DirectedConnection(3, 1),
-            new DirectedConnection(3, 4),
-            new DirectedConnection(3, 6),
-            new DirectedConnection(3, 7),
-            new DirectedConnection(4, 1),
-            new DirectedConnection(4, 6),
-            new DirectedConnection(4, 7),
-            new DirectedConnection(4, 10),
-            new DirectedConnection(5, 4),
-            new DirectedConnection(5, 8),
-            new DirectedConnection(6, 9),
-            new DirectedConnection(7, 9),
-            new DirectedConnection(7, 10),
-            new DirectedConnection(8, 1),
-            new DirectedConnection(8, 3),
-            new DirectedConnection(8, 9),
-            new DirectedConnection(9, 1),
-            new DirectedConnection(10, 1),
+            new(0, 2),
+            new(0, 3),
+            new(0, 4),
+            new(2, 5),
+            new(2, 10),
+            new(3, 1),
+            new(3, 4),
+            new(3, 6),
+            new(3, 7),
+            new(4, 1),
+            new(4, 6),
+            new(4, 7),
+            new(4, 10),
+            new(5, 4),
+            new(5, 8),
+            new(6, 9),
+            new(7, 9),
+            new(7, 10),
+            new(8, 1),
+            new(8, 3),
+            new(8, 9),
+            new(9, 1),
+            new(10, 1),
         };
 
         // Create graph.

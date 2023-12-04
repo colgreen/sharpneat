@@ -34,7 +34,7 @@ public struct Int32Point
     /// </summary>
     /// <param name="obj">The object to compare with the current object.</param>
     /// <returns>true if the objects are equal; otherwise false.</returns>
-    public override bool Equals(object? obj)
+    public override readonly bool Equals(object? obj)
     {
         return obj is Int32Point point
             && X == point.X
@@ -45,7 +45,7 @@ public struct Int32Point
     /// Get the hash code for the current object.
     /// </summary>
     /// <returns>The current object's hash code.</returns>
-    public override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         return HashCode.Combine(X, Y);
     }

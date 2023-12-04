@@ -73,8 +73,8 @@ public class MetaNeatGenome<T>
         double connectionWeightScale = 5.0)
     {
         // Note. Zero input nodes is allowed, but zero output nodes is nonsensical.
-        if(inputNodeCount < 0) throw new ArgumentOutOfRangeException(nameof(inputNodeCount));
-        if(outputNodeCount < 1) throw new ArgumentOutOfRangeException(nameof(outputNodeCount));
+        ArgumentOutOfRangeException.ThrowIfNegative(inputNodeCount);
+        ArgumentOutOfRangeException.ThrowIfLessThan(outputNodeCount, 1);
         if(!isAcyclic && cyclesPerActivation < 1) throw new ArgumentOutOfRangeException(nameof(cyclesPerActivation));
 
         InputNodeCount = inputNodeCount;

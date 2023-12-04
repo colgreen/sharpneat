@@ -42,13 +42,13 @@ public sealed class MutationTypeDistributions
     private static DiscreteDistribution<double> CreateMutationTypeDiscreteDistribution(
         NeatReproductionAsexualSettings settings)
     {
-        double[] probabilities = new double[]
-            {
+        double[] probabilities =
+            [
                 settings.ConnectionWeightMutationProbability,
                 settings.AddNodeMutationProbability,
                 settings.AddConnectionMutationProbability,
                 settings.DeleteConnectionMutationProbability
-            };
+            ];
         return new DiscreteDistribution<double>(probabilities);
     }
 
@@ -62,12 +62,12 @@ public sealed class MutationTypeDistributions
     private static DiscreteDistribution<double> CreateMutationTypeDiscreteDistribution_NonDestructive(
         NeatReproductionAsexualSettings settings)
     {
-        double[] probabilities = new double[]
-            {
+        double[] probabilities =
+            [
                 settings.ConnectionWeightMutationProbability,
                 settings.AddNodeMutationProbability,
                 settings.AddConnectionMutationProbability
-            };
+            ];
         return new DiscreteDistribution<double>(probabilities);
     }
 

@@ -22,7 +22,7 @@ public abstract class Population<TGenome>
         if (targetSize < __minTargetSize) throw new ArgumentOutOfRangeException(nameof(targetSize), $"Minimum target size is {__minTargetSize}");
         TargetSize = targetSize;
 
-        GenomeList = new List<TGenome>();
+        GenomeList = [];
         Stats = CreatePopulatonStats();
     }
 

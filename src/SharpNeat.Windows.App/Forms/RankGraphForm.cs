@@ -18,7 +18,7 @@ internal sealed class RankGraphForm : GraphForm
         string seriesName)
         : base(title, xAxisTitle, y1AxisTitle, null)
     {
-        _ppl = new PointPairList();
+        _ppl = [];
         _graphPane.XAxis.Type = AxisType.Linear;
         _graphPane.BarSettings.ClusterScaleWidth = 2f;
 

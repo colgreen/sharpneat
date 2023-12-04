@@ -19,7 +19,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
 
     // A reusable/working list. Stores the index of the species with the fittest genome, or multiple indexes when
     // two or more species are tied at first place.
-    private readonly List<int> _fittestSpeciesIndexList = new();
+    private readonly List<int> _fittestSpeciesIndexList = [];
 
     /// <summary>
     /// NeatGenome metadata.

@@ -13,11 +13,11 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 3),
-            new DirectedConnection(1, 3),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(4, 1)
+            new(0, 3),
+            new(1, 3),
+            new(2, 3),
+            new(2, 4),
+            new(4, 1)
         };
 
         // Create graph.
@@ -37,11 +37,11 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(10, 13),
-            new DirectedConnection(11, 13),
-            new DirectedConnection(12, 13),
-            new DirectedConnection(12, 14),
-            new DirectedConnection(14, 11)
+            new(10, 13),
+            new(11, 13),
+            new(12, 13),
+            new(12, 14),
+            new(14, 11)
         };
 
         // Create graph.
@@ -61,11 +61,11 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(100, 103),
-            new DirectedConnection(101, 103),
-            new DirectedConnection(102, 103),
-            new DirectedConnection(102, 104),
-            new DirectedConnection(104, 101)
+            new(100, 103),
+            new(101, 103),
+            new(102, 103),
+            new(102, 104),
+            new(104, 101)
         };
 
         // Create graph.
@@ -85,19 +85,19 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 2),
-            new DirectedConnection(0, 3),
-            new DirectedConnection(0, 4),
-            new DirectedConnection(2, 5),
-            new DirectedConnection(3, 6),
-            new DirectedConnection(4, 7),
-            new DirectedConnection(5, 8),
-            new DirectedConnection(6, 4),
-            new DirectedConnection(6, 9),
-            new DirectedConnection(7, 10),
-            new DirectedConnection(8, 1),
-            new DirectedConnection(9, 1),
-            new DirectedConnection(10, 1)
+            new(0, 2),
+            new(0, 3),
+            new(0, 4),
+            new(2, 5),
+            new(3, 6),
+            new(4, 7),
+            new(5, 8),
+            new(6, 4),
+            new(6, 9),
+            new(7, 10),
+            new(8, 1),
+            new(9, 1),
+            new(10, 1)
         };
 
         // Create graph.
@@ -121,12 +121,12 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(0, 3),
-            new DirectedConnection(1, 3),
-            new DirectedConnection(2, 3),
-            new DirectedConnection(2, 4),
-            new DirectedConnection(4, 1),
-            new DirectedConnection(1, 2)
+            new(0, 3),
+            new(1, 3),
+            new(2, 3),
+            new(2, 4),
+            new(4, 1),
+            new(1, 2)
         };
 
         // Create graph.
@@ -146,12 +146,12 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(10, 13),
-            new DirectedConnection(11, 13),
-            new DirectedConnection(12, 13),
-            new DirectedConnection(12, 14),
-            new DirectedConnection(14, 11),
-            new DirectedConnection(11, 12)
+            new(10, 13),
+            new(11, 13),
+            new(12, 13),
+            new(12, 14),
+            new(14, 11),
+            new(11, 12)
         };
 
         // Create graph.
@@ -171,12 +171,12 @@ public class CyclicGraphCheckTests
         // Simple acyclic graph.
         var connList = new LightweightList<DirectedConnection>
         {
-            new DirectedConnection(100, 103),
-            new DirectedConnection(101, 103),
-            new DirectedConnection(102, 103),
-            new DirectedConnection(102, 104),
-            new DirectedConnection(104, 101),
-            new DirectedConnection(101, 102)
+            new(100, 103),
+            new(101, 103),
+            new(102, 103),
+            new(102, 104),
+            new(104, 101),
+            new(101, 102)
         };
 
         // Create graph.

@@ -8,6 +8,8 @@ using Xunit;
 
 namespace SharpNeat.NeuralNets.IO;
 
+#pragma warning disable CA1861 // Avoid constant arrays as arguments
+
 public class NeuralNetConverterTests
 {
     [Fact]

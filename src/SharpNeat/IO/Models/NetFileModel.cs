@@ -61,8 +61,8 @@ public class NetFileModel
         List<ActivationFnLine> activationFns)
     {
         // Note. Zero input nodes is allowed, but zero output nodes is nonsensical.
-        if(inputCount < 0) throw new ArgumentOutOfRangeException(nameof(inputCount));
-        if(outputCount < 1) throw new ArgumentOutOfRangeException(nameof(outputCount));
+        ArgumentOutOfRangeException.ThrowIfNegative(inputCount);
+        ArgumentOutOfRangeException.ThrowIfLessThan(outputCount, 1);
         if(!isAcyclic && cyclesPerActivation < 1) throw new ArgumentOutOfRangeException(nameof(cyclesPerActivation));
 
         InputCount = inputCount;

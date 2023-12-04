@@ -36,7 +36,7 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
         Debug.Assert(metaNeatGenome is not null && metaNeatGenome.IsAcyclic);
         _metaNeatGenome = metaNeatGenome;
         _graphDepthAnalysis = new AcyclicGraphDepthAnalysis(validateAcyclic);
-        _workingIdSet = new HashSet<int>();
+        _workingIdSet = [];
     }
 
     #endregion

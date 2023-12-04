@@ -26,7 +26,7 @@ internal sealed class HistogramGraphForm : GraphForm
         string y2AxisTitle)
         : base(title, xAxisTitle, y1AxisTitle, y2AxisTitle)
     {
-        _ppl = new PointPairList();
+        _ppl = [];
         _graphPane.XAxis.Type = AxisType.Linear;
         _graphPane.BarSettings.MinClusterGap = 0;
 

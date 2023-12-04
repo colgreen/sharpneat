@@ -321,11 +321,13 @@ public sealed class PreyCaptureWorld
             // generally avoids getting eaten 'by accident'.
             float t = T(MathF.Sqrt(relPosRadiusSqr)) * 0.33f;
 
-            Span<float> probs = stackalloc float[4];
-            probs[0] = Exp(W(relPosAzimuth, MathF.PI * 0.5f) * t);  // North.
-            probs[1] = Exp(W(relPosAzimuth, 0f) * t);               // East.
-            probs[2] = Exp(W(relPosAzimuth, MathF.PI * 1.5f) * t);  // South.
-            probs[3] = Exp(W(relPosAzimuth, MathF.PI) * t);         // West.
+            Span<float> probs =
+            [
+                Exp(W(relPosAzimuth, MathF.PI * 0.5f) * t),  // North.
+                Exp(W(relPosAzimuth, 0f) * t),               // East.
+                Exp(W(relPosAzimuth, MathF.PI * 1.5f) * t),  // South.
+                Exp(W(relPosAzimuth, MathF.PI) * t),         // West.
+            ];
 
             // Normalise the probabilities, such they sum to 1.0 (approximately, due to limitation of floating point arithmetic).
             NormaliseProbabilities(probs);

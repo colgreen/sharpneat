@@ -28,6 +28,7 @@ dotnet_diagnostic.SA1001.severity = none    # Commas should be spaced correctly.
 dotnet_diagnostic.SA1003.severity = none    # Symbols should be spaced correctly.
 dotnet_diagnostic.SA1008.severity = none    # Opening parenthesis should be spaced correctly.
 dotnet_diagnostic.SA1009.severity = none    # Closing parenthesis should be spaced correctly.
+dotnet_diagnostic.SA1010.severity = none    # Opening square brackets should not be preceded by a space.
 dotnet_diagnostic.SA1025.severity = none    # Code should not contain multiple whitespace in a row.
 dotnet_diagnostic.SA1101.severity = none    # A call to an instance member of the local class or a base class is not prefixed with 'this.', within a C# code file.
 dotnet_diagnostic.SA1106.severity = none    # Code should not contain empty statements.

@@ -35,14 +35,14 @@ public partial class Form1 : Form
         // Simple acyclic graph.
         var connList = new LightweightList<WeightedDirectedConnection<float>>
         {
-            new WeightedDirectedConnection<float>(0, 4, 1f),
-            new WeightedDirectedConnection<float>(4, 5, 2f),
-            new WeightedDirectedConnection<float>(5, 2, 3f),
-            new WeightedDirectedConnection<float>(1, 2, 4f),
-            new WeightedDirectedConnection<float>(2, 2, 5f),
-            new WeightedDirectedConnection<float>(2, 3, 5f),
-            new WeightedDirectedConnection<float>(2, 4, 5f),
-            new WeightedDirectedConnection<float>(2, 5, 5f)
+            new(0, 4, 1f),
+            new(4, 5, 2f),
+            new(5, 2, 3f),
+            new(1, 2, 4f),
+            new(2, 2, 5f),
+            new(2, 3, 5f),
+            new(2, 4, 5f),
+            new(2, 5, 5f)
         };
         var connSpan = connList.AsSpan();
 

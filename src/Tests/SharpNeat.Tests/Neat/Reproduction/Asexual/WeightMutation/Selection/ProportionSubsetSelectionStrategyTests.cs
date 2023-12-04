@@ -29,7 +29,7 @@ public class ProportionSubsetSelectionStrategyTests
         for(int i=0; i < 20; i++)
         {
             int[] idxArr = strategy.SelectSubset(50, rng);
-            HashSet<int> idxSet = new();
+            HashSet<int> idxSet = [];
 
             for(int j=0; j < idxArr.Length; j++)
             {

@@ -78,12 +78,14 @@ public class NeatGenomeAcyclicBuilderTests
         CompareConnectionLists(connArrExpected, weightArrExpected, acyclicDigraph.ConnectionIds, weightArrActual);
 
         // Test layer info.
-        LayerInfo[] layerArrExpected = new LayerInfo[5];
-        layerArrExpected[0] = new LayerInfo(2, 2);
-        layerArrExpected[1] = new LayerInfo(3, 3);
-        layerArrExpected[2] = new LayerInfo(4, 4);
-        layerArrExpected[3] = new LayerInfo(5, 5);
-        layerArrExpected[4] = new LayerInfo(6, 5);
+        LayerInfo[] layerArrExpected =
+        [
+            new LayerInfo(2, 2),
+            new LayerInfo(3, 3),
+            new LayerInfo(4, 4),
+            new LayerInfo(5, 5),
+            new LayerInfo(6, 5),
+        ];
         Assert.Equal(5, acyclicDigraph.LayerArray.Length);
 
         // Check the node count.

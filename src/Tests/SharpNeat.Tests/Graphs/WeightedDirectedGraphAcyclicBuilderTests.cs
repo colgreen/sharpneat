@@ -13,10 +13,10 @@ public class WeightedDirectedGraphAcyclicBuilderTests
         // Simple acyclic graph.
         var connList = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 3, 0.0),
-            new WeightedDirectedConnection<double>(1, 3, 1.0),
-            new WeightedDirectedConnection<double>(2, 3, 2.0),
-            new WeightedDirectedConnection<double>(2, 4, 3.0)
+            new(0, 3, 0.0),
+            new(1, 3, 1.0),
+            new(2, 3, 2.0),
+            new(2, 4, 3.0)
         };
         var connSpan = connList.AsSpan();
 
@@ -36,11 +36,11 @@ public class WeightedDirectedGraphAcyclicBuilderTests
         // Define graph connections.
         var connList = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 4, 0.0),
-            new WeightedDirectedConnection<double>(4, 5, 1.0),
-            new WeightedDirectedConnection<double>(5, 2, 2.0),
-            new WeightedDirectedConnection<double>(1, 2, 3.0),
-            new WeightedDirectedConnection<double>(2, 3, 4.0)
+            new(0, 4, 0.0),
+            new(4, 5, 1.0),
+            new(5, 2, 2.0),
+            new(1, 2, 3.0),
+            new(2, 3, 4.0)
         };
 
         // Create graph.
@@ -52,11 +52,11 @@ public class WeightedDirectedGraphAcyclicBuilderTests
         // And connections should be ordered by source node ID.
         var connListExpected = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 2, 0.0),
-            new WeightedDirectedConnection<double>(1, 4, 3.0),
-            new WeightedDirectedConnection<double>(2, 3, 1.0),
-            new WeightedDirectedConnection<double>(3, 4, 2.0),
-            new WeightedDirectedConnection<double>(4, 5, 4.0)
+            new(0, 2, 0.0),
+            new(1, 4, 3.0),
+            new(2, 3, 1.0),
+            new(3, 4, 2.0),
+            new(4, 5, 4.0)
         };
 
         // Compare actual and expected connections.
@@ -64,12 +64,14 @@ public class WeightedDirectedGraphAcyclicBuilderTests
         CompareConnectionLists(connSpanExpected, digraph.ConnectionIds, digraph.WeightArray);
 
         // Test layer info.
-        LayerInfo[] layerArrExpected = new LayerInfo[5];
-        layerArrExpected[0] = new LayerInfo(2, 2);
-        layerArrExpected[1] = new LayerInfo(3, 3);
-        layerArrExpected[2] = new LayerInfo(4, 4);
-        layerArrExpected[3] = new LayerInfo(5, 5);
-        layerArrExpected[4] = new LayerInfo(6, 5);
+        LayerInfo[] layerArrExpected =
+        [
+            new LayerInfo(2, 2),
+            new LayerInfo(3, 3),
+            new LayerInfo(4, 4),
+            new LayerInfo(5, 5),
+            new LayerInfo(6, 5),
+        ];
         Assert.Equal(5, digraph.LayerArray.Length);
 
         // Check the node count.

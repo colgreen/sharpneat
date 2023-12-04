@@ -12,7 +12,7 @@ public class NeuralNetAcyclicTests
     public void SingleInput_WeightZero()
     {
         var connList = new LightweightList<WeightedDirectedConnection<double>> {
-            new WeightedDirectedConnection<double>(0,1,0.0)
+            new(0,1,0.0)
         };
         var connSpan = connList.AsSpan();
 
@@ -33,7 +33,7 @@ public class NeuralNetAcyclicTests
     public void SingleInput_WeightOne()
     {
         var connList = new LightweightList<WeightedDirectedConnection<double>> {
-            new WeightedDirectedConnection<double>(0,1,1.0)
+            new(0,1,1.0)
         };
         var connSpan = connList.AsSpan();
 
@@ -55,8 +55,8 @@ public class NeuralNetAcyclicTests
     {
         var connList = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 2, 0.5),
-            new WeightedDirectedConnection<double>(1, 2, 0.5)
+            new(0, 2, 0.5),
+            new(1, 2, 0.5)
         };
         var connSpan = connList.AsSpan();
 
@@ -78,9 +78,9 @@ public class NeuralNetAcyclicTests
     {
         var connList = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 3, 0.5),
-            new WeightedDirectedConnection<double>(1, 3, 0.5),
-            new WeightedDirectedConnection<double>(3, 2, 2.0)
+            new(0, 3, 0.5),
+            new(1, 3, 0.5),
+            new(3, 2, 2.0)
         };
         var connSpan = connList.AsSpan();
 
@@ -102,12 +102,12 @@ public class NeuralNetAcyclicTests
     {
         var connList = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 4, 1.0),
-            new WeightedDirectedConnection<double>(1, 4, 1.0),
-            new WeightedDirectedConnection<double>(1, 5, 1.0),
-            new WeightedDirectedConnection<double>(3, 4, 1.0),
-            new WeightedDirectedConnection<double>(4, 2, 0.9),
-            new WeightedDirectedConnection<double>(5, 3, 1.0)
+            new(0, 4, 1.0),
+            new(1, 4, 1.0),
+            new(1, 5, 1.0),
+            new(3, 4, 1.0),
+            new(4, 2, 0.9),
+            new(5, 3, 1.0)
         };
         var connSpan = connList.AsSpan();
 
@@ -129,9 +129,9 @@ public class NeuralNetAcyclicTests
     {
         var connList = new LightweightList<WeightedDirectedConnection<double>>
         {
-            new WeightedDirectedConnection<double>(0, 5, 1.0),
-            new WeightedDirectedConnection<double>(1, 3, 1.0),
-            new WeightedDirectedConnection<double>(2, 4, 1.0)
+            new(0, 5, 1.0),
+            new(1, 3, 1.0),
+            new(2, 4, 1.0)
         };
         var connSpan = connList.AsSpan();
 

@@ -20,8 +20,8 @@ internal sealed class RankPairGraphForm : GraphForm
         string seriesName2)
         : base(title, xAxisTitle, y1AxisTitle, null)
     {
-        _ppl = new PointPairList();
-        _ppl2 = new PointPairList();
+        _ppl = [];
+        _ppl2 = [];
         _graphPane.XAxis.Type = AxisType.Linear;
 
         BarItem barItem = _graphPane.AddBar(seriesName, _ppl, Color.Blue);
