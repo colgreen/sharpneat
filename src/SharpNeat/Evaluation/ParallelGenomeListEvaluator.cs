@@ -21,7 +21,7 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
     readonly IGenomeDecoder<TGenome,TPhenome> _genomeDecoder;
     readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
     readonly ParallelOptions _parallelOptions;
-    readonly IPhenomeEvaluatorPool<TPhenome> _evaluatorPool;
+    readonly PhenomeEvaluatorPool<TPhenome> _evaluatorPool;
 
     #region Constructor
 
@@ -55,7 +55,7 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
         // Note. the pool is initialised with a number of pre-constructed evaluators that matches
         // degreeOfParallelism. We don't expect the pool to be asked for more than this number of
         // evaluators at any given point in time.
-        _evaluatorPool = new PhenomeEvaluatorStackPool<TPhenome>(
+        _evaluatorPool = new PhenomeEvaluatorPool<TPhenome>(
             phenomeEvaluationScheme,
             degreeOfParallelism);
     }

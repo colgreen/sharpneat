@@ -5,10 +5,13 @@ using System.Diagnostics;
 namespace SharpNeat.Evaluation;
 
 /// <summary>
-/// A pool of phenome evaluators, in which the pool is implemented with a stack structure with thread synchronised access to the stack.
+/// A pool of phenome evaluators.
 /// </summary>
 /// <typeparam name="TPhenome">Phenome type.</typeparam>
-public sealed class PhenomeEvaluatorStackPool<TPhenome> : IPhenomeEvaluatorPool<TPhenome>
+/// <remarks>
+/// The pool is implemented with a stack structure with thread synchronised access to the stack.
+/// </remarks>
+public sealed class PhenomeEvaluatorPool<TPhenome>
 {
     readonly IPhenomeEvaluationScheme<TPhenome> _phenomeEvaluationScheme;
     readonly LightweightStack<IPhenomeEvaluator<TPhenome>> _evaluatorStack;
@@ -16,14 +19,12 @@ public sealed class PhenomeEvaluatorStackPool<TPhenome> : IPhenomeEvaluatorPool<
     // Note. Do not make this readonly; it's a mutable struct.
     SpinLock _spinLock;
 
-    #region Constructor
-
     /// <summary>
     /// Construct a new instance.
     /// </summary>
     /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
     /// <param name="initialPoolSize">Initial pool size.</param>
-    public PhenomeEvaluatorStackPool(
+    public PhenomeEvaluatorPool(
         IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
         int initialPoolSize)
     {
@@ -42,10 +43,6 @@ public sealed class PhenomeEvaluatorStackPool<TPhenome> : IPhenomeEvaluatorPool<
         // Enable thread tracking only if the debugger is attached; it adds non-trivial overhead to Enter/Exit.
         _spinLock = new SpinLock(Debugger.IsAttached);
     }
-
-    #endregion
-
-    #region IPhenomeEvaluatorPool
 
     /// <summary>
     /// Get an evaluator from the pool.
@@ -95,6 +92,4 @@ public sealed class PhenomeEvaluatorStackPool<TPhenome> : IPhenomeEvaluatorPool<
             if(lockTaken) _spinLock.Exit(false);
         }
     }
-
-    #endregion
 }
