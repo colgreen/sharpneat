@@ -52,7 +52,8 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
         Size layoutArea,
         Span<Point> nodePosByIdx)
     {
-        if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node positions array length doesn't match the number of nodes in the graph.", nameof(nodePosByIdx));
+        if(nodePosByIdx.Length != digraph.TotalNodeCount)
+            throw new ArgumentException("Node positions array length doesn't match the number of nodes in the graph.", nameof(nodePosByIdx));
 
         // Determine depth of each node.
         LightweightList<int>[] nodesByLayer = BuildNodesByLayer(digraph);
@@ -68,7 +69,8 @@ public sealed class DepthLayoutScheme : IGraphLayoutScheme
         Span<Point> nodePosByIdx,
         ref object? layoutSchemeData)
     {
-        if(nodePosByIdx.Length != digraph.TotalNodeCount) throw new ArgumentException("Node positions array length doesn't match the number of nodes in the graph.", nameof(nodePosByIdx));
+        if(nodePosByIdx.Length != digraph.TotalNodeCount)
+            throw new ArgumentException("Node positions array length doesn't match the number of nodes in the graph.", nameof(nodePosByIdx));
 
         // Use previously determined depth info, if provided; otherwise calculate it and return via layoutSchemeData
         // parameter for future use.

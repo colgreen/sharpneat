@@ -30,8 +30,6 @@ public sealed class DirectedGraphViewModel
     /// </summary>
     public Point[] NodePosByIdx { get; }
 
-    #region Construction
-
     /// <summary>
     /// Construct with the provided digraph, weights, and node IDs.
     /// The node positions array is allocated, but must be updated with actual positions outside of this constructor.
@@ -83,6 +81,4 @@ public sealed class DirectedGraphViewModel
         NodeIdByIdx = nodeIdByIdx;
         NodePosByIdx = nodePosByIdx;
     }
-
-    #endregion
 }
