@@ -21,23 +21,20 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     /// </summary>
     public class WalkerBox2dEvaluator : IPhenomeEvaluator<IBlackBox>
     {
-        #region Instance Fields
+        const float one_60th = 1f/60f;
 
         readonly IRandomSource _rng;
         readonly int	_maxTimesteps;
 
         // Evaluator state.
         ulong _evalCount;
-        bool _stopConditionSatisfied;
-
-        #endregion
 
         #region Constructors
 
         /// <summary>
         /// Construct evaluator with default task arguments/variables.
         /// </summary>
-		public WalkerBox2dEvaluator() : this(600)
+		public WalkerBox2dEvaluator() : this(7200)
 		{}
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
         public bool StopConditionSatisfied
         {
-            get { return _stopConditionSatisfied; }
+            get { return false; }
         }
 
         /// <summary>
@@ -76,19 +73,9 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         /// </summary>
         public FitnessInfo Evaluate(IBlackBox box)
         {
-            const int trialCount = 5;
-            double totalX = 0.0;
-
-            for(int i=0; i<trialCount; i++) {
-                totalX += EvaluateInner(box);
-            }
-
-            // Track number of evaluations.
             _evalCount++;
-
-            double meanX = totalX / trialCount;
-            double fitness = meanX * meanX;
-            return new FitnessInfo(fitness, meanX);
+            double x = EvaluateInner(box);
+            return new FitnessInfo(x, 0.0);
         }
 
         #endregion
@@ -97,8 +84,6 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
         private double EvaluateInner(IBlackBox box)
         {
-            const double angleLimit = System.Math.PI / 3.0;
-
             // Init Box2D world.
             WalkerWorld world = new WalkerWorld(_rng);
             world.InitSimulationWorld();
@@ -109,44 +94,34 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             // Create a neural net controller for the walker.
             NeuralNetController walkerController = new NeuralNetController(walkerIface, box, world.SimulationParameters._frameRate);
 
-            Vec2 hipPos = walkerIface.LeftLegIFace.HipJointPosition;
-            double torsoYMin = hipPos.Y;
-            double torsoYMax = hipPos.Y;
+            Vec2 torsoPos = walkerIface.TorsoPosition;
 
             // Run the simulation.
-            LegInterface leftLeg = walkerIface.LeftLegIFace;
-            LegInterface rightLeg = walkerIface.RightLegIFace;
-            //double totalAppliedTorque = 0.0;
             int timestep = 0;
             for(; timestep < _maxTimesteps; timestep++)
             {
                 // Simulate one timestep.
                 world.Step();
                 walkerController.Step();
-                //totalAppliedTorque += walkerIface.TotalAppliedTorque;
 
-                // Track hip joint height and min/max extents.
-                hipPos = walkerIface.LeftLegIFace.HipJointPosition;
-                if(hipPos.Y < torsoYMin) {
-                    torsoYMin = hipPos.Y;
-                }
-                else if(hipPos.Y > torsoYMax) {
-                    torsoYMax = hipPos.Y;
-                }
-
-                double heightRange = torsoYMax - torsoYMin;
+                torsoPos = walkerIface.TorsoPosition;
 
                 // Test for stopping conditions.
-                if (hipPos.X < -0.7 || hipPos.X > 150f  || heightRange > 0.20
-                     || System.Math.Abs(leftLeg.HipJointAngle) > angleLimit || System.Math.Abs(leftLeg.KneeJointAngle) > angleLimit
-                    || System.Math.Abs(rightLeg.HipJointAngle) > angleLimit || System.Math.Abs(rightLeg.KneeJointAngle) > angleLimit)
-                {   // Stop simulation.
+                if(torsoPos.Y < 1.2f || torsoPos.X < -1f || torsoPos.X > 10f)
+                {
+                    // Stop simulation.
                     break;
                 }
             }
 
-            // Final fitness calcs / adjustments.            
-            return System.Math.Max(hipPos.X, 0.0);
+            if(torsoPos.X < 0f)
+                return 0f;
+
+
+            float distance = torsoPos.X;
+            float velocityAdjusted = distance / ((timestep * one_60th) + 120);
+            double fitness = 100f * distance * velocityAdjusted;
+            return fitness;
         }
 
         /// <summary>

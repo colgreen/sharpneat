@@ -9,7 +9,6 @@
  * You should have received a copy of the MIT License
  * along with SharpNEAT; if not, see https://opensource.org/licenses/MIT.
  */
-using System;
 using SharpNeat.Phenomes;
 
 namespace SharpNeat.DomainsExtra.WalkerBox2d
@@ -21,7 +20,6 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
     {
         readonly IBlackBox _box;
         int _timestep;
-        readonly double _sineWaveIncr;
 
         #region Constructor
 
@@ -32,7 +30,6 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             : base(iface) 
         {
             _box = box;
-            _sineWaveIncr = (2.0 * Math.PI) / simFrameRate;
         }
 
         #endregion
@@ -58,24 +55,24 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             _box.InputSignalArray[6] = _iface.RightLegIFace.HipJointAngle;
             _box.InputSignalArray[7] = _iface.RightLegIFace.KneeJointAngle;
 
-            // TODO: Idea: Add a single output that controls the frequency of the sinewave input.
-            // TODO: Idea: Add two inputs - distance of each foot to the floor.
-            // Sine wave inputs (one is a 180 degree phase shift of the other).
-            double sinWave0 = (Math.Sin(_timestep * _sineWaveIncr) + 1.0) * 0.5;
-            double sinWave180 = (Math.Sin((_timestep+30) * _sineWaveIncr) + 1.0) * 0.5;
-            _box.InputSignalArray[8] = sinWave0;
-            _box.InputSignalArray[9] = sinWave180;
+            _box.InputSignalArray[8] = _iface.LeftLegIFace.KneeJointPosition.Y;
+            _box.InputSignalArray[9] = _iface.RightLegIFace.KneeJointPosition.Y;
+
+            _box.InputSignalArray[10] = _iface.LeftLegIFace.KneeJointPosition.X - _iface.LeftLegIFace.HipJointPosition.X;
+            _box.InputSignalArray[11] = _iface.RightLegIFace.KneeJointPosition.X - _iface.RightLegIFace.HipJointPosition.X;
+
             _timestep++;
 
             //---- Activate black box.
             _box.Activate();
 
-        //---- Read joint torque outputs (proportion of max torque).
+            //---- Read joint torque outputs (proportion of max torque).
             // Here we assume neuron activation function with output range [0,1].
-            _iface.LeftLegIFace.SetHipJointTorque((float)((_box.OutputSignalArray[0] - 0.5) * 2.0) * _iface.JointMaxTorque);
-            _iface.RightLegIFace.SetHipJointTorque((float)((_box.OutputSignalArray[1] - 0.5) * 2.0) * _iface.JointMaxTorque);
-            _iface.LeftLegIFace.SetKneeJointTorque((float)((_box.OutputSignalArray[2] - 0.5) * 2.0) * _iface.JointMaxTorque);
-            _iface.RightLegIFace.SetKneeJointTorque((float)((_box.OutputSignalArray[3] - 0.5) * 2.0) * _iface.JointMaxTorque);
+            float maxTorque = _iface.JointMaxTorque;
+            _iface.LeftLegIFace.SetHipJointTorque((float)((_box.OutputSignalArray[0] - 0.5) * 2.0) * maxTorque);
+            _iface.RightLegIFace.SetHipJointTorque((float)((_box.OutputSignalArray[1] - 0.5) * 2.0) * maxTorque);
+            _iface.LeftLegIFace.SetKneeJointTorque((float)((_box.OutputSignalArray[2] - 0.5) * 2.0) * maxTorque);
+            _iface.RightLegIFace.SetKneeJointTorque((float)((_box.OutputSignalArray[3] - 0.5) * 2.0) * maxTorque);
         }
     }
 }

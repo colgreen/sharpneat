@@ -88,6 +88,14 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         }
 
         /// <summary>
+        /// Gets the knee joint position.
+        /// </summary>
+        public Vec2 KneeJointPosition
+        {
+            get { return _kneeJoint.Anchor1; }
+        }
+
+        /// <summary>
         /// Gets the total amount of torque being applied to the leg's joint's (abs(knee_torque) + abs(hip_torque).
         /// </summary>
         public float TotalAppliedTorque

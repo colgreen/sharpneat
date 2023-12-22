@@ -70,7 +70,7 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
         #region Public Methods
 
         /// <summary>
-        /// Inititialise world.
+        /// Initialise world.
         /// </summary>
         public override void InitSimulationWorld()
         {
@@ -149,10 +149,25 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
 
         // ===== Create legs.
             // Leg joint definition.
-            RevoluteJointDef jointDef = new RevoluteJointDef();
-            jointDef.CollideConnected = false;
-            jointDef.EnableMotor = true;
-            jointDef.MaxMotorTorque = 0f;
+            RevoluteJointDef leftKneeJointDef = new RevoluteJointDef();
+            leftKneeJointDef.CollideConnected = false;
+            leftKneeJointDef.EnableMotor = true;
+            leftKneeJointDef.MaxMotorTorque = 100f;
+
+            RevoluteJointDef leftHipJointDef = new RevoluteJointDef();
+            leftHipJointDef.CollideConnected = false;
+            leftHipJointDef.EnableMotor = true;
+            leftHipJointDef.MaxMotorTorque = 100f;
+
+            RevoluteJointDef rightKneeJointDef = new RevoluteJointDef();
+            rightKneeJointDef.CollideConnected = false;
+            rightKneeJointDef.EnableMotor = true;
+            rightKneeJointDef.MaxMotorTorque = 100f;
+
+            RevoluteJointDef rightHipJointDef = new RevoluteJointDef();
+            rightHipJointDef.CollideConnected = false;
+            rightHipJointDef.EnableMotor = true;
+            rightHipJointDef.MaxMotorTorque = 100f;
 
             // Other re-usable stuff .
             const float legRadius = 0.05f;	// Half the thickness of the leg
@@ -163,27 +178,27 @@ namespace SharpNeat.DomainsExtra.WalkerBox2d
             // Upper leg.
             Body upperLeftLegBody = CreatePole(upperLegPosBase, 0.5f, (float)SysMath.PI, legRadius, 2f, 0x1);
             // Join to torso (hip joint)
-            jointDef.Initialize(_torsoBody, upperLeftLegBody, upperLegPosBase);
-            _leftHipJoint = (RevoluteJoint)_world.CreateJoint(jointDef);
+            leftHipJointDef.Initialize(_torsoBody, upperLeftLegBody, upperLegPosBase);
+            _leftHipJoint = (RevoluteJoint)_world.CreateJoint(leftHipJointDef);
 
             // Lower leg.
             _leftLowerLegBody = CreatePole(lowerLegPosBase, __lowerLegLength, (float)SysMath.PI, legRadius, 2f, 0x1);
             // Join to upper leg (knee joint)
-            jointDef.Initialize(upperLeftLegBody, _leftLowerLegBody, lowerLegPosBase);
-            _leftKneeJoint = (RevoluteJoint)_world.CreateJoint(jointDef);
+            leftKneeJointDef.Initialize(upperLeftLegBody, _leftLowerLegBody, lowerLegPosBase);
+            _leftKneeJoint = (RevoluteJoint)_world.CreateJoint(leftKneeJointDef);
 
         // ===== Create right leg.
             // Upper leg.
             Body upperRightLegBody = CreatePole(upperLegPosBase, 0.5f, (float)SysMath.PI, legRadius, 2f, 0x1);
             // Join to torso (hip joint)
-            jointDef.Initialize(_torsoBody, upperRightLegBody, upperLegPosBase);
-            _rightHipJoint = (RevoluteJoint)_world.CreateJoint(jointDef);
+            rightHipJointDef.Initialize(_torsoBody, upperRightLegBody, upperLegPosBase);
+            _rightHipJoint = (RevoluteJoint)_world.CreateJoint(rightHipJointDef);
 
             // Lower leg.
             _rightLowerLegBody = CreatePole(lowerLegPosBase, __lowerLegLength, (float)SysMath.PI, legRadius, 2f, 0x1);
             // Join to upper leg (knee joint)
-            jointDef.Initialize(upperRightLegBody, _rightLowerLegBody, lowerLegPosBase);
-            _rightKneeJoint = (RevoluteJoint)_world.CreateJoint(jointDef);
+            rightKneeJointDef.Initialize(upperRightLegBody, _rightLowerLegBody, lowerLegPosBase);
+            _rightKneeJoint = (RevoluteJoint)_world.CreateJoint(rightKneeJointDef);
         }
 
         private Body CreatePole(Vec2 basePose, float length, float angle, float radius, float density, ushort layers)
