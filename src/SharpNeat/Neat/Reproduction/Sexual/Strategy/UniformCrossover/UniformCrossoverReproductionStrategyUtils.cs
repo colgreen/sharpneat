@@ -10,12 +10,14 @@ internal class UniformCrossoverReproductionStrategyUtils
     /// <summary>
     /// Performs a 'parallel walk' over the connection genes of parent1 and parent2.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TWeight">Connection weight data type.</typeparam>
     /// <param name="parent1">Parent 1.</param>
     /// <param name="parent2">Parent 2.</param>
     /// <returns>An enumerable over indexes into parent1 and parent2's connection genes.</returns>
-    public static IEnumerable<(int idx1, int idx2)> EnumerateParentGenes<T>(ConnectionGenes<T> parent1, ConnectionGenes<T> parent2)
-        where T : struct
+    public static IEnumerable<(int idx1, int idx2)> EnumerateParentGenes<TWeight>(
+        ConnectionGenes<TWeight> parent1,
+        ConnectionGenes<TWeight> parent2)
+        where TWeight : struct
     {
         // Special case. Empty gene arrays.
         // Note. In NEAT the genomes should always have at least one connection/gene,

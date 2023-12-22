@@ -17,14 +17,14 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 /// Multi-threading is achieved using the .NET framework's Parallel classes, and thus by default will adjust to utilise
 /// however many CPU cores are available.
 /// </remarks>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>,T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class GeneticKMeansSpeciationStrategy<TScalar> : ISpeciationStrategy<NeatGenome<TScalar>,TScalar>
+    where TScalar : struct
 {
-    readonly IDistanceMetric<T> _distanceMetric;
+    readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly int _maxKMeansIters;
     readonly ParallelOptions _parallelOptions;
-    readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
+    readonly GeneticKMeansSpeciationInit<TScalar> _kmeansInit;
 
     #region Constructors
 
@@ -35,7 +35,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
     /// <param name="degreeOfParallelism">The number of CPU threads to distribute work to.</param>
     public GeneticKMeansSpeciationStrategy(
-        IDistanceMetric<T> distanceMetric,
+        IDistanceMetric<TScalar> distanceMetric,
         int maxKMeansIters,
         int degreeOfParallelism)
     {
@@ -51,7 +51,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
             MaxDegreeOfParallelism = degreeOfParallelism
         };
 
-        _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric, _parallelOptions);
+        _kmeansInit = new GeneticKMeansSpeciationInit<TScalar>(distanceMetric, _parallelOptions);
     }
 
     #endregion
@@ -59,7 +59,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     #region Public Methods
 
     /// <inheritdoc/>
-    public Species<T>[] SpeciateAll(IList<NeatGenome<T>> genomeList, int speciesCount, IRandomSource rng)
+    public Species<TScalar>[] SpeciateAll(IList<NeatGenome<TScalar>> genomeList, int speciesCount, IRandomSource rng)
     {
         if(genomeList.Count < speciesCount)
             throw new ArgumentException("The number of genomes is less than speciesCount.");
@@ -75,7 +75,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     }
 
     /// <inheritdoc/>
-    public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr, IRandomSource rng)
+    public void SpeciateAdd(IList<NeatGenome<TScalar>> genomeList, Species<TScalar>[] speciesArr, IRandomSource rng)
     {
         // Create a temporary working array of species modification bits.
         var updateBits = new bool[speciesArr.Length];
@@ -106,7 +106,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
 
     #region Private Methods [KMeans Algorithm]
 
-    private void RunKMeans(Species<T>[] speciesArr)
+    private void RunKMeans(Species<TScalar>[] speciesArr)
     {
         // Initialise.
         KMeansInit(speciesArr);
@@ -129,7 +129,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
         KMeansComplete(speciesArr);
     }
 
-    private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits)
+    private int KMeansIteration(Species<TScalar>[] speciesArr, bool[] updateBits)
     {
         int reallocCount = 0;
         Array.Clear(updateBits, 0, updateBits.Length);
@@ -189,7 +189,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
 
     #region Private Methods [KMeans Helper Methods]
 
-    private void KMeansInit(Species<T>[] speciesArr)
+    private void KMeansInit(Species<TScalar>[] speciesArr)
     {
         // Transfer all genomes from GenomeList to GenomeById.
         // Notes. moving genomes between species is more efficient when using dictionaries;
@@ -198,7 +198,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
         Parallel.ForEach(speciesArr, _parallelOptions, species => species.LoadWorkingDictionary());
     }
 
-    private void KMeansComplete(Species<T>[] speciesArr)
+    private void KMeansComplete(Species<TScalar>[] speciesArr)
     {
         // Check for empty species (this can happen with k-means), and if there are any then
         // move genomes into those empty species.
@@ -210,12 +210,12 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
         Parallel.ForEach(speciesArr, _parallelOptions, species => species.FlushWorkingDictionary());
     }
 
-    private void RecalcCentroids_GenomeById(Species<T>[] speciesArr, bool[] updateBits)
+    private void RecalcCentroids_GenomeById(Species<TScalar>[] speciesArr, bool[] updateBits)
     {
         Parallel.ForEach(
             Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]),
             _parallelOptions,
-            () => new List<ConnectionGenes<T>>(),
+            () => new List<ConnectionGenes<TScalar>>(),
             (speciesIdx, loopState, connGenesList) =>
             {
                 var species = speciesArr[speciesIdx];
@@ -226,12 +226,12 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
             (connGenesList) => connGenesList.Clear());
     }
 
-    private void RecalcCentroids_GenomeList(Species<T>[] speciesArr, bool[] updateBits)
+    private void RecalcCentroids_GenomeList(Species<TScalar>[] speciesArr, bool[] updateBits)
     {
         Parallel.ForEach(
             Enumerable.Range(0, speciesArr.Length).Where(i => updateBits[i]),
             _parallelOptions,
-            () => new List<ConnectionGenes<T>>(),
+            () => new List<ConnectionGenes<TScalar>>(),
             (speciesIdx, loopState, connGenesList) =>
             {
                 var species = speciesArr[speciesIdx];

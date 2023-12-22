@@ -11,9 +11,9 @@ namespace SharpNeat.Graphs;
 /// This type does not inherit from DirectedConnection as might be expected because these are structs (value types)
 /// and therefore inheritance is not possible.
 /// </remarks>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirectedConnection<T>>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public readonly struct WeightedDirectedConnection<TWeight> : IComparable<WeightedDirectedConnection<TWeight>>
+    where TWeight : struct
 {
     /// <summary>
     /// Connection source node ID.
@@ -28,7 +28,7 @@ public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirec
     /// <summary>
     /// Connection weight.
     /// </summary>
-    public T Weight { get; }
+    public TWeight Weight { get; }
 
     /// <summary>
     /// Construct with the provided source and target node IDs, and weight.
@@ -36,7 +36,7 @@ public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirec
     /// <param name="srcId">Connection source node ID.</param>
     /// <param name="tgtId">Connection target node ID.</param>
     /// <param name="weight">Connection weight.</param>
-    public WeightedDirectedConnection(int srcId, int tgtId, T weight)
+    public WeightedDirectedConnection(int srcId, int tgtId, TWeight weight)
     {
         SourceId = srcId;
         TargetId = tgtId;
@@ -46,7 +46,7 @@ public readonly struct WeightedDirectedConnection<T> : IComparable<WeightedDirec
     #region IComparable<T>
 
     /// <inheritdoc/>
-    public int CompareTo(WeightedDirectedConnection<T> other)
+    public int CompareTo(WeightedDirectedConnection<TWeight> other)
     {
         // Notes.
         // The comparison here uses subtraction rather than comparing IDs, this eliminates a number of branches

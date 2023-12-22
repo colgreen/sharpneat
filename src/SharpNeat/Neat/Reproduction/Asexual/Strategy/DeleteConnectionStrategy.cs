@@ -5,15 +5,15 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on deletion of a single connection.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 /// <remarks>
 /// Offspring genomes are created by taking a clone of a single parent genome and deleting a single
 /// connection, if possible.
 /// </remarks>
-public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T>
-    where T : struct
+public sealed class DeleteConnectionStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
+    where TScalar : struct
 {
-    readonly INeatGenomeBuilder<T> _genomeBuilder;
+    readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _generationSeq;
 
@@ -26,7 +26,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
     /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
     /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
     public DeleteConnectionStrategy(
-        INeatGenomeBuilder<T> genomeBuilder,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence generationSeq)
     {
@@ -40,7 +40,9 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
     #region Public Methods
 
     /// <inheritdoc/>
-    public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+    public NeatGenome<TScalar>? CreateChildGenome(
+        NeatGenome<TScalar> parent,
+        IRandomSource rng)
     {
         // We require at least two connections in the parent, i.e. we avoid creating genomes with
         // no connections, which would be pointless.
@@ -55,7 +57,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
 
         // Create the child genome's ConnectionGenes object.
         int childLen = parentLen - 1;
-        var connGenes = new ConnectionGenes<T>(childLen);
+        var connGenes = new ConnectionGenes<TScalar>(childLen);
         var connArr = connGenes._connArr;
         var weightArr = connGenes._weightArr;
 
@@ -86,7 +88,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
     /// Get an array of hidden node IDs in the child genome.
     /// </summary>
     private static int[] GetHiddenNodeIdArray(
-        NeatGenome<T> parent, int deleteIdx,
+        NeatGenome<TScalar> parent, int deleteIdx,
         DirectedConnection[] childConnArr)
     {
         // Determine which hidden nodes in the parent have been deleted, i.e. are not in the child.
@@ -126,7 +128,7 @@ public sealed class DeleteConnectionStrategy<T> : IAsexualReproductionStrategy<T
     /// always exist.
     /// </summary>
     private static (int? nodeId1, int? nodeId2) GetDeletedNodeIds(
-        NeatGenome<T> parent, int deleteIdx,
+        NeatGenome<TScalar> parent, int deleteIdx,
         DirectedConnection[] childConnArr)
     {
         // Get the two node IDs referred to by the deleted connection.

@@ -22,17 +22,17 @@ public static class NeatPopulationSaver
     /// <param name="genomeList">The population of genomes to save.</param>
     /// <param name="parentPath">Path to an existing folder to create the new population folder.</param>
     /// <param name="name">The name to assign to the population folder.</param>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <remarks>
     /// A population is a collection of genomes. The genomes each serialized individually as when saving a single genome.
     /// The genome files are then either created in a new folder that contains all genomes for the population, or in a single
     /// zip archive file.
     /// </remarks>
-    public static void SaveToFolder<T>(
-        IList<NeatGenome<T>> genomeList,
+    public static void SaveToFolder<TScalar>(
+        IList<NeatGenome<TScalar>> genomeList,
         string parentPath,
         string name)
-        where T : struct
+        where TScalar : struct
     {
         ArgumentNullException.ThrowIfNull(parentPath);
         ArgumentNullException.ThrowIfNull(name);
@@ -67,12 +67,12 @@ public static class NeatPopulationSaver
     /// <param name="genomeList">The population of genomes to save.</param>
     /// <param name="filepath">The name of the zip archive (without the .zip extension, which will be appended by default).</param>
     /// <param name="compressionLevel">ZIP archive compression level.</param>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
-    public static void SaveToZipArchive<T>(
-        IList<NeatGenome<T>> genomeList,
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+    public static void SaveToZipArchive<TScalar>(
+        IList<NeatGenome<TScalar>> genomeList,
         string filepath,
         CompressionLevel compressionLevel)
-        where T : struct
+        where TScalar : struct
     {
         ArgumentNullException.ThrowIfNull(filepath);
 

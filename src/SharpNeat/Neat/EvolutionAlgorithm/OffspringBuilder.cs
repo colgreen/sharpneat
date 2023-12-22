@@ -13,12 +13,12 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// <summary>
 /// For creating new offspring genomes, from one or two parents selected stochastically from a population.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal sealed class OffspringBuilder<T>
-    where T : struct, IBinaryFloatingPointIeee754<T>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+internal sealed class OffspringBuilder<TScalar>
+    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly NeatReproductionAsexual<T> _reproductionAsexual;
-    readonly NeatReproductionSexual<T> _reproductionSexual;
+    readonly NeatReproductionAsexual<TScalar> _reproductionAsexual;
+    readonly NeatReproductionSexual<TScalar> _reproductionSexual;
     readonly double _interspeciesMatingProportion;
     readonly IComparer<FitnessInfo> _fitnessComparer;
 
@@ -32,8 +32,8 @@ internal sealed class OffspringBuilder<T>
     /// <param name="interspeciesMatingProportion">Inter-species mating proportion.</param>
     /// <param name="fitnessComparer">Fitness comparer.</param>
     public OffspringBuilder(
-        NeatReproductionAsexual<T> reproductionAsexual,
-        NeatReproductionSexual<T> reproductionSexual,
+        NeatReproductionAsexual<TScalar> reproductionAsexual,
+        NeatReproductionSexual<TScalar> reproductionSexual,
         double interspeciesMatingProportion,
         IComparer<FitnessInfo> fitnessComparer)
     {
@@ -65,8 +65,8 @@ internal sealed class OffspringBuilder<T>
     /// The number of offspring genomes to create is determined by <see cref="SpeciesStats.OffspringAsexualCount"/>
     /// and <see cref="SpeciesStats.OffspringSexualCount"/>.
     /// </remarks>
-    public List<NeatGenome<T>> CreateOffspring(
-        Species<T>[] speciesArr,
+    public List<NeatGenome<TScalar>> CreateOffspring(
+        Species<TScalar>[] speciesArr,
         IRandomSource rng,
         out int offspringAsexualCount,
         out int offspringSexualCount,
@@ -77,7 +77,7 @@ internal sealed class OffspringBuilder<T>
         // speciesDist is for selecting species when performing inter-species sexual reproduction, i.e. selecting parent genomes
         // from two separate species.
         // genomeDistArr is an array of distributions, one per species; this is for selecting genomes for intra-species reproduction.
-        CreateSelectionDistributionUtils<T>.CreateSelectionDistributions(
+        CreateSelectionDistributionUtils<TScalar>.CreateSelectionDistributions(
             speciesArr,
             out DiscreteDistribution<double> speciesDist,
             out DiscreteDistribution<double>?[] genomeDistArr,
@@ -103,8 +103,8 @@ internal sealed class OffspringBuilder<T>
 
     #region Private Static Methods [CreateOffspring]
 
-    private List<NeatGenome<T>> CreateOffspring(
-        Species<T>[] speciesArr,
+    private List<NeatGenome<TScalar>> CreateOffspring(
+        Species<TScalar>[] speciesArr,
         DiscreteDistribution<double> speciesDist,
         DiscreteDistribution<double>?[] genomeDistArr,
         double interspeciesMatingProportion,
@@ -118,13 +118,13 @@ internal sealed class OffspringBuilder<T>
         int offspringCount = speciesArr.Sum(x => x.Stats.OffspringCount);
 
         // Create an empty list to add the offspring to (with preallocated storage).
-        var offspringList = new List<NeatGenome<T>>(offspringCount);
+        var offspringList = new List<NeatGenome<TScalar>>(offspringCount);
 
         // Loop the species.
         for(int speciesIdx = 0; speciesIdx < speciesArr.Length; speciesIdx++)
         {
             // Get the current species.
-            Species<T> species = speciesArr[speciesIdx];
+            Species<TScalar> species = speciesArr[speciesIdx];
 
             // Skip species that have been marked to not produce any offspring.
             if(species.Stats.SelectionSizeInt == 0)
@@ -173,10 +173,10 @@ internal sealed class OffspringBuilder<T>
     }
 
     private void CreateSpeciesOffspringAsexual(
-        Species<T> species,
+        Species<TScalar> species,
         DiscreteDistribution<double> genomeDist,
         int offspringCount,
-        List<NeatGenome<T>> offspringList,
+        List<NeatGenome<TScalar>> offspringList,
         IRandomSource rng)
     {
         var genomeList = species.GenomeList;
@@ -195,13 +195,13 @@ internal sealed class OffspringBuilder<T>
     }
 
     private void CreateSpeciesOffspringSexual(
-        Species<T>[] speciesArr,
-        Species<T> species,
+        Species<TScalar>[] speciesArr,
+        Species<TScalar> species,
         DiscreteDistribution<double> speciesDistUpdated,
         DiscreteDistribution<double>?[] genomeDistArr,
         DiscreteDistribution<double> genomeDist,
         int offspringCount,
-        List<NeatGenome<T>> offspringList,
+        List<NeatGenome<TScalar>> offspringList,
         double interspeciesMatingProportion,
         IRandomSource rng,
         out int offspringInterspeciesCount)
@@ -247,7 +247,7 @@ internal sealed class OffspringBuilder<T>
 
             // Select another species to select parent B from.
             int speciesIdx = speciesDistUpdated.Sample(rng);
-            Species<T> speciesB = speciesArr[speciesIdx];
+            Species<TScalar> speciesB = speciesArr[speciesIdx];
 
             // Select parent B from species B.
             var genomeDistB = genomeDistArr[speciesIdx]!;

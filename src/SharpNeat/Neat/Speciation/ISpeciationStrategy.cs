@@ -6,9 +6,9 @@ namespace SharpNeat.Neat.Speciation;
 /// Represents a NEAT speciation strategy.
 /// </summary>
 /// <typeparam name="TGenome">Genome type.</typeparam>
-/// <typeparam name="TWeight">Connection weight data type.</typeparam>
-public interface ISpeciationStrategy<TGenome,TWeight>
-    where TWeight : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public interface ISpeciationStrategy<TGenome,TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Initialise a new set of species based on the provided population of genomes and the
@@ -18,7 +18,10 @@ public interface ISpeciationStrategy<TGenome,TWeight>
     /// <param name="speciesCount">The number of required species.</param>
     /// <param name="rng">Random source.</param>
     /// <returns>A new array of species.</returns>
-    Species<TWeight>[] SpeciateAll(IList<TGenome> genomeList, int speciesCount, IRandomSource rng);
+    Species<TScalar>[] SpeciateAll(
+        IList<TGenome> genomeList,
+        int speciesCount,
+        IRandomSource rng);
 
     /// <summary>
     /// Merge new genomes into an existing set of species.
@@ -26,5 +29,8 @@ public interface ISpeciationStrategy<TGenome,TWeight>
     /// <param name="genomeList">A list of genomes that have not yet been assigned a species.</param>
     /// <param name="speciesArr">An array of pre-existing species.</param>
     /// <param name="rng">Random source.</param>
-    void SpeciateAdd(IList<TGenome> genomeList, Species<TWeight>[] speciesArr, IRandomSource rng);
+    void SpeciateAdd(
+        IList<TGenome> genomeList,
+        Species<TScalar>[] speciesArr,
+        IRandomSource rng);
 }

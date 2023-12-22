@@ -9,21 +9,21 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on adding a single connection.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 /// <remarks>
 /// Offspring genomes are created by taking a clone of a single parent genome and adding a single connection,
 /// if possible.
 /// </remarks>
-public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrategy<T>
-    where T : struct, IBinaryFloatingPointIeee754<T>
+public sealed class AddCyclicConnectionStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
+    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly MetaNeatGenome<T> _metaNeatGenome;
-    readonly INeatGenomeBuilder<T> _genomeBuilder;
+    readonly MetaNeatGenome<TScalar> _metaNeatGenome;
+    readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _generationSeq;
 
-    readonly IStatelessSampler<T> _weightSamplerA;
-    readonly IStatelessSampler<T> _weightSamplerB;
+    readonly IStatelessSampler<TScalar> _weightSamplerA;
+    readonly IStatelessSampler<TScalar> _weightSamplerB;
 
     #region Constructor
 
@@ -35,8 +35,8 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
     /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
     /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
     public AddCyclicConnectionStrategy(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence generationSeq)
     {
@@ -45,11 +45,11 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
         _genomeIdSeq = genomeIdSeq;
         _generationSeq = generationSeq;
 
-        _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
-            T.CreateChecked(metaNeatGenome.ConnectionWeightScale), true);
+        _weightSamplerA = UniformDistributionSamplerFactory.CreateStatelessSampler<TScalar>(
+            TScalar.CreateChecked(metaNeatGenome.ConnectionWeightScale), true);
 
-        _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
-            T.CreateChecked(metaNeatGenome.ConnectionWeightScale * 0.01), true);
+        _weightSamplerB = UniformDistributionSamplerFactory.CreateStatelessSampler<TScalar>(
+            TScalar.CreateChecked(metaNeatGenome.ConnectionWeightScale * 0.01), true);
     }
 
     #endregion
@@ -57,7 +57,7 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
     #region Public Methods
 
     /// <inheritdoc/>
-    public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+    public NeatGenome<TScalar>? CreateChildGenome(NeatGenome<TScalar> parent, IRandomSource rng)
     {
         // Attempt to find a new connection that we can add to the genome.
         if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))
@@ -70,7 +70,7 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
         // 50% of the time use weights very close to zero.
         // Note. this recreates the strategy used in SharpNEAT 2.x.
         // ENHANCEMENT: Reconsider the distribution of new weights and if there are better approaches (distributions) we could use.
-        T weight = rng.NextBool() ? _weightSamplerB.Sample(rng) : _weightSamplerA.Sample(rng);
+        TScalar weight = rng.NextBool() ? _weightSamplerB.Sample(rng) : _weightSamplerA.Sample(rng);
 
         // Create a new connection gene array that consists of the parent connection genes plus the new gene
         // inserted at the correct (sorted) position.
@@ -80,7 +80,7 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
 
         // Create the child genome's ConnectionGenes object.
         int childLen = parentLen + 1;
-        var connGenes = new ConnectionGenes<T>(childLen);
+        var connGenes = new ConnectionGenes<TScalar>(childLen);
         var connArr = connGenes._connArr;
         var weightArr = connGenes._weightArr;
 
@@ -115,7 +115,7 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
     #region Private Methods
 
     private bool TryGetConnection(
-        NeatGenome<T> parent,
+        NeatGenome<TScalar> parent,
         IRandomSource rng,
         out DirectedConnection conn,
         out int insertIdx)
@@ -133,7 +133,7 @@ public sealed class AddCyclicConnectionStrategy<T> : IAsexualReproductionStrateg
     }
 
     private bool TryGetConnectionInner(
-        NeatGenome<T> parent,
+        NeatGenome<TScalar> parent,
         IRandomSource rng,
         out DirectedConnection conn,
         out int insertIdx)

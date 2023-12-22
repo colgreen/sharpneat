@@ -149,13 +149,13 @@ internal static class SpeciationStrategyTestUtils
     /// Gets the species with a centroid closest to the given genome.
     /// If multiple species are equally close then we return all of the those species.
     /// </summary>
-    public static List<Species<T>> GetNearestSpeciesList<T>(
-        NeatGenome<T> genome,
-        Species<T>[] speciesArr,
-        IDistanceMetric<T> distanceMetric)
-    where T : struct
+    public static List<Species<TScalar>> GetNearestSpeciesList<TScalar>(
+        NeatGenome<TScalar> genome,
+        Species<TScalar>[] speciesArr,
+        IDistanceMetric<TScalar> distanceMetric)
+    where TScalar : struct
     {
-        var nearestSpeciesList = new List<Species<T>>(4) {
+        var nearestSpeciesList = new List<Species<TScalar>>(4) {
             speciesArr[0]
         };
         double nearestDistance = distanceMetric.CalcDistance(genome.ConnectionGenes, speciesArr[0].Centroid);

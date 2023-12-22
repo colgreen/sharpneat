@@ -9,9 +9,9 @@ namespace SharpNeat.Graphs;
 /// <summary>
 /// For building instances of <see cref="WeightedDirectedGraph{T}"/>.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public static class WeightedDirectedGraphBuilder<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public static class WeightedDirectedGraphBuilder<TWeight>
+    where TWeight : struct
 {
     /// <summary>
     /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of node IDs.
@@ -24,12 +24,12 @@ public static class WeightedDirectedGraphBuilder<T>
     /// <param name="inputCount">Input node count.</param>
     /// <param name="outputCount">Output node count.</param>
     /// <returns>A new instance of <see cref="WeightedDirectedGraph{T}"/>.</returns>
-    public static WeightedDirectedGraph<T> Create(
-        Span<WeightedDirectedConnection<T>> connections,
+    public static WeightedDirectedGraph<TWeight> Create(
+        Span<WeightedDirectedConnection<TWeight>> connections,
         int inputCount, int outputCount)
     {
         // Debug assert that the connections are sorted.
-        Debug.Assert(SortUtils.IsSortedAscending(connections, WeightedDirectedConnectionComparer<T>.Default));
+        Debug.Assert(SortUtils.IsSortedAscending(connections, WeightedDirectedConnectionComparer<TWeight>.Default));
 
         // Determine the full set of hidden node IDs.
         int inputOutputCount = inputCount + outputCount;
@@ -46,11 +46,11 @@ public static class WeightedDirectedGraphBuilder<T>
         // The IDs are substituted for node indexes here.
         CopyAndMapIds(connections, nodeIdMap,
             out ConnectionIds connIds,
-            out T[] weightArr);
+            out TWeight[] weightArr);
 
         // Construct and return a new WeightedDirectedGraph.
         int totalNodeCount = inputOutputCount + hiddenNodeIdArr.Length;
-        return new WeightedDirectedGraph<T>(
+        return new WeightedDirectedGraph<TWeight>(
             inputCount, outputCount,
             totalNodeCount,
             connIds,
@@ -60,7 +60,7 @@ public static class WeightedDirectedGraphBuilder<T>
     #region Private Static Methods
 
     private static int[] GetHiddenNodeIdArray(
-        Span<WeightedDirectedConnection<T>> connSpan,
+        Span<WeightedDirectedConnection<TWeight>> connSpan,
         int inputOutputCount)
     {
         // Build a hash set of all hidden nodes IDs referred to by the connections.
@@ -86,16 +86,16 @@ public static class WeightedDirectedGraphBuilder<T>
     /// Map the node IDs to indexes as we go.
     /// </summary>
     private static void CopyAndMapIds(
-        Span<WeightedDirectedConnection<T>> connSpan,
+        Span<WeightedDirectedConnection<TWeight>> connSpan,
         INodeIdMap nodeIdMap,
         out ConnectionIds connIds,
-        out T[] weightArr)
+        out TWeight[] weightArr)
     {
         int count = connSpan.Length;
         connIds = new ConnectionIds(count);
         var srcIds = connIds.GetSourceIdSpan();
         var tgtIds = connIds.GetTargetIdSpan();
-        weightArr = new T[count];
+        weightArr = new TWeight[count];
 
         for(int i=0; i < count; i++)
         {

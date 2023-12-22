@@ -16,11 +16,11 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 ///
 /// Note. this implementation applies a modified version of the k-means++ initialisation method.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal sealed class GeneticKMeansSpeciationInit<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+internal sealed class GeneticKMeansSpeciationInit<TScalar>
+    where TScalar : struct
 {
-    readonly IDistanceMetric<T> _distanceMetric;
+    readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly ParallelOptions _parallelOptions;
 
     /// <summary>
@@ -29,7 +29,7 @@ internal sealed class GeneticKMeansSpeciationInit<T>
     /// <param name="distanceMetric">Distance metric.</param>
     /// <param name="parallelOptions">Parallel options.</param>
     public GeneticKMeansSpeciationInit(
-        IDistanceMetric<T> distanceMetric,
+        IDistanceMetric<TScalar> distanceMetric,
         ParallelOptions parallelOptions)
     {
         _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
@@ -45,17 +45,17 @@ internal sealed class GeneticKMeansSpeciationInit<T>
     /// <param name="speciesCount">The required number of species.</param>
     /// <param name="rng">Random source.</param>
     /// <returns>A new array of <see cref="Species{T}"/>, with each species containing a subset of the genomes from <paramref name="genomeList"/>.</returns>
-    public Species<T>[] InitialiseSpecies(
-        IList<NeatGenome<T>> genomeList,
+    public Species<TScalar>[] InitialiseSpecies(
+        IList<NeatGenome<TScalar>> genomeList,
         int speciesCount,
         IRandomSource rng)
     {
         // Create an array of seed genomes, i.e. each of these genomes will become the initial
         // seed/centroid of one species.
-        var seedGenomeList = new List<NeatGenome<T>>(speciesCount);
+        var seedGenomeList = new List<NeatGenome<TScalar>>(speciesCount);
 
         // Create a list of genomes to select and remove seed genomes from.
-        var remainingGenomes = new List<NeatGenome<T>>(genomeList);
+        var remainingGenomes = new List<NeatGenome<TScalar>>(genomeList);
 
         // Select first genome at random.
         seedGenomeList.Add(GetAndRemove(remainingGenomes, rng.Next(remainingGenomes.Count)));
@@ -73,11 +73,11 @@ internal sealed class GeneticKMeansSpeciationInit<T>
         // reallocation but that isn't too wasteful of memory.
         int initialCapacity = (genomeList.Count * 2) / speciesCount;
 
-        var speciesArr = new Species<T>[speciesCount];
+        var speciesArr = new Species<TScalar>[speciesCount];
         for(int i=0; i < speciesCount; i++)
         {
             var seedGenome = seedGenomeList[i];
-            speciesArr[i] = new Species<T>(i, seedGenome.ConnectionGenes, initialCapacity);
+            speciesArr[i] = new Species<TScalar>(i, seedGenome.ConnectionGenes, initialCapacity);
             speciesArr[i].GenomeList.Add(seedGenome);
         }
 
@@ -97,7 +97,7 @@ internal sealed class GeneticKMeansSpeciationInit<T>
         Parallel.ForEach(
             speciesArr,
             _parallelOptions,
-            () => new List<ConnectionGenes<T>>(),
+            () => new List<ConnectionGenes<TScalar>>(),
             (species, loopState, connGenesList) =>
             {
                 ExtractConnectionGenes(connGenesList, species.GenomeList);
@@ -113,9 +113,9 @@ internal sealed class GeneticKMeansSpeciationInit<T>
 
     #region Private Methods
 
-    private NeatGenome<T> GetSeedGenome(
-        List<NeatGenome<T>> seedGenomeList,
-        List<NeatGenome<T>> remainingGenomes,
+    private NeatGenome<TScalar> GetSeedGenome(
+        List<NeatGenome<TScalar>> seedGenomeList,
+        List<NeatGenome<TScalar>> remainingGenomes,
         IRandomSource rng)
     {
         // Select from a random subset of remainingGenomes rather than the full set, otherwise
@@ -150,7 +150,7 @@ internal sealed class GeneticKMeansSpeciationInit<T>
         return GetAndRemove(remainingGenomes, genomeIdxArr[selectIdx]);
     }
 
-    private double GetDistanceFromNearestSeed(List<NeatGenome<T>> seedGenomeList, NeatGenome<T> genome)
+    private double GetDistanceFromNearestSeed(List<NeatGenome<TScalar>> seedGenomeList, NeatGenome<TScalar> genome)
     {
         double minDistance = _distanceMetric.CalcDistance(seedGenomeList[0].ConnectionGenes, genome.ConnectionGenes);
 

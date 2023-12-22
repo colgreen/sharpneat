@@ -7,17 +7,17 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on adding a single node.
 /// </summary>
-/// <typeparam name="T">Neural network numeric data type.</typeparam>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 /// <remarks>
 /// Offspring genomes are created by taking a clone of a single parent genome and adding a single node,
 /// if possible. A node is added by selecting a connection at random, and splitting it, i.e. replacing
 /// A → B with A → C → B, where A and B are the existing nodes, and C is the new node.
 /// </remarks>
-public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
-    where T : struct
+public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
+    where TScalar : struct
 {
-    readonly MetaNeatGenome<T> _metaNeatGenome;
-    readonly INeatGenomeBuilder<T> _genomeBuilder;
+    readonly MetaNeatGenome<TScalar> _metaNeatGenome;
+    readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _innovationIdSeq;
     readonly Int32Sequence _generationSeq;
@@ -35,8 +35,8 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
     /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
     /// <param name="addedNodeBuffer">A history buffer of added nodes.</param>
     public AddNodeStrategy(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq,
         Int32Sequence generationSeq,
@@ -60,7 +60,7 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
     /// <param name="parent">The parent genome.</param>
     /// <param name="rng">Random source.</param>
     /// <returns>A new child genome.</returns>
-    public NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+    public NeatGenome<TScalar>? CreateChildGenome(NeatGenome<TScalar> parent, IRandomSource rng)
     {
         if(parent.ConnectionGenes.Length == 0)
         {
@@ -89,12 +89,12 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
 
         // ENHANCEMENT: Consider a better choice of weights for the new connections; this scheme has been
         // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
-        var newWeightArr = new T[]
+        var newWeightArr = new TScalar[]
         {
             parent.ConnectionGenes._weightArr[splitConnIdx],
-            (T)Convert.ChangeType(
+            (TScalar)Convert.ChangeType(
                 _metaNeatGenome.ConnectionWeightScale,
-                typeof(T), CultureInfo.InvariantCulture)
+                typeof(TScalar), CultureInfo.InvariantCulture)
         };
 
         // Ensure newConnArr is sorted.
@@ -106,7 +106,7 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
             newConnArr[0] = newConnArr[1];
             newConnArr[1] = tmpConn;
 
-            T tmpWeight = newWeightArr[0];
+            TScalar tmpWeight = newWeightArr[0];
             newWeightArr[0] = newWeightArr[1];
             newWeightArr[1] = tmpWeight;
         }
@@ -120,7 +120,7 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
 
         // Create the child genome's ConnectionGenes object.
         int childLen = parentLen + 1;
-        var connGenes = new ConnectionGenes<T>(childLen);
+        var connGenes = new ConnectionGenes<TScalar>(childLen);
         var connArr = connGenes._connArr;
         var weightArr = connGenes._weightArr;
 
@@ -203,7 +203,7 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
 
     private int GetInnovationID(
         in DirectedConnection splitConn,
-        NeatGenome<T> parent,
+        NeatGenome<TScalar> parent,
         out bool newInnovationIdFlag)
     {
         // Test if the selected connection has a previous split recorded in the innovation ID buffer.
@@ -244,7 +244,7 @@ public sealed class AddNodeStrategy<T> : IAsexualReproductionStrategy<T>
     /// Get an array of hidden node IDs in the child genome.
     /// </summary>
     private static int[] GetHiddenNodeIdArray(
-        NeatGenome<T> parent,
+        NeatGenome<TScalar> parent,
         int addedNodeId,
         bool newInnovationIdsFlag)
     {

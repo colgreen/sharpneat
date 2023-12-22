@@ -11,19 +11,19 @@ namespace SharpNeat;
 /// read its output vector. However, in principle a black box could be any kind of function or information processing
 /// system such as a C# program or a genetic programming tree.
 /// </summary>
-/// <typeparam name="T">Black box numeric data type.</typeparam>
-public interface IBlackBox<T> : IDisposable
-    where T : struct
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public interface IBlackBox<TScalar> : IDisposable
+    where TScalar : struct
 {
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.
     /// </summary>
-    Memory<T> Inputs { get; }
+    Memory<TScalar> Inputs { get; }
 
     /// <summary>
     /// Gets a memory segment that represents a vector of output values.
     /// </summary>
-    Memory<T> Outputs { get; }
+    Memory<TScalar> Outputs { get; }
 
     /// <summary>
     /// Activate the black box. This causes the black box to accept its inputs and produce output signals

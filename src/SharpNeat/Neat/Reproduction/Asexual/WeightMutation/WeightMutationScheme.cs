@@ -7,12 +7,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// <summary>
 /// Connection weight mutation scheme.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public sealed class WeightMutationScheme<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class WeightMutationScheme<TWeight>
+    where TWeight : struct
 {
     readonly DiscreteDistribution<double> _strategySelectionDist;
-    readonly IWeightMutationStrategy<T>[] _mutationStrategyArr;
+    readonly IWeightMutationStrategy<TWeight>[] _mutationStrategyArr;
 
     /// <summary>
     /// Construct a new instance with the given strategy arguments.
@@ -21,7 +21,7 @@ public sealed class WeightMutationScheme<T>
     /// <param name="mutationStrategyArr">An array of weight mutation strategies.</param>
     public WeightMutationScheme(
         double[] strategyProbabilityArr,
-        IWeightMutationStrategy<T>[] mutationStrategyArr)
+        IWeightMutationStrategy<TWeight>[] mutationStrategyArr)
     {
         _strategySelectionDist = new DiscreteDistribution<double>(strategyProbabilityArr);
         _mutationStrategyArr = mutationStrategyArr;
@@ -32,7 +32,7 @@ public sealed class WeightMutationScheme<T>
     /// </summary>
     /// <param name="weightArr">The connection weight array to apply mutations to.</param>
     /// <param name="rng">Random source.</param>
-    public void MutateWeights(T[] weightArr, IRandomSource rng)
+    public void MutateWeights(TWeight[] weightArr, IRandomSource rng)
     {
         // Select a mutation strategy, and apply it to the array of connection genes.
         int strategyIdx = _strategySelectionDist.Sample(rng);

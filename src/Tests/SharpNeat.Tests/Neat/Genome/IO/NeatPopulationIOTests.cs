@@ -46,6 +46,9 @@ public class NeatPopulationIOTests
             Directory.GetCurrentDirectory(),
             "test-pops");
 
+        // Ensure the parent folder exists.
+        Directory.CreateDirectory(parentPath);
+
         string filepath = Path.Combine(parentPath, "pop2.zip");
 
         // Delete file if it already exists.

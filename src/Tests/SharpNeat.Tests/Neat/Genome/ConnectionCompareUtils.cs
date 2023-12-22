@@ -21,10 +21,10 @@ public static class ConnectionCompareUtils
         }
     }
 
-    public static void CompareConnectionLists<T>(
-        ConnectionGenes<T> x,
+    public static void CompareConnectionLists<TWeight>(
+        ConnectionGenes<TWeight> x,
         in ConnectionIds yIds)
-        where T : struct
+        where TWeight : struct
     {
         Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
         Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
@@ -35,11 +35,11 @@ public static class ConnectionCompareUtils
         }
     }
 
-    public static void CompareConnectionLists<T>(
-        ConnectionGenes<T> x,
+    public static void CompareConnectionLists<TWeight>(
+        ConnectionGenes<TWeight> x,
         in ConnectionIds yIds,
         int[] connectionIndexMap)
-        where T : struct
+        where TWeight : struct
     {
         Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
         Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
@@ -54,10 +54,10 @@ public static class ConnectionCompareUtils
 
     #region Public Static Methods [Compare - With Weights]
 
-    public static void CompareConnectionLists<T>(
-        DirectedConnection[] xConnArr, T[] xWeightArr,
-        in ConnectionIds yIds, T[] yWeightArr)
-        where T : struct
+    public static void CompareConnectionLists<TWeight>(
+        DirectedConnection[] xConnArr, TWeight[] xWeightArr,
+        in ConnectionIds yIds, TWeight[] yWeightArr)
+        where TWeight : struct
     {
         int xlen = xConnArr.Length;
         Assert.Equal(xlen, xWeightArr.Length);
@@ -71,11 +71,11 @@ public static class ConnectionCompareUtils
         }
     }
 
-    public static void CompareConnectionLists<T>(
-        ConnectionGenes<T> x,
+    public static void CompareConnectionLists<TWeight>(
+        ConnectionGenes<TWeight> x,
         in ConnectionIds yIds,
-        T[] yWeightArr)
-        where T : struct
+        TWeight[] yWeightArr)
+        where TWeight : struct
     {
         Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
         Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
@@ -91,11 +91,11 @@ public static class ConnectionCompareUtils
 
     #region Private Static Methods
 
-    private static bool Equal<T>(
-        ConnectionGenes<T> x,
+    private static bool Equal<TWeight>(
+        ConnectionGenes<TWeight> x,
         in ConnectionIds yIds,
         int xIdx, int yIdx)
-        where T : struct
+        where TWeight : struct
     {
         return Equal(
             x._connArr,
@@ -112,11 +112,11 @@ public static class ConnectionCompareUtils
            &&  xConnArr[xIdx].TargetId == yIds.GetTargetId(yIdx);
     }
 
-    private static bool Equal<T>(
-        ConnectionGenes<T> x,
-        in ConnectionIds yIds, T[] yWeightArr,
+    private static bool Equal<TWeight>(
+        ConnectionGenes<TWeight> x,
+        in ConnectionIds yIds, TWeight[] yWeightArr,
         int xIdx, int yIdx)
-        where T : struct
+        where TWeight : struct
     {
         return Equal(
             x._connArr, x._weightArr,
@@ -124,11 +124,11 @@ public static class ConnectionCompareUtils
             xIdx, yIdx);
     }
 
-    private static bool Equal<T>(
-        DirectedConnection[] xConnArr, T[] xWeightArr,
-        in ConnectionIds yIds, T[] yWeightArr,
+    private static bool Equal<TWeight>(
+        DirectedConnection[] xConnArr, TWeight[] xWeightArr,
+        in ConnectionIds yIds, TWeight[] yWeightArr,
         int xIdx, int yIdx)
-        where T : struct
+        where TWeight : struct
     {
         return xConnArr[xIdx].SourceId == yIds.GetSourceId(yIdx)
            &&  xConnArr[xIdx].TargetId == yIds.GetTargetId(yIdx)

@@ -5,9 +5,9 @@ namespace SharpNeat.Neat.Genome;
 /// <summary>
 /// Represents a NEAT genome, i.e the genetic representation of a neural network.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class NeatGenome<T> : IGenome
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class NeatGenome<TScalar> : IGenome
+    where TScalar : struct
 {
     #region Auto Properties [IGenome]
 
@@ -42,13 +42,13 @@ public class NeatGenome<T> : IGenome
     /// <summary>
     /// Genome metadata.
     /// </summary>
-    public MetaNeatGenome<T> MetaNeatGenome { get; }
+    public MetaNeatGenome<TScalar> MetaNeatGenome { get; }
 
     /// <summary>
     /// Connection genes data structure.
     /// These define both the neural network structure/topology and the connection weights.
     /// </summary>
-    public ConnectionGenes<T> ConnectionGenes { get; }
+    public ConnectionGenes<TScalar> ConnectionGenes { get; }
 
     #endregion
 
@@ -117,10 +117,10 @@ public class NeatGenome<T> : IGenome
     /// <param name="connectionIndexMap">A mapping between genome connection indexes (in <paramref name="connGenes"/>),
     /// to reordered connections based on depth based node index allocations (optional, acyclic genomes only).</param>
     internal NeatGenome(
-        MetaNeatGenome<T> metaNeatGenome,
+        MetaNeatGenome<TScalar> metaNeatGenome,
         int id,
         int birthGeneration,
-        ConnectionGenes<T> connGenes,
+        ConnectionGenes<TScalar> connGenes,
         int[] hiddenNodeIdArr,
         INodeIdMap nodeIndexByIdMap,
         DirectedGraph digraph,
@@ -128,7 +128,7 @@ public class NeatGenome<T> : IGenome
     {
 #if DEBUG
 
-        NeatGenomeAssertions<T>.AssertIsValid(
+        NeatGenomeAssertions<TScalar>.AssertIsValid(
             metaNeatGenome, id, birthGeneration,
             connGenes, hiddenNodeIdArr, nodeIndexByIdMap,
             digraph, connectionIndexMap);
@@ -168,7 +168,7 @@ public class NeatGenome<T> : IGenome
     /// represent connections in a different order, thus for acyclic genomes/digraphs this method will return a new
     /// array with the weights in the digraph order.
     /// </remarks>
-    public T[] GetDigraphWeightArray()
+    public TScalar[] GetDigraphWeightArray()
     {
         // If the genome represents a cyclic graph then the genome connections are in the same order as the digraph
         // connections, and thus the weights are in the same order too, therefore we can just return the genome weight
@@ -185,8 +185,8 @@ public class NeatGenome<T> : IGenome
         // digraph positions, and return the new array.
 
         // Create a new weight array, and copy in the weights from the genome into their correct positions.
-        T[] genomeWeightArr = ConnectionGenes._weightArr;
-        T[] digraphWeightArr = new T[genomeWeightArr.Length];
+        TScalar[] genomeWeightArr = ConnectionGenes._weightArr;
+        TScalar[] digraphWeightArr = new TScalar[genomeWeightArr.Length];
         int[] connIdxMap = ConnectionIndexMap!;
 
         for(int i=0; i < connIdxMap.Length; i++)

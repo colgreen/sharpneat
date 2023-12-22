@@ -11,19 +11,19 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 /// <summary>
 /// Creation of offspring given a single parent (asexual reproduction).
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
-    where T : struct, IBinaryFloatingPointIeee754<T>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class NeatReproductionAsexual<TScalar> : IAsexualReproductionStrategy<TScalar>
+    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
     readonly MutationTypeDistributions _mutationTypeDistributionsSimplifying;
     MutationTypeDistributions _mutationTypeDistributionsCurrent;
 
     // Asexual reproduction strategies.
-    readonly IAsexualReproductionStrategy<T> _mutateWeightsStrategy;
-    readonly IAsexualReproductionStrategy<T> _deleteConnectionStrategy;
-    readonly IAsexualReproductionStrategy<T> _addConnectionStrategy;
-    readonly IAsexualReproductionStrategy<T> _addNodeStrategy;
+    readonly IAsexualReproductionStrategy<TScalar> _mutateWeightsStrategy;
+    readonly IAsexualReproductionStrategy<TScalar> _deleteConnectionStrategy;
+    readonly IAsexualReproductionStrategy<TScalar> _addConnectionStrategy;
+    readonly IAsexualReproductionStrategy<TScalar> _addNodeStrategy;
 
     #region Constructor
 
@@ -39,14 +39,14 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
     /// <param name="settings">Asexual reproduction settings.</param>
     /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
     public NeatReproductionAsexual(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq,
         Int32Sequence generationSeq,
         AddedNodeBuffer addedNodeBuffer,
         NeatReproductionAsexualSettings settings,
-        WeightMutationScheme<T> weightMutationScheme)
+        WeightMutationScheme<TScalar> weightMutationScheme)
     {
         var settingsComplexifying = settings;
         var settingsSimplifying = settings.CreateSimplifyingSettings();
@@ -56,24 +56,24 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
         _mutationTypeDistributionsCurrent = _mutationTypeDistributionsComplexifying;
 
         // Instantiate reproduction strategies.
-        _mutateWeightsStrategy = new MutateWeightsStrategy<T>(genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
-        _deleteConnectionStrategy = new DeleteConnectionStrategy<T>(genomeBuilder, genomeIdSeq, generationSeq);
+        _mutateWeightsStrategy = new MutateWeightsStrategy<TScalar>(genomeBuilder, genomeIdSeq, generationSeq, weightMutationScheme);
+        _deleteConnectionStrategy = new DeleteConnectionStrategy<TScalar>(genomeBuilder, genomeIdSeq, generationSeq);
 
         // Add connection mutation; select acyclic/cyclic strategy as appropriate.
         if(metaNeatGenome.IsAcyclic)
         {
-            _addConnectionStrategy = new AddAcyclicConnectionStrategy<T>(
+            _addConnectionStrategy = new AddAcyclicConnectionStrategy<TScalar>(
                 metaNeatGenome, genomeBuilder,
                 genomeIdSeq, generationSeq);
         }
         else
         {
-            _addConnectionStrategy = new AddCyclicConnectionStrategy<T>(
+            _addConnectionStrategy = new AddCyclicConnectionStrategy<TScalar>(
                 metaNeatGenome, genomeBuilder,
                 genomeIdSeq, generationSeq);
         }
 
-        _addNodeStrategy = new AddNodeStrategy<T>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
+        _addNodeStrategy = new AddNodeStrategy<TScalar>(metaNeatGenome, genomeBuilder, genomeIdSeq, innovationIdSeq, generationSeq, addedNodeBuffer);
     }
 
     #endregion
@@ -99,7 +99,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
     #region IAsexualReproductionStrategy
 
     /// <inheritdoc/>
-    public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+    public NeatGenome<TScalar> CreateChildGenome(NeatGenome<TScalar> parent, IRandomSource rng)
     {
         // Get a discrete distribution over the set of possible mutation types.
         var mutationTypeDist = GetMutationTypeDistribution(parent);
@@ -107,7 +107,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
         // Keep trying until a child genome is created.
         while(true)
         {
-            NeatGenome<T>? childGenome = Create(parent, rng, ref mutationTypeDist);
+            NeatGenome<TScalar>? childGenome = Create(parent, rng, ref mutationTypeDist);
             if(childGenome is not null)
                 return childGenome;
         }
@@ -117,8 +117,8 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
 
     #region Private Methods [Create Subroutines]
 
-    private NeatGenome<T>? Create(
-        NeatGenome<T> parent,
+    private NeatGenome<TScalar>? Create(
+        NeatGenome<TScalar> parent,
         IRandomSource rng,
         ref DiscreteDistribution<double> mutationTypeDist)
     {
@@ -126,7 +126,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
         MutationType mutationTypeId = (MutationType)mutationTypeDist.Sample(rng);
 
         // Attempt to create a child genome using the selected mutation type.
-        NeatGenome<T>? childGenome = mutationTypeId switch
+        NeatGenome<TScalar>? childGenome = mutationTypeId switch
         {
             // Note. These subroutines will return null if they cannot produce a child genome,
             // e.g. 'delete connection' will not succeed if there is only one connection.
@@ -159,7 +159,7 @@ public class NeatReproductionAsexual<T> : IAsexualReproductionStrategy<T>
 
     #region Private Methods
 
-    private DiscreteDistribution<double> GetMutationTypeDistribution(NeatGenome<T> parent)
+    private DiscreteDistribution<double> GetMutationTypeDistribution(NeatGenome<TScalar> parent)
     {
         // If there is only one connection then avoid destructive mutations to avoid the
         // creation of genomes with no connections.

@@ -10,12 +10,12 @@ internal static class AddConnectionUtils
     /// <summary>
     /// Gets the ID of the node with the specified node index.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="parent">Parent genome.</param>
     /// <param name="idx">Node index.</param>
     /// <returns>The ID of the node with the specified node index.</returns>
-    public static int GetNodeIdFromIndex<T>(NeatGenome<T> parent, int idx)
-        where T : struct
+    public static int GetNodeIdFromIndex<TScalar>(NeatGenome<TScalar> parent, int idx)
+        where TScalar : struct
     {
         // For input/output nodes their index is their ID.
         if(idx < parent.MetaNeatGenome.InputOutputNodeCount)

@@ -5,9 +5,9 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 /// <summary>
 /// Represents a single connection gene.
 /// </summary>
-/// <typeparam name="T">Connection weight numeric data type.</typeparam>
-internal readonly struct ConnectionGene<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+internal readonly struct ConnectionGene<TWeight>
+    where TWeight : struct
 {
     /// <summary>
     /// The source and target node IDs.
@@ -17,14 +17,14 @@ internal readonly struct ConnectionGene<T>
     /// <summary>
     /// Connection weight.
     /// </summary>
-    public readonly T Weight;
+    public readonly TWeight Weight;
 
     /// <summary>
     /// Construct with the given connection node endpoints, and connection weight.
     /// </summary>
     /// <param name="endpoints">The connection endpoints, i.e., the connection's source and target node IDs.</param>
     /// <param name="weight">The connection weight.</param>
-    public ConnectionGene(in DirectedConnection endpoints, T weight)
+    public ConnectionGene(in DirectedConnection endpoints, TWeight weight)
     {
         Endpoints = endpoints;
         Weight = weight;

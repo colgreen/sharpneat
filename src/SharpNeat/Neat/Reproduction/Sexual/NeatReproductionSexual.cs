@@ -8,11 +8,11 @@ namespace SharpNeat.Neat.Reproduction.Sexual;
 /// <summary>
 /// Creation of offspring given two parents (sexual reproduction).
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class NeatReproductionSexual<TScalar> : ISexualReproductionStrategy<TScalar>
+    where TScalar : struct
 {
-    readonly ISexualReproductionStrategy<T> _strategy;
+    readonly ISexualReproductionStrategy<TScalar> _strategy;
 
     /// <summary>
     /// Construct a new instance.
@@ -23,13 +23,13 @@ public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
     /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
     /// <param name="settings">Sexual reproduction settings.</param>
     public NeatReproductionSexual(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence generationSeq,
         NeatReproductionSexualSettings settings)
     {
-        _strategy = new UniformCrossoverReproductionStrategy<T>(
+        _strategy = new UniformCrossoverReproductionStrategy<TScalar>(
                             metaNeatGenome.IsAcyclic,
                             settings.SecondaryParentGeneProbability,
                             genomeBuilder,
@@ -37,9 +37,9 @@ public class NeatReproductionSexual<T> : ISexualReproductionStrategy<T>
     }
 
     /// <inheritdoc/>
-    public NeatGenome<T> CreateGenome(
-        NeatGenome<T> parent1,
-        NeatGenome<T> parent2,
+    public NeatGenome<TScalar> CreateGenome(
+        NeatGenome<TScalar> parent1,
+        NeatGenome<TScalar> parent2,
         IRandomSource rng)
     {
         // Invoke the reproduction strategy.

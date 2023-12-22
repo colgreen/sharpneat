@@ -5,9 +5,9 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 /// <summary>
 /// Represents a NEAT genome asexual reproduction strategy.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public interface IAsexualReproductionStrategy<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public interface IAsexualReproductionStrategy<TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Create a new child genome from a given parent genome.
@@ -15,5 +15,7 @@ public interface IAsexualReproductionStrategy<T>
     /// <param name="parent">The parent genome.</param>
     /// <param name="rng">Random source.</param>
     /// <returns>A new child genome.</returns>
-    NeatGenome<T>? CreateChildGenome(NeatGenome<T> parent, IRandomSource rng);
+    NeatGenome<TScalar>? CreateChildGenome(
+        NeatGenome<TScalar> parent,
+        IRandomSource rng);
 }

@@ -8,9 +8,9 @@ namespace SharpNeat.Neat.Genome;
 /// NeatGenome metadata.
 /// Genome related values/settings that are consistent across all genomes for the lifetime of an evolutionary algorithm run.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class MetaNeatGenome<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class MetaNeatGenome<TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Input node count.
@@ -38,7 +38,7 @@ public class MetaNeatGenome<T>
     /// The neuron activation function to use in evolved networks. NEAT uses the same activation
     /// function at each node.
     /// </summary>
-    public IActivationFunction<T> ActivationFn { get; }
+    public IActivationFunction<TScalar> ActivationFn { get; }
 
     /// <summary>
     /// Maximum connection weight scale/magnitude.
@@ -69,7 +69,7 @@ public class MetaNeatGenome<T>
     internal MetaNeatGenome(
         int inputNodeCount, int outputNodeCount,
         bool isAcyclic, int cyclesPerActivation,
-        IActivationFunction<T> activationFn,
+        IActivationFunction<TScalar> activationFn,
         double connectionWeightScale = 5.0)
     {
         // Note. Zero input nodes is allowed, but zero output nodes is nonsensical.
@@ -99,12 +99,12 @@ public class MetaNeatGenome<T>
     /// activation function at each node.</param>
     /// <param name="connectionWeightScale">Maximum connection weight scale/magnitude.</param>
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
-    public static MetaNeatGenome<T> CreateAcyclic(
+    public static MetaNeatGenome<TScalar> CreateAcyclic(
         int inputNodeCount, int outputNodeCount,
-        IActivationFunction<T> activationFn,
+        IActivationFunction<TScalar> activationFn,
         double connectionWeightScale = 5.0)
     {
-        return new MetaNeatGenome<T>(
+        return new MetaNeatGenome<TScalar>(
             inputNodeCount, outputNodeCount,
             true, 0,
             activationFn,
@@ -123,13 +123,13 @@ public class MetaNeatGenome<T>
     /// activation function at each node.</param>
     /// <param name="connectionWeightScale">Maximum connection weight scale/magnitude.</param>
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
-    public static MetaNeatGenome<T> CreateCyclic(
+    public static MetaNeatGenome<TScalar> CreateCyclic(
         int inputNodeCount, int outputNodeCount,
         int cyclesPerActivation,
-        IActivationFunction<T> activationFn,
+        IActivationFunction<TScalar> activationFn,
         double connectionWeightScale = 5.0)
     {
-        return new MetaNeatGenome<T>(
+        return new MetaNeatGenome<TScalar>(
             inputNodeCount, outputNodeCount,
             false, cyclesPerActivation,
             activationFn,

@@ -12,7 +12,7 @@ public static class DistanceMetricExtensions
     /// <summary>
     /// Calculates the centroid for the given set of points.
     /// </summary>
-    /// <typeparam name="T">Coordinate component data type.</typeparam>
+    /// <typeparam name="TWeight">Connection weight data type.</typeparam>
     /// <param name="distanceMetric">The distance metric instance.</param>
     /// <param name="points">The set of points.</param>
     /// <returns>A new instance of <see cref="ConnectionGenes{T}"/>.</returns>
@@ -27,10 +27,10 @@ public static class DistanceMetricExtensions
     ///
     /// A centroid is used in k-means clustering to define the centre of a cluster.
     /// </remarks>
-    public static ConnectionGenes<T> CalculateCentroid<T>(
-        this IDistanceMetric<T> distanceMetric,
-        List<ConnectionGenes<T>> points)
-        where T : struct
+    public static ConnectionGenes<TWeight> CalculateCentroid<TWeight>(
+        this IDistanceMetric<TWeight> distanceMetric,
+        List<ConnectionGenes<TWeight>> points)
+        where TWeight : struct
     {
         return distanceMetric.CalculateCentroid(
             CollectionsMarshal.AsSpan(points));

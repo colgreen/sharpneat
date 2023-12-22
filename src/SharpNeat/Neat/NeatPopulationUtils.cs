@@ -10,7 +10,7 @@ internal class NeatPopulationUtils
     /// <summary>
     /// Tests if the ID sequence objects represent an ID higher than any existing ID used by the genomes.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="genomeList">Genome list.</param>
     /// <param name="genomeIdSeq">The next genome ID.</param>
     /// <param name="innovationIdSeq">The next innovation ID.</param>
@@ -18,11 +18,11 @@ internal class NeatPopulationUtils
     /// True if all genomes in <paramref name="genomeList"/> have an ID that is less than the next genome ID,
     /// and have connection genes with IDs less than the next innovation ID; otherwise false.
     /// </returns>
-    public static bool ValidateIdSequences<T>(
-        List<NeatGenome<T>> genomeList,
+    public static bool ValidateIdSequences<TScalar>(
+        List<NeatGenome<TScalar>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq)
-        where T : struct
+        where TScalar : struct
     {
         GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
 
@@ -38,15 +38,15 @@ internal class NeatPopulationUtils
     /// <summary>
     /// Get the maximum genome ID and innovation ID used in the provided genomes.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="genomeList">Genome list.</param>
     /// <param name="maxGenomeId">Returns the maximum genome ID in the genomes of <paramref name="genomeList"/>.</param>
     /// <param name="maxInnovationId">Returns the maximum innovation ID in the genomes of <paramref name="genomeList"/>.</param>
-    public static void GetMaxObservedIds<T>(
-        List<NeatGenome<T>> genomeList,
+    public static void GetMaxObservedIds<TScalar>(
+        List<NeatGenome<TScalar>> genomeList,
         out int maxGenomeId,
         out int maxInnovationId)
-        where T : struct
+        where TScalar : struct
     {
         maxGenomeId = 0;
         maxInnovationId = 0;

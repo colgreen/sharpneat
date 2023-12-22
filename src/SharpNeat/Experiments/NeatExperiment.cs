@@ -11,9 +11,9 @@ namespace SharpNeat.Experiments;
 /// <summary>
 /// An aggregation of settings objects that make up a given experiment.
 /// </summary>
-/// <typeparam name="T">Black box numeric data type.</typeparam>
-public class NeatExperiment<T> : INeatExperiment<T>
-    where T : struct
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
+    where TScalar : struct
 {
     #region Construction
 
@@ -24,7 +24,7 @@ public class NeatExperiment<T> : INeatExperiment<T>
     /// <param name="factoryId">Experiment Factory ID.</param>
     /// <param name="id">Experiment ID (optional).</param>
     public NeatExperiment(
-        IBlackBoxEvaluationScheme<T> evalScheme,
+        IBlackBoxEvaluationScheme<TScalar> evalScheme,
         string factoryId,
         string? id = null)
     {
@@ -64,7 +64,7 @@ public class NeatExperiment<T> : INeatExperiment<T>
     public string Description { get; set; } = string.Empty;
 
     /// <inheritdoc/>
-    public IBlackBoxEvaluationScheme<T> EvaluationScheme { get; }
+    public IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
 
     /// <inheritdoc/>
     public bool IsAcyclic { get; set; }

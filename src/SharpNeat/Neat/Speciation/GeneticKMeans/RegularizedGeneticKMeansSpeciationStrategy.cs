@@ -48,14 +48,14 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 /// At time of writing this class is experimental and has not been scientifically examined for suitability or
 /// efficacy in particular in comparison to the standard k-means method.
 /// </remarks>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class RegularizedGeneticKMeansSpeciationStrategy<TScalar> : ISpeciationStrategy<NeatGenome<TScalar>, TScalar>
+    where TScalar : struct
 {
-    readonly IDistanceMetric<T> _distanceMetric;
+    readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly int _maxKMeansIters;
     readonly double _regularizationConstant;
-    readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
+    readonly GeneticKMeansSpeciationInit<TScalar> _kmeansInit;
 
     #region Constructor
 
@@ -66,14 +66,14 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
     /// <param name="regularizationConstant">Regularization constant.</param>
     public RegularizedGeneticKMeansSpeciationStrategy(
-        IDistanceMetric<T> distanceMetric,
+        IDistanceMetric<TScalar> distanceMetric,
         int maxKMeansIters,
         double regularizationConstant)
     {
         _distanceMetric = distanceMetric;
         _maxKMeansIters = maxKMeansIters;
         _regularizationConstant = regularizationConstant;
-        _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric);
+        _kmeansInit = new GeneticKMeansSpeciationInit<TScalar>(distanceMetric);
     }
 
     #endregion
@@ -81,8 +81,8 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     #region Public Methods
 
     /// <inheritdoc/>
-    public Species<T>[] SpeciateAll(
-        IList<NeatGenome<T>> genomeList,
+    public Species<TScalar>[] SpeciateAll(
+        IList<NeatGenome<TScalar>> genomeList,
         int speciesCount,
         IRandomSource rng)
     {
@@ -101,8 +101,8 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
 
     /// <inheritdoc/>
     public void SpeciateAdd(
-        IList<NeatGenome<T>> genomeList,
-        Species<T>[] speciesArr,
+        IList<NeatGenome<TScalar>> genomeList,
+        Species<TScalar>[] speciesArr,
         IRandomSource rng)
     {
         GetPopulationCountAndMaxIntraSpeciesDistance(speciesArr, out double populationCount, out double maxIntraSpeciesDistance);
@@ -131,7 +131,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
 
     #region Private Methods [KMeans Algorithm]
 
-    private void RunKMeans(Species<T>[] speciesArr)
+    private void RunKMeans(Species<TScalar>[] speciesArr)
     {
         // Initialise.
         KMeansInit(speciesArr, out double populationCount, out double maxIntraSpeciesDistance);
@@ -154,7 +154,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
         KMeansComplete(speciesArr);
     }
 
-    private void RunKMeans(Species<T>[] speciesArr, double populationCount, double maxIntraSpeciesDistance)
+    private void RunKMeans(Species<TScalar>[] speciesArr, double populationCount, double maxIntraSpeciesDistance)
     {
         // Initialise.
         KMeansInit(speciesArr);
@@ -177,7 +177,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
         KMeansComplete(speciesArr);
     }
 
-    private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits, double populationCount, double maxIntraSpeciesDistance)
+    private int KMeansIteration(Species<TScalar>[] speciesArr, bool[] updateBits, double populationCount, double maxIntraSpeciesDistance)
     {
         int reallocCount = 0;
         Array.Clear(updateBits, 0, updateBits.Length);
@@ -230,8 +230,8 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     /// Determine which species the given genome belongs to.
     /// </summary>
     private int DetermineGenomeSpecies(
-        NeatGenome<T> genome,
-        Species<T>[] speciesArr,
+        NeatGenome<TScalar> genome,
+        Species<TScalar>[] speciesArr,
         double populationCount,
         double maxIntraSpeciesDistance)
     {
@@ -256,8 +256,8 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     /// The adjustment introduces a regularization term.
     /// </summary>
     private double GetAdjustedDistance(
-        NeatGenome<T> genome,
-        Species<T> species,
+        NeatGenome<TScalar> genome,
+        Species<TScalar> species,
         double populationCount,
         double maxIntraSpeciesDistance)
     {
@@ -275,7 +275,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
 
     #region Private Methods [KMeans Helper Methods]
 
-    private static void KMeansInit(Species<T>[] speciesArr)
+    private static void KMeansInit(Species<TScalar>[] speciesArr)
     {
         // Transfer all genomes from GenomeList to GenomeById.
         // Notes. moving genomes between species is more efficient when using dictionaries;
@@ -285,7 +285,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
             species.LoadWorkingDictionary();
     }
 
-    private void KMeansInit(Species<T>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
+    private void KMeansInit(Species<TScalar>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
     {
         // Calc max distance between any two species.
         maxIntraSpeciesDistance = GetMaxIntraSpeciesCentroidDistance(speciesArr);
@@ -303,7 +303,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
         }
     }
 
-    private void KMeansComplete(Species<T>[] speciesArr)
+    private void KMeansComplete(Species<TScalar>[] speciesArr)
     {
         // Check for empty species (this can happen with k-means), and if there are any then
         // move genomes into those empty species.
@@ -317,11 +317,11 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     }
 
     private void RecalcCentroids_GenomeById(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         bool[] updateBits)
     {
         // Create a temporary, reusable, working list.
-        var tmpConnGenes = new List<ConnectionGenes<T>>();
+        var tmpConnGenes = new List<ConnectionGenes<TScalar>>();
 
         for(int i=0; i < speciesArr.Length; i++)
         {
@@ -329,7 +329,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
             {
                 var species = speciesArr[i];
 
-                // Extract the ConnectionGenes<T> object from each genome in the GenomeById dictionary.
+                // Extract the ConnectionGenes<TWeight> object from each genome in the GenomeById dictionary.
                 SpeciationUtils.ExtractConnectionGenes(tmpConnGenes, species.GenomeById);
 
                 // Calculate the centroid for the extracted connection genes.
@@ -341,11 +341,11 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     }
 
     private void RecalcCentroids_GenomeList(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         bool[] updateBits)
     {
         // Create a temporary, reusable, working list.
-        var tmpConnGenes = new List<ConnectionGenes<T>>();
+        var tmpConnGenes = new List<ConnectionGenes<TScalar>>();
 
         for(int i=0; i < speciesArr.Length; i++)
         {
@@ -353,7 +353,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
             {
                 var species = speciesArr[i];
 
-                // Extract the ConnectionGenes<T> object from each genome in GenomeList.
+                // Extract the ConnectionGenes<TWeight> object from each genome in GenomeList.
                 SpeciationUtils.ExtractConnectionGenes(tmpConnGenes, species.GenomeList);
 
                 // Calculate the centroid for the extracted connection genes.
@@ -368,7 +368,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
 
     #region Private Methods [Regularization]
 
-    private void GetPopulationCountAndMaxIntraSpeciesDistance(Species<T>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
+    private void GetPopulationCountAndMaxIntraSpeciesDistance(Species<TScalar>[] speciesArr, out double populationCount, out double maxIntraSpeciesDistance)
     {
         // Calc max distance between any two species.
         maxIntraSpeciesDistance = GetMaxIntraSpeciesCentroidDistance(speciesArr);
@@ -386,7 +386,7 @@ public sealed class RegularizedGeneticKMeansSpeciationStrategy<T> : ISpeciationS
     /// <summary>
     /// Calc the maximum distance between any two centroids.
     /// </summary>
-    private double GetMaxIntraSpeciesCentroidDistance(Species<T>[] speciesArr)
+    private double GetMaxIntraSpeciesCentroidDistance(Species<TScalar>[] speciesArr)
     {
         double maxDistance = 0.0;
 

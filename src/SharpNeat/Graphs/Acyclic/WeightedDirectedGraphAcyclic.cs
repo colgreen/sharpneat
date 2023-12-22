@@ -5,9 +5,9 @@ namespace SharpNeat.Graphs.Acyclic;
 /// <summary>
 /// Represents a weighted acyclic directed graph.
 /// </summary>
-/// <typeparam name="T">Weight data type.</typeparam>
-public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public class WeightedDirectedGraphAcyclic<TWeight> : DirectedGraphAcyclic
+    where TWeight : struct
 {
     /// <summary>
     /// Construct with the given node counts, connection data, layer information, indexes of the output nodes,
@@ -27,7 +27,7 @@ public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
         in ConnectionIds connIds,
         LayerInfo[] layerArr,
         int[] outputNodeIdxArr,
-        T[] weightArr)
+        TWeight[] weightArr)
     : base(inputCount, outputCount, totalNodeCount, in connIds, layerArr, outputNodeIdxArr)
     {
         WeightArray = weightArr;
@@ -36,5 +36,5 @@ public class WeightedDirectedGraphAcyclic<T> : DirectedGraphAcyclic
     /// <summary>
     /// Connection weight array.
     /// </summary>
-    public T[] WeightArray { get; }
+    public TWeight[] WeightArray { get; }
 }

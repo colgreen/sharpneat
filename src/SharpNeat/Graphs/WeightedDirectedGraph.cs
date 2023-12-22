@@ -30,14 +30,14 @@ namespace SharpNeat.Graphs;
 /// located using a binary search. However to improve efficiency further an array of lookup indexes is compiled
 /// which gives the starting index of a connection span/segment for a given source node index.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public class WeightedDirectedGraph<T> : DirectedGraph
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public class WeightedDirectedGraph<TWeight> : DirectedGraph
+    where TWeight : struct
 {
     /// <summary>
     /// Connection weight array.
     /// </summary>
-    public T[] WeightArray { get; }
+    public TWeight[] WeightArray { get; }
 
     /// <summary>
     /// Construct with the given node counts, connection data, and connection weights.
@@ -52,7 +52,7 @@ public class WeightedDirectedGraph<T> : DirectedGraph
         int outputCount,
         int totalNodeCount,
         in ConnectionIds connIds,
-        T[] weightArr)
+        TWeight[] weightArr)
     : base(inputCount, outputCount, totalNodeCount, connIds)
     {
         WeightArray = weightArr;

@@ -10,16 +10,16 @@ internal static class NeatGenomeBuilderUtils
     /// <summary>
     /// Create a digraph from the a set of connection genes.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="metaNeatGenome">Genome metadata.</param>
     /// <param name="connGenes">Connection genes.</param>
     /// <param name="nodeIndexByIdMap">A mapping from node IDs to node indexes.</param>
     /// <returns>A new instance of <see cref="DirectedGraph"/>.</returns>
-    public static DirectedGraph CreateDirectedGraph<T>(
-        MetaNeatGenome<T> metaNeatGenome,
-        ConnectionGenes<T> connGenes,
+    public static DirectedGraph CreateDirectedGraph<TScalar>(
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        ConnectionGenes<TScalar> connGenes,
         INodeIdMap nodeIndexByIdMap)
-        where T : struct
+        where TScalar : struct
     {
         // Extract/copy the neat genome connectivity graph into a ConnectionIds structure.
         // Notes.

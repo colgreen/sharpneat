@@ -10,9 +10,9 @@ namespace SharpNeat.Neat.Genome;
 /// Static methods for validating/verifying the data associated with a NEAT genome.
 /// Principally for use in debug builds and debugging sessions.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal static class NeatGenomeAssertions<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+internal static class NeatGenomeAssertions<TScalar>
+    where TScalar : struct
 {
     #region Public Static Methods
 
@@ -28,10 +28,10 @@ internal static class NeatGenomeAssertions<T>
     /// <param name="digraph">The directed graph that the current genome represents.</param>
     /// <param name="connectionIndexMap">A set of connection index mappings.</param>
     public static void AssertIsValid(
-        MetaNeatGenome<T> metaNeatGenome,
+        MetaNeatGenome<TScalar> metaNeatGenome,
         int id,
         int birthGeneration,
-        ConnectionGenes<T> connGenes,
+        ConnectionGenes<TScalar> connGenes,
         int[] hiddenNodeIdArr,
         INodeIdMap nodeIndexByIdMap,
         DirectedGraph digraph,
@@ -67,7 +67,7 @@ internal static class NeatGenomeAssertions<T>
     #region Private Static Methods
 
     private static void AssertNodeCounts(
-        MetaNeatGenome<T> metaNeatGenome,
+        MetaNeatGenome<TScalar> metaNeatGenome,
         int[] hiddenNodeIdArr,
         INodeIdMap nodeIndexByIdMap,
         DirectedGraph digraph)
@@ -81,7 +81,7 @@ internal static class NeatGenomeAssertions<T>
     }
 
     private static void AssertConnections(
-        ConnectionGenes<T> connGenes,
+        ConnectionGenes<TScalar> connGenes,
         DirectedGraph digraph,
         INodeIdMap nodeIndexByIdMap,
         int[]? connectionIndexMap)
@@ -109,7 +109,7 @@ internal static class NeatGenomeAssertions<T>
     }
 
     private static void AssertAcyclicGraph(
-        MetaNeatGenome<T> metaNeatGenome,
+        MetaNeatGenome<TScalar> metaNeatGenome,
         DirectedGraph digraph,
         int[]? connectionIndexMap)
     {

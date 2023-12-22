@@ -10,13 +10,13 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 /// <remarks>
 /// This is the speciation scheme used in SharpNEAT 2.x.
 /// </remarks>
-/// <typeparam name="T">Neural net signal and weight data type.</typeparam>
-public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<NeatGenome<T>, T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class GeneticKMeansSpeciationStrategy<TScalar> : ISpeciationStrategy<NeatGenome<TScalar>, TScalar>
+    where TScalar : struct
 {
-    readonly IDistanceMetric<T> _distanceMetric;
+    readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly int _maxKMeansIters;
-    readonly GeneticKMeansSpeciationInit<T> _kmeansInit;
+    readonly GeneticKMeansSpeciationInit<TScalar> _kmeansInit;
 
     #region Constructor
 
@@ -25,11 +25,11 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     /// </summary>
     /// <param name="distanceMetric">Distance metric.</param>
     /// <param name="maxKMeansIters">Maximum number of k-means iterations.</param>
-    public GeneticKMeansSpeciationStrategy(IDistanceMetric<T> distanceMetric, int maxKMeansIters)
+    public GeneticKMeansSpeciationStrategy(IDistanceMetric<TScalar> distanceMetric, int maxKMeansIters)
     {
         _distanceMetric = distanceMetric ?? throw new ArgumentNullException(nameof(distanceMetric));
         _maxKMeansIters = maxKMeansIters;
-        _kmeansInit = new GeneticKMeansSpeciationInit<T>(distanceMetric);
+        _kmeansInit = new GeneticKMeansSpeciationInit<TScalar>(distanceMetric);
     }
 
     #endregion
@@ -37,7 +37,10 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     #region Public Methods
 
     /// <inheritdoc/>
-    public Species<T>[] SpeciateAll(IList<NeatGenome<T>> genomeList, int speciesCount, IRandomSource rng)
+    public Species<TScalar>[] SpeciateAll(
+        IList<NeatGenome<TScalar>> genomeList,
+        int speciesCount,
+        IRandomSource rng)
     {
         if(genomeList.Count < speciesCount)
             throw new ArgumentException("The number of genomes is less than speciesCount.");
@@ -53,7 +56,10 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     }
 
     /// <inheritdoc/>
-    public void SpeciateAdd(IList<NeatGenome<T>> genomeList, Species<T>[] speciesArr, IRandomSource rng)
+    public void SpeciateAdd(
+        IList<NeatGenome<TScalar>> genomeList,
+        Species<TScalar>[] speciesArr,
+        IRandomSource rng)
     {
         // Create a temporary working array of species modification bits.
         var updateBits = new bool[speciesArr.Length];
@@ -79,7 +85,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
 
     #region Private Methods [KMeans Algorithm]
 
-    private void RunKMeans(Species<T>[] speciesArr)
+    private void RunKMeans(Species<TScalar>[] speciesArr)
     {
         // Initialise.
         KMeansInit(speciesArr);
@@ -102,7 +108,9 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
         KMeansComplete(speciesArr);
     }
 
-    private int KMeansIteration(Species<T>[] speciesArr, bool[] updateBits)
+    private int KMeansIteration(
+        Species<TScalar>[] speciesArr,
+        bool[] updateBits)
     {
         int reallocCount = 0;
         Array.Clear(updateBits, 0, updateBits.Length);
@@ -151,7 +159,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
 
     #region Private Methods [KMeans Helper Methods]
 
-    private static void KMeansInit(Species<T>[] speciesArr)
+    private static void KMeansInit(Species<TScalar>[] speciesArr)
     {
         // Transfer all genomes from GenomeList to GenomeById.
         // Notes. moving genomes between species is more efficient when using dictionaries;
@@ -161,7 +169,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
             species.LoadWorkingDictionary();
     }
 
-    private void KMeansComplete(Species<T>[] speciesArr)
+    private void KMeansComplete(Species<TScalar>[] speciesArr)
     {
         // Check for empty species (this can happen with k-means), and if there are any then
         // move genomes into those empty species.
@@ -175,11 +183,11 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     }
 
     private void RecalcCentroids_GenomeById(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         bool[] updateBits)
     {
         // Create a temporary, reusable, working list.
-        var tmpConnGenes = new List<ConnectionGenes<T>>();
+        var tmpConnGenes = new List<ConnectionGenes<TScalar>>();
 
         for(int i=0; i < speciesArr.Length; i++)
         {
@@ -187,7 +195,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
             {
                 var species = speciesArr[i];
 
-                // Extract the ConnectionGenes<T> object from each genome in the GenomeById dictionary.
+                // Extract the ConnectionGenes<TWeight> object from each genome in the GenomeById dictionary.
                 SpeciationUtils.ExtractConnectionGenes(tmpConnGenes, species.GenomeById);
 
                 // Calculate the centroid for the extracted connection genes.
@@ -199,11 +207,11 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
     }
 
     private void RecalcCentroids_GenomeList(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         bool[] updateBits)
     {
         // Create a temporary, reusable, working list.
-        var tmpConnGenes = new List<ConnectionGenes<T>>();
+        var tmpConnGenes = new List<ConnectionGenes<TScalar>>();
 
         for(int i=0; i < speciesArr.Length; i++)
         {
@@ -211,7 +219,7 @@ public sealed class GeneticKMeansSpeciationStrategy<T> : ISpeciationStrategy<Nea
             {
                 var species = speciesArr[i];
 
-                // Extract the ConnectionGenes<T> object from each genome in GenomeList.
+                // Extract the ConnectionGenes<TWeight> object from each genome in GenomeList.
                 SpeciationUtils.ExtractConnectionGenes(tmpConnGenes, species.GenomeList);
 
                 // Calculate the centroid for the extracted connection genes.

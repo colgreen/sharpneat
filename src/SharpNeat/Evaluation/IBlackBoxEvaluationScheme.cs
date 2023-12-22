@@ -6,9 +6,9 @@ namespace SharpNeat.Evaluation;
 /// Black box evaluation scheme, i.e. an <see cref="IPhenomeEvaluationScheme{TPhenome}"/> in which the
 /// phenome type is an <see cref="IBlackBox{T}"/>.
 /// </summary>
-/// <typeparam name="T">Black box numeric data type.</typeparam>
-public interface IBlackBoxEvaluationScheme<T> : IPhenomeEvaluationScheme<IBlackBox<T>>
-    where T : struct
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public interface IBlackBoxEvaluationScheme<TScalar> : IPhenomeEvaluationScheme<IBlackBox<TScalar>>
+    where TScalar : struct
 {
     /// <summary>
     /// The number of black box inputs expected/required by the black box evaluation scheme.

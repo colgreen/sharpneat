@@ -10,9 +10,9 @@ namespace SharpNeat.Experiments;
 /// <summary>
 /// An interface that brings together a number of settings objects that make up a given experiment.
 /// </summary>
-/// <typeparam name="T">Black box numeric data type.</typeparam>
-public interface INeatExperiment<T>
-    where T : struct
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public interface INeatExperiment<TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Matches <see cref="INeatExperimentFactory.Id"/> from the experiment factory that created the current experiment instance.
@@ -45,7 +45,7 @@ public interface INeatExperiment<T>
     /// <summary>
     /// Experiment evaluation scheme object.
     /// </summary>
-    IBlackBoxEvaluationScheme<T> EvaluationScheme { get; }
+    IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
 
     /// <summary>
     /// A boolean flag that indicates if the genomes that are evolved are acyclic,

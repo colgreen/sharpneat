@@ -15,10 +15,10 @@ namespace SharpNeat.Graphs;
 /// the values at the same array index as their respective source and target IDs.
 ///
 /// This functionality could be achieved by using the various sort() methods in the core framework, but less
-/// efficiently than with this customised class, in terms of both speed, and also RAM allocations (and thus GC overhead).
+/// efficiently than with this customised class, in terms of both speed and also RAM allocations (and thus GC overhead).
 /// </summary>
-/// <typeparam name="T">Value data type.</typeparam>
-public static class ConnectionSorter<T>
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public static class ConnectionSorter<TWeight>
 {
     // This is the threshold at which Introspective sort switches to Insertion sort.
     // Empirically 24 seems to give near optimal performance here, noting that this has been increased from the
@@ -34,7 +34,7 @@ public static class ConnectionSorter<T>
     /// <param name="vals">A span of values that will have its items reordered in the same way as <paramref name="connIds"/>.</param>
     public static void Sort(
         in ConnectionIds connIds,
-        Span<T> vals)
+        Span<TWeight> vals)
     {
         Debug.Assert(connIds.GetSourceIdSpan().Length == connIds.GetTargetIdSpan().Length);
         Debug.Assert(connIds.GetSourceIdSpan().Length == vals.Length);
@@ -52,7 +52,7 @@ public static class ConnectionSorter<T>
     private static void IntrospectiveSort(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals)
+        Span<TWeight> vals)
     {
         if(srcIds.Length < 2)
             return;
@@ -65,7 +65,7 @@ public static class ConnectionSorter<T>
     private static void IntroSortInner(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals,
+        Span<TWeight> vals,
         int depthLimit)
     {
         Debug.Assert(!srcIds.IsEmpty);
@@ -126,7 +126,7 @@ public static class ConnectionSorter<T>
     private static int PickPivotAndPartition(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals)
+        Span<TWeight> vals)
     {
         Debug.Assert(srcIds.Length >= __introsortSizeThreshold);
 
@@ -173,7 +173,7 @@ public static class ConnectionSorter<T>
     private static void Heapsort(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals)
+        Span<TWeight> vals)
     {
         Debug.Assert(!srcIds.IsEmpty);
 
@@ -193,12 +193,12 @@ public static class ConnectionSorter<T>
     private static void DownHeap(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals,
+        Span<TWeight> vals,
         int i, int n)
     {
         int srcId = srcIds[i - 1];
         int tgtId = tgtIds[i - 1];
-        T val = vals[i - 1];
+        TWeight val = vals[i - 1];
 
         while(i <= n >> 1)
         {
@@ -229,14 +229,14 @@ public static class ConnectionSorter<T>
     private static void InsertionSort(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals)
+        Span<TWeight> vals)
     {
         for(int i = 0; i < srcIds.Length - 1; i++)
         {
             int j = i;
             int srcId = srcIds[i + 1];
             int tgtId = tgtIds[i + 1];
-            T val = vals[i + 1];
+            TWeight val = vals[i + 1];
 
             while(j >= 0 && Compare(ref srcId, ref tgtId, ref srcIds[j], ref tgtIds[j]) < 0)
             {
@@ -259,7 +259,7 @@ public static class ConnectionSorter<T>
     private static void SwapIfGreater(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals,
+        Span<TWeight> vals,
         int a, int b)
     {
         if(Compare(ref srcIds[a], ref tgtIds[a], ref srcIds[b], ref tgtIds[b]) > 0)
@@ -272,7 +272,7 @@ public static class ConnectionSorter<T>
             tgtIds[a] = tgtIds[b];
             tgtIds[b] = id;
 
-            T w = vals[a];
+            TWeight w = vals[a];
             vals[a] = vals[b];
             vals[b] = w;
         }
@@ -281,7 +281,7 @@ public static class ConnectionSorter<T>
     private static void Swap(
         Span<int> srcIds,
         Span<int> tgtIds,
-        Span<T> vals,
+        Span<TWeight> vals,
         int i, int j)
     {
         Debug.Assert(i != j);
@@ -294,7 +294,7 @@ public static class ConnectionSorter<T>
         tgtIds[i] = tgtIds[j];
         tgtIds[j] = id;
 
-        T w = vals[i];
+        TWeight w = vals[i];
         vals[i] = vals[j];
         vals[j] = w;
     }

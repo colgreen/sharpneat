@@ -9,12 +9,12 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// <summary>
 /// A connection weight mutation strategy that resets connection weights.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
-    where T : struct, IBinaryFloatingPointIeee754<T>
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class ResetWeightMutationStrategy<TWeight> : IWeightMutationStrategy<TWeight>
+    where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
 {
     readonly ISubsetSelectionStrategy _selectionStrategy;
-    readonly IStatelessSampler<T> _weightSampler;
+    readonly IStatelessSampler<TWeight> _weightSampler;
 
     /// <summary>
     /// Construct with the given selection strategy and weight sampler.
@@ -23,7 +23,7 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
     /// <param name="weightSampler">Weight sampler.</param>
     public ResetWeightMutationStrategy(
         ISubsetSelectionStrategy selectionStrategy,
-        IStatelessSampler<T> weightSampler)
+        IStatelessSampler<TWeight> weightSampler)
     {
         _selectionStrategy = selectionStrategy;
         _weightSampler = weightSampler;
@@ -32,7 +32,7 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
     #region Public Methods
 
     /// <inheritdoc/>
-    public void Invoke(T[] weightArr, IRandomSource rng)
+    public void Invoke(TWeight[] weightArr, IRandomSource rng)
     {
         // Select a subset of connection genes to mutate.
         int[] selectedIdxArr = _selectionStrategy.SelectSubset(weightArr.Length, rng);
@@ -53,14 +53,14 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
     /// <param name="selectionStrategy">Weight selection strategy.</param>
     /// <param name="weightScale">The uniform distribution scale.</param>
     /// <returns>A new instance of <see cref="ResetWeightMutationStrategy{T}"/>.</returns>
-    public static ResetWeightMutationStrategy<T> CreateUniformResetStrategy(
+    public static ResetWeightMutationStrategy<TWeight> CreateUniformResetStrategy(
         ISubsetSelectionStrategy selectionStrategy,
         double weightScale)
     {
-        var sampler = UniformDistributionSamplerFactory.CreateStatelessSampler<T>(
-            T.CreateChecked(weightScale), true);
+        var sampler = UniformDistributionSamplerFactory.CreateStatelessSampler<TWeight>(
+            TWeight.CreateChecked(weightScale), true);
 
-        return new ResetWeightMutationStrategy<T>(selectionStrategy, sampler);
+        return new ResetWeightMutationStrategy<TWeight>(selectionStrategy, sampler);
     }
 
     // TODO: Consider Laplacian distribution.
@@ -72,14 +72,14 @@ public sealed class ResetWeightMutationStrategy<T> : IWeightMutationStrategy<T>
     /// <param name="selectionStrategy">Weight selection strategy.</param>
     /// <param name="stdDev">Gaussian standard deviation.</param>
     /// <returns>A new instance of <see cref="ResetWeightMutationStrategy{T}"/>.</returns>
-    public static ResetWeightMutationStrategy<T> CreateGaussianResetStrategy(
+    public static ResetWeightMutationStrategy<TWeight> CreateGaussianResetStrategy(
         ISubsetSelectionStrategy selectionStrategy,
         double stdDev)
     {
         var sampler = GaussianDistributionSamplerFactory.CreateStatelessSampler(
-            T.Zero, T.CreateChecked(stdDev));
+            TWeight.Zero, TWeight.CreateChecked(stdDev));
 
-        return new ResetWeightMutationStrategy<T>(selectionStrategy, sampler);
+        return new ResetWeightMutationStrategy<TWeight>(selectionStrategy, sampler);
     }
 
     #endregion

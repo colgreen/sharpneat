@@ -8,9 +8,9 @@ namespace SharpNeat.Neat.Genome;
 /// Connections genes represented as a structure of arrays (see https://en.wikipedia.org/wiki/AOS_and_SOA).
 /// Element i of each array represents a value relating to the 'i'th gene.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public sealed class ConnectionGenes<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class ConnectionGenes<TWeight>
+    where TWeight : struct
 {
     /// <summary>
     /// Array of directed connections; this describes the network structure.
@@ -19,7 +19,7 @@ public sealed class ConnectionGenes<T>
     /// <summary>
     /// Array of connection weights.
     /// </summary>
-    public readonly T[] _weightArr;
+    public readonly TWeight[] _weightArr;
 
     #region Constructors
 
@@ -30,7 +30,7 @@ public sealed class ConnectionGenes<T>
     public ConnectionGenes(int length)
     {
         _connArr = new DirectedConnection[length];
-        _weightArr = new T[length];
+        _weightArr = new TWeight[length];
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public sealed class ConnectionGenes<T>
     /// <param name="weightArr">Array of connection weights.</param>
     public ConnectionGenes(
         DirectedConnection[] connArr,
-        T[] weightArr)
+        TWeight[] weightArr)
     {
         Debug.Assert(connArr is not null);
         Debug.Assert(weightArr is not null);
@@ -63,7 +63,7 @@ public sealed class ConnectionGenes<T>
     /// Connection gene indexer.
     /// </summary>
     /// <param name="idx">Index of the gene to get or set.</param>
-    public (int srcIdx, int tgtIdx, T weight) this[int idx]
+    public (int srcIdx, int tgtIdx, TWeight weight) this[int idx]
     {
         get => (_connArr[idx].SourceId, _connArr[idx].TargetId, _weightArr[idx]);
 

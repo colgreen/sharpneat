@@ -5,14 +5,14 @@ namespace SharpNeat.Graphs;
 /// <summary>
 /// An <see cref="IComparer{T}"/> for comparing instances of <see cref="WeightedDirectedConnection{T}"/>.
 /// </summary>
-/// <typeparam name="T">Connection weight numeric data type.</typeparam>
-public sealed class WeightedDirectedConnectionComparer<T> : IComparer<WeightedDirectedConnection<T>>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class WeightedDirectedConnectionComparer<TWeight> : IComparer<WeightedDirectedConnection<TWeight>>
+    where TWeight : struct
 {
     /// <summary>
     /// Singleton instance.
     /// </summary>
-    public static readonly WeightedDirectedConnectionComparer<T> Default = new();
+    public static readonly WeightedDirectedConnectionComparer<TWeight> Default = new();
 
     /// <summary>
     /// Compares two instances of <see cref="WeightedDirectedConnection{T}"/> and returns a value indicating
@@ -22,8 +22,8 @@ public sealed class WeightedDirectedConnectionComparer<T> : IComparer<WeightedDi
     /// <param name="y">The second object to compare.</param>
     /// <returns>A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />.</returns>
     public int Compare(
-        WeightedDirectedConnection<T> x,
-        WeightedDirectedConnection<T> y)
+        WeightedDirectedConnection<TWeight> x,
+        WeightedDirectedConnection<TWeight> y)
     {
         // Compare source IDs.
         if(x.SourceId < y.SourceId)

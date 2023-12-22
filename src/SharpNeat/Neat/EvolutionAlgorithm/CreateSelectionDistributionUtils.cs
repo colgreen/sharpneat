@@ -9,9 +9,9 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// <summary>
 /// Static utility methods for creating instances of <see cref="DiscreteDistribution{Double}"/> that describe genome and species selection probabilities.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal static class CreateSelectionDistributionUtils<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+internal static class CreateSelectionDistributionUtils<TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Create instances of <see cref="DiscreteDistribution{Double}"/> for sampling species, and for genomes within each given species.
@@ -21,7 +21,7 @@ internal static class CreateSelectionDistributionUtils<T>
     /// <param name="genomeDistArr">Returns an array of <see cref="DiscreteDistribution{Double}"/>, for sampling from genomes within each species.</param>
     /// <param name="nonEmptySpeciesCount">Returns the number of species that contain at least one genome.</param>
     public static void CreateSelectionDistributions(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         out DiscreteDistribution<double> speciesDist,
         out DiscreteDistribution<double>?[] genomeDistArr,
         out int nonEmptySpeciesCount)
@@ -43,7 +43,7 @@ internal static class CreateSelectionDistributionUtils<T>
     /// <param name="nonEmptySpeciesCount">Returns the number of species that contain at least one genome.</param>
     /// <returns>A new instance of <see cref="DiscreteDistribution{Double}"/> for sampling from the species array.</returns>
     private static DiscreteDistribution<double> CreateSpeciesSelectionDistribution(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         out int nonEmptySpeciesCount)
     {
         int speciesCount = speciesArr.Length;
@@ -65,7 +65,7 @@ internal static class CreateSelectionDistributionUtils<T>
     }
 
     private static DiscreteDistribution<double>?[] CreateIntraSpeciesGenomeSelectionDistributions(
-        Species<T>[] speciesArr)
+        Species<TScalar>[] speciesArr)
     {
         int speciesCount = speciesArr.Length;
         DiscreteDistribution<double>?[] distArr = new DiscreteDistribution<double>[speciesCount];
@@ -74,7 +74,7 @@ internal static class CreateSelectionDistributionUtils<T>
         // that species. I.e. fitter genomes have higher probability of selection.
         for(int i = 0; i < speciesCount; i++)
         {
-            Species<T> species = speciesArr[i];
+            Species<TScalar> species = speciesArr[i];
 
             distArr[i] = species.Stats.SelectionSizeInt switch
             {
@@ -88,7 +88,7 @@ internal static class CreateSelectionDistributionUtils<T>
     }
 
     private static DiscreteDistribution<double> CreateIntraSpeciesGenomeSelectionDistribution(
-        Species<T> species)
+        Species<TScalar> species)
     {
         var probArr = new double[species.Stats.SelectionSizeInt];
         var genomeList = species.GenomeList;

@@ -7,9 +7,9 @@ namespace SharpNeat.Graphs.Acyclic;
 /// <summary>
 /// For building instances of <see cref="WeightedDirectedGraphAcyclic{T}"/>.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public static class WeightedDirectedGraphAcyclicBuilder<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public static class WeightedDirectedGraphAcyclicBuilder<TWeight>
+    where TWeight : struct
 {
     #region Public Static Methods
 
@@ -20,12 +20,12 @@ public static class WeightedDirectedGraphAcyclicBuilder<T>
     /// <param name="inputCount">Input node count.</param>
     /// <param name="outputCount">Output node count.</param>
     /// <returns>A new instance of <see cref="WeightedDirectedGraphAcyclic{T}"/>.</returns>
-    public static WeightedDirectedGraphAcyclic<T> Create(
-        Span<WeightedDirectedConnection<T>> connections,
+    public static WeightedDirectedGraphAcyclic<TWeight> Create(
+        Span<WeightedDirectedConnection<TWeight>> connections,
         int inputCount, int outputCount)
     {
         // Convert the set of connections to a standardised graph representation.
-        WeightedDirectedGraph<T> digraph = WeightedDirectedGraphBuilder<T>.Create(connections, inputCount, outputCount);
+        WeightedDirectedGraph<TWeight> digraph = WeightedDirectedGraphBuilder<TWeight>.Create(connections, inputCount, outputCount);
 
         // Invoke factory logic specific to acyclic graphs.
         return Create(digraph);
@@ -40,8 +40,8 @@ public static class WeightedDirectedGraphAcyclicBuilder<T>
     /// </remarks>
     /// <param name="digraph">The directed graph.</param>
     /// <returns>A new instance of <see cref="WeightedDirectedGraphAcyclic{T}"/>.</returns>
-    public static WeightedDirectedGraphAcyclic<T> Create(
-        WeightedDirectedGraph<T> digraph)
+    public static WeightedDirectedGraphAcyclic<TWeight> Create(
+        WeightedDirectedGraph<TWeight> digraph)
     {
         // Calc the depth of each node in the digraph.
         // ENHANCEMENT: Use a re-usable instance of AcyclicGraphDepthAnalysis.
@@ -60,8 +60,8 @@ public static class WeightedDirectedGraphAcyclicBuilder<T>
     /// The provided graph is expected to describe an acyclic graph; this method asserts that is the case and builds
     /// a formal acyclic graph representation.
     /// </remarks>
-    public static WeightedDirectedGraphAcyclic<T> Create(
-        WeightedDirectedGraph<T> digraph,
+    public static WeightedDirectedGraphAcyclic<TWeight> Create(
+        WeightedDirectedGraph<TWeight> digraph,
         GraphDepthInfo depthInfo)
     {
         // Assert that the passed in depth info is correct.
@@ -77,8 +77,8 @@ public static class WeightedDirectedGraphAcyclicBuilder<T>
 
     #region Private Static Methods [High Level]
 
-    private static WeightedDirectedGraphAcyclic<T> CreateInner(
-        WeightedDirectedGraph<T> digraph,
+    private static WeightedDirectedGraphAcyclic<TWeight> CreateInner(
+        WeightedDirectedGraph<TWeight> digraph,
         GraphDepthInfo depthInfo)
     {
         // Create acyclic digraph.
@@ -89,14 +89,14 @@ public static class WeightedDirectedGraphAcyclicBuilder<T>
             out int[] connectionIndexMap);
 
         // Copy weights into a new array and into their correct position.
-        T[] genomeWeightArr = digraph.WeightArray;
-        T[] weightArr = new T[genomeWeightArr.Length];
+        TWeight[] genomeWeightArr = digraph.WeightArray;
+        TWeight[] weightArr = new TWeight[genomeWeightArr.Length];
 
         for(int i=0; i < weightArr.Length; i++)
             weightArr[i] = genomeWeightArr[connectionIndexMap[i]];
 
         // Construct a new WeightedDirectedGraphAcyclic.
-        return new WeightedDirectedGraphAcyclic<T>(
+        return new WeightedDirectedGraphAcyclic<TWeight>(
             acyclicDigraph.InputCount,
             acyclicDigraph.OutputCount,
             acyclicDigraph.TotalNodeCount,

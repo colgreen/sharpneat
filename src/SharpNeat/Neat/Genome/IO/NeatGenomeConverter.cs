@@ -14,12 +14,12 @@ public static class NeatGenomeConverter
     /// Convert a <see cref="NeatGenome{T}"/> into a <see cref="NetFileModel"/> instance, suitable for saving to
     /// file.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="genome">The genome to convert.</param>
     /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
-    public static NetFileModel ToNetFileModel<T>(
-        NeatGenome<T> genome)
-        where T : struct
+    public static NetFileModel ToNetFileModel<TScalar>(
+        NeatGenome<TScalar> genome)
+        where TScalar : struct
     {
         // Convert input and output counts, and cyclic/acyclic indicator.
         int inputCount = genome.MetaNeatGenome.InputNodeCount;
@@ -27,9 +27,9 @@ public static class NeatGenomeConverter
         bool isAcyclic = genome.MetaNeatGenome.IsAcyclic;
 
         // Convert connections.
-        ConnectionGenes<T> connGenes = genome.ConnectionGenes;
+        ConnectionGenes<TScalar> connGenes = genome.ConnectionGenes;
         DirectedConnection[] connArr = connGenes._connArr;
-        T[] weightArr = connGenes._weightArr;
+        TScalar[] weightArr = connGenes._weightArr;
 
         List<ConnectionLine> connList = new(connGenes.Length);
 
@@ -60,7 +60,7 @@ public static class NeatGenomeConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> instance into a <see cref="NeatGenome{T}"/> instance.
     /// </summary>
-    /// <typeparam name="T">Neural net numeric data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="metaNeatGenome">A <see cref="MetaNeatGenome{T}"/> instance; required to construct a new
     /// <see cref="MetaNeatGenome{T}"/>.</param>
@@ -69,12 +69,12 @@ public static class NeatGenomeConverter
     /// defined on <paramref name="model"/> does not match the one defined on <paramref name="metaNeatGenome"/>.
     /// If false, and there is a mismatch, then the activation defined on the <see cref="MetaNeatGenome{T}"/> is used.</param>
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
-    public static NeatGenome<T> ToNeatGenome<T>(
+    public static NeatGenome<TScalar> ToNeatGenome<TScalar>(
         NetFileModel model,
-        MetaNeatGenome<T> metaNeatGenome,
+        MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId,
         bool throwIfActivationFnMismatch = true)
-        where T : struct
+        where TScalar : struct
     {
         ArgumentNullException.ThrowIfNull(model);
         ArgumentNullException.ThrowIfNull(metaNeatGenome);
@@ -83,7 +83,7 @@ public static class NeatGenomeConverter
         if(model.IsAcyclic ^ metaNeatGenome.IsAcyclic)
         {
             throw new ArgumentException(
-                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different values for the IsAcyclic flag.",
+                $"The {nameof(MetaNeatGenome<TScalar>)} and {nameof(NetFileModel)} arguments specify different values for the IsAcyclic flag.",
                 nameof(model));
         }
 
@@ -91,14 +91,14 @@ public static class NeatGenomeConverter
         if(model.InputCount != metaNeatGenome.InputNodeCount)
         {
             throw new ArgumentException(
-                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different input node counts.",
+                $"The {nameof(MetaNeatGenome<TScalar>)} and {nameof(NetFileModel)} arguments specify different input node counts.",
                 nameof(model));
         }
 
         if(model.OutputCount != metaNeatGenome.OutputNodeCount)
         {
             throw new ArgumentException(
-                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different output node counts.",
+                $"The {nameof(MetaNeatGenome<TScalar>)} and {nameof(NetFileModel)} arguments specify different output node counts.",
                 nameof(model));
         }
 
@@ -107,35 +107,35 @@ public static class NeatGenomeConverter
             && !string.Equals(model.ActivationFns[0].Code, metaNeatGenome.ActivationFn.GetType().Name, StringComparison.Ordinal))
         {
             throw new ArgumentException(
-                $"The {nameof(MetaNeatGenome<T>)} and {nameof(NetFileModel)} arguments specify different activation functions.",
+                $"The {nameof(MetaNeatGenome<TScalar>)} and {nameof(NetFileModel)} arguments specify different activation functions.",
                 nameof(model));
         }
 
         // Convert the connections.
-        ConnectionGenes<T> connGenes = ToConnectionGenes<T>(model.Connections);
+        ConnectionGenes<TScalar> connGenes = ToConnectionGenes<TScalar>(model.Connections);
 
         // Get a genome builder instance.
         // Note. the builder type depends on IsAcyclic.
-        INeatGenomeBuilder<T> genomeBuilder = NeatGenomeBuilderFactory<T>.Create(metaNeatGenome, true);
+        INeatGenomeBuilder<TScalar> genomeBuilder = NeatGenomeBuilderFactory<TScalar>.Create(metaNeatGenome, true);
 
         // Create a genome instance.
-        NeatGenome<T> genome = genomeBuilder.Create(genomeId, 0, connGenes);
+        NeatGenome<TScalar> genome = genomeBuilder.Create(genomeId, 0, connGenes);
         return genome;
     }
 
-    private static ConnectionGenes<T> ToConnectionGenes<T>(
+    private static ConnectionGenes<TWeight> ToConnectionGenes<TWeight>(
         List<ConnectionLine> connList)
-        where T : struct
+        where TWeight : struct
     {
-        ConnectionGenes<T> connGenes = new(connList.Count);
+        ConnectionGenes<TWeight> connGenes = new(connList.Count);
         DirectedConnection[] connArr = connGenes._connArr;
-        T[] weightArr = connGenes._weightArr;
+        TWeight[] weightArr = connGenes._weightArr;
 
         for (int i=0; i < connArr.Length; i++)
         {
             ConnectionLine connLine = connList[i];
             connArr[i] = new DirectedConnection(connLine.SourceId, connLine.TargetId);
-            weightArr[i] = (T)Convert.ChangeType(connLine.Weight, typeof(T), CultureInfo.InvariantCulture);
+            weightArr[i] = (TWeight)Convert.ChangeType(connLine.Weight, typeof(TWeight), CultureInfo.InvariantCulture);
         }
 
         // Note. It is necessary for the connection to be sorted by sourceId, and secondary sorted by targetId.

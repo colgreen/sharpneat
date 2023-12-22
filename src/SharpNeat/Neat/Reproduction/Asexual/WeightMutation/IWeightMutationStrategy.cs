@@ -5,14 +5,14 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// <summary>
 /// A connection weight mutation strategy.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public interface IWeightMutationStrategy<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public interface IWeightMutationStrategy<TWeight>
+    where TWeight : struct
 {
     /// <summary>
     /// Invoke the strategy.
     /// </summary>
     /// <param name="weightArr">The connection weight array to apply mutations to.</param>
     /// <param name="rng">Random source.</param>
-    void Invoke(T[] weightArr, IRandomSource rng);
+    void Invoke(TWeight[] weightArr, IRandomSource rng);
 }

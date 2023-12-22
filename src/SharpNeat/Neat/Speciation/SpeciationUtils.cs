@@ -14,16 +14,16 @@ public static class SpeciationUtils
     /// <summary>
     /// Get the index of the species with a centroid that is nearest to the provided genome.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="distanceMetric">Distance metric.</param>
     /// <param name="genome">The genome.</param>
     /// <param name="speciesArr">An array of species to compare the genome with.</param>
     /// <returns>The index of the species that is nearest to <paramref name="genome"/>.</returns>
-    public static int GetNearestSpecies<T>(
-        IDistanceMetric<T> distanceMetric,
-        NeatGenome<T> genome,
-        Species<T>[] speciesArr)
-        where T : struct
+    public static int GetNearestSpecies<TScalar>(
+        IDistanceMetric<TScalar> distanceMetric,
+        NeatGenome<TScalar> genome,
+        Species<TScalar>[] speciesArr)
+        where TScalar : struct
     {
         // TODO: Select random species if there are multiple species that are equally nearest.
         int nearestSpeciesIdx = 0;
@@ -44,22 +44,22 @@ public static class SpeciationUtils
     /// <summary>
     /// Populate empty species with a single genome.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="distanceMetric">Distance metric.</param>
     /// <param name="emptySpeciesArr">An array of empty species that are to be populated.</param>
     /// <param name="speciesArr">An array of all species.</param>
-    public static void PopulateEmptySpecies<T>(
-        IDistanceMetric<T> distanceMetric,
-        Species<T>[] emptySpeciesArr,
-        Species<T>[] speciesArr)
-        where T : struct
+    public static void PopulateEmptySpecies<TScalar>(
+        IDistanceMetric<TScalar> distanceMetric,
+        Species<TScalar>[] emptySpeciesArr,
+        Species<TScalar>[] speciesArr)
+        where TScalar : struct
     {
         // TODO: Select the required genomes all together, rather than one at a time per empty species.
 
         // Create a temporary, reusable, working list.
-        var tmpPointList = new List<ConnectionGenes<T>>();
+        var tmpPointList = new List<ConnectionGenes<TScalar>>();
 
-        foreach(Species<T> emptySpecies in emptySpeciesArr)
+        foreach(Species<TScalar> emptySpecies in emptySpeciesArr)
         {
             // Get and remove a genome from a species with many genomes.
             var genome = GetGenomeForEmptySpecies(distanceMetric, speciesArr, tmpPointList);
@@ -78,13 +78,13 @@ public static class SpeciationUtils
     /// Populate a list of <see cref="ConnectionGenes{T}"/> with the connection genes from a dictionary of
     /// <see cref="NeatGenome{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="targetList">The list to populate.</param>
     /// <param name="genomeById">The dictionary of genomes.</param>
-    public static void ExtractConnectionGenes<T>(
-        List<ConnectionGenes<T>> targetList,
-        Dictionary<int,NeatGenome<T>> genomeById)
-        where T : struct
+    public static void ExtractConnectionGenes<TScalar>(
+        List<ConnectionGenes<TScalar>> targetList,
+        Dictionary<int,NeatGenome<TScalar>> genomeById)
+        where TScalar : struct
     {
         targetList.Clear();
 
@@ -103,13 +103,13 @@ public static class SpeciationUtils
     /// Populate a list of <see cref="ConnectionGenes{T}"/> with the connection genes from a list of
     /// <see cref="NeatGenome{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="targetList">The list to populate.</param>
     /// <param name="genomeList">The list of genomes.</param>
-    public static void ExtractConnectionGenes<T>(
-        List<ConnectionGenes<T>> targetList,
-        List<NeatGenome<T>> genomeList)
-        where T : struct
+    public static void ExtractConnectionGenes<TScalar>(
+        List<ConnectionGenes<TScalar>> targetList,
+        List<NeatGenome<TScalar>> genomeList)
+        where TScalar : struct
     {
         targetList.Clear();
 
@@ -128,20 +128,20 @@ public static class SpeciationUtils
 
     #region Private Static Methods
 
-    private static NeatGenome<T> GetGenomeForEmptySpecies<T>(
-        IDistanceMetric<T> distanceMetric,
-        Species<T>[] speciesArr,
-        List<ConnectionGenes<T>> tmpPointList)
-        where T : struct
+    private static NeatGenome<TScalar> GetGenomeForEmptySpecies<TScalar>(
+        IDistanceMetric<TScalar> distanceMetric,
+        Species<TScalar>[] speciesArr,
+        List<ConnectionGenes<TScalar>> tmpPointList)
+        where TScalar : struct
     {
         // TODO: Select donor species stochastically from a pool of the largest species.
 
         // Get the species with the highest number of genomes.
-        Species<T> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ? x : y);
+        Species<TScalar> species = speciesArr.Aggregate((x, y) => x.GenomeById.Count > y.GenomeById.Count ? x : y);
 
         // Get the genome furthest from the species centroid.
         double maxDistance = -1.0;
-        NeatGenome<T>? chosenGenome = null;
+        NeatGenome<TScalar>? chosenGenome = null;
 
         foreach(var genome in species.GenomeById.Values)
         {
@@ -156,7 +156,7 @@ public static class SpeciationUtils
         // Remove the genome from its current species.
         species.GenomeById.Remove(chosenGenome!.Id);
 
-        // Extract the ConnectionGenes<T> object from each genome in the species' genome list.
+        // Extract the ConnectionGenes<TWeight> object from each genome in the species' genome list.
         ExtractConnectionGenes(tmpPointList, species.GenomeById);
 
         // Calc and update species centroid.

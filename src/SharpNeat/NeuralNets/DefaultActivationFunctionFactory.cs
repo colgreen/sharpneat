@@ -6,19 +6,19 @@ using System.Numerics;
 namespace SharpNeat.NeuralNets;
 
 /// <summary>
-/// Default implementation of <see cref="IActivationFunctionFactory{T}"/>.
+/// Default implementation of <see cref="IActivationFunctionFactory{TScalar}"/>.
 ///
-/// A factory class for obtaining instances of <see cref="IActivationFunction{T}"/>.
+/// A factory class for obtaining instances of <see cref="IActivationFunction{TScalar}"/>.
 /// </summary>
-/// <typeparam name="T">Neural net signal and weight data type.</typeparam>
-public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFactory<T>
-    where T : struct
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class DefaultActivationFunctionFactory<TScalar> : IActivationFunctionFactory<TScalar>
+    where TScalar : struct
 {
     // If true then hardware accelerated activation functions are used when available.
     readonly bool _enableHardwareAcceleration;
 
     // A dictionary of activation function instances keyed by class name.
-    readonly Dictionary<string,IActivationFunction<T>> _fnByName = [];
+    readonly Dictionary<string,IActivationFunction<TScalar>> _fnByName = [];
     readonly object _lockObj;
 
     /// <summary>
@@ -38,12 +38,12 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
     /// </summary>
     /// <param name="name">Activation function name/ID.</param>
     /// <returns>An instance of <see cref="IActivationFunction{T}"/>.</returns>
-    public IActivationFunction<T> GetActivationFunction(string name)
+    public IActivationFunction<TScalar> GetActivationFunction(string name)
     {
         lock(_lockObj)
         {
             // Check for an exiting instance in the activation function cache.
-            if(_fnByName.TryGetValue(name, out IActivationFunction<T>? actFn))
+            if(_fnByName.TryGetValue(name, out IActivationFunction<TScalar>? actFn))
                 return actFn;
 
             // No entry in the cache, attempt to create a new instance.
@@ -73,7 +73,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
 
     #region Private Methods
 
-    private IActivationFunction<T>? TryCreate(string name)
+    private IActivationFunction<TScalar>? TryCreate(string name)
     {
         // Get the generic type parameter name (i.e. Float or Double).
         string valueType = GetType().GetGenericArguments()[0].Name;
@@ -91,7 +91,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
         return TryCreateFromFullName(fullName);
     }
 
-    private IActivationFunction<T>? TryCreateVectorized(string name)
+    private IActivationFunction<TScalar>? TryCreateVectorized(string name)
     {
         // Get the generic type parameter name (i.e. Float or Double).
         string valueType = GetType().GetGenericArguments()[0].Name;
@@ -109,7 +109,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
         return TryCreateFromFullName(fullName);
     }
 
-    private static IActivationFunction<T>? TryCreateFromFullName(string fullName)
+    private static IActivationFunction<TScalar>? TryCreateFromFullName(string fullName)
     {
         // Attempt to get an activation type with the specified name.
         Type? type = Type.GetType(fullName);
@@ -118,7 +118,7 @@ public sealed class DefaultActivationFunctionFactory<T> : IActivationFunctionFac
         if(type is null)
             return null;
 
-        return (IActivationFunction<T>?)Activator.CreateInstance(type);
+        return (IActivationFunction<TScalar>?)Activator.CreateInstance(type);
     }
 
     #endregion

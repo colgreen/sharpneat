@@ -10,9 +10,9 @@ namespace SharpNeat.Neat;
 /// <summary>
 /// A NEAT population.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class NeatPopulation<T> : Population<NeatGenome<T>>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class NeatPopulation<TScalar> : Population<NeatGenome<TScalar>>
+    where TScalar : struct
 {
     // ENHANCEMENT: Consider increasing buffer capacity, and different capacities for the two different buffers.
     const int __defaultInnovationHistoryBufferSize = 0x20_000; // = 131,072 decimal.
@@ -24,12 +24,12 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <summary>
     /// NeatGenome metadata.
     /// </summary>
-    public MetaNeatGenome<T> MetaNeatGenome { get; }
+    public MetaNeatGenome<TScalar> MetaNeatGenome { get; }
 
     /// <summary>
     /// NeatGenome builder.
     /// </summary>
-    public INeatGenomeBuilder<T> GenomeBuilder { get; }
+    public INeatGenomeBuilder<TScalar> GenomeBuilder { get; }
 
     /// <summary>
     /// Genome ID sequence; for obtaining new genome IDs.
@@ -51,7 +51,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <summary>
     /// Species array.
     /// </summary>
-    public Species<T>[]? SpeciesArray { get; set; }
+    public Species<TScalar>[]? SpeciesArray { get; set; }
 
     /// <summary>
     /// NeatPopulation statistics.
@@ -68,10 +68,10 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <param name="targetSize">Population target size.</param>
     /// <param name="genomeList">A list of genomes that will make up the population.</param>
     public NeatPopulation(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         int targetSize,
-        List<NeatGenome<T>> genomeList)
+        List<NeatGenome<TScalar>> genomeList)
         : base(targetSize, genomeList)
     {
         GetMaxObservedIds(
@@ -96,10 +96,10 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <param name="genomeIdSeq">Genome ID sequence.</param>
     /// <param name="innovationIdSeq">Innovation ID sequence.</param>
     public NeatPopulation(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         int targetSize,
-        List<NeatGenome<T>> genomeList,
+        List<NeatGenome<TScalar>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq)
     : this(metaNeatGenome, genomeBuilder, targetSize, genomeList, genomeIdSeq, innovationIdSeq, __defaultInnovationHistoryBufferSize)
@@ -117,10 +117,10 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <param name="innovationIdSeq">Innovation ID sequence.</param>
     /// <param name="addedNodeHistoryBufferSize">The size to allocate for the added node history buffer.</param>
     public NeatPopulation(
-        MetaNeatGenome<T> metaNeatGenome,
-        INeatGenomeBuilder<T> genomeBuilder,
+        MetaNeatGenome<TScalar> metaNeatGenome,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         int targetSize,
-        List<NeatGenome<T>> genomeList,
+        List<NeatGenome<TScalar>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq,
         int addedNodeHistoryBufferSize)
@@ -148,13 +148,13 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
     /// <param name="genomeComparerDescending">A genome comparer for sorting by fitness in descending order.</param>
     /// <param name="rng">Random source.</param>
     public void InitialiseSpecies(
-        ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
+        ISpeciationStrategy<NeatGenome<TScalar>,TScalar> speciationStrategy,
         int speciesCount,
-        IComparer<NeatGenome<T>> genomeComparerDescending,
+        IComparer<NeatGenome<TScalar>> genomeComparerDescending,
         IRandomSource rng)
     {
         // Allocate the genomes to species.
-        Species<T>[] speciesArr = speciationStrategy.SpeciateAll(GenomeList, speciesCount, rng);
+        Species<TScalar>[] speciesArr = speciationStrategy.SpeciateAll(GenomeList, speciesCount, rng);
         if(speciesArr is null || speciesArr.Length != speciesCount)
             throw new InvalidOperationException("Species array is null or has incorrect length.");
 
@@ -252,7 +252,7 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         out double maxComplexity)
     {
         // Calc sum of PrimaryFitness, and sum of Complexity.
-        List<NeatGenome<T>> genomeList = GenomeList;
+        List<NeatGenome<TScalar>> genomeList = GenomeList;
         primaryFitnessSum = 0.0;
         complexitySum = 0.0;
         maxComplexity = 0.0;
@@ -278,10 +278,10 @@ public class NeatPopulation<T> : Population<NeatGenome<T>>
         // Loop the species; calculate the each species' mean fitness, and calc a sum over those mean fitnesses.
         sumMeanFitness = 0.0;
         sumBestFitness = 0.0;
-        Species<T>[] speciesArr = SpeciesArray!;
+        Species<TScalar>[] speciesArr = SpeciesArray!;
         for(int i=0; i < speciesArr.Length; i++)
         {
-            Species<T> species = speciesArr[i];
+            Species<TScalar> species = speciesArr[i];
 
             // Calculate the genome mean fitness for the current species, and store the result.
             double meanFitness = species.GenomeList.Average(x => x.FitnessInfo.PrimaryFitness);

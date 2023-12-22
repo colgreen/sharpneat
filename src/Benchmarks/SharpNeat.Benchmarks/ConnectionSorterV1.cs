@@ -13,7 +13,8 @@ public sealed class ConnectionSorterV1
     // replaced (see current implementation of SharpNeat.Graphs.ConnectionSorter) with a customised sort
     // routine that is faster and more efficient w.r.t memory allocations and copying.
 
-    public static void Sort<T>(in ConnectionIds connIds, T[] weightArr) where T : struct
+    public static void Sort<TWeight>(in ConnectionIds connIds, TWeight[] weightArr)
+        where TWeight : struct
     {
         // Init array of indexes.
         Span<int> srcIds = connIds.GetSourceIdSpan();
@@ -31,7 +32,7 @@ public sealed class ConnectionSorterV1
         int[] idArr = ArrayPool<int>.Shared.Rent(len << 1);
         Span<int> srcIdArr2 = idArr.AsSpan(0, len);
         Span<int> tgtIdArr2 = idArr.AsSpan(len, len);
-        T[] weightArr2 = ArrayPool<T>.Shared.Rent(len);
+        TWeight[] weightArr2 = ArrayPool<TWeight>.Shared.Rent(len);
 
         for(int i=0; i < len; i++)
         {
@@ -48,7 +49,7 @@ public sealed class ConnectionSorterV1
         // Return the arrays rented from the array pool.
         ArrayPool<int>.Shared.Return(idxArr);
         ArrayPool<int>.Shared.Return(idArr);
-        ArrayPool<T>.Shared.Return(weightArr2);
+        ArrayPool<TWeight>.Shared.Return(weightArr2);
     }
 
     #endregion

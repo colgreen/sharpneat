@@ -19,11 +19,11 @@ public static class NeatExperimentExtensions
     /// </summary>
     /// <param name="experiment">The NEAT experiment to configure.</param>
     /// <param name="experimentConfig">The configuration to apply.</param>
-    /// <typeparam name="T">Experiment black-box numeric data type.</typeparam>
-    public static void Configure<T>(
-        this INeatExperiment<T> experiment,
+    /// <typeparam name="TScalar">Experiment black box input/output data type.</typeparam>
+    public static void Configure<TScalar>(
+        this INeatExperiment<TScalar> experiment,
         ExperimentConfig experimentConfig)
-        where T : struct
+        where TScalar : struct
     {
         experiment.Id = experimentConfig.Id ?? experiment.Id;
         experiment.Name = experimentConfig.Name ?? experiment.Name;
@@ -88,10 +88,10 @@ public static class NeatExperimentExtensions
         settings.SecondaryParentGeneProbability = config.SecondaryParentGeneProbability ?? settings.SecondaryParentGeneProbability;
     }
 
-    private static void ApplyConfiguration<T>(
-        INeatExperiment<T> experiment,
+    private static void ApplyConfiguration<TScalar>(
+        INeatExperiment<TScalar> experiment,
         ComplexityRegulationStrategyConfig? config)
-        where T : struct
+        where TScalar : struct
     {
         if(config is null)
             return;

@@ -7,18 +7,18 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on mutation of connection weights.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 /// <remarks>
 /// Offspring genomes are created by taking a clone of a single parent genome and applying a weight
 /// mutation scheme to the connection weights of the clone.
 /// </remarks>
-public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
-    where T : struct
+public sealed class MutateWeightsStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
+    where TScalar : struct
 {
-    readonly INeatGenomeBuilder<T> _genomeBuilder;
+    readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _generationSeq;
-    readonly WeightMutationScheme<T> _weightMutationScheme;
+    readonly WeightMutationScheme<TScalar> _weightMutationScheme;
 
     /// <summary>
     /// Construct a new instance.
@@ -28,10 +28,10 @@ public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
     /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
     /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
     public MutateWeightsStrategy(
-        INeatGenomeBuilder<T> genomeBuilder,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence generationSeq,
-        WeightMutationScheme<T> weightMutationScheme)
+        WeightMutationScheme<TScalar> weightMutationScheme)
     {
         _genomeBuilder = genomeBuilder;
         _genomeIdSeq = genomeIdSeq;
@@ -40,10 +40,12 @@ public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
     }
 
     /// <inheritdoc/>
-    public NeatGenome<T> CreateChildGenome(NeatGenome<T> parent, IRandomSource rng)
+    public NeatGenome<TScalar> CreateChildGenome(
+        NeatGenome<TScalar> parent,
+        IRandomSource rng)
     {
         // Clone the parent's connection weight array.
-        var weightArr = (T[])parent.ConnectionGenes._weightArr.Clone();
+        var weightArr = (TScalar[])parent.ConnectionGenes._weightArr.Clone();
 
         // Apply mutation to the connection weights.
         _weightMutationScheme.MutateWeights(weightArr, rng);
@@ -51,7 +53,7 @@ public sealed class MutateWeightsStrategy<T> : IAsexualReproductionStrategy<T>
         // Create the child genome's ConnectionGenes object.
         // Note. The parent genome's connection arrays are re-used; these remain unchanged because we are mutating
         // connection *weights* only, so we can avoid the cost of cloning these arrays.
-        var connGenes = new ConnectionGenes<T>(
+        var connGenes = new ConnectionGenes<TScalar>(
             parent.ConnectionGenes._connArr,
             weightArr);
 

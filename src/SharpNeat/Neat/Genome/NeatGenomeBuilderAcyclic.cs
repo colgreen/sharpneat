@@ -8,11 +8,11 @@ namespace SharpNeat.Neat.Genome;
 /// <summary>
 /// For building instances of <see cref="NeatGenome{T}"/>. For use when evolving acyclic graphs only.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
-    where T : struct
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class NeatGenomeBuilderAcyclic<TWeight> : INeatGenomeBuilder<TWeight>
+    where TWeight : struct
 {
-    readonly MetaNeatGenome<T> _metaNeatGenome;
+    readonly MetaNeatGenome<TWeight> _metaNeatGenome;
     readonly AcyclicGraphDepthAnalysis _graphDepthAnalysis;
     readonly HashSet<int> _workingIdSet;
 
@@ -31,7 +31,7 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     /// If the caller can guarantee that calls to Create() will provide acyclic graphs only, then
     /// <paramref name="validateAcyclic"/> can be set to false to avoid the cost of the cyclic graph check (which is relatively expensive to perform).
     /// </remarks>
-    public NeatGenomeBuilderAcyclic(MetaNeatGenome<T> metaNeatGenome, bool validateAcyclic)
+    public NeatGenomeBuilderAcyclic(MetaNeatGenome<TWeight> metaNeatGenome, bool validateAcyclic)
     {
         Debug.Assert(metaNeatGenome is not null && metaNeatGenome.IsAcyclic);
         _metaNeatGenome = metaNeatGenome;
@@ -44,10 +44,10 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     #region Public Methods
 
     /// <inheritdoc/>
-    public NeatGenome<T> Create(
+    public NeatGenome<TWeight> Create(
         int id,
         int birthGeneration,
-        ConnectionGenes<T> connGenes)
+        ConnectionGenes<TWeight> connGenes)
     {
         // Determine the set of node IDs, and create a mapping from node IDs to node indexes.
         int[] hiddenNodeIdArr = ConnectionGenesUtils.CreateHiddenNodeIdArray(connGenes._connArr, _metaNeatGenome.InputOutputNodeCount, _workingIdSet);
@@ -56,9 +56,9 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     }
 
     /// <inheritdoc/>
-    public NeatGenome<T> Create(
+    public NeatGenome<TWeight> Create(
         int id, int birthGeneration,
-        ConnectionGenes<T> connGenes,
+        ConnectionGenes<TWeight> connGenes,
         int[] hiddenNodeIdArr)
     {
         int inputCount = _metaNeatGenome.InputNodeCount;
@@ -100,7 +100,7 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
         UpdateNodeIndexById(nodeIdxById, hiddenNodeIdArr, newIdByOldId);
 
         // Create the neat genome.
-        return new NeatGenome<T>(
+        return new NeatGenome<TWeight>(
             _metaNeatGenome, id, birthGeneration,
             connGenes,
             hiddenNodeIdArr,
@@ -110,9 +110,9 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     }
 
     /// <inheritdoc/>
-    public NeatGenome<T> Create(
+    public NeatGenome<TWeight> Create(
         int id, int birthGeneration,
-        ConnectionGenes<T> connGenes,
+        ConnectionGenes<TWeight> connGenes,
         int[] hiddenNodeIdArr,
         INodeIdMap nodeIndexByIdMap)
     {
@@ -123,15 +123,15 @@ public sealed class NeatGenomeBuilderAcyclic<T> : INeatGenomeBuilder<T>
     }
 
     /// <inheritdoc/>
-    public NeatGenome<T> Create(
+    public NeatGenome<TWeight> Create(
         int id, int birthGeneration,
-        ConnectionGenes<T> connGenes,
+        ConnectionGenes<TWeight> connGenes,
         int[] hiddenNodeIdArr,
         INodeIdMap nodeIndexByIdMap,
         DirectedGraph digraph,
         int[]? connectionIndexMap)
     {
-        return new NeatGenome<T>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap);
+        return new NeatGenome<TWeight>(_metaNeatGenome, id, birthGeneration, connGenes, hiddenNodeIdArr, nodeIndexByIdMap, digraph, connectionIndexMap);
     }
 
     #endregion

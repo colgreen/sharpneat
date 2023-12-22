@@ -13,12 +13,12 @@ public static class NeatGenomeSaver
     /// <summary>
     /// Save a genome to the specified file.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Connection weight data type.</typeparam>
     /// <param name="genome">The genome to save.</param>
     /// <param name="path">The path of the file to save to.</param>
-    public static void Save<T>(
-        NeatGenome<T> genome, string path)
-        where T : struct
+    public static void Save<TScalar>(
+        NeatGenome<TScalar> genome, string path)
+        where TScalar : struct
     {
         // Convert the genome to a NetFileModel.
         NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);
@@ -30,13 +30,13 @@ public static class NeatGenomeSaver
     /// <summary>
     /// Save a genome to the given stream.
     /// </summary>
-    /// <typeparam name="T">Connection weight data type.</typeparam>
+    /// <typeparam name="TScalar">Connection weight data type.</typeparam>
     /// <param name="genome">The genome to save.</param>
     /// <param name="stream">The stream to save the genome to.</param>
     /// <remarks>This method does not close the Stream.</remarks>
-    public static void Save<T>(
-        NeatGenome<T> genome, Stream stream)
-        where T : struct
+    public static void Save<TScalar>(
+        NeatGenome<TScalar> genome, Stream stream)
+        where TScalar : struct
     {
         // Convert the genome to a NetFileModel.
         NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);

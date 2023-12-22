@@ -5,9 +5,9 @@ namespace SharpNeat.Neat.Speciation;
 /// <summary>
 /// Represents a NEAT species.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-public class Species<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class Species<TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Species ID.
@@ -17,22 +17,22 @@ public class Species<T>
     /// <summary>
     /// Species centroid.
     /// </summary>
-    public ConnectionGenes<T> Centroid { get; set; }
+    public ConnectionGenes<TScalar> Centroid { get; set; }
 
     /// <summary>
     /// The genomes that are within the species.
     /// </summary>
-    public List<NeatGenome<T>> GenomeList { get; }
+    public List<NeatGenome<TScalar>> GenomeList { get; }
 
     /// <summary>
     /// A working dictionary of genomes keyed by ID.
     /// </summary>
-    public Dictionary<int,NeatGenome<T>> GenomeById { get; }
+    public Dictionary<int,NeatGenome<TScalar>> GenomeById { get; }
 
     /// <summary>
     /// Working list of genomes to be added to GenomeById at the end of a k-means iteration.
     /// </summary>
-    public List<NeatGenome<T>> PendingAddsList { get; }
+    public List<NeatGenome<TScalar>> PendingAddsList { get; }
 
     /// <summary>
     /// Working list of genome IDs to remove from GenomeById at the end of a k-means iteration.
@@ -52,13 +52,13 @@ public class Species<T>
     /// <param name="id">Species ID.</param>
     /// <param name="centroid">Species centroid.</param>
     /// <param name="capacity">Initial capacity for the species genome list.</param>
-    public Species(int id, ConnectionGenes<T> centroid, int capacity = 0)
+    public Species(int id, ConnectionGenes<TScalar> centroid, int capacity = 0)
     {
         Id = id;
         Centroid = centroid;
-        GenomeList = new List<NeatGenome<T>>(capacity);
-        GenomeById = new Dictionary<int,NeatGenome<T>>(capacity);
-        PendingAddsList = new List<NeatGenome<T>>(capacity);
+        GenomeList = new List<NeatGenome<TScalar>>(capacity);
+        GenomeById = new Dictionary<int,NeatGenome<TScalar>>(capacity);
+        PendingAddsList = new List<NeatGenome<TScalar>>(capacity);
         PendingRemovesList = new List<int>(capacity);
         Stats = new SpeciesStats();
     }

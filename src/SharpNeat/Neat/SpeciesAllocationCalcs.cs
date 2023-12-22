@@ -10,9 +10,9 @@ namespace SharpNeat.Neat;
 /// <summary>
 /// Static method(s) for calculating species target size allocations.
 /// </summary>
-/// <typeparam name="T">Neural net numeric data type.</typeparam>
-internal static class SpeciesAllocationCalcs<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+internal static class SpeciesAllocationCalcs<TScalar>
+    where TScalar : struct
 {
     /// <summary>
     /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.
@@ -22,7 +22,7 @@ internal static class SpeciesAllocationCalcs<T>
     /// <param name="eaSettings">Evolution algorithm settings object.</param>
     /// <param name="rng">Random source.</param>
     public static void UpdateSpeciesAllocationSizes(
-        NeatPopulation<T> pop,
+        NeatPopulation<TScalar> pop,
         NeatEvolutionAlgorithmSettings eaSettings,
         IRandomSource rng)
     {
@@ -36,7 +36,7 @@ internal static class SpeciesAllocationCalcs<T>
     #region Private Static Methods
 
     private static void UpdateSpeciesTargetSizes(
-        NeatPopulation<T> pop, IRandomSource rng)
+        NeatPopulation<TScalar> pop, IRandomSource rng)
     {
         double totalMeanFitness = pop.NeatPopulationStats.SumSpeciesMeanFitness;
         int totalTargetSizeInt = 0;
@@ -51,7 +51,7 @@ internal static class SpeciesAllocationCalcs<T>
         {
             // Calculate the new target size of each species using fitness sharing.
             double popSizeReal = pop.GenomeList.Count;
-            Species<T>[] speciesArr = pop.SpeciesArray!;
+            Species<TScalar>[] speciesArr = pop.SpeciesArray!;
 
             // The size of each specie is based on its fitness relative to the other species.
             for(int i=0; i < speciesArr.Length; i++)
@@ -74,10 +74,10 @@ internal static class SpeciesAllocationCalcs<T>
     /// <summary>
     /// Handle specific case where all genomes/species have a zero fitness.
     /// </summary>
-    private static int CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(NeatPopulation<T> pop, IRandomSource rng)
+    private static int CalcSpeciesTargetSizesInner_ZeroTotalMeanFitness(NeatPopulation<TScalar> pop, IRandomSource rng)
     {
         // Assign all species an equal targetSize.
-        Species<T>[] speciesArr = pop.SpeciesArray!;
+        Species<TScalar>[] speciesArr = pop.SpeciesArray!;
         double popSizeReal = pop.GenomeList.Count;
         double targetSizeReal = popSizeReal / speciesArr.Length;
 
@@ -106,7 +106,7 @@ internal static class SpeciesAllocationCalcs<T>
     #region Private Static Methods [Adjust Target Allocations]
 
     private static void AdjustSpeciesTargetSizes(
-        NeatPopulation<T> pop,
+        NeatPopulation<TScalar> pop,
         int totalTargetSizeInt,
         IRandomSource rng)
     {
@@ -134,7 +134,7 @@ internal static class SpeciesAllocationCalcs<T>
     }
 
     private static void AdjustSpeciesTargetSizesUp(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         int targetSizeDeltaInt,
         IRandomSource rng)
     {
@@ -156,7 +156,7 @@ internal static class SpeciesAllocationCalcs<T>
     }
 
     private static void AdjustSpeciesTargetSizesDown(
-        Species<T>[] speciesArr,
+        Species<TScalar>[] speciesArr,
         int targetSizeDeltaInt,
         IRandomSource rng)
     {
@@ -184,11 +184,11 @@ internal static class SpeciesAllocationCalcs<T>
     }
 
     private static void AdjustSpeciesTargetSizes_AccommodateBestGenomeSpecies(
-        NeatPopulation<T> pop, IRandomSource rng)
+        NeatPopulation<TScalar> pop, IRandomSource rng)
     {
         // Test if the best genome is in a species with a zero target size allocation.
         int bestGenomeSpeciesIdx = pop.NeatPopulationStats.BestGenomeSpeciesIdx;
-        Species<T>[] speciesArr = pop.SpeciesArray!;
+        Species<TScalar>[] speciesArr = pop.SpeciesArray!;
         if(speciesArr[bestGenomeSpeciesIdx].Stats.TargetSizeInt > 0)
         {
             // Nothing to do. The best genome is in a species with a non-zero allocation.
@@ -242,11 +242,11 @@ internal static class SpeciesAllocationCalcs<T>
     /// <param name="eaSettings">Evolution algorithm settings object.</param>
     /// <param name="rng">Random source.</param>
     private static void UpdateEliteSelectionOffspringCounts(
-        NeatPopulation<T> pop,
+        NeatPopulation<TScalar> pop,
         NeatEvolutionAlgorithmSettings eaSettings,
         IRandomSource rng)
     {
-        Species<T>[] speciesArr = pop.SpeciesArray!;
+        Species<TScalar>[] speciesArr = pop.SpeciesArray!;
 
         // Loop the species, calculating and storing the various size/count properties.
         int bestGenomeSpeciesIdx = pop.NeatPopulationStats.BestGenomeSpeciesIdx;
@@ -258,7 +258,7 @@ internal static class SpeciesAllocationCalcs<T>
     }
 
     private static void AllocateEliteSelectionOffspringCounts(
-        Species<T> species,
+        Species<TScalar> species,
         NeatEvolutionAlgorithmSettings eaSettings,
         bool isBestGenomeSpecies,
         IRandomSource rng)

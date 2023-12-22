@@ -7,11 +7,11 @@ namespace SharpNeat.Neat.Genome.IO;
 /// <summary>
 /// For loading/deserializing a population of <see cref="NeatGenome{T}"/> instances from the local filesystem.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public sealed class NeatPopulationLoader<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class NeatPopulationLoader<TScalar>
+    where TScalar : struct
 {
-    readonly MetaNeatGenome<T> _metaNeatGenome;
+    readonly MetaNeatGenome<TScalar> _metaNeatGenome;
     int _genomeId;
 
     /// <summary>
@@ -19,7 +19,7 @@ public sealed class NeatPopulationLoader<T>
     /// </summary>
     /// <param name="metaNeatGenome">Neat genome metadata object.</param>
     public NeatPopulationLoader(
-        MetaNeatGenome<T> metaNeatGenome)
+        MetaNeatGenome<TScalar> metaNeatGenome)
     {
         _metaNeatGenome = metaNeatGenome ?? throw new ArgumentNullException(nameof(metaNeatGenome));
     }
@@ -29,7 +29,7 @@ public sealed class NeatPopulationLoader<T>
     /// </summary>
     /// <param name="path">Path to the folder to load genomes from.</param>
     /// <returns>A list of the loaded genomes.</returns>
-    public List<NeatGenome<T>> LoadFromFolder(string path)
+    public List<NeatGenome<TScalar>> LoadFromFolder(string path)
     {
         if(!Directory.Exists(path))
             throw new IOException($"Directory does not exist [{path}]");
@@ -39,12 +39,12 @@ public sealed class NeatPopulationLoader<T>
         FileInfo[] fileInfoArr = dirInfo.GetFiles("*.net");
 
         // Alloc genome list with an appropriate capacity.
-        List<NeatGenome<T>> genomeList = new(fileInfoArr.Length);
+        List<NeatGenome<TScalar>> genomeList = new(fileInfoArr.Length);
 
         // Loop the genome files, loading each in turn.
         foreach(FileInfo fileInfo in fileInfoArr)
         {
-            NeatGenome<T> genome = NeatGenomeLoader.Load(
+            NeatGenome<TScalar> genome = NeatGenomeLoader.Load(
                 fileInfo.FullName, _metaNeatGenome, _genomeId++);
 
             genomeList.Add(genome);
@@ -58,7 +58,7 @@ public sealed class NeatPopulationLoader<T>
     /// </summary>
     /// <param name="path">Path to the zip file to load.</param>
     /// <returns>A list of the loaded genomes.</returns>
-    public List<NeatGenome<T>> LoadFromZipArchive(string path)
+    public List<NeatGenome<TScalar>> LoadFromZipArchive(string path)
     {
         if(!File.Exists(path))
             throw new IOException($"File does not exist [{path}]");
@@ -66,7 +66,7 @@ public sealed class NeatPopulationLoader<T>
         using ZipArchive zipArchive = ZipFile.OpenRead(path);
 
         // Alloc genome list with an appropriate capacity.
-        List<NeatGenome<T>> genomeList = new(zipArchive.Entries.Count);
+        List<NeatGenome<TScalar>> genomeList = new(zipArchive.Entries.Count);
 
         // Loop the genome file entries, loading each in turn.
         foreach(ZipArchiveEntry zipEntry in zipArchive.Entries)
@@ -77,7 +77,7 @@ public sealed class NeatPopulationLoader<T>
 
             using(Stream zipEntryStream = zipEntry.Open())
             {
-                NeatGenome<T> genome = NeatGenomeLoader.Load(
+                NeatGenome<TScalar> genome = NeatGenomeLoader.Load(
                     zipEntryStream, _metaNeatGenome, _genomeId++);
 
                 genomeList.Add(genome);

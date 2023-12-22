@@ -14,25 +14,25 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// <summary>
 /// The NEAT  evolution algorithm.
 /// </summary>
-/// <typeparam name="T">Connection weight data type.</typeparam>
-public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
-    where T : struct, IBinaryFloatingPointIeee754<T>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
+    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
 {
     NeatEvolutionAlgorithmSettings _eaSettingsCurrent;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsComplexifying;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsSimplifying;
-    readonly IGenomeListEvaluator<NeatGenome<T>> _evaluator;
-    readonly ISpeciationStrategy<NeatGenome<T>,T> _speciationStrategy;
-    readonly NeatPopulation<T> _pop;
+    readonly IGenomeListEvaluator<NeatGenome<TScalar>> _evaluator;
+    readonly ISpeciationStrategy<NeatGenome<TScalar>,TScalar> _speciationStrategy;
+    readonly NeatPopulation<TScalar> _pop;
     readonly IComplexityRegulationStrategy _complexityRegulationStrategy;
     readonly IRandomSource _rng;
-    readonly IComparer<NeatGenome<T>> _genomeComparerDescending;
+    readonly IComparer<NeatGenome<TScalar>> _genomeComparerDescending;
 
     readonly Int32Sequence _generationSeq;
-    readonly NeatReproductionAsexual<T> _reproductionAsexual;
-    readonly NeatReproductionSexual<T> _reproductionSexual;
+    readonly NeatReproductionAsexual<TScalar> _reproductionAsexual;
+    readonly NeatReproductionSexual<TScalar> _reproductionSexual;
 
-    readonly OffspringBuilder<T> _offspringBuilder;
+    readonly OffspringBuilder<TScalar> _offspringBuilder;
     readonly NeatEvolutionAlgorithmStatistics _eaStats = new();
 
     // Fields used to calculate the evaluations per second statistic, on each successive update.
@@ -56,13 +56,13 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
     /// <param name="rng">Random source (optional).</param>
     public NeatEvolutionAlgorithm(
         NeatEvolutionAlgorithmSettings eaSettings,
-        IGenomeListEvaluator<NeatGenome<T>> evaluator,
-        ISpeciationStrategy<NeatGenome<T>,T> speciationStrategy,
-        NeatPopulation<T> population,
+        IGenomeListEvaluator<NeatGenome<TScalar>> evaluator,
+        ISpeciationStrategy<NeatGenome<TScalar>,TScalar> speciationStrategy,
+        NeatPopulation<TScalar> population,
         IComplexityRegulationStrategy complexityRegulationStrategy,
         NeatReproductionAsexualSettings reproductionAsexualSettings,
         NeatReproductionSexualSettings reproductionSexualSettings,
-        WeightMutationScheme<T> weightMutationScheme,
+        WeightMutationScheme<TScalar> weightMutationScheme,
         IRandomSource? rng = null)
     {
         // Perform some basic validation of the provided settings objects.
@@ -90,17 +90,17 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
 
         _generationSeq = new Int32Sequence();
 
-        _reproductionAsexual = new NeatReproductionAsexual<T>(
+        _reproductionAsexual = new NeatReproductionAsexual<TScalar>(
             _pop.MetaNeatGenome, _pop.GenomeBuilder,
             _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
             _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme);
 
-        _reproductionSexual = new NeatReproductionSexual<T>(
+        _reproductionSexual = new NeatReproductionSexual<TScalar>(
             _pop.MetaNeatGenome, _pop.GenomeBuilder,
             _pop.GenomeIdSeq, _generationSeq,
             reproductionSexualSettings);
 
-        _offspringBuilder = new OffspringBuilder<T>(
+        _offspringBuilder = new OffspringBuilder<TScalar>(
             _reproductionAsexual,
             _reproductionSexual,
             eaSettings.InterspeciesMatingProportion,
@@ -114,7 +114,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
     /// <summary>
     /// Gets the <see cref="NeatPopulation{T}"/>.
     /// </summary>
-    public NeatPopulation<T> Population => _pop;
+    public NeatPopulation<TScalar> Population => _pop;
 
     /// <summary>
     /// Gets the current evolution algorithm statistics.
@@ -161,7 +161,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
             throw new InvalidOperationException("Algorithm is not initialised.");
 
         // Create offspring.
-        List<NeatGenome<T>> offspringList = _offspringBuilder.CreateOffspring(
+        List<NeatGenome<TScalar>> offspringList = _offspringBuilder.CreateOffspring(
             _pop.SpeciesArray, _rng,
             out int offspringAsexualCount,
             out int offspringSexualCount,
@@ -211,7 +211,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
 
         for(int i=0; i < speciesCount; i++)
         {
-            Species<T> species = _pop.SpeciesArray[i];
+            Species<TScalar> species = _pop.SpeciesArray[i];
             int eliteSizeInt = species.Stats.EliteSizeInt;
             int removeCount = species.GenomeList.Count - eliteSizeInt;
             species.GenomeList.RemoveRange(eliteSizeInt, removeCount);
@@ -241,7 +241,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
     /// <param name="offspringList">The list of offspring genomes to evaluate.</param>
     /// <param name="evaluationCount">Returns the number of evaluations that were performed.</param>
     private void DoGenomeEvaluation(
-        List<NeatGenome<T>> offspringList,
+        List<NeatGenome<TScalar>> offspringList,
         out ulong evaluationCount)
     {
         // TODO: Review this. We don't necessarily want to re-evaluate genomes even if the evaluation scheme is non-deterministic.
@@ -266,7 +266,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         // (offspringList or _pop.GenomeList) and return the length of that chosen list.
     }
 
-    private void IntegrateOffspringIntoSpecies(List<NeatGenome<T>> offspringList, bool emptySpeciesFlag)
+    private void IntegrateOffspringIntoSpecies(List<NeatGenome<TScalar>> offspringList, bool emptySpeciesFlag)
     {
         // Handle special case of one or more species having a zero target size (dead species).
         if(emptySpeciesFlag)
@@ -358,7 +358,7 @@ public class NeatEvolutionAlgorithm<T> : IEvolutionAlgorithm
         _eaStats.TotalOffspringInterspeciesCount += offspringInterspeciesCount;
 
         // Update species allocation sizes.
-        SpeciesAllocationCalcs<T>.UpdateSpeciesAllocationSizes(_pop, _eaSettingsCurrent, _rng);
+        SpeciesAllocationCalcs<TScalar>.UpdateSpeciesAllocationSizes(_pop, _eaSettingsCurrent, _rng);
     }
 
     private void UpdateComplexityRegulationMode()

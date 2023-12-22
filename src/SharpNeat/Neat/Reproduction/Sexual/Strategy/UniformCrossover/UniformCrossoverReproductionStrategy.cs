@@ -11,16 +11,16 @@ namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 /// The genes of the two parent genomes are aligned by innovation ID. The new child genome
 /// takes genes from each of the parents with a given probability (e.g. 50%).
 /// </summary>
-/// <typeparam name="T">Neural network numeric data type.</typeparam>
-public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductionStrategy<T>
-    where T : struct
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class UniformCrossoverReproductionStrategy<TScalar> : ISexualReproductionStrategy<TScalar>
+    where TScalar : struct
 {
     readonly bool _isAcyclic;
     readonly double _secondaryParentGeneProbability;
-    readonly INeatGenomeBuilder<T> _genomeBuilder;
+    readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;
     readonly Int32Sequence _generationSeq;
-    readonly ConnectionGeneListBuilder<T> _connGeneListBuilder;
+    readonly ConnectionGeneListBuilder<TScalar> _connGeneListBuilder;
 
     #region Constructor
 
@@ -35,7 +35,7 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
     public UniformCrossoverReproductionStrategy(
         bool isAcyclic,
         double secondaryParentGeneProbability,
-        INeatGenomeBuilder<T> genomeBuilder,
+        INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence generationSeq)
     {
@@ -45,7 +45,7 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
         _genomeIdSeq = genomeIdSeq;
         _generationSeq = generationSeq;
 
-        _connGeneListBuilder = new ConnectionGeneListBuilder<T>(_isAcyclic, 1024);
+        _connGeneListBuilder = new ConnectionGeneListBuilder<TScalar>(_isAcyclic, 1024);
     }
 
     #endregion
@@ -53,9 +53,9 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
     #region Public Methods
 
     /// <inheritdoc/>
-    public NeatGenome<T> CreateGenome(
-        NeatGenome<T> parent1,
-        NeatGenome<T> parent2,
+    public NeatGenome<TScalar> CreateGenome(
+        NeatGenome<TScalar> parent1,
+        NeatGenome<TScalar> parent2,
         IRandomSource rng)
     {
         try
@@ -74,9 +74,9 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
 
     #region Private Methods
 
-    private NeatGenome<T> CreateGenomeInner(
-        NeatGenome<T> parent1,
-        NeatGenome<T> parent2,
+    private NeatGenome<TScalar> CreateGenomeInner(
+        NeatGenome<TScalar> parent1,
+        NeatGenome<TScalar> parent2,
         IRandomSource rng)
     {
         // Resolve a flag that determines if *all* disjoint genes from the secondary parent will be included in the child genome, or not.
@@ -87,7 +87,7 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
         foreach((int idx1, int idx2) in EnumerateParentGenes(parent1.ConnectionGenes, parent2.ConnectionGenes))
         {
             // Create a connection gene based on the current position in both parents.
-            ConnectionGene<T>? connGene = CreateConnectionGene(
+            ConnectionGene<TScalar>? connGene = CreateConnectionGene(
                 parent1.ConnectionGenes, parent2.ConnectionGenes,
                 idx1, idx2,
                 includeSecondaryParentGene, rng);
@@ -99,7 +99,7 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
         }
 
         // Convert the genes to the structure required by NeatGenome.
-        ConnectionGenes<T> connGenes = _connGeneListBuilder.ToConnectionGenes();
+        ConnectionGenes<TScalar> connGenes = _connGeneListBuilder.ToConnectionGenes();
 
         // Create and return a new genome.
         return _genomeBuilder.Create(
@@ -112,9 +112,9 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
 
     #region Private Methods [Low Level]
 
-    private static ConnectionGene<T>? CreateConnectionGene(
-        ConnectionGenes<T> connGenes1,
-        ConnectionGenes<T> connGenes2,
+    private static ConnectionGene<TScalar>? CreateConnectionGene(
+        ConnectionGenes<TScalar> connGenes1,
+        ConnectionGenes<TScalar> connGenes2,
         int idx1, int idx2,
         bool includeSecondaryParentGene,
         IRandomSource rng)
@@ -139,9 +139,9 @@ public sealed class UniformCrossoverReproductionStrategy<T> : ISexualReproductio
         return null;
     }
 
-    private static ConnectionGene<T> CreateConnectionGene(ConnectionGenes<T> connGenes, int idx)
+    private static ConnectionGene<TScalar> CreateConnectionGene(ConnectionGenes<TScalar> connGenes, int idx)
     {
-        return new ConnectionGene<T>(
+        return new ConnectionGene<TScalar>(
             connGenes._connArr[idx],
             connGenes._weightArr[idx]);
     }
