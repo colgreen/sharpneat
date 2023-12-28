@@ -2,7 +2,7 @@
 using SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 using Xunit;
 
-namespace SharpNeat.Recombination.Strategy.UniformCrossover;
+namespace SharpNeat.Recombination.Strategies.UniformCrossover;
 
 public class CyclicConnectionCheckTests
 {
