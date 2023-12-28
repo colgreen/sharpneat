@@ -3,14 +3,14 @@
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy;
 
 /// <summary>
-/// Represents a NEAT genome sexual reproduction strategy.
+/// Represents recombination reproduction strategy for NEAT genomes.
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
-public interface ISexualReproductionStrategy<TScalar>
+public interface IRecombinationStrategy<TScalar>
     where TScalar : struct
 {
     /// <summary>
-    /// Create a new child genome based on the genetic content of two parent genome.
+    /// Create a new child genome based on the genetic content of two parent genomes.
     /// </summary>
     /// <param name="parent1">Parent 1.</param>
     /// <param name="parent2">Parent 2.</param>

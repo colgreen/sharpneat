@@ -9,10 +9,10 @@ namespace SharpNeat.Neat.Reproduction.Sexual;
 /// Creation of offspring given two parents (sexual reproduction).
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
-public class NeatReproductionSexual<TScalar> : ISexualReproductionStrategy<TScalar>
+public class NeatReproductionSexual<TScalar> : IRecombinationStrategy<TScalar>
     where TScalar : struct
 {
-    readonly ISexualReproductionStrategy<TScalar> _strategy;
+    readonly IRecombinationStrategy<TScalar> _strategy;
 
     /// <summary>
     /// Construct a new instance.
@@ -29,7 +29,7 @@ public class NeatReproductionSexual<TScalar> : ISexualReproductionStrategy<TScal
         Int32Sequence generationSeq,
         NeatReproductionSexualSettings settings)
     {
-        _strategy = new UniformCrossoverReproductionStrategy<TScalar>(
+        _strategy = new UniformCrossoverRecombinationStrategy<TScalar>(
                             metaNeatGenome.IsAcyclic,
                             settings.SecondaryParentGeneProbability,
                             genomeBuilder,

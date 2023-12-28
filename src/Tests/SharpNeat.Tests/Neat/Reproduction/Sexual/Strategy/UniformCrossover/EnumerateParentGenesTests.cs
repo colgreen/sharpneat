@@ -11,7 +11,7 @@ public class EnumerateParentGenesTests
         NeatPopulation<double> pop = UniformCrossoverReproductionStrategyTestsUtils.CreateNeatPopulation(1);
         var genome = pop.GenomeList[0];
 
-        (int,int)[] geneIndexPairArr = UniformCrossoverReproductionStrategyUtils.EnumerateParentGenes(genome.ConnectionGenes, genome.ConnectionGenes).ToArray();
+        (int,int)[] geneIndexPairArr = UniformCrossoverRecombinationStrategyUtils.EnumerateParentGenes(genome.ConnectionGenes, genome.ConnectionGenes).ToArray();
 
         (int,int)[] expectedArr = [
             (0,0), (1,1), (2,2),
@@ -29,7 +29,7 @@ public class EnumerateParentGenesTests
         var genome1 = pop.GenomeList[0];
         var genome2 = pop.GenomeList[1];
 
-        (int,int)[] geneIndexPairArr = UniformCrossoverReproductionStrategyUtils.EnumerateParentGenes(genome1.ConnectionGenes, genome2.ConnectionGenes).ToArray();
+        (int,int)[] geneIndexPairArr = UniformCrossoverRecombinationStrategyUtils.EnumerateParentGenes(genome1.ConnectionGenes, genome2.ConnectionGenes).ToArray();
 
         (int,int)[] expectedArr = [
             (0,0), (1,1), (2,2),
@@ -47,7 +47,7 @@ public class EnumerateParentGenesTests
         var genome1 = pop.GenomeList[1];
         var genome2 = pop.GenomeList[0];
 
-        (int,int)[] geneIndexPairArr = UniformCrossoverReproductionStrategyUtils.EnumerateParentGenes(genome1.ConnectionGenes, genome2.ConnectionGenes).ToArray();
+        (int,int)[] geneIndexPairArr = UniformCrossoverRecombinationStrategyUtils.EnumerateParentGenes(genome1.ConnectionGenes, genome2.ConnectionGenes).ToArray();
 
         (int,int)[] expectedArr = [
             (0,0), (1,1), (2,2),

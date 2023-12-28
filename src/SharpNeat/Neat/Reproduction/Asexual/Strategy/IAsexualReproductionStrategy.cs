@@ -3,7 +3,7 @@
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
 
 /// <summary>
-/// Represents a NEAT genome asexual reproduction strategy.
+/// Represents an asexual reproduction strategy for NEAT genomes.
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface IAsexualReproductionStrategy<TScalar>

@@ -25,7 +25,7 @@ public class UniformCrossoverReproductionStrategyTests
         NeatPopulation<double> pop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 0.1, count, RandomDefaults.CreateRandomSource());
         var generationSeq = new Int32Sequence();
 
-        var strategy = new UniformCrossoverReproductionStrategy<double>(
+        var strategy = new UniformCrossoverRecombinationStrategy<double>(
             pop.MetaNeatGenome.IsAcyclic,
             0.02,
             genomeBuilder,

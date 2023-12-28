@@ -3,9 +3,9 @@
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 
 /// <summary>
-/// Static utility methods for the uniform crossover reproduction strategy.
+/// Static utility methods for the uniform crossover recombination strategy.
 /// </summary>
-internal class UniformCrossoverReproductionStrategyUtils
+internal class UniformCrossoverRecombinationStrategyUtils
 {
     /// <summary>
     /// Performs a 'parallel walk' over the connection genes of parent1 and parent2.

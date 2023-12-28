@@ -1,18 +1,20 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using Redzen.Numerics.Distributions;
-using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverReproductionStrategyUtils;
+using static SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover.UniformCrossoverRecombinationStrategyUtils;
 
 namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
 
 /// <summary>
+/// A recombination strategy that utilises genetic crossover between two parent genomes.
 /// Uniform crossover.
-///
-/// The genes of the two parent genomes are aligned by innovation ID. The new child genome
-/// takes genes from each of the parents with a given probability (e.g. 50%).
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
-public sealed class UniformCrossoverReproductionStrategy<TScalar> : ISexualReproductionStrategy<TScalar>
+/// <remarks>
+/// The genes of the two parent genomes are aligned by innovation ID. The new child genome
+/// takes genes from each of the parents with a probability (e.g. 50%).
+/// </remarks>
+public sealed class UniformCrossoverRecombinationStrategy<TScalar> : IRecombinationStrategy<TScalar>
     where TScalar : struct
 {
     readonly bool _isAcyclic;
@@ -32,7 +34,7 @@ public sealed class UniformCrossoverReproductionStrategy<TScalar> : ISexualRepro
     /// <param name="genomeBuilder">A neat genome builder.</param>
     /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
     /// <param name="generationSeq">A sequence that provides the current generation number.</param>
-    public UniformCrossoverReproductionStrategy(
+    public UniformCrossoverRecombinationStrategy(
         bool isAcyclic,
         double secondaryParentGeneProbability,
         INeatGenomeBuilder<TScalar> genomeBuilder,
