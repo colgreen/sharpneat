@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
+namespace SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
 
 /// <summary>
 /// Static utility methods for the uniform crossover recombination strategy.

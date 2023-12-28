@@ -1,9 +1,9 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Neat.Reproduction.Sexual.Strategy;
-using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
+using SharpNeat.Neat.Reproduction.Recombination.Strategy;
+using SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
 
-namespace SharpNeat.Neat.Reproduction.Sexual;
+namespace SharpNeat.Neat.Reproduction.Recombination;
 
 /// <summary>
 /// Creation of offspring given two parents (sexual reproduction).

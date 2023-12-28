@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.Neat.Reproduction.Sexual;
+namespace SharpNeat.Neat.Reproduction.Recombination;
 
 /// <summary>
 /// Settings related to <see cref="NeatReproductionSexual{T}"/>.

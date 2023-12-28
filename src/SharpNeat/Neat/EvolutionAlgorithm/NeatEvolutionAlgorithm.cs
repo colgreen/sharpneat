@@ -7,7 +7,7 @@ using Redzen.Sorting;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeat.Neat.Reproduction.Sexual;
+using SharpNeat.Neat.Reproduction.Recombination;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm;
 

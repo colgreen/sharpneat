@@ -1,7 +1,7 @@
 ﻿using Redzen;
 using Xunit;
 
-namespace SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
+namespace SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
 
 public class EnumerateParentGenesTests
 {

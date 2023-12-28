@@ -4,7 +4,7 @@ using System.Numerics;
 using Redzen.Numerics;
 using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.Reproduction.Asexual;
-using SharpNeat.Neat.Reproduction.Sexual;
+using SharpNeat.Neat.Reproduction.Recombination;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm;
 

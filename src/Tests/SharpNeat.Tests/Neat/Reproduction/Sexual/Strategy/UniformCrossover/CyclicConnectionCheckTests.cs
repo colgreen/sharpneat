@@ -1,5 +1,5 @@
 ﻿using SharpNeat.Graphs;
-using SharpNeat.Neat.Reproduction.Sexual.Strategy.UniformCrossover;
+using SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
 using Xunit;
 
 namespace SharpNeat.Sexual.Strategy.UniformCrossover;
