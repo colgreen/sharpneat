@@ -5,7 +5,7 @@ namespace SharpNeat.Experiments.ConfigModels;
 /// <summary>
 /// Model type for NEAT asexual reproduction configuration.
 /// </summary>
-public sealed record NeatReproductionAsexualConfig
+public sealed record NeatAsexualReproductionConfig
 {
     /// <summary>
     /// Probability that a genome mutation is a connection weights mutation.

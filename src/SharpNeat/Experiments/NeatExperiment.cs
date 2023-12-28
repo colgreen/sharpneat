@@ -37,8 +37,8 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
 
         // Assign a set of default settings.
         EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
-        ReproductionAsexualSettings = new NeatReproductionAsexualSettings();
-        ReproductionSexualSettings = new NeatReproductionSexualSettings();
+        AsexualReproductionSettings = new NeatAsexualReproductionSettings();
+        RecombinationSettings = new NeatRecombinationSettings();
         PopulationSize = 400;
         InitialInterconnectionsProportion = 0.05;
         ConnectionWeightScale = 5.0;
@@ -79,10 +79,10 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
     public NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
 
     /// <inheritdoc/>
-    public NeatReproductionAsexualSettings ReproductionAsexualSettings { get; }
+    public NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
 
     /// <inheritdoc/>
-    public NeatReproductionSexualSettings ReproductionSexualSettings { get; }
+    public NeatRecombinationSettings RecombinationSettings { get; }
 
     /// <inheritdoc/>
     public int PopulationSize { get; set; }

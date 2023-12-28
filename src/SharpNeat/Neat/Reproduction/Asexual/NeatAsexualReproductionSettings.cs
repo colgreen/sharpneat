@@ -3,9 +3,9 @@
 namespace SharpNeat.Neat.Reproduction.Asexual;
 
 /// <summary>
-/// Settings related to <see cref="NeatReproductionAsexual{T}"/>.
+/// Settings related to <see cref="NeatAsexualReproduction{T}"/>.
 /// </summary>
-public class NeatReproductionAsexualSettings
+public class NeatAsexualReproductionSettings
 {
     /// <summary>
     /// Probability that a genome mutation is a connection weights mutation.
@@ -32,7 +32,7 @@ public class NeatReproductionAsexualSettings
     /// <summary>
     /// Default constructor.
     /// </summary>
-    public NeatReproductionAsexualSettings()
+    public NeatAsexualReproductionSettings()
     {
     }
 
@@ -40,7 +40,7 @@ public class NeatReproductionAsexualSettings
     /// Copy constructor.
     /// </summary>
     /// <param name="copyFrom">The settings object to copy.</param>
-    public NeatReproductionAsexualSettings(NeatReproductionAsexualSettings copyFrom)
+    public NeatAsexualReproductionSettings(NeatAsexualReproductionSettings copyFrom)
     {
         ConnectionWeightMutationProbability = copyFrom.ConnectionWeightMutationProbability;
         AddNodeMutationProbability = copyFrom.AddNodeMutationProbability;
@@ -56,15 +56,15 @@ public class NeatReproductionAsexualSettings
     /// Creates a new settings object based on the current settings object, but modified to be suitable for use when
     /// the evolution algorithm is in simplifying mode.
     /// </summary>
-    /// <returns>A new instance of <see cref="NeatReproductionAsexualSettings"/>.</returns>
-    public NeatReproductionAsexualSettings CreateSimplifyingSettings()
+    /// <returns>A new instance of <see cref="NeatAsexualReproductionSettings"/>.</returns>
+    public NeatAsexualReproductionSettings CreateSimplifyingSettings()
     {
         // Invoke the copy constructor with the current object.
         //
         // Note. Currently all of the settings are modified, therefore it's not necessary to use the copy constructor
         // however, if additional settings are added to the settings class then they will be handled automatically here
         // without having to update this code, so this is a slightly safer approach.
-        var settings = new NeatReproductionAsexualSettings(this)
+        var settings = new NeatAsexualReproductionSettings(this)
         {
             ConnectionWeightMutationProbability = 0.6,
             AddNodeMutationProbability = 0.0,

@@ -23,18 +23,18 @@ public class NeatExperimentExtensionsTests
         ""elitismProportion"":0.11,
         ""selectionProportion"":0.22,
         ""offspringAsexualProportion"":0.39,
-        ""offspringSexualProportion"":0.61,
+        ""offspringRecombinationProportion"":0.61,
         ""interspeciesMatingProportion"":0.55,
         ""statisticsMovingAverageHistoryLength"":2222
     },
-    ""reproductionAsexual"":
+    ""asexualReproduction"":
     {
         ""connectionWeightMutationProbability"":0.11,
         ""addNodeMutationProbability"":0.22,
         ""addConnectionMutationProbability"":0.33,
         ""deleteConnectionMutationProbability"":0.34
     },
-    ""reproductionSexual"":
+    ""recombination"":
     {
         ""secondaryParentGeneProbability"":0.11
     },
@@ -78,18 +78,18 @@ public class NeatExperimentExtensionsTests
         Assert.Equal(0.11, eaSettings.ElitismProportion);
         Assert.Equal(0.22, eaSettings.SelectionProportion);
         Assert.Equal(0.39, eaSettings.OffspringAsexualProportion);
-        Assert.Equal(0.61, eaSettings.OffspringSexualProportion);
+        Assert.Equal(0.61, eaSettings.OffspringRecombinationProportion);
         Assert.Equal(0.55, eaSettings.InterspeciesMatingProportion);
         Assert.Equal(2222, eaSettings.StatisticsMovingAverageHistoryLength);
 
-        var asexualSettings = experiment.ReproductionAsexualSettings;
+        var asexualSettings = experiment.AsexualReproductionSettings;
         Assert.Equal(0.11, asexualSettings.ConnectionWeightMutationProbability);
         Assert.Equal(0.22, asexualSettings.AddNodeMutationProbability);
         Assert.Equal(0.33, asexualSettings.AddConnectionMutationProbability);
         Assert.Equal(0.34, asexualSettings.DeleteConnectionMutationProbability);
 
-        var sexualSettings = experiment.ReproductionSexualSettings;
-        Assert.Equal(0.11, sexualSettings.SecondaryParentGeneProbability);
+        var recombinationSettings = experiment.RecombinationSettings;
+        Assert.Equal(0.11, recombinationSettings.SecondaryParentGeneProbability);
 
         Assert.Equal(222, experiment.PopulationSize);
         Assert.Equal(0.33, experiment.InitialInterconnectionsProportion);

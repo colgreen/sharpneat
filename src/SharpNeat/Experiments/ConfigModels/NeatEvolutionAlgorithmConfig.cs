@@ -28,17 +28,17 @@ public sealed record NeatEvolutionAlgorithmConfig
     public double? SelectionProportion { get; init; }
 
     /// <summary>
-    /// The proportion of offspring to be produced from asexual reproduction (mutation).
+    /// The proportion of offspring to be produced via asexual reproduction (mutation).
     /// </summary>
     public double? OffspringAsexualProportion { get; init; }
 
     /// <summary>
-    /// The proportion of offspring to be produced from sexual reproduction.
+    /// The proportion of offspring to be produced via recombination reproduction.
     /// </summary>
-    public double? OffspringSexualProportion { get; init; }
+    public double? OffspringRecombinationProportion { get; init; }
 
     /// <summary>
-    /// The proportion of sexual reproductions that will use genomes from different species.
+    /// The proportion of recombination reproductions that will use genomes from different species.
     /// </summary>
     public double? InterspeciesMatingProportion { get; init; }
 

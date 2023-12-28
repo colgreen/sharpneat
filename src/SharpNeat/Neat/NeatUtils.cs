@@ -52,8 +52,8 @@ public static class NeatUtils
             speciationStrategy,
             neatPop,
             neatExperiment.ComplexityRegulationStrategy,
-            neatExperiment.ReproductionAsexualSettings,
-            neatExperiment.ReproductionSexualSettings,
+            neatExperiment.AsexualReproductionSettings,
+            neatExperiment.RecombinationSettings,
             weightMutationScheme);
 
         return ea;
@@ -94,8 +94,8 @@ public static class NeatUtils
             speciationStrategy,
             neatPop,
             neatExperiment.ComplexityRegulationStrategy,
-            neatExperiment.ReproductionAsexualSettings,
-            neatExperiment.ReproductionSexualSettings,
+            neatExperiment.AsexualReproductionSettings,
+            neatExperiment.RecombinationSettings,
             weightMutationScheme);
 
         return ea;

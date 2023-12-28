@@ -9,16 +9,16 @@
     "elitismProportion": 0.5,
     "selectionProportion": 0.5,
     "offspringAsexualProportion": 0.5,
-    "offspringSexualProportion": 0.5,
+    "offspringRecombinationProportion": 0.5,
     "interspeciesMatingProportion": 0.01
   },
-  "reproductionAsexual": {
+  "asexualReproduction": {
     "connectionWeightMutationProbability": 0.94,
     "addNodeMutationProbability": 0.01,
     "addConnectionMutationProbability": 0.025,
     "deleteConnectionMutationProbability": 0.025
   },
-  "reproductionSexual": {
+  "recombination": {
     "secondaryParentGeneProbability": 0.1
   },
   "populationSize": 600,

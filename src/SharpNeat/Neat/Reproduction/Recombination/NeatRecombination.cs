@@ -5,14 +5,11 @@ using SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
 
 namespace SharpNeat.Neat.Reproduction.Recombination;
 
-/// <summary>
-/// Creation of offspring given two parents (sexual reproduction).
-/// </summary>
-/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
-public class NeatReproductionSexual<TScalar> : IRecombinationStrategy<TScalar>
+/// <inheritdoc/>
+public class NeatRecombination<TScalar> : IRecombinationStrategy<TScalar>
     where TScalar : struct
 {
-    readonly IRecombinationStrategy<TScalar> _strategy;
+    readonly UniformCrossoverRecombinationStrategy<TScalar> _strategy;
 
     /// <summary>
     /// Construct a new instance.
@@ -21,13 +18,13 @@ public class NeatReproductionSexual<TScalar> : IRecombinationStrategy<TScalar>
     /// <param name="genomeBuilder">NeatGenome builder.</param>
     /// <param name="genomeIdSeq">Genome ID sequence; for obtaining new genome IDs.</param>
     /// <param name="generationSeq">Generation sequence; for obtaining the current generation number.</param>
-    /// <param name="settings">Sexual reproduction settings.</param>
-    public NeatReproductionSexual(
+    /// <param name="settings">Recombination reproduction settings.</param>
+    public NeatRecombination(
         MetaNeatGenome<TScalar> metaNeatGenome,
         INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence generationSeq,
-        NeatReproductionSexualSettings settings)
+        NeatRecombinationSettings settings)
     {
         _strategy = new UniformCrossoverRecombinationStrategy<TScalar>(
                             metaNeatGenome.IsAcyclic,

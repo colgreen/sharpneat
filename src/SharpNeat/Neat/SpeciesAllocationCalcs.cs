@@ -235,7 +235,7 @@ internal static class SpeciesAllocationCalcs<TScalar>
     #region Private Static Methods
 
     /// <summary>
-    /// For each species, allocate the EliteSizeInt, OffspringCount (broken down into OffspringAsexualCount and OffspringSexualCount),
+    /// For each species, allocate the EliteSizeInt, OffspringCount (broken down into OffspringAsexualCount and OffspringRecombinationCount),
     /// and SelectionSizeInt values.
     /// </summary>
     /// <param name="pop">The NEAT population to update species allocation sizes for.</param>
@@ -272,7 +272,7 @@ internal static class SpeciesAllocationCalcs<TScalar>
             stats.EliteSizeInt = 0;
             stats.OffspringCount = 0;
             stats.OffspringAsexualCount = 0;
-            stats.OffspringSexualCount = 0;
+            stats.OffspringRecombinationCount = 0;
             stats.SelectionSizeInt = 0;
             return;
         }
@@ -295,11 +295,11 @@ internal static class SpeciesAllocationCalcs<TScalar>
         // Determine how many offspring to produce for the species.
         stats.OffspringCount = stats.TargetSizeInt - stats.EliteSizeInt;
 
-        // Determine the split between asexual and sexual reproduction. Again using probabilistic
+        // Determine the split between asexual and recombination reproduction. Again using probabilistic
         // rounding to compensate for any rounding bias.
         double offspringAsexualCountReal = stats.OffspringCount * eaSettings.OffspringAsexualProportion;
         stats.OffspringAsexualCount = (int)NumericsUtils.StochasticRound(offspringAsexualCountReal, rng);
-        stats.OffspringSexualCount = stats.OffspringCount - stats.OffspringAsexualCount;
+        stats.OffspringRecombinationCount = stats.OffspringCount - stats.OffspringAsexualCount;
 
         // Calculate the selectionSize. The number of the species' fittest genomes that are selected from
         // to create offspring.

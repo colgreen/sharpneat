@@ -175,7 +175,7 @@ partial class MainForm
         txtElitismProportion.Enabled = enabled;
         txtSelectionProportion.Enabled = enabled;
         txtOffspringAsexualProportion.Enabled = enabled;
-        txtOffspringSexualProportion.Enabled = enabled;
+        txtOffspringRecombinationProportion.Enabled = enabled;
         txtInterspeciesMatingProportion.Enabled = enabled;
         txtConnectionWeightMutationProbability.Enabled = enabled;
         txtAddNodeMutationProbability.Enabled = enabled;
@@ -224,7 +224,7 @@ partial class MainForm
         {
             txtStatsTotalOffspringCount.Text = totalOffspringCount.ToString("N0", CultureInfo.CurrentCulture);
             txtStatsAsexualOffspringCount.Text = string.Format(CultureInfo.CurrentCulture,"{0:N0} ({1:P})", eaStats.TotalOffspringAsexualCount, (eaStats.TotalOffspringAsexualCount / (double)totalOffspringCount));
-            txtStatsCrossoverOffspringCount.Text = string.Format(CultureInfo.CurrentCulture, "{0:N0} ({1:P})", eaStats.TotalOffspringSexualCount, (eaStats.TotalOffspringSexualCount / (double)totalOffspringCount));
+            txtStatsCrossoverOffspringCount.Text = string.Format(CultureInfo.CurrentCulture, "{0:N0} ({1:P})", eaStats.TotalOffspringRecombinationCount, (eaStats.TotalOffspringRecombinationCount / (double)totalOffspringCount));
             txtStatsInterspeciesOffspringCount.Text = string.Format(CultureInfo.CurrentCulture, "{0:N0} ({1:P})", eaStats.TotalOffspringInterspeciesCount, (eaStats.TotalOffspringInterspeciesCount/(double)totalOffspringCount));
         }
     }
@@ -257,7 +257,7 @@ partial class MainForm
         INeatExperiment<double> experiment)
     {
         SendSettingsToUi(experiment.EvolutionAlgorithmSettings);
-        SendSettingsToUi(experiment.ReproductionAsexualSettings);
+        SendSettingsToUi(experiment.AsexualReproductionSettings);
 
         SetValue(txtPopulationSize, experiment.PopulationSize);
         SetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
@@ -270,12 +270,12 @@ partial class MainForm
         SetValue(txtElitismProportion, settings.ElitismProportion);
         SetValue(txtSelectionProportion, settings.SelectionProportion);
         SetValue(txtOffspringAsexualProportion, settings.OffspringAsexualProportion);
-        SetValue(txtOffspringSexualProportion, settings.OffspringSexualProportion);
+        SetValue(txtOffspringRecombinationProportion, settings.OffspringRecombinationProportion);
         SetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
     }
 
     private void SendSettingsToUi(
-        NeatReproductionAsexualSettings settings)
+        NeatAsexualReproductionSettings settings)
     {
         SetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
         SetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);
@@ -291,7 +291,7 @@ partial class MainForm
         INeatExperiment<double> experiment)
     {
         GetSettingsFromUi(experiment.EvolutionAlgorithmSettings);
-        GetSettingsFromUi(experiment.ReproductionAsexualSettings);
+        GetSettingsFromUi(experiment.AsexualReproductionSettings);
 
         experiment.PopulationSize = GetValue(txtPopulationSize, experiment.PopulationSize);
         experiment.InitialInterconnectionsProportion = GetValue(txtInitialInterconnectionsProportion, experiment.InitialInterconnectionsProportion);
@@ -305,18 +305,18 @@ partial class MainForm
         settings.SelectionProportion = GetValue(txtSelectionProportion, settings.SelectionProportion);
 
         double offspringAsexualProportion = GetValue(txtOffspringAsexualProportion, settings.OffspringAsexualProportion);
-        double offspringSexualProportion = GetValue(txtOffspringSexualProportion, settings.OffspringSexualProportion);
+        double offspringRecombinationProportion = GetValue(txtOffspringRecombinationProportion, settings.OffspringRecombinationProportion);
 
-        Normalize(ref offspringAsexualProportion, ref offspringSexualProportion);
+        Normalize(ref offspringAsexualProportion, ref offspringRecombinationProportion);
 
         settings.OffspringAsexualProportion = offspringAsexualProportion;
-        settings.OffspringSexualProportion = offspringSexualProportion;
+        settings.OffspringRecombinationProportion = offspringRecombinationProportion;
 
         settings.InterspeciesMatingProportion = GetValue(txtInterspeciesMatingProportion, settings.InterspeciesMatingProportion);
     }
 
     private void GetSettingsFromUi(
-        NeatReproductionAsexualSettings settings)
+        NeatAsexualReproductionSettings settings)
     {
         double connectionWeightMutationProbability = GetValue(txtConnectionWeightMutationProbability, settings.ConnectionWeightMutationProbability);
         double addNodeMutationProbability = GetValue(txtAddNodeMutationProbability, settings.AddNodeMutationProbability);

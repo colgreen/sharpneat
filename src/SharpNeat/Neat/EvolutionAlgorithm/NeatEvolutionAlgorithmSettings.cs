@@ -33,12 +33,12 @@ public class NeatEvolutionAlgorithmSettings
     public double OffspringAsexualProportion { get; set; } = 0.5;
 
     /// <summary>
-    /// The proportion of offspring to be produced from sexual reproduction.
+    /// The proportion of offspring to be produced from recombination reproduction.
     /// </summary>
-    public double OffspringSexualProportion { get; set; } = 0.5;
+    public double OffspringRecombinationProportion { get; set; } = 0.5;
 
     /// <summary>
-    /// The proportion of sexual reproductions that will use genomes from different species.
+    /// The proportion of recombination reproductions that will use genomes from different species.
     /// </summary>
     public double InterspeciesMatingProportion { get; set; } = 0.01;
 
@@ -66,7 +66,7 @@ public class NeatEvolutionAlgorithmSettings
         ElitismProportion = copyFrom.ElitismProportion;
         SelectionProportion = copyFrom.SelectionProportion;
         OffspringAsexualProportion = copyFrom.OffspringAsexualProportion;
-        OffspringSexualProportion = copyFrom.OffspringSexualProportion;
+        OffspringRecombinationProportion = copyFrom.OffspringRecombinationProportion;
         InterspeciesMatingProportion = copyFrom.InterspeciesMatingProportion;
         StatisticsMovingAverageHistoryLength = copyFrom.StatisticsMovingAverageHistoryLength;
     }
@@ -86,7 +86,7 @@ public class NeatEvolutionAlgorithmSettings
         var settings = new NeatEvolutionAlgorithmSettings(this)
         {
             OffspringAsexualProportion = 1.0,
-            OffspringSexualProportion = 0.0
+            OffspringRecombinationProportion = 0.0
         };
         return settings;
     }
@@ -104,10 +104,10 @@ public class NeatEvolutionAlgorithmSettings
         if(!IsProportion(ElitismProportion)) throw new InvalidOperationException("ElitismProportion must be in the interval [0,1].");
         if(!IsProportion(SelectionProportion)) throw new InvalidOperationException("SelectionProportion must be in the interval [0,1].");
         if(!IsProportion(OffspringAsexualProportion)) throw new InvalidOperationException("OffspringAsexualProportion must be in the interval [0,1].");
-        if(!IsProportion(OffspringSexualProportion)) throw new InvalidOperationException("OffspringSexualProportion must be in the interval [0,1].");
+        if(!IsProportion(OffspringRecombinationProportion)) throw new InvalidOperationException("OffspringRecombinationProportion must be in the interval [0,1].");
         if(!IsProportion(InterspeciesMatingProportion)) throw new InvalidOperationException("InterspeciesMatingProportion must be in the interval [0,1].");
         if(StatisticsMovingAverageHistoryLength < 1) throw new InvalidOperationException("StatisticsMovingAverageHistoryLength must be >= 1.");
-        if(Math.Abs((OffspringAsexualProportion + OffspringSexualProportion) - 1.0) > 1e-6) throw new InvalidOperationException("OffspringAsexualProportion and OffspringSexualProportion must sum to 1.0");
+        if(Math.Abs((OffspringAsexualProportion + OffspringRecombinationProportion) - 1.0) > 1e-6) throw new InvalidOperationException("OffspringAsexualProportion and OffspringRecombinationProportion must sum to 1.0");
 
         static bool IsProportion(double p) => p >= 0 && p <= 1.0;
     }

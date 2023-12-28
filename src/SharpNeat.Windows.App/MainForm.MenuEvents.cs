@@ -77,7 +77,7 @@ partial class MainForm
                 metaNeatGenome,
                 neatExperiment.PopulationSize,
                 seedGenome,
-                neatExperiment.ReproductionAsexualSettings,
+                neatExperiment.AsexualReproductionSettings,
                 weightMutationScheme);
 
             UpdateUiState();
@@ -117,7 +117,7 @@ partial class MainForm
                 metaNeatGenome,
                 neatExperiment.PopulationSize,
                 seedGenomes,
-                neatExperiment.ReproductionAsexualSettings,
+                neatExperiment.AsexualReproductionSettings,
                 weightMutationScheme);
 
             UpdateUiState();

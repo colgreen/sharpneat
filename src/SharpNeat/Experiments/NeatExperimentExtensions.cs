@@ -33,8 +33,8 @@ public static class NeatExperimentExtensions
         experiment.ActivationFnName = experimentConfig.ActivationFnName ?? experiment.ActivationFnName;
 
         ApplyConfiguration(experiment.EvolutionAlgorithmSettings, experimentConfig.EvolutionAlgorithm);
-        ApplyConfiguration(experiment.ReproductionAsexualSettings, experimentConfig.ReproductionAsexual);
-        ApplyConfiguration(experiment.ReproductionSexualSettings, experimentConfig.ReproductionSexual);
+        ApplyConfiguration(experiment.AsexualReproductionSettings, experimentConfig.AsexualReproduction);
+        ApplyConfiguration(experiment.RecombinationSettings, experimentConfig.Recombination);
 
         experiment.PopulationSize = experimentConfig.PopulationSize ?? experiment.PopulationSize;
         experiment.InitialInterconnectionsProportion = experimentConfig.InitialInterconnectionsProportion ?? experiment.InitialInterconnectionsProportion;
@@ -60,14 +60,14 @@ public static class NeatExperimentExtensions
         settings.ElitismProportion = config.ElitismProportion ?? settings.ElitismProportion;
         settings.SelectionProportion = config.SelectionProportion ?? settings.SelectionProportion;
         settings.OffspringAsexualProportion = config.OffspringAsexualProportion ?? settings.OffspringAsexualProportion;
-        settings.OffspringSexualProportion = config.OffspringSexualProportion ?? settings.OffspringSexualProportion;
+        settings.OffspringRecombinationProportion = config.OffspringRecombinationProportion ?? settings.OffspringRecombinationProportion;
         settings.InterspeciesMatingProportion = config.InterspeciesMatingProportion ?? settings.InterspeciesMatingProportion;
         settings.StatisticsMovingAverageHistoryLength = config.StatisticsMovingAverageHistoryLength ?? settings.StatisticsMovingAverageHistoryLength;
     }
 
     private static void ApplyConfiguration(
-        NeatReproductionAsexualSettings settings,
-        NeatReproductionAsexualConfig? config)
+        NeatAsexualReproductionSettings settings,
+        NeatAsexualReproductionConfig? config)
     {
         if(config is null)
             return;
@@ -79,8 +79,8 @@ public static class NeatExperimentExtensions
     }
 
     private static void ApplyConfiguration(
-        NeatReproductionSexualSettings settings,
-        NeatReproductionSexualConfig? config)
+        NeatRecombinationSettings settings,
+        NeatRecombinationConfig? config)
     {
         if(config is null)
             return;

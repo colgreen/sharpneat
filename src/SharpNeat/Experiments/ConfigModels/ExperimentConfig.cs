@@ -47,12 +47,12 @@ public record ExperimentConfig
     /// <summary>
     /// NEAT asexual reproduction configuration.
     /// </summary>
-    public NeatReproductionAsexualConfig? ReproductionAsexual { get; init; }
+    public NeatAsexualReproductionConfig? AsexualReproduction { get; init; }
 
     /// <summary>
-    /// NEAT sexual reproduction configuration.
+    /// NEAT recombination configuration.
     /// </summary>
-    public NeatReproductionSexualConfig? ReproductionSexual { get; init; }
+    public NeatRecombinationConfig? Recombination { get; init; }
 
     /// <summary>
     /// The population size to use for the experiment.

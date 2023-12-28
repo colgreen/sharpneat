@@ -29,8 +29,8 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
     readonly IComparer<NeatGenome<TScalar>> _genomeComparerDescending;
 
     readonly Int32Sequence _generationSeq;
-    readonly NeatReproductionAsexual<TScalar> _reproductionAsexual;
-    readonly NeatReproductionSexual<TScalar> _reproductionSexual;
+    readonly NeatAsexualReproduction<TScalar> _asexualReproduction;
+    readonly NeatRecombination<TScalar> _recombination;
 
     readonly OffspringBuilder<TScalar> _offspringBuilder;
     readonly NeatEvolutionAlgorithmStatistics _eaStats = new();
@@ -50,8 +50,8 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
     /// <param name="speciationStrategy">Speciation strategy.</param>
     /// <param name="population">An initial population of genomes.</param>
     /// <param name="complexityRegulationStrategy">Complexity regulation strategy.</param>
-    /// <param name="reproductionAsexualSettings">Asexual reproduction settings.</param>
-    /// <param name="reproductionSexualSettings">Sexual reproduction settings.</param>
+    /// <param name="asexualReproductionSettings">Asexual reproduction settings.</param>
+    /// <param name="recombinationSettings">Recombination reproduction settings.</param>
     /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
     /// <param name="rng">Random source (optional).</param>
     public NeatEvolutionAlgorithm(
@@ -60,18 +60,18 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         ISpeciationStrategy<NeatGenome<TScalar>,TScalar> speciationStrategy,
         NeatPopulation<TScalar> population,
         IComplexityRegulationStrategy complexityRegulationStrategy,
-        NeatReproductionAsexualSettings reproductionAsexualSettings,
-        NeatReproductionSexualSettings reproductionSexualSettings,
+        NeatAsexualReproductionSettings asexualReproductionSettings,
+        NeatRecombinationSettings recombinationSettings,
         WeightMutationScheme<TScalar> weightMutationScheme,
         IRandomSource? rng = null)
     {
         // Perform some basic validation of the provided settings objects.
         ArgumentNullException.ThrowIfNull(eaSettings);
-        ArgumentNullException.ThrowIfNull(reproductionAsexualSettings);
-        ArgumentNullException.ThrowIfNull(reproductionSexualSettings);
+        ArgumentNullException.ThrowIfNull(asexualReproductionSettings);
+        ArgumentNullException.ThrowIfNull(recombinationSettings);
         eaSettings.Validate();
-        reproductionAsexualSettings.Validate();
-        reproductionSexualSettings.Validate();
+        asexualReproductionSettings.Validate();
+        recombinationSettings.Validate();
 
         // Store instance fields, and null check as we go.
         _eaSettingsCurrent = eaSettings;
@@ -90,19 +90,19 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
 
         _generationSeq = new Int32Sequence();
 
-        _reproductionAsexual = new NeatReproductionAsexual<TScalar>(
+        _asexualReproduction = new NeatAsexualReproduction<TScalar>(
             _pop.MetaNeatGenome, _pop.GenomeBuilder,
             _pop.GenomeIdSeq, population.InnovationIdSeq, _generationSeq,
-            _pop.AddedNodeBuffer, reproductionAsexualSettings, weightMutationScheme);
+            _pop.AddedNodeBuffer, asexualReproductionSettings, weightMutationScheme);
 
-        _reproductionSexual = new NeatReproductionSexual<TScalar>(
+        _recombination = new NeatRecombination<TScalar>(
             _pop.MetaNeatGenome, _pop.GenomeBuilder,
             _pop.GenomeIdSeq, _generationSeq,
-            reproductionSexualSettings);
+            recombinationSettings);
 
         _offspringBuilder = new OffspringBuilder<TScalar>(
-            _reproductionAsexual,
-            _reproductionSexual,
+            _asexualReproduction,
+            _recombination,
             eaSettings.InterspeciesMatingProportion,
             evaluator.FitnessComparer);
     }
@@ -164,7 +164,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         List<NeatGenome<TScalar>> offspringList = _offspringBuilder.CreateOffspring(
             _pop.SpeciesArray, _rng,
             out int offspringAsexualCount,
-            out int offspringSexualCount,
+            out int offspringRecombinationCount,
             out int offspringInterspeciesCount);
 
         // Trim population back to elite genomes only.
@@ -186,7 +186,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         IntegrateOffspringIntoSpecies(offspringList, emptySpeciesFlag);
 
         // Update statistics.
-        UpdateStats(evaluationCount, offspringAsexualCount, offspringSexualCount, offspringInterspeciesCount);
+        UpdateStats(evaluationCount, offspringAsexualCount, offspringRecombinationCount, offspringInterspeciesCount);
 
         // Complexity regulation.
         UpdateComplexityRegulationMode();
@@ -308,7 +308,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
     private void UpdateStats(
         ulong evaluationCountDelta,
         int offspringAsexualCount,
-        int offspringSexualCount,
+        int offspringRecombinationCount,
         int offspringInterspeciesCount)
     {
         // Record the point in clock time we entered this method.
@@ -352,9 +352,9 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         }
 
         // Update total number of offspring genomes produced.
-        _eaStats.TotalOffspringCount += (ulong)(offspringAsexualCount + offspringSexualCount);
+        _eaStats.TotalOffspringCount += (ulong)(offspringAsexualCount + offspringRecombinationCount);
         _eaStats.TotalOffspringAsexualCount += offspringAsexualCount;
-        _eaStats.TotalOffspringSexualCount += offspringSexualCount;
+        _eaStats.TotalOffspringRecombinationCount += offspringRecombinationCount;
         _eaStats.TotalOffspringInterspeciesCount += offspringInterspeciesCount;
 
         // Update species allocation sizes.
@@ -372,7 +372,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
             return;
 
         // Notify all objects that need to be notified of the change in mode.
-        _reproductionAsexual.NotifyComplexityRegulationMode(mode);
+        _asexualReproduction.NotifyComplexityRegulationMode(mode);
 
         _eaSettingsCurrent = mode switch
         {

@@ -34,8 +34,8 @@ public class SpeciesStats
     /// <summary>
     /// The number of offspring genomes to produce for this species.
     /// This value is simply <see cref="TargetSizeInt"/> - <see cref="EliteSizeInt"/>.
-    /// This count is broken down further into <see cref="OffspringAsexualCount"/> and <see cref="OffspringSexualCount"/>,
-    /// i.e. <see cref="OffspringCount"/> = <see cref="OffspringAsexualCount"/> + <see cref="OffspringSexualCount"/>.
+    /// This count is broken down further into <see cref="OffspringAsexualCount"/> and <see cref="OffspringRecombinationCount"/>,
+    /// i.e. <see cref="OffspringCount"/> = <see cref="OffspringAsexualCount"/> + <see cref="OffspringRecombinationCount"/>.
     /// </summary>
     public int OffspringCount;
 
@@ -45,13 +45,13 @@ public class SpeciesStats
     public int OffspringAsexualCount;
 
     /// <summary>
-    /// The number of offspring to produce through sexual reproduction.
+    /// The number of offspring to produce through recombination reproduction.
     /// </summary>
-    public int OffspringSexualCount;
+    public int OffspringRecombinationCount;
 
     // Selection data.
     /// <summary>
-    /// The number of fittest genomes in the species to be selected from for selecting parents for sexual and asexual reproduction.
+    /// The number of fittest genomes in the species to be selected from for selecting parents for recombination and asexual reproduction.
     /// </summary>
     public int SelectionSizeInt;
 }

@@ -18,13 +18,13 @@ public class NeatEvolutionAlgorithmStatistics : EvolutionAlgorithmStatistics
     public int TotalOffspringAsexualCount { get; set; }
 
     /// <summary>
-    /// The total number of offspring genomes created through sexual reproduction since the evolution algorithm started.
+    /// The total number of offspring genomes created through recombination reproduction since the evolution algorithm started.
     /// </summary>
-    public int TotalOffspringSexualCount { get; set; }
+    public int TotalOffspringRecombinationCount { get; set; }
 
     /// <summary>
-    /// The total number of offspring genomes created through inter-species sexual reproduction since the evolution algorithm started.
-    /// This number is included in <see cref="TotalOffspringSexualCount"/>.
+    /// The total number of offspring genomes created through inter-species recombination reproduction since the evolution algorithm started.
+    /// This number is included in <see cref="TotalOffspringRecombinationCount"/>.
     /// </summary>
     public int TotalOffspringInterspeciesCount { get; set; }
 }

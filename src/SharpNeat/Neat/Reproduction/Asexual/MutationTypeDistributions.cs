@@ -25,7 +25,7 @@ public sealed class MutationTypeDistributions
     /// Construct a new instance.
     /// </summary>
     /// <param name="settings">Asexual reproduction settings.</param>
-    public MutationTypeDistributions(NeatReproductionAsexualSettings settings)
+    public MutationTypeDistributions(NeatAsexualReproductionSettings settings)
     {
         MutationTypeDistribution = CreateMutationTypeDiscreteDistribution(settings);
         MutationTypeDistributionNonDestructive = CreateMutationTypeDiscreteDistribution_NonDestructive(settings);
@@ -40,7 +40,7 @@ public sealed class MutationTypeDistributions
     /// <param name="settings">Asexual reproduction settings.</param>
     /// <returns>A new instance of <see cref="DiscreteDistribution{Double}"/>.</returns>
     private static DiscreteDistribution<double> CreateMutationTypeDiscreteDistribution(
-        NeatReproductionAsexualSettings settings)
+        NeatAsexualReproductionSettings settings)
     {
         double[] probabilities =
             [
@@ -60,7 +60,7 @@ public sealed class MutationTypeDistributions
     /// <param name="settings">Asexual reproduction settings.</param>
     /// <returns>A new instance of <see cref="DiscreteDistribution{Double}"/>.</returns>
     private static DiscreteDistribution<double> CreateMutationTypeDiscreteDistribution_NonDestructive(
-        NeatReproductionAsexualSettings settings)
+        NeatAsexualReproductionSettings settings)
     {
         double[] probabilities =
             [

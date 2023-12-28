@@ -71,12 +71,12 @@ public interface INeatExperiment<TScalar>
     /// <summary>
     /// The asexual reproduction settings to use for the experiment.
     /// </summary>
-    NeatReproductionAsexualSettings ReproductionAsexualSettings { get; }
+    NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
 
     /// <summary>
-    /// The sexual reproduction settings to use for the experiment.
+    /// The recombination settings to use for the experiment.
     /// </summary>
-    NeatReproductionSexualSettings ReproductionSexualSettings { get; }
+    NeatRecombinationSettings RecombinationSettings { get; }
 
     /// <summary>
     /// The population size to use for the experiment.

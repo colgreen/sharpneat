@@ -17,8 +17,8 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 internal sealed class OffspringBuilder<TScalar>
     where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly NeatReproductionAsexual<TScalar> _reproductionAsexual;
-    readonly NeatReproductionSexual<TScalar> _reproductionSexual;
+    readonly NeatAsexualReproduction<TScalar> _asexualReproduction;
+    readonly NeatRecombination<TScalar> _recombination;
     readonly double _interspeciesMatingProportion;
     readonly IComparer<FitnessInfo> _fitnessComparer;
 
@@ -27,18 +27,18 @@ internal sealed class OffspringBuilder<TScalar>
     /// <summary>
     /// Construct a new instance of <see cref="OffspringBuilder{T}"/>.
     /// </summary>
-    /// <param name="reproductionAsexual">Asexual reproduction strategy.</param>
-    /// <param name="reproductionSexual">Sexual reproduction strategy.</param>
+    /// <param name="asexualReproduction">Asexual reproduction strategy.</param>
+    /// <param name="recombination">Recombination reproduction strategy.</param>
     /// <param name="interspeciesMatingProportion">Inter-species mating proportion.</param>
     /// <param name="fitnessComparer">Fitness comparer.</param>
     public OffspringBuilder(
-        NeatReproductionAsexual<TScalar> reproductionAsexual,
-        NeatReproductionSexual<TScalar> reproductionSexual,
+        NeatAsexualReproduction<TScalar> asexualReproduction,
+        NeatRecombination<TScalar> recombination,
         double interspeciesMatingProportion,
         IComparer<FitnessInfo> fitnessComparer)
     {
-        _reproductionAsexual = reproductionAsexual;
-        _reproductionSexual = reproductionSexual;
+        _asexualReproduction = asexualReproduction;
+        _recombination = recombination;
         _interspeciesMatingProportion = interspeciesMatingProportion;
         _fitnessComparer = fitnessComparer;
     }
@@ -53,28 +53,28 @@ internal sealed class OffspringBuilder<TScalar>
     /// <param name="speciesArr">An array of species, containing existing elite genomes.</param>
     /// <param name="rng">Random source.</param>
     /// <param name="offspringAsexualCount">Returns the number of new offspring created using asexual reproduction.</param>
-    /// <param name="offspringSexualCount">Returns the number of new offspring created using sexual reproduction.</param>
-    /// <param name="offspringInterspeciesCount">Returns the number of new offspring created using sexual
+    /// <param name="offspringRecombinationCount">Returns the number of new offspring created using recombination reproduction.</param>
+    /// <param name="offspringInterspeciesCount">Returns the number of new offspring created using recombination
     /// reproduction between genomes from different species.</param>
     /// <returns>A new list containing the created offspring genomes.</returns>
     /// <remarks>
     /// Each species contains a genome list, which should have been trimmed back to the elite genomes only,
-    /// in order to make space for the new offspring. New offspring are created by application of sexual and
+    /// in order to make space for the new offspring. New offspring are created by application of recombination and
     /// asexual reproduction on the existing genomes.
     ///
     /// The number of offspring genomes to create is determined by <see cref="SpeciesStats.OffspringAsexualCount"/>
-    /// and <see cref="SpeciesStats.OffspringSexualCount"/>.
+    /// and <see cref="SpeciesStats.OffspringRecombinationCount"/>.
     /// </remarks>
     public List<NeatGenome<TScalar>> CreateOffspring(
         Species<TScalar>[] speciesArr,
         IRandomSource rng,
         out int offspringAsexualCount,
-        out int offspringSexualCount,
+        out int offspringRecombinationCount,
         out int offspringInterspeciesCount)
     {
         // Create selection distributions.
         // Notes.
-        // speciesDist is for selecting species when performing inter-species sexual reproduction, i.e. selecting parent genomes
+        // speciesDist is for selecting species when performing inter-species recombination reproduction, i.e. selecting parent genomes
         // from two separate species.
         // genomeDistArr is an array of distributions, one per species; this is for selecting genomes for intra-species reproduction.
         CreateSelectionDistributionUtils<TScalar>.CreateSelectionDistributions(
@@ -93,7 +93,7 @@ internal sealed class OffspringBuilder<TScalar>
             speciesArr, speciesDist, genomeDistArr,
             interspeciesMatingProportionResolved, rng,
             out offspringAsexualCount,
-            out offspringSexualCount,
+            out offspringRecombinationCount,
             out offspringInterspeciesCount);
 
         return offspringList;
@@ -109,10 +109,10 @@ internal sealed class OffspringBuilder<TScalar>
         DiscreteDistribution<double>?[] genomeDistArr,
         double interspeciesMatingProportion,
         IRandomSource rng,
-        out int asexualCount, out int sexualCount,
+        out int asexualCount, out int recombinationCount,
         out int interspeciesCount)
     {
-        asexualCount = sexualCount = interspeciesCount = 0;
+        asexualCount = recombinationCount = interspeciesCount = 0;
 
         // Calc total number of offspring to produce for the population as a whole.
         int offspringCount = speciesArr.Sum(x => x.Stats.OffspringCount);
@@ -133,19 +133,19 @@ internal sealed class OffspringBuilder<TScalar>
             // Get the DiscreteDistribution for genome selection within the current species.
             var genomeDist = genomeDistArr[speciesIdx]!;
 
-            // Determine how many offspring to create through asexual and sexual reproduction.
+            // Determine how many offspring to create through asexual and recombination reproduction.
             SpeciesStats stats = species.Stats;
             int offspringCountAsexual = stats.OffspringAsexualCount;
-            int offspringCountSexual = stats.OffspringSexualCount;
+            int offspringCountRecombination = stats.OffspringRecombinationCount;
 
-            // Special case: A species with a single genome marked for selection, cannot perform intra-species sexual reproduction.
+            // Special case: A species with a single genome marked for selection, cannot perform intra-species recombination reproduction.
             if(species.Stats.SelectionSizeInt == 1)
             {
-                // Note. here we assign all the sexual reproduction allocation to asexual reproduction. In principle
-                // we could still perform inter-species sexual reproduction, but that complicates the code further
+                // Note. here we assign all the recombination reproduction allocation to asexual reproduction. In principle
+                // we could still perform inter-species recombination reproduction, but that complicates the code further
                 // for minimal gain.
-                offspringCountAsexual += offspringCountSexual;
-                offspringCountSexual = 0;
+                offspringCountAsexual += offspringCountRecombination;
+                offspringCountRecombination = 0;
             }
 
             // Create a copy of speciesDist with the current species removed from the set of possibilities.
@@ -156,16 +156,16 @@ internal sealed class OffspringBuilder<TScalar>
             CreateSpeciesOffspringAsexual(
                 species, genomeDist, offspringCountAsexual, offspringList, rng);
 
-            CreateSpeciesOffspringSexual(
+            CreateSpeciesOffspringRecombination(
                 speciesArr, species, speciesDistUpdated,
                 genomeDistArr, genomeDist,
-                offspringCountSexual, offspringList,
+                offspringCountRecombination, offspringList,
                 interspeciesMatingProportion, rng,
                 out int interspeciesCountTmp);
 
-            // Keep track of how many offspring have been created via asexual and sexual reproduction.
+            // Keep track of how many offspring have been created via asexual and recombination reproduction.
             asexualCount += offspringCountAsexual;
-            sexualCount += offspringCountSexual;
+            recombinationCount += offspringCountRecombination;
             interspeciesCount += interspeciesCountTmp;
         }
 
@@ -189,12 +189,12 @@ internal sealed class OffspringBuilder<TScalar>
             var parentGenome = genomeList[genomeIdx];
 
             // Spawn a child genome and add it to offspringList.
-            var childGenome = _reproductionAsexual.CreateChildGenome(parentGenome, rng);
+            var childGenome = _asexualReproduction.CreateChildGenome(parentGenome, rng);
             offspringList.Add(childGenome);
         }
     }
 
-    private void CreateSpeciesOffspringSexual(
+    private void CreateSpeciesOffspringRecombination(
         Species<TScalar>[] speciesArr,
         Species<TScalar> species,
         DiscreteDistribution<double> speciesDistUpdated,
@@ -206,21 +206,21 @@ internal sealed class OffspringBuilder<TScalar>
         IRandomSource rng,
         out int offspringInterspeciesCount)
     {
-        // Calc the number of offspring to create via inter-species sexual reproduction.
-        int offspringCountSexualInter;
+        // Calc the number of offspring to create via inter-species recombination reproduction.
+        int offspringCountRecombinationInter;
         if(interspeciesMatingProportion == 0.0)
-            offspringInterspeciesCount = offspringCountSexualInter = 0;
+            offspringInterspeciesCount = offspringCountRecombinationInter = 0;
         else
-            offspringInterspeciesCount = offspringCountSexualInter = (int)NumericsUtils.StochasticRound(interspeciesMatingProportion * offspringCount, rng);
+            offspringInterspeciesCount = offspringCountRecombinationInter = (int)NumericsUtils.StochasticRound(interspeciesMatingProportion * offspringCount, rng);
 
-        // Calc the number of offspring to create via intra-species sexual reproduction.
-        int offspringCountSexualIntra = offspringCount - offspringCountSexualInter;
+        // Calc the number of offspring to create via intra-species recombination reproduction.
+        int offspringCountRecombinationIntra = offspringCount - offspringCountRecombinationInter;
 
         // Get genome list for the current species.
         var genomeList = species.GenomeList;
 
-        // Produce the required number of offspring from intra-species sexual reproduction.
-        for(int i=0; i < offspringCountSexualIntra; i++)
+        // Produce the required number of offspring from intra-species recombination reproduction.
+        for(int i=0; i < offspringCountRecombinationIntra; i++)
         {
             // Select/sample parent A from the species.
             int genomeIdx = genomeDist.Sample(rng);
@@ -234,12 +234,12 @@ internal sealed class OffspringBuilder<TScalar>
             var parentGenomeB = genomeList[genomeIdx];
 
             // Create a child genome and add it to offspringList.
-            var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);
+            var childGenome = _recombination.CreateGenome(parentGenomeA, parentGenomeB, rng);
             offspringList.Add(childGenome);
         }
 
-        // Produce the required number of offspring from inter-species sexual reproduction.
-        for(int i=0; i < offspringCountSexualInter; i++)
+        // Produce the required number of offspring from inter-species recombination reproduction.
+        for(int i=0; i < offspringCountRecombinationInter; i++)
         {
             // Select/sample parent A from the current species.
             int genomeIdx = genomeDist.Sample(rng);
@@ -259,7 +259,7 @@ internal sealed class OffspringBuilder<TScalar>
                 VariableUtils.Swap(ref parentGenomeA!, ref parentGenomeB!);
 
             // Create a child genome and add it to offspringList.
-            var childGenome = _reproductionSexual.CreateGenome(parentGenomeA, parentGenomeB, rng);
+            var childGenome = _recombination.CreateGenome(parentGenomeA, parentGenomeB, rng);
             offspringList.Add(childGenome);
         }
     }

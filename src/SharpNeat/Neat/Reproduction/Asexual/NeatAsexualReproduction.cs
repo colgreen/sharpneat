@@ -12,7 +12,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 /// Creation of offspring given a single parent (asexual reproduction).
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
-public class NeatReproductionAsexual<TScalar> : IAsexualReproductionStrategy<TScalar>
+public class NeatAsexualReproduction<TScalar> : IAsexualReproductionStrategy<TScalar>
     where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
@@ -38,14 +38,14 @@ public class NeatReproductionAsexual<TScalar> : IAsexualReproductionStrategy<TSc
     /// <param name="addedNodeBuffer">A history buffer of added nodes.</param>
     /// <param name="settings">Asexual reproduction settings.</param>
     /// <param name="weightMutationScheme">Connection weight mutation scheme.</param>
-    public NeatReproductionAsexual(
+    public NeatAsexualReproduction(
         MetaNeatGenome<TScalar> metaNeatGenome,
         INeatGenomeBuilder<TScalar> genomeBuilder,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq,
         Int32Sequence generationSeq,
         AddedNodeBuffer addedNodeBuffer,
-        NeatReproductionAsexualSettings settings,
+        NeatAsexualReproductionSettings settings,
         WeightMutationScheme<TScalar> weightMutationScheme)
     {
         var settingsComplexifying = settings;
