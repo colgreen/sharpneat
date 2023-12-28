@@ -20,10 +20,10 @@ public class NeatReproductionAsexual<TScalar> : IAsexualReproductionStrategy<TSc
     MutationTypeDistributions _mutationTypeDistributionsCurrent;
 
     // Asexual reproduction strategies.
-    readonly IAsexualReproductionStrategy<TScalar> _mutateWeightsStrategy;
-    readonly IAsexualReproductionStrategy<TScalar> _deleteConnectionStrategy;
+    readonly MutateWeightsStrategy<TScalar> _mutateWeightsStrategy;
+    readonly DeleteConnectionStrategy<TScalar> _deleteConnectionStrategy;
     readonly IAsexualReproductionStrategy<TScalar> _addConnectionStrategy;
-    readonly IAsexualReproductionStrategy<TScalar> _addNodeStrategy;
+    readonly AddNodeStrategy<TScalar> _addNodeStrategy;
 
     #region Constructor
 
