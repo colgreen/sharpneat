@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Numerics;
 using Redzen.Numerics.Distributions;
 using SharpNeat.Graphs.Acyclic;
-using static SharpNeat.Neat.Reproduction.Asexual.Strategy.AddConnectionUtils;
+using static SharpNeat.Neat.Reproduction.Asexual.Strategies.AddConnectionUtils;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on adding a single acyclic connection.

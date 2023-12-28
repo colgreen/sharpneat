@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using System.Globalization;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on adding a single node.

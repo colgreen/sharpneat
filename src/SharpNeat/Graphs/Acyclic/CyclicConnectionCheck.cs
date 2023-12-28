@@ -9,7 +9,7 @@ namespace SharpNeat.Graphs.Acyclic;
 /// The algorithm utilises a depth first traversal of the graph but using its own traversal stack
 /// data structure instead of relying on function recursion and the call stack. This is an optimisation,
 /// for more details see the comments on:
-/// <see cref="Neat.Reproduction.Recombination.Strategy.UniformCrossover.CyclicConnectionCheck"/>.
+/// <see cref="Neat.Reproduction.Recombination.Strategies.UniformCrossover.CyclicConnectionCheck"/>.
 /// Also see:
 /// <see cref="AcyclicGraphDepthAnalysis"/>
 /// <see cref="CyclicGraphCheck"/>.

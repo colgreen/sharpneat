@@ -1,7 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Neat.Reproduction.Recombination.Strategy;
-using SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
+using SharpNeat.Neat.Reproduction.Recombination.Strategies;
+using SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 
 namespace SharpNeat.Neat.Reproduction.Recombination;
 

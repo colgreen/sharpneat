@@ -6,7 +6,7 @@ using SharpNeat.Neat.Genome;
 using Xunit;
 using static SharpNeat.Neat.Genome.NestGenomeTestUtils;
 
-namespace SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
+namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 
 public class UniformCrossoverReproductionStrategyTests
 {

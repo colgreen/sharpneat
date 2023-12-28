@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on mutation of connection weights.

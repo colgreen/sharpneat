@@ -6,7 +6,7 @@ using SharpNeat.Neat.Genome;
 using Xunit;
 using static SharpNeat.Neat.Genome.NestGenomeTestUtils;
 
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 public class AddNodeStrategyTests
 {

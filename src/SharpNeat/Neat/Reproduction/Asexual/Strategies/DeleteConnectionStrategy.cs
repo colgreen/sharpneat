@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.Neat.Reproduction.Asexual.Strategy;
+namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
 /// A NEAT genome asexual reproduction strategy based on deletion of a single connection.

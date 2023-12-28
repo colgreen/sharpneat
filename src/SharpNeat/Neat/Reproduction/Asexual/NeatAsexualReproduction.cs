@@ -3,7 +3,7 @@
 using System.Numerics;
 using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.Neat.Reproduction.Asexual.Strategy;
+using SharpNeat.Neat.Reproduction.Asexual.Strategies;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
 namespace SharpNeat.Neat.Reproduction.Asexual;

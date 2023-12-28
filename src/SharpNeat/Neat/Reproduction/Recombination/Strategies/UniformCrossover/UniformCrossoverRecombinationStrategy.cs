@@ -1,9 +1,9 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using Redzen.Numerics.Distributions;
-using static SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover.UniformCrossoverRecombinationStrategyUtils;
+using static SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover.UniformCrossoverRecombinationStrategyUtils;
 
-namespace SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
+namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 
 /// <summary>
 /// A recombination strategy that utilises genetic crossover between two parent genomes.

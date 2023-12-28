@@ -1,6 +1,6 @@
 ﻿using SharpNeat.Neat.Genome;
 
-namespace SharpNeat.Neat.Reproduction.Recombination.Strategy.UniformCrossover;
+namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 
 public class UniformCrossoverReproductionStrategyTestsUtils
 {
