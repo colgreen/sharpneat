@@ -11,49 +11,51 @@ public class NeatExperimentExtensionsTests
     [Fact]
     public void Configure()
     {
-        string json = @"{
-    ""description"":""bar description"",
-    ""isAcyclic"":false,
-    ""cyclesPerActivation"":111,
-    ""activationFnName"":""bar-activation-fn"",
+        string json = """
+        {
+            "description":"bar description",
+            "isAcyclic":false,
+            "cyclesPerActivation":111,
+            "activationFnName":"bar-activation-fn",
 
-    ""evolutionAlgorithm"":
-    {
-        ""speciesCount"":1111,
-        ""elitismProportion"":0.11,
-        ""selectionProportion"":0.22,
-        ""offspringAsexualProportion"":0.39,
-        ""offspringRecombinationProportion"":0.61,
-        ""interspeciesMatingProportion"":0.55,
-        ""statisticsMovingAverageHistoryLength"":2222
-    },
-    ""asexualReproduction"":
-    {
-        ""connectionWeightMutationProbability"":0.11,
-        ""addNodeMutationProbability"":0.22,
-        ""addConnectionMutationProbability"":0.33,
-        ""deleteConnectionMutationProbability"":0.34
-    },
-    ""recombination"":
-    {
-        ""secondaryParentGeneProbability"":0.11
-    },
+            "evolutionAlgorithm":
+            {
+                "speciesCount":1111,
+                "elitismProportion":0.11,
+                "selectionProportion":0.22,
+                "offspringAsexualProportion":0.39,
+                "offspringRecombinationProportion":0.61,
+                "interspeciesMatingProportion":0.55,
+                "statisticsMovingAverageHistoryLength":2222
+            },
+            "asexualReproduction":
+            {
+                "connectionWeightMutationProbability":0.11,
+                "addNodeMutationProbability":0.22,
+                "addConnectionMutationProbability":0.33,
+                "deleteConnectionMutationProbability":0.34
+            },
+            "recombination":
+            {
+                "secondaryParentGeneProbability":0.11
+            },
 
-    ""populationSize"":222,
-    ""initialInterconnectionsProportion"":0.33,
-    ""connectionWeightScale"":4.44,
+            "populationSize":222,
+            "initialInterconnectionsProportion":0.33,
+            "connectionWeightScale":4.44,
 
-    ""complexityRegulationStrategy"":
-    {
-        ""strategyName"": ""absolute"",
-        ""complexityCeiling"": 10,
-        ""minSimplifcationGenerations"": 10
-    },
+            "complexityRegulationStrategy":
+            {
+                "strategyName": "absolute",
+                "complexityCeiling": 10,
+                "minSimplifcationGenerations": 10
+            },
 
-    ""enableHardwareAcceleratedNeuralNets"":true,
-    ""enableHardwareAcceleratedActivationFunctions"":true,
-    ""degreeOfParallelism"":6
-}";
+            "enableHardwareAcceleratedNeuralNets":true,
+            "enableHardwareAcceleratedActivationFunctions":true,
+            "degreeOfParallelism":6
+        }
+        """;
 
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(json);
 
