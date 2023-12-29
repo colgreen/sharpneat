@@ -58,13 +58,13 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
     public IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
 
     /// <inheritdoc/>
-    public NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
+    public required NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; init; }
 
     /// <inheritdoc/>
-    public NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
+    public required NeatAsexualReproductionSettings AsexualReproductionSettings { get; init; }
 
     /// <inheritdoc/>
-    public NeatRecombinationSettings RecombinationSettings { get; }
+    public required NeatRecombinationSettings RecombinationSettings { get; init; }
 
     /// <inheritdoc/>
     public IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }

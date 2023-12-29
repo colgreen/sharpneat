@@ -2,6 +2,9 @@
 using SharpNeat.Evaluation;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.IO;
+using SharpNeat.Neat.EvolutionAlgorithm;
+using SharpNeat.Neat.Reproduction.Asexual;
+using SharpNeat.Neat.Reproduction.Recombination;
 using Xunit;
 
 namespace SharpNeat.Experiments;
@@ -64,7 +67,12 @@ public class NeatExperimentExtensionsTests
 
         // Init a default settings object.
         var experiment = new NeatExperiment<double>(
-            evalScheme.Object, "foo-experiment");
+            evalScheme.Object, "foo-experiment")
+        {
+            EvolutionAlgorithmSettings = experimentConfig.EvolutionAlgorithm ?? new NeatEvolutionAlgorithmSettings(),
+            AsexualReproductionSettings = experimentConfig.AsexualReproduction ?? new NeatAsexualReproductionSettings(),
+            RecombinationSettings = experimentConfig.Recombination ?? new NeatRecombinationSettings()
+        };
 
         // Apply the experiment config.
         experiment.Configure(experimentConfig);

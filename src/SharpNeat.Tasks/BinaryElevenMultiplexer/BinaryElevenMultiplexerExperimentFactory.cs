@@ -3,6 +3,9 @@
 using SharpNeat.Experiments;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.IO;
+using SharpNeat.Neat.EvolutionAlgorithm;
+using SharpNeat.Neat.Reproduction.Asexual;
+using SharpNeat.Neat.Reproduction.Recombination;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Tasks.BinaryElevenMultiplexer;
@@ -29,7 +32,10 @@ public sealed class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFa
         var experiment = new NeatExperiment<double>(evalScheme, Id)
         {
             IsAcyclic = true,
-            ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
+            ActivationFnName = ActivationFunctionId.LeakyReLU.ToString(),
+            EvolutionAlgorithmSettings = experimentConfig.EvolutionAlgorithm ?? new NeatEvolutionAlgorithmSettings(),
+            AsexualReproductionSettings = experimentConfig.AsexualReproduction ?? new NeatAsexualReproductionSettings(),
+            RecombinationSettings = experimentConfig.Recombination ?? new NeatRecombinationSettings()
         };
 
         // Apply configuration to the experiment instance.
