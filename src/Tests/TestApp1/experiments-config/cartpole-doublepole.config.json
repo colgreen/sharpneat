@@ -3,6 +3,13 @@
   "isAcyclic": false,
   "cyclesPerActivation": 1,
   "activationFnName": "LogisticSteep",
+  "populationSize": 150,
+  "initialInterconnectionsProportion": 0.05,
+  "connectionWeightScale": 5.0,
+  "degreeOfParallelism": 4,
+  "enableHardwareAcceleratedNeuralNets": false,
+  "enableHardwareAcceleratedActivationFunctions": false,
+
   "evolutionAlgorithm": {
     "speciesCount": 10,
     "elitismProportion": 0.2,
@@ -20,15 +27,10 @@
   "recombination": {
     "secondaryParentGeneProbability": 0.1
   },
-  "populationSize": 150,
-  "initialInterconnectionsProportion": 0.05,
-  "connectionWeightScale": 5.0,
   "complexityRegulationStrategy": {
     "strategyName": "absolute",
     "complexityCeiling": 20,
     "minSimplifcationGenerations": 10
-  },
-  "degreeOfParallelism": 4,
-  "enableHardwareAcceleratedNeuralNets": false,
-  "enableHardwareAcceleratedActivationFunctions": false
+  }
+
 }

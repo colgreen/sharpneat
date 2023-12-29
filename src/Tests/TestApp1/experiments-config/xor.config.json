@@ -2,6 +2,13 @@
   "name": "Logical XOR",
   "isAcyclic": true,
   "activationFnName": "LeakyReLU",
+  "populationSize": 150,
+  "initialInterconnectionsProportion": 0.05,
+  "connectionWeightScale": 5.0,
+  "degreeOfParallelism": 4,
+  "enableHardwareAcceleratedNeuralNets": false,
+  "enableHardwareAcceleratedActivationFunctions": false,
+
   "evolutionAlgorithm": {
     "speciesCount": 10,
     "elitismProportion": 0.2,
@@ -19,15 +26,9 @@
   "recombination": {
     "secondaryParentGeneProbability": 0.1
   },
-  "populationSize": 150,
-  "initialInterconnectionsProportion": 0.05,
-  "connectionWeightScale": 5.0,
   "complexityRegulationStrategy": {
     "strategyName": "absolute",
     "complexityCeiling": 10,
     "minSimplifcationGenerations": 10
-  },
-  "degreeOfParallelism": 4,
-  "enableHardwareAcceleratedNeuralNets": false,
-  "enableHardwareAcceleratedActivationFunctions": false
+  }
 }

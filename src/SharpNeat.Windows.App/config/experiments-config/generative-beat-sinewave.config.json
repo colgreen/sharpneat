@@ -4,6 +4,13 @@
   "isAcyclic": false,
   "cyclesPerActivation": 1,
   "activationFnName": "LeakyReLU",
+  "populationSize": 600,
+  "initialInterconnectionsProportion": 0.05,
+  "connectionWeightScale": 5.0,
+  "degreeOfParallelism": 4,
+  "enableHardwareAcceleratedNeuralNets": false,
+  "enableHardwareAcceleratedActivationFunctions": false,
+
   "evolutionAlgorithm": {
     "speciesCount": 10,
     "elitismProportion": 0.5,
@@ -21,17 +28,12 @@
   "recombination": {
     "secondaryParentGeneProbability": 0.1
   },
-  "populationSize": 600,
-  "initialInterconnectionsProportion": 0.05,
-  "connectionWeightScale": 5.0,
+
   "complexityRegulationStrategy": {
     "strategyName": "relative",
     "relativeComplexityCeiling": 10,
     "minSimplifcationGenerations": 10
   },
-  "degreeOfParallelism": 4,
-  "enableHardwareAcceleratedNeuralNets": false,
-  "enableHardwareAcceleratedActivationFunctions": false,
   "customEvaluationSchemeConfig": {
     "functionId": "BeatSinewave",
     "sampleIntervalMin": 0,
