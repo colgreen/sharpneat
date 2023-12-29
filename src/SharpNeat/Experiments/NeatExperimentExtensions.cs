@@ -32,7 +32,6 @@ public static class NeatExperimentExtensions
         experiment.CyclesPerActivation = experimentConfig.CyclesPerActivation ?? experiment.CyclesPerActivation;
         experiment.ActivationFnName = experimentConfig.ActivationFnName ?? experiment.ActivationFnName;
 
-        ApplyConfiguration(experiment.AsexualReproductionSettings, experimentConfig.AsexualReproduction);
         ApplyConfiguration(experiment.RecombinationSettings, experimentConfig.Recombination);
 
         experiment.PopulationSize = experimentConfig.PopulationSize ?? experiment.PopulationSize;
@@ -47,19 +46,6 @@ public static class NeatExperimentExtensions
     }
 
     #region Private Static Methods
-
-    private static void ApplyConfiguration(
-        NeatAsexualReproductionSettings settings,
-        NeatAsexualReproductionConfig? config)
-    {
-        if(config is null)
-            return;
-
-        settings.ConnectionWeightMutationProbability = config.ConnectionWeightMutationProbability ?? settings.ConnectionWeightMutationProbability;
-        settings.AddNodeMutationProbability = config.AddNodeMutationProbability ?? settings.AddNodeMutationProbability;
-        settings.AddConnectionMutationProbability = config.AddConnectionMutationProbability ?? settings.AddConnectionMutationProbability;
-        settings.DeleteConnectionMutationProbability = config.DeleteConnectionMutationProbability ?? settings.DeleteConnectionMutationProbability;
-    }
 
     private static void ApplyConfiguration(
         NeatRecombinationSettings settings,
