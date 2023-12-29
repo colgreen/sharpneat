@@ -63,7 +63,7 @@ partial class MainForm
         INeatExperiment<double> neatExperiment = GetNeatExperiment();
 
         // Create evolution algorithm and runner.
-        NeatEvolutionAlgorithm<double> ea = NeatEvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm(neatExperiment, _neatPop);
+        NeatEvolutionAlgorithm<double> ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(neatExperiment, _neatPop);
         ea.Initialise();
 
         _eaRunner = new EvolutionAlgorithmRunner(

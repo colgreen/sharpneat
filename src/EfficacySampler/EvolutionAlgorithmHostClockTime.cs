@@ -53,7 +53,7 @@ public sealed class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
     public Sample Sample()
     {
         // Create a new instance of an evolution algorithm.
-        _ea = NeatEvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm(_experiment);
+        _ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(_experiment);
 
         // Start the stopwatch.
         _stopwatch.Restart();

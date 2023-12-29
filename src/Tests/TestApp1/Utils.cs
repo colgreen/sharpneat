@@ -14,7 +14,7 @@ internal static class Utils
         INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(jsonConfigFilename);
 
         // Create a NeatEvolutionAlgorithm instance ready to run the experiment.
-        var ea = NeatEvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm(neatExperiment);
+        var ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(neatExperiment);
         return ea;
     }
 }

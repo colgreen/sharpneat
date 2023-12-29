@@ -22,7 +22,7 @@ public static class NeatEvolutionAlgorithmFactory
     /// <param name="neatPop">A pre constructed/loaded neat population; this must be compatible with the provided
     /// neat experiment, otherwise an exception will be thrown.</param>
     /// <returns>A new instance of <see cref="NeatEvolutionAlgorithm{T}"/>.</returns>
-    public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
+    public static NeatEvolutionAlgorithm<double> CreateEvolutionAlgorithm(
         INeatExperiment<double> neatExperiment,
         NeatPopulation<double> neatPop)
     {
@@ -31,7 +31,7 @@ public static class NeatEvolutionAlgorithmFactory
         MetaNeatGenome<double> metaNeatGenome = neatPop.MetaNeatGenome;
         ValidateCompatible(neatExperiment, metaNeatGenome);
 
-        var ea = CreateNeatEvolutionAlgorithmInner(
+        var ea = CreateEvolutionAlgorithmInner(
             neatExperiment, metaNeatGenome, neatPop);
 
         return ea;
@@ -43,7 +43,7 @@ public static class NeatEvolutionAlgorithmFactory
     /// <param name="neatExperiment">A neat experiment instance; this conveys everything required to create a new
     /// evolution algorithm instance that is ready to be run.</param>
     /// <returns>A new instance of <see cref="NeatEvolutionAlgorithm{T}"/>.</returns>
-    public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
+    public static NeatEvolutionAlgorithm<double> CreateEvolutionAlgorithm(
         INeatExperiment<double> neatExperiment)
     {
         var metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
@@ -54,7 +54,7 @@ public static class NeatEvolutionAlgorithmFactory
             connectionsProportion: neatExperiment.InitialInterconnectionsProportion,
             popSize: neatExperiment.PopulationSize);
 
-        var ea = CreateNeatEvolutionAlgorithmInner(
+        var ea = CreateEvolutionAlgorithmInner(
             neatExperiment, metaNeatGenome, neatPop);
 
         return ea;
@@ -62,7 +62,7 @@ public static class NeatEvolutionAlgorithmFactory
 
     #region Private Static Methods
 
-    private static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithmInner(
+    private static NeatEvolutionAlgorithm<double> CreateEvolutionAlgorithmInner(
             INeatExperiment<double> neatExperiment,
             MetaNeatGenome<double> metaNeatGenome,
             NeatPopulation<double> neatPop)

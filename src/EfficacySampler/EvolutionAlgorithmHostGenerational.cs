@@ -32,7 +32,7 @@ public sealed class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
     public Sample Sample()
     {
         // Create a new instance of an evolution algorithm.
-        NeatEvolutionAlgorithm<double> ea = NeatEvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm(_experiment);
+        NeatEvolutionAlgorithm<double> ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(_experiment);
 
         // Start the stopwatch.
         _stopwatch.Restart();
