@@ -43,11 +43,6 @@ public interface INeatExperiment<TScalar>
     string Description { get; set; }
 
     /// <summary>
-    /// Experiment evaluation scheme object.
-    /// </summary>
-    IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
-
-    /// <summary>
     /// A boolean flag that indicates if the genomes that are evolved are acyclic,
     /// i.e. they should have no recurrent/cyclic connection paths.
     /// </summary>
@@ -62,21 +57,6 @@ public interface INeatExperiment<TScalar>
     /// Name of the neuron activation function to use in evolved networks.
     /// </summary>
     string ActivationFnName { get; set; }
-
-    /// <summary>
-    /// The <see cref="EvolutionAlgorithmSettings"/> to be used for the experiment.
-    /// </summary>
-    NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
-
-    /// <summary>
-    /// The asexual reproduction settings to use for the experiment.
-    /// </summary>
-    NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
-
-    /// <summary>
-    /// The recombination settings to use for the experiment.
-    /// </summary>
-    NeatRecombinationSettings RecombinationSettings { get; }
 
     /// <summary>
     /// The population size to use for the experiment.
@@ -97,11 +77,6 @@ public interface INeatExperiment<TScalar>
     /// The weight range is strictly enforced, e.g. when creating new connections and mutating existing ones.
     /// </summary>
     double ConnectionWeightScale { get; set; }
-
-    /// <summary>
-    /// The complexity regulation strategy to use for the experiment.
-    /// </summary>
-    IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
 
     /// <summary>
     /// The number of CPU threads to distribute work to.
@@ -138,4 +113,29 @@ public interface INeatExperiment<TScalar>
     /// conducive to the application of vectorized code.
     /// </remarks>
     bool EnableHardwareAcceleratedActivationFunctions { get; set; }
+
+    /// <summary>
+    /// Experiment evaluation scheme object.
+    /// </summary>
+    IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
+
+    /// <summary>
+    /// The <see cref="EvolutionAlgorithmSettings"/> to be used for the experiment.
+    /// </summary>
+    NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
+
+    /// <summary>
+    /// The asexual reproduction settings to use for the experiment.
+    /// </summary>
+    NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
+
+    /// <summary>
+    /// The recombination settings to use for the experiment.
+    /// </summary>
+    NeatRecombinationSettings RecombinationSettings { get; }
+
+    /// <summary>
+    /// The complexity regulation strategy to use for the experiment.
+    /// </summary>
+    IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
 }

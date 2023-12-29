@@ -15,7 +15,59 @@ namespace SharpNeat.Experiments;
 public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
     where TScalar : struct
 {
-    #region Construction
+    /// <inheritdoc/>
+    public string FactoryId { get; }
+
+    /// <inheritdoc/>
+    public string Id { get; set; }
+
+    /// <inheritdoc/>
+    public string Name { get; set; }
+
+    /// <inheritdoc/>
+    public string Description { get; set; } = string.Empty;
+
+    /// <inheritdoc/>
+    public bool IsAcyclic { get; set; }
+
+    /// <inheritdoc/>
+    public int CyclesPerActivation { get; set; } = 1;
+
+    /// <inheritdoc/>
+    public string ActivationFnName { get; set; } = ActivationFunctionId.LeakyReLU.ToString();
+
+    /// <inheritdoc/>
+    public int PopulationSize { get; set; }
+
+    /// <inheritdoc/>
+    public double InitialInterconnectionsProportion { get; set; }
+
+    /// <inheritdoc/>
+    public double ConnectionWeightScale { get; set; }
+
+    /// <inheritdoc/>
+    public int DegreeOfParallelism { get; set; } = -1;
+
+    /// <inheritdoc/>
+    public bool EnableHardwareAcceleratedNeuralNets { get; set; }
+
+    /// <inheritdoc/>
+    public bool EnableHardwareAcceleratedActivationFunctions { get; set; }
+
+    /// <inheritdoc/>
+    public IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
+
+    /// <inheritdoc/>
+    public NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
+
+    /// <inheritdoc/>
+    public NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
+
+    /// <inheritdoc/>
+    public NeatRecombinationSettings RecombinationSettings { get; }
+
+    /// <inheritdoc/>
+    public IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
 
     /// <summary>
     /// Constructs with the provided name and evaluation scheme, and default settings.
@@ -46,64 +98,4 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
         // Assign a default complexity regulation strategy.
         ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <inheritdoc/>
-    public string FactoryId { get; }
-
-    /// <inheritdoc/>
-    public string Id { get; set; }
-
-    /// <inheritdoc/>
-    public string Name { get; set; }
-
-    /// <inheritdoc/>
-    public string Description { get; set; } = string.Empty;
-
-    /// <inheritdoc/>
-    public IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
-
-    /// <inheritdoc/>
-    public bool IsAcyclic { get; set; }
-
-    /// <inheritdoc/>
-    public int CyclesPerActivation { get; set; } = 1;
-
-    /// <inheritdoc/>
-    public string ActivationFnName { get; set; } = ActivationFunctionId.LeakyReLU.ToString();
-
-    /// <inheritdoc/>
-    public NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
-
-    /// <inheritdoc/>
-    public NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
-
-    /// <inheritdoc/>
-    public NeatRecombinationSettings RecombinationSettings { get; }
-
-    /// <inheritdoc/>
-    public int PopulationSize { get; set; }
-
-    /// <inheritdoc/>
-    public double InitialInterconnectionsProportion { get; set; }
-
-    /// <inheritdoc/>
-    public double ConnectionWeightScale { get; set; }
-
-    /// <inheritdoc/>
-    public IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
-
-    /// <inheritdoc/>
-    public int DegreeOfParallelism { get; set; } = -1;
-
-    /// <inheritdoc/>
-    public bool EnableHardwareAcceleratedNeuralNets { get; set; }
-
-    /// <inheritdoc/>
-    public bool EnableHardwareAcceleratedActivationFunctions { get; set; }
-
-    #endregion
 }
