@@ -1,7 +1,7 @@
 ﻿using SharpNeat.Neat.Genome;
 using Xunit;
 
-namespace SharpNeat.Neat.DistanceMetrics.Double;
+namespace SharpNeat.Neat.DistanceMetrics;
 
 public class EuclideanDistanceMetricTests
 {
@@ -16,7 +16,7 @@ public class EuclideanDistanceMetricTests
         connGenes2[0] = (0, 3, 3.0);
         connGenes2[1] = (0, 4, 4.0);
 
-        var distanceMetric = new EuclideanDistanceMetric();
+        var distanceMetric = new EuclideanDistanceMetric<double>();
 
         // GetDistance() tests.
         Assert.Equal(5.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
@@ -51,7 +51,7 @@ public class EuclideanDistanceMetricTests
         connGenes2[3] = (3, 13, 4.0);
         connGenes2[4] = (4, 14, 5.0);
 
-        var distanceMetric = new EuclideanDistanceMetric(); ;
+        var distanceMetric = new EuclideanDistanceMetric<double>(); ;
 
         // GetDistance() tests.
         Assert.Equal(0.0, distanceMetric.CalcDistance(connGenes1, connGenes2));
@@ -84,7 +84,7 @@ public class EuclideanDistanceMetricTests
         connGenes2[3] = (200, 12, 3.0);
         connGenes2[4] = (400, 14, 5.0);
 
-        var distanceMetric = new EuclideanDistanceMetric();
+        var distanceMetric = new EuclideanDistanceMetric<double>();
 
         // GetDistance() tests.
         Assert.Equal(Math.Sqrt(76), distanceMetric.CalcDistance(connGenes1, connGenes2));
@@ -112,7 +112,7 @@ public class EuclideanDistanceMetricTests
         connGenes2[3] = (3, 130, 4.0);
         connGenes2[4] = (4, 140, 5.0);
 
-        var distanceMetric = new EuclideanDistanceMetric();
+        var distanceMetric = new EuclideanDistanceMetric<double>();
 
         // GetDistance() tests.
         Assert.Equal(Math.Sqrt(110), distanceMetric.CalcDistance(connGenes1, connGenes2));
@@ -136,7 +136,7 @@ public class EuclideanDistanceMetricTests
         var connGenes2 = new ConnectionGenes<double>(1);
         connGenes2[0] = (4, 14, 20.0);
 
-        var distanceMetric = new EuclideanDistanceMetric();
+        var distanceMetric = new EuclideanDistanceMetric<double>();
 
         // GetDistance() tests.
         Assert.Equal(Math.Sqrt(255), distanceMetric.CalcDistance(connGenes1, connGenes2));

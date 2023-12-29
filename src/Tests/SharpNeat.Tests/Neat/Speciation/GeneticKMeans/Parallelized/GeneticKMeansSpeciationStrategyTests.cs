@@ -1,5 +1,5 @@
 ﻿using Redzen.Random;
-using SharpNeat.Neat.DistanceMetrics.Double;
+using SharpNeat.Neat.DistanceMetrics;
 using Xunit;
 using static SharpNeat.Neat.Speciation.SpeciationStrategyTestUtils;
 
@@ -11,7 +11,7 @@ public class GeneticKMeansSpeciationStrategyTests
     public void SpeciateAll_Manhattan()
     {
         IRandomSource rng = RandomDefaults.CreateRandomSource(0);
-        var distanceMetric = new ManhattanDistanceMetric();
+        var distanceMetric = new ManhattanDistanceMetric<double>();
         var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 4);
 
         TestSpeciateAll(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
@@ -23,7 +23,7 @@ public class GeneticKMeansSpeciationStrategyTests
     public void SpeciateAll_Euclidean()
     {
         IRandomSource rng = RandomDefaults.CreateRandomSource(1);
-        var distanceMetric = new EuclideanDistanceMetric();
+        var distanceMetric = new EuclideanDistanceMetric<double>();
         var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 4);
 
         TestSpeciateAll(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
@@ -35,7 +35,7 @@ public class GeneticKMeansSpeciationStrategyTests
     public void SpeciateAdd_Manhattan()
     {
         IRandomSource rng = RandomDefaults.CreateRandomSource(2);
-        var distanceMetric = new ManhattanDistanceMetric();
+        var distanceMetric = new ManhattanDistanceMetric<double>();
         var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 4);
 
         TestSpeciateAdd(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);
@@ -47,7 +47,7 @@ public class GeneticKMeansSpeciationStrategyTests
     public void SpeciateAdd_Euclidean()
     {
         IRandomSource rng = RandomDefaults.CreateRandomSource(3);
-        var distanceMetric = new EuclideanDistanceMetric();
+        var distanceMetric = new EuclideanDistanceMetric<double>();
         var speciationStrategy = new GeneticKMeansSpeciationStrategy<double>(distanceMetric, 50, 4);
 
         TestSpeciateAdd(100, 3, 2, 0.5, distanceMetric, speciationStrategy, rng);

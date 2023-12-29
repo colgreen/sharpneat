@@ -2,7 +2,6 @@
 // See LICENSE.txt for details.
 using SharpNeat.Experiments;
 using SharpNeat.Neat.DistanceMetrics;
-using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
@@ -122,7 +121,7 @@ public static class NeatEvolutionAlgorithmFactory
         int degreeOfParallelismResolved = ResolveDegreeOfParallelism(neatExperiment);
 
         // Define a distance metric to use for k-means speciation; this is the default from sharpneat 2.x.
-        IDistanceMetric<double> distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
+        IDistanceMetric<double> distanceMetric = new ManhattanDistanceMetric<double>(1.0, 0.0, 10.0);
 
         // Use k-means speciation strategy; this is the default from sharpneat 2.x.
         // Create a serial (single threaded) strategy if degreeOfParallelism is one.

@@ -1,6 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.Neat.DistanceMetrics.Double;
+using System.Numerics;
+
+namespace SharpNeat.Neat.DistanceMetrics;
 
 // TODO: Performance tuning target. E.g. use Math.Fma(), vectorisation, or use single-precision floats for some of the calcs.
 
@@ -29,19 +31,21 @@ namespace SharpNeat.Neat.DistanceMetrics.Double;
 /// 2) Topology only distance metric (ignore connections weights).
 /// 3) Equivalent of genome distance in Original NEAT (O-NEAT). This is actually a mix of (1) and (2).
 /// </summary>
-public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class ManhattanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
+    where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
 {
     // A coefficient to applied to the distance obtained from two coordinates that both
     // describe a position in a given dimension.
-    readonly double _matchDistanceCoeff;
+    readonly TWeight _matchDistanceCoeff;
 
     // A coefficient applied to the distance obtained from two coordinates where only one of the coordinates describes
     // a position in a given dimension. The other point is taken to be at position zero in that dimension.
-    readonly double _mismatchDistanceCoeff;
+    readonly TWeight _mismatchDistanceCoeff;
 
     // A constant that is added to the distance where only one of the coordinates describes a position in a given
     // dimension. This adds extra emphasis to distance when comparing coordinates that exist in different dimensions.
-    readonly double _mismatchDistanceConstant;
+    readonly TWeight _mismatchDistanceConstant;
 
     #region Constructors
 
@@ -68,9 +72,9 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
         double mismatchDistanceCoeff,
         double mismatchDistanceConstant)
     {
-        _matchDistanceCoeff = matchDistanceCoeff;
-        _mismatchDistanceCoeff = mismatchDistanceCoeff;
-        _mismatchDistanceConstant = mismatchDistanceConstant;
+        _matchDistanceCoeff = TWeight.CreateChecked(matchDistanceCoeff);
+        _mismatchDistanceCoeff = TWeight.CreateChecked(mismatchDistanceCoeff);
+        _mismatchDistanceConstant = TWeight.CreateChecked(mismatchDistanceConstant);
     }
 
     #endregion
@@ -78,40 +82,44 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     #region IDistanceMetric Members
 
     /// <inheritdoc/>
-    public double CalcDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
+    public double CalcDistance(
+        ConnectionGenes<TWeight> p1,
+        ConnectionGenes<TWeight> p2)
     {
         DirectedConnection[] connArr1 = p1._connArr;
         DirectedConnection[] connArr2 = p2._connArr;
-        double[] weightArr1 = p1._weightArr;
-        double[] weightArr2 = p2._weightArr;
+        TWeight[] weightArr1 = p1._weightArr;
+        TWeight[] weightArr2 = p2._weightArr;
 
         // Store these heavily used values locally.
         int length1 = connArr1.Length;
         int length2 = connArr2.Length;
 
         // Test for special cases.
-        if(length1 == 0 && length2 == 0)
+        if (length1 == 0 && length2 == 0)
         {   // Both arrays are empty. No disparities, therefore the distance is zero.
             return 0.0;
         }
 
-        double distance = 0.0;
-        if(length1 == 0)
+        TWeight distance = TWeight.Zero;
+        if (length1 == 0)
         {
             // All p2 genes are mismatches.
-            for(int i=0; i < length2; i++)
-                distance += Math.Abs(weightArr2[i]);
+            for (int i = 0; i < length2; i++)
+                distance += TWeight.Abs(weightArr2[i]);
 
-            return (_mismatchDistanceConstant * length2) + (distance * _mismatchDistanceCoeff);
+            return double.CreateChecked(
+                (_mismatchDistanceConstant * TWeight.CreateChecked(length2)) + (distance * _mismatchDistanceCoeff));
         }
 
-        if(length2 == 0)
+        if (length2 == 0)
         {
             // All p1 elements are mismatches.
-            for(int i=0; i < length1; i++)
-                distance += Math.Abs(weightArr1[i]);
+            for (int i = 0; i < length1; i++)
+                distance += TWeight.Abs(weightArr1[i]);
 
-            return (_mismatchDistanceConstant * length1) + (distance * _mismatchDistanceCoeff);
+            return double.CreateChecked(
+                (_mismatchDistanceConstant * TWeight.CreateChecked(length1)) + (distance * _mismatchDistanceCoeff));
         }
 
         // Both arrays contain elements.
@@ -119,23 +127,23 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
         int arr2Idx = 0;
         DirectedConnection conn1 = connArr1[arr1Idx];
         DirectedConnection conn2 = connArr2[arr2Idx];
-        double weight1 = weightArr1[arr1Idx];
-        double weight2 = weightArr2[arr2Idx];
+        TWeight weight1 = weightArr1[arr1Idx];
+        TWeight weight2 = weightArr2[arr2Idx];
 
-        while(true)
+        while (true)
         {
-            if(conn1 < conn2)
+            if (conn1 < conn2)
             {
                 // p2 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += _mismatchDistanceConstant + (Math.Abs(weight1) * _mismatchDistanceCoeff);
+                distance += _mismatchDistanceConstant + (TWeight.Abs(weight1) * _mismatchDistanceCoeff);
 
                 // Move to the next element in p1.
                 arr1Idx++;
             }
-            else if(conn1 == conn2)
+            else if (conn1 == conn2)
             {
                 // Matching elements.
-                distance += Math.Abs(weight1 - weight2) * _matchDistanceCoeff;
+                distance += TWeight.Abs(weight1 - weight2) * _matchDistanceCoeff;
 
                 // Move to the next element in both arrays.
                 arr1Idx++;
@@ -144,29 +152,29 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
             else // conn2 > conn1
             {
                 // p1 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += _mismatchDistanceConstant + (Math.Abs(weight2) * _mismatchDistanceCoeff);
+                distance += _mismatchDistanceConstant + (TWeight.Abs(weight2) * _mismatchDistanceCoeff);
 
                 // Move to the next element in p2.
                 arr2Idx++;
             }
 
             // Check if we have exhausted one or both of the arrays.
-            if(arr1Idx == length1)
+            if (arr1Idx == length1)
             {
                 // All remaining p2 elements are mismatches.
-                for(int i = arr2Idx; i < length2; i++)
-                    distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
+                for (int i = arr2Idx; i < length2; i++)
+                    distance += _mismatchDistanceConstant + (TWeight.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
 
-                return distance;
+                return double.CreateChecked(distance);
             }
 
-            if(arr2Idx == length2)
+            if (arr2Idx == length2)
             {
                 // All remaining p1 elements are mismatches.
-                for(int i = arr1Idx; i < connArr1.Length; i++)
-                    distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
+                for (int i = arr1Idx; i < connArr1.Length; i++)
+                    distance += _mismatchDistanceConstant + (TWeight.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
 
-                return distance;
+                return double.CreateChecked(distance);
             }
 
             conn1 = connArr1[arr1Idx];
@@ -177,44 +185,49 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     }
 
     /// <inheritdoc/>
-    public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
+    public bool TestDistance(
+        ConnectionGenes<TWeight> p1,
+        ConnectionGenes<TWeight> p2,
+        double threshold)
     {
         DirectedConnection[] connArr1 = p1._connArr;
         DirectedConnection[] connArr2 = p2._connArr;
-        double[] weightArr1 = p1._weightArr;
-        double[] weightArr2 = p2._weightArr;
+        TWeight[] weightArr1 = p1._weightArr;
+        TWeight[] weightArr2 = p2._weightArr;
 
         // Store these heavily used values locally.
         int length1 = connArr1.Length;
         int length2 = connArr2.Length;
 
         // Test for special case.
-        if(length1 == 0 && length2 == 0)
+        if (length1 == 0 && length2 == 0)
         {   // Both arrays are empty. No disparities, therefore the distance is zero.
             return threshold > 0.0;
         }
 
-        double distance = 0.0;
-        if(length1 == 0)
+        TWeight distance = TWeight.Zero;
+        TWeight weightThresold = TWeight.CreateChecked(threshold);
+
+        if (length1 == 0)
         {
             // All p2 elements are mismatches.
             // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-            for(int i=0; i < length2; i++)
-                distance += Math.Abs(weightArr2[i]);
+            for (int i = 0; i < length2; i++)
+                distance += TWeight.Abs(weightArr2[i]);
 
-            distance = (_mismatchDistanceConstant * length2) + (distance * _mismatchDistanceCoeff);
-            return distance < threshold;
+            distance = (_mismatchDistanceConstant * TWeight.CreateChecked(length2)) + (distance * _mismatchDistanceCoeff);
+            return distance < weightThresold;
         }
 
-        if(length2 == 0)
+        if (length2 == 0)
         {
             // All p1 elements are mismatches.
             // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-            for(int i=0; i < length1; i++)
-                distance += Math.Abs(weightArr1[i]);
+            for (int i = 0; i < length1; i++)
+                distance += TWeight.Abs(weightArr1[i]);
 
-            distance = (_mismatchDistanceConstant * length1) + (distance * _mismatchDistanceCoeff);
-            return distance < threshold;
+            distance = (_mismatchDistanceConstant * TWeight.CreateChecked(length1)) + (distance * _mismatchDistanceCoeff);
+            return distance < weightThresold;
         }
 
         // Both arrays contain elements. Compare the contents starting from the ends where the greatest discrepancies
@@ -224,23 +237,23 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
         int arr2Idx = length2 - 1;
         DirectedConnection conn1 = connArr1[arr1Idx];
         DirectedConnection conn2 = connArr2[arr2Idx];
-        double weight1 = weightArr1[arr1Idx];
-        double weight2 = weightArr2[arr2Idx];
+        TWeight weight1 = weightArr1[arr1Idx];
+        TWeight weight2 = weightArr2[arr2Idx];
 
-        while(true)
+        while (true)
         {
-            if(conn1 > conn2)
+            if (conn1 > conn2)
             {
                 // p2 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += _mismatchDistanceConstant + (Math.Abs(weight1) * _mismatchDistanceCoeff);
+                distance += _mismatchDistanceConstant + (TWeight.Abs(weight1) * _mismatchDistanceCoeff);
 
                 // Move to the next element in p1.
                 arr1Idx--;
             }
-            else if(conn1 == conn2)
+            else if (conn1 == conn2)
             {
                 // Matching elements.
-                distance += Math.Abs(weight1 - weight2) * _matchDistanceCoeff;
+                distance += TWeight.Abs(weight1 - weight2) * _matchDistanceCoeff;
 
                 // Move to the next element in both arrays.
                 arr1Idx--;
@@ -249,33 +262,33 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
             else // conn2 > conn1
             {
                 // p1 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += _mismatchDistanceConstant + (Math.Abs(weight2) * _mismatchDistanceCoeff);
+                distance += _mismatchDistanceConstant + (TWeight.Abs(weight2) * _mismatchDistanceCoeff);
 
                 // Move to the next element in p12
                 arr2Idx--;
             }
 
             // Test the threshold.
-            if(distance >= threshold)
+            if (distance >= weightThresold)
                 return false;
 
             // Check if we have exhausted one or both of the arrays.
-            if(arr1Idx < 0)
+            if (arr1Idx < 0)
             {
                 // Any remaining p2 elements are mismatches.
-                for(int i = arr2Idx; i > -1; i--)
-                    distance += _mismatchDistanceConstant + (Math.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
+                for (int i = arr2Idx; i > -1; i--)
+                    distance += _mismatchDistanceConstant + (TWeight.Abs(weightArr2[i]) * _mismatchDistanceCoeff);
 
-                return distance < threshold;
+                return distance < weightThresold;
             }
 
-            if(arr2Idx < 0)
+            if (arr2Idx < 0)
             {
                 // All remaining p1 elements are mismatches.
-                for(int i = arr1Idx; i > -1; i--)
-                    distance += _mismatchDistanceConstant + (Math.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
+                for (int i = arr1Idx; i > -1; i--)
+                    distance += _mismatchDistanceConstant + (TWeight.Abs(weightArr1[i]) * _mismatchDistanceCoeff);
 
-                return distance < threshold;
+                return distance < weightThresold;
             }
 
             conn1 = connArr1[arr1Idx];
@@ -289,8 +302,8 @@ public sealed class ManhattanDistanceMetric : IDistanceMetric<double>
     // is an approximation of the true centroid in L1 space (Manhattan distance).
     // Note. In practice this is possibly a near optimal centroid for all but small clusters.
     /// <inheritdoc/>
-    public ConnectionGenes<double> CalculateCentroid(
-        ReadOnlySpan<ConnectionGenes<double>> points)
+    public ConnectionGenes<TWeight> CalculateCentroid(
+        ReadOnlySpan<ConnectionGenes<TWeight>> points)
     {
         return DistanceMetricUtils.CalculateEuclideanCentroid(points);
     }

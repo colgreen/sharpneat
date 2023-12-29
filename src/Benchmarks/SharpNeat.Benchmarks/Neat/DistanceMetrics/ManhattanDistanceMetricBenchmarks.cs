@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
@@ -8,7 +7,7 @@ namespace SharpNeat.Neat.DistanceMetrics;
 
 public class ManhattanDistanceMetricBenchmarks
 {
-    readonly ManhattanDistanceMetric _distanceMetric = new();
+    readonly ManhattanDistanceMetric<double> _distanceMetric = new();
     readonly ConnectionGenes<double>[] _genomeArr;
 
     public ManhattanDistanceMetricBenchmarks()

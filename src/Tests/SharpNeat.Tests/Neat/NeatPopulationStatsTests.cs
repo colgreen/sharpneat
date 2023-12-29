@@ -1,7 +1,7 @@
 ﻿using Redzen.Random;
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
-using SharpNeat.Neat.DistanceMetrics.Double;
+using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using Xunit;
@@ -127,7 +127,7 @@ public class NeatPopulationStatsTests
     private static void InitialiseSpecies(NeatPopulation<double> neatPop)
     {
         // Create a speciation strategy instance.
-        var distanceMetric = new ManhattanDistanceMetric(1.0, 0.0, 10.0);
+        var distanceMetric = new ManhattanDistanceMetric<double>(1.0, 0.0, 10.0);
         var speciationStrategy = new Speciation.GeneticKMeans.Parallelized.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5, 4);
 
         // Apply the speciation strategy.

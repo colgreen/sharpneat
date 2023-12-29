@@ -1,6 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.Neat.DistanceMetrics.Double;
+using System.Numerics;
+
+namespace SharpNeat.Neat.DistanceMetrics;
 
 // TODO: Include coefficients and constant present on ManhattanDistance metric.
 /// <summary>
@@ -12,41 +14,45 @@ namespace SharpNeat.Neat.DistanceMetrics.Double;
 /// There may be good reasons to not use this distance metric in NEAT; see this link for some discussion of this:
 ///   https://stats.stackexchange.com/questions/99171/why-is-euclidean-distance-not-a-good-metric-in-high-dimensions .
 /// </summary>
-public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
+/// <typeparam name="TWeight">Connection weight data type.</typeparam>
+public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
+    where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
 {
     /// <inheritdoc/>
-    public double CalcDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2)
+    public double CalcDistance(
+        ConnectionGenes<TWeight> p1,
+        ConnectionGenes<TWeight> p2)
     {
         DirectedConnection[] connArr1 = p1._connArr;
         DirectedConnection[] connArr2 = p2._connArr;
-        double[] weightArr1 = p1._weightArr;
-        double[] weightArr2 = p2._weightArr;
+        TWeight[] weightArr1 = p1._weightArr;
+        TWeight[] weightArr2 = p2._weightArr;
 
         // Store these heavily used values locally.
         int length1 = connArr1.Length;
         int length2 = connArr2.Length;
 
         // Test for special cases.
-        if(length1 == 0 && length2 == 0)
+        if (length1 == 0 && length2 == 0)
         {   // Both arrays are empty. No disparities, therefore the distance is zero.
             return 0.0;
         }
 
-        double distance = 0.0;
-        if(length1 == 0)
+        TWeight distance = TWeight.Zero;
+        if (length1 == 0)
         {   // All p2 genes are mismatches.
-            for(int i=0; i < length2; i++)
+            for (int i = 0; i < length2; i++)
                 distance += weightArr2[i] * weightArr2[i];
 
-            return Math.Sqrt(distance);
+            return double.CreateChecked(TWeight.Sqrt(distance));
         }
 
-        if(length2 == 0)
+        if (length2 == 0)
         {   // All p1 elements are mismatches.
-            for(int i=0; i < length1; i++)
+            for (int i = 0; i < length1; i++)
                 distance += weightArr1[i] * weightArr1[i];
 
-            return Math.Sqrt(distance);
+            return double.CreateChecked(TWeight.Sqrt(distance));
         }
 
         // Both arrays contain elements.
@@ -54,12 +60,12 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
         int arr2Idx = 0;
         DirectedConnection conn1 = connArr1[arr1Idx];
         DirectedConnection conn2 = connArr2[arr2Idx];
-        double weight1 = weightArr1[arr1Idx];
-        double weight2 = weightArr2[arr2Idx];
+        TWeight weight1 = weightArr1[arr1Idx];
+        TWeight weight2 = weightArr2[arr2Idx];
 
-        while(true)
+        while (true)
         {
-            if(conn1 < conn2)
+            if (conn1 < conn2)
             {
                 // p2 doesn't specify a value in this dimension therefore we take its position to be 0.
                 distance += weight1 * weight1;
@@ -67,10 +73,10 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
                 // Move to the next element in p1.
                 arr1Idx++;
             }
-            else if(conn1 == conn2)
+            else if (conn1 == conn2)
             {
                 // Matching elements. Note that abs() isn't required because we square the result.
-                double tmp = weight1 - weight2;
+                TWeight tmp = weight1 - weight2;
                 distance += tmp * tmp;
 
                 // Move to the next element in both arrays.
@@ -87,21 +93,21 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
             }
 
             // Check if we have exhausted one or both of the arrays.
-            if(arr1Idx == length1)
+            if (arr1Idx == length1)
             {
                 // All remaining p2 elements are mismatches.
-                for(int i = arr2Idx; i < length2; i++)
+                for (int i = arr2Idx; i < length2; i++)
                     distance += weightArr2[i] * weightArr2[i];
 
-                return Math.Sqrt(distance);
+                return double.CreateChecked(TWeight.Sqrt(distance));
             }
 
-            if(arr2Idx == length2)
+            if (arr2Idx == length2)
             {   // All remaining arr1 elements are mismatches.
-                for(int i = arr1Idx; i < weightArr1.Length; i++)
+                for (int i = arr1Idx; i < weightArr1.Length; i++)
                     distance += weightArr1[i] * weightArr1[i];
 
-                return Math.Sqrt(distance);
+                return double.CreateChecked(TWeight.Sqrt(distance));
             }
 
             conn1 = connArr1[arr1Idx];
@@ -112,7 +118,10 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
     }
 
     /// <inheritdoc/>
-    public bool TestDistance(ConnectionGenes<double> p1, ConnectionGenes<double> p2, double threshold)
+    public bool TestDistance(
+        ConnectionGenes<TWeight> p1,
+        ConnectionGenes<TWeight> p2,
+        double threshold)
     {
         // Instead of calculating the euclidean distance we calculate distance squared (we skip the final sqrt
         // part of the formula). If we then square the threshold value this obviates the need to take the square
@@ -121,39 +130,41 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
 
         DirectedConnection[] connArr1 = p1._connArr;
         DirectedConnection[] connArr2 = p2._connArr;
-        double[] weightArr1 = p1._weightArr;
-        double[] weightArr2 = p2._weightArr;
+        TWeight[] weightArr1 = p1._weightArr;
+        TWeight[] weightArr2 = p2._weightArr;
 
         // Store these heavily used values locally.
         int length1 = connArr1.Length;
         int length2 = connArr2.Length;
 
         // Test for special cases.
-        if(length1 == 0 && length2 == 0)
+        if (length1 == 0 && length2 == 0)
         {
             // Both arrays are empty. No disparities, therefore the distance is zero.
             return threshold > 0.0;
         }
 
-        double distance = 0.0;
-        if(length1 == 0)
+        TWeight distance = TWeight.Zero;
+        TWeight weightThresold = TWeight.CreateChecked(threshold);
+
+        if (length1 == 0)
         {
             // All p2 elements are mismatches.
             // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-            for(int i=0; i < length2; i++)
+            for (int i = 0; i < length2; i++)
                 distance += weightArr2[i] * weightArr2[i];
 
-            return distance < threshold;
+            return distance < weightThresold;
         }
 
-        if(length2 == 0)
+        if (length2 == 0)
         {
             // All p1 elements are mismatches.
             // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
-            for(int i=0; i < length1; i++)
+            for (int i = 0; i < length1; i++)
                 distance += weightArr1[i] * weightArr1[i];
 
-            return distance < threshold;
+            return distance < weightThresold;
         }
 
         // Both arrays contain elements. Compare the contents starting from the ends where the greatest discrepancies
@@ -164,12 +175,12 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
 
         DirectedConnection conn1 = connArr1[arr1Idx];
         DirectedConnection conn2 = connArr2[arr2Idx];
-        double weight1 = weightArr1[arr1Idx];
-        double weight2 = weightArr2[arr2Idx];
+        TWeight weight1 = weightArr1[arr1Idx];
+        TWeight weight2 = weightArr2[arr2Idx];
 
-        while(true)
+        while (true)
         {
-            if(conn1 > conn2)
+            if (conn1 > conn2)
             {
                 // p2 doesn't specify a value in this dimension therefore we take its position to be 0.
                 distance += weight1 * weight1;
@@ -177,10 +188,10 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
                 // Move to the next element in p1.
                 arr1Idx--;
             }
-            else if(conn1 == conn2)
+            else if (conn1 == conn2)
             {
                 // Matching elements. Note that abs() isn't required because we square the result.
-                double tmp = weight1 - weight2;
+                TWeight tmp = weight1 - weight2;
                 distance += tmp * tmp;
 
                 // Move to the next element in both lists.
@@ -197,24 +208,24 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
             }
 
             // Test the threshold.
-            if(distance >= threshold)
+            if (distance >= weightThresold)
                 return false;
 
             // Check if we have exhausted one or both of the arrays.
-            if(arr1Idx < 0)
+            if (arr1Idx < 0)
             {   // Any remaining arr2 elements are mismatches.
-                for(int i = arr2Idx; i > -1; i--)
+                for (int i = arr2Idx; i > -1; i--)
                     distance += weightArr2[i] * weightArr2[i];
 
-                return distance < threshold;
+                return distance < weightThresold;
             }
 
-            if(arr2Idx < 0)
+            if (arr2Idx < 0)
             {   // All remaining arr1 elements are mismatches.
-                for(int i = arr1Idx; i > -1; i--)
+                for (int i = arr1Idx; i > -1; i--)
                     distance += weightArr1[i] * weightArr1[i];
 
-                return distance < threshold;
+                return distance < weightThresold;
             }
 
             conn1 = connArr1[arr1Idx];
@@ -225,8 +236,8 @@ public sealed class EuclideanDistanceMetric : IDistanceMetric<double>
     }
 
     /// <inheritdoc/>
-    public ConnectionGenes<double> CalculateCentroid(
-        ReadOnlySpan<ConnectionGenes<double>> points)
+    public ConnectionGenes<TWeight> CalculateCentroid(
+        ReadOnlySpan<ConnectionGenes<TWeight>> points)
     {
         return DistanceMetricUtils.CalculateEuclideanCentroid(points);
     }
