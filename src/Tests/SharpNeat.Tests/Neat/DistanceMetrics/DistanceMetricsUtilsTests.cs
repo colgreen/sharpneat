@@ -4,7 +4,7 @@ using SharpNeat.Neat.Genome;
 using SharpNeat.Tests;
 using Xunit;
 
-namespace SharpNeat.Neat.DistanceMetrics.Double;
+namespace SharpNeat.Neat.DistanceMetrics;
 
 public class DistanceMetricsUtilsTests
 {
