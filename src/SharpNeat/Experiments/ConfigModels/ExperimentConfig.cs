@@ -44,21 +44,6 @@ public record ExperimentConfig
     public string? ActivationFnName { get; init; }
 
     /// <summary>
-    /// NEAT evolution algorithm configuration.
-    /// </summary>
-    public NeatEvolutionAlgorithmSettings? EvolutionAlgorithm { get; init; }
-
-    /// <summary>
-    /// NEAT asexual reproduction configuration.
-    /// </summary>
-    public NeatAsexualReproductionSettings? AsexualReproduction { get; init; }
-
-    /// <summary>
-    /// NEAT recombination configuration.
-    /// </summary>
-    public NeatRecombinationSettings? Recombination { get; init; }
-
-    /// <summary>
     /// The population size to use for the experiment.
     /// </summary>
     public int? PopulationSize { get; init; }
@@ -77,11 +62,6 @@ public record ExperimentConfig
     /// The weight range is strictly enforced, e.g. when creating new connections and mutating existing ones.
     /// </summary>
     public double? ConnectionWeightScale { get; init; }
-
-    /// <summary>
-    /// Complexity regulation strategy configuration.
-    /// </summary>
-    public ComplexityRegulationStrategyConfig? ComplexityRegulationStrategy { get; init; }
 
     /// <summary>
     /// The number of CPU threads to distribute work to.
@@ -118,4 +98,24 @@ public record ExperimentConfig
     /// conducive to the application of vectorized code.
     /// </remarks>
     public bool? EnableHardwareAcceleratedActivationFunctions { get; init; }
+
+    /// <summary>
+    /// NEAT evolution algorithm configuration.
+    /// </summary>
+    public NeatEvolutionAlgorithmSettings? EvolutionAlgorithm { get; init; }
+
+    /// <summary>
+    /// NEAT asexual reproduction configuration.
+    /// </summary>
+    public NeatAsexualReproductionSettings? AsexualReproduction { get; init; }
+
+    /// <summary>
+    /// NEAT recombination configuration.
+    /// </summary>
+    public NeatRecombinationSettings? Recombination { get; init; }
+
+    /// <summary>
+    /// Complexity regulation strategy configuration.
+    /// </summary>
+    public ComplexityRegulationStrategyConfig? ComplexityRegulationStrategy { get; init; }
 }
