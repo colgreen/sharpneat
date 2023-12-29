@@ -16,7 +16,9 @@ public interface IDistanceMetric<TWeight>
     /// <param name="p1">Position one.</param>
     /// <param name="p2">Position two.</param>
     /// <returns>The distance between <paramref name="p1"/> and <paramref name="p2"/>.</returns>
-    double CalcDistance(ConnectionGenes<TWeight> p1, ConnectionGenes<TWeight> p2);
+    double CalcDistance(
+        ConnectionGenes<TWeight> p1,
+        ConnectionGenes<TWeight> p2);
 
     /// <summary>
     /// Tests if the distance between two positions is less than some threshold.
@@ -28,7 +30,10 @@ public interface IDistanceMetric<TWeight>
     /// True if the distance between <paramref name="p1"/> and <paramref name="p2"/> is less than
     /// <paramref name="threshold"/>.
     /// </returns>
-    bool TestDistance(ConnectionGenes<TWeight> p1, ConnectionGenes<TWeight> p2, double threshold);
+    bool TestDistance(
+        ConnectionGenes<TWeight> p1,
+        ConnectionGenes<TWeight> p2,
+        double threshold);
 
     /// <summary>
     /// Calculates the centroid for the given set of points.
@@ -46,5 +51,6 @@ public interface IDistanceMetric<TWeight>
     ///
     /// A centroid is used in k-means clustering to define the centre of a cluster.
     /// </remarks>
-    ConnectionGenes<TWeight> CalculateCentroid(ReadOnlySpan<ConnectionGenes<TWeight>> points);
+    ConnectionGenes<TWeight> CalculateCentroid(
+        ReadOnlySpan<ConnectionGenes<TWeight>> points);
 }
