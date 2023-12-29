@@ -32,7 +32,6 @@ public static class NeatExperimentExtensions
         experiment.CyclesPerActivation = experimentConfig.CyclesPerActivation ?? experiment.CyclesPerActivation;
         experiment.ActivationFnName = experimentConfig.ActivationFnName ?? experiment.ActivationFnName;
 
-        ApplyConfiguration(experiment.EvolutionAlgorithmSettings, experimentConfig.EvolutionAlgorithm);
         ApplyConfiguration(experiment.AsexualReproductionSettings, experimentConfig.AsexualReproduction);
         ApplyConfiguration(experiment.RecombinationSettings, experimentConfig.Recombination);
 
@@ -48,22 +47,6 @@ public static class NeatExperimentExtensions
     }
 
     #region Private Static Methods
-
-    private static void ApplyConfiguration(
-        NeatEvolutionAlgorithmSettings settings,
-        NeatEvolutionAlgorithmConfig? config)
-    {
-        if(config is null)
-            return;
-
-        settings.SpeciesCount = config.SpeciesCount ?? settings.SpeciesCount;
-        settings.ElitismProportion = config.ElitismProportion ?? settings.ElitismProportion;
-        settings.SelectionProportion = config.SelectionProportion ?? settings.SelectionProportion;
-        settings.OffspringAsexualProportion = config.OffspringAsexualProportion ?? settings.OffspringAsexualProportion;
-        settings.OffspringRecombinationProportion = config.OffspringRecombinationProportion ?? settings.OffspringRecombinationProportion;
-        settings.InterspeciesMatingProportion = config.InterspeciesMatingProportion ?? settings.InterspeciesMatingProportion;
-        settings.StatisticsMovingAverageHistoryLength = config.StatisticsMovingAverageHistoryLength ?? settings.StatisticsMovingAverageHistoryLength;
-    }
 
     private static void ApplyConfiguration(
         NeatAsexualReproductionSettings settings,

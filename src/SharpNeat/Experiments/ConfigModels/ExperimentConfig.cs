@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using SharpNeat.Neat.EvolutionAlgorithm.Settings;
+
 namespace SharpNeat.Experiments.ConfigModels;
 
 /// <summary>
@@ -42,7 +44,7 @@ public record ExperimentConfig
     /// <summary>
     /// NEAT evolution algorithm configuration.
     /// </summary>
-    public NeatEvolutionAlgorithmConfig? EvolutionAlgorithm { get; init; }
+    public NeatEvolutionAlgorithmSettings? EvolutionAlgorithm { get; init; }
 
     /// <summary>
     /// NEAT asexual reproduction configuration.
