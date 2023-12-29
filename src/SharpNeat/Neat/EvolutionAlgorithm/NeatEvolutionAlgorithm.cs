@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Redzen.Sorting;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.Neat.EvolutionAlgorithm.Settings;
 using SharpNeat.Neat.Reproduction.Asexual;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 using SharpNeat.Neat.Reproduction.Recombination;

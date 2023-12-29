@@ -31,9 +31,6 @@ public static class NeatExperimentExtensions
         experiment.IsAcyclic = experimentConfig.IsAcyclic ?? experiment.IsAcyclic;
         experiment.CyclesPerActivation = experimentConfig.CyclesPerActivation ?? experiment.CyclesPerActivation;
         experiment.ActivationFnName = experimentConfig.ActivationFnName ?? experiment.ActivationFnName;
-
-        ApplyConfiguration(experiment.RecombinationSettings, experimentConfig.Recombination);
-
         experiment.PopulationSize = experimentConfig.PopulationSize ?? experiment.PopulationSize;
         experiment.InitialInterconnectionsProportion = experimentConfig.InitialInterconnectionsProportion ?? experiment.InitialInterconnectionsProportion;
         experiment.ConnectionWeightScale = experimentConfig.ConnectionWeightScale ?? experiment.ConnectionWeightScale;
@@ -46,16 +43,6 @@ public static class NeatExperimentExtensions
     }
 
     #region Private Static Methods
-
-    private static void ApplyConfiguration(
-        NeatRecombinationSettings settings,
-        NeatRecombinationConfig? config)
-    {
-        if(config is null)
-            return;
-
-        settings.SecondaryParentGeneProbability = config.SecondaryParentGeneProbability ?? settings.SecondaryParentGeneProbability;
-    }
 
     private static void ApplyConfiguration<TScalar>(
         INeatExperiment<TScalar> experiment,

@@ -5,7 +5,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination;
 /// <summary>
 /// Settings related to <see cref="NeatRecombination{T}"/>.
 /// </summary>
-public class NeatRecombinationSettings
+public sealed record NeatRecombinationSettings
 {
     /// <summary>
     /// The probability that a gene that exists only on the secondary parent is copied into the child genome.

@@ -6,7 +6,6 @@ using SharpNeat.Experiments;
 using SharpNeat.Neat;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.EvolutionAlgorithm.Settings;
 using SharpNeat.Neat.Reproduction.Asexual;
 using static SharpNeat.Windows.App.UiAccessUtils;
 

@@ -1,7 +1,8 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Neat.EvolutionAlgorithm.Settings;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
+using SharpNeat.Neat.Reproduction.Recombination;
 
 namespace SharpNeat.Experiments.ConfigModels;
 
@@ -55,7 +56,7 @@ public record ExperimentConfig
     /// <summary>
     /// NEAT recombination configuration.
     /// </summary>
-    public NeatRecombinationConfig? Recombination { get; init; }
+    public NeatRecombinationSettings? Recombination { get; init; }
 
     /// <summary>
     /// The population size to use for the experiment.

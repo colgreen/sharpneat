@@ -1,6 +1,6 @@
 ﻿using Redzen.Random;
 using SharpNeat.Evaluation;
-using SharpNeat.Neat.EvolutionAlgorithm.Settings;
+using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Speciation;
 using Xunit;
