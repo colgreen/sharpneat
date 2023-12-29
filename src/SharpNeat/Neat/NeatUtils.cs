@@ -35,26 +35,8 @@ public static class NeatUtils
         MetaNeatGenome<double> metaNeatGenome = neatPop.MetaNeatGenome;
         ValidateCompatible(neatExperiment, metaNeatGenome);
 
-        // Create a genomeList evaluator based on the experiment's configuration settings.
-        var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
-
-        // Create a speciation strategy based on the experiment's configuration settings.
-        var speciationStrategy = CreateSpeciationStrategy(neatExperiment);
-
-        // Create an instance of the default connection weight mutation scheme.
-        var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
-            neatExperiment.ConnectionWeightScale);
-
-        // Pull all of the parts together into an evolution algorithm instance.
-        var ea = new NeatEvolutionAlgorithm<double>(
-            neatExperiment.EvolutionAlgorithmSettings,
-            genomeListEvaluator,
-            speciationStrategy,
-            neatPop,
-            neatExperiment.ComplexityRegulationStrategy,
-            neatExperiment.AsexualReproductionSettings,
-            neatExperiment.RecombinationSettings,
-            weightMutationScheme);
+        var ea = CreateNeatEvolutionAlgorithmInner(
+            neatExperiment, metaNeatGenome, neatPop);
 
         return ea;
     }
@@ -68,10 +50,6 @@ public static class NeatUtils
     public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
         INeatExperiment<double> neatExperiment)
     {
-        // Create a genomeList evaluator based on the experiment's configuration settings.
-        var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
-
-        // Create a MetaNeatGenome.
         var metaNeatGenome = CreateMetaNeatGenome(neatExperiment);
 
         // Create an initial population of genomes.
@@ -80,23 +58,8 @@ public static class NeatUtils
             connectionsProportion: neatExperiment.InitialInterconnectionsProportion,
             popSize: neatExperiment.PopulationSize);
 
-        // Create a speciation strategy based on the experiment's configuration settings.
-        var speciationStrategy = CreateSpeciationStrategy(neatExperiment);
-
-        // Create an instance of the default connection weight mutation scheme.
-        var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
-            neatExperiment.ConnectionWeightScale);
-
-        // Pull all of the parts together into an evolution algorithm instance.
-        var ea = new NeatEvolutionAlgorithm<double>(
-            neatExperiment.EvolutionAlgorithmSettings,
-            genomeListEvaluator,
-            speciationStrategy,
-            neatPop,
-            neatExperiment.ComplexityRegulationStrategy,
-            neatExperiment.AsexualReproductionSettings,
-            neatExperiment.RecombinationSettings,
-            weightMutationScheme);
+        var ea = CreateNeatEvolutionAlgorithmInner(
+            neatExperiment, metaNeatGenome, neatPop);
 
         return ea;
     }
@@ -131,6 +94,35 @@ public static class NeatUtils
     #endregion
 
     #region Private Static Methods
+
+    private static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithmInner(
+            INeatExperiment<double> neatExperiment,
+            MetaNeatGenome<double> metaNeatGenome,
+            NeatPopulation<double> neatPop)
+    {
+        // Create a genomeList evaluator based on the experiment's configuration settings.
+        var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
+
+        // Create a speciation strategy based on the experiment's configuration settings.
+        var speciationStrategy = CreateSpeciationStrategy(neatExperiment);
+
+        // Create an instance of the default connection weight mutation scheme.
+        var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
+            neatExperiment.ConnectionWeightScale);
+
+        // Pull all of the parts together into an evolution algorithm instance.
+        var ea = new NeatEvolutionAlgorithm<double>(
+            neatExperiment.EvolutionAlgorithmSettings,
+            genomeListEvaluator,
+            speciationStrategy,
+            neatPop,
+            neatExperiment.ComplexityRegulationStrategy,
+            neatExperiment.AsexualReproductionSettings,
+            neatExperiment.RecombinationSettings,
+            weightMutationScheme);
+
+        return ea;
+    }
 
     // TODO: Creation of an IGenomeListEvaluator needs to be the responsibility of INeatExperimentFactory (or the evaluation scheme),
     // to allow for tasks that require the entire population to be evaluated as a whole, e.g. simulated life/worlds.
