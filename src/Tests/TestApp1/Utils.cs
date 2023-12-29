@@ -1,5 +1,4 @@
 ﻿using SharpNeat.Experiments;
-using SharpNeat.Neat;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
 namespace TestApp1;
@@ -15,7 +14,7 @@ internal static class Utils
         INeatExperiment<double> neatExperiment = experimentFactory.CreateExperiment(jsonConfigFilename);
 
         // Create a NeatEvolutionAlgorithm instance ready to run the experiment.
-        var ea = NeatUtils.CreateNeatEvolutionAlgorithm(neatExperiment);
+        var ea = NeatEvolutionAlgorithmFactory.CreateNeatEvolutionAlgorithm(neatExperiment);
         return ea;
     }
 }

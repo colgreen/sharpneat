@@ -26,7 +26,7 @@ partial class MainForm
             return;
 
         INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
         NeatPopulationLoader<double> popLoader = new(metaNeatGenome);
         
         try
@@ -62,7 +62,7 @@ partial class MainForm
             return;
 
         INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
 
         try
         {
@@ -95,7 +95,7 @@ partial class MainForm
             return;
 
         INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = NeatUtils.CreateMetaNeatGenome(neatExperiment);
+        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
         NeatPopulationLoader<double> popLoader = new(metaNeatGenome);
 
         try

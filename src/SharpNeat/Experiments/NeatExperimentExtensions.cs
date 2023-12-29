@@ -2,9 +2,7 @@
 // See LICENSE.txt for details.
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Reproduction.Asexual;
-using SharpNeat.Neat.Reproduction.Recombination;
+using SharpNeat.NeuralNets;
 using static SharpNeat.Experiments.ModelUtils;
 
 namespace SharpNeat.Experiments;
@@ -40,6 +38,33 @@ public static class NeatExperimentExtensions
         experiment.DegreeOfParallelism = experimentConfig.DegreeOfParallelism ?? experiment.DegreeOfParallelism;
         experiment.EnableHardwareAcceleratedNeuralNets = experimentConfig.EnableHardwareAcceleratedNeuralNets ?? experiment.EnableHardwareAcceleratedNeuralNets;
         experiment.EnableHardwareAcceleratedActivationFunctions = experimentConfig.EnableHardwareAcceleratedActivationFunctions ?? experiment.EnableHardwareAcceleratedActivationFunctions;
+    }
+
+    /// <summary>
+    /// Create a <see cref="MetaNeatGenome{T}"/> based on the parameters supplied by an
+    /// <see cref="INeatExperiment{T}"/>.
+    /// </summary>
+    /// <param name="neatExperiment">The neat experiment.</param>
+    /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
+    public static MetaNeatGenome<double> CreateMetaNeatGenome(
+        this INeatExperiment<double> neatExperiment)
+    {
+        // Resolve the configured activation function name to an activation function instance.
+        var actFnFactory = new DefaultActivationFunctionFactory<double>(
+            neatExperiment.EnableHardwareAcceleratedActivationFunctions);
+
+        var activationFn = actFnFactory.GetActivationFunction(
+            neatExperiment.ActivationFnName);
+
+        var metaNeatGenome = new MetaNeatGenome<double>(
+            inputNodeCount: neatExperiment.EvaluationScheme.InputCount,
+            outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
+            isAcyclic: neatExperiment.IsAcyclic,
+            cyclesPerActivation: neatExperiment.CyclesPerActivation,
+            activationFn: activationFn,
+            connectionWeightScale: neatExperiment.ConnectionWeightScale);
+
+        return metaNeatGenome;
     }
 
     #region Private Static Methods

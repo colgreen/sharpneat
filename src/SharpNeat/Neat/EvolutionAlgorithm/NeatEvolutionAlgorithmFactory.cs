@@ -3,20 +3,16 @@
 using SharpNeat.Experiments;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.DistanceMetrics.Double;
-using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome.Double;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
-using SharpNeat.NeuralNets;
 
-namespace SharpNeat.Neat;
+namespace SharpNeat.Neat.EvolutionAlgorithm;
 
 /// <summary>
 /// Utility methods for creating and correctly 'wiring up' instances of NeatEvolutionAlgorithm.
 /// </summary>
-public static class NeatUtils
+public static class NeatEvolutionAlgorithmFactory
 {
-    #region Public Static Methods
-
     /// <summary>
     /// Create a new instance of <see cref="NeatEvolutionAlgorithm{T}"/> for the given neat experiment, and neat
     /// population.
@@ -50,7 +46,7 @@ public static class NeatUtils
     public static NeatEvolutionAlgorithm<double> CreateNeatEvolutionAlgorithm(
         INeatExperiment<double> neatExperiment)
     {
-        var metaNeatGenome = CreateMetaNeatGenome(neatExperiment);
+        var metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
 
         // Create an initial population of genomes.
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(
@@ -63,35 +59,6 @@ public static class NeatUtils
 
         return ea;
     }
-
-    /// <summary>
-    /// Create a <see cref="MetaNeatGenome{T}"/> based on the parameters supplied by an
-    /// <see cref="INeatExperiment{T}"/>.
-    /// </summary>
-    /// <param name="neatExperiment">The neat experiment.</param>
-    /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
-    public static MetaNeatGenome<double> CreateMetaNeatGenome(
-        INeatExperiment<double> neatExperiment)
-    {
-        // Resolve the configured activation function name to an activation function instance.
-        var actFnFactory = new DefaultActivationFunctionFactory<double>(
-            neatExperiment.EnableHardwareAcceleratedActivationFunctions);
-
-        var activationFn = actFnFactory.GetActivationFunction(
-            neatExperiment.ActivationFnName);
-
-        var metaNeatGenome = new MetaNeatGenome<double>(
-            inputNodeCount: neatExperiment.EvaluationScheme.InputCount,
-            outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
-            isAcyclic: neatExperiment.IsAcyclic,
-            cyclesPerActivation: neatExperiment.CyclesPerActivation,
-            activationFn: activationFn,
-            connectionWeightScale: neatExperiment.ConnectionWeightScale);
-
-        return metaNeatGenome;
-    }
-
-    #endregion
 
     #region Private Static Methods
 
@@ -159,7 +126,7 @@ public static class NeatUtils
 
         // Use k-means speciation strategy; this is the default from sharpneat 2.x.
         // Create a serial (single threaded) strategy if degreeOfParallelism is one.
-        if(degreeOfParallelismResolved == 1)
+        if (degreeOfParallelismResolved == 1)
             return new Speciation.GeneticKMeans.GeneticKMeansSpeciationStrategy<double>(distanceMetric, 5);
 
         // Create a parallel (multi-threaded) strategy for degreeOfParallelism > 1.
@@ -175,16 +142,16 @@ public static class NeatUtils
         MetaNeatGenome<double> metaNeatGenome)
     {
         // Confirm that neatExperiment and metaNeatGenome are compatible with each other.
-        if(neatExperiment.EvaluationScheme.InputCount != metaNeatGenome.InputNodeCount)
+        if (neatExperiment.EvaluationScheme.InputCount != metaNeatGenome.InputNodeCount)
             throw new ArgumentException("InputNodeCount does not match INeatExperiment.", nameof(metaNeatGenome));
 
-        if(neatExperiment.EvaluationScheme.OutputCount != metaNeatGenome.OutputNodeCount)
+        if (neatExperiment.EvaluationScheme.OutputCount != metaNeatGenome.OutputNodeCount)
             throw new ArgumentException("OutputNodeCount does not match INeatExperiment.", nameof(metaNeatGenome));
 
-        if(neatExperiment.IsAcyclic != metaNeatGenome.IsAcyclic)
+        if (neatExperiment.IsAcyclic != metaNeatGenome.IsAcyclic)
             throw new ArgumentException("IsAcyclic does not match INeatExperiment.", nameof(metaNeatGenome));
 
-        if(neatExperiment.ConnectionWeightScale != metaNeatGenome.ConnectionWeightScale)
+        if (neatExperiment.ConnectionWeightScale != metaNeatGenome.ConnectionWeightScale)
             throw new ArgumentException("ConnectionWeightScale does not match INeatExperiment.", nameof(metaNeatGenome));
 
         // Note. neatExperiment.ActivationFnName is not being checked against metaNeatGenome.ActivationFn, as the
@@ -197,9 +164,9 @@ public static class NeatUtils
         int degreeOfParallelism = neatExperiment.DegreeOfParallelism;
 
         // Resolve special value of -1 to the number of logical CPU cores.
-        if(degreeOfParallelism == -1)
+        if (degreeOfParallelism == -1)
             degreeOfParallelism = Environment.ProcessorCount;
-        else if(degreeOfParallelism < 1)
+        else if (degreeOfParallelism < 1)
             throw new ArgumentException(nameof(degreeOfParallelism));
 
         return degreeOfParallelism;
