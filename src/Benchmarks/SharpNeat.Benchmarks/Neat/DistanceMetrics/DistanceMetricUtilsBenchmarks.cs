@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using SharpNeat.Neat.DistanceMetrics.Double;
 using SharpNeat.Neat.Genome;
 using SharpNeat.Neat.Genome.IO;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
