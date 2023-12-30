@@ -47,19 +47,21 @@ public static class NeatExperimentExtensions
     /// Create a <see cref="MetaNeatGenome{T}"/> based on the parameters supplied by an
     /// <see cref="INeatExperiment{T}"/>.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="neatExperiment">The neat experiment.</param>
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
-    public static MetaNeatGenome<double> CreateMetaNeatGenome(
-        this INeatExperiment<double> neatExperiment)
+    public static MetaNeatGenome<TScalar> CreateMetaNeatGenome<TScalar>(
+        this INeatExperiment<TScalar> neatExperiment)
+        where TScalar : struct
     {
         // Resolve the configured activation function name to an activation function instance.
-        var actFnFactory = new DefaultActivationFunctionFactory<double>(
+        var actFnFactory = new DefaultActivationFunctionFactory<TScalar>(
             neatExperiment.EnableHardwareAcceleratedActivationFunctions);
 
         var activationFn = actFnFactory.GetActivationFunction(
             neatExperiment.ActivationFnName);
 
-        var metaNeatGenome = new MetaNeatGenome<double>(
+        var metaNeatGenome = new MetaNeatGenome<TScalar>(
             inputNodeCount: neatExperiment.EvaluationScheme.InputCount,
             outputNodeCount: neatExperiment.EvaluationScheme.OutputCount,
             isAcyclic: neatExperiment.IsAcyclic,

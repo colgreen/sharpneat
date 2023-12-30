@@ -31,7 +31,7 @@ public static class NeatEvolutionAlgorithmFactory
         ValidateCompatible(neatExperiment, metaNeatGenome);
 
         var ea = CreateEvolutionAlgorithmInner(
-            neatExperiment, metaNeatGenome, neatPop);
+            neatExperiment, neatPop);
 
         return ea;
     }
@@ -54,7 +54,7 @@ public static class NeatEvolutionAlgorithmFactory
             popSize: neatExperiment.PopulationSize);
 
         var ea = CreateEvolutionAlgorithmInner(
-            neatExperiment, metaNeatGenome, neatPop);
+            neatExperiment, neatPop);
 
         return ea;
     }
@@ -63,7 +63,6 @@ public static class NeatEvolutionAlgorithmFactory
 
     private static NeatEvolutionAlgorithm<double> CreateEvolutionAlgorithmInner(
             INeatExperiment<double> neatExperiment,
-            MetaNeatGenome<double> metaNeatGenome,
             NeatPopulation<double> neatPop)
     {
         // Create a genomeList evaluator based on the experiment's configuration settings.
@@ -73,7 +72,7 @@ public static class NeatEvolutionAlgorithmFactory
         var speciationStrategy = CreateSpeciationStrategy(neatExperiment);
 
         // Create an instance of the default connection weight mutation scheme.
-        var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
+        var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<double>(
             neatExperiment.ConnectionWeightScale);
 
         // Pull all of the parts together into an evolution algorithm instance.

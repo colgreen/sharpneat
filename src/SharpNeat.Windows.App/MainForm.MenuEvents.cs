@@ -70,7 +70,7 @@ partial class MainForm
             NeatGenome<double> seedGenome = NeatGenomeLoader.Load(filepath, metaNeatGenome, 0);
 
             // Create an instance of the default connection weight mutation scheme.
-            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<double>(
                 neatExperiment.ConnectionWeightScale);
 
             _neatPop = NeatPopulationFactory<double>.CreatePopulation(
@@ -110,7 +110,7 @@ partial class MainForm
             }
 
             // Create an instance of the default connection weight mutation scheme.
-            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme(
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<double>(
                 neatExperiment.ConnectionWeightScale);
 
             _neatPop = NeatPopulationFactory<double>.CreatePopulation(

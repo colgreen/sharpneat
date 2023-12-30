@@ -11,7 +11,7 @@ public class DeltaWeightMutationStrategyTests
     public void UniformDelta()
     {
         double weightScale = 5.0;
-        var strategy = DeltaWeightMutationStrategy.CreateUniformDeltaStrategy(
+        var strategy = DeltaWeightMutationStrategy<double>.CreateUniformDeltaStrategy(
             new SelectAllStrategy(),
             weightScale);
 
@@ -43,7 +43,7 @@ public class DeltaWeightMutationStrategyTests
     [Fact]
     public void GaussianDelta()
     {
-        var strategy = DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(
+        var strategy = DeltaWeightMutationStrategy<double>.CreateGaussianDeltaStrategy(
             new SelectAllStrategy(),
             1.0);
 

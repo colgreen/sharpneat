@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Double;
+using System.Numerics;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation.Selection;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
@@ -23,47 +23,51 @@ public static class WeightMutationSchemeFactory
     /// possible to assist in debugging and testing of the new code base by comparing performance/results, etc. with the 2.x
     /// code base.
     /// </remarks>
+    /// <typeparam name="TWeight">Connection weight data type.</typeparam>
     /// <param name="weightScale">Connection weight scale/range.</param>
     /// <returns>A new instance of <see cref="WeightMutationScheme{Double}"/>.</returns>
-    public static WeightMutationScheme<double> CreateDefaultScheme(double weightScale)
+    public static WeightMutationScheme<TWeight> CreateDefaultScheme<TWeight>(double weightScale)
+        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
     {
         var probabilityArr = new double[6];
-        var strategyArr = new IWeightMutationStrategy<double>[6];
+        var strategyArr = new IWeightMutationStrategy<TWeight>[6];
 
         // Gaussian delta with sigma=0.01 (most values between +-0.02)
         // Mutate 1, 2 and 3 connections respectively.
         probabilityArr[0] = 0.5985;
         probabilityArr[1] = 0.2985;
         probabilityArr[2] = 0.0985;
-        strategyArr[0] = CreateCardinalGaussianDeltaStrategy(1, 0.01);
-        strategyArr[1] = CreateCardinalGaussianDeltaStrategy(2, 0.01);
-        strategyArr[2] = CreateCardinalGaussianDeltaStrategy(3, 0.01);
+        strategyArr[0] = CreateCardinalGaussianDeltaStrategy<TWeight>(1, 0.01);
+        strategyArr[1] = CreateCardinalGaussianDeltaStrategy<TWeight>(2, 0.01);
+        strategyArr[2] = CreateCardinalGaussianDeltaStrategy<TWeight>(3, 0.01);
 
         // Reset mutations. 1, 2 and 3 connections respectively.
         probabilityArr[3] = 0.015;
         probabilityArr[4] = 0.015;
         probabilityArr[5] = 0.015;
-        strategyArr[3] = CreateCardinalUniformResetStrategy(1, weightScale);
-        strategyArr[4] = CreateCardinalUniformResetStrategy(2, weightScale);
-        strategyArr[5] = CreateCardinalUniformResetStrategy(3, weightScale);
+        strategyArr[3] = CreateCardinalUniformResetStrategy<TWeight>(1, weightScale);
+        strategyArr[4] = CreateCardinalUniformResetStrategy<TWeight>(2, weightScale);
+        strategyArr[5] = CreateCardinalUniformResetStrategy<TWeight>(3, weightScale);
 
-        return new WeightMutationScheme<double>(probabilityArr, strategyArr);
+        return new WeightMutationScheme<TWeight>(probabilityArr, strategyArr);
     }
 
     #region Private Static Methods
 
-    private static IWeightMutationStrategy<double> CreateCardinalGaussianDeltaStrategy(
+    private static DeltaWeightMutationStrategy<TWeight> CreateCardinalGaussianDeltaStrategy<TWeight>(
         int selectCount, double stdDev)
+        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
     {
         var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
-        return DeltaWeightMutationStrategy.CreateGaussianDeltaStrategy(selectStrategy, stdDev);
+        return DeltaWeightMutationStrategy<TWeight>.CreateGaussianDeltaStrategy(selectStrategy, stdDev);
     }
 
-    private static IWeightMutationStrategy<double> CreateCardinalUniformResetStrategy(
+    private static ResetWeightMutationStrategy<TWeight> CreateCardinalUniformResetStrategy<TWeight>(
         int selectCount, double weightScale)
+        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
     {
         var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
-        return ResetWeightMutationStrategy<double>.CreateUniformResetStrategy(selectStrategy, weightScale);
+        return ResetWeightMutationStrategy<TWeight>.CreateUniformResetStrategy(selectStrategy, weightScale);
     }
 
     #endregion
