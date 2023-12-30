@@ -1,7 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using SharpNeat.Experiments;
-using SharpNeat.Neat.Genome.Double;
+using SharpNeat.Neat.Genome.Decoders;
 using SharpNeat.Tasks.PreyCapture;
 using SharpNeat.Tasks.PreyCapture.ConfigModels;
 using SharpNeat.Windows;
@@ -34,7 +34,7 @@ public sealed class PreyCaptureExperimentUi : NeatExperimentUi
             _customConfig.SensorRange,
             _customConfig.MaxTimesteps);
 
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(
+        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<double>(
             _neatExperiment.IsAcyclic,
             _neatExperiment.EnableHardwareAcceleratedNeuralNets);
 

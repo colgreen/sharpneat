@@ -4,13 +4,13 @@ using System.Diagnostics;
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNets.Double;
 
-namespace SharpNeat.Neat.Genome.Double;
+namespace SharpNeat.Neat.Genome.Decoders.Double;
 
 /// <summary>
 /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically
 /// acyclic neural network instances implemented by <see cref="NeuralNetAcyclic"/>.
 /// </summary>
-public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
+public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>, IBlackBox<double>>
 {
     /// <summary>
     /// Decodes a NEAT genome into a working neural network.

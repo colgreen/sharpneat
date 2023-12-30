@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using SharpNeat.Domains.FunctionRegression;
 using SharpNeat.Experiments;
-using SharpNeat.Neat.Genome.Double;
+using SharpNeat.Neat.Genome.Decoders;
 using SharpNeat.Tasks.FunctionRegression;
 using SharpNeat.Windows;
 using SharpNeat.Windows.Neat;
@@ -28,7 +28,7 @@ public sealed class GenerativeFnRegressionUi : NeatExperimentUi
     /// <inheritdoc/>
     public override GenomeControl CreateTaskControl()
     {
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder(
+        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<double>(
             _neatExperiment.IsAcyclic,
             _neatExperiment.EnableHardwareAcceleratedNeuralNets);
 

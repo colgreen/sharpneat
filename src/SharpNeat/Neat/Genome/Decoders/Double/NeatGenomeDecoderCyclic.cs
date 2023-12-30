@@ -1,14 +1,15 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using SharpNeat.NeuralNets.Double;
 
-namespace SharpNeat.Neat.Genome.Double.Vectorized;
+namespace SharpNeat.Neat.Genome.Decoders.Double;
 
 /// <summary>
 /// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically
-/// cyclic neural network instances implemented by <see cref="NeuralNets.Double.Vectorized.NeuralNetCyclic"/>.
+/// cyclic neural network instances implemented by either <see cref="NeuralNetCyclic"/>.
 /// </summary>
-public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,IBlackBox<double>>
+public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>, IBlackBox<double>>
 {
     /// <summary>
     /// Decodes a NEAT genome into a working neural network.
@@ -20,7 +21,8 @@ public sealed class NeatGenomeDecoderCyclic : IGenomeDecoder<NeatGenome<double>,
         // Note. In principle an acyclic net can be decoded to a cyclic network (but not the other way around), but standard sharpneat behaviour is not to support this.
         Debug.Assert(!genome.MetaNeatGenome.IsAcyclic);
 
-        return new NeuralNets.Double.Vectorized.NeuralNetCyclic(
+        // Create a working neural net.
+        return new NeuralNetCyclic(
                 genome.DirectedGraph,
                 genome.ConnectionGenes._weightArr,
                 genome.MetaNeatGenome.ActivationFn.Fn,
