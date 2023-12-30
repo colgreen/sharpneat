@@ -57,7 +57,9 @@ public sealed class AddCyclicConnectionStrategy<TScalar> : IAsexualReproductionS
     #region Public Methods
 
     /// <inheritdoc/>
-    public NeatGenome<TScalar>? CreateChildGenome(NeatGenome<TScalar> parent, IRandomSource rng)
+    public NeatGenome<TScalar>? CreateChildGenome(
+        NeatGenome<TScalar> parent,
+        IRandomSource rng)
     {
         // Attempt to find a new connection that we can add to the genome.
         if(!TryGetConnection(parent, rng, out DirectedConnection directedConn, out int insertIdx))

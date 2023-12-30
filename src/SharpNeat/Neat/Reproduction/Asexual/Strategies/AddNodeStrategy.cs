@@ -60,7 +60,9 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
     /// <param name="parent">The parent genome.</param>
     /// <param name="rng">Random source.</param>
     /// <returns>A new child genome.</returns>
-    public NeatGenome<TScalar>? CreateChildGenome(NeatGenome<TScalar> parent, IRandomSource rng)
+    public NeatGenome<TScalar>? CreateChildGenome(
+        NeatGenome<TScalar> parent,
+        IRandomSource rng)
     {
         if(parent.ConnectionGenes.Length == 0)
         {

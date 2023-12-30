@@ -62,7 +62,9 @@ public sealed class AddAcyclicConnectionStrategy<TScalar> : IAsexualReproduction
     #region Public Methods
 
     /// <inheritdoc/>
-    public NeatGenome<TScalar>? CreateChildGenome(NeatGenome<TScalar> parent, IRandomSource rng)
+    public NeatGenome<TScalar>? CreateChildGenome(
+        NeatGenome<TScalar> parent,
+        IRandomSource rng)
     {
         Debug.Assert(_metaNeatGenome == parent.MetaNeatGenome, "Parent genome has unexpected MetaNeatGenome.");
 

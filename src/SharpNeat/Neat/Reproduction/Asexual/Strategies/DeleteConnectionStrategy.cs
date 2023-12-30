@@ -162,14 +162,18 @@ public sealed class DeleteConnectionStrategy<TScalar> : IAsexualReproductionStra
             return (null, null);
         }
 
-        (bool,bool) isConnectedTuple = AreNodesConnectedTo(childConnArr, nodeId1!.Value, nodeId2.Value);
-        if(!isConnectedTuple.Item1 && !isConnectedTuple.Item2)
+        (bool isNode1Connected, bool isNode2Connected) = AreNodesConnectedTo(
+            childConnArr,
+            nodeId1!.Value,
+            nodeId2.Value);
+
+        if(!isNode1Connected && !isNode2Connected)
             return (nodeId1.Value, nodeId2.Value);
 
-        if(!isConnectedTuple.Item1)
+        if(!isNode1Connected)
             return (nodeId1.Value, null);
 
-        if(!isConnectedTuple.Item2)
+        if(!isNode2Connected)
             return (nodeId2.Value, null);
 
         return (null, null);
@@ -192,7 +196,9 @@ public sealed class DeleteConnectionStrategy<TScalar> : IAsexualReproductionStra
     /// <summary>
     /// Are nodeId1 and nodeId2 connected to by any of the connections in connArr.
     /// </summary>
-    private static (bool isNode1Connected, bool isNode2Connected) AreNodesConnectedTo(DirectedConnection[] connArr, int nodeId1, int nodeId2)
+    private static (bool isNode1Connected, bool isNode2Connected) AreNodesConnectedTo(
+        DirectedConnection[] connArr,
+        int nodeId1, int nodeId2)
     {
         bool id1Used = false;
         bool id2Used = false;
