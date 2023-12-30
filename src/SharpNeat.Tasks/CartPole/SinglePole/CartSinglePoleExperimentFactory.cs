@@ -3,9 +3,6 @@
 using SharpNeat.Experiments;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.IO;
-using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Reproduction.Asexual;
-using SharpNeat.Neat.Reproduction.Recombination;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Tasks.CartPole.SinglePole;
@@ -32,10 +29,7 @@ public sealed class CartSinglePoleExperimentFactory : INeatExperimentFactory
         var experiment = new NeatExperiment<double>(evalScheme, Id)
         {
             IsAcyclic = true,
-            ActivationFnName = ActivationFunctionId.LogisticSteep.ToString(),
-            EvolutionAlgorithmSettings = experimentConfig.EvolutionAlgorithm ?? new NeatEvolutionAlgorithmSettings(),
-            AsexualReproductionSettings = experimentConfig.AsexualReproduction ?? new NeatAsexualReproductionSettings(),
-            RecombinationSettings = experimentConfig.Recombination ?? new NeatRecombinationSettings()
+            ActivationFnName = ActivationFunctionId.LogisticSteep.ToString()
         };
 
         // Apply configuration to the experiment instance.

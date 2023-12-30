@@ -2,9 +2,6 @@
 // See LICENSE.txt for details.
 using SharpNeat.Experiments;
 using SharpNeat.IO;
-using SharpNeat.Neat.EvolutionAlgorithm;
-using SharpNeat.Neat.Reproduction.Asexual;
-using SharpNeat.Neat.Reproduction.Recombination;
 using SharpNeat.NeuralNets;
 using SharpNeat.Tasks.PreyCapture.ConfigModels;
 
@@ -41,10 +38,7 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
         {
             IsAcyclic = false,
             CyclesPerActivation = 1,
-            ActivationFnName = ActivationFunctionId.LeakyReLU.ToString(),
-            EvolutionAlgorithmSettings = experimentConfig.EvolutionAlgorithm ?? new NeatEvolutionAlgorithmSettings(),
-            AsexualReproductionSettings = experimentConfig.AsexualReproduction ?? new NeatAsexualReproductionSettings(),
-            RecombinationSettings = experimentConfig.Recombination ?? new NeatRecombinationSettings()
+            ActivationFnName = ActivationFunctionId.LeakyReLU.ToString()
         };
 
         // Apply configuration to the experiment instance.

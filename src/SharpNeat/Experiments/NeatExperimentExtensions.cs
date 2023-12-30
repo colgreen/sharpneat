@@ -32,12 +32,15 @@ public static class NeatExperimentExtensions
         experiment.PopulationSize = experimentConfig.PopulationSize ?? experiment.PopulationSize;
         experiment.InitialInterconnectionsProportion = experimentConfig.InitialInterconnectionsProportion ?? experiment.InitialInterconnectionsProportion;
         experiment.ConnectionWeightScale = experimentConfig.ConnectionWeightScale ?? experiment.ConnectionWeightScale;
-
-        ApplyConfiguration(experiment, experimentConfig.ComplexityRegulationStrategy);
-
         experiment.DegreeOfParallelism = experimentConfig.DegreeOfParallelism ?? experiment.DegreeOfParallelism;
         experiment.EnableHardwareAcceleratedNeuralNets = experimentConfig.EnableHardwareAcceleratedNeuralNets ?? experiment.EnableHardwareAcceleratedNeuralNets;
         experiment.EnableHardwareAcceleratedActivationFunctions = experimentConfig.EnableHardwareAcceleratedActivationFunctions ?? experiment.EnableHardwareAcceleratedActivationFunctions;
+
+        experiment.EvolutionAlgorithmSettings = experimentConfig.EvolutionAlgorithm ?? experiment.EvolutionAlgorithmSettings;
+        experiment.AsexualReproductionSettings = experimentConfig.AsexualReproduction ?? experiment.AsexualReproductionSettings;
+        experiment.RecombinationSettings = experimentConfig.Recombination ?? experiment.RecombinationSettings;
+
+        ApplyConfiguration(experiment, experimentConfig.ComplexityRegulationStrategy);
     }
 
     /// <summary>

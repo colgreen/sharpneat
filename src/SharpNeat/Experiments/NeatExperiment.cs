@@ -37,13 +37,13 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
     public string ActivationFnName { get; set; } = ActivationFunctionId.LeakyReLU.ToString();
 
     /// <inheritdoc/>
-    public int PopulationSize { get; set; }
+    public int PopulationSize { get; set; } = 400;
 
     /// <inheritdoc/>
-    public double InitialInterconnectionsProportion { get; set; }
+    public double InitialInterconnectionsProportion { get; set; } = 0.05;
 
     /// <inheritdoc/>
-    public double ConnectionWeightScale { get; set; }
+    public double ConnectionWeightScale { get; set; } = 5.0;
 
     /// <inheritdoc/>
     public int DegreeOfParallelism { get; set; } = -1;
@@ -58,13 +58,13 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
     public IBlackBoxEvaluationScheme<TScalar> EvaluationScheme { get; }
 
     /// <inheritdoc/>
-    public required NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; init; }
+    public NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; set; } = new NeatEvolutionAlgorithmSettings();
 
     /// <inheritdoc/>
-    public required NeatAsexualReproductionSettings AsexualReproductionSettings { get; init; }
+    public NeatAsexualReproductionSettings AsexualReproductionSettings { get; set; } = new NeatAsexualReproductionSettings();
 
     /// <inheritdoc/>
-    public required NeatRecombinationSettings RecombinationSettings { get; init; }
+    public NeatRecombinationSettings RecombinationSettings { get; set; } = new NeatRecombinationSettings();
 
     /// <inheritdoc/>
     public IComplexityRegulationStrategy ComplexityRegulationStrategy { get; set; }
@@ -86,14 +86,6 @@ public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
 
         // Use the id as a default name; however this can be overwritten/set after construction.
         Name = id ?? Id;
-
-        // Assign a set of default settings.
-        EvolutionAlgorithmSettings = new NeatEvolutionAlgorithmSettings();
-        AsexualReproductionSettings = new NeatAsexualReproductionSettings();
-        RecombinationSettings = new NeatRecombinationSettings();
-        PopulationSize = 400;
-        InitialInterconnectionsProportion = 0.05;
-        ConnectionWeightScale = 5.0;
 
         // Assign a default complexity regulation strategy.
         ComplexityRegulationStrategy = new NullComplexityRegulationStrategy();

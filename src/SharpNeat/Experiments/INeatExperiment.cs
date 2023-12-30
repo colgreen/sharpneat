@@ -122,17 +122,17 @@ public interface INeatExperiment<TScalar>
     /// <summary>
     /// The <see cref="EvolutionAlgorithmSettings"/> to be used for the experiment.
     /// </summary>
-    NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; }
+    NeatEvolutionAlgorithmSettings EvolutionAlgorithmSettings { get; set; }
 
     /// <summary>
     /// The asexual reproduction settings to use for the experiment.
     /// </summary>
-    NeatAsexualReproductionSettings AsexualReproductionSettings { get; }
+    NeatAsexualReproductionSettings AsexualReproductionSettings { get; set; }
 
     /// <summary>
     /// The recombination settings to use for the experiment.
     /// </summary>
-    NeatRecombinationSettings RecombinationSettings { get; }
+    NeatRecombinationSettings RecombinationSettings { get; set; }
 
     /// <summary>
     /// The complexity regulation strategy to use for the experiment.
