@@ -3,7 +3,7 @@
 namespace SharpNeat.Evaluation;
 
 /// <summary>
-/// An implementation of <see cref="IGenomeListEvaluator{TGenome}"/> that evaluates genomes in parallel on multiple CPU threads.
+/// An implementation of <see cref="IGenomeBatchEvaluator{TGenome}"/> that evaluates genomes in parallel on multiple CPU threads.
 /// </summary>
 /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
 /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
@@ -11,10 +11,10 @@ namespace SharpNeat.Evaluation;
 /// Genome decoding to a phenome is performed by a <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.
 /// Phenome fitness evaluation is performed by a <see cref="IPhenomeEvaluator{TPhenome}"/>.
 ///
-/// This class is for use with a stateless (and therefore thread safe) phenome evaluator, i.e. one phenome evaluator is created
-/// and the is used concurrently by multiple threads.
+/// This class is for use with a stateless (and therefore thread safe) phenome evaluator, i.e., one phenome evaluator is created
+/// and is used concurrently by multiple threads.
 /// </remarks>
-public class ParallelGenomeListEvaluatorStateless<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
+public class ParallelGenomeBatchEvaluatorStateless<TGenome,TPhenome> : IGenomeBatchEvaluator<TGenome>
     where TGenome : IGenome
     where TPhenome : class, IDisposable
 {
@@ -31,7 +31,7 @@ public class ParallelGenomeListEvaluatorStateless<TGenome,TPhenome> : IGenomeLis
     /// <param name="genomeDecoder">Genome decoder.</param>
     /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
     /// <param name="degreeOfParallelism">The desired degree of parallelism.</param>
-    public ParallelGenomeListEvaluatorStateless(
+    public ParallelGenomeBatchEvaluatorStateless(
         IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
         IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
         int degreeOfParallelism)
@@ -54,7 +54,7 @@ public class ParallelGenomeListEvaluatorStateless<TGenome,TPhenome> : IGenomeLis
 
     #endregion
 
-    #region IGenomeListEvaluator
+    #region IGenomeBatchEvaluator
 
     /// <summary>
     /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.

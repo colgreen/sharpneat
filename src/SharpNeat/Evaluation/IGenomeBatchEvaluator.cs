@@ -3,10 +3,10 @@
 namespace SharpNeat.Evaluation;
 
 /// <summary>
-/// Represents an evaluator of lists of genomes.
+/// Represents an evaluator of a collection of genomes.
 /// </summary>
 /// <typeparam name="TGenome">Genome type.</typeparam>
-public interface IGenomeListEvaluator<TGenome>
+public interface IGenomeBatchEvaluator<TGenome>
 {
     /// <summary>
     /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
@@ -28,10 +28,10 @@ public interface IGenomeListEvaluator<TGenome>
     IComparer<FitnessInfo> FitnessComparer { get; }
 
     /// <summary>
-    /// Evaluates a list of genomes, assigning fitness info to each.
+    /// Evaluates a batch of genomes, assigning fitness info to each.
     /// </summary>
-    /// <param name="genomeList">The list of genomes to evaluate.</param>
-    void Evaluate(IList<TGenome> genomeList);
+    /// <param name="genomes">The batch of genomes to evaluate.</param>
+    void Evaluate(IList<TGenome> genomes);
 
     /// <summary>
     /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean

@@ -67,7 +67,7 @@ public static class NeatEvolutionAlgorithmFactory
             NeatPopulation<double> neatPop)
     {
         // Create a genomeList evaluator based on the experiment's configuration settings.
-        var genomeListEvaluator = CreateGenomeListEvaluator(neatExperiment);
+        var genomeBatchEvaluator = CreateGenomeBatchEvaluator(neatExperiment);
 
         // Create a speciation strategy based on the experiment's configuration settings.
         var speciationStrategy = CreateSpeciationStrategy(neatExperiment);
@@ -79,7 +79,7 @@ public static class NeatEvolutionAlgorithmFactory
         // Pull all of the parts together into an evolution algorithm instance.
         var ea = new NeatEvolutionAlgorithm<double>(
             neatExperiment.EvolutionAlgorithmSettings,
-            genomeListEvaluator,
+            genomeBatchEvaluator,
             speciationStrategy,
             neatPop,
             neatExperiment.ComplexityRegulationStrategy,
@@ -90,10 +90,10 @@ public static class NeatEvolutionAlgorithmFactory
         return ea;
     }
 
-    // TODO: Creation of an IGenomeListEvaluator needs to be the responsibility of INeatExperimentFactory (or the evaluation scheme),
+    // TODO: Creation of an IGenomeBatchEvaluator needs to be the responsibility of INeatExperimentFactory (or the evaluation scheme),
     // to allow for tasks that require the entire population to be evaluated as a whole, e.g. simulated life/worlds.
-    // Furthermore, a new interface IPhenomeListEvaluator will be needed to allow the code for those types of task to be abstracted away from the type of genome in use.
-    private static IGenomeListEvaluator<NeatGenome<double>> CreateGenomeListEvaluator(
+    // Furthermore, a new interface IPhenomeBatchEvaluator will be needed to allow the code for those types of task to be abstracted away from the type of genome in use.
+    private static IGenomeBatchEvaluator<NeatGenome<double>> CreateGenomeBatchEvaluator(
         INeatExperiment<double> neatExperiment)
     {
         // Create a genome decoder based on experiment config settings.
@@ -106,12 +106,12 @@ public static class NeatEvolutionAlgorithmFactory
         int degreeOfParallelismResolved = ResolveDegreeOfParallelism(neatExperiment);
 
         // Create a genomeList evaluator, and return.
-        var genomeListEvaluator = GenomeListEvaluatorFactory.CreateEvaluator(
+        var genomeBatchEvaluator = GenomeBatchEvaluatorFactory.CreateEvaluator(
             genomeDecoder,
             neatExperiment.EvaluationScheme,
             degreeOfParallelismResolved);
 
-        return genomeListEvaluator;
+        return genomeBatchEvaluator;
     }
 
     private static ISpeciationStrategy<NeatGenome<double>, double> CreateSpeciationStrategy(

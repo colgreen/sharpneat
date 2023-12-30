@@ -21,7 +21,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
     NeatEvolutionAlgorithmSettings _eaSettingsCurrent;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsComplexifying;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsSimplifying;
-    readonly IGenomeListEvaluator<NeatGenome<TScalar>> _evaluator;
+    readonly IGenomeBatchEvaluator<NeatGenome<TScalar>> _batchEvaluator;
     readonly ISpeciationStrategy<NeatGenome<TScalar>,TScalar> _speciationStrategy;
     readonly NeatPopulation<TScalar> _pop;
     readonly IComplexityRegulationStrategy _complexityRegulationStrategy;
@@ -56,7 +56,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
     /// <param name="rng">Random source (optional).</param>
     public NeatEvolutionAlgorithm(
         NeatEvolutionAlgorithmSettings eaSettings,
-        IGenomeListEvaluator<NeatGenome<TScalar>> evaluator,
+        IGenomeBatchEvaluator<NeatGenome<TScalar>> evaluator,
         ISpeciationStrategy<NeatGenome<TScalar>,TScalar> speciationStrategy,
         NeatPopulation<TScalar> population,
         IComplexityRegulationStrategy complexityRegulationStrategy,
@@ -78,7 +78,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         _eaSettingsComplexifying = eaSettings;
         _eaSettingsSimplifying = eaSettings.CreateSimplifyingSettings();
 
-        _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
+        _batchEvaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
         _speciationStrategy = speciationStrategy ?? throw new ArgumentNullException(nameof(speciationStrategy));
         _pop = population ?? throw new ArgumentNullException(nameof(population));
         _complexityRegulationStrategy = complexityRegulationStrategy ?? throw new ArgumentNullException(nameof(complexityRegulationStrategy));
@@ -139,7 +139,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
     public void Initialise()
     {
         // Evaluate each genome in the new population.
-        _evaluator.Evaluate(_pop.GenomeList);
+        _batchEvaluator.Evaluate(_pop.GenomeList);
 
         // Initialise species.
         _pop.InitialiseSpecies(
@@ -175,7 +175,7 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         RebuildGenomeList();
 
         // Append offspring genomes to the elite genomes in _pop.GenomeList. We do this before calling the
-        // _genomeListEvaluator.Evaluate() because some evaluation schemes re-evaluate the elite genomes
+        // _batchEvaluator.Evaluate() because some evaluation schemes re-evaluate the elite genomes
         // (otherwise we could just evaluate offspringList).
         _pop.GenomeList.AddRange(offspringList);
 
@@ -250,14 +250,14 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         // the offspring genomes; the elite genomes that remain in the population from the previous generation have already been
         // evaluated and assigned a fitness score, so we can avoid the effort of re-evaluating those. If however the evaluation scheme
         // is non-deterministic, then we must re-evaluate all genomes in the population, both old and new genome.
-        if(_evaluator.IsDeterministic)
+        if(_batchEvaluator.IsDeterministic)
         {
-            _evaluator.Evaluate(offspringList);
+            _batchEvaluator.Evaluate(offspringList);
             evaluationCount = (ulong)offspringList.Count;
         }
         else
         {
-            _evaluator.Evaluate(_pop.GenomeList);
+            _batchEvaluator.Evaluate(_pop.GenomeList);
             evaluationCount = (ulong)_pop.GenomeList.Count;
         }
 
@@ -315,14 +315,14 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
         _eaStats.SampleTime = DateTime.UtcNow;
 
         // Update population statistics.
-        _pop.UpdateStats(_evaluator.FitnessComparer, _rng);
+        _pop.UpdateStats(_batchEvaluator.FitnessComparer, _rng);
 
         // Store the current generation number, and increment.
         _eaStats.Generation = _generationSeq.Peek;
         _generationSeq.Next();
 
         // Test if the evaluator is signalling that the best fitness is good enough to stop the evolution algorithm.
-        _eaStats.StopConditionSatisfied = _evaluator.TestForStopCondition(_pop.Stats.BestFitness);
+        _eaStats.StopConditionSatisfied = _batchEvaluator.TestForStopCondition(_pop.Stats.BestFitness);
 
         // Update total number of evaluations performed.
         _eaStats.TotalEvaluationCount += evaluationCountDelta;

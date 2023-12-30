@@ -3,7 +3,7 @@
 namespace SharpNeat.Evaluation;
 
 /// <summary>
-/// An implementation of <see cref="IGenomeListEvaluator{TGenome}"/> that evaluates genomes in parallel on multiple CPU threads.
+/// An implementation of <see cref="IGenomeBatchEvaluator{TGenome}"/> that evaluates genomes in parallel on multiple CPU threads.
 /// </summary>
 /// <typeparam name="TGenome">The genome type that is decoded.</typeparam>
 /// <typeparam name="TPhenome">The phenome type that is decoded to and then evaluated.</typeparam>
@@ -11,10 +11,10 @@ namespace SharpNeat.Evaluation;
 /// Genome decoding to a phenome is performed by a <see cref="IGenomeDecoder{TGenome, TPhenome}"/>.
 /// Phenome fitness evaluation is performed by a <see cref="IPhenomeEvaluator{TPhenome}"/>.
 ///
-/// This class is for use with a stateless (and therefore thread safe) phenome evaluator, i.e. one phenome evaluator is created
-/// and the is used concurrently by multiple threads.
+/// This class is for use with a stateful (and therefore thread unsafe) phenome evaluators, i.e., a pool of phenome evaluators
+/// is maintained to ensure each CPU core/thread can rent its own phenome evaluator.
 /// </remarks>
-public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluator<TGenome>
+public class ParallelGenomeBatchEvaluator<TGenome,TPhenome> : IGenomeBatchEvaluator<TGenome>
     where TGenome : IGenome
     where TPhenome : class, IDisposable
 {
@@ -31,13 +31,13 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
     /// <param name="genomeDecoder">Genome decoder.</param>
     /// <param name="phenomeEvaluationScheme">Phenome evaluation scheme.</param>
     /// <param name="degreeOfParallelism">The desired degree of parallelism.</param>
-    public ParallelGenomeListEvaluator(
+    public ParallelGenomeBatchEvaluator(
         IGenomeDecoder<TGenome,TPhenome> genomeDecoder,
         IPhenomeEvaluationScheme<TPhenome> phenomeEvaluationScheme,
         int degreeOfParallelism)
     {
         // This class should only be used with evaluation schemes that use evaluators with state,
-        // otherwise ParallelGenomeListEvaluatorStateless should be used.
+        // otherwise ParallelGenomeBatchEvaluatorStateless should be used.
         if(!phenomeEvaluationScheme.EvaluatorsHaveState) throw new ArgumentException("Evaluation scheme must have state.", nameof(phenomeEvaluationScheme));
 
         // Reject degreeOfParallelism values less than 2. -1 should have been resolved to an actual number by the time
@@ -62,32 +62,16 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
 
     #endregion
 
-    #region IGenomeListEvaluator
+    #region IGenomeBatchEvaluator
 
-    /// <summary>
-    /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
-    /// </summary>
-    /// <remarks>
-    /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation
-    /// for the same genome, such a scheme is non-deterministic.
-    /// </remarks>
+    /// <inheritdoc/>
     public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
 
-    /// <summary>
-    /// The evaluation scheme's fitness comparer.
-    /// </summary>
-    /// <remarks>
-    /// Typically there is a single fitness score and a higher score is considered better/fitter. However, if there are multiple
-    /// fitness values assigned to a genome (e.g. where multiple measures of fitness are in use) then we need a task specific
-    /// comparer to determine the relative fitness between two instances of <see cref="FitnessInfo"/>.
-    /// </remarks>
+    /// <inheritdoc/>
     public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 
-    /// <summary>
-    /// Evaluates a collection of genomes and assigns fitness info to each.
-    /// </summary>
-    /// <param name="genomeList">The list of genomes to evaluate.</param>
-    public void Evaluate(IList<TGenome> genomeList)
+    /// <inheritdoc/>
+    public void Evaluate(IList<TGenome> genomes)
     {
         // Decode and evaluate genomes in parallel.
         // Notes.
@@ -99,7 +83,7 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
         // therefore require only one phenome evaluator between them, we just need to ensure evaluator state is reset between
         // evaluations.
         Parallel.ForEach(
-            genomeList,
+            genomes,
             _parallelOptions,
             () => _evaluatorPool.GetEvaluator(),    // Get a phenome evaluator from the pool to use for the current partition.
             (genome, loopState, evaluator) =>       // Evaluate a single genome.
@@ -121,12 +105,7 @@ public class ParallelGenomeListEvaluator<TGenome,TPhenome> : IGenomeListEvaluato
             (evaluator) => _evaluatorPool.ReleaseEvaluator(evaluator)); // Release this partition's phenome evaluator back into pool.
     }
 
-    /// <summary>
-    /// Accepts a <see cref="FitnessInfo"/>, which is intended to be from the fittest genome in the population, and returns a boolean
-    /// that indicates if the evolution algorithm can stop, i.e. because the fitness is the best that can be achieved (or good enough).
-    /// </summary>
-    /// <param name="fitnessInfo">The fitness info object to test.</param>
-    /// <returns>Returns true if the fitness is good enough to signal the evolution algorithm to stop.</returns>
+    /// <inheritdoc/>
     public bool TestForStopCondition(FitnessInfo fitnessInfo)
     {
         return _phenomeEvaluationScheme.TestForStopCondition(fitnessInfo);
