@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.IO;
 using SharpNeat.IO.Models;
 
@@ -23,7 +24,7 @@ public static class NeatGenomeLoader
         string path,
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId)
-        where TScalar : struct
+        where TScalar : struct, INumberBase<TScalar>
     {
         // Load the NetFileModel.
         NetFileModel netFileModel = NetFile.Load(path);
@@ -46,7 +47,7 @@ public static class NeatGenomeLoader
         Stream stream,
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId)
-        where TScalar : struct
+        where TScalar : struct, INumberBase<TScalar>
     {
         // Load the NetFileModel.
         NetFileModel netFileModel = NetFile.Load(stream);

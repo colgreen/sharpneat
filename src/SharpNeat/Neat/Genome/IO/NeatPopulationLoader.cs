@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.IO.Compression;
+using System.Numerics;
 
 namespace SharpNeat.Neat.Genome.IO;
 
@@ -9,7 +10,7 @@ namespace SharpNeat.Neat.Genome.IO;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public sealed class NeatPopulationLoader<TScalar>
-    where TScalar : struct
+    where TScalar : struct, INumberBase<TScalar>
 {
     readonly MetaNeatGenome<TScalar> _metaNeatGenome;
     int _genomeId;

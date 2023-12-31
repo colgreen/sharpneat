@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Globalization;
+using System.Numerics;
 using SharpNeat.IO.Models;
 
 namespace SharpNeat.Neat.Genome.IO;
@@ -19,7 +19,7 @@ public static class NeatGenomeConverter
     /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
     public static NetFileModel ToNetFileModel<TScalar>(
         NeatGenome<TScalar> genome)
-        where TScalar : struct
+        where TScalar : struct, INumberBase<TScalar>
     {
         // Convert input and output counts, and cyclic/acyclic indicator.
         int inputCount = genome.MetaNeatGenome.InputNodeCount;
@@ -39,7 +39,7 @@ public static class NeatGenomeConverter
 
             // Note. The neat genome may use 'double' or 'float' typed weights; whereas NetFileModel is uses
             // 'double' only, so we some conversion is required here.
-            double weight = Convert.ToDouble(weightArr[i], CultureInfo.InvariantCulture);
+            double weight = double.CreateChecked(weightArr[i]);
             ConnectionLine connLine = new(conn.SourceId, conn.TargetId, weight);
             connList.Add(connLine);
         }
@@ -74,7 +74,7 @@ public static class NeatGenomeConverter
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId,
         bool throwIfActivationFnMismatch = true)
-        where TScalar : struct
+        where TScalar : struct, INumberBase<TScalar>
     {
         ArgumentNullException.ThrowIfNull(model);
         ArgumentNullException.ThrowIfNull(metaNeatGenome);
@@ -125,7 +125,7 @@ public static class NeatGenomeConverter
 
     private static ConnectionGenes<TWeight> ToConnectionGenes<TWeight>(
         List<ConnectionLine> connList)
-        where TWeight : struct
+        where TWeight : struct, INumberBase<TWeight>
     {
         ConnectionGenes<TWeight> connGenes = new(connList.Count);
         DirectedConnection[] connArr = connGenes._connArr;
@@ -135,7 +135,7 @@ public static class NeatGenomeConverter
         {
             ConnectionLine connLine = connList[i];
             connArr[i] = new DirectedConnection(connLine.SourceId, connLine.TargetId);
-            weightArr[i] = (TWeight)Convert.ChangeType(connLine.Weight, typeof(TWeight), CultureInfo.InvariantCulture);
+            weightArr[i] = TWeight.CreateChecked(connLine.Weight);
         }
 
         // Note. It is necessary for the connection to be sorted by sourceId, and secondary sorted by targetId.
