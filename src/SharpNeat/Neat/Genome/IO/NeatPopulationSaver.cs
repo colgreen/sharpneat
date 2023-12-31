@@ -2,6 +2,7 @@
 // See LICENSE.txt for details.
 using System.Globalization;
 using System.IO.Compression;
+using System.Numerics;
 using static System.FormattableString;
 
 namespace SharpNeat.Neat.Genome.IO;
@@ -32,7 +33,7 @@ public static class NeatPopulationSaver
         IList<NeatGenome<TScalar>> genomeList,
         string parentPath,
         string name)
-        where TScalar : struct
+        where TScalar : struct, INumberBase<TScalar>
     {
         ArgumentNullException.ThrowIfNull(parentPath);
         ArgumentNullException.ThrowIfNull(name);
@@ -72,7 +73,7 @@ public static class NeatPopulationSaver
         IList<NeatGenome<TScalar>> genomeList,
         string filepath,
         CompressionLevel compressionLevel)
-        where TScalar : struct
+        where TScalar : struct, INumberBase<TScalar>
     {
         ArgumentNullException.ThrowIfNull(filepath);
 

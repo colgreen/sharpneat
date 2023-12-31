@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Globalization;
+using System.Numerics;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// A → B with A → C → B, where A and B are the existing nodes, and C is the new node.
 /// </remarks>
 public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : struct, INumberBase<TScalar>
 {
     readonly MetaNeatGenome<TScalar> _metaNeatGenome;
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
@@ -22,6 +22,7 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
     readonly Int32Sequence _innovationIdSeq;
     readonly Int32Sequence _generationSeq;
     readonly AddedNodeBuffer _addedNodeBuffer;
+    readonly TScalar _connectionWeightScale;
 
     #region Constructor
 
@@ -48,6 +49,7 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
         _innovationIdSeq = innovationIdSeq;
         _generationSeq = generationSeq;
         _addedNodeBuffer = addedNodeBuffer;
+        _connectionWeightScale = TScalar.CreateChecked(metaNeatGenome.ConnectionWeightScale);
     }
 
     #endregion
@@ -89,14 +91,12 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
         // Connection 1 gets the weight from the original connection; connection 2 gets a fixed
         // weight of _metaNeatGenome.ConnectionWeightRange.
 
-        // ENHANCEMENT: Consider a better choice of weights for the new connections; this scheme has been
+        // TODO: Consider a better choice of weights for the new connections; this scheme has been
         // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
         var newWeightArr = new TScalar[]
         {
             parent.ConnectionGenes._weightArr[splitConnIdx],
-            (TScalar)Convert.ChangeType(
-                _metaNeatGenome.ConnectionWeightScale,
-                typeof(TScalar), CultureInfo.InvariantCulture)
+            _connectionWeightScale
         };
 
         // Ensure newConnArr is sorted.
