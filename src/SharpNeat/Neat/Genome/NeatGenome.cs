@@ -6,7 +6,7 @@ namespace SharpNeat.Neat.Genome;
 /// Represents a NEAT genome, i.e the genetic representation of a neural network.
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
-public class NeatGenome<TScalar> : IGenome
+public class NeatGenome<TScalar> : IGenome, IDisposable
     where TScalar : struct
 {
     #region Auto Properties [IGenome]
@@ -193,6 +193,16 @@ public class NeatGenome<TScalar> : IGenome
             digraphWeightArr[i] = genomeWeightArr[connIdxMap[i]];
 
         return digraphWeightArr;
+    }
+
+    #endregion
+
+    #region IDisposable
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
     }
 
     #endregion
