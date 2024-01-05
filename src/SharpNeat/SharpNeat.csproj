@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AnalysisLevel>latest-Recommended</AnalysisLevel>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -14,6 +15,8 @@
     <Description>SharpNEAT - Evolution of Neural Networks.</Description>
     <Copyright>Copyright 2004-2023 Colin Green</Copyright>
     <Authors>Colin D. Green</Authors>
+    <PackageId>SharpNeat</PackageId>
+    <RepositoryType>git</RepositoryType>    
     <PackageProjectUrl>https://sharpneat.sourceforge.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colgreen/sharpneat</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
