@@ -16,8 +16,8 @@ jobs:
 #        git branch --remote --contains | grep origin/main        
     - name: Set VERSION variable from tag
       run: |
-        export TODAY=$(date +%y.%-m.%-d%M)
-        export VERSION=$TODAY
+        echo "TODAY=$(date +%y.%-m.%-d%M)" >> $GITHUB_ENV
+        echo "VERSION=$TODAY" >> $GITHUB_ENV
     - name: Build
       run: dotnet build src/SharpNeat/SharpNeat.csproj --configuration Release /p:Version=${VERSION}    
     - name: Pack
