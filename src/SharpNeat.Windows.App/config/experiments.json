@@ -159,6 +159,22 @@
         "assemblyName": "SharpNeat.Tasks.Windows",
         "typeName": "SharpNeat.Tasks.Windows.GenerativeFunctionRegression.GenerativeFnRegressionUiFactory"
       }
+    },
+
+    // === Gymnasium ===
+    {
+      "name": "Gymnasium",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.Gymnasium.GymnasiumExperimentFactory"
+      },
+      "configFile": "config/experiments-config/gymnasium.config.json",
+      "descriptionFile": "config/experiments-descriptions/gymnasium.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Tasks.Windows",
+        "typeName": "SharpNeat.Tasks.Windows.Gymnasium.GymnasiumExperimentUiFactory"
+      }
     }
   ]
 }
