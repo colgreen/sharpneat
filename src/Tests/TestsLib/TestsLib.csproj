@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.assert" Version="2.6.4" />
+    <PackageReference Include="xunit.assert" Version="2.9.0" />
   </ItemGroup>
 
 </Project>
