@@ -56,34 +56,18 @@ public class ParallelGenomeBatchEvaluatorStateless<TGenome,TPhenome> : IGenomeBa
 
     #region IGenomeBatchEvaluator
 
-    /// <summary>
-    /// Indicates if the evaluation scheme is deterministic, i.e. will always return the same fitness score for a given genome.
-    /// </summary>
-    /// <remarks>
-    /// An evaluation scheme that has some random/stochastic characteristics may give a different fitness score at each invocation
-    /// for the same genome, such a scheme is non-deterministic.
-    /// </remarks>
+    /// <inheritdoc/>
     public bool IsDeterministic => _phenomeEvaluationScheme.IsDeterministic;
 
-    /// <summary>
-    /// The evaluation scheme's fitness comparer.
-    /// </summary>
-    /// <remarks>
-    /// Typically there is a single fitness score and a higher score is considered better/fitter. However, if there are multiple
-    /// fitness values assigned to a genome (e.g. where multiple measures of fitness are in use) then we need a task specific
-    /// comparer to determine the relative fitness between two instances of <see cref="FitnessInfo"/>.
-    /// </remarks>
+    /// <inheritdoc/>
     public IComparer<FitnessInfo> FitnessComparer => _phenomeEvaluationScheme.FitnessComparer;
 
-    /// <summary>
-    /// Evaluates a list of genomes, assigning fitness info to each.
-    /// </summary>
-    /// <param name="genomeList">The list of genomes to evaluate.</param>
-    public void Evaluate(IList<TGenome> genomeList)
+    /// <inheritdoc/>
+    public void Evaluate(IList<TGenome> genomes)
     {
         // Decode and evaluate genomes in parallel.
         Parallel.ForEach(
-            genomeList,
+            genomes,
             _parallelOptions,
             (genome) =>
             {
