@@ -1,5 +1,4 @@
 ﻿using Redzen.Collections;
-using SharpNeat.Drawing;
 using SharpNeat.Drawing.Graph;
 using SharpNeat.Graphs;
 

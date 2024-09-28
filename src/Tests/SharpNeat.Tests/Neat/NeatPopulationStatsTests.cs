@@ -2,7 +2,6 @@
 using SharpNeat.Evaluation;
 using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.DistanceMetrics;
-using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using Xunit;
 
