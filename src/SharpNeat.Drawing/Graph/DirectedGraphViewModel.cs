@@ -3,7 +3,7 @@
 using System.Drawing;
 using SharpNeat.Graphs;
 
-namespace SharpNeat.Drawing;
+namespace SharpNeat.Drawing.Graph;
 
 /// <summary>
 /// Represents a directed graph, with supplementary data suitable for producing a 2D visual representation of the graph.

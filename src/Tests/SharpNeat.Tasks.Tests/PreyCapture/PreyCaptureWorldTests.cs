@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-using SharpNeat.Tasks.PreyCapture;
 using Xunit;
 
-namespace SharpNeat.Tasks.Tests.PreyCapture;
+namespace SharpNeat.Tasks.PreyCapture;
 
 public class PreyCaptureWorldTests
 {

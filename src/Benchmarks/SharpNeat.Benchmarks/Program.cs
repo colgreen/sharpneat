@@ -2,7 +2,7 @@
 using SharpNeat.Neat.DistanceMetrics;
 //using SharpNeat.NeuralNets.Double.Vectorized.Benchmarks;
 
-namespace SharpNeat.Benchmarks;
+namespace SharpNeat;
 
 sealed class Program
 {

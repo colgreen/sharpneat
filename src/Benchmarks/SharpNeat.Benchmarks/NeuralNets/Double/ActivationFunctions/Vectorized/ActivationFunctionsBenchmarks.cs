@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Attributes;
 using Redzen.Numerics.Distributions.Double;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized.Benchmarks;
+namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
 
 /// <summary>
 /// Double precision vectorized activation function benchmarks.

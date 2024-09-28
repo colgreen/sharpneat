@@ -1,7 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
-using SharpNeat.Tasks.PreyCapture;
 
-namespace SharpNeat.Tasks.Benchmarks.PreyCapture;
+namespace SharpNeat.Tasks.PreyCapture;
 
 public class PreyCaptureWorldBenchmark : IDisposable
 {

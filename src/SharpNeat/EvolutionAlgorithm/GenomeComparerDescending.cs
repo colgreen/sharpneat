@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.Neat.EvolutionAlgorithm;
+namespace SharpNeat.EvolutionAlgorithm;
 
 /// <summary>
 /// For comparing genomes based on their fitness.

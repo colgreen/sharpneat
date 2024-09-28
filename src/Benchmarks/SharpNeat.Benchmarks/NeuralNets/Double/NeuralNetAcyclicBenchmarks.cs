@@ -6,7 +6,7 @@ using SharpNeat.NeuralNets.IO;
 
 #pragma warning disable CA1822 // Mark members as static
 
-namespace SharpNeat.NeuralNets.Double.Benchmarks;
+namespace SharpNeat.NeuralNets.Double;
 
 public class NeuralNetAcyclicBenchmarks
 {

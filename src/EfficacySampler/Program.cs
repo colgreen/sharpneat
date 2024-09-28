@@ -29,7 +29,7 @@ sealed class Program
             return;
 
         // Initialise log4net (log to console).
-        var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+        var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly()!);
         XmlConfigurator.Configure(logRepository, new FileInfo("log4net.properties"));
 
         // Create and configure a NEAT experiment instance.

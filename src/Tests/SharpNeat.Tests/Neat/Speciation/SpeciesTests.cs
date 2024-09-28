@@ -3,7 +3,7 @@ using Redzen.Numerics.Distributions;
 using Redzen.Random;
 using Redzen.Sorting;
 using SharpNeat.Evaluation;
-using SharpNeat.Neat.EvolutionAlgorithm;
+using SharpNeat.EvolutionAlgorithm;
 using SharpNeat.Neat.Genome;
 using Xunit;
 

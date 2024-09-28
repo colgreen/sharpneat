@@ -1,9 +1,8 @@
 ﻿using Redzen.Collections;
-using SharpNeat.Graphs;
 using Xunit;
 using static SharpNeat.Graphs.NetworkUtils;
 
-namespace SharpNeat;
+namespace SharpNeat.Graphs;
 
 public class WeightedDirectedGraphFactoryTests
 {
