@@ -1,4 +1,4 @@
-﻿namespace SharpNeat.Tasks.Benchmarks.PreyCapture;
+﻿namespace SharpNeat.Tasks.PreyCapture;
 
 internal sealed class MockPreyCaptureAgent : IBlackBox<double>
 {

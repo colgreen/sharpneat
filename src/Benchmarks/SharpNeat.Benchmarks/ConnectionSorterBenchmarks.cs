@@ -3,7 +3,7 @@ using BenchmarkDotNet.Engines;
 using Redzen.Random;
 using SharpNeat.Graphs;
 
-namespace SharpNeat.Benchmarks;
+namespace SharpNeat;
 
 [SimpleJob(RunStrategy.Monitoring)]
 [MemoryDiagnoser]

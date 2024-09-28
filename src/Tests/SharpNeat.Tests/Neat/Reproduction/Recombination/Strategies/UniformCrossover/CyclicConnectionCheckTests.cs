@@ -1,8 +1,7 @@
 ﻿using SharpNeat.Graphs;
-using SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 using Xunit;
 
-namespace SharpNeat.Recombination.Strategies.UniformCrossover;
+namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 
 public class CyclicConnectionCheckTests
 {

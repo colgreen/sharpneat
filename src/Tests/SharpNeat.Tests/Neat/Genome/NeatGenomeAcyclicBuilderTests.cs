@@ -2,7 +2,7 @@
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNets.Double.ActivationFunctions;
 using Xunit;
-using static SharpNeat.Graphs.ConnectionCompareUtils;
+using static SharpNeat.Neat.Genome.ConnectionCompareUtils;
 
 namespace SharpNeat.Neat.Genome;
 

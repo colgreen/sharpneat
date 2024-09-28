@@ -1,21 +1,20 @@
 ﻿using BenchmarkDotNet.Running;
-using SharpNeat.Tasks;
-using SharpNeat.Tasks.Benchmarks.FunctionRegression;
-using SharpNeat.Tasks.Benchmarks.PreyCapture;
+using SharpNeat.Tasks.BinaryMultiplexer;
+using SharpNeat.Tasks.PreyCapture;
 
-namespace SharpNeatTasks.Benchmarks;
+namespace SharpNeat.Tasks;
 
 sealed class Program
 {
     static void Main()
     {
-        var summary = BenchmarkRunner.Run<PreyCaptureWorldBenchmark>();
+        //var summary = BenchmarkRunner.Run<PreyCaptureWorldBenchmark>();
 
         //var benchmark = new PreyCaptureWorldBenchmark();
         //benchmark.RunTrials();
 
-        //BenchmarkRunner.Run<Tasks.BinarySixMultiplexerEvaluatorBenchmarks>();
-        //BenchmarkRunner.Run<Tasks.BinaryElevenMultiplexerEvaluatorBenchmarks>();
+        //BenchmarkRunner.Run<BinarySixMultiplexerEvaluatorBenchmarks>();
+        //BenchmarkRunner.Run<BinaryElevenMultiplexerEvaluatorBenchmarks>();
         BenchmarkRunner.Run<BinaryTwentyMultiplexerEvaluatorBenchmarks>();
     }
 }

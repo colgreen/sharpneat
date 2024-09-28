@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using SharpNeat.Graphs;
 
-namespace SharpNeat.Benchmarks;
+namespace SharpNeat;
 
 public sealed class ConnectionSorterV1
 {

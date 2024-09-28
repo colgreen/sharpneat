@@ -3,7 +3,7 @@ using SharpNeat.Tasks.BinaryTwentyMultiplexer;
 
 #pragma warning disable CA1822 // Mark members as static
 
-namespace SharpNeat.Tasks;
+namespace SharpNeat.Tasks.BinaryMultiplexer;
 
 public class BinaryTwentyMultiplexerEvaluatorBenchmarks
 {
