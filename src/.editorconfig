@@ -23,6 +23,7 @@ dotnet_diagnostic.CA2000.severity = suggestion  # Dispose objects before losing 
 dotnet_diagnostic.CA2213.severity = suggestion  # Disposable fields should be disposed.
 
 # Stylecop Analyzers.
+dotnet_diagnostic.SA0001.severity = none    # XML comment analysis is disabled due to project configuration.
 dotnet_diagnostic.SA1000.severity = none    # The spacing around a C# keyword is incorrect.
 dotnet_diagnostic.SA1001.severity = none    # Commas should be spaced correctly.
 dotnet_diagnostic.SA1003.severity = none    # Symbols should be spaced correctly.
