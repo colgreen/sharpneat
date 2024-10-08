@@ -19,4 +19,10 @@
     <ProjectReference Include="..\SharpNeat.Windows\SharpNeat.Windows.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Gymnasium\GymnasiumControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
