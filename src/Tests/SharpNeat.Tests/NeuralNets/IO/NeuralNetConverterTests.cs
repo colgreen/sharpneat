@@ -8,8 +8,6 @@ using Xunit;
 
 namespace SharpNeat.NeuralNets.IO;
 
-#pragma warning disable CA1861 // Avoid constant arrays as arguments
-
 public class NeuralNetConverterTests
 {
     [Fact]
@@ -39,7 +37,7 @@ public class NeuralNetConverterTests
             "_weightArr", BindingFlags.NonPublic | BindingFlags.Instance)
             .GetValue(box);
         weightArr.Should().BeEquivalentTo(
-            new double[] { 0.123, 1.234, -0.5835, 2.5, 5.123456789, 5.4 },
+            [0.123, 1.234, -0.5835, 2.5, 5.123456789, 5.4],
             o => o.WithStrictOrdering());
 
         // Assert source and target connection IDs.
@@ -53,8 +51,8 @@ public class NeuralNetConverterTests
         // Notes.
         // Nodes 4 and 5 swap IDs, because node 4 in NetFile definition has a higher depth (2) than node 5 (depth of 1).
         // Nodes 4 and 5 also swap places!
-        sourceIds.ToArray().Should().BeEquivalentTo(new int[] { 0, 1, 2, 2, 2, 4 }, o => o.WithStrictOrdering());
-        targetIds.ToArray().Should().BeEquivalentTo(new int[] { 3, 3, 3, 4, 5, 5 }, o => o.WithStrictOrdering());
+        sourceIds.ToArray().Should().BeEquivalentTo([0, 1, 2, 2, 2, 4], o => o.WithStrictOrdering());
+        targetIds.ToArray().Should().BeEquivalentTo([3, 3, 3, 4, 5, 5], o => o.WithStrictOrdering());
 
         // Inspect the black box outputs.
         var outputs = box.Outputs.Span;
@@ -89,7 +87,7 @@ public class NeuralNetConverterTests
             "_weightArr", BindingFlags.NonPublic | BindingFlags.Instance)
             .GetValue(box);
         weightArr.Should().BeEquivalentTo(
-            new double[] { 3.0, 5.0, 7.0, 11.0, 13.0, 29.0, 17.0, 23.0, 19.0 },
+            [3.0, 5.0, 7.0, 11.0, 13.0, 29.0, 17.0, 23.0, 19.0],
             o => o.WithStrictOrdering());
 
         // Assert source and target connection IDs.
@@ -101,11 +99,11 @@ public class NeuralNetConverterTests
         Span<int> targetIds = connIds.GetTargetIdSpan();
 
         sourceIds.ToArray().Should().BeEquivalentTo(
-            new int[] { 0, 1, 1, 2, 5, 6, 6, 7, 7},
+            [0, 1, 1, 2, 5, 6, 6, 7, 7],
             o => o.WithStrictOrdering());
 
         targetIds.ToArray().Should().BeEquivalentTo(
-            new int[] { 5, 5, 6, 6, 6, 4, 7, 3, 5},
+            [5, 5, 6, 6, 6, 4, 7, 3, 5],
             o => o.WithStrictOrdering());
 
         // Assert that cyclesPeractication.
