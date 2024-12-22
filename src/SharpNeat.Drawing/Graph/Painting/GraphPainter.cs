@@ -313,7 +313,7 @@ public class GraphPainter : IDisposable
         xDelta = lenDE * tgtSide;
         Point d = new(e.X + xDelta, e.Y);
 
-        state._g.DrawLines(pen, new Point[] { srcPos, b, c, d, e, tgtPos });
+        state._g.DrawLines(pen, [srcPos, b, c, d, e, tgtPos]);
     }
 
     #endregion
