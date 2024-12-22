@@ -88,15 +88,13 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
         };
 
         // Get weights for the new connections.
-        // Connection 1 gets the weight from the original connection; connection 2 gets a fixed
-        // weight of _metaNeatGenome.ConnectionWeightRange.
-
-        // TODO: Consider a better choice of weights for the new connections; this scheme has been
-        // copied from sharpneat 2.x as a starting point, but can likely be improved upon.
+        // Note. Other schemes could be considered here. The approach used here appears to work well empirically, the
+        // motivation/hypothesis being that this maintains the functionality of the single connection that was split,
+        // when using a ReLU activation function.
         var newWeightArr = new TScalar[]
         {
-            parent.ConnectionGenes._weightArr[splitConnIdx],
-            _connectionWeightScale
+            TScalar.One,
+            parent.ConnectionGenes._weightArr[splitConnIdx]
         };
 
         // Ensure newConnArr is sorted.
