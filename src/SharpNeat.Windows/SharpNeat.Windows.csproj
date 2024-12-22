@@ -8,11 +8,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>4.0.0</Version>
-    <Description>SharpNEAT Windows Forms code library.</Description>
-    <Copyright>Copyright 2004-2023 Colin Green</Copyright>
+    <Version>5.0.0</Version>
+    <Copyright>Copyright 2004-2025 Colin Green</Copyright>
     <Authors>Colin D. Green</Authors>
-    <Product>SharpNEAT - Evolution of Neural Networks.</Product>  
+    <Product>SharpNEAT</Product>
   </PropertyGroup>
     
   <ItemGroup>

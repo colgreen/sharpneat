@@ -14,20 +14,18 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-    <Version>4.1.0</Version>
-    <Description>SharpNEAT - Evolution of Neural Networks.</Description>
-    <Copyright>Copyright 2004-2024 Colin Green</Copyright>
+    <Version>5.0.0</Version>
+    <Description>SharpNEAT - Evolution of Neural Networks</Description>
+    <Copyright>Copyright 2004-2025 Colin Green</Copyright>
     <Authors>Colin D. Green</Authors>
     <PackageProjectUrl>https://sharpneat.sourceforge.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/colgreen/sharpneat</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>neuroevolution neuro evolution neural network</PackageTags>
 	  <PackageReleaseNotes>
-		  * Upgrade from .NET 7 to .NET 8; this provides some general performance improvements, particularly in the quality of the machine code produced by the JIT compiler.
-
-		  * Some core classes updated to make use of generic math[s] (search for uses of IBinaryFloatingPointIeee754&lt;T&gt;).
-
-		  * Upgraded Redzen dependency from 14.0 to 15.0, to make use of new generic math functions.
+ * Upgrade from .NET 8 to .NET 9.
+ * Modified AddNodeStrategy to use an empirically better scheme for assigning weights to the new connections.
+ * Generic types TScalar and TWeight constraint changed from 'struct' to more restrictive `unmanaged`.
 	  </PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
