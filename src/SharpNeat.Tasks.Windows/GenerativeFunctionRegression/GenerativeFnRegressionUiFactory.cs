@@ -39,9 +39,7 @@ public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
         out ParamSamplingInfo paramSamplingInfo)
     {
         // Read function ID.
-        FunctionId functionId = (FunctionId)Enum.Parse(
-            typeof(FunctionId),
-            customConfig.FunctionId);
+        FunctionId functionId = Enum.Parse<FunctionId>(customConfig.FunctionId);
 
         fn = FunctionFactory.GetFunction(functionId);
 

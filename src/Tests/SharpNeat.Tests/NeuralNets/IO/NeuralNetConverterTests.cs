@@ -28,7 +28,7 @@ public class NeuralNetConverterTests
 
         // Assert.
         box.Should().NotBeNull();
-        box.GetType().Should().Be(typeof(NeuralNetAcyclic));
+        box.GetType().Should().Be<NeuralNetAcyclic>();
         box.Inputs.Length.Should().Be(3);
         box.Outputs.Length.Should().Be(2);
 
@@ -78,7 +78,7 @@ public class NeuralNetConverterTests
 
         // Assert.
         box.Should().NotBeNull();
-        box.GetType().Should().Be(typeof(NeuralNetCyclic));
+        box.GetType().Should().Be<NeuralNetCyclic>();
         box.Inputs.Length.Should().Be(3);
         box.Outputs.Length.Should().Be(2);
 
