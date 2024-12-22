@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.ComponentModel;
 using SharpNeat.EvolutionAlgorithm;
 
 namespace SharpNeat.Windows.App.Forms;
@@ -29,6 +30,7 @@ internal sealed partial class GenomeForm : Form
     /// <summary>
     /// Gets or sets the genome to render.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IGenome Genome
     {
         get => genomeCtrl.Genome;

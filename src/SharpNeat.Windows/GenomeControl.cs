@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.ComponentModel;
 using SharpNeat.EvolutionAlgorithm;
 
 namespace SharpNeat.Windows;
@@ -27,6 +28,7 @@ public partial class GenomeControl : UserControl
     /// <summary>
     /// Gets of sets the genome object to display.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IGenome Genome
     {
         get => _genome;

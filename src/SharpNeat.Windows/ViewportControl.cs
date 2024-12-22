@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using SharpNeat.Drawing;
@@ -46,11 +47,13 @@ public class ViewportControl : UserControl
     /// <summary>
     /// Gets or sets the viewport's IViewportPainter.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IViewportPainter ViewportPainter { get; set; }
 
     /// <summary>
     /// Gets or sets the viewport's zoom factor.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public float ZoomFactor
     {
         get => _zoomFactor;
