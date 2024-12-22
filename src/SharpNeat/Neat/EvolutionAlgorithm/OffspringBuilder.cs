@@ -15,7 +15,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal sealed class OffspringBuilder<TScalar>
-    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly NeatAsexualReproduction<TScalar> _asexualReproduction;
     readonly NeatRecombination<TScalar> _recombination;

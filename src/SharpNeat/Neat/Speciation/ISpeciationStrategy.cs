@@ -8,7 +8,7 @@ namespace SharpNeat.Neat.Speciation;
 /// <typeparam name="TGenome">Genome type.</typeparam>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface ISpeciationStrategy<TGenome,TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Initialise a new set of species based on the provided population of genomes and the

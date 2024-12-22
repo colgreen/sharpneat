@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Speciation;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class Species<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Species ID.

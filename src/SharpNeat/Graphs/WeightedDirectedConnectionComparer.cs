@@ -7,7 +7,7 @@ namespace SharpNeat.Graphs;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class WeightedDirectedConnectionComparer<TWeight> : IComparer<WeightedDirectedConnection<TWeight>>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Singleton instance.

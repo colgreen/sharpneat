@@ -25,7 +25,7 @@ public static class DistanceMetricUtils
     /// </remarks>
     public static ConnectionGenes<TWeight> CalculateEuclideanCentroid<TWeight>(
         ReadOnlySpan<ConnectionGenes<TWeight>> points)
-        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+        where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
     {
         // Special case. One item in list, therefore it is the centroid.
         if (points.Length == 1)
@@ -69,7 +69,7 @@ public static class DistanceMetricUtils
     private static ConnectionGenes<TWeight> CreateCentroid<TWeight>(
         Dictionary<DirectedConnection, TWeight> centroidElements,
         int pointCount)
-        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+        where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
     {
         int length = centroidElements.Count;
         var connGenes = new ConnectionGenes<TWeight>(length);

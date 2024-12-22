@@ -12,7 +12,7 @@ namespace SharpNeat.Neat;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal static class SpeciesAllocationCalcs<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.

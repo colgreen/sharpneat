@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class MetaNeatGenome<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Input node count.

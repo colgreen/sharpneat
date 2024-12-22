@@ -15,7 +15,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 /// takes genes from each of the parents with a probability (e.g. 50%).
 /// </remarks>
 public sealed class UniformCrossoverRecombinationStrategy<TScalar> : IRecombinationStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     readonly bool _isAcyclic;
     readonly double _secondaryParentGeneProbability;

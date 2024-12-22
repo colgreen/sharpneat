@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// mutation scheme to the connection weights of the clone.
 /// </remarks>
 public sealed class MutateWeightsStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;

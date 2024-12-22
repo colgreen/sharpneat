@@ -9,7 +9,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class WeightMutationScheme<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     readonly DiscreteDistribution<double> _strategySelectionDist;
     readonly IWeightMutationStrategy<TWeight>[] _mutationStrategyArr;

@@ -22,7 +22,7 @@ internal class NeatPopulationUtils
         List<NeatGenome<TScalar>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
 
@@ -46,7 +46,7 @@ internal class NeatPopulationUtils
         List<NeatGenome<TScalar>> genomeList,
         out int maxGenomeId,
         out int maxInnovationId)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         maxGenomeId = 0;
         maxInnovationId = 0;

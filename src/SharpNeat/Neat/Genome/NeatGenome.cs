@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class NeatGenome<TScalar> : IGenome
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     #region Auto Properties [IGenome]
 

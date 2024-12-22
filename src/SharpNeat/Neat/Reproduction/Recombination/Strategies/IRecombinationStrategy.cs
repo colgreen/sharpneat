@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination.Strategies;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface IRecombinationStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Create a new child genome based on the genetic content of two parent genomes.

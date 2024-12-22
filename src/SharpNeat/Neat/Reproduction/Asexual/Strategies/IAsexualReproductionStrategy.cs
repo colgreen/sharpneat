@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Create a new child genome from a given parent genome.

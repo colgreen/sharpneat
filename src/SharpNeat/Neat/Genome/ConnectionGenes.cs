@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class ConnectionGenes<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Array of directed connections; this describes the network structure.

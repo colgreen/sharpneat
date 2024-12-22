@@ -24,7 +24,7 @@ public static class NeatGenomeLoader
         string path,
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId)
-        where TScalar : struct, INumberBase<TScalar>
+        where TScalar : unmanaged, INumberBase<TScalar>
     {
         // Load the NetFileModel.
         NetFileModel netFileModel = NetFile.Load(path);
@@ -47,7 +47,7 @@ public static class NeatGenomeLoader
         Stream stream,
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId)
-        where TScalar : struct, INumberBase<TScalar>
+        where TScalar : unmanaged, INumberBase<TScalar>
     {
         // Load the NetFileModel.
         NetFileModel netFileModel = NetFile.Load(stream);

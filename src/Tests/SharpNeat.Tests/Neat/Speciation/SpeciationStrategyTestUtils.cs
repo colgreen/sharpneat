@@ -153,7 +153,7 @@ internal static class SpeciationStrategyTestUtils
         NeatGenome<TScalar> genome,
         Species<TScalar>[] speciesArr,
         IDistanceMetric<TScalar> distanceMetric)
-    where TScalar : struct
+    where TScalar : unmanaged
     {
         var nearestSpeciesList = new List<Species<TScalar>>(4) {
             speciesArr[0]

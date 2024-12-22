@@ -8,7 +8,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface INeatGenomeBuilder<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Create a NeatGenome with the given meta data and connection genes.

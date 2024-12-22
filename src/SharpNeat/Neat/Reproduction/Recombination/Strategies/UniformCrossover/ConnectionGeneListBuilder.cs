@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 internal sealed class ConnectionGeneListBuilder<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     // Indicates that we are building acyclic networks.
     readonly bool _isAcyclic;

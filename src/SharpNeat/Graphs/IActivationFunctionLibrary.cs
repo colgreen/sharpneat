@@ -17,7 +17,7 @@ public interface IActivationFunctionLibrary
     /// <typeparam name="TScalar">Activation function data type.</typeparam>
     /// <returns>An instance of <see cref="IActivationFunction{T}"/> from the library.</returns>
     IActivationFunction<TScalar> GetActivationFunction<TScalar>(int idx)
-        where TScalar : struct;
+        where TScalar : unmanaged;
 
     /// <summary>
     /// Gets an instance of an activation function with the specified ID in the library.
@@ -26,5 +26,5 @@ public interface IActivationFunctionLibrary
     /// <typeparam name="TScalar">Activation function data type.</typeparam>
     /// <returns>An instance of <see cref="IActivationFunction{T}"/> from the library.</returns>
     IActivationFunction<TScalar> GetActivationFunction<TScalar>(string id)
-        where TScalar : struct;
+        where TScalar : unmanaged;
 }

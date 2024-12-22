@@ -13,7 +13,7 @@ namespace SharpNeat.Experiments;
 /// </summary>
 /// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <inheritdoc/>
     public string FactoryId { get; }

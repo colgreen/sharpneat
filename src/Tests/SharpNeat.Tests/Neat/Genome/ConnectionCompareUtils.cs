@@ -24,7 +24,7 @@ public static class ConnectionCompareUtils
     public static void CompareConnectionLists<TWeight>(
         ConnectionGenes<TWeight> x,
         in ConnectionIds yIds)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
         Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
@@ -39,7 +39,7 @@ public static class ConnectionCompareUtils
         ConnectionGenes<TWeight> x,
         in ConnectionIds yIds,
         int[] connectionIndexMap)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
         Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
@@ -57,7 +57,7 @@ public static class ConnectionCompareUtils
     public static void CompareConnectionLists<TWeight>(
         DirectedConnection[] xConnArr, TWeight[] xWeightArr,
         in ConnectionIds yIds, TWeight[] yWeightArr)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         int xlen = xConnArr.Length;
         Assert.Equal(xlen, xWeightArr.Length);
@@ -75,7 +75,7 @@ public static class ConnectionCompareUtils
         ConnectionGenes<TWeight> x,
         in ConnectionIds yIds,
         TWeight[] yWeightArr)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         Assert.Equal(x.Length, yIds.GetSourceIdSpan().Length);
         Assert.Equal(x.Length, yIds.GetTargetIdSpan().Length);
@@ -95,7 +95,7 @@ public static class ConnectionCompareUtils
         ConnectionGenes<TWeight> x,
         in ConnectionIds yIds,
         int xIdx, int yIdx)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         return Equal(
             x._connArr,
@@ -116,7 +116,7 @@ public static class ConnectionCompareUtils
         ConnectionGenes<TWeight> x,
         in ConnectionIds yIds, TWeight[] yWeightArr,
         int xIdx, int yIdx)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         return Equal(
             x._connArr, x._weightArr,
@@ -128,7 +128,7 @@ public static class ConnectionCompareUtils
         DirectedConnection[] xConnArr, TWeight[] xWeightArr,
         in ConnectionIds yIds, TWeight[] yWeightArr,
         int xIdx, int yIdx)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         return xConnArr[xIdx].SourceId == yIds.GetSourceId(yIdx)
            &&  xConnArr[xIdx].TargetId == yIds.GetTargetId(yIdx)

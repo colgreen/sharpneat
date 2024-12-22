@@ -30,7 +30,7 @@ public static class DistanceMetricExtensions
     public static ConnectionGenes<TWeight> CalculateCentroid<TWeight>(
         this IDistanceMetric<TWeight> distanceMetric,
         List<ConnectionGenes<TWeight>> points)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         return distanceMetric.CalculateCentroid(
             CollectionsMarshal.AsSpan(points));
@@ -51,7 +51,7 @@ public static class DistanceMetricExtensions
     public static int FindMedoid<TWeight>(
         this IDistanceMetric<TWeight> distanceMetric,
         ReadOnlySpan<ConnectionGenes<TWeight>> points)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         // Special case. One item in list, therefore it is the centroid.
         if(points.Length == 1)
@@ -90,7 +90,7 @@ public static class DistanceMetricExtensions
     private static double CalculateMeanDistanceFromAllOtherPoints<TWeight>(
         this IDistanceMetric<TWeight> distanceMetric,
         ReadOnlySpan<ConnectionGenes<TWeight>> points, int idx)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         double totalDistance = 0.0;
         int count = points.Length;

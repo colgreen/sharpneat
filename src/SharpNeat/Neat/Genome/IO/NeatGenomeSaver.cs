@@ -19,7 +19,7 @@ public static class NeatGenomeSaver
     /// <param name="path">The path of the file to save to.</param>
     public static void Save<TScalar>(
         NeatGenome<TScalar> genome, string path)
-        where TScalar : struct, INumberBase<TScalar>
+        where TScalar : unmanaged, INumberBase<TScalar>
     {
         // Convert the genome to a NetFileModel.
         NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);
@@ -37,7 +37,7 @@ public static class NeatGenomeSaver
     /// <remarks>This method does not close the Stream.</remarks>
     public static void Save<TScalar>(
         NeatGenome<TScalar> genome, Stream stream)
-        where TScalar : struct, INumberBase<TScalar>
+        where TScalar : unmanaged, INumberBase<TScalar>
     {
         // Convert the genome to a NetFileModel.
         NetFileModel netFileModel = NeatGenomeConverter.ToNetFileModel(genome);

@@ -13,7 +13,7 @@ namespace SharpNeat.Graphs;
 /// </remarks>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public readonly struct WeightedDirectedConnection<TWeight> : IComparable<WeightedDirectedConnection<TWeight>>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Connection source node ID.

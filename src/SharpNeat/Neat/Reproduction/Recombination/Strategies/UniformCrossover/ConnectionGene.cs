@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 internal readonly struct ConnectionGene<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// The source and target node IDs.

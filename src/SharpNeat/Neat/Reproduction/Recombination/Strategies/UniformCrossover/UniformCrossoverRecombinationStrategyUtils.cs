@@ -17,7 +17,7 @@ internal class UniformCrossoverRecombinationStrategyUtils
     public static IEnumerable<(int idx1, int idx2)> EnumerateParentGenes<TWeight>(
         ConnectionGenes<TWeight> parent1,
         ConnectionGenes<TWeight> parent2)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         // Special case. Empty gene arrays.
         // Note. In NEAT the genomes should always have at least one connection/gene,

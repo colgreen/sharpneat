@@ -12,7 +12,7 @@ namespace SharpNeat.Experiments;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface INeatExperiment<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Matches <see cref="INeatExperimentFactory.Id"/> from the experiment factory that created the current experiment instance.

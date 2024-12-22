@@ -13,7 +13,7 @@ namespace SharpNeat;
 /// </summary>
 /// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public interface IBlackBox<TScalar> : IDisposable
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.

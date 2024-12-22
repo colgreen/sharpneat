@@ -18,7 +18,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal sealed class GeneticKMeansSpeciationInit<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly ParallelOptions _parallelOptions;

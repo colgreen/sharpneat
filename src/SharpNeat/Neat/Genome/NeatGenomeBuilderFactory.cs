@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public static class NeatGenomeBuilderFactory<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Create a new instance of <see cref="INeatGenomeBuilder{T}"/>.

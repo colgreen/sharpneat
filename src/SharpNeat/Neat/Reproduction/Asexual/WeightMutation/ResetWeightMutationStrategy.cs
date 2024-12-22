@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class ResetWeightMutationStrategy<TWeight> : IWeightMutationStrategy<TWeight>
-    where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+    where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
 {
     readonly ISubsetSelectionStrategy _selectionStrategy;
     readonly IStatelessSampler<TWeight> _weightSampler;

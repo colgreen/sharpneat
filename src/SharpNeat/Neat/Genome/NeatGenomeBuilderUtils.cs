@@ -19,7 +19,7 @@ internal static class NeatGenomeBuilderUtils
         MetaNeatGenome<TScalar> metaNeatGenome,
         ConnectionGenes<TScalar> connGenes,
         INodeIdMap nodeIndexByIdMap)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         // Extract/copy the neat genome connectivity graph into a ConnectionIds structure.
         // Notes.

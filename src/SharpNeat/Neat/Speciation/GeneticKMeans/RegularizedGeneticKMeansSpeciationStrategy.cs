@@ -50,7 +50,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 /// </remarks>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public sealed class RegularizedGeneticKMeansSpeciationStrategy<TScalar> : ISpeciationStrategy<NeatGenome<TScalar>, TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly int _maxKMeansIters;

@@ -23,7 +23,7 @@ public static class SpeciationUtils
         IDistanceMetric<TScalar> distanceMetric,
         NeatGenome<TScalar> genome,
         Species<TScalar>[] speciesArr)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         // TODO: Select random species if there are multiple species that are equally nearest.
         int nearestSpeciesIdx = 0;
@@ -52,7 +52,7 @@ public static class SpeciationUtils
         IDistanceMetric<TScalar> distanceMetric,
         Species<TScalar>[] emptySpeciesArr,
         Species<TScalar>[] speciesArr)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         // TODO: Select the required genomes all together, rather than one at a time per empty species.
 
@@ -84,7 +84,7 @@ public static class SpeciationUtils
     public static void ExtractConnectionGenes<TScalar>(
         List<ConnectionGenes<TScalar>> targetList,
         Dictionary<int,NeatGenome<TScalar>> genomeById)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         targetList.Clear();
 
@@ -109,7 +109,7 @@ public static class SpeciationUtils
     public static void ExtractConnectionGenes<TScalar>(
         List<ConnectionGenes<TScalar>> targetList,
         List<NeatGenome<TScalar>> genomeList)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         targetList.Clear();
 
@@ -132,7 +132,7 @@ public static class SpeciationUtils
         IDistanceMetric<TScalar> distanceMetric,
         Species<TScalar>[] speciesArr,
         List<ConnectionGenes<TScalar>> tmpPointList)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         // TODO: Select donor species stochastically from a pool of the largest species.
 

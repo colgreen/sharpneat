@@ -21,7 +21,7 @@ public static class NeatExperimentExtensions
     public static void Configure<TScalar>(
         this INeatExperiment<TScalar> experiment,
         ExperimentConfig experimentConfig)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         experiment.Id = experimentConfig.Id ?? experiment.Id;
         experiment.Name = experimentConfig.Name ?? experiment.Name;
@@ -52,7 +52,7 @@ public static class NeatExperimentExtensions
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
     public static MetaNeatGenome<TScalar> CreateMetaNeatGenome<TScalar>(
         this INeatExperiment<TScalar> neatExperiment)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         // Resolve the configured activation function name to an activation function instance.
         var actFnFactory = new DefaultActivationFunctionFactory<TScalar>(
@@ -77,7 +77,7 @@ public static class NeatExperimentExtensions
     private static void ApplyConfiguration<TScalar>(
         INeatExperiment<TScalar> experiment,
         ComplexityRegulationStrategyConfig? config)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         if(config is null)
             return;

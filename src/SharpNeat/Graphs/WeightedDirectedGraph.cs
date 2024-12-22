@@ -32,7 +32,7 @@ namespace SharpNeat.Graphs;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public class WeightedDirectedGraph<TWeight> : DirectedGraph
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Connection weight array.

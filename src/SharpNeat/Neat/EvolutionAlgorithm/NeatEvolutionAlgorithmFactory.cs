@@ -26,7 +26,7 @@ public static class NeatEvolutionAlgorithmFactory
     public static NeatEvolutionAlgorithm<TScalar> CreateEvolutionAlgorithm<TScalar>(
         INeatExperiment<TScalar> neatExperiment,
         NeatPopulation<TScalar> neatPop)
-        where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Validate MetaNeatGenome and NeatExperiment are compatible; normally the former should have been created
         // based on the latter, but this is not enforced.
@@ -67,7 +67,7 @@ public static class NeatEvolutionAlgorithmFactory
     private static NeatEvolutionAlgorithm<TScalar> CreateEvolutionAlgorithmInner<TScalar>(
             INeatExperiment<TScalar> neatExperiment,
             NeatPopulation<TScalar> neatPop)
-            where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+            where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create a genomeList evaluator based on the experiment's configuration settings.
         var genomeBatchEvaluator = CreateGenomeBatchEvaluator(neatExperiment);
@@ -98,7 +98,7 @@ public static class NeatEvolutionAlgorithmFactory
     // Furthermore, a new interface IPhenomeBatchEvaluator will be needed to allow the code for those types of task to be abstracted away from the type of genome in use.
     private static IGenomeBatchEvaluator<NeatGenome<TScalar>> CreateGenomeBatchEvaluator<TScalar>(
         INeatExperiment<TScalar> neatExperiment)
-        where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create a genome decoder based on experiment config settings.
         var genomeDecoder =
@@ -120,7 +120,7 @@ public static class NeatEvolutionAlgorithmFactory
 
     private static ISpeciationStrategy<NeatGenome<TScalar>, TScalar> CreateSpeciationStrategy<TScalar>(
         INeatExperiment<TScalar> neatExperiment)
-        where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Resolve a degreeOfParallelism (-1 is allowed in config, but must be resolved here to an actual degree).
         int degreeOfParallelismResolved = ResolveDegreeOfParallelism(neatExperiment.DegreeOfParallelism);
@@ -144,7 +144,7 @@ public static class NeatEvolutionAlgorithmFactory
     private static void ValidateCompatible<TScalar>(
         INeatExperiment<TScalar> neatExperiment,
         MetaNeatGenome<TScalar> metaNeatGenome)
-        where TScalar : struct
+        where TScalar : unmanaged
     {
         // Confirm that neatExperiment and metaNeatGenome are compatible with each other.
         if (neatExperiment.EvaluationScheme.InputCount != metaNeatGenome.InputNodeCount)

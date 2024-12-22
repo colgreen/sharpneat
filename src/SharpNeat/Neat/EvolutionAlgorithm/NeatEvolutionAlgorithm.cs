@@ -16,7 +16,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
-    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     NeatEvolutionAlgorithmSettings _eaSettingsCurrent;
     readonly NeatEvolutionAlgorithmSettings _eaSettingsComplexifying;

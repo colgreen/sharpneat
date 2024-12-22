@@ -7,7 +7,7 @@ namespace SharpNeat.Graphs.Acyclic;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public class WeightedDirectedGraphAcyclic<TWeight> : DirectedGraphAcyclic
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Construct with the given node counts, connection data, layer information, indexes of the output nodes,

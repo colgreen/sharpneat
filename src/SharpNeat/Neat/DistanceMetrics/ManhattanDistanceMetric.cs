@@ -33,7 +33,7 @@ namespace SharpNeat.Neat.DistanceMetrics;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class ManhattanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
-    where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+    where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
 {
     // A coefficient to applied to the distance obtained from two coordinates that both
     // describe a position in a given dimension.

@@ -27,7 +27,7 @@ public static class WeightMutationSchemeFactory
     /// <param name="weightScale">Connection weight scale/range.</param>
     /// <returns>A new instance of <see cref="WeightMutationScheme{Double}"/>.</returns>
     public static WeightMutationScheme<TWeight> CreateDefaultScheme<TWeight>(double weightScale)
-        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+        where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
     {
         var probabilityArr = new double[6];
         var strategyArr = new IWeightMutationStrategy<TWeight>[6];
@@ -56,7 +56,7 @@ public static class WeightMutationSchemeFactory
 
     private static DeltaWeightMutationStrategy<TWeight> CreateCardinalGaussianDeltaStrategy<TWeight>(
         int selectCount, double stdDev)
-        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+        where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
     {
         var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
         return DeltaWeightMutationStrategy<TWeight>.CreateGaussianDeltaStrategy(selectStrategy, stdDev);
@@ -64,7 +64,7 @@ public static class WeightMutationSchemeFactory
 
     private static ResetWeightMutationStrategy<TWeight> CreateCardinalUniformResetStrategy<TWeight>(
         int selectCount, double weightScale)
-        where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+        where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
     {
         var selectStrategy = new CardinalSubsetSelectionStrategy(selectCount);
         return ResetWeightMutationStrategy<TWeight>.CreateUniformResetStrategy(selectStrategy, weightScale);

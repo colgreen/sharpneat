@@ -8,7 +8,7 @@ namespace SharpNeat.Neat.DistanceMetrics;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public interface IDistanceMetric<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Calculates the distance between two positions.

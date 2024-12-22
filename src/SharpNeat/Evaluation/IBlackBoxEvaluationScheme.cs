@@ -8,7 +8,7 @@ namespace SharpNeat.Evaluation;
 /// </summary>
 /// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public interface IBlackBoxEvaluationScheme<TScalar> : IPhenomeEvaluationScheme<IBlackBox<TScalar>>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// The number of black box inputs expected/required by the black box evaluation scheme.

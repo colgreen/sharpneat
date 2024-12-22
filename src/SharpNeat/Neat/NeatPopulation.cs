@@ -12,7 +12,7 @@ namespace SharpNeat.Neat;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class NeatPopulation<TScalar> : Population<NeatGenome<TScalar>>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     // ENHANCEMENT: Consider increasing buffer capacity, and different capacities for the two different buffers.
     const int __defaultInnovationHistoryBufferSize = 0x20_000; // = 131,072 decimal.

@@ -16,7 +16,7 @@ namespace SharpNeat.Neat.DistanceMetrics;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
-    where TWeight : struct, IBinaryFloatingPointIeee754<TWeight>
+    where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
 {
     /// <inheritdoc/>
     public double CalcDistance(

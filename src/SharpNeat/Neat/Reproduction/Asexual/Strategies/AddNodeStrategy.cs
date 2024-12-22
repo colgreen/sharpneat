@@ -14,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// A → B with A → C → B, where A and B are the existing nodes, and C is the new node.
 /// </remarks>
 public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct, INumberBase<TScalar>
+    where TScalar : unmanaged, INumberBase<TScalar>
 {
     readonly MetaNeatGenome<TScalar> _metaNeatGenome;
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;

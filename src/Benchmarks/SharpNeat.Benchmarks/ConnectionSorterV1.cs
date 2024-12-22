@@ -14,7 +14,7 @@ public sealed class ConnectionSorterV1
     // routine that is faster and more efficient w.r.t memory allocations and copying.
 
     public static void Sort<TWeight>(in ConnectionIds connIds, TWeight[] weightArr)
-        where TWeight : struct
+        where TWeight : unmanaged
     {
         // Init array of indexes.
         Span<int> srcIds = connIds.GetSourceIdSpan();

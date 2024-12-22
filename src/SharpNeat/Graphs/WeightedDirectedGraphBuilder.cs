@@ -11,7 +11,7 @@ namespace SharpNeat.Graphs;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public static class WeightedDirectedGraphBuilder<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     /// <summary>
     /// Create a directed graph based on the provided connections (between node IDs) and a predefined set of node IDs.

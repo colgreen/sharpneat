@@ -17,7 +17,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// if possible.
 /// </remarks>
 public sealed class AddAcyclicConnectionStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly MetaNeatGenome<TScalar> _metaNeatGenome;
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;

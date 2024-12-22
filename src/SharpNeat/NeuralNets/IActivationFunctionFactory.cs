@@ -7,7 +7,7 @@ namespace SharpNeat.NeuralNets;
 /// </summary>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public interface IActivationFunctionFactory<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Get an activation function instance for the given activation function name/ID.

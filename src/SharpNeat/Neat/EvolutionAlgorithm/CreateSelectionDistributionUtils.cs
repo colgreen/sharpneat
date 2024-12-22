@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal static class CreateSelectionDistributionUtils<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// Create instances of <see cref="DiscreteDistribution{Double}"/> for sampling species, and for genomes within each given species.

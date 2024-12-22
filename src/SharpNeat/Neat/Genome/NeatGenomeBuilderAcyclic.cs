@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public sealed class NeatGenomeBuilderAcyclic<TWeight> : INeatGenomeBuilder<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     readonly MetaNeatGenome<TWeight> _metaNeatGenome;
     readonly AcyclicGraphDepthAnalysis _graphDepthAnalysis;

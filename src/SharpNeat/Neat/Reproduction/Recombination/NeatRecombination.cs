@@ -7,7 +7,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination;
 
 /// <inheritdoc/>
 public class NeatRecombination<TScalar> : IRecombinationStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     readonly UniformCrossoverRecombinationStrategy<TScalar> _strategy;
 

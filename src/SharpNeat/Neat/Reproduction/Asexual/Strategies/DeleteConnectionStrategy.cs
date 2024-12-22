@@ -11,7 +11,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// connection, if possible.
 /// </remarks>
 public sealed class DeleteConnectionStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;

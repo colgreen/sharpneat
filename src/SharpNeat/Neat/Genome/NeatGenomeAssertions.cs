@@ -12,7 +12,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal static class NeatGenomeAssertions<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     #region Public Static Methods
 

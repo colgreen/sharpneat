@@ -10,7 +10,7 @@ namespace SharpNeat.NeuralNets;
 /// <param name="len">The length of the span, i.e., the number elements in the span.</param>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public delegate void VecFn<TScalar>(ref TScalar vref, int len)
-    where TScalar : struct;
+    where TScalar : unmanaged;
 
 /// <summary>
 /// The activation function; unsafe memory span implementation with a separate input and output spans.
@@ -20,14 +20,14 @@ public delegate void VecFn<TScalar>(ref TScalar vref, int len)
 /// <param name="len">The length of the spans, i.e., the number elements in the spans.</param>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public delegate void VecFn2<TScalar>(ref TScalar vref, ref TScalar wref, int len)
-    where TScalar : struct;
+    where TScalar : unmanaged;
 
 /// <summary>
 /// Represents a node/neuron activation function.
 /// </summary>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public interface IActivationFunction<TScalar>
-    where TScalar : struct
+    where TScalar : unmanaged
 {
     /// <summary>
     /// The activation function; scalar implementation, accepting a single variable reference.

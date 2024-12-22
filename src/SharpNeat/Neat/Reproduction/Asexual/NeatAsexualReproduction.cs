@@ -13,7 +13,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class NeatAsexualReproduction<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : struct, IBinaryFloatingPointIeee754<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly MutationTypeDistributions _mutationTypeDistributionsComplexifying;
     readonly MutationTypeDistributions _mutationTypeDistributionsSimplifying;

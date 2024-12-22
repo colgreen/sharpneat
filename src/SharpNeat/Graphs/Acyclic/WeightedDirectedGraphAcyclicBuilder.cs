@@ -9,7 +9,7 @@ namespace SharpNeat.Graphs.Acyclic;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public static class WeightedDirectedGraphAcyclicBuilder<TWeight>
-    where TWeight : struct
+    where TWeight : unmanaged
 {
     #region Public Static Methods
 
