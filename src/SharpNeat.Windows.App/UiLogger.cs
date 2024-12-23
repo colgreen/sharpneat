@@ -11,7 +11,7 @@ namespace SharpNeat.Windows.App;
 /// static Log() method. Log messages are held in a circular buffer and are displayed in a referenced
 /// GUI ListBox.
 /// </summary>
-internal sealed class Logger
+internal sealed class UiLogger
 {
     delegate void LogDelegate(string message);
     static readonly LogDelegate logDelegate = new(Log);
@@ -19,7 +19,7 @@ internal sealed class Logger
     static ListBox __lbxLog;
     static readonly BindingList<LogItem> __bindingList;
 
-    static Logger()
+    static UiLogger()
     {
         __bindingList = new BindingList<LogItem>(
             new LogBuffer(500))

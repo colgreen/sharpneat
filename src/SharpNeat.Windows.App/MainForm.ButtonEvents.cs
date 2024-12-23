@@ -95,7 +95,7 @@ partial class MainForm
         _neatPop = null;
 
         // Reset/update UI state.
-        Logger.Clear();
+        UiLogger.Clear();
         UpdateUiState();
         UpdateUiState_ResetStats();
 
@@ -122,7 +122,7 @@ partial class MainForm
     private void btnCopyLogToClipboard_Click(object sender, EventArgs e)
     {
         StringBuilder sb = new();
-        foreach(Logger.LogItem item in lbxLog.Items)
+        foreach(UiLogger.LogItem item in lbxLog.Items)
         {
             sb.AppendLine(item.Message);
         }

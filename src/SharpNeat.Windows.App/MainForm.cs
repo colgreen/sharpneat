@@ -66,7 +66,7 @@ internal sealed partial class MainForm : Form
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
         InitializeComponent();
-        Logger.SetListBox(lbxLog);
+        UiLogger.SetListBox(lbxLog);
 
         // Populate the experiments combo-box (drop-down list) with experiment loaded from the experiments.json config file.
         InitExperimentList();
