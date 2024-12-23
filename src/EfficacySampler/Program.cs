@@ -1,6 +1,5 @@
-﻿using System.Reflection;
-using log4net;
-using log4net.Config;
+﻿using System.Globalization;
+using Serilog;
 using SharpNeat.Experiments;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
 using SharpNeat.Tasks.BinaryTwentyMultiplexer;
@@ -28,9 +27,11 @@ sealed class Program
         if(stopCond is null || experimentId is null || filename is null)
             return;
 
-        // Initialise log4net (log to console).
-        var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly()!);
-        XmlConfigurator.Configure(logRepository, new FileInfo("log4net.properties"));
+        // Initialise Serilog logging (
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
+            .CreateLogger();
 
         // Create and configure a NEAT experiment instance.
         INeatExperiment<double>? experiment = InitExperiment(experimentId);
@@ -55,6 +56,7 @@ sealed class Program
         finally
         {
             __streamWriter?.Close();
+            Log.CloseAndFlush();
         }
     }
 

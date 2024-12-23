@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using System.Globalization;
 using System.Text.Json;
-using log4net;
+using Serilog;
 using SharpNeat.EvolutionAlgorithm.Runner;
 using SharpNeat.Experiments;
 using SharpNeat.Neat;
@@ -19,7 +19,8 @@ namespace SharpNeat.Windows.App;
 /// </summary>
 internal sealed partial class MainForm : Form
 {
-    private static readonly ILog __log = LogManager.GetLogger(typeof(MainForm));
+    private static readonly ILogger __log = Log.ForContext<MainForm>();
+
     private static readonly JsonSerializerOptions __jsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -65,7 +66,7 @@ internal sealed partial class MainForm : Form
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
         InitializeComponent();
-        Logger.SetListBox(lbxLog);
+        UiLogger.SetListBox(lbxLog);
 
         // Populate the experiments combo-box (drop-down list) with experiment loaded from the experiments.json config file.
         InitExperimentList();

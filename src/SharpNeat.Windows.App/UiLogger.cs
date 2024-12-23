@@ -7,11 +7,10 @@ using Redzen.Structures;
 namespace SharpNeat.Windows.App;
 
 /// <summary>
-/// Logging control. The log4net subsystem is configured to pass log message through to this class'
-/// static Log() method. Log messages are held in a circular buffer and are displayed in a referenced
-/// GUI ListBox.
+/// Logging control. Serilog is configured to pass log messages through to this class's static Log() method.
+/// Log messages are held in a circular buffer and are displayed in a referenced GUI ListBox.
 /// </summary>
-internal sealed class Logger
+internal sealed class UiLogger
 {
     delegate void LogDelegate(string message);
     static readonly LogDelegate logDelegate = new(Log);
@@ -19,7 +18,7 @@ internal sealed class Logger
     static ListBox __lbxLog;
     static readonly BindingList<LogItem> __bindingList;
 
-    static Logger()
+    static UiLogger()
     {
         __bindingList = new BindingList<LogItem>(
             new LogBuffer(500))
@@ -66,36 +65,15 @@ internal sealed class Logger
 
     #region Inner Classes
 
-    /// <summary>
-    /// Represents a single log item.
-    /// </summary>
-    internal sealed class LogItem
+    // This weird wrapper around a string is necessary in order to use BindingList<LogItem>, because we can't use BindingList<string>.
+    internal sealed class LogItem(string message)
     {
-        readonly string _message;
-
-        /// <summary>
-        /// Construct with the specified log message.
-        /// </summary>
-        public LogItem(string message)
-        {
-            _message = message;
-        }
-
-        /// <summary>
-        /// Gets the log message.
-        /// </summary>
-        public string Message
-        {
-            get { return _message; }
-        }
+        public string Message { get; private set; } = message;
     }
 
-    sealed class LogBuffer : CircularBuffer<LogItem>, IList<LogItem>
+    internal sealed class LogBuffer(int capacity) 
+        : CircularBuffer<LogItem>(capacity), IList<LogItem>
     {
-        public LogBuffer(int capacity) 
-            : base(capacity)
-        {}
-
         #region IList<LogItem>
 
         int IList<LogItem>.IndexOf(LogItem item)

@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using log4net;
+using Serilog;
 
 namespace SharpNeat.EvolutionAlgorithm.Runner;
 
@@ -10,7 +10,7 @@ namespace SharpNeat.EvolutionAlgorithm.Runner;
 /// </summary>
 public sealed class EvolutionAlgorithmRunner : IDisposable
 {
-    static readonly ILog __log = LogManager.GetLogger(typeof(EvolutionAlgorithmRunner));
+    static readonly ILogger __log = Log.ForContext<EvolutionAlgorithmRunner>();
 
     #region Instance Fields
 
@@ -123,7 +123,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
             case RunState.Running:
                 {
                     // Already running. Log a warning.
-                    __log.Warn("StartContinue() called but algorithm is already running.");
+                    __log.Warning("StartContinue() called but algorithm is already running.");
                     break;
                 }
             default:
@@ -147,7 +147,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
         }
         else
         {
-            __log.Warn("RequestPause() called, but the algorithm is not running.");
+            __log.Warning("RequestPause() called, but the algorithm is not running.");
         }
     }
 
@@ -169,7 +169,7 @@ public sealed class EvolutionAlgorithmRunner : IDisposable
         }
         else
         {
-            __log.Warn("RequestPauseAndWait() called but algorithm is not running.");
+            __log.Warning("RequestPauseAndWait() called but algorithm is not running.");
         }
     }
 
