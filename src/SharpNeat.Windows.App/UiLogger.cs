@@ -7,9 +7,8 @@ using Redzen.Structures;
 namespace SharpNeat.Windows.App;
 
 /// <summary>
-/// Logging control. The log4net subsystem is configured to pass log message through to this class'
-/// static Log() method. Log messages are held in a circular buffer and are displayed in a referenced
-/// GUI ListBox.
+/// Logging control. Serilog is configured to pass log messages through to this class's static Log() method.
+/// Log messages are held in a circular buffer and are displayed in a referenced GUI ListBox.
 /// </summary>
 internal sealed class UiLogger
 {
