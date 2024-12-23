@@ -184,7 +184,7 @@ partial class MainForm
         }
 
         // Write entry to log.
-        __log.Info($"gen={_eaRunner.EA.Stats.Generation:N0} bestFitness={_neatPop.Stats.BestFitness.PrimaryFitness:N6}");
+        __log.Information($"gen={_eaRunner.EA.Stats.Generation:N0} bestFitness={_neatPop.Stats.BestFitness.PrimaryFitness:N6}");
 
         if(_eaRunner.RunState == RunState.Paused)
             UpdateUiState_EaReadyPaused();

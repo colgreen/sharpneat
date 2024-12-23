@@ -1,13 +1,13 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Globalization;
-using log4net;
+using Serilog;
 
 namespace SharpNeat.Windows.App;
 
 internal static class UiAccessUtils
 {
-    private static readonly ILog __log = LogManager.GetLogger(typeof(UiAccessUtils));
+    private static readonly ILogger __log = Log.ForContext(typeof(UiAccessUtils));
 
     public static void SetValue(TextBox txtBox, int val)
     {
@@ -24,7 +24,7 @@ internal static class UiAccessUtils
         if(int.TryParse(txtBox.Text, out int tmp))
             return tmp;
 
-        __log.ErrorFormat("Error parsing value of text field [{0}]", txtBox.Name);
+        __log.Error("Error parsing value of text field [{0}]", txtBox.Name);
         return defaultVal;
     }
 
@@ -33,7 +33,7 @@ internal static class UiAccessUtils
         if(double.TryParse(txtBox.Text, out double tmp))
             return tmp;
 
-        __log.ErrorFormat("Error parsing value of text field [{0}]", txtBox.Name);
+        __log.Error("Error parsing value of text field [{0}]", txtBox.Name);
         return defaultVal;
     }
 }

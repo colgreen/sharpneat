@@ -1,9 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Reflection;
-using log4net;
-using log4net.Config;
-using log4net.Repository;
+using Serilog;
 
 namespace SharpNeat.Windows.App;
 
@@ -16,8 +13,10 @@ static class Program
     static void Main()
     {
         // Initialise logging.
-        ILoggerRepository logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-        XmlConfigurator.Configure(logRepository, new FileInfo("log4net.properties"));
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Sink<LogWindowSink>()
+            .CreateLogger();
 
         // Add top level exception handler.
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);

@@ -35,7 +35,7 @@ partial class MainForm
 
             if(genomeList.Count == 0)
             {
-                __log.WarnFormat("No genomes loaded from population file [{0}].", filepath);
+                __log.Warning("No genomes loaded from population file [{0}].", filepath);
                 return;
             }
 
@@ -51,7 +51,7 @@ partial class MainForm
         }
         catch(Exception ex)
         {
-            __log.ErrorFormat("Error loading population. Error message [{0}]", ex.Message);
+            __log.Error("Error loading population. Error message [{0}]", ex.Message);
         }
     }
 
@@ -84,7 +84,7 @@ partial class MainForm
         }
         catch(Exception ex)
         {
-            __log.ErrorFormat("Error loading genome. Error message [{0}]", ex.Message);
+            __log.Error("Error loading genome. Error message [{0}]", ex.Message);
         }
     }
 
@@ -105,7 +105,7 @@ partial class MainForm
 
             if(seedGenomes.Count == 0)
             {
-                __log.WarnFormat("No genomes loaded from population file [{0}].", filepath);
+                __log.Warning("No genomes loaded from population file [{0}].", filepath);
                 return;
             }
 
@@ -124,7 +124,7 @@ partial class MainForm
         }
         catch(Exception ex)
         {
-            __log.ErrorFormat("Error loading seed population. Error message [{0}]", ex.Message);
+            __log.Error("Error loading seed population. Error message [{0}]", ex.Message);
         }
     }
 
@@ -144,7 +144,7 @@ partial class MainForm
         }
         catch(Exception ex)
         {
-            __log.ErrorFormat("Error saving population; [{0}]", ex.Message);
+            __log.Error("Error saving population; [{0}]", ex.Message);
         }
     }
 
@@ -167,7 +167,7 @@ partial class MainForm
         }
         catch(Exception ex)
         {
-            __log.ErrorFormat("Error saving genome; [{0}]", ex.Message);
+            __log.Error("Error saving genome; [{0}]", ex.Message);
         }
     }
 
