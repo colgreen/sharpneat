@@ -214,7 +214,19 @@ public class NeatEvolutionAlgorithm<TScalar> : IEvolutionAlgorithm
             Species<TScalar> species = _pop.SpeciesArray[i];
             int eliteSizeInt = species.Stats.EliteSizeInt;
             int removeCount = species.GenomeList.Count - eliteSizeInt;
-            species.GenomeList.RemoveRange(eliteSizeInt, removeCount);
+
+            if(removeCount > 0)
+            {
+                // Call Dispose() on all of the genomes we're about to remove.
+                var removedGenomes = CollectionsMarshal.AsSpan(species.GenomeList).Slice(eliteSizeInt);
+                foreach(var genome in removedGenomes)
+                {
+                    genome.Dispose();
+                }
+
+                // Truncate the genome list to remove the unwanted genomes.
+                species.GenomeList.RemoveRange(eliteSizeInt, removeCount);
+            }
 
             if(eliteSizeInt == 0)
                 emptySpeciesFlag = true;
