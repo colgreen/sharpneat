@@ -86,7 +86,7 @@ public class NeatGenomeAcyclicBuilderTests
             new LayerInfo(5, 5),
             new LayerInfo(6, 5),
         ];
-        Assert.Equal(5, acyclicDigraph.LayerArray.Length);
+        NetworkUtils.CompareLayerInfoLists(layerArrExpected, acyclicDigraph.LayerArray);
 
         // Check the node count.
         Assert.Equal(6, acyclicDigraph.TotalNodeCount);
