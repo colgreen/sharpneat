@@ -61,7 +61,10 @@ public class WeightedDirectedGraphAcyclicBuilderTests
 
         // Compare actual and expected connections.
         var connSpanExpected = connListExpected.AsSpan();
-        CompareConnectionLists(connSpanExpected, digraph.ConnectionIds, digraph.WeightArray);
+        CompareConnectionLists(
+            connSpanExpected,
+            digraph.ConnectionIds,
+            digraph.WeightArray);
 
         // Test layer info.
         LayerInfo[] layerArrExpected =
@@ -72,7 +75,7 @@ public class WeightedDirectedGraphAcyclicBuilderTests
             new LayerInfo(5, 5),
             new LayerInfo(6, 5),
         ];
-        Assert.Equal(5, digraph.LayerArray.Length);
+        CompareLayerInfoLists(layerArrExpected, digraph.LayerArray);
 
         // Check the node count.
         Assert.Equal(6, digraph.TotalNodeCount);

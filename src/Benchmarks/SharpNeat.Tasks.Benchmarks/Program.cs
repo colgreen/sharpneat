@@ -4,9 +4,9 @@ using SharpNeat.Tasks.PreyCapture;
 
 namespace SharpNeat.Tasks;
 
-sealed class Program
+internal sealed class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
         //var summary = BenchmarkRunner.Run<PreyCaptureWorldBenchmark>();
 

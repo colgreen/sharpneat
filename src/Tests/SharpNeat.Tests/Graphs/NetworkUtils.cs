@@ -30,7 +30,9 @@ public static class NetworkUtils
         Assert.Equal(x.Weight, yWeight);
     }
 
-    public static void CompareLayerInfoLists(Span<LayerInfo> x, Span<LayerInfo> y)
+    public static void CompareLayerInfoLists(
+        Span<LayerInfo> x,
+        Span<LayerInfo> y)
     {
         Assert.Equal(x.Length, y.Length);
         for(int i=0; i < x.Length; i++)

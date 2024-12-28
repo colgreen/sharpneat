@@ -15,7 +15,7 @@ public class NeatGenomeLoaderTests
             "TestData/example1.net", metaNeatGenome, 0);
 
         // Manually build an equivalent genome.
-        NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
+        using NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
 
         // Compare the two genomes.
         IOTestUtils.CompareGenomes(genomeLoaded, genomeBuilt);

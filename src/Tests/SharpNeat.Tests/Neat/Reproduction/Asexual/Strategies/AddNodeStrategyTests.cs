@@ -8,6 +8,8 @@ using static SharpNeat.Neat.Genome.NestGenomeTestUtils;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+
 public class AddNodeStrategyTests
 {
     /// <summary>
@@ -31,7 +33,7 @@ public class AddNodeStrategyTests
 
         for(int i=0; i < 10_000; i++)
         {
-            CreateAndTestChildGenome(genome, strategy, rng);
+            using var childGenome = CreateAndTestChildGenome(genome, strategy, rng);
         }
     }
 
@@ -59,6 +61,7 @@ public class AddNodeStrategyTests
             NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 
             // Make the child genome the parent in the next iteration. I.e. accumulate add node mutations.
+            genome.Dispose();
             genome = childGenome;
         }
     }
@@ -66,7 +69,7 @@ public class AddNodeStrategyTests
     /// <summary>
     /// Apply cumulative 'add node' mutations to 10 genomes, rather than the single genome in TestAddNode2().
     /// This results in some mutations occurring that have already occurred on one of the other genomes,
-    /// and therefore this tests the code paths that handle re-using innovation IDs obtain from the innovation buffers.
+    /// and therefore this tests the code paths that handle re-using innovation IDs obtained from the innovation buffers.
     /// </summary>
     [Fact]
     public void AddNode3()
@@ -74,7 +77,7 @@ public class AddNodeStrategyTests
         var pop = CreateNeatPopulation();
         var generationSeq = new Int32Sequence();
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(pop.MetaNeatGenome);
-        var genome = pop.GenomeList[0];
+        var seedGenome = pop.GenomeList[0];
 
         var strategy = new AddNodeStrategy<double>(
             pop.MetaNeatGenome, genomeBuilder,
@@ -83,18 +86,21 @@ public class AddNodeStrategyTests
 
         IRandomSource rng = RandomDefaults.CreateRandomSource();
 
-        CircularBuffer<NeatGenome<double>> genomeRing = new(10);
-        genomeRing.Enqueue(genome);
+        // Create a small array populated with N refs to the same seed genome.
+        var genomeArr = new NeatGenome<double>[10];
+        for(int i=0; i < genomeArr.Length; i++)
+            genomeArr[i] = seedGenome;
 
-        for(int i=0; i < 5000; i++)
+        // Outer test loop.
+        for(int i=0; i < 500; i++)
         {
-            NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
-
-            // Add the new child genome to the ring.
-            genomeRing.Enqueue(childGenome);
-
-            // Take the genome at the tail of the ring for the next parent.
-            genome = genomeRing[0];
+            // Replace each genome ref in the array with a child genome.
+            for(int j=0; j < genomeArr.Length; j++)
+            {
+                var parentGenome = genomeArr[j];
+                genomeArr[j] = CreateAndTestChildGenome(parentGenome, strategy, rng);
+                parentGenome.Dispose();
+            }
         }
     }
 
