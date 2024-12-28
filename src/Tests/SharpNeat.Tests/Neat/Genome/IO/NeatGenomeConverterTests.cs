@@ -73,7 +73,7 @@ public class NeatGenomeConverterTests
 
         double[] weightArr = genome.ConnectionGenes._weightArr;
         weightArr.Should().BeEquivalentTo(
-            new double[] { 0.123, 1.234, -0.5835, 5.123456789, 2.5, 5.4 },
+            [0.123, 1.234, -0.5835, 5.123456789, 2.5, 5.4],
             o => o.WithStrictOrdering());
     }
 }

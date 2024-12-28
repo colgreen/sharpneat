@@ -31,7 +31,7 @@ public class AddNodeStrategyTests
 
         for(int i=0; i < 10_000; i++)
         {
-            CreateAndTestChildGenome(genome, strategy, rng);
+            using var childGenome = CreateAndTestChildGenome(genome, strategy, rng);
         }
     }
 
@@ -59,6 +59,7 @@ public class AddNodeStrategyTests
             NeatGenome<double> childGenome = CreateAndTestChildGenome(genome, strategy, rng);
 
             // Make the child genome the parent in the next iteration. I.e. accumulate add node mutations.
+            genome.Dispose();
             genome = childGenome;
         }
     }
