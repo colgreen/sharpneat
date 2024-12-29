@@ -22,7 +22,7 @@ public sealed class BinarySixMultiplexerExperimentFactory : INeatExperimentFacto
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
 
         // Create an evaluation scheme object for the binary 6-multiplexer task.
-        var evalScheme = new BinarySixMultiplexerEvaluationScheme();
+        var evalScheme = new BinarySixMultiplexerEvaluationScheme<double>();
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).

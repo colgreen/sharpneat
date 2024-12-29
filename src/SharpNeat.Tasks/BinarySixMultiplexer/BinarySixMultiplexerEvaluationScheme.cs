@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.BinarySixMultiplexer;
@@ -7,7 +8,9 @@ namespace SharpNeat.Tasks.BinarySixMultiplexer;
 /// <summary>
 /// Evaluation scheme for the Binary 6-Multiplexer task.
 /// </summary>
-public sealed class BinarySixMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class BinarySixMultiplexerEvaluationScheme<TScalar> : IBlackBoxEvaluationScheme<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <inheritdoc/>
     public int InputCount => 7;
@@ -28,9 +31,24 @@ public sealed class BinarySixMultiplexerEvaluationScheme : IBlackBoxEvaluationSc
     public bool EvaluatorsHaveState => false;
 
     /// <inheritdoc/>
-    public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
+    public IPhenomeEvaluator<IBlackBox<TScalar>> CreateEvaluator()
     {
-        return new BinarySixMultiplexerEvaluator();
+#pragma warning disable CS8603 // Possible null reference return.
+        Type scalarType = typeof(TScalar);
+
+        if(scalarType == typeof(double))
+        {
+            return new BinarySixMultiplexerEvaluatorDouble() as IPhenomeEvaluator<IBlackBox<TScalar>>;
+        }
+        else if(scalarType == typeof(float))
+        {
+            return new BinarySixMultiplexerEvaluatorFloat() as IPhenomeEvaluator<IBlackBox<TScalar>>;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Unsupported scalar type '{scalarType}'.");
+        }
+#pragma warning restore CS8603 // Possible null reference return.
     }
 
     /// <inheritdoc/>
