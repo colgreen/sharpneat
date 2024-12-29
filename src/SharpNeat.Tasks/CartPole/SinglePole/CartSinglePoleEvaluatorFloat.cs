@@ -7,7 +7,7 @@ namespace SharpNeat.Tasks.CartPole.SinglePole;
 /// <summary>
 /// Evaluator for the cart and single pole balancing task.
 /// </summary>
-public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+public sealed class CartSinglePoleEvaluatorFloat : IPhenomeEvaluator<IBlackBox<float>>
 {
     #region Constants
 
@@ -39,7 +39,7 @@ public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// </summary>
     /// <remarks>
     /// Default to 960 timesteps, or 960/16 = 60 seconds of clock time.</remarks>
-    public CartSinglePoleEvaluator()
+    public CartSinglePoleEvaluatorFloat()
         : this(960)
     {
     }
@@ -48,7 +48,7 @@ public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// Construct evaluator with the provided task arguments/variables.
     /// </summary>
     /// <param name="maxTimesteps">The maximum number of timesteps to run the physics simulation for.</param>
-    public CartSinglePoleEvaluator(int maxTimesteps)
+    public CartSinglePoleEvaluatorFloat(int maxTimesteps)
     {
         _maxTimesteps = maxTimesteps;
         _maxTimesteps_Reciprocal = 1f / maxTimesteps;
@@ -65,7 +65,7 @@ public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// </summary>
     /// <param name="box">The black box to evaluate.</param>
     /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
-    public FitnessInfo Evaluate(IBlackBox<double> box)
+    public FitnessInfo Evaluate(IBlackBox<float> box)
     {
         // The evaluation consists of four separate trials, each with their own fitness score.
         // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS
@@ -110,7 +110,7 @@ public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// <param name="poleAngle">Pole angle in radians.</param>
     /// <returns>Fitness score.</returns>
     public float RunTrial(
-        IBlackBox<double> box,
+        IBlackBox<float> box,
         float cartPos,
         float poleAngle)
     {
@@ -132,7 +132,7 @@ public sealed class CartSinglePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
         for(; timestep < _maxTimesteps; timestep++)
         {
             // Provide model state to the black box inputs (normalised to +-1.0).
-            inputs[0] = 1.0; // Bias input.
+            inputs[0] = 1f; // Bias input.
             inputs[1] = state[0] * __TrackLengthHalf_Reciprocal; // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
             inputs[2] = state[2] * __MaxPoleAngle_Reciprocal;    // Pole angle range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
 

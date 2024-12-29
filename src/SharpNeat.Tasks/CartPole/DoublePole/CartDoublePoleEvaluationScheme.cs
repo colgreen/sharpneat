@@ -49,7 +49,6 @@ public sealed class CartDoublePoleEvaluationScheme<TScalar> : IBlackBoxEvaluatio
             throw new InvalidOperationException($"Unsupported scalar type '{scalarType}'.");
         }
 #pragma warning restore CS8603 // Possible null reference return.
-
     }
 
     /// <inheritdoc/>
