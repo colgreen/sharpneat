@@ -1,6 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Diagnostics;
 using System.Numerics;
 using SharpNeat.Evaluation;
 
@@ -60,10 +59,8 @@ public sealed class XorEvaluator<TScalar> : IPhenomeEvaluator<IBlackBox<TScalar>
         if(success)
             fitness += Ten;
 
-        return new FitnessInfo(double.CreateTruncating(fitness));
+        return new FitnessInfo(double.CreateSaturating(fitness));
     }
-
-    #region Private Static Methods
 
     private static TScalar Activate(
         IBlackBox<TScalar> box,
@@ -84,16 +81,13 @@ public sealed class XorEvaluator<TScalar> : IPhenomeEvaluator<IBlackBox<TScalar>
 
         // Read output signal.
         TScalar output = outputs[0];
-        Clip(ref output);
-        Debug.Assert(output >= TScalar.Zero, "Unexpected negative output.");
+        Clamp(ref output);
         return output;
     }
 
-    private static void Clip(ref TScalar x)
+    private static void Clamp(ref TScalar x)
     {
         if(x < TScalar.Zero) x = TScalar.Zero;
         else if(x > TScalar.One) x = TScalar.One;
     }
-
-    #endregion
 }
