@@ -22,7 +22,7 @@ public sealed class BinaryElevenMultiplexerExperimentFactory : INeatExperimentFa
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
 
         // Create an evaluation scheme object for the binary 11-multiplexer task.
-        var evalScheme = new BinaryElevenMultiplexerEvaluationScheme();
+        var evalScheme = new BinaryElevenMultiplexerEvaluationScheme<double>();
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).

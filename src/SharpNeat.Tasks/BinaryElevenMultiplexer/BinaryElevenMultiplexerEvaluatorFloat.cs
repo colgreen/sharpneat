@@ -1,6 +1,5 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using System.Diagnostics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.BinaryElevenMultiplexer;
@@ -17,7 +16,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer;
 ///
 /// Evaluation consists of querying the provided black box for all possible input combinations (2^11 = 2048).
 /// </summary>
-public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+public sealed class BinaryElevenMultiplexerEvaluatorFloat : IPhenomeEvaluator<IBlackBox<float>>
 {
     /// <summary>
     /// Evaluate the provided black box against the Binary 11-Multiplexer task,
@@ -25,17 +24,17 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
     /// </summary>
     /// <param name="box">The black box to evaluate.</param>
     /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
-    public FitnessInfo Evaluate(IBlackBox<double> box)
+    public FitnessInfo Evaluate(IBlackBox<float> box)
     {
-        double fitness = 0.0;
-        Span<double> inputs = box.Inputs.Span;
-        ref double output = ref box.Outputs.Span[0];
+        float fitness = 0f;
+        Span<float> inputs = box.Inputs.Span;
+        ref float output = ref box.Outputs.Span[0];
 
         // 2048 test cases.
         for(int i=0; i < 2048; i++)
         {
             // Bias input.
-            inputs[0] = 1.0;
+            inputs[0] = 1f;
 
             // Apply bitmask to i and shift left to generate the input signals.
             // Note. We could eliminate all the boolean logic by pre-building a table of test
@@ -57,7 +56,6 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
 
             // Read output signal.
             Clamp(ref output);
-            Debug.Assert(output >= 0.0, "Unexpected negative output.");
 
             // Determine the correct answer with somewhat cryptic bit manipulation.
             // The condition is true if the correct answer is true (1.0).
@@ -67,7 +65,7 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
                 // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                 // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                 // Note. To base fitness on absolute error use: fitness += output;
-                fitness += 1.0 - ((1.0 - output) * (1.0 - output));
+                fitness += 1f - ((1f - output) * (1f - output));
             }
             else
             {
@@ -75,7 +73,7 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
                 // Assign fitness on sliding scale between 0.0 and 1.0 based on squared error.
                 // In tests squared error drove evolution significantly more efficiently in this domain than absolute error.
                 // Note. To base fitness on absolute error use: fitness += 1.0-output;
-                fitness += 1.0 - (output * output);
+                fitness += 1f - (output * output);
             }
 
             // Reset black box ready for next test case.
@@ -85,9 +83,9 @@ public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackB
         return new FitnessInfo(fitness);
     }
 
-    private static void Clamp(ref double x)
+    private static void Clamp(ref float x)
     {
-        if(x < 0.0) x = 0.0;
-        else if(x > 1.0) x = 1.0;
+        if(x < 0.0) x = 0f;
+        else if(x > 1.0) x = 1f;
     }
 }

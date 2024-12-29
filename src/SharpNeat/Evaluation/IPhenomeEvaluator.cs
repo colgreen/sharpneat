@@ -5,8 +5,8 @@ namespace SharpNeat.Evaluation;
 /// <summary>
 /// Represents an evaluator of <typeparamref name="TPhenome"/> instances.
 /// </summary>
-/// <typeparam name="TPhenome">Phenome input/output signal data type.</typeparam>
-public interface IPhenomeEvaluator<TPhenome>
+/// <typeparam name="TPhenome">The phenome type.</typeparam>
+public interface IPhenomeEvaluator<in TPhenome>
 {
     /// <summary>
     /// Evaluate a single phenome and return its fitness score or scores.

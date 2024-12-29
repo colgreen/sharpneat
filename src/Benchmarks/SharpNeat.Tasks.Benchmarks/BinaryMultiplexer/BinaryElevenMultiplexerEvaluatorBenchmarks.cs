@@ -7,7 +7,7 @@ namespace SharpNeat.Tasks.BinaryMultiplexer;
 
 public class BinaryElevenMultiplexerEvaluatorBenchmarks
 {
-    static readonly BinaryElevenMultiplexerEvaluator __evaluator = new();
+    static readonly BinaryElevenMultiplexerEvaluatorDouble __evaluator = new();
     static readonly NullBlackBox __blackBox = new();
 
     [Benchmark]
