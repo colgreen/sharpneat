@@ -30,7 +30,7 @@ public sealed class XorEvaluationScheme : IBlackBoxEvaluationScheme<double>
     /// <inheritdoc/>
     public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
     {
-        return new XorEvaluator();
+        return new XorEvaluator<double>();
     }
 
     /// <inheritdoc/>

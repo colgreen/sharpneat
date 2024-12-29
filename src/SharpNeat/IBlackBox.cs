@@ -1,5 +1,7 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat;
 
 /// <summary>
@@ -13,7 +15,7 @@ namespace SharpNeat;
 /// </summary>
 /// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public interface IBlackBox<TScalar> : IDisposable
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.

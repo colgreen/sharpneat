@@ -144,7 +144,7 @@ public static class NeatEvolutionAlgorithmFactory
     private static void ValidateCompatible<TScalar>(
         INeatExperiment<TScalar> neatExperiment,
         MetaNeatGenome<TScalar> metaNeatGenome)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Confirm that neatExperiment and metaNeatGenome are compatible with each other.
         if (neatExperiment.EvaluationScheme.InputCount != metaNeatGenome.InputNodeCount)

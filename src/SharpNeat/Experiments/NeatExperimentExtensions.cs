@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.NeuralNets;
@@ -21,7 +22,7 @@ public static class NeatExperimentExtensions
     public static void Configure<TScalar>(
         this INeatExperiment<TScalar> experiment,
         ExperimentConfig experimentConfig)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         experiment.Id = experimentConfig.Id ?? experiment.Id;
         experiment.Name = experimentConfig.Name ?? experiment.Name;
@@ -52,7 +53,7 @@ public static class NeatExperimentExtensions
     /// <returns>A new instance of <see cref="MetaNeatGenome{T}"/>.</returns>
     public static MetaNeatGenome<TScalar> CreateMetaNeatGenome<TScalar>(
         this INeatExperiment<TScalar> neatExperiment)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Resolve the configured activation function name to an activation function instance.
         var actFnFactory = new DefaultActivationFunctionFactory<TScalar>(
@@ -77,7 +78,7 @@ public static class NeatExperimentExtensions
     private static void ApplyConfiguration<TScalar>(
         INeatExperiment<TScalar> experiment,
         ComplexityRegulationStrategyConfig? config)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         if(config is null)
             return;
