@@ -21,7 +21,7 @@ public static class NeatGenomeDecoderFactory
     public static IGenomeDecoder<NeatGenome<TScalar>, IBlackBox<TScalar>> CreateGenomeDecoder<TScalar>(
         bool isAcyclic,
         bool enableHardwareAcceleration = false)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         Type scalarType = typeof(TScalar);
 

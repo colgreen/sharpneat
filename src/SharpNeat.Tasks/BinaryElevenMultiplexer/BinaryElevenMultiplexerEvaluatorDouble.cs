@@ -17,7 +17,7 @@ namespace SharpNeat.Tasks.BinaryElevenMultiplexer;
 ///
 /// Evaluation consists of querying the provided black box for all possible input combinations (2^11 = 2048).
 /// </summary>
-public sealed class BinaryElevenMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+public sealed class BinaryElevenMultiplexerEvaluatorDouble : IPhenomeEvaluator<IBlackBox<double>>
 {
     /// <summary>
     /// Evaluate the provided black box against the Binary 11-Multiplexer task,

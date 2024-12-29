@@ -16,7 +16,7 @@ namespace SharpNeat.Domains.FunctionRegression;
 public partial class FnRegressionControl : GenomeControl
 {
     readonly Func<double,double> _fn;
-    readonly IBlackBoxProbe _blackBoxProbe;
+    readonly IBlackBoxProbe<double> _blackBoxProbe;
     readonly double[] _yArrTarget;
     readonly IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> _genomeDecoder;
     readonly PointPairList _pplTarget;
@@ -31,7 +31,7 @@ public partial class FnRegressionControl : GenomeControl
     /// <param name="genomeDecoder">Genome decoder.</param>
     public FnRegressionControl(
         Func<double,double> fn,
-        ParamSamplingInfo paramSamplingInfo,
+        ParamSamplingInfo<double> paramSamplingInfo,
         bool generativeMode,
         IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> genomeDecoder)
     {
@@ -44,20 +44,20 @@ public partial class FnRegressionControl : GenomeControl
         // Determine the mid output value of the function (over the specified sample points) and a scaling factor
         // to apply the to neural network response for it to be able to recreate the function (because the neural net
         // output range is typically in the interval [0,1], e.g. when using the logistic function activation function).
-        FuncRegressionUtils.CalcFunctionMidAndScale(
+        FuncRegressionUtils<double>.CalcFunctionMidAndScale(
             fn, paramSamplingInfo,
             out double mid,
             out double scale);
 
         if(generativeMode)
         {
-            _blackBoxProbe = new GenerativeBlackBoxProbe(
+            _blackBoxProbe = new GenerativeBlackBoxProbe<double>(
                 paramSamplingInfo.SampleResolution,
                 mid, scale);
         }
         else
         {
-            _blackBoxProbe = new BlackBoxProbe(
+            _blackBoxProbe = new BlackBoxProbe<double>(
                 paramSamplingInfo, mid, scale);
         }
 

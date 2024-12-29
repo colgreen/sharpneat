@@ -22,7 +22,7 @@ public sealed class XorExperimentFactory : INeatExperimentFactory
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
 
         // Create an evaluation scheme object for the XOR task.
-        var evalScheme = new XorEvaluationScheme();
+        var evalScheme = new XorEvaluationScheme<double>();
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).

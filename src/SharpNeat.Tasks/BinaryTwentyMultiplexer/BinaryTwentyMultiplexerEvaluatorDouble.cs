@@ -12,7 +12,7 @@ namespace SharpNeat.Tasks.BinaryTwentyMultiplexer;
 ///
 /// The correct output response is the binary value of the input to the addressed data input.
 /// </summary>
-public sealed class BinaryTwentyMultiplexerEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+public sealed class BinaryTwentyMultiplexerEvaluatorDouble : IPhenomeEvaluator<IBlackBox<double>>
 {
     /// <summary>
     /// Evaluate the provided black box against the Binary 11-Multiplexer task,

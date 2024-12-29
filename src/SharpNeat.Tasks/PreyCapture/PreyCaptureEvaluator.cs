@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.PreyCapture;
@@ -7,9 +8,11 @@ namespace SharpNeat.Tasks.PreyCapture;
 /// <summary>
 /// Evaluator for the prey capture task.
 /// </summary>
-public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class PreyCaptureEvaluator<TScalar> : IPhenomeEvaluator<IBlackBox<TScalar>>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly PreyCaptureWorld _world;
+    readonly PreyCaptureWorld<TScalar> _world;
     readonly int _trialsPerEvaluation;
 
     /// <summary>
@@ -28,7 +31,7 @@ public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
         int trialsPerEvaluation)
     {
         // Construct a re-usable instance of the prey capture world.
-        _world = new PreyCaptureWorld(preyInitMoves, preySpeed, sensorRange, maxTimesteps);
+        _world = new PreyCaptureWorld<TScalar>(preyInitMoves, preySpeed, sensorRange, maxTimesteps);
         _trialsPerEvaluation = trialsPerEvaluation;
     }
 
@@ -38,7 +41,7 @@ public sealed class PreyCaptureEvaluator : IPhenomeEvaluator<IBlackBox<double>>
     /// </summary>
     /// <param name="box">The black box to evaluate.</param>
     /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
-    public FitnessInfo Evaluate(IBlackBox<double> box)
+    public FitnessInfo Evaluate(IBlackBox<TScalar> box)
     {
         // Perform multiple independent trials.
         int fitness = 0;

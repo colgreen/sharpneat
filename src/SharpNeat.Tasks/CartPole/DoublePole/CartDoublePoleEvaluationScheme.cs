@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.CartPole.DoublePole;
@@ -7,7 +8,9 @@ namespace SharpNeat.Tasks.CartPole.DoublePole;
 /// <summary>
 /// Evaluation scheme for the cart and pole balancing task, with two poles.
 /// </summary>
-public sealed class CartDoublePoleEvaluationScheme : IBlackBoxEvaluationScheme<double>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class CartDoublePoleEvaluationScheme<TScalar> : IBlackBoxEvaluationScheme<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <inheritdoc/>
     public int InputCount => 7;
@@ -28,9 +31,24 @@ public sealed class CartDoublePoleEvaluationScheme : IBlackBoxEvaluationScheme<d
     public bool EvaluatorsHaveState => true;
 
     /// <inheritdoc/>
-    public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
+    public IPhenomeEvaluator<IBlackBox<TScalar>> CreateEvaluator()
     {
-        return new CartDoublePoleEvaluator();
+#pragma warning disable CS8603 // Possible null reference return.
+        Type scalarType = typeof(TScalar);
+
+        if(scalarType == typeof(double))
+        {
+            return new CartDoublePoleEvaluatorDouble() as IPhenomeEvaluator<IBlackBox<TScalar>>;
+        }
+        else if(scalarType == typeof(float))
+        {
+            return new CartDoublePoleEvaluatorFloat() as IPhenomeEvaluator<IBlackBox<TScalar>>;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Unsupported scalar type '{scalarType}'.");
+        }
+#pragma warning restore CS8603 // Possible null reference return.
     }
 
     /// <inheritdoc/>

@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Evaluation;
 
 /// <summary>
@@ -8,7 +10,7 @@ namespace SharpNeat.Evaluation;
 /// </summary>
 /// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public interface IBlackBoxEvaluationScheme<TScalar> : IPhenomeEvaluationScheme<IBlackBox<TScalar>>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// The number of black box inputs expected/required by the black box evaluation scheme.

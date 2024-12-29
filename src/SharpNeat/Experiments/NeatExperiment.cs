@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Neat.ComplexityRegulation;
 using SharpNeat.Neat.EvolutionAlgorithm;
 using SharpNeat.Neat.Reproduction.Asexual;
@@ -13,7 +14,7 @@ namespace SharpNeat.Experiments;
 /// </summary>
 /// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <inheritdoc/>
     public string FactoryId { get; }

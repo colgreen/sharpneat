@@ -8,13 +8,13 @@ public class FuncRegressionUtilsTests
     public void CalcGradients()
     {
         const int sampleCount = 100;
-        ParamSamplingInfo psi = new(0, 2 * Math.PI, sampleCount);
+        ParamSamplingInfo<double> psi = new(0, 2 * Math.PI, sampleCount);
         double[] yArr = new double[sampleCount];
-        FuncRegressionUtils.Probe((x) => Math.Sin(x), psi, yArr);
+        FuncRegressionUtils<double>.Probe((x) => Math.Sin(x), psi, yArr);
 
         // Calc gradients.
         double[] gradientArr = new double[sampleCount];
-        FuncRegressionUtils.CalcGradients(psi, yArr, gradientArr);
+        FuncRegressionUtils<double>.CalcGradients(psi, yArr, gradientArr);
 
         // Calc expected gradients (using simple non-vectorized logic).
         double[] gradientArrExpected = new double[sampleCount];
@@ -27,7 +27,7 @@ public class FuncRegressionUtilsTests
     #region Private Static Methods
 
     private static void CalcGradients_IndependentImpl(
-        ParamSamplingInfo paramSamplingInfo,
+        ParamSamplingInfo<double> paramSamplingInfo,
         double[] yArr,
         double[] gradientArr)
     {

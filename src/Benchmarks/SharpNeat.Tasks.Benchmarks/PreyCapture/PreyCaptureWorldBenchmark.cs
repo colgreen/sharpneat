@@ -4,12 +4,12 @@ namespace SharpNeat.Tasks.PreyCapture;
 
 public class PreyCaptureWorldBenchmark : IDisposable
 {
-    readonly PreyCaptureWorld _world;
+    readonly PreyCaptureWorld<double> _world;
     readonly MockPreyCaptureAgent _agent;
 
     public PreyCaptureWorldBenchmark()
     {
-        _world = new PreyCaptureWorld(4, 1f, 4f, 1000);
+        _world = new PreyCaptureWorld<double>(4, 1f, 4f, 1000);
         _agent = new MockPreyCaptureAgent();
     }
 

@@ -25,7 +25,7 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
         PreyCaptureCustomConfig customConfig = experimentConfig.CustomEvaluationSchemeConfig;
 
         // Create an evaluation scheme object for the prey capture task.
-        var evalScheme = new PreyCaptureEvaluationScheme(
+        var evalScheme = new PreyCaptureEvaluationScheme<double>(
             customConfig.PreyInitMoves,
             customConfig.PreySpeed,
             customConfig.SensorRange,

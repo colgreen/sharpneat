@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.PreyCapture;
@@ -7,7 +8,9 @@ namespace SharpNeat.Tasks.PreyCapture;
 /// <summary>
 /// Evaluation scheme for the prey capture task.
 /// </summary>
-public sealed class PreyCaptureEvaluationScheme : IBlackBoxEvaluationScheme<double>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class PreyCaptureEvaluationScheme<TScalar> : IBlackBoxEvaluationScheme<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly int _preyInitMoves;
     readonly float _preySpeed;
@@ -66,9 +69,9 @@ public sealed class PreyCaptureEvaluationScheme : IBlackBoxEvaluationScheme<doub
     #region Public Methods
 
     /// <inheritdoc/>
-    public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
+    public IPhenomeEvaluator<IBlackBox<TScalar>> CreateEvaluator()
     {
-        return new PreyCaptureEvaluator(
+        return new PreyCaptureEvaluator<TScalar>(
             _preyInitMoves,
             _preySpeed,
             _sensorRange,

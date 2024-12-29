@@ -24,7 +24,7 @@ public class BinaryThreeMultiplexerTests
             netFileModel, enableHardwareAcceleration, enableHardwareAcceleration);
 
         // Evaluate the neural net.
-        var evaluator = new BinaryThreeMultiplexerEvaluator();
+        var evaluator = new BinaryThreeMultiplexerEvaluator<double>();
 
         // Confirm the expected fitness (to a limited amount of precision to allow for small variations of floating point
         // results that can occur as a result of platform/environmental variations).

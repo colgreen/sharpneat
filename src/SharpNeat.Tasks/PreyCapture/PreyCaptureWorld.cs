@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using Redzen.Random;
 
 namespace SharpNeat.Tasks.PreyCapture;
@@ -17,7 +18,9 @@ namespace SharpNeat.Tasks.PreyCapture;
 /// <remarks>
 /// The grid world's origin, i.e. coordinate (0,0), is at the bottom left of the grid.
 /// </remarks>
-public sealed class PreyCaptureWorld
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class PreyCaptureWorld<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// The length of an edge of the square grid world, measured in grid squares. The minimum possible value here is 9,
@@ -136,7 +139,7 @@ public sealed class PreyCaptureWorld
     /// </summary>
     /// <param name="agent">The agent to run the trail with.</param>
     /// <returns>True if the agent captured the prey; otherwise false.</returns>
-    public bool RunTrial(IBlackBox<double> agent)
+    public bool RunTrial(IBlackBox<TScalar> agent)
     {
         // Initialise world state.
         InitPositions();
@@ -193,7 +196,7 @@ public sealed class PreyCaptureWorld
     /// Determine the agent's position in the world relative to the prey and walls, and set its sensor inputs accordingly.
     /// </summary>
     /// <param name="agent">The agent.</param>
-    public void SetAgentInputsAndActivate(IBlackBox<double> agent)
+    public void SetAgentInputsAndActivate(IBlackBox<TScalar> agent)
     {
         const float PI_over_8 = MathF.PI / 8f;
         const float Four_over_PI = 4f / MathF.PI;
@@ -211,7 +214,7 @@ public sealed class PreyCaptureWorld
         inputs.Clear();
 
         // Bias input.
-        inputs[0] = 1.0;
+        inputs[0] = TScalar.One;
 
         // Test if prey is in sensor range.
         if(relPosRadiusSqr <= _sensorRangeSqr)
@@ -223,50 +226,52 @@ public sealed class PreyCaptureWorld
             int segmentIdx = 1 + (int)MathF.Floor(thetaAdjusted * Four_over_PI);
 
             // Set sensor segment's input.
-            inputs[segmentIdx] = 1.0;
+            inputs[segmentIdx] = TScalar.One;
         }
 
         // Prey closeness detector.
-        inputs[9] = relPosRadiusSqr <= 4 ? 1.0 : 0.0;
+        inputs[9] = relPosRadiusSqr <= 4 ? TScalar.One : TScalar.Zero;
 
         // Wall detectors - N,E,S,W.
         // North.
         int d = (__gridSize-1) - _agentPos.Y;
         if(d <= 4)
-            inputs[10] = (4-d) * Quarter;
+            inputs[10] = TScalar.CreateSaturating((4-d) * Quarter);
 
         // East.
         d = (__gridSize-1) - _agentPos.X;
         if(d <= 4)
-            inputs[11] = (4-d) * Quarter;
+            inputs[11] = TScalar.CreateSaturating((4-d) * Quarter);
 
         // South.
         if(_agentPos.Y <= 4)
-            inputs[12] = (4 - _agentPos.Y) * Quarter;
+            inputs[12] = TScalar.CreateSaturating((4 - _agentPos.Y) * Quarter);
 
         // West.
         if(_agentPos.X <= 4)
-            inputs[13] = (4 - _agentPos.X) * Quarter;
+            inputs[13] = TScalar.CreateSaturating((4 - _agentPos.X) * Quarter);
 
         // Activate agent.
         agent.Activate();
     }
 
+    static readonly TScalar PointOne = TScalar.CreateSaturating(0.1);
+
     /// <summary>
     /// Allow the agent to move one square based on its decision. Note that the agent can choose to not move.
     /// </summary>
     /// <param name="agent">The agent.</param>
-    public void MoveAgent(IBlackBox<double> agent)
+    public void MoveAgent(IBlackBox<TScalar> agent)
     {
         var outputs = agent.Outputs.Span;
 
         // Selected output is highest signal at or above 0.5. Tied signals result in no result.
-        double maxSig = outputs[0];
+        TScalar maxSig = outputs[0];
         int maxSigIdx = 0;
 
         for(int i=1; i < 4; i++)
         {
-            double v = outputs[i];
+            TScalar v = outputs[i];
             if(v > maxSig)
             {
                 maxSig = v;
@@ -278,7 +283,7 @@ public sealed class PreyCaptureWorld
             }
         }
 
-        if(maxSigIdx == -1 || maxSig < 0.1)
+        if(maxSigIdx == -1 || maxSig < PointOne)
         {   // No action.
             return;
         }

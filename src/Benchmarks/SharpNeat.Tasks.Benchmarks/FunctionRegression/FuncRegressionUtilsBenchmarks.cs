@@ -7,7 +7,7 @@ public class FuncRegressionUtilsBenchmarks
     #region Instance Fields
 
     const int __sampleCount = 100;
-    readonly ParamSamplingInfo _paramSamplingInfo = new(0, 2 * Math.PI, __sampleCount);
+    readonly ParamSamplingInfo<double> _paramSamplingInfo = new(0, 2 * Math.PI, __sampleCount);
     readonly double[] _yArr = new double[__sampleCount];
     readonly double[] _gradientArr = new double[__sampleCount];
 
@@ -17,8 +17,8 @@ public class FuncRegressionUtilsBenchmarks
 
     public FuncRegressionUtilsBenchmarks()
     {
-        var psi = new ParamSamplingInfo(0, 2 * Math.PI, __sampleCount);
-        FuncRegressionUtils.Probe((x) => Math.Sin(x), psi, _yArr);
+        var psi = new ParamSamplingInfo<double>(0, 2 * MathF.PI, __sampleCount);
+        FuncRegressionUtils<double>.Probe((x) => Math.Sin(x), psi, _yArr);
     }
 
     #endregion
@@ -28,7 +28,7 @@ public class FuncRegressionUtilsBenchmarks
     [Benchmark]
     public void CalcGradients()
     {
-        FuncRegressionUtils.CalcGradients(_paramSamplingInfo, _yArr, _gradientArr);
+        FuncRegressionUtils<double>.CalcGradients(_paramSamplingInfo, _yArr, _gradientArr);
     }
 
     #endregion

@@ -22,7 +22,7 @@ public sealed class CartSinglePoleExperimentFactory : INeatExperimentFactory
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
 
         // Create an evaluation scheme object for the Single Pole Balancing task.
-        var evalScheme = new CartSinglePoleEvaluationScheme();
+        var evalScheme = new CartSinglePoleEvaluationScheme<double>();
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).

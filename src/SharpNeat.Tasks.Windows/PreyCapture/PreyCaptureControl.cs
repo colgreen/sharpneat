@@ -29,7 +29,7 @@ public class PreyCaptureControl : GenomeControl
     readonly Brush _brushPrey = new SolidBrush(Color.Green);
 
     readonly IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> _genomeDecoder;
-    readonly PreyCaptureWorld _world;
+    readonly PreyCaptureWorld<double> _world;
 
     // The agent used by the simulation thread.
     volatile IBlackBox<double> _agent;
@@ -54,7 +54,7 @@ public class PreyCaptureControl : GenomeControl
     /// <param name="world">Prey capture world.</param>
     public PreyCaptureControl(
         IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> genomeDecoder,
-        PreyCaptureWorld world)
+        PreyCaptureWorld<double> world)
     {
         _genomeDecoder = genomeDecoder ?? throw new ArgumentNullException(nameof(genomeDecoder));
         _world = world ?? throw new ArgumentNullException(nameof(world));
