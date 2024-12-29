@@ -33,6 +33,22 @@
       }
     },
 
+    // === Binary 3-multiplexer ===
+    {
+      "name": "Binary 3-multiplexer",
+      "experimentFactory": {
+        "assemblyName": "SharpNeat.Tasks",
+        "typeName": "SharpNeat.Tasks.BinaryThreeMultiplexer.BinaryThreeMultiplexerExperimentFactory"
+      },
+      "configFile": "config/experiments-config/binary-3-multiplexer.config.json",
+      "descriptionFile": "config/experiments-descriptions/binary-3-multiplexer.txt",
+      // UI settings.
+      "experimentUiFactory": {
+        "assemblyName": "SharpNeat.Windows",
+        "typeName": "SharpNeat.Windows.Neat.NeatExperimentUiFactory"
+      }
+    },
+
     // === Binary 6-multiplexer ===
     {
       "name": "Binary 6-multiplexer",

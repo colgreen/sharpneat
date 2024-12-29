@@ -1,0 +1,35 @@
+﻿{
+  "name": "Binary 3-multiplexer",
+  "isAcyclic": true,
+  "activationFnName": "LeakyReLU",
+  "populationSize": 300,
+  "initialInterconnectionsProportion": 0.05,
+  "connectionWeightScale": 5.0,
+  "degreeOfParallelism": 4,
+  "enableHardwareAcceleratedNeuralNets": false,
+  "enableHardwareAcceleratedActivationFunctions": false,
+
+  "evolutionAlgorithm": {
+    "speciesCount": 10,
+    "elitismProportion": 0.2,
+    "selectionProportion": 0.2,
+    "offspringAsexualProportion": 0.5,
+    "offspringRecombinationProportion": 0.5,
+    "interspeciesMatingProportion": 0.01
+  },
+  "asexualReproduction": {
+    "connectionWeightMutationProbability": 0.94,
+    "addNodeMutationProbability": 0.01,
+    "addConnectionMutationProbability": 0.025,
+    "deleteConnectionMutationProbability": 0.025
+  },
+  "recombination": {
+    "secondaryParentGeneProbability": 0.1
+  },
+
+  "complexityRegulationStrategy": {
+    "strategyName": "relative",
+    "relativeComplexityCeiling": 10,
+    "minSimplifcationGenerations": 10
+  }
+}

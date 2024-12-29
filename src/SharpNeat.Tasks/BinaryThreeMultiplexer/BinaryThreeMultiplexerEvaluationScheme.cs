@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.BinaryThreeMultiplexer;
@@ -7,7 +8,9 @@ namespace SharpNeat.Tasks.BinaryThreeMultiplexer;
 /// <summary>
 /// Evaluation scheme for the Binary 3-Multiplexer task.
 /// </summary>
-public sealed class BinaryThreeMultiplexerEvaluationScheme : IBlackBoxEvaluationScheme<double>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class BinaryThreeMultiplexerEvaluationScheme<TScalar> : IBlackBoxEvaluationScheme<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <inheritdoc/>
     public int InputCount => 4;
@@ -28,9 +31,9 @@ public sealed class BinaryThreeMultiplexerEvaluationScheme : IBlackBoxEvaluation
     public bool EvaluatorsHaveState => false;
 
     /// <inheritdoc/>
-    public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
+    public IPhenomeEvaluator<IBlackBox<TScalar>> CreateEvaluator()
     {
-        return new BinaryThreeMultiplexerEvaluator();
+        return new BinaryThreeMultiplexerEvaluator<TScalar>();
     }
 
     /// <inheritdoc/>

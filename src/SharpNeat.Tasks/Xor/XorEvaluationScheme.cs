@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.Xor;
@@ -7,7 +8,9 @@ namespace SharpNeat.Tasks.Xor;
 /// <summary>
 /// Evaluation scheme for the logical XOR task.
 /// </summary>
-public sealed class XorEvaluationScheme : IBlackBoxEvaluationScheme<double>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class XorEvaluationScheme<TScalar> : IBlackBoxEvaluationScheme<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <inheritdoc/>
     public int InputCount => 3;
@@ -28,9 +31,9 @@ public sealed class XorEvaluationScheme : IBlackBoxEvaluationScheme<double>
     public bool EvaluatorsHaveState => false;
 
     /// <inheritdoc/>
-    public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
+    public IPhenomeEvaluator<IBlackBox<TScalar>> CreateEvaluator()
     {
-        return new XorEvaluator<double>();
+        return new XorEvaluator<TScalar>();
     }
 
     /// <inheritdoc/>

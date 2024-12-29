@@ -1,0 +1,13 @@
+﻿Binary 3-Multiplexer Task.
+
+A neural net has 3 inputs, one is a single address input, and two are data inputs. All of the inputs accept a binary value (zero or one).
+
+There is a single output.
+
+A binary address is presented to the address input, and this indicates which of the two data input values are to be selected for the output.
+
+Evaluation consists of exhaustively evaluating the network against each of the 8 (2^3) possible input combinations. For each evaluation, the output value must match the value being presented to the data input selected by the address inputs.
+
+An output less than 0.5 is considered a binary 0 response, and >=0.5 a binary 1. However, fitness at each evaluation is on a continuous linear scale, and these are summed across all evaluations to give a maximum possible fitness of 8.
+
+An additional fitness of 100 is added to the total if all 8 test cases are passed, giving a maximum possible fitness of 108.

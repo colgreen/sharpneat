@@ -22,7 +22,7 @@ public sealed class BinaryThreeMultiplexerExperimentFactory : INeatExperimentFac
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
 
         // Create an evaluation scheme object for the binary 3-multiplexer task.
-        var evalScheme = new BinaryThreeMultiplexerEvaluationScheme();
+        var evalScheme = new BinaryThreeMultiplexerEvaluationScheme<double>();
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).
