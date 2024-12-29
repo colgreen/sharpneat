@@ -18,7 +18,7 @@ namespace SharpNeat.Tasks.CartPole.DoublePole;
 /// As things stand the problem is difficult enough in its current form, therefore we provide velocity inputs and define two very
 /// different pole lengths.
 /// </remarks>
-public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double>>
+public sealed class CartDoublePoleEvaluatorFloat : IPhenomeEvaluator<IBlackBox<float>>
 {
     #region Constants
 
@@ -50,7 +50,7 @@ public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// </summary>
     /// <remarks>
     /// Default to 960 timesteps, or 960/16 = 60 seconds of clock time.</remarks>
-    public CartDoublePoleEvaluator()
+    public CartDoublePoleEvaluatorFloat()
         : this(960)
     {
     }
@@ -59,7 +59,7 @@ public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// Construct evaluator with the provided task arguments/variables.
     /// </summary>
     /// <param name="maxTimesteps">The maximum number of timesteps to run the physics simulation for.</param>
-    public CartDoublePoleEvaluator(int maxTimesteps)
+    public CartDoublePoleEvaluatorFloat(int maxTimesteps)
     {
         _maxTimesteps = maxTimesteps;
         _maxTimesteps_Reciprocal = 1f / maxTimesteps;
@@ -76,7 +76,7 @@ public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// </summary>
     /// <param name="box">The black box to evaluate.</param>
     /// <returns>A new instance of <see cref="FitnessInfo"/>.</returns>
-    public FitnessInfo Evaluate(IBlackBox<double> box)
+    public FitnessInfo Evaluate(IBlackBox<float> box)
     {
         // The evaluation consists of four separate trials, each with their own fitness score.
         // The final overall fitness is given by the root mean squared (RMS) fitness. Using an RMS
@@ -122,7 +122,7 @@ public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
     /// <param name="poleAngle2">Pole 2 angle in radians.</param>
     /// <returns>Fitness score.</returns>
     public float RunTrial(
-        IBlackBox<double> box,
+        IBlackBox<float> box,
         float cartPos,
         float poleAngle1,
         float poleAngle2)
@@ -145,13 +145,13 @@ public sealed class CartDoublePoleEvaluator : IPhenomeEvaluator<IBlackBox<double
         for(; timestep < _maxTimesteps; timestep++)
         {
             // Provide model state to the black box inputs (normalised to +-1.0).
-            inputs[0] = 1.0; // Bias input.
+            inputs[0] = 1f; // Bias input.
             inputs[1] = state[0] * __TrackLengthHalf_Reciprocal;   // Cart X position range is +-__TrackLengthHalf; here we normalize to [-1,1].
             inputs[2] = state[1];                                  // Cart velocity. Typical range is approx. +-10.
             inputs[3] = state[2] * __MaxPoleAngle_Reciprocal;      // Pole 1 angle. Range is +-__MaxPoleAngle radians; here we normalize to [-1,1].
-            inputs[4] = state[3] * 0.2;                            // Pole 1 angular velocity. Typical range is approx. +-5.
+            inputs[4] = state[3] * 0.2f;                           // Pole 1 angular velocity. Typical range is approx. +-5.
             inputs[5] = state[4] * __MaxPoleAngle_Reciprocal;      // Pole 2 angle.
-            inputs[6] = state[5] * 0.2;                            // Pole 2 angular velocity.
+            inputs[6] = state[5] * 0.2f;                           // Pole 2 angular velocity.
 
             // Activate the network.
             box.Activate();
