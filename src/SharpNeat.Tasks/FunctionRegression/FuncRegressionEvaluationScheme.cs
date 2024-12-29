@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Evaluation;
 
 namespace SharpNeat.Tasks.FunctionRegression;
@@ -7,16 +8,18 @@ namespace SharpNeat.Tasks.FunctionRegression;
 /// <summary>
 /// Evaluation scheme for the function regression task.
 /// </summary>
-public sealed class FuncRegressionEvaluationScheme : IBlackBoxEvaluationScheme<double>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+public sealed class FuncRegressionEvaluationScheme<TScalar> : IBlackBoxEvaluationScheme<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly ParamSamplingInfo _paramSamplingInfo;
-    readonly double _gradientMseWeight;
+    readonly ParamSamplingInfo<TScalar> _paramSamplingInfo;
+    readonly TScalar _gradientMseWeight;
 
     // Expected/correct response arrays.
-    readonly double[] _yArrTarget;
-    readonly double[] _gradientArrTarget;
+    readonly TScalar[] _yArrTarget;
+    readonly TScalar[] _gradientArrTarget;
 
-    readonly IBlackBoxProbe _blackBoxProbe;
+    readonly IBlackBoxProbe<TScalar> _blackBoxProbe;
 
     #region Auto Properties [IBlackBoxEvaluationScheme]
 
@@ -49,21 +52,21 @@ public sealed class FuncRegressionEvaluationScheme : IBlackBoxEvaluationScheme<d
     /// <param name="paramSamplingInfo">Sampling (defines the x range and sampling density).</param>
     /// <param name="gradientMseWeight">The fitness weighting to assign to the gradient mean squared error (MSE) score.</param>
     public FuncRegressionEvaluationScheme(
-        Func<double,double> fn,
-        ParamSamplingInfo paramSamplingInfo,
-        double gradientMseWeight)
+        Func<TScalar, TScalar> fn,
+        ParamSamplingInfo<TScalar> paramSamplingInfo,
+        TScalar gradientMseWeight)
     {
         _paramSamplingInfo = paramSamplingInfo;
         _gradientMseWeight = gradientMseWeight;
 
         // Alloc arrays.
         int sampleCount = _paramSamplingInfo.SampleResolution;
-        _yArrTarget = new double[sampleCount];
-        _gradientArrTarget = new double[sampleCount];
+        _yArrTarget = new TScalar[sampleCount];
+        _gradientArrTarget = new TScalar[sampleCount];
 
         // Predetermine target responses.
-        FuncRegressionUtils.Probe(fn, paramSamplingInfo, _yArrTarget);
-        FuncRegressionUtils.CalcGradients(paramSamplingInfo, _yArrTarget, _gradientArrTarget);
+        FuncRegressionUtils<TScalar>.Probe(fn, paramSamplingInfo, _yArrTarget);
+        FuncRegressionUtils<TScalar>.CalcGradients(paramSamplingInfo, _yArrTarget, _gradientArrTarget);
 
         // Create blackbox probe.
         _blackBoxProbe = CreateBlackBoxProbe(fn, paramSamplingInfo);
@@ -74,9 +77,9 @@ public sealed class FuncRegressionEvaluationScheme : IBlackBoxEvaluationScheme<d
     #region Public Methods
 
     /// <inheritdoc/>
-    public IPhenomeEvaluator<IBlackBox<double>> CreateEvaluator()
+    public IPhenomeEvaluator<IBlackBox<TScalar>> CreateEvaluator()
     {
-        return new FuncRegressionEvaluator(_paramSamplingInfo, _gradientMseWeight, _yArrTarget, _gradientArrTarget, _blackBoxProbe);
+        return new FuncRegressionEvaluator<TScalar>(_paramSamplingInfo, _gradientMseWeight, _yArrTarget, _gradientArrTarget, _blackBoxProbe);
     }
 
     /// <inheritdoc/>
@@ -89,16 +92,16 @@ public sealed class FuncRegressionEvaluationScheme : IBlackBoxEvaluationScheme<d
 
     #region Private Static Methods
 
-    private static BlackBoxProbe CreateBlackBoxProbe(
-        Func<double,double> fn,
-        ParamSamplingInfo paramSamplingInfo)
+    private static BlackBoxProbe<TScalar> CreateBlackBoxProbe(
+        Func<TScalar, TScalar> fn,
+        ParamSamplingInfo<TScalar> paramSamplingInfo)
     {
         // Determine the mid output value of the function (over the specified sample points) and a scaling factor
         // to apply the to neural network response for it to be able to recreate the function (because the neural net
         // output range is [0,1] when using the logistic function as the neuron activation function).
-        FuncRegressionUtils.CalcFunctionMidAndScale(fn, paramSamplingInfo, out double mid, out double scale);
+        FuncRegressionUtils<TScalar>.CalcFunctionMidAndScale(fn, paramSamplingInfo, out TScalar mid, out TScalar scale);
 
-        return new BlackBoxProbe(paramSamplingInfo, mid, scale);
+        return new BlackBoxProbe<TScalar>(paramSamplingInfo, mid, scale);
     }
 
     #endregion

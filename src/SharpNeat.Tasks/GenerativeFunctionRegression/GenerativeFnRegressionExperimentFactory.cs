@@ -28,12 +28,12 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
         ReadEvaluationSchemeConfig(
             experimentConfig,
             out Func<double, double> fn,
-            out ParamSamplingInfo paramSamplingInfo,
+            out ParamSamplingInfo<double> paramSamplingInfo,
             out double gradientMseWeight);
 
         // Create an evaluation scheme object for the generative sinewave task; using the evaluation scheme
         // config read from json.
-        var evalScheme = new GenerativeFnRegressionEvaluationScheme(fn, paramSamplingInfo, gradientMseWeight);
+        var evalScheme = new GenerativeFnRegressionEvaluationScheme<double>(fn, paramSamplingInfo, gradientMseWeight);
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).
@@ -60,7 +60,7 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     private static void ReadEvaluationSchemeConfig(
         GenerativeFnRegressionExperimentConfig experimentConfig,
         out Func<double, double> fn,
-        out ParamSamplingInfo paramSamplingInfo,
+        out ParamSamplingInfo<double> paramSamplingInfo,
         out double gradientMseWeight)
     {
         // Get the customEvaluationSchemeConfig section.
@@ -72,7 +72,7 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
         fn = FunctionFactory.GetFunction(functionId);
 
         // Read sample interval min and max, and sample resolution.
-        paramSamplingInfo = new ParamSamplingInfo(
+        paramSamplingInfo = new ParamSamplingInfo<double>(
             customConfig.SampleIntervalMin,
             customConfig.SampleIntervalMax,
             customConfig.SampleResolution);

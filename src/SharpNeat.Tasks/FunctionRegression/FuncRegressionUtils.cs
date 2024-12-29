@@ -8,7 +8,8 @@ namespace SharpNeat.Tasks.FunctionRegression;
 /// <summary>
 /// Static utility methods related to the function regression family of tasks.
 /// </summary>
-public static class FuncRegressionUtils
+public static class FuncRegressionUtils<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     #region Public Static Methods
 
@@ -19,13 +20,13 @@ public static class FuncRegressionUtils
     /// <param name="paramSamplingInfo">Sampling metadata.</param>
     /// <param name="responseArr">An array to store the sample results within.</param>
     public static void Probe(
-        Func<double,double> fn,
-        ParamSamplingInfo paramSamplingInfo,
-        double[] responseArr)
+        Func<TScalar, TScalar> fn,
+        ParamSamplingInfo<TScalar> paramSamplingInfo,
+        TScalar[] responseArr)
     {
         Debug.Assert(responseArr.Length == paramSamplingInfo.SampleResolution);
 
-        double[] xArr = paramSamplingInfo.XArr;
+        TScalar[] xArr = paramSamplingInfo.XArr;
 
         for(int i=0; i < xArr.Length; i++)
             responseArr[i] = fn(xArr[i]);
@@ -38,9 +39,9 @@ public static class FuncRegressionUtils
     /// <param name="yArr">The function output/result at a number of discrete sample points.</param>
     /// <param name="gradientArr">An array to store the calculated gradients within.</param>
     public static void CalcGradients(
-        ParamSamplingInfo paramSamplingInfo,
-        double[] yArr,
-        double[] gradientArr)
+        ParamSamplingInfo<TScalar> paramSamplingInfo,
+        TScalar[] yArr,
+        TScalar[] gradientArr)
     {
         // Notes.
         // The gradient at a sample point is approximated by taking the gradient of the line between the two
@@ -59,22 +60,22 @@ public static class FuncRegressionUtils
 
         // Handle the end points as special cases.
         // First point.
-        double[] xArr = paramSamplingInfo.XArr;
+        TScalar[] xArr = paramSamplingInfo.XArr;
         gradientArr[0] = CalcGradient(xArr[0], yArr[0], xArr[1], yArr[1]);
 
         // Intermediate points.
-        int width = Vector<double>.Count;
+        int width = Vector<TScalar>.Count;
         int i=1;
         for(; i < xArr.Length - width - 1; i += width)
         {
             // Calc a block of x deltas.
-            var vecLeft = new Vector<double>(xArr, i - 1);
-            var vecRight = new Vector<double>(xArr, i + 1);
+            var vecLeft = new Vector<TScalar>(xArr, i - 1);
+            var vecRight = new Vector<TScalar>(xArr, i + 1);
             var xVecDelta = vecRight - vecLeft;
 
             // Calc a block of y deltas.
-            vecLeft = new Vector<double>(yArr, i - 1);
-            vecRight = new Vector<double>(yArr, i + 1);
+            vecLeft = new Vector<TScalar>(yArr, i - 1);
+            vecRight = new Vector<TScalar>(yArr, i + 1);
             var yVecDelta = vecRight - vecLeft;
 
             // Divide the y's by x's to obtain the gradients.
@@ -93,6 +94,9 @@ public static class FuncRegressionUtils
         gradientArr[i] = CalcGradient(xArr[i - 1], yArr[i - 1], xArr[i], yArr[i]);
     }
 
+    static readonly TScalar Two = TScalar.CreateChecked(2);
+    static readonly TScalar PointEight = TScalar.CreateChecked(0.8);
+
     /// <summary>
     /// Determine the mid output value of the function (over the specified sample points) and a scaling factor
     /// to apply the to neural network response for it to be able to recreate the function (because the neural net
@@ -103,32 +107,32 @@ public static class FuncRegressionUtils
     /// <param name="mid">Returns the mid value of the function (halfway between min and max).</param>
     /// <param name="scale">Returns the scale of the function.</param>
     public static void CalcFunctionMidAndScale(
-        Func<double,double> fn,
-        ParamSamplingInfo paramSamplingInfo,
-        out double mid, out double scale)
+        Func<TScalar, TScalar> fn,
+        ParamSamplingInfo<TScalar> paramSamplingInfo,
+        out TScalar mid, out TScalar scale)
     {
-        double[] xArr = paramSamplingInfo.XArr;
-        double min = fn(xArr[0]);
-        double max = min;
+        TScalar[] xArr = paramSamplingInfo.XArr;
+        TScalar min = fn(xArr[0]);
+        TScalar max = min;
 
         for(int i=0; i < xArr.Length; i++)
         {
-            double y = fn(xArr[i]);
-            min = Math.Min(y, min);
-            max = Math.Max(y, max);
+            TScalar y = fn(xArr[i]);
+            min = TScalar.Min(y, min);
+            max = TScalar.Max(y, max);
         }
 
         // TODO: explain this (0.8 is logistic function range, 0.5 is the logistic function output value when its input is zero).
-        double range = max - min;
-        scale = range / 0.8;
-        mid = (min + max) / 2.0;
+        TScalar range = max - min;
+        scale = range / PointEight;
+        mid = (min + max) / Two;
     }
 
     #endregion
 
     #region Private Static Methods
 
-    private static double CalcGradient(double x1, double y1, double x2, double y2)
+    private static TScalar CalcGradient(TScalar x1, TScalar y1, TScalar x2, TScalar y2)
     {
         return (y2 - y1) / (x2 - x1);
     }

@@ -27,7 +27,7 @@ public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
         ReadEvaluationSchemeConfig(
             experimentConfig.CustomEvaluationSchemeConfig,
             out Func<double, double> fn,
-            out ParamSamplingInfo paramSamplingInfo);
+            out ParamSamplingInfo<double> paramSamplingInfo);
 
         return new GenerativeFnRegressionUi(
             neatExperiment, fn, paramSamplingInfo);
@@ -36,7 +36,7 @@ public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
     private static void ReadEvaluationSchemeConfig(
         GenerativeFnRegressionCustomConfig customConfig,
         out Func<double, double> fn,
-        out ParamSamplingInfo paramSamplingInfo)
+        out ParamSamplingInfo<double> paramSamplingInfo)
     {
         // Read function ID.
         FunctionId functionId = Enum.Parse<FunctionId>(customConfig.FunctionId);
@@ -44,7 +44,7 @@ public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
         fn = FunctionFactory.GetFunction(functionId);
 
         // Read sample interval min and max, and sample resolution.
-        paramSamplingInfo = new ParamSamplingInfo(
+        paramSamplingInfo = new ParamSamplingInfo<double>(
             customConfig.SampleIntervalMin,
             customConfig.SampleIntervalMax,
             customConfig.SampleResolution);

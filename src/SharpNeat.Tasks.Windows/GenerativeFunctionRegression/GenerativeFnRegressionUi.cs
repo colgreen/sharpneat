@@ -13,12 +13,12 @@ public sealed class GenerativeFnRegressionUi : NeatExperimentUi
 {
     readonly INeatExperiment<double> _neatExperiment;
     readonly Func<double, double> _fn;
-    readonly ParamSamplingInfo _paramSamplingInfo;
+    readonly ParamSamplingInfo<double> _paramSamplingInfo;
 
     public GenerativeFnRegressionUi(
         INeatExperiment<double> neatExperiment,
         Func<double, double> fn,
-        ParamSamplingInfo paramSamplingInfo)
+        ParamSamplingInfo<double> paramSamplingInfo)
     {
         _neatExperiment = neatExperiment ?? throw new ArgumentNullException(nameof(neatExperiment));
         _fn = fn;
