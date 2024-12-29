@@ -8,7 +8,7 @@ public class PreyCaptureWorldTests
     [Fact]
     public void MoveAgent()
     {
-        var world = new PreyCaptureWorld(4, 1f, 4f, 100);
+        var world = new PreyCaptureWorld<double>(4, 1f, 4f, 100);
         using var agent = new MockPreyCaptureAgent();
 
         // Agent moving north test.
@@ -65,13 +65,13 @@ public class PreyCaptureWorldTests
     {
         // Use reflection to extract private static fields from the PreyCaptureWorld class; this is not ideal, but preferable
         // to making fields public that have no reason to be other than for unit testing.
-        FieldInfo gridSizeFieldInfo = typeof(PreyCaptureWorld).GetField("__gridSize", BindingFlags.Static | BindingFlags.NonPublic);
+        FieldInfo gridSizeFieldInfo = typeof(PreyCaptureWorld<double>).GetField("__gridSize", BindingFlags.Static | BindingFlags.NonPublic);
         int gridSize = (int)gridSizeFieldInfo.GetValue(null);
 
-        FieldInfo atan2LookupOffsetFieldInfo = typeof(PreyCaptureWorld).GetField("__atan2LookupOffset", BindingFlags.Static | BindingFlags.NonPublic);
+        FieldInfo atan2LookupOffsetFieldInfo = typeof(PreyCaptureWorld<double>).GetField("__atan2LookupOffset", BindingFlags.Static | BindingFlags.NonPublic);
         int atan2LookupOffset = (int)atan2LookupOffsetFieldInfo.GetValue(null);
 
-        FieldInfo atan2LookupFieldInfo = typeof(PreyCaptureWorld).GetField("__atan2Lookup", BindingFlags.Static | BindingFlags.NonPublic);
+        FieldInfo atan2LookupFieldInfo = typeof(PreyCaptureWorld<double>).GetField("__atan2Lookup", BindingFlags.Static | BindingFlags.NonPublic);
         float[,] atan2Lookup = (float[,])atan2LookupFieldInfo.GetValue(null);
 
 
@@ -90,7 +90,7 @@ public class PreyCaptureWorldTests
     {
         // Use reflection to call the CartesianToPolar() method from the PreyCaptureWorld class; this is not ideal, but preferable
         // to making methods internal or public that have no reason to be other than for unit testing.
-        MethodInfo methodInfo = typeof(PreyCaptureWorld).GetMethod("AngleDelta", BindingFlags.Static | BindingFlags.NonPublic);
+        MethodInfo methodInfo = typeof(PreyCaptureWorld<double>).GetMethod("AngleDelta", BindingFlags.Static | BindingFlags.NonPublic);
 
         // Define a local function that calls on the PreyCaptureWorld.AngleDelta() via reflection.
         float angleDelta(float a, float b)
@@ -151,7 +151,7 @@ public class PreyCaptureWorldTests
     {
         // Use reflection to call the CartesianToPolar() method from the PreyCaptureWorld class; this is not ideal, but preferable
         // to making methods internal or public that have no reason to be other than for unit testing.
-        MethodInfo methodInfo = typeof(PreyCaptureWorld).GetMethod("CartesianToPolar", BindingFlags.Static | BindingFlags.NonPublic);
+        MethodInfo methodInfo = typeof(PreyCaptureWorld<double>).GetMethod("CartesianToPolar", BindingFlags.Static | BindingFlags.NonPublic);
 
         // Define a local function that calls on the PreyCaptureWorld.Exp() via reflection.
         void cartesianToPolar(Int32Point p, out int radiusSqr, out float azimuth)
@@ -210,7 +210,7 @@ public class PreyCaptureWorldTests
     {
         // Use reflection to call the Exp() method from the PreyCaptureWorld class; this is not ideal, but preferable
         // to making methods internal or public that have no reason to be other than for unit testing.
-        MethodInfo expMethodInfo = typeof(PreyCaptureWorld).GetMethod("Exp", BindingFlags.Static | BindingFlags.NonPublic);
+        MethodInfo expMethodInfo = typeof(PreyCaptureWorld<double>).GetMethod("Exp", BindingFlags.Static | BindingFlags.NonPublic);
 
         // Define a local function that calls on the PreyCaptureWorld.Exp() via reflection.
         float expApprox(float x)

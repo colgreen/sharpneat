@@ -28,7 +28,7 @@ public sealed class PreyCaptureExperimentUi : NeatExperimentUi
     /// <inheritdoc/>
     public override GenomeControl CreateTaskControl()
     {
-        PreyCaptureWorld world = new(
+        PreyCaptureWorld<double> world = new(
             _customConfig.PreyInitMoves,
             _customConfig.PreySpeed,
             _customConfig.SensorRange,
