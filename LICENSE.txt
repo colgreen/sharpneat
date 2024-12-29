@@ -1,6 +1,6 @@
 SharpNEAT - Evolution of Neural Networks.
 
-Copyright 2004-2023 Colin D. Green (colin.green1@gmail.com)
+Copyright 2004-2025 Colin D. Green (colin.green1@gmail.com)
 
 This software is issued under the MIT License.
 
