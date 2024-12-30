@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.NeuralNets;
@@ -16,7 +17,8 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
     public string Id => "prey-capture";
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
+    public INeatExperiment<TScalar> CreateExperiment<TScalar>(Stream jsonConfigStream)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Load experiment JSON config.
         PreyCaptureExperimentConfig experimentConfig = JsonUtils.Deserialize<PreyCaptureExperimentConfig>(jsonConfigStream);
@@ -25,7 +27,7 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
         PreyCaptureCustomConfig customConfig = experimentConfig.CustomEvaluationSchemeConfig;
 
         // Create an evaluation scheme object for the prey capture task.
-        var evalScheme = new PreyCaptureEvaluationScheme<double>(
+        var evalScheme = new PreyCaptureEvaluationScheme<TScalar>(
             customConfig.PreyInitMoves,
             customConfig.PreySpeed,
             customConfig.SensorRange,
@@ -34,7 +36,7 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).
-        var experiment = new NeatExperiment<double>(evalScheme, Id)
+        var experiment = new NeatExperiment<TScalar>(evalScheme, Id)
         {
             IsAcyclic = false,
             CyclesPerActivation = 1,
@@ -44,11 +46,5 @@ public sealed class PreyCaptureExperimentFactory : INeatExperimentFactory
         // Apply configuration to the experiment instance.
         experiment.Configure(experimentConfig);
         return experiment;
-    }
-
-    /// <inheritdoc/>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
-    {
-        throw new NotImplementedException();
     }
 }

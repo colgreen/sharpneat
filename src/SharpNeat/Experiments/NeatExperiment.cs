@@ -12,7 +12,7 @@ namespace SharpNeat.Experiments;
 /// <summary>
 /// An aggregation of settings objects that make up a given experiment.
 /// </summary>
-/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class NeatExperiment<TScalar> : INeatExperiment<TScalar>
     where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {

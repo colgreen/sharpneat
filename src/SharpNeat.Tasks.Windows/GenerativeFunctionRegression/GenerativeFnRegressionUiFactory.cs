@@ -41,7 +41,7 @@ public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
         // Read function ID.
         FunctionId functionId = Enum.Parse<FunctionId>(customConfig.FunctionId);
 
-        fn = FunctionFactory.GetFunction(functionId);
+        fn = FunctionFactory.GetFunction<double>(functionId);
 
         // Read sample interval min and max, and sample resolution.
         paramSamplingInfo = new ParamSamplingInfo<double>(

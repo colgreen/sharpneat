@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.IO;
@@ -16,17 +17,18 @@ public sealed class CartSinglePoleExperimentFactory : INeatExperimentFactory
     public string Id => "cartpole-singlepole";
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
+    public INeatExperiment<TScalar> CreateExperiment<TScalar>(Stream jsonConfigStream)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Load experiment JSON config.
         ExperimentConfig experimentConfig = JsonUtils.Deserialize<ExperimentConfig>(jsonConfigStream);
 
         // Create an evaluation scheme object for the Single Pole Balancing task.
-        var evalScheme = new CartSinglePoleEvaluationScheme<double>();
+        var evalScheme = new CartSinglePoleEvaluationScheme<TScalar>();
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).
-        var experiment = new NeatExperiment<double>(evalScheme, Id)
+        var experiment = new NeatExperiment<TScalar>(evalScheme, Id)
         {
             IsAcyclic = true,
             ActivationFnName = ActivationFunctionId.LogisticSteep.ToString()
@@ -35,11 +37,5 @@ public sealed class CartSinglePoleExperimentFactory : INeatExperimentFactory
         // Apply configuration to the experiment instance.
         experiment.Configure(experimentConfig);
         return experiment;
-    }
-
-    /// <inheritdoc/>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
-    {
-        throw new NotImplementedException();
     }
 }

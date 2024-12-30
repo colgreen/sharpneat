@@ -99,7 +99,7 @@ sealed class Program
         // Create an instance of INeatExperiment for the binary 11-multiplexer task, configured using the supplied json config.
         var experimentFactory = new BinaryElevenMultiplexerExperimentFactory();
         INeatExperiment<double> neatExperiment = 
-            experimentFactory.CreateExperiment("config/binary-eleven-multiplexer.config.json");
+            experimentFactory.CreateExperiment<double>("config/binary-eleven-multiplexer.config.json");
 
         return neatExperiment;
     }
@@ -109,7 +109,7 @@ sealed class Program
         // Create an instance of INeatExperiment for the binary 20-multiplexer task, configured using the supplied json config.
         var experimentFactory = new BinaryTwentyMultiplexerExperimentFactory();
         INeatExperiment<double> neatExperiment =
-            experimentFactory.CreateExperiment("config/binary-twenty-multiplexer.config.json");
+            experimentFactory.CreateExperiment<double>("config/binary-twenty-multiplexer.config.json");
 
         return neatExperiment;
     }
@@ -119,7 +119,7 @@ sealed class Program
         // Create an instance of INeatExperiment for the generative sinewave task, configured using the supplied json config.
         var experimentFactory = new GenerativeFnRegressionExperimentFactory();
         INeatExperiment<double> neatExperiment =
-            experimentFactory.CreateExperiment("config/generative-sinewave.config.json");
+            experimentFactory.CreateExperiment<double>("config/generative-sinewave.config.json");
 
         return neatExperiment;
     }
@@ -129,7 +129,7 @@ sealed class Program
         // Create an instance of INeatExperiment for the generative beat-sinewave task, configured using the supplied json config.
         var experimentFactory = new GenerativeFnRegressionExperimentFactory();
         INeatExperiment<double> neatExperiment =
-            experimentFactory.CreateExperiment("config/generative-beat-sinewave.config.json");
+            experimentFactory.CreateExperiment<double>("config/generative-beat-sinewave.config.json");
 
         return neatExperiment;
     }
