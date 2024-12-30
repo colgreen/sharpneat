@@ -63,22 +63,19 @@ public sealed class LeakyReLU : IActivationFunction<double>
             var vec = Unsafe.ReadUnaligned<Vector<double>>(
                 ref Unsafe.As<double, byte>(ref vref));
 
-            // Apply max(val, 0) to each element in the vector.
-            var maxVec = Vector.Max(vec, Vector<double>.Zero);
+            // Compare each element with zero to build a mask.
+            var maskVec = Vector.GreaterThanOrEqual(vec, Vector<double>.Zero);
 
-            // Apply min(val, 0) to each element in the vector.
-            var minVec = Vector.Min(vec, Vector<double>.Zero);
+            // Compute a * vec for the negative case.
+            var negativeVec = avec * vec;
 
-            // Multiply by scaling factor 'a'.
-            minVec *= avec;
-
-            // Add minResult and maxResult.
-            minVec += maxVec;
+            // Select vec if >= 0, or negativeVec if < 0.
+            var resultVec = Vector.ConditionalSelect(maskVec, vec, negativeVec);
 
             // Store the result back to vref.
             Unsafe.WriteUnaligned(
                 ref Unsafe.As<double,byte>(ref vref),
-                minVec);
+                resultVec);
         }
 
         // Handle vectors with lengths not an exact multiple of vector width.
@@ -109,22 +106,19 @@ public sealed class LeakyReLU : IActivationFunction<double>
             var vec = Unsafe.ReadUnaligned<Vector<double>>(
                 ref Unsafe.As<double,byte>(ref vref));
 
-            // Apply max(val, 0) to each element in the vector.
-            var maxVec = Vector.Max(vec, Vector<double>.Zero);
+            // Compare each element with zero to build a mask.
+            var maskVec = Vector.GreaterThanOrEqual(vec, Vector<double>.Zero);
 
-            // Apply min(val, 0) to each element in the vector.
-            var minVec = Vector.Min(vec, Vector<double>.Zero);
+            // Compute a * vec for the negative case.
+            var negativeVec = avec * vec;
 
-            // Multiply by scaling factor 'a'.
-            minVec *= avec;
-
-            // Add minResult and maxResult.
-            minVec += maxVec;
+            // Select vec if >= 0, or negativeVec if < 0.
+            var resultVec = Vector.ConditionalSelect(maskVec, vec, negativeVec);
 
             // Store the result in the post-activations span.
             Unsafe.WriteUnaligned(
                 ref Unsafe.As<double,byte>(ref wref),
-                minVec);
+                resultVec);
         }
 
         // Handle vectors with lengths not an exact multiple of vector width.
