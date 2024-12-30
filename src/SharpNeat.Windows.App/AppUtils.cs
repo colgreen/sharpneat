@@ -18,7 +18,7 @@ internal static class AppUtils
             .Unwrap();
 
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        return factory.CreateExperiment(expInfo.ConfigFile);
+        return factory.CreateExperiment<double>(expInfo.ConfigFile);
     }
 
     public static IExperimentUi CreateAndConfigureExperimentUi(

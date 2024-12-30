@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Experiments;
 
 /// <summary>
@@ -16,16 +18,9 @@ public interface INeatExperimentFactory
     /// Creates a new instance of <see cref="INeatExperiment{T}"/> using the provided NEAT experiment
     /// configuration.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="jsonConfigStream">A stream from which experiment JSON configuration can be read.</param>
     /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-    INeatExperiment<double> CreateExperiment(Stream jsonConfigStream);
-
-    /// <summary>
-    ///  Creates a new instance of <see cref="INeatExperiment{T}"/> using the provided NEAT experiment
-    /// configuration, and using single-precision floating-point number format for the
-    /// genome and neural-net connection weights.
-    /// </summary>
-    /// <param name="jsonConfigStream">A stream from which experiment JSON configuration can be read.</param>
-    /// <returns>A new instance of <see cref="INeatExperiment{T}"/>.</returns>
-    INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream);
+    INeatExperiment<TScalar> CreateExperiment<TScalar>(Stream jsonConfigStream)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>;
 }

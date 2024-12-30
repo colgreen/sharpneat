@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.NeuralNets;
@@ -17,7 +18,8 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
     public string Id => "generative-sinewave";
 
     /// <inheritdoc/>
-    public INeatExperiment<double> CreateExperiment(Stream jsonConfigStream)
+    public INeatExperiment<TScalar> CreateExperiment<TScalar>(Stream jsonConfigStream)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Load experiment JSON config.
         GenerativeFnRegressionExperimentConfig experimentConfig =
@@ -27,17 +29,17 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
         // Read custom evaluation scheme config.
         ReadEvaluationSchemeConfig(
             experimentConfig,
-            out Func<double, double> fn,
-            out ParamSamplingInfo<double> paramSamplingInfo,
-            out double gradientMseWeight);
+            out Func<TScalar, TScalar> fn,
+            out ParamSamplingInfo<TScalar> paramSamplingInfo,
+            out TScalar gradientMseWeight);
 
         // Create an evaluation scheme object for the generative sinewave task; using the evaluation scheme
         // config read from json.
-        var evalScheme = new GenerativeFnRegressionEvaluationScheme<double>(fn, paramSamplingInfo, gradientMseWeight);
+        var evalScheme = new GenerativeFnRegressionEvaluationScheme<TScalar>(fn, paramSamplingInfo, gradientMseWeight);
 
         // Create a NeatExperiment object with the evaluation scheme,
         // and assign some default settings (these can be overridden by config).
-        var experiment = new NeatExperiment<double>(evalScheme, Id)
+        var experiment = new NeatExperiment<TScalar>(evalScheme, Id)
         {
             IsAcyclic = false,
             CyclesPerActivation = 1,
@@ -49,19 +51,14 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
         return experiment;
     }
 
-    /// <inheritdoc/>
-    public INeatExperiment<float> CreateExperimentSinglePrecision(Stream jsonConfigStream)
-    {
-        throw new NotImplementedException();
-    }
-
     #region Private Static Methods
 
-    private static void ReadEvaluationSchemeConfig(
+    private static void ReadEvaluationSchemeConfig<TScalar>(
         GenerativeFnRegressionExperimentConfig experimentConfig,
-        out Func<double, double> fn,
-        out ParamSamplingInfo<double> paramSamplingInfo,
-        out double gradientMseWeight)
+        out Func<TScalar, TScalar> fn,
+        out ParamSamplingInfo<TScalar> paramSamplingInfo,
+        out TScalar gradientMseWeight)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Get the customEvaluationSchemeConfig section.
         GenerativeFnRegressionCustomConfig customConfig = experimentConfig.CustomEvaluationSchemeConfig;
@@ -69,17 +66,17 @@ public sealed class GenerativeFnRegressionExperimentFactory : INeatExperimentFac
         // Read function ID.
         FunctionId functionId = Enum.Parse<FunctionId>(customConfig.FunctionId);
 
-        fn = FunctionFactory.GetFunction(functionId);
+        fn = FunctionFactory.GetFunction<TScalar>(functionId);
 
         // Read sample interval min and max, and sample resolution.
-        paramSamplingInfo = new ParamSamplingInfo<double>(
-            customConfig.SampleIntervalMin,
-            customConfig.SampleIntervalMax,
+        paramSamplingInfo = new ParamSamplingInfo<TScalar>(
+            TScalar.CreateChecked(customConfig.SampleIntervalMin),
+            TScalar.CreateChecked(customConfig.SampleIntervalMax),
             customConfig.SampleResolution);
 
         // Read the weight to apply to the gradientMse readings in the final fitness score.
         // 0 means don't use the gradient measurements, 1 means give them equal weight to the y position readings at each x sample point.
-        gradientMseWeight = customConfig.GradientMseWeight;
+        gradientMseWeight = TScalar.CreateChecked(customConfig.GradientMseWeight);
     }
 
     #endregion
