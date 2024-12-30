@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.NeuralNets;
 
 /// <summary>
@@ -7,7 +9,7 @@ namespace SharpNeat.NeuralNets;
 /// </summary>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public interface IActivationFunctionFactory<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Get an activation function instance for the given activation function name/ID.

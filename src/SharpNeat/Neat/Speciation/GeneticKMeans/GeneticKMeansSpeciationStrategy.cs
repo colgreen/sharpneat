@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Neat.DistanceMetrics;
 
 namespace SharpNeat.Neat.Speciation.GeneticKMeans;
@@ -12,7 +13,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans;
 /// </remarks>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public sealed class GeneticKMeansSpeciationStrategy<TScalar> : ISpeciationStrategy<NeatGenome<TScalar>, TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly int _maxKMeansIters;

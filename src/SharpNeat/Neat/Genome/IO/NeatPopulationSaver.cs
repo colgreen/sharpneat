@@ -33,7 +33,7 @@ public static class NeatPopulationSaver
         IList<NeatGenome<TScalar>> genomeList,
         string parentPath,
         string name)
-        where TScalar : unmanaged, INumberBase<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         ArgumentNullException.ThrowIfNull(parentPath);
         ArgumentNullException.ThrowIfNull(name);
@@ -73,7 +73,7 @@ public static class NeatPopulationSaver
         IList<NeatGenome<TScalar>> genomeList,
         string filepath,
         CompressionLevel compressionLevel)
-        where TScalar : unmanaged, INumberBase<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         ArgumentNullException.ThrowIfNull(filepath);
 

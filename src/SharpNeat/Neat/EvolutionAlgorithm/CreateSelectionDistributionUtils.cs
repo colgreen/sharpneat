@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using Redzen.Numerics.Distributions;
 
 namespace SharpNeat.Neat.EvolutionAlgorithm;
@@ -11,7 +12,7 @@ namespace SharpNeat.Neat.EvolutionAlgorithm;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal static class CreateSelectionDistributionUtils<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Create instances of <see cref="DiscreteDistribution{Double}"/> for sampling species, and for genomes within each given species.

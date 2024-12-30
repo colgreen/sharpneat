@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.NeuralNets;
 
 /// <summary>
@@ -27,7 +29,7 @@ public delegate void VecFn2<TScalar>(ref TScalar vref, ref TScalar wref, int len
 /// </summary>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public interface IActivationFunction<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// The activation function; scalar implementation, accepting a single variable reference.

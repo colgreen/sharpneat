@@ -12,7 +12,7 @@ namespace SharpNeat.NeuralNets;
 /// </summary>
 /// <typeparam name="TScalar">Activation function data type.</typeparam>
 public sealed class DefaultActivationFunctionFactory<TScalar> : IActivationFunctionFactory<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     // If true then hardware accelerated activation functions are used when available.
     readonly bool _enableHardwareAcceleration;

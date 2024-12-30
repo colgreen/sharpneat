@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
@@ -15,7 +17,7 @@ internal static class AddConnectionUtils
     /// <param name="idx">Node index.</param>
     /// <returns>The ID of the node with the specified node index.</returns>
     public static int GetNodeIdFromIndex<TScalar>(NeatGenome<TScalar> parent, int idx)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // For input/output nodes their index is their ID.
         if(idx < parent.MetaNeatGenome.InputOutputNodeCount)

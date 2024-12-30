@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Neat.DistanceMetrics;
 
 namespace SharpNeat.Neat.Speciation;
@@ -23,7 +24,7 @@ public static class SpeciationUtils
         IDistanceMetric<TScalar> distanceMetric,
         NeatGenome<TScalar> genome,
         Species<TScalar>[] speciesArr)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // TODO: Select random species if there are multiple species that are equally nearest.
         int nearestSpeciesIdx = 0;
@@ -52,7 +53,7 @@ public static class SpeciationUtils
         IDistanceMetric<TScalar> distanceMetric,
         Species<TScalar>[] emptySpeciesArr,
         Species<TScalar>[] speciesArr)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // TODO: Select the required genomes all together, rather than one at a time per empty species.
 
@@ -84,7 +85,7 @@ public static class SpeciationUtils
     public static void ExtractConnectionGenes<TScalar>(
         List<ConnectionGenes<TScalar>> targetList,
         Dictionary<int,NeatGenome<TScalar>> genomeById)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         targetList.Clear();
 
@@ -109,7 +110,7 @@ public static class SpeciationUtils
     public static void ExtractConnectionGenes<TScalar>(
         List<ConnectionGenes<TScalar>> targetList,
         List<NeatGenome<TScalar>> genomeList)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         targetList.Clear();
 
@@ -132,7 +133,7 @@ public static class SpeciationUtils
         IDistanceMetric<TScalar> distanceMetric,
         Species<TScalar>[] speciesArr,
         List<ConnectionGenes<TScalar>> tmpPointList)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // TODO: Select donor species stochastically from a pool of the largest species.
 

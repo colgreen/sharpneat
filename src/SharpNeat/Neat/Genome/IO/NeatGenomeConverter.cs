@@ -19,7 +19,7 @@ public static class NeatGenomeConverter
     /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
     public static NetFileModel ToNetFileModel<TScalar>(
         NeatGenome<TScalar> genome)
-        where TScalar : unmanaged, INumberBase<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Convert input and output counts, and cyclic/acyclic indicator.
         int inputCount = genome.MetaNeatGenome.InputNodeCount;
@@ -74,7 +74,7 @@ public static class NeatGenomeConverter
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId,
         bool throwIfActivationFnMismatch = true)
-        where TScalar : unmanaged, INumberBase<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         ArgumentNullException.ThrowIfNull(model);
         ArgumentNullException.ThrowIfNull(metaNeatGenome);

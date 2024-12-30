@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using System.Numerics;
 using Redzen.Linq;
 using Redzen.Numerics;
 using SharpNeat.Neat.EvolutionAlgorithm;
@@ -12,7 +13,7 @@ namespace SharpNeat.Neat;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal static class SpeciesAllocationCalcs<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Calc and store species target sizes based on relative mean fitness of each species, i.e. as per NEAT fitness sharing method.

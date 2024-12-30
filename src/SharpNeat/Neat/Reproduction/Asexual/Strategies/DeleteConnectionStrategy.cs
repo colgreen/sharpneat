@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
@@ -11,7 +13,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// connection, if possible.
 /// </remarks>
 public sealed class DeleteConnectionStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;

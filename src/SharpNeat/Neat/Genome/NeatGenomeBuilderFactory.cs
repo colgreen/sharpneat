@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat.Genome;
 
 /// <summary>
@@ -7,7 +9,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TWeight">Connection weight data type.</typeparam>
 public static class NeatGenomeBuilderFactory<TWeight>
-    where TWeight : unmanaged
+    where TWeight : unmanaged, IBinaryFloatingPointIeee754<TWeight>
 {
     /// <summary>
     /// Create a new instance of <see cref="INeatGenomeBuilder{T}"/>.

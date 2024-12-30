@@ -10,7 +10,7 @@ namespace SharpNeat.Neat.Genome.IO;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public sealed class NeatPopulationLoader<TScalar>
-    where TScalar : unmanaged, INumberBase<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly MetaNeatGenome<TScalar> _metaNeatGenome;
     int _genomeId;

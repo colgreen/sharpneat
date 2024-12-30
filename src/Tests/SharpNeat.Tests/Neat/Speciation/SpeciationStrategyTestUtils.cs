@@ -1,4 +1,5 @@
-﻿using Redzen.Random;
+﻿using System.Numerics;
+using Redzen.Random;
 using SharpNeat.Neat.DistanceMetrics;
 using SharpNeat.Neat.Genome;
 using Xunit;
@@ -153,7 +154,7 @@ internal static class SpeciationStrategyTestUtils
         NeatGenome<TScalar> genome,
         Species<TScalar>[] speciesArr,
         IDistanceMetric<TScalar> distanceMetric)
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         var nearestSpeciesList = new List<Species<TScalar>>(4) {
             speciesArr[0]
