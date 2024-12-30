@@ -1,6 +1,6 @@
 ﻿using Redzen.Collections;
 using SharpNeat.Graphs;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using Xunit;
 
 #pragma warning disable CA1859 // Use concrete types when possible for improved performance

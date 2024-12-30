@@ -3,7 +3,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// TanH function (hyperbolic tangent function).

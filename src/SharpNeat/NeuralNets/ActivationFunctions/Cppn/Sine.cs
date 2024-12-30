@@ -3,7 +3,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Cppn;
 
 /// <summary>
 /// Sine activation function with doubled period.

@@ -11,7 +11,7 @@ public static class NestGenomeTestUtils
                 inputNodeCount: 1,
                 outputNodeCount: 1,
                 cyclesPerActivation: 1,
-                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.ActivationFunctions.ReLU());
 
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

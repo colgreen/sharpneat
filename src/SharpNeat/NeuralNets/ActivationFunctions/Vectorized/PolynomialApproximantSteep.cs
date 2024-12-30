@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Vectorized;
 
 /// <summary>
 /// A very close approximation of the logistic function that avoids use of exp() and is therefore

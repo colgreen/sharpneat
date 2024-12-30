@@ -133,7 +133,7 @@ internal static class SpeciationStrategyTestUtils
             MetaNeatGenome<double>.CreateAcyclic(
                 inputNodeCount: inputNodeCount,
                 outputNodeCount: outputNodeCount,
-                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.ActivationFunctions.ReLU());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, connectionsProportion, count, RandomDefaults.CreateRandomSource());
         return neatPop;

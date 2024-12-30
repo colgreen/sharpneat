@@ -3,7 +3,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Cppn;
 
 /// <summary>
 /// Bipolar sigmoid activation function. Output range is -1 to 1 instead of the more normal 0 to 1.

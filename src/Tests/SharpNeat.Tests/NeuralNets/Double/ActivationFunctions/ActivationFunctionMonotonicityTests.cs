@@ -1,7 +1,7 @@
 ﻿using SharpNeat.Tests;
 using Xunit;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 public class ActivationFunctionMonotonicityTests
 {

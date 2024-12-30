@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Vectorized;
 
 /// <summary>
 /// A sigmoid formed by two sub-sections of the y=x^2 curve.

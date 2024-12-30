@@ -1,5 +1,5 @@
 ﻿using SharpNeat.Graphs;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using Xunit;
 using static SharpNeat.Neat.Genome.ConnectionCompareUtils;
 

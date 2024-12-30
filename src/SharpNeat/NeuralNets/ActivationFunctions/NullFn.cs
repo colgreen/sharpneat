@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using System.Runtime.CompilerServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// Null activation function. Returns zero regardless of input.

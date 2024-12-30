@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using Xunit;
 
 namespace SharpNeat.Neat.Genome.IO;

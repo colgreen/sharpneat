@@ -3,7 +3,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Cppn;
 
 /// <summary>
 /// Linear activation function with clipping. By 'clipping' we mean the output value is linear between

@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Vectorized;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Vectorized;
 
 /// <summary>
 /// S-shaped rectified linear activation unit (SReLU).

@@ -3,7 +3,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions.Cppn;
+namespace SharpNeat.NeuralNets.ActivationFunctions.Cppn;
 
 /// <summary>
 /// Bipolar Gaussian activation function. Output range is -1 to 1, that is, the tails of the Gaussian

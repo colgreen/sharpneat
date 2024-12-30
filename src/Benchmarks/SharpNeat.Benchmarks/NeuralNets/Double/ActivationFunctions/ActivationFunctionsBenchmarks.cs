@@ -2,21 +2,19 @@
 using BenchmarkDotNet.Attributes;
 using Redzen.Numerics.Distributions.Double;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// Double precision activation function benchmarks.
 /// </summary>
 public class ActivationFunctionsBenchmarks
 {
-    #region Static Fields
-
     static readonly IActivationFunction<double> __ArcSinH = new ArcSinH();
     static readonly IActivationFunction<double> __ArcTan = new ArcTan();
     static readonly IActivationFunction<double> __LeakyReLU = new LeakyReLU();
     static readonly IActivationFunction<double> __LeakyReLUShifted = new LeakyReLUShifted();
-    static readonly IActivationFunction<double> __LogisticApproximantSteep = new LogisticApproximantSteep();
     static readonly IActivationFunction<double> __Logistic = new Logistic();
+    static readonly IActivationFunction<double> __LogisticApproximantSteep = new LogisticApproximantSteep();
     static readonly IActivationFunction<double> __LogisticSteep = new LogisticSteep();
     static readonly IActivationFunction<double> __MaxMinusOne = new MaxMinusOne();
     static readonly IActivationFunction<double> __NullFn = new NullFn();
@@ -29,17 +27,9 @@ public class ActivationFunctionsBenchmarks
     static readonly IActivationFunction<double> __SReLUShifted = new SReLUShifted();
     static readonly IActivationFunction<double> __TanH = new TanH();
 
-    #endregion
-
-    #region Instance Fields
-
     const int __loops = 1000;
     readonly double[] _x = new double[1003];
     readonly double[] _w = new double[1003];
-
-    #endregion
-
-    #region Constructor
 
     public ActivationFunctionsBenchmarks()
     {
@@ -48,10 +38,6 @@ public class ActivationFunctionsBenchmarks
         for(int i=0; i < _x.Length; i++)
             _x[i] = gaussian.Sample();
     }
-
-    #endregion
-
-    #region Public Methods
 
     [Benchmark]
     public void ArcSinH()
@@ -78,15 +64,15 @@ public class ActivationFunctionsBenchmarks
     }
 
     [Benchmark]
-    public void LogisticApproximantSteep()
-    {
-        RunBenchmark(__LogisticApproximantSteep);
-    }
-
-    [Benchmark]
     public void Logistic()
     {
         RunBenchmark(__Logistic);
+    }
+
+    [Benchmark]
+    public void LogisticApproximantSteep()
+    {
+        RunBenchmark(__LogisticApproximantSteep);
     }
 
     [Benchmark]
@@ -155,10 +141,6 @@ public class ActivationFunctionsBenchmarks
         RunBenchmark(__TanH);
     }
 
-    #endregion
-
-    #region Private Methods
-
     private void RunBenchmark(IActivationFunction<double> actFn)
     {
         ref double xref = ref MemoryMarshal.GetReference(_x.AsSpan());
@@ -168,6 +150,4 @@ public class ActivationFunctionsBenchmarks
         for(int i=0; i < __loops; i++)
             actFn.Fn(ref xref, ref wref, len);
     }
-
-    #endregion
 }
