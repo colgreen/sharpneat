@@ -71,7 +71,7 @@ public class SpeciesAllocationCalcsTests
             MetaNeatGenome<double>.CreateAcyclic(
                 inputNodeCount: inputNodeCount,
                 outputNodeCount: outputNodeCount,
-                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.ActivationFunctions.ReLU<double>());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, connectionsProportion, populationSize, RandomDefaults.CreateRandomSource());
         neatPop.SpeciesArray = new Species<double>[speciesCount];

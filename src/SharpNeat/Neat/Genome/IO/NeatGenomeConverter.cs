@@ -19,7 +19,7 @@ public static class NeatGenomeConverter
     /// <returns>A new instance of <see cref="NetFileModel"/>.</returns>
     public static NetFileModel ToNetFileModel<TScalar>(
         NeatGenome<TScalar> genome)
-        where TScalar : unmanaged, INumberBase<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Convert input and output counts, and cyclic/acyclic indicator.
         int inputCount = genome.MetaNeatGenome.InputNodeCount;
@@ -47,7 +47,7 @@ public static class NeatGenomeConverter
         // Convert activation function(s).
         // Note. By convention we use the activation function type short name as function code (e.g. "ReLU",
         // or "Logistic").
-        ActivationFnLine actFnLine = new(0, genome.MetaNeatGenome.ActivationFn.GetType().Name);
+        ActivationFnLine actFnLine = new(0, GetNonGenericTypeName(genome.MetaNeatGenome.ActivationFn.GetType()));
         List<ActivationFnLine> actFnLines = [actFnLine];
 
         return new NetFileModel(
@@ -74,7 +74,7 @@ public static class NeatGenomeConverter
         MetaNeatGenome<TScalar> metaNeatGenome,
         int genomeId,
         bool throwIfActivationFnMismatch = true)
-        where TScalar : unmanaged, INumberBase<TScalar>
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         ArgumentNullException.ThrowIfNull(model);
         ArgumentNullException.ThrowIfNull(metaNeatGenome);
@@ -104,7 +104,7 @@ public static class NeatGenomeConverter
 
         // Optionally check if the metaNeatGenome and netFileModel specify a different activation function.
         if (throwIfActivationFnMismatch
-            && !string.Equals(model.ActivationFns[0].Code, metaNeatGenome.ActivationFn.GetType().Name, StringComparison.Ordinal))
+            && !string.Equals(model.ActivationFns[0].Code, GetNonGenericTypeName(metaNeatGenome.ActivationFn.GetType()), StringComparison.Ordinal))
         {
             throw new ArgumentException(
                 $"The {nameof(MetaNeatGenome<TScalar>)} and {nameof(NetFileModel)} arguments specify different activation functions.",
@@ -142,5 +142,16 @@ public static class NeatGenomeConverter
         connGenes.Sort();
 
         return connGenes;
+    }
+
+    private static string GetNonGenericTypeName(Type type)
+    {
+        string name = type.Name;
+        int backtickIndex = name.IndexOf('`');
+        if(backtickIndex > 0)
+        {
+            name = name.Substring(0, backtickIndex);
+        }
+        return name;
     }
 }

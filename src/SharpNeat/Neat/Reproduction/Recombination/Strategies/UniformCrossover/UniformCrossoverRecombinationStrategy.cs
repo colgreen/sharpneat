@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using Redzen.Numerics.Distributions;
 using static SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover.UniformCrossoverRecombinationStrategyUtils;
 
@@ -15,7 +16,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 /// takes genes from each of the parents with a probability (e.g. 50%).
 /// </remarks>
 public sealed class UniformCrossoverRecombinationStrategy<TScalar> : IRecombinationStrategy<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly bool _isAcyclic;
     readonly double _secondaryParentGeneProbability;

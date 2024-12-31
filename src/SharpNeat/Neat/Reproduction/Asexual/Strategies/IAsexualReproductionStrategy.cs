@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 
 /// <summary>
@@ -7,7 +9,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface IAsexualReproductionStrategy<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Create a new child genome from a given parent genome.

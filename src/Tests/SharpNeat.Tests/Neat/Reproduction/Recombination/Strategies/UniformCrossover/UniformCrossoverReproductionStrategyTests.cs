@@ -17,7 +17,7 @@ public class UniformCrossoverReproductionStrategyTests
             MetaNeatGenome<double>.CreateAcyclic(
                 inputNodeCount: 10,
                 outputNodeCount: 20,
-                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.ActivationFunctions.ReLU<double>());
 
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 

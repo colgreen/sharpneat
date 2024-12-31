@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using Redzen.Linq;
 using Redzen.Numerics.Distributions;
 using SharpNeat.Neat.DistanceMetrics;
@@ -18,7 +19,7 @@ namespace SharpNeat.Neat.Speciation.GeneticKMeans.Parallelized;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 internal sealed class GeneticKMeansSpeciationInit<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly IDistanceMetric<TScalar> _distanceMetric;
     readonly ParallelOptions _parallelOptions;

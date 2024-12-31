@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 
-namespace SharpNeat.NeuralNets.Double.ActivationFunctions;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 #pragma warning disable xUnit1025 // InlineData should be unique within the Theory it belongs to
 
@@ -27,7 +27,7 @@ public class ReLUTests
     public void BitwiseReLUGivesCorrectResponses(double x)
     {
         // Arrange.
-        var relu = new ReLU();
+        var relu = new ReLU<double>();
 
         // Act.
         double actual = x;

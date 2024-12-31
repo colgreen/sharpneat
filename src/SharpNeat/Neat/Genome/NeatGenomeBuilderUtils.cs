@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat.Genome;
 
 /// <summary>
@@ -19,7 +21,7 @@ internal static class NeatGenomeBuilderUtils
         MetaNeatGenome<TScalar> metaNeatGenome,
         ConnectionGenes<TScalar> connGenes,
         INodeIdMap nodeIndexByIdMap)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Extract/copy the neat genome connectivity graph into a ConnectionIds structure.
         // Notes.

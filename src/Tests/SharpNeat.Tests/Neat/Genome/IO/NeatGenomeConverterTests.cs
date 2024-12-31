@@ -2,7 +2,7 @@
 using SharpNeat.Graphs;
 using SharpNeat.IO;
 using SharpNeat.IO.Models;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using Xunit;
 
 namespace SharpNeat.Neat.Genome.IO;
@@ -13,7 +13,7 @@ public class NeatGenomeConverterTests
     public void GenomeShouldConvertToNetFileModel()
     {
         // Arrange.
-        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU<double>());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.
@@ -53,7 +53,7 @@ public class NeatGenomeConverterTests
     {
         // Arrange.
         NetFileModel netFileModel = NetFile.Load("TestData/example2.net");
-        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU<double>());
 
         // Act.
         NeatGenome<double> genome = NeatGenomeConverter.ToNeatGenome(

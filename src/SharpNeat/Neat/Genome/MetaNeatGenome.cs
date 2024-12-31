@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Neat.Genome;
@@ -10,7 +11,7 @@ namespace SharpNeat.Neat.Genome;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class MetaNeatGenome<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Input node count.

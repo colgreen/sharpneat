@@ -103,7 +103,7 @@ public class NeatPopulationStatsTests
             MetaNeatGenome<double>.CreateAcyclic(
                 inputNodeCount: 3,
                 outputNodeCount: 2,
-                activationFn: new NeuralNets.Double.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.ActivationFunctions.ReLU<double>());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, count, rng);
         Assert.Equal(count, neatPop.GenomeList.Count);

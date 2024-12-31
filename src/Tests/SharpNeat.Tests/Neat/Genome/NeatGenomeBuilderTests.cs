@@ -1,5 +1,5 @@
 ﻿using SharpNeat.Graphs;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using Xunit;
 using static SharpNeat.Neat.Genome.ConnectionCompareUtils;
 
@@ -10,7 +10,7 @@ public class NeatGenomeBuilderTests
     [Fact]
     public void Simple()
     {
-        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 1, 1, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 1, 1, new ReLU<double>());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.
@@ -37,7 +37,7 @@ public class NeatGenomeBuilderTests
     [Fact]
     public void Simple_DefinedNodes()
     {
-        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 10, 1, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 10, 1, new ReLU<double>());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.
@@ -63,7 +63,7 @@ public class NeatGenomeBuilderTests
     [Fact]
     public void Simple_DefinedNodes_NodeIdGap()
     {
-        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 10, 1, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateCyclic(0, 10, 1, new ReLU<double>());
         var genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
 
         // Simple acyclic graph.

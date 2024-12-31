@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Neat.Reproduction.Asexual.WeightMutation;
 
 namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
@@ -13,7 +14,7 @@ namespace SharpNeat.Neat.Reproduction.Asexual.Strategies;
 /// mutation scheme to the connection weights of the clone.
 /// </remarks>
 public sealed class MutateWeightsStrategy<TScalar> : IAsexualReproductionStrategy<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly INeatGenomeBuilder<TScalar> _genomeBuilder;
     readonly Int32Sequence _genomeIdSeq;

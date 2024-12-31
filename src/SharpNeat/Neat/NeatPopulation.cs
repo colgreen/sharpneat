@@ -1,6 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Redzen.Sorting;
 using static SharpNeat.Neat.NeatPopulationUtils;
@@ -12,7 +13,7 @@ namespace SharpNeat.Neat;
 /// </summary>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public class NeatPopulation<TScalar> : Population<NeatGenome<TScalar>>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     // ENHANCEMENT: Consider increasing buffer capacity, and different capacities for the two different buffers.
     const int __defaultInnovationHistoryBufferSize = 0x20_000; // = 131,072 decimal.

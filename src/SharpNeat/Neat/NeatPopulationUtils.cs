@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat;
 
 /// <summary>
@@ -22,7 +24,7 @@ internal class NeatPopulationUtils
         List<NeatGenome<TScalar>> genomeList,
         Int32Sequence genomeIdSeq,
         Int32Sequence innovationIdSeq)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         GetMaxObservedIds(genomeList, out int maxGenomeId, out int maxInnovationId);
 
@@ -46,7 +48,7 @@ internal class NeatPopulationUtils
         List<NeatGenome<TScalar>> genomeList,
         out int maxGenomeId,
         out int maxInnovationId)
-        where TScalar : unmanaged
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         maxGenomeId = 0;
         maxInnovationId = 0;

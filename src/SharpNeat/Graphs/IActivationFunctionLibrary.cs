@@ -1,5 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.NeuralNets;
 
 namespace SharpNeat.Graphs;
@@ -17,7 +18,7 @@ public interface IActivationFunctionLibrary
     /// <typeparam name="TScalar">Activation function data type.</typeparam>
     /// <returns>An instance of <see cref="IActivationFunction{T}"/> from the library.</returns>
     IActivationFunction<TScalar> GetActivationFunction<TScalar>(int idx)
-        where TScalar : unmanaged;
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>;
 
     /// <summary>
     /// Gets an instance of an activation function with the specified ID in the library.
@@ -26,5 +27,5 @@ public interface IActivationFunctionLibrary
     /// <typeparam name="TScalar">Activation function data type.</typeparam>
     /// <returns>An instance of <see cref="IActivationFunction{T}"/> from the library.</returns>
     IActivationFunction<TScalar> GetActivationFunction<TScalar>(string id)
-        where TScalar : unmanaged;
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>;
 }

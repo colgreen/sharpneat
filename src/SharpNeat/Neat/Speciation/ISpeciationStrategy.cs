@@ -1,5 +1,7 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
+
 namespace SharpNeat.Neat.Speciation;
 
 /// <summary>
@@ -8,7 +10,7 @@ namespace SharpNeat.Neat.Speciation;
 /// <typeparam name="TGenome">Genome type.</typeparam>
 /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
 public interface ISpeciationStrategy<TGenome,TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Initialise a new set of species based on the provided population of genomes and the

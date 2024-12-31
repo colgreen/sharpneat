@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Neat.Reproduction.Recombination.Strategies;
 using SharpNeat.Neat.Reproduction.Recombination.Strategies.UniformCrossover;
 
@@ -7,7 +8,7 @@ namespace SharpNeat.Neat.Reproduction.Recombination;
 
 /// <inheritdoc/>
 public class NeatRecombination<TScalar> : IRecombinationStrategy<TScalar>
-    where TScalar : unmanaged
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     readonly UniformCrossoverRecombinationStrategy<TScalar> _strategy;
 

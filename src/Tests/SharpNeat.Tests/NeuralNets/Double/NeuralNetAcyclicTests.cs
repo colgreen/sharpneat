@@ -1,7 +1,7 @@
 ﻿using Redzen.Collections;
 using SharpNeat.Graphs;
 using SharpNeat.Graphs.Acyclic;
-using SharpNeat.NeuralNets.Double.ActivationFunctions;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using Xunit;
 
 #pragma warning disable CA1859 // Use concrete types when possible for improved performance
@@ -22,7 +22,7 @@ public class NeuralNetAcyclicTests
         var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 1, 1);
 
         // Create neural net and run tests.
-        var actFn = new Logistic();
+        var actFn = new Logistic<double>();
         using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
         SingleInput_WeightZero_Inner(net);
 
@@ -43,7 +43,7 @@ public class NeuralNetAcyclicTests
         var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 1, 1);
 
         // Create neural net and run tests.
-        var actFn = new Logistic();
+        var actFn = new Logistic<double>();
         using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
         SingleInput_WeightOne_Inner(net, actFn);
 
@@ -66,7 +66,7 @@ public class NeuralNetAcyclicTests
         var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 2, 1);
 
         // Create neural net and run tests.
-        var actFn = new Logistic();
+        var actFn = new Logistic<double>();
         using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
         TwoInputs_WeightHalf_Inner(net, actFn);
 
@@ -90,7 +90,7 @@ public class NeuralNetAcyclicTests
         var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 2, 1);
 
         // Create neural net and run tests.
-        var actFn = new Logistic();
+        var actFn = new Logistic<double>();
         using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
         HiddenNode_Inner(net, actFn);
 
@@ -117,7 +117,7 @@ public class NeuralNetAcyclicTests
         var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 2, 2);
 
         // Create neural net and run tests.
-        var actFn = new Logistic();
+        var actFn = new Logistic<double>();
         using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
         Complex_WeightOne_Inner(net, actFn);
 
@@ -141,7 +141,7 @@ public class NeuralNetAcyclicTests
         var digraph = WeightedDirectedGraphAcyclicBuilder<double>.Create(connSpan, 3, 3);
 
         // Create neural net and run tests.
-        var actFn = new Logistic();
+        var actFn = new Logistic<double>();
         using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
         MultipleInputsOutputs_Inner(net, actFn);
 
