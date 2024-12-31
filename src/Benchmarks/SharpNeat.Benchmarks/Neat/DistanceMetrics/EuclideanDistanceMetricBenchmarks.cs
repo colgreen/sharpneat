@@ -12,7 +12,7 @@ public class EuclideanDistanceMetricBenchmarks
 
     public EuclideanDistanceMetricBenchmarks()
     {
-        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(12, 1, new LeakyReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(12, 1, new LeakyReLU<double>());
         var popLoader = new NeatPopulationLoader<double>(metaNeatGenome);
         List<NeatGenome<double>> genomeList = popLoader.LoadFromZipArchive("data/binary11.pop");
         _genomeArr = genomeList.Select(x => x.ConnectionGenes).ToArray();

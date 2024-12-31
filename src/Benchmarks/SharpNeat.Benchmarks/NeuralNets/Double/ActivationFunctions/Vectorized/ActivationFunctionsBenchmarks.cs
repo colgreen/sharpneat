@@ -9,23 +9,15 @@ namespace SharpNeat.NeuralNets.ActivationFunctions.Vectorized;
 /// </summary>
 public class ActivationFunctionsBenchmarks
 {
-    static readonly IActivationFunction<double> __ArcSinH = new ArcSinH();
-    static readonly IActivationFunction<double> __ArcTan = new ArcTan();
-    static readonly IActivationFunction<double> __LeakyReLU = new LeakyReLU();
-    static readonly IActivationFunction<double> __LeakyReLUShifted = new LeakyReLUShifted();
-    static readonly IActivationFunction<double> __Logistic = new Logistic();
-    static readonly IActivationFunction<double> __LogisticApproximantSteep = new LogisticApproximantSteep();
-    static readonly IActivationFunction<double> __LogisticSteep = new LogisticSteep();
-    static readonly IActivationFunction<double> __MaxMinusOne = new MaxMinusOne();
-    static readonly IActivationFunction<double> __NullFn = new NullFn();
-    static readonly IActivationFunction<double> __PolynomialApproximantSteep = new PolynomialApproximantSteep();
-    static readonly IActivationFunction<double> __QuadraticSigmoid = new QuadraticSigmoid();
-    static readonly IActivationFunction<double> __ReLU = new ReLU();
-    static readonly IActivationFunction<double> __ScaledELU = new ScaledELU();
-    static readonly IActivationFunction<double> __SoftSignSteep = new SoftSignSteep();
-    static readonly IActivationFunction<double> __SReLU = new SReLU();
-    static readonly IActivationFunction<double> __SReLUShifted = new SReLUShifted();
-    static readonly IActivationFunction<double> __TanH = new TanH();
+    static readonly IActivationFunction<double> __LeakyReLU = new LeakyReLU<double>();
+    static readonly IActivationFunction<double> __LeakyReLUShifted = new LeakyReLUShifted<double>();
+    static readonly IActivationFunction<double> __MaxMinusOne = new MaxMinusOne<double>();
+    static readonly IActivationFunction<double> __PolynomialApproximantSteep = new PolynomialApproximantSteep<double>();
+    static readonly IActivationFunction<double> __QuadraticSigmoid = new QuadraticSigmoid<double>();
+    static readonly IActivationFunction<double> __ReLU = new ReLU<double>();
+    static readonly IActivationFunction<double> __SoftSignSteep = new SoftSignSteep<double>();
+    static readonly IActivationFunction<double> __SReLU = new SReLU<double>();
+    static readonly IActivationFunction<double> __SReLUShifted = new SReLUShifted<double>();
 
     const int __loops = 1000;
     readonly double[] _x = new double[1003];
@@ -37,18 +29,6 @@ public class ActivationFunctionsBenchmarks
         var gaussian = new ZigguratGaussianSampler(0.0, 2.0, 0);
         for(int i=0; i < _x.Length; i++)
             _x[i] = gaussian.Sample();
-    }
-
-    [Benchmark]
-    public void ArcSinH()
-    {
-        RunBenchmark(__ArcSinH);
-    }
-
-    [Benchmark]
-    public void ArcTan()
-    {
-        RunBenchmark(__ArcTan);
     }
 
     [Benchmark]
@@ -64,33 +44,9 @@ public class ActivationFunctionsBenchmarks
     }
 
     [Benchmark]
-    public void Logistic()
-    {
-        RunBenchmark(__Logistic);
-    }
-
-    [Benchmark]
-    public void LogisticApproximantSteep()
-    {
-        RunBenchmark(__LogisticApproximantSteep);
-    }
-
-    [Benchmark]
-    public void LogisticSteep()
-    {
-        RunBenchmark(__LogisticSteep);
-    }
-
-    [Benchmark]
     public void MaxMinusOne()
     {
         RunBenchmark(__MaxMinusOne);
-    }
-
-    [Benchmark]
-    public void NullFn()
-    {
-        RunBenchmark(__NullFn);
     }
 
     [Benchmark]
@@ -112,12 +68,6 @@ public class ActivationFunctionsBenchmarks
     }
 
     [Benchmark]
-    public void ScaledELU()
-    {
-        RunBenchmark(__ScaledELU);
-    }
-
-    [Benchmark]
     public void SoftSignSteep()
     {
         RunBenchmark(__SoftSignSteep);
@@ -133,12 +83,6 @@ public class ActivationFunctionsBenchmarks
     public void SReLUShifted()
     {
         RunBenchmark(__SReLUShifted);
-    }
-
-    [Benchmark]
-    public void TanH()
-    {
-        RunBenchmark(__TanH);
     }
 
     private void RunBenchmark(IActivationFunction<double> actFn)

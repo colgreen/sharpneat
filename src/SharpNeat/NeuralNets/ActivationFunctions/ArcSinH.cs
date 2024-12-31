@@ -1,5 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,32 +9,39 @@ namespace SharpNeat.NeuralNets.ActivationFunctions;
 /// <summary>
 /// The ArcSinH function (inverse hyperbolic sine function).
 /// </summary>
-public sealed class ArcSinH : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class ArcSinH<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
+    static readonly TScalar K = TScalar.CreateChecked(1.2567348023993685);
+    static readonly TScalar Half = TScalar.CreateChecked(0.5);
+
     /// <inheritdoc/>
-    public void Fn(ref double x)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
     {
         // Scaling factor from:
         // https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/diwq7rb/
-        x = 1.2567348023993685 * ((Asinh(x) + 1.0) * 0.5);
+        x = K * ((Asinh(x) + TScalar.One) * Half);
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
         // Scaling factor from:
         // https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/diwq7rb/
-        y = 1.2567348023993685 * ((Asinh(x) + 1.0) * 0.5);
+        y = K * ((Asinh(x) + TScalar.One) * Half);
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -43,10 +51,10 @@ public sealed class ArcSinH : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -57,10 +65,10 @@ public sealed class ArcSinH : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -71,18 +79,18 @@ public sealed class ArcSinH : IActivationFunction<double>
         }
     }
 
-    #region Private Static Methods
-
     /// <summary>
     /// Hyperbolic Area Sine.
     /// </summary>
     /// <param name="x">The real value.</param>
     /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static double Asinh(double x)
+    private static TScalar Asinh(TScalar x)
     {
-        return Math.Log(x + Math.Sqrt((x * x) + 1.0), Math.E);
+        // Notes.
+        // This formula is actually the definition of arcsinh, i.e., this is exact.
+        // In benchmarks this was about twice as fast as calling TScalar.Asinh() for double precision floats on a
+        // Ryzen 7 PRO 5750GE; behaviour may be different on other CPUs and for other data types.
+        return TScalar.Log(x + TScalar.Sqrt((x * x) + TScalar.One));
     }
-
-    #endregion
 }

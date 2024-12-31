@@ -10,7 +10,7 @@ public class NeatGenomeSaverTests
     public void SaveGenome()
     {
         // Manually build a genome.
-        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
+        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU<double>());
         using NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
 
         // Save the genome into a MemoryStream.
@@ -39,7 +39,7 @@ public class NeatGenomeSaverTests
         try
         {
             // Manually build a genome.
-            var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU());
+            var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(3, 2, new ReLU<double>());
             using NeatGenome<double> genomeBuilt = CreateGenome1(metaNeatGenome);
 
             // Save the genome into a MemoryStream.

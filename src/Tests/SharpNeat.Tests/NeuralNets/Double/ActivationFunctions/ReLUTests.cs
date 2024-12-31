@@ -27,7 +27,7 @@ public class ReLUTests
     public void BitwiseReLUGivesCorrectResponses(double x)
     {
         // Arrange.
-        var relu = new ReLU();
+        var relu = new ReLU<double>();
 
         // Act.
         double actual = x;

@@ -1,9 +1,12 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SharpNeat.NeuralNets.ActivationFunctions;
+
+#pragma warning disable SA1311 // Static readonly fields should begin with upper-case letter
 
 /// <summary>
 /// A sigmoid formed by two sub-sections of the y=x^2 curve.
@@ -11,23 +14,27 @@ namespace SharpNeat.NeuralNets.ActivationFunctions;
 /// The extremes are implemented as per the leaky ReLU, i.e. there is a linear slop to
 /// ensure there is at least a gradient to follow at the extremes.
 /// </summary>
-public sealed class QuadraticSigmoid : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class QuadraticSigmoid<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    /// <inheritdoc/>
-    public void Fn(ref double x)
-    {
-        const double t = 0.999;
-        const double a = 0.00001;
+    static readonly TScalar Half = TScalar.CreateChecked(0.5);
+    static readonly TScalar t = TScalar.CreateChecked(0.999);
+    static readonly TScalar a = TScalar.CreateChecked(0.00001);
 
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
+    {
         // Calc abs(x) and sign(x) with just a single conditional branch
         // (calling those functions individually results in two conditional branches).
-        double sign = 1;
-        double y = x;
+        TScalar sign = TScalar.One;
+        TScalar y = x;
 
-        if(y < 0)
+        if(y < TScalar.Zero)
         {
-            y *= -1;
-            sign = -1;
+            y *= TScalar.NegativeOne;
+            sign = TScalar.NegativeOne;
         }
 
         if(y < t)
@@ -39,24 +46,22 @@ public sealed class QuadraticSigmoid : IActivationFunction<double>
             y = t + ((y - t) * a);
         }
 
-        x = (y * sign * 0.5) + 0.5;
+        x = (y * sign * Half) + Half;
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
-        const double t = 0.999;
-        const double a = 0.00001;
-
         // Calc abs(x) and sign(x) with just a single conditional branch
         // (calling those functions individually results in two conditional branches).
-        double sign = 1;
+        TScalar sign = TScalar.One;
         y = x;
 
-        if(y < 0)
+        if(y < TScalar.Zero)
         {
-            y *= -1;
-            sign = -1;
+            y *= TScalar.NegativeOne;
+            sign = TScalar.NegativeOne;
         }
 
         if(y < t)
@@ -68,17 +73,17 @@ public sealed class QuadraticSigmoid : IActivationFunction<double>
             y = t + ((y - t) * a);
         }
 
-        y = (y * sign * 0.5) + 0.5;
+        y = (y * sign * Half) + Half;
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -88,10 +93,10 @@ public sealed class QuadraticSigmoid : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -102,10 +107,10 @@ public sealed class QuadraticSigmoid : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);

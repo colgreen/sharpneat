@@ -1,5 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,28 +10,34 @@ namespace SharpNeat.NeuralNets.ActivationFunctions;
 /// The logistic function with a steepened slope.
 /// <see href="http://en.wikipedia.org/wiki/Logistic_function"/>.
 /// </summary>
-public sealed class LogisticSteep : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class LogisticSteep<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
+    static readonly TScalar K = TScalar.CreateChecked(-4.9);
+
     /// <inheritdoc/>
-    public void Fn(ref double x)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
     {
-        x = 1.0 / (1.0 + Math.Exp(-4.9 * x));
+        x = TScalar.One / (TScalar.One + TScalar.Exp(K * x));
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
-        y = 1.0 / (1.0 + Math.Exp(-4.9 * x));
+        y = TScalar.One / (TScalar.One + TScalar.Exp(K * x));
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -40,10 +47,10 @@ public sealed class LogisticSteep : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -54,10 +61,10 @@ public sealed class LogisticSteep : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -67,4 +74,16 @@ public sealed class LogisticSteep : IActivationFunction<double>
             Fn(ref vref, ref wref);
         }
     }
+
+    // TODO: Explore more performance approximations to exp. Previously a LogisticApproximantSteep class was provided
+    // that use the below approximation which is/was much faster for double precision floats:
+    // Fast exp approximation, from:
+    // https://stackoverflow.com/a/412988/15703
+    // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
+    //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //private static double ExpApprox(double val)
+    //{
+    //    long tmp = (long)((1512775 * val) + (1072693248 - 60801));
+    //    return BitConverter.Int64BitsToDouble(tmp << 32);
+    //}
 }

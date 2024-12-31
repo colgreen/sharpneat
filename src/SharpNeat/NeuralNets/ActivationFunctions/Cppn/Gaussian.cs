@@ -1,5 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,28 +10,35 @@ namespace SharpNeat.NeuralNets.ActivationFunctions.Cppn;
 /// Gaussian activation function. Output range is 0 to 1, that is, the tails of the Gaussian
 /// distribution curve tend towards 0 as abs(x) -> Infinity and the Gaussian peak is at x = 0.
 /// </summary>
-public sealed class Gaussian : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class Gaussian<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
+    static readonly TScalar Two = TScalar.CreateChecked(2.0);
+    static readonly TScalar TwoPointFive = TScalar.CreateChecked(2.5);
+
     /// <inheritdoc/>
-    public void Fn(ref double x)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
     {
-        x = Math.Exp(-Math.Pow(x * 2.5, 2.0));
+        x = TScalar.Exp(-TScalar.Pow(x * TwoPointFive, Two));
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
-        y = Math.Exp(-Math.Pow(x * 2.5, 2.0));
+        y = TScalar.Exp(-TScalar.Pow(x * TwoPointFive, Two));
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -40,10 +48,10 @@ public sealed class Gaussian : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -54,10 +62,10 @@ public sealed class Gaussian : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);

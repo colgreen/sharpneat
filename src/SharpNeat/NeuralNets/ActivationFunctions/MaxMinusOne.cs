@@ -1,5 +1,6 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,32 +9,36 @@ namespace SharpNeat.NeuralNets.ActivationFunctions;
 /// <summary>
 /// max(-1, x,) function.
 /// </summary>
-public sealed class MaxMinusOne : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class MaxMinusOne<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <inheritdoc/>
-    public void Fn(ref double x)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
     {
-        if(x < -1)
-            x = -1;
+        if(x < TScalar.NegativeOne)
+            x = TScalar.NegativeOne;
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
         y = x;
 
-        if(y < -1)
-            y = -1;
+        if(y < TScalar.NegativeOne)
+            y = TScalar.NegativeOne;
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -43,10 +48,10 @@ public sealed class MaxMinusOne : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -57,10 +62,10 @@ public sealed class MaxMinusOne : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);

@@ -75,8 +75,11 @@ public sealed class DefaultActivationFunctionFactory<TScalar> : IActivationFunct
 
     private static IActivationFunction<TScalar>? TryCreate(string name)
     {
+        // Get the generic type name.
+        string valueType = typeof(TScalar).FullName!;
+
         // Build fully namespaced type name.
-        string fullName = $"SharpNeat.NeuralNets.ActivationFunctions.{name}";
+        string fullName = $"SharpNeat.NeuralNets.ActivationFunctions.{name}`1[[{valueType}]]";
 
         // Attempt to get an instance with the full name.
         var actFn = TryCreateFromFullName(fullName);
@@ -84,14 +87,17 @@ public sealed class DefaultActivationFunctionFactory<TScalar> : IActivationFunct
             return actFn;
 
         // Attempt again in the CPPN sub-namespace.
-        fullName = $"SharpNeat.NeuralNets.ActivationFunctions.Cppn.{name}";
+        fullName = $"SharpNeat.NeuralNets.ActivationFunctions.Cppn.{name}`1[[{valueType}]]";
         return TryCreateFromFullName(fullName);
     }
 
     private static IActivationFunction<TScalar>? TryCreateVectorized(string name)
     {
+        // Get the generic type name.
+        string valueType = typeof(TScalar).FullName!;
+
         // Build fully namespaced type name.
-        string fullName = $"SharpNeat.NeuralNets.ActivationFunctions.Vectorized.{name}";
+        string fullName = $"SharpNeat.NeuralNets.ActivationFunctions.Vectorized.{name}`1[[{valueType}]]";
 
         // Attempt to get an instance with the full name.
         var actFn = TryCreateFromFullName(fullName);
@@ -99,7 +105,7 @@ public sealed class DefaultActivationFunctionFactory<TScalar> : IActivationFunct
             return actFn;
 
         // Attempt again in the CPPN sub-namespace.
-        fullName = $"SharpNeat.NeuralNets.ActivationFunctions.Cppn.Vectorized.{name}";
+        fullName = $"SharpNeat.NeuralNets.ActivationFunctions.Cppn.Vectorized.{name}`1[[{valueType}]]";
         return TryCreateFromFullName(fullName);
     }
 

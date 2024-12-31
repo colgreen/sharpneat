@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -16,48 +17,49 @@ namespace SharpNeat.NeuralNets.ActivationFunctions;
 ///     <see href="https://github.com/bioinf-jku/SNNs/blob/master/selu.py"/>.
 ///
 /// </summary>
-public sealed class ScaledELU : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class ScaledELU<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    /// <inheritdoc/>
-    public void Fn(ref double x)
-    {
-        const double alpha = 1.6732632423543772848170429916717;
-        const double scale = 1.0507009873554804934193349852946;
+    static readonly TScalar Alpha = TScalar.CreateChecked(1.6732632423543772848170429916717);
+    static readonly TScalar Scale = TScalar.CreateChecked(1.0507009873554804934193349852946);
 
-        if(x >= 0)
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
+    {
+        if(x >= TScalar.Zero)
         {
-            x = scale * x;
+            x = Scale * x;
         }
         else
         {
-            x = scale * ((alpha * Math.Exp(x)) - alpha);
+            x = Scale * ((Alpha * TScalar.Exp(x)) - Alpha);
         }
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
-        const double alpha = 1.6732632423543772848170429916717;
-        const double scale = 1.0507009873554804934193349852946;
-
-        if(x >= 0)
+        if(x >= TScalar.Zero)
         {
-            y = scale * x;
+            y = Scale * x;
         }
         else
         {
-            y = scale * ((alpha * Math.Exp(x)) - alpha);
+            y = Scale * ((Alpha * TScalar.Exp(x)) - Alpha);
         }
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -67,10 +69,10 @@ public sealed class ScaledELU : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);
@@ -81,10 +83,10 @@ public sealed class ScaledELU : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
 
         // Loop over span elements, invoking the scalar activation fn for each.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBound);

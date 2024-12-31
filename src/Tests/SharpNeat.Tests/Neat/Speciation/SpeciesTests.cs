@@ -79,7 +79,7 @@ public class SpeciesTests
             MetaNeatGenome<double>.CreateAcyclic(
                 inputNodeCount: 1,
                 outputNodeCount: 1,
-                activationFn: new NeuralNets.ActivationFunctions.ReLU());
+                activationFn: new NeuralNets.ActivationFunctions.ReLU<double>());
 
         NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(metaNeatGenome, 1.0, genomeCount, RandomDefaults.CreateRandomSource());
 

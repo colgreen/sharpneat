@@ -7,7 +7,7 @@ internal sealed class Program
 {
     static void Main(string[] args)
     {
-        //BenchmarkRunner.Run<NeuralNets.Double.ActivationFunctions.ActivationFunctionsBenchmarks>();
+        BenchmarkRunner.Run<NeuralNets.ActivationFunctions.Vectorized.ActivationFunctionsBenchmarks>();
         //BenchmarkRunner.Run<ConnectionSorterBenchmarks>();
 
         //BenchmarkRunner.Run<NeuralNets.Double.NeuralNetAcyclicBenchmarks>();

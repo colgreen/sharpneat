@@ -47,7 +47,7 @@ public static class NeatGenomeConverter
         // Convert activation function(s).
         // Note. By convention we use the activation function type short name as function code (e.g. "ReLU",
         // or "Logistic").
-        ActivationFnLine actFnLine = new(0, genome.MetaNeatGenome.ActivationFn.GetType().Name);
+        ActivationFnLine actFnLine = new(0, GetNonGenericTypeName(genome.MetaNeatGenome.ActivationFn.GetType()));
         List<ActivationFnLine> actFnLines = [actFnLine];
 
         return new NetFileModel(
@@ -104,7 +104,7 @@ public static class NeatGenomeConverter
 
         // Optionally check if the metaNeatGenome and netFileModel specify a different activation function.
         if (throwIfActivationFnMismatch
-            && !string.Equals(model.ActivationFns[0].Code, metaNeatGenome.ActivationFn.GetType().Name, StringComparison.Ordinal))
+            && !string.Equals(model.ActivationFns[0].Code, GetNonGenericTypeName(metaNeatGenome.ActivationFn.GetType()), StringComparison.Ordinal))
         {
             throw new ArgumentException(
                 $"The {nameof(MetaNeatGenome<TScalar>)} and {nameof(NetFileModel)} arguments specify different activation functions.",
@@ -142,5 +142,16 @@ public static class NeatGenomeConverter
         connGenes.Sort();
 
         return connGenes;
+    }
+
+    private static string GetNonGenericTypeName(Type type)
+    {
+        string name = type.Name;
+        int backtickIndex = name.IndexOf('`');
+        if(backtickIndex > 0)
+        {
+            name = name.Substring(0, backtickIndex);
+        }
+        return name;
     }
 }

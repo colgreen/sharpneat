@@ -6,44 +6,47 @@ using System.Runtime.InteropServices;
 
 namespace SharpNeat.NeuralNets.ActivationFunctions.Vectorized;
 
+#pragma warning disable SA1311 // Static readonly fields should begin with upper-case letter
+
 /// <summary>
 /// Leaky rectified linear activation unit (ReLU).
 /// Shifted on the x-axis so that x=0 gives y=0.5, in keeping with the logistic sigmoid.
 /// </summary>
-public sealed class LeakyReLUShifted : IActivationFunction<double>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
+public sealed class LeakyReLUShifted<TScalar> : IActivationFunction<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    /// <inheritdoc/>
-    public void Fn(ref double x)
-    {
-        const double a = 0.001;
-        const double offset = 0.5;
+    static readonly TScalar a = TScalar.CreateChecked(0.001);
+    static readonly TScalar offset = TScalar.CreateChecked(0.5);
 
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x)
+    {
         x += offset;
 
-        if(x < 0.0)
+        if(x < TScalar.Zero)
             x *= a;
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double x, ref double y)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Fn(ref TScalar x, ref TScalar y)
     {
-        const double a = 0.001;
-        const double offset = 0.5;
-
         y = x + offset;
 
-        if(y < 0.0)
+        if(y < TScalar.Zero)
             y *= a;
     }
 
     /// <inheritdoc/>
-    public void Fn(Span<double> v)
+    public void Fn(Span<TScalar> v)
     {
         Fn(ref MemoryMarshal.GetReference(v), v.Length);
     }
 
     /// <inheritdoc/>
-    public void Fn(ReadOnlySpan<double> v, Span<double> w)
+    public void Fn(ReadOnlySpan<TScalar> v, Span<TScalar> w)
     {
         // Obtain refs to the spans, and call on to the unsafe ref based overload.
         Fn(
@@ -53,30 +56,30 @@ public sealed class LeakyReLUShifted : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, int len)
+    public void Fn(ref TScalar vref, int len)
     {
         // Init constants.
-        var avec = new Vector<double>(0.001);
-        var offsetVec = new Vector<double>(0.5);
+        var avec = new Vector<TScalar>(a);
+        var offsetVec = new Vector<TScalar>(offset);
 
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
-        ref double vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<double>.Count - 1);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<TScalar>.Count - 1);
 
         // Loop SIMD vector sized segments.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBoundVec);
-            vref = ref Unsafe.Add(ref vref, Vector<double>.Count))
+            vref = ref Unsafe.Add(ref vref, Vector<TScalar>.Count))
         {
             // Load values into a vector.
             // The odd code pattern is taken from the Vector<T> constructor's source code.
-            var vec = Unsafe.ReadUnaligned<Vector<double>>(
-                ref Unsafe.As<double, byte>(ref vref));
+            var vec = Unsafe.ReadUnaligned<Vector<TScalar>>(
+                ref Unsafe.As<TScalar, byte>(ref vref));
 
             // Add offset.
             vec += offsetVec;
 
             // Compare each element with zero to build a mask.
-            var maskVec = Vector.GreaterThanOrEqual(vec, Vector<double>.Zero);
+            var maskVec = Vector.GreaterThanOrEqual(vec, Vector<TScalar>.Zero);
 
             // Compute a * vec for the negative case.
             var negativeVec = avec * vec;
@@ -86,7 +89,7 @@ public sealed class LeakyReLUShifted : IActivationFunction<double>
 
             // Store the result in the post-activations span.
             Unsafe.WriteUnaligned(
-                ref Unsafe.As<double, byte>(ref vref),
+                ref Unsafe.As<TScalar, byte>(ref vref),
                 resultVec);
         }
 
@@ -99,31 +102,31 @@ public sealed class LeakyReLUShifted : IActivationFunction<double>
     }
 
     /// <inheritdoc/>
-    public void Fn(ref double vref, ref double wref, int len)
+    public void Fn(ref TScalar vref, ref TScalar wref, int len)
     {
         // Init constants.
-        var avec = new Vector<double>(0.001);
-        var offsetVec = new Vector<double>(0.5);
+        var avec = new Vector<TScalar>(a);
+        var offsetVec = new Vector<TScalar>(offset);
 
         // Calc span bounds.
-        ref double vrefBound = ref Unsafe.Add(ref vref, len);
-        ref double vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<double>.Count - 1);
+        ref TScalar vrefBound = ref Unsafe.Add(ref vref, len);
+        ref TScalar vrefBoundVec = ref Unsafe.Subtract(ref vrefBound, Vector<TScalar>.Count - 1);
 
         // Loop SIMD vector sized segments.
         for(; Unsafe.IsAddressLessThan(ref vref, ref vrefBoundVec);
-            vref = ref Unsafe.Add(ref vref, Vector<double>.Count),
-            wref = ref Unsafe.Add(ref wref, Vector<double>.Count))
+            vref = ref Unsafe.Add(ref vref, Vector<TScalar>.Count),
+            wref = ref Unsafe.Add(ref wref, Vector<TScalar>.Count))
         {
             // Load values into a vector.
             // The odd code pattern is taken from the Vector<T> constructor's source code.
-            var vec = Unsafe.ReadUnaligned<Vector<double>>(
-                ref Unsafe.As<double, byte>(ref vref));
+            var vec = Unsafe.ReadUnaligned<Vector<TScalar>>(
+                ref Unsafe.As<TScalar, byte>(ref vref));
 
             // Add offset.
             vec += offsetVec;
 
             // Compare each element with zero to build a mask.
-            var maskVec = Vector.GreaterThanOrEqual(vec, Vector<double>.Zero);
+            var maskVec = Vector.GreaterThanOrEqual(vec, Vector<TScalar>.Zero);
 
             // Compute a * vec for the negative case.
             var negativeVec = avec * vec;
@@ -133,7 +136,7 @@ public sealed class LeakyReLUShifted : IActivationFunction<double>
 
             // Store the result in the post-activations span.
             Unsafe.WriteUnaligned(
-                ref Unsafe.As<double, byte>(ref wref),
+                ref Unsafe.As<TScalar, byte>(ref wref),
                 resultVec);
         }
 
