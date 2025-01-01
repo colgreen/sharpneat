@@ -2,6 +2,7 @@
 // See LICENSE.txt for details.
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.IO.Models;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
 namespace SharpNeat.NeuralNets.IO;
 

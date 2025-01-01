@@ -4,7 +4,7 @@ using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.IO;
-using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
 namespace SharpNeat.Tasks.Xor;
 

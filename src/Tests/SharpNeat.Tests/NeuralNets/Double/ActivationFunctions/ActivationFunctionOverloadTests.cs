@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using SharpNeat.NeuralNets.ActivationFunctions;
+using Xunit;
 using static SharpNeat.Tests.ArrayTestUtils;
 
 namespace SharpNeat.NeuralNets.Double.ActivationFunctions;

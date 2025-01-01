@@ -1,6 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-namespace SharpNeat.NeuralNets;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// The set of neural network activation functions provided as standard in SharpNEAT.

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpNeat.Graphs.Acyclic;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
 namespace SharpNeat.NeuralNets.Double;
 

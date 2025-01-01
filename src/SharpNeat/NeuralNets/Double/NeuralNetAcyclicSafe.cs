@@ -3,6 +3,7 @@
 using System.Buffers;
 using System.Diagnostics;
 using SharpNeat.Graphs.Acyclic;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
 namespace SharpNeat.NeuralNets.Double;
 
