@@ -46,4 +46,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="SharpNeat.Tests"/>
+  </ItemGroup>
+
 </Project>
