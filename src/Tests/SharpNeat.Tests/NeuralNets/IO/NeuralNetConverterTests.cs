@@ -3,7 +3,6 @@ using FluentAssertions;
 using SharpNeat.Graphs;
 using SharpNeat.IO;
 using SharpNeat.IO.Models;
-using SharpNeat.NeuralNets.Double;
 using Xunit;
 
 namespace SharpNeat.NeuralNets.IO;

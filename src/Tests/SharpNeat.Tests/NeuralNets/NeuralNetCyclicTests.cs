@@ -5,7 +5,7 @@ using Xunit;
 
 #pragma warning disable CA1859 // Use concrete types when possible for improved performance
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 public class NeuralNetCyclicTests
 {
@@ -182,7 +182,7 @@ public class NeuralNetCyclicTests
         for(int i=0; i < 10; i++)
         {
             net.Activate();
-            
+
             Assert.Equal(x, outputs[0]);
         }
 

@@ -6,7 +6,7 @@ using Xunit;
 
 #pragma warning disable CA1859 // Use concrete types when possible for improved performance
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 public class NeuralNetAcyclicTests
 {
