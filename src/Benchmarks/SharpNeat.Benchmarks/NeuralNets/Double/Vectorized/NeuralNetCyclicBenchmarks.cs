@@ -10,13 +10,13 @@ namespace SharpNeat.NeuralNets.Double.Vectorized;
 
 public class NeuralNetCyclicBenchmarks
 {
-    static readonly NeuralNetCyclic __nn;
+    static readonly NeuralNetCyclic<double> __nn;
 
     static NeuralNetCyclicBenchmarks()
     {
         // Load neural net model from file, and convert into a neural net instance.
         NetFileModel netFileModel = NetFile.Load("data/genomes/preycapture.net");
-        __nn = (NeuralNetCyclic)NeuralNetConverter.ToNeuralNet(netFileModel, true);
+        __nn = (NeuralNetCyclic<double>)NeuralNetConverter.ToNeuralNet(netFileModel, true);
 
         // Set some non-zero random input values.
         var rng = RandomDefaults.CreateRandomSource();

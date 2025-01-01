@@ -26,13 +26,13 @@ public class NeuralNetConverterTests
 
         // Assert.
         box.Should().NotBeNull();
-        box.GetType().Should().Be<NeuralNetAcyclic>();
+        box.GetType().Should().Be<NeuralNetAcyclic<double>>();
         box.Inputs.Length.Should().Be(3);
         box.Outputs.Length.Should().Be(2);
 
         // Inspect internal connections data.
         // Assert weights.
-        Type netType = typeof(NeuralNetAcyclic);
+        Type netType = typeof(NeuralNetAcyclic<double>);
         double[] weightArr = (double[])netType.GetField(
             "_weightArr", BindingFlags.NonPublic | BindingFlags.Instance)
             .GetValue(box);
@@ -76,13 +76,13 @@ public class NeuralNetConverterTests
 
         // Assert.
         box.Should().NotBeNull();
-        box.GetType().Should().Be<NeuralNetCyclic>();
+        box.GetType().Should().Be<NeuralNetCyclic<double>>();
         box.Inputs.Length.Should().Be(3);
         box.Outputs.Length.Should().Be(2);
 
         // Inspect internal connections data.
         // Assert weights.
-        Type netType = typeof(NeuralNetCyclic);
+        Type netType = typeof(NeuralNetCyclic<double>);
         double[] weightArr = (double[])netType.GetField(
             "_weightArr", BindingFlags.NonPublic | BindingFlags.Instance)
             .GetValue(box);

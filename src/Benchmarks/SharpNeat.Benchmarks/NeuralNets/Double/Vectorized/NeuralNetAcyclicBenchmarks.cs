@@ -10,13 +10,13 @@ namespace SharpNeat.NeuralNets.Double.Vectorized;
 
 public class NeuralNetAcyclicBenchmarks
 {
-    static readonly NeuralNetAcyclic __nn;
+    static readonly NeuralNetAcyclic<double> __nn;
 
     static NeuralNetAcyclicBenchmarks()
     {
         // Load neural net model from file, and convert into a neural net instance.
         NetFileModel netFileModel = NetFile.Load("data/genomes/binary11.net");
-        __nn = (NeuralNetAcyclic)NeuralNetConverter.ToNeuralNet(netFileModel, true);
+        __nn = (NeuralNetAcyclic<double>)NeuralNetConverter.ToNeuralNet(netFileModel, true);
 
         // Set some non-zero random input values.
         var rng = RandomDefaults.CreateRandomSource();

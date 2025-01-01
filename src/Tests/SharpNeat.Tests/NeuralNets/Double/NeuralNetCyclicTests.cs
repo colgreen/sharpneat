@@ -26,11 +26,11 @@ public class NeuralNetCyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetCyclic(digraph, actFn.Fn, 2);
+        using var net = new NeuralNetCyclic<double>(digraph, actFn.Fn, 2);
         SingleInput_WeightZero_Inner(net);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetCyclic(digraph, actFn.Fn, 2);
+        using var vnet = new Vectorized.NeuralNetCyclic<double>(digraph, actFn.Fn, 2);
         SingleInput_WeightZero_Inner(vnet);
     }
 
@@ -51,11 +51,11 @@ public class NeuralNetCyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var net = new NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         SingleInput_WeightOne_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var vnet = new Vectorized.NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         SingleInput_WeightOne_Inner(vnet, actFn);
     }
 
@@ -78,11 +78,11 @@ public class NeuralNetCyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var net = new NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         CyclicOutput_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var vnet = new Vectorized.NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         CyclicOutput_Inner(vnet, actFn);
     }
 
@@ -103,11 +103,11 @@ public class NeuralNetCyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var net = new NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         ComplexCyclic_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var vnet = new Vectorized.NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         ComplexCyclic_Inner(vnet, actFn);
     }
 
@@ -127,11 +127,11 @@ public class NeuralNetCyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var net = new NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         MultipleInputsOutputs_Inner(net, actFn);
 
         // Create neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetCyclic(digraph, actFn.Fn, 1);
+        using var vnet = new Vectorized.NeuralNetCyclic<double>(digraph, actFn.Fn, 1);
         MultipleInputsOutputs_Inner(vnet, actFn);
     }
 

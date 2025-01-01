@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="SharpNeat.Tests"/>
+    <InternalsVisibleTo Include="SharpNeat.Tests" />
   </ItemGroup>
 
 </Project>

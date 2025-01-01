@@ -1,23 +1,26 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using System.Numerics;
 using SharpNeat.Graphs.Acyclic;
 
-namespace SharpNeat.Neat.Genome.Decoders.Double.Vectorized;
+namespace SharpNeat.Neat.Genome.Decoders;
 
 /// <summary>
-/// For decoding instances of <see cref="NeatGenome{Double}"/> to <see cref="IBlackBox{Double}"/>, specifically
-/// acyclic neural network instances implemented by <see cref="NeuralNets.Double.Vectorized.NeuralNetAcyclic"/>.
+/// For decoding instances of <see cref="NeatGenome{T}"/> to <see cref="IBlackBox{T}"/>, specifically
+/// acyclic neural network instances implemented by <see cref="NeuralNets.NeuralNetAcyclic{T}"/>.
 /// </summary>
-public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>, IBlackBox<double>>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class NeatGenomeDecoderAcyclic<TScalar> : IGenomeDecoder<NeatGenome<TScalar>, IBlackBox<TScalar>>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     /// <summary>
     /// Decodes a NEAT genome into a working neural network.
     /// </summary>
     /// <param name="genome">The genome to decode.</param>
     /// <returns>An <see cref="IBlackBox{T}"/>.</returns>
-    public IBlackBox<double> Decode(
-        NeatGenome<double> genome)
+    public IBlackBox<TScalar> Decode(
+        NeatGenome<TScalar> genome)
     {
         Debug.Assert(genome?.MetaNeatGenome?.IsAcyclic == true);
         Debug.Assert(genome?.ConnectionGenes is not null);
@@ -25,10 +28,10 @@ public sealed class NeatGenomeDecoderAcyclic : IGenomeDecoder<NeatGenome<double>
         Debug.Assert(genome.DirectedGraph is DirectedGraphAcyclic);
 
         // Get a neural net weight array.
-        double[] neuralNetWeightArr = genome.GetDigraphWeightArray();
+        TScalar[] neuralNetWeightArr = genome.GetDigraphWeightArray();
 
         // Create a working neural net.
-        return new NeuralNets.Double.Vectorized.NeuralNetAcyclic(
+        return new NeuralNets.NeuralNetAcyclic<TScalar>(
                 (DirectedGraphAcyclic)genome.DirectedGraph,
                 neuralNetWeightArr,
                 genome.MetaNeatGenome.ActivationFn.Fn);
