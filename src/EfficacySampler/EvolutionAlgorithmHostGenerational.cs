@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
@@ -7,16 +8,17 @@ namespace EfficacySampler;
 /// <summary>
 /// An <see cref="IEvolutionAlgorithmHost"/> that is based on a generation count stop condition, e.g. run for 100 generations.
 /// </summary>
-public sealed class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
+public sealed class EvolutionAlgorithmHostGenerational<TScalar> : IEvolutionAlgorithmHost
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly INeatExperiment<double> _experiment;
+    readonly INeatExperiment<TScalar> _experiment;
     readonly int _stopGenerationCount;
     readonly Stopwatch _stopwatch;
 
     #region Constructor
 
     public EvolutionAlgorithmHostGenerational(
-        INeatExperiment<double> experiment,
+        INeatExperiment<TScalar> experiment,
         int stopGenerationCount)
     {
         _experiment = experiment;
@@ -32,7 +34,7 @@ public sealed class EvolutionAlgorithmHostGenerational : IEvolutionAlgorithmHost
     public Sample Sample()
     {
         // Create a new instance of an evolution algorithm.
-        NeatEvolutionAlgorithm<double> ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(_experiment);
+        NeatEvolutionAlgorithm<TScalar> ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(_experiment);
 
         // Start the stopwatch.
         _stopwatch.Restart();

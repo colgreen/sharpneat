@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Numerics;
 using Serilog;
 using SharpNeat.Experiments;
 using SharpNeat.Tasks.BinaryElevenMultiplexer;
@@ -34,7 +35,7 @@ sealed class Program
             .CreateLogger();
 
         // Create and configure a NEAT experiment instance.
-        INeatExperiment<double>? experiment = InitExperiment(experimentId);
+        var experiment = InitExperiment<float>(experimentId);
         if(experiment is null)
             return;
 
@@ -64,72 +65,78 @@ sealed class Program
 
     #region Private Static Methods [Initialisation]
 
-    private static IEvolutionAlgorithmHost CreateEvolutionAlgorithmHost(
-        INeatExperiment<double> experiment,
+    private static IEvolutionAlgorithmHost CreateEvolutionAlgorithmHost<TScalar>(
+        INeatExperiment<TScalar> experiment,
         StopCondition stopCond)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         return stopCond.StopConditionType switch
         {
-            StopConditionType.ElapsedClockTime => new EvolutionAlgorithmHostClockTime(experiment, stopCond.Value),
-            StopConditionType.GenerationCount => new EvolutionAlgorithmHostGenerational(experiment, stopCond.Value),
+            StopConditionType.ElapsedClockTime => new EvolutionAlgorithmHostClockTime<TScalar>(experiment, stopCond.Value),
+            StopConditionType.GenerationCount => new EvolutionAlgorithmHostGenerational<TScalar>(experiment, stopCond.Value),
             _ => throw new ArgumentException("Unknown StopConditionType.", nameof(stopCond)),
         };
     }
 
-    private static INeatExperiment<double>? InitExperiment(string experimentId)
+    private static INeatExperiment<TScalar>? InitExperiment<TScalar>(string experimentId)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         switch(experimentId)
         {
             case "binary11":
-                return InitExperiment_BinaryElevenMultiplexer();
+                return InitExperiment_BinaryElevenMultiplexer<TScalar>();
             case "binary20":
-                return InitExperiment_BinaryTwentyMultiplexer();
+                return InitExperiment_BinaryTwentyMultiplexer<TScalar>();
             case "sinewave":
-                return InitExperiment_Sinewave();
+                return InitExperiment_Sinewave<TScalar>();
             case "beatsinewave":
-                return InitExperiment_BeatSinewave();
+                return InitExperiment_BeatSinewave<TScalar>();
         }
 
         Console.WriteLine($"Unrecognised experiment [{experimentId}]");
         return null;
     }
 
-    private static INeatExperiment<double> InitExperiment_BinaryElevenMultiplexer()
+    private static INeatExperiment<TScalar> InitExperiment_BinaryElevenMultiplexer<TScalar>()
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create an instance of INeatExperiment for the binary 11-multiplexer task, configured using the supplied json config.
         var experimentFactory = new BinaryElevenMultiplexerExperimentFactory();
-        INeatExperiment<double> neatExperiment = 
-            experimentFactory.CreateExperiment<double>("config/binary-eleven-multiplexer.config.json");
+        INeatExperiment<TScalar> neatExperiment = 
+            experimentFactory.CreateExperiment<TScalar>("config/binary-eleven-multiplexer.config.json");
 
         return neatExperiment;
     }
 
-    private static INeatExperiment<double> InitExperiment_BinaryTwentyMultiplexer()
+    private static INeatExperiment<TScalar> InitExperiment_BinaryTwentyMultiplexer<TScalar>()
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create an instance of INeatExperiment for the binary 20-multiplexer task, configured using the supplied json config.
         var experimentFactory = new BinaryTwentyMultiplexerExperimentFactory();
-        INeatExperiment<double> neatExperiment =
-            experimentFactory.CreateExperiment<double>("config/binary-twenty-multiplexer.config.json");
+        INeatExperiment<TScalar> neatExperiment =
+            experimentFactory.CreateExperiment<TScalar>("config/binary-twenty-multiplexer.config.json");
 
         return neatExperiment;
     }
 
-    private static INeatExperiment<double> InitExperiment_Sinewave()
+    private static INeatExperiment<TScalar> InitExperiment_Sinewave<TScalar>()
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create an instance of INeatExperiment for the generative sinewave task, configured using the supplied json config.
         var experimentFactory = new GenerativeFnRegressionExperimentFactory();
-        INeatExperiment<double> neatExperiment =
-            experimentFactory.CreateExperiment<double>("config/generative-sinewave.config.json");
+        INeatExperiment<TScalar> neatExperiment =
+            experimentFactory.CreateExperiment<TScalar>("config/generative-sinewave.config.json");
 
         return neatExperiment;
     }
 
-    private static INeatExperiment<double> InitExperiment_BeatSinewave()
+    private static INeatExperiment<TScalar> InitExperiment_BeatSinewave<TScalar>()
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create an instance of INeatExperiment for the generative beat-sinewave task, configured using the supplied json config.
         var experimentFactory = new GenerativeFnRegressionExperimentFactory();
-        INeatExperiment<double> neatExperiment =
-            experimentFactory.CreateExperiment<double>("config/generative-beat-sinewave.config.json");
+        INeatExperiment<TScalar> neatExperiment =
+            experimentFactory.CreateExperiment<TScalar>("config/generative-beat-sinewave.config.json");
 
         return neatExperiment;
     }
