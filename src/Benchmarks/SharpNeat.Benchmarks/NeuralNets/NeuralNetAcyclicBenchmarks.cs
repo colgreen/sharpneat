@@ -6,7 +6,7 @@ using SharpNeat.NeuralNets.IO;
 
 #pragma warning disable CA1822 // Mark members as static
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 public class NeuralNetAcyclicBenchmarks
 {
@@ -21,7 +21,7 @@ public class NeuralNetAcyclicBenchmarks
         // Set some non-zero random input values.
         var rng = RandomDefaults.CreateRandomSource();
         var inputs = __nn.Inputs.Span;
-        for(int i=0; i < inputs.Length; i++)
+        for(int i = 0; i < inputs.Length; i++)
         {
             inputs[i] = rng.NextDouble();
         }
@@ -30,7 +30,7 @@ public class NeuralNetAcyclicBenchmarks
     [Benchmark]
     public void Activate()
     {
-        for(int i=0; i < 1000; i++)
+        for(int i = 0; i < 1000; i++)
         {
             __nn.Activate();
         }
