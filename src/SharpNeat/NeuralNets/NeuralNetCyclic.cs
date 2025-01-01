@@ -2,11 +2,12 @@
 // See LICENSE.txt for details.
 using System.Buffers;
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpNeat.NeuralNets.ActivationFunctions;
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 /// <summary>
 /// A neural network class that represents a network with recurrent (cyclic) connections.
@@ -28,19 +29,21 @@ namespace SharpNeat.NeuralNets.Double;
 /// The activation loop is run a fixed number of times/cycles to allow signals to gradually propagate through
 /// the network, one timestep/cycle/loop at a time.
 /// </summary>
-public sealed class NeuralNetCyclic : IBlackBox<double>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class NeuralNetCyclic<TScalar> : IBlackBox<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     // Connection arrays.
     readonly ConnectionIds _connIds;
-    readonly double[] _weightArr;
+    readonly TScalar[] _weightArr;
 
     // Activation function.
-    readonly VecFn2<double> _activationFn;
+    readonly VecFn2<TScalar> _activationFn;
 
     // Node activation signals array, and two sub-segments representing pre and post activation signals, respectively.
-    readonly double[] _activationsArr;
-    readonly Memory<double> _preActivationMem;
-    readonly Memory<double> _postActivationMem;
+    readonly TScalar[] _activationsArr;
+    readonly Memory<TScalar> _preActivationMem;
+    readonly Memory<TScalar> _postActivationMem;
 
     // Convenient counts.
     readonly int _inputCount;
@@ -58,16 +61,15 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     /// <param name="activationFn">The neuron activation function to use at all neurons in the network.</param>
     /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
     public NeuralNetCyclic(
-        WeightedDirectedGraph<double> digraph,
-        VecFn2<double> activationFn,
+        WeightedDirectedGraph<TScalar> digraph,
+        VecFn2<TScalar> activationFn,
         int cyclesPerActivation)
     : this(
          digraph,
          digraph.WeightArray,
          activationFn,
          cyclesPerActivation)
-    {
-    }
+    {}
 
     /// <summary>
     /// Constructs a cyclic neural network.
@@ -78,8 +80,8 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
     public NeuralNetCyclic(
         DirectedGraph digraph,
-        double[] weightArr,
-        VecFn2<double> activationFn,
+        TScalar[] weightArr,
+        VecFn2<TScalar> activationFn,
         int cyclesPerActivation)
     {
         Debug.Assert(digraph.ConnectionIds.GetSourceIdSpan().Length == weightArr.Length);
@@ -100,7 +102,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
         // Get a working array for both pre and post node activation signals, and map memory segments to pre
         // and post signal segments.
         // Rent an array that has length of at least _totalNodeCount * 2.
-        _activationsArr = ArrayPool<double>.Shared.Rent(_totalNodeCount << 1);
+        _activationsArr = ArrayPool<TScalar>.Shared.Rent(_totalNodeCount << 1);
         _preActivationMem = _activationsArr.AsMemory(0, _totalNodeCount);
         _postActivationMem = _activationsArr.AsMemory(_totalNodeCount, _totalNodeCount);
 
@@ -121,12 +123,12 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.
     /// </summary>
-    public Memory<double> Inputs { get; }
+    public Memory<TScalar> Inputs { get; }
 
     /// <summary>
     /// Gets a memory segment that represents a vector of output values.
     /// </summary>
-    public Memory<double> Outputs { get; }
+    public Memory<TScalar> Outputs { get; }
 
     /// <summary>
     /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter
@@ -137,23 +139,23 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
     {
         ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
         ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
-        ReadOnlySpan<double> weights = _weightArr.AsSpan();
-        Span<double> preActivations = _preActivationMem.Span;
-        Span<double> postActivations = _postActivationMem.Span;
+        ReadOnlySpan<TScalar> weights = _weightArr.AsSpan();
+        Span<TScalar> preActivations = _preActivationMem.Span;
+        Span<TScalar> postActivations = _postActivationMem.Span;
 
         // Note. Here we skip over the activations corresponding to the input neurons, as these have no
         // incoming connections, and therefore have fixed post-activation values and are never activated.
         int nonInputCount = _totalNodeCount - _inputCount;
-        Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount);
-        Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount);
+        Span<TScalar> preActivationsNonInputs = preActivations.Slice(_inputCount);
+        Span<TScalar> postActivationsNonInputs = postActivations.Slice(_inputCount);
 
         ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
         ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
-        ref double weightsRef = ref MemoryMarshal.GetReference(weights);
-        ref double preActivationsRef = ref MemoryMarshal.GetReference(preActivations);
-        ref double postActivationsRef = ref MemoryMarshal.GetReference(postActivations);
-        ref double preActivationsNonInputsRef = ref MemoryMarshal.GetReference(preActivationsNonInputs);
-        ref double postActivationsNonInputsRef = ref MemoryMarshal.GetReference(postActivationsNonInputs);
+        ref TScalar weightsRef = ref MemoryMarshal.GetReference(weights);
+        ref TScalar preActivationsRef = ref MemoryMarshal.GetReference(preActivations);
+        ref TScalar postActivationsRef = ref MemoryMarshal.GetReference(postActivations);
+        ref TScalar preActivationsNonInputsRef = ref MemoryMarshal.GetReference(preActivationsNonInputs);
+        ref TScalar postActivationsNonInputsRef = ref MemoryMarshal.GetReference(postActivationsNonInputs);
 
         // Activate the network for a fixed number of timesteps.
         for(int i=0; i < _cyclesPerActivation; i++)
@@ -163,7 +165,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
             for(int j=0; j < srcIds.Length; j++)
             {
                 Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, j)) =
-                    Math.FusedMultiplyAdd(
+                    TScalar.FusedMultiplyAdd(
                         Unsafe.Add(ref postActivationsRef, Unsafe.Add(ref srcIdsRef, j)),
                         Unsafe.Add(ref weightsRef, j),
                         Unsafe.Add(ref preActivationsRef, Unsafe.Add(ref tgtIdsRef, j)));
@@ -202,7 +204,7 @@ public sealed class NeuralNetCyclic : IBlackBox<double>
         if(!_isDisposed)
         {
             _isDisposed = true;
-            ArrayPool<double>.Shared.Return(_activationsArr);
+            ArrayPool<TScalar>.Shared.Return(_activationsArr);
         }
     }
 

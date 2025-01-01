@@ -2,36 +2,39 @@
 // See LICENSE.txt for details.
 using System.Buffers;
 using System.Diagnostics;
+using System.Numerics;
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.NeuralNets.ActivationFunctions;
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 /// <summary>
-/// This class is functionally equivalent to <see cref="NeuralNetAcyclic"/>, but doesn't use any of the unsafe
+/// This class is functionally equivalent to <see cref="NeuralNetAcyclic{T}"/>, but doesn't use any of the unsafe
 /// memory pointer techniques used in that class, and therefore this class is much slower.
 ///
 /// This class is intended to be used as a safe reference implementation that can be used when testing or
-/// debugging <see cref="NeuralNetAcyclic"/>.
+/// debugging <see cref="NeuralNetAcyclic{T}"/>.
 /// </summary>
-public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class NeuralNetAcyclicSafe<TScalar> : IBlackBox<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     // Connection arrays.
     readonly ConnectionIds _connIds;
-    readonly double[] _weightArr;
+    readonly TScalar[] _weightArr;
 
     // Array of layer information.
     readonly LayerInfo[] _layerInfoArr;
 
     // Node activation function.
-    readonly VecFn<double> _activationFn;
+    readonly VecFn<TScalar> _activationFn;
 
     // Node activation level array (used for both pre and post activation levels).
-    readonly double[] _activationArr;
+    readonly TScalar[] _activationArr;
 
     // Output signal array.
     // The output signal values are copied into this array from _activationArr (see notes below).
-    readonly double[] _outputArr;
+    readonly TScalar[] _outputArr;
 
     // An array containing output node indexes into _activationArr.
     // Notes. Nodes have been sorted by depth within the network, therefore the output nodes are not guaranteed
@@ -52,8 +55,8 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
     /// <param name="digraph">Network structure definition.</param>
     /// <param name="activationFn">Node activation function.</param>
     public NeuralNetAcyclicSafe(
-        WeightedDirectedGraphAcyclic<double> digraph,
-        VecFn<double> activationFn)
+        WeightedDirectedGraphAcyclic<TScalar> digraph,
+        VecFn<TScalar> activationFn)
         : this(digraph, digraph.WeightArray, activationFn)
     {
     }
@@ -66,8 +69,8 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
     /// <param name="activationFn">Node activation function.</param>
     public NeuralNetAcyclicSafe(
         DirectedGraphAcyclic digraph,
-        double[] weightArr,
-        VecFn<double> activationFn)
+        TScalar[] weightArr,
+        VecFn<TScalar> activationFn)
     {
         Debug.Assert(digraph.ConnectionIds.GetSourceIdSpan().Length == weightArr.Length);
 
@@ -84,13 +87,13 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
         _outputCount = digraph.OutputCount;
 
         // Create working array for node activation signals.
-        _activationArr = new double[digraph.TotalNodeCount];
+        _activationArr = new TScalar[digraph.TotalNodeCount];
 
         // Map the inputs vector to the corresponding segment of node activation values.
-        Inputs = new Memory<double>(_activationArr, 0, _inputCount);
+        Inputs = new Memory<TScalar>(_activationArr, 0, _inputCount);
 
         // Get an array to act a as a contiguous run of output signals.
-        _outputArr = new double[_outputCount];
+        _outputArr = new TScalar[_outputCount];
         Outputs = _outputArr;
 
         // Store the indexes into _activationArr that give the output signals.
@@ -104,12 +107,12 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.
     /// </summary>
-    public Memory<double> Inputs { get; }
+    public Memory<TScalar> Inputs { get; }
 
     /// <summary>
     /// Gets a memory segment that represents a vector of output values.
     /// </summary>
-    public Memory<double> Outputs { get; }
+    public Memory<TScalar> Outputs { get; }
 
     /// <summary>
     /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals
@@ -119,8 +122,8 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
     {
         ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
         ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
-        ReadOnlySpan<double> weights = _weightArr.AsSpan();
-        Span<double> activations = _activationArr.AsSpan();
+        ReadOnlySpan<TScalar> weights = _weightArr.AsSpan();
+        Span<TScalar> activations = _activationArr.AsSpan();
 
         // Reset hidden and output node activation levels, ready for next activation.
         // Note. this reset is performed here instead of after the below loop because this resets the output
@@ -143,7 +146,7 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
                 // Get the connection source signal, multiply it by the connection weight, add the result
                 // to the target node's current pre-activation level, and store the result.
                 activations[tgtIds[conIdx]] =
-                    Math.FusedMultiplyAdd(
+                    TScalar.FusedMultiplyAdd(
                         activations[srcIds[conIdx]],
                         weights[conIdx],
                         activations[tgtIds[conIdx]]);
@@ -193,7 +196,7 @@ public sealed class NeuralNetAcyclicSafe : IBlackBox<double>
         if(!_isDisposed)
         {
             _isDisposed = true;
-            ArrayPool<double>.Shared.Return(_activationArr);
+            ArrayPool<TScalar>.Shared.Return(_activationArr);
         }
     }
 
