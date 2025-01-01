@@ -6,7 +6,7 @@ using Xunit;
 
 #pragma warning disable CA1859 // Use concrete types when possible for improved performance
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 public class NeuralNetAcyclicTests
 {
@@ -23,11 +23,11 @@ public class NeuralNetAcyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
+        using var net = new NeuralNetAcyclic<double>(digraph, actFn.Fn);
         SingleInput_WeightZero_Inner(net);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        using var vnet = new Vectorized.NeuralNetAcyclic<double>(digraph, actFn.Fn);
         SingleInput_WeightZero_Inner(vnet);
     }
 
@@ -44,11 +44,11 @@ public class NeuralNetAcyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
+        using var net = new NeuralNetAcyclic<double>(digraph, actFn.Fn);
         SingleInput_WeightOne_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        using var vnet = new Vectorized.NeuralNetAcyclic<double>(digraph, actFn.Fn);
         SingleInput_WeightOne_Inner(vnet, actFn);
     }
 
@@ -67,11 +67,11 @@ public class NeuralNetAcyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
+        using var net = new NeuralNetAcyclic<double>(digraph, actFn.Fn);
         TwoInputs_WeightHalf_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        using var vnet = new Vectorized.NeuralNetAcyclic<double>(digraph, actFn.Fn);
         TwoInputs_WeightHalf_Inner(vnet, actFn);
     }
 
@@ -91,11 +91,11 @@ public class NeuralNetAcyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
+        using var net = new NeuralNetAcyclic<double>(digraph, actFn.Fn);
         HiddenNode_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        using var vnet = new Vectorized.NeuralNetAcyclic<double>(digraph, actFn.Fn);
         HiddenNode_Inner(vnet, actFn);
     }
 
@@ -118,11 +118,11 @@ public class NeuralNetAcyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
+        using var net = new NeuralNetAcyclic<double>(digraph, actFn.Fn);
         Complex_WeightOne_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        using var vnet = new Vectorized.NeuralNetAcyclic<double>(digraph, actFn.Fn);
         Complex_WeightOne_Inner(vnet, actFn);
     }
 
@@ -142,11 +142,11 @@ public class NeuralNetAcyclicTests
 
         // Create neural net and run tests.
         var actFn = new Logistic<double>();
-        using var net = new NeuralNetAcyclic(digraph, actFn.Fn);
+        using var net = new NeuralNetAcyclic<double>(digraph, actFn.Fn);
         MultipleInputsOutputs_Inner(net, actFn);
 
         // Create vectorized neural net and run tests.
-        using var vnet = new Vectorized.NeuralNetAcyclic(digraph, actFn.Fn);
+        using var vnet = new Vectorized.NeuralNetAcyclic<double>(digraph, actFn.Fn);
         MultipleInputsOutputs_Inner(vnet, actFn);
     }
 

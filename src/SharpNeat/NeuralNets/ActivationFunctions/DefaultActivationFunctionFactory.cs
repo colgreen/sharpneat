@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// Default implementation of <see cref="IActivationFunctionFactory{TScalar}"/>.

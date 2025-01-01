@@ -1,35 +1,39 @@
 // This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
 using System.Diagnostics;
+using System.Numerics;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 /// <summary>
-/// This class is functionally equivalent to <see cref="NeuralNetCyclic"/>, but doesn't use any of the unsafe
+/// This class is functionally equivalent to <see cref="NeuralNetCyclic{T}"/>, but doesn't use any of the unsafe
 /// memory pointer techniques used in that class, and therefore this class is much slower.
 ///
 /// This class is intended to be used as a safe reference implementation that can be used when testing or
-/// debugging <see cref="NeuralNetCyclic"/>.
+/// debugging <see cref="NeuralNetCyclic{T}"/>.
 /// </summary>
-public sealed class NeuralNetCyclicSafe : IBlackBox<double>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class NeuralNetCyclicSafe<TScalar> : IBlackBox<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     // Connection arrays.
     readonly ConnectionIds _connIds;
-    readonly double[] _weightArr;
+    readonly TScalar[] _weightArr;
 
     // Activation function.
-    readonly VecFn2<double> _activationFn;
+    readonly VecFn2<TScalar> _activationFn;
 
     // Node pre- and post-activation signal arrays.
-    readonly double[] _preActivationArr;
-    readonly double[] _postActivationArr;
+    readonly TScalar[] _preActivationArr;
+    readonly TScalar[] _postActivationArr;
 
     // Convenient counts.
     readonly int _inputCount;
     readonly int _outputCount;
     readonly int _cyclesPerActivation;
 
-    #region Constructor
+    #region Constructors
 
     /// <summary>
     /// Constructs a cyclic neural network.
@@ -38,8 +42,8 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
     /// <param name="activationFn">The neuron activation function to use at all neurons in the network.</param>
     /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
     public NeuralNetCyclicSafe(
-        WeightedDirectedGraph<double> digraph,
-        VecFn2<double> activationFn,
+        WeightedDirectedGraph<TScalar> digraph,
+        VecFn2<TScalar> activationFn,
         int cyclesPerActivation)
     : this(
          digraph,
@@ -58,8 +62,8 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
     /// <param name="cyclesPerActivation">The number of activation cycles to perform per overall activation of the cyclic network.</param>
     public NeuralNetCyclicSafe(
         DirectedGraph digraph,
-        double[] weightArr,
-        VecFn2<double> activationFn,
+        TScalar[] weightArr,
+        VecFn2<TScalar> activationFn,
         int cyclesPerActivation)
     {
         Debug.Assert(digraph.ConnectionIds.GetSourceIdSpan().Length == weightArr.Length);
@@ -78,14 +82,14 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
 
         // Create node pre- and post-activation signal arrays.
         int nodeCount = digraph.TotalNodeCount;
-        _preActivationArr = new double[nodeCount];
-        _postActivationArr = new double[nodeCount];
+        _preActivationArr = new TScalar[nodeCount];
+        _postActivationArr = new TScalar[nodeCount];
 
         // Map the input and output vectors to the corresponding segments of _postActivationArr.
-        Inputs = new Memory<double>(_postActivationArr, 0, _inputCount);
+        Inputs = new Memory<TScalar>(_postActivationArr, 0, _inputCount);
 
         // Note. Output neurons follow input neurons in the arrays.
-        Outputs = new Memory<double>(_postActivationArr, _inputCount, _outputCount);
+        Outputs = new Memory<TScalar>(_postActivationArr, _inputCount, _outputCount);
     }
 
     #endregion
@@ -95,12 +99,12 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.
     /// </summary>
-    public Memory<double> Inputs { get; }
+    public Memory<TScalar> Inputs { get; }
 
     /// <summary>
     /// Gets a memory segment that represents a vector of output values.
     /// </summary>
-    public Memory<double> Outputs { get; }
+    public Memory<TScalar> Outputs { get; }
 
     /// <summary>
     /// Activate the network for a fixed number of iterations defined by the 'maxIterations' parameter
@@ -111,15 +115,15 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
     {
         ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
         ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
-        ReadOnlySpan<double> weights = _weightArr.AsSpan();
-        Span<double> preActivations = _preActivationArr.AsSpan();
-        Span<double> postActivations = _postActivationArr.AsSpan();
+        ReadOnlySpan<TScalar> weights = _weightArr.AsSpan();
+        Span<TScalar> preActivations = _preActivationArr.AsSpan();
+        Span<TScalar> postActivations = _postActivationArr.AsSpan();
 
         // Note. Here we skip over the activations corresponding to the input neurons, as these have no
         // incoming connections, and therefore have fixed post-activation values and are never activated.
         int nonInputCount = _preActivationArr.Length - _inputCount;
-        Span<double> preActivationsNonInputs = preActivations.Slice(_inputCount);
-        Span<double> postActivationsNonInputs = postActivations.Slice(_inputCount);
+        Span<TScalar> preActivationsNonInputs = preActivations.Slice(_inputCount);
+        Span<TScalar> postActivationsNonInputs = postActivations.Slice(_inputCount);
 
         // Activate the network for a fixed number of timesteps.
         for(int i=0; i < _cyclesPerActivation; i++)
@@ -129,7 +133,7 @@ public sealed class NeuralNetCyclicSafe : IBlackBox<double>
             for(int j=0; j < srcIds.Length; j++)
             {
                 preActivations[tgtIds[j]] =
-                    Math.FusedMultiplyAdd(
+                    TScalar.FusedMultiplyAdd(
                         postActivations[srcIds[j]],
                         weights[j],
                         preActivations[tgtIds[j]]);

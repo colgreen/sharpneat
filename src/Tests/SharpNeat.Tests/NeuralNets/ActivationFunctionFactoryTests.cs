@@ -1,6 +1,7 @@
-﻿using Xunit;
+﻿using SharpNeat.NeuralNets.ActivationFunctions;
+using Xunit;
 
-namespace SharpNeat.NeuralNets.Double;
+namespace SharpNeat.NeuralNets;
 
 public class ActivationFunctionFactoryTests
 {

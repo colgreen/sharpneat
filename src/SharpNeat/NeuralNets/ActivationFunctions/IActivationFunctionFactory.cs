@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// Represents a factory for obtaining instances of <see cref="IActivationFunction{T}"/>.

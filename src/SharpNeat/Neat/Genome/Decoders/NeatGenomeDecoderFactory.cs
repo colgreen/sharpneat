@@ -23,35 +23,21 @@ public static class NeatGenomeDecoderFactory
         bool enableHardwareAcceleration = false)
         where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
-        Type scalarType = typeof(TScalar);
-
-        if (scalarType == typeof(double))
-        {
-            return (IGenomeDecoder<NeatGenome<TScalar>, IBlackBox<TScalar>>)CreateGenomeDecoderDouble(isAcyclic, enableHardwareAcceleration);
-        }
-
-        throw new InvalidOperationException($"Unsupported scalar type '{scalarType}'.");
-    }
-
-    private static IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> CreateGenomeDecoderDouble(
-        bool isAcyclic,
-        bool enableHardwareAcceleration = false)
-    {
-        if (isAcyclic)
+        if(isAcyclic)
         {
             // Decode to an acyclic neural net.
-            if (enableHardwareAcceleration && Vector.IsHardwareAccelerated)
-                return new Double.Vectorized.NeatGenomeDecoderAcyclic();
+            if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
+                return new Vectorized.NeatGenomeDecoderAcyclic<TScalar>();
             else
-                return new Double.NeatGenomeDecoderAcyclic();
+                return new NeatGenomeDecoderAcyclic<TScalar>();
         }
         else
         {
             // Decode to a cyclic neural net.
-            if (enableHardwareAcceleration && Vector.IsHardwareAccelerated)
-                return new Double.Vectorized.NeatGenomeDecoderCyclic();
+            if(enableHardwareAcceleration && Vector.IsHardwareAccelerated)
+                return new Vectorized.NeatGenomeDecoderCyclic<TScalar>();
             else
-                return new Double.NeatGenomeDecoderCyclic();
+                return new NeatGenomeDecoderCyclic<TScalar>();
         }
     }
 }

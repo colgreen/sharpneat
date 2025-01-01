@@ -6,34 +6,58 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpNeat.Graphs.Acyclic;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
-namespace SharpNeat.NeuralNets.Double.Vectorized;
+namespace SharpNeat.NeuralNets;
 
+// TODO: Revise/update this summary comment...
 /// <summary>
-/// A version of <see cref="Double.NeuralNetAcyclic"/> that utilises some vectorized operations
-/// for improved performance on hardware platforms that support them.
+/// A neural network implementation for acyclic networks.
+///
+/// Activation of acyclic networks can be far more efficient than cyclic networks because we can activate the network by
+/// propagating a signal 'wave' from the input nodes through each layer to the output nodes, thus each node
+/// requires activation only once at most, whereas in cyclic networks we must (a) activate each node multiple times and
+/// (b) have a scheme that defines when to stop activating the network.
+///
+/// Algorithm Overview.
+/// 1) The nodes are assigned a depth number based on how many connection hops they are from an input node. Where multiple
+/// paths to a node exist the longest path determines the node's depth.
+///
+/// 2) Connections are similarly assigned a depth value which is defined as the depth of a connection's source node.
+///
+/// Note. Steps 1 and 2 are actually performed by AcyclicNetworkFactory.
+///
+/// 3) Reset all node activation values to zero. This resets any state from a previous activation.
+///
+/// 4) Each layer of the network can now be activated in turn to propagate the signals on the input nodes through the network.
+/// Input nodes do no apply an activation function so we start by activating the connections on the first layer (depth == 0),
+/// this accumulates node pre-activation signals on all of the target nodes which can be anywhere from depth 1 to the highest
+/// depth level. Having done this we apply the node activation function for all nodes at the layer 1 because we can now
+/// guarantee that there will be no more incoming signals to those nodes. Repeat for all remaining layers in turn.
 /// </summary>
-public sealed class NeuralNetAcyclic : IBlackBox<double>
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class NeuralNetAcyclic<TScalar> : IBlackBox<TScalar>
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
     // Connection arrays.
     readonly ConnectionIds _connIds;
-    readonly double[] _weightArr;
+    readonly TScalar[] _weightArr;
 
     // Array of layer information.
     readonly LayerInfo[] _layerInfoArr;
 
     // Node activation function.
-    readonly VecFn<double> _activationFn;
+    readonly VecFn<TScalar> _activationFn;
 
     // Working array. Used for node activation signals, and a separate output signal segment on the end.
-    readonly double[] _workingArr;
+    readonly TScalar[] _workingArr;
 
     // Node activation signal segment (used for both pre and post activation levels).
-    readonly Memory<double> _activationMem;
+    readonly Memory<TScalar> _activationMem;
 
     // Output signal segment.
     // The output signal values are copied into this array from _activationMem (see notes below).
-    readonly Memory<double> _outputMem;
+    readonly Memory<TScalar> _outputMem;
 
     // An array containing output node indexes into _activationArr.
     // Notes. Nodes have been sorted by depth within the network, therefore the output nodes are not guaranteed
@@ -45,9 +69,6 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
     readonly int _inputCount;
     readonly int _outputCount;
     readonly int _totalNodeCount;
-
-    // Connection inputs array.
-    readonly double[] _conInputArr = new double[Vector<double>.Count];
     volatile bool _isDisposed;
 
     #region Constructors
@@ -58,8 +79,8 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
     /// <param name="digraph">Network structure definition.</param>
     /// <param name="activationFn">Node activation function.</param>
     public NeuralNetAcyclic(
-        WeightedDirectedGraphAcyclic<double> digraph,
-        VecFn<double> activationFn)
+        WeightedDirectedGraphAcyclic<TScalar> digraph,
+        VecFn<TScalar> activationFn)
         : this(digraph, digraph.WeightArray, activationFn)
     {
     }
@@ -72,8 +93,8 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
     /// <param name="activationFn">Node activation function.</param>
     public NeuralNetAcyclic(
         DirectedGraphAcyclic digraph,
-        double[] weightArr,
-        VecFn<double> activationFn)
+        TScalar[] weightArr,
+        VecFn<TScalar> activationFn)
     {
         Debug.Assert(digraph.ConnectionIds.GetSourceIdSpan().Length == weightArr.Length);
 
@@ -92,7 +113,7 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
 
         // Get a working array for node activations signals and a separate output signal segment on the end.
         // And map the memory segments onto the array.
-        _workingArr = ArrayPool<double>.Shared.Rent(_totalNodeCount + _outputCount);
+        _workingArr = ArrayPool<TScalar>.Shared.Rent(_totalNodeCount + _outputCount);
         _activationMem = _workingArr.AsMemory(0, _totalNodeCount);
         _outputMem = _workingArr.AsMemory(_totalNodeCount, _outputCount);
 
@@ -113,12 +134,12 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
     /// <summary>
     /// Gets a memory segment that represents a vector of input values.
     /// </summary>
-    public Memory<double> Inputs { get; }
+    public Memory<TScalar> Inputs { get; }
 
     /// <summary>
     /// Gets a memory segment that represents a vector of output values.
     /// </summary>
-    public Memory<double> Outputs { get; }
+    public Memory<TScalar> Outputs { get; }
 
     /// <summary>
     /// Activate the network. Activation reads input signals from InputSignalArray and writes output signals
@@ -128,19 +149,17 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
     {
         ReadOnlySpan<int> srcIds = _connIds.GetSourceIdSpan();
         ReadOnlySpan<int> tgtIds = _connIds.GetTargetIdSpan();
-        ReadOnlySpan<double> weights = _weightArr.AsSpan();
-        Span<double> activations = _activationMem.Span;
-        Span<double> outputs = _outputMem.Span;
+        ReadOnlySpan<TScalar> weights = _weightArr.AsSpan();
+        Span<TScalar> activations = _activationMem.Span;
+        Span<TScalar> outputs = _outputMem.Span;
         Span<int> outputNodeIdxs = _outputNodeIdxArr.AsSpan();
-        Span<double> connInputs = _conInputArr.AsSpan();
 
         ref int srcIdsRef = ref MemoryMarshal.GetReference(srcIds);
         ref int tgtIdsRef = ref MemoryMarshal.GetReference(tgtIds);
-        ref double weightsRef = ref MemoryMarshal.GetReference(weights);
-        ref double activationsRef = ref MemoryMarshal.GetReference(activations);
-        ref double outputsRef = ref MemoryMarshal.GetReference(outputs);
+        ref TScalar weightsRef = ref MemoryMarshal.GetReference(weights);
+        ref TScalar activationsRef = ref MemoryMarshal.GetReference(activations);
+        ref TScalar outputsRef = ref MemoryMarshal.GetReference(outputs);
         ref int outputNodeIdxsRef = ref MemoryMarshal.GetReference(outputNodeIdxs);
-        ref double connInputsRef = ref MemoryMarshal.GetReference(connInputs);
 
         // Reset hidden and output node activation levels.
         // Notes.
@@ -159,48 +178,14 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
             LayerInfo layerInfo = _layerInfoArr[layerIdx];
 
             // Push signals through the current layer's connections to the target nodes (that are all in 'downstream' layers).
-            for(; conIdx <= layerInfo.EndConnectionIdx - Vector<double>.Count; conIdx += Vector<double>.Count)
-            {
-                // Load source node output values into a vector.
-                ref int srcIdsRefSeg = ref Unsafe.Add(ref srcIdsRef, conIdx);
-
-                for(int i=0; i < Vector<double>.Count; i++)
-                {
-                    Unsafe.Add(ref connInputsRef, i) =
-                        Unsafe.Add(
-                            ref activationsRef,
-                            Unsafe.Add(ref srcIdsRefSeg, i));
-                }
-
-                // Note. This obscure pattern is taken from the Vector<T> constructor source code.
-                var conVec = Unsafe.ReadUnaligned<Vector<double>>(
-                    ref Unsafe.As<double, byte>(ref connInputsRef));
-
-                // Load connection weights into a vector.
-                var weightVec = Unsafe.ReadUnaligned<Vector<double>>(
-                    ref Unsafe.As<double, byte>(
-                        ref Unsafe.Add(
-                            ref weightsRef, conIdx)));
-
-                // Multiply connection source inputs and connection weights.
-                conVec *= weightVec;
-
-                // Save/accumulate connection output values onto the connection target nodes.
-                ref int tgtIdsRefSeg = ref Unsafe.Add(ref tgtIdsRef, conIdx);
-
-                for(int i=0; i < Vector<double>.Count; i++)
-                    Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRefSeg, i)) += conVec[i];
-            }
-
-            // Loop remaining connections
             for(; conIdx < layerInfo.EndConnectionIdx; conIdx++)
             {
                 // Get a reference to the target activation level 'slot' in the activations span.
-                ref double tgtSlot = ref Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
+                ref TScalar tgtSlot = ref Unsafe.Add(ref activationsRef, Unsafe.Add(ref tgtIdsRef, conIdx));
 
                 // Get the connection source signal, multiply it by the connection weight, add the result
                 // to the target node's current pre-activation level, and store the result.
-                tgtSlot = Math.FusedMultiplyAdd(
+                tgtSlot = TScalar.FusedMultiplyAdd(
                     Unsafe.Add(ref activationsRef, Unsafe.Add(ref srcIdsRef, conIdx)),
                     Unsafe.Add(ref weightsRef, conIdx),
                     tgtSlot);
@@ -228,7 +213,7 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
         // contiguous segment of memory that is indexable by output index.
         for(int i=0; i < outputNodeIdxs.Length; i++)
         {
-            ref double outputSlot = ref Unsafe.Add(ref outputsRef, i);
+            ref TScalar outputSlot = ref Unsafe.Add(ref outputsRef, i);
             outputSlot = Unsafe.Add(ref activationsRef, Unsafe.Add(ref outputNodeIdxsRef, i));
         }
     }
@@ -251,7 +236,7 @@ public sealed class NeuralNetAcyclic : IBlackBox<double>
         if(!_isDisposed)
         {
             _isDisposed = true;
-            ArrayPool<double>.Shared.Return(_workingArr);
+            ArrayPool<TScalar>.Shared.Return(_workingArr);
         }
     }
 

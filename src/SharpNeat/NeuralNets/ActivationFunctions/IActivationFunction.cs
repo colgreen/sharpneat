@@ -2,7 +2,7 @@
 // See LICENSE.txt for details.
 using System.Numerics;
 
-namespace SharpNeat.NeuralNets;
+namespace SharpNeat.NeuralNets.ActivationFunctions;
 
 /// <summary>
 /// The activation function.

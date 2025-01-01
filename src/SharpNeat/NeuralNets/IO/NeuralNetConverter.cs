@@ -2,6 +2,7 @@
 // See LICENSE.txt for details.
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.IO.Models;
+using SharpNeat.NeuralNets.ActivationFunctions;
 
 namespace SharpNeat.NeuralNets.IO;
 
@@ -114,13 +115,13 @@ public static class NeuralNetConverter
         // Create a working neural net.
         if (!enableHardwareAcceleratedNeuralNets)
         {
-            return new Double.NeuralNetAcyclic(
+            return new NeuralNetAcyclic<double>(
                 weightedDigraphAcyclic,
                 actFn.Fn);
         }
         else
         {
-            return new Double.Vectorized.NeuralNetAcyclic(
+            return new Vectorized.NeuralNetAcyclic<double>(
                 weightedDigraphAcyclic,
                 actFn.Fn);
         }
@@ -179,14 +180,14 @@ public static class NeuralNetConverter
         // Create a working neural net.
         if(!enableHardwareAcceleratedNeuralNets)
         {
-            return new Double.NeuralNetCyclic(
+            return new NeuralNetCyclic<double>(
                 weightedDigraph,
                 actFn.Fn,
                 model.CyclesPerActivation);
         }
         else
         {
-            return new Double.Vectorized.NeuralNetCyclic(
+            return new Vectorized.NeuralNetCyclic<double>(
                 weightedDigraph,
                 actFn.Fn,
                 model.CyclesPerActivation);

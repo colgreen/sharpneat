@@ -3,7 +3,7 @@
 using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
-using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using SharpNeat.Tasks.FunctionRegression;
 using SharpNeat.Tasks.GenerativeFunctionRegression.ConfigModels;
 

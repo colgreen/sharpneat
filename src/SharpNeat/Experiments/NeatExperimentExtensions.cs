@@ -3,7 +3,7 @@
 using System.Numerics;
 using SharpNeat.Experiments.ConfigModels;
 using SharpNeat.Neat.ComplexityRegulation;
-using SharpNeat.NeuralNets;
+using SharpNeat.NeuralNets.ActivationFunctions;
 using static SharpNeat.Experiments.ModelUtils;
 
 namespace SharpNeat.Experiments;
