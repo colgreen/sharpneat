@@ -50,7 +50,7 @@ sealed class Program
             for(;;)
             {
                 Sample s = eaHost.Sample();
-                __streamWriter.WriteLine($"{s.ElapsedTimeSecs},{s.GenerationCount},{s.BestFitness:0.#####},{s.MeanFitness:0.#####},{s.MaxComplexity:0.#####},{s.MeanComplexity:0.#####},{s.EvaluationCount}");
+                __streamWriter.WriteLine($"{s.ElapsedTimeSecs:0.00},{s.GenerationCount},{s.BestFitness:0.#####},{s.MeanFitness:0.#####},{s.MaxComplexity:0.#####},{s.MeanComplexity:0.#####},{s.EvaluationCount}");
                 __streamWriter.Flush();
             }
         }
