@@ -45,18 +45,19 @@ public static class NeatEvolutionAlgorithmFactory
     /// <param name="neatExperiment">A neat experiment instance; this conveys everything required to create a new
     /// evolution algorithm instance that is ready to be run.</param>
     /// <returns>A new instance of <see cref="NeatEvolutionAlgorithm{T}"/>.</returns>
-    public static NeatEvolutionAlgorithm<double> CreateEvolutionAlgorithm(
-        INeatExperiment<double> neatExperiment)
+    public static NeatEvolutionAlgorithm<TScalar> CreateEvolutionAlgorithm<TScalar>(
+        INeatExperiment<TScalar> neatExperiment)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         var metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
 
         // Create an initial population of genomes.
-        NeatPopulation<double> neatPop = NeatPopulationFactory<double>.CreatePopulation(
+        NeatPopulation<TScalar> neatPop = NeatPopulationFactory<TScalar>.CreatePopulation(
             metaNeatGenome,
             connectionsProportion: neatExperiment.InitialInterconnectionsProportion,
             popSize: neatExperiment.PopulationSize);
 
-        var ea = CreateEvolutionAlgorithmInner(
+        var ea = CreateEvolutionAlgorithmInner<TScalar>(
             neatExperiment, neatPop);
 
         return ea;

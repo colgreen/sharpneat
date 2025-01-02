@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Neat.EvolutionAlgorithm;
 
@@ -7,9 +8,10 @@ namespace EfficacySampler;
 /// <summary>
 /// An <see cref="IEvolutionAlgorithmHost"/> that is based on a clock time stop condition, e.g. run for 60 seconds.
 /// </summary>
-public sealed class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
+public sealed class EvolutionAlgorithmHostClockTime<TScalar> : IEvolutionAlgorithmHost
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly INeatExperiment<double> _experiment;
+    readonly INeatExperiment<TScalar> _experiment;
     readonly TimeSpan _stopTimeSpan;
     readonly Stopwatch _stopwatch;
 
@@ -18,12 +20,12 @@ public sealed class EvolutionAlgorithmHostClockTime : IEvolutionAlgorithmHost
     readonly AutoResetEvent _awaitStopEvent = new(false);
     volatile bool _stopFlag;
 
-    NeatEvolutionAlgorithm<double>? _ea;
+    NeatEvolutionAlgorithm<TScalar>? _ea;
 
     #region Constructor
 
     public EvolutionAlgorithmHostClockTime(
-        INeatExperiment<double> experiment,
+        INeatExperiment<TScalar> experiment,
         int stopSeconds)
     {
         _experiment = experiment;
