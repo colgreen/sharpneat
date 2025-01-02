@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Graphs.Acyclic;
 using SharpNeat.IO.Models;
 using SharpNeat.NeuralNets.ActivationFunctions;
@@ -14,20 +15,22 @@ public static class NeuralNetConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to a neural network instance.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
     /// implementations are used.</param>
     /// <param name="enableHardwareAcceleratedActivationFunctions">If true then hardware accelerated activation
     /// functions are used, where available.</param>
     /// <returns>A new neural net instance.</returns>
-    public static IBlackBox<double> ToNeuralNet(
+    public static IBlackBox<TScalar> ToNeuralNet<TScalar>(
         NetFileModel model,
         bool enableHardwareAcceleratedNeuralNets = false,
         bool enableHardwareAcceleratedActivationFunctions = false)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        var actFnlib = new DefaultActivationFunctionFactory<double>(
+        var actFnlib = new DefaultActivationFunctionFactory<TScalar>(
             enableHardwareAcceleratedActivationFunctions);
 
         return ToNeuralNet(model, actFnlib, enableHardwareAcceleratedNeuralNets);
@@ -36,15 +39,17 @@ public static class NeuralNetConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to a neural network instance.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="activationFnLib">Activation function library.</param>
     /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
     /// implementations are used.</param>
     /// <returns>A new neural net instance.</returns>
-    public static IBlackBox<double> ToNeuralNet(
+    public static IBlackBox<TScalar> ToNeuralNet<TScalar>(
         NetFileModel model,
-        IActivationFunctionFactory<double> activationFnLib,
+        IActivationFunctionFactory<TScalar> activationFnLib,
         bool enableHardwareAcceleratedNeuralNets = false)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         ArgumentNullException.ThrowIfNull(model);
 
@@ -65,18 +70,20 @@ public static class NeuralNetConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to an acyclic neural network instance.
     /// </summary>
-    /// /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+    /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
     /// implementations are used.</param>
     /// <param name="enableHardwareAcceleratedActivationFunctions">If true then hardware accelerated activation
     /// functions are used, where available.</param>
     /// <returns>A new acyclic neural net instance.</returns>
-    public static IBlackBox<double> ToAcyclicNeuralNet(
+    public static IBlackBox<TScalar> ToAcyclicNeuralNet<TScalar>(
         NetFileModel model,
         bool enableHardwareAcceleratedNeuralNets = false,
         bool enableHardwareAcceleratedActivationFunctions = false)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
-        var actFnlib = new DefaultActivationFunctionFactory<double>(
+        var actFnlib = new DefaultActivationFunctionFactory<TScalar>(
             enableHardwareAcceleratedActivationFunctions);
 
         return ToAcyclicNeuralNet(model, actFnlib, enableHardwareAcceleratedNeuralNets);
@@ -85,15 +92,17 @@ public static class NeuralNetConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to an acyclic neural network instance.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="activationFnLib">Activation function library.</param>
     /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
     /// implementations are used.</param>
     /// <returns>A new acyclic neural net instance.</returns>
-    public static IBlackBox<double> ToAcyclicNeuralNet(
+    public static IBlackBox<TScalar> ToAcyclicNeuralNet<TScalar>(
         NetFileModel model,
-        IActivationFunctionFactory<double> activationFnLib,
+        IActivationFunctionFactory<TScalar> activationFnLib,
         bool enableHardwareAcceleratedNeuralNets = false)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Perform some basic validation checks.
         ArgumentNullException.ThrowIfNull(model);
@@ -103,25 +112,25 @@ public static class NeuralNetConverter
             throw new ArgumentException("Invalid model; the model must describe an acyclic network.", nameof(model));
 
         // Get an activation function instance.
-        IActivationFunction<double> actFn = ResolveActivationFn(model, activationFnLib);
+        IActivationFunction<TScalar> actFn = ResolveActivationFn(model, activationFnLib);
 
         // Compile the digraph weighted connections.
-        WeightedDirectedConnection<double>[] conns = BuildConnections(model);
+        WeightedDirectedConnection<TScalar>[] conns = BuildConnections<TScalar>(model);
 
         // Create a weighted digraph.
-        var weightedDigraphAcyclic = WeightedDirectedGraphAcyclicBuilder<double>.Create(
+        var weightedDigraphAcyclic = WeightedDirectedGraphAcyclicBuilder<TScalar>.Create(
             conns, model.InputCount, model.OutputCount);
 
         // Create a working neural net.
         if (!enableHardwareAcceleratedNeuralNets)
         {
-            return new NeuralNetAcyclic<double>(
+            return new NeuralNetAcyclic<TScalar>(
                 weightedDigraphAcyclic,
                 actFn.Fn);
         }
         else
         {
-            return new Vectorized.NeuralNetAcyclic<double>(
+            return new Vectorized.NeuralNetAcyclic<TScalar>(
                 weightedDigraphAcyclic,
                 actFn.Fn);
         }
@@ -130,18 +139,20 @@ public static class NeuralNetConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to a cyclic neural network instance.
     /// </summary>
-    /// /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+    /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
     /// implementations are used.</param>
     /// <param name="enableHardwareAcceleratedActivationFunctions">If true then hardware accelerated activation
     /// functions are used, where available.</param>
     /// <returns>A new cyclic neural net instance.</returns>
-    public static IBlackBox<double> ToCyclicNeuralNet(
+    public static IBlackBox<TScalar> ToCyclicNeuralNet<TScalar>(
         NetFileModel model,
         bool enableHardwareAcceleratedNeuralNets = false,
         bool enableHardwareAcceleratedActivationFunctions = false)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
-        var actFnlib = new DefaultActivationFunctionFactory<double>(
+        var actFnlib = new DefaultActivationFunctionFactory<TScalar>(
             enableHardwareAcceleratedActivationFunctions);
 
         return ToCyclicNeuralNet(model, actFnlib, enableHardwareAcceleratedNeuralNets);
@@ -150,15 +161,17 @@ public static class NeuralNetConverter
     /// <summary>
     /// Convert a <see cref="NetFileModel"/> to a cyclic neural network instance.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="model">The <see cref="NetFileModel"/> instance to convert from.</param>
     /// <param name="activationFnLib">Activation function library.</param>
     /// <param name="enableHardwareAcceleratedNeuralNets">If true then hardware accelerated neural net
     /// implementations are used.</param>
     /// <returns>A new cyclic neural net instance.</returns>
-    public static IBlackBox<double> ToCyclicNeuralNet(
+    public static IBlackBox<TScalar> ToCyclicNeuralNet<TScalar>(
         NetFileModel model,
-        IActivationFunctionFactory<double> activationFnLib,
+        IActivationFunctionFactory<TScalar> activationFnLib,
         bool enableHardwareAcceleratedNeuralNets = false)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Perform some basic validation checks.
         ArgumentNullException.ThrowIfNull(model);
@@ -168,26 +181,26 @@ public static class NeuralNetConverter
             throw new ArgumentException("Invalid model; the model must describe a cyclic network.", nameof(model));
 
         // Get an activation function instance.
-        IActivationFunction<double> actFn = ResolveActivationFn(model, activationFnLib);
+        IActivationFunction<TScalar> actFn = ResolveActivationFn(model, activationFnLib);
 
         // Compile the digraph weighted connections.
-        WeightedDirectedConnection<double>[] conns = BuildConnections(model);
+        WeightedDirectedConnection<TScalar>[] conns = BuildConnections<TScalar>(model);
 
         // Create a weighted digraph.
-        var weightedDigraph = WeightedDirectedGraphBuilder<double>.Create(
+        var weightedDigraph = WeightedDirectedGraphBuilder<TScalar>.Create(
             conns, model.InputCount, model.OutputCount);
 
         // Create a working neural net.
         if(!enableHardwareAcceleratedNeuralNets)
         {
-            return new NeuralNetCyclic<double>(
+            return new NeuralNetCyclic<TScalar>(
                 weightedDigraph,
                 actFn.Fn,
                 model.CyclesPerActivation);
         }
         else
         {
-            return new Vectorized.NeuralNetCyclic<double>(
+            return new Vectorized.NeuralNetCyclic<TScalar>(
                 weightedDigraph,
                 actFn.Fn,
                 model.CyclesPerActivation);
@@ -196,9 +209,10 @@ public static class NeuralNetConverter
 
     #region Private Static Methods
 
-    private static IActivationFunction<double> ResolveActivationFn(
+    private static IActivationFunction<TScalar> ResolveActivationFn<TScalar>(
         NetFileModel model,
-        IActivationFunctionFactory<double> activationFnLib)
+        IActivationFunctionFactory<TScalar> activationFnLib)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         if(model.ActivationFns.Count == 0)
             throw new ArgumentException("Invalid model; no activation function defined.", nameof(model));
@@ -208,22 +222,23 @@ public static class NeuralNetConverter
             throw new ArgumentException("Invalid model; The first activation function must have an ID of 0.", nameof(model));
 
         // Get an activation function instance.
-        IActivationFunction<double> actFn = activationFnLib.GetActivationFunction(actFnLine.Code);
+        IActivationFunction<TScalar> actFn = activationFnLib.GetActivationFunction(actFnLine.Code);
         return actFn;
     }
 
-    private static WeightedDirectedConnection<double>[] BuildConnections(
+    private static WeightedDirectedConnection<TScalar>[] BuildConnections<TScalar>(
         NetFileModel model)
+        where TScalar : unmanaged, INumber<TScalar>
     {
         var connLines = model.Connections;
         int count = connLines.Count;
-        var conns = new WeightedDirectedConnection<double>[count];
+        var conns = new WeightedDirectedConnection<TScalar>[count];
 
         for(int i=0; i < count; i++)
         {
             ConnectionLine connLine = connLines[i];
-            conns[i] = new WeightedDirectedConnection<double>(
-                connLine.SourceId, connLine.TargetId, connLine.Weight);
+            conns[i] = new WeightedDirectedConnection<TScalar>(
+                connLine.SourceId, connLine.TargetId, TScalar.CreateChecked(connLine.Weight));
         }
 
         Array.Sort(conns);

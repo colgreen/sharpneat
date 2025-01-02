@@ -16,7 +16,10 @@ public class NeuralNetCyclicBenchmarks
     {
         // Load neural net model from file, and convert into a neural net instance.
         NetFileModel netFileModel = NetFile.Load("data/genomes/preycapture.net");
-        __nn = (NeuralNetCyclic<double>)NeuralNetConverter.ToNeuralNet(netFileModel, true);
+        __nn = (NeuralNetCyclic<double>)NeuralNetConverter.ToNeuralNet<double>(
+            netFileModel,
+            enableHardwareAcceleratedNeuralNets: true,
+            enableHardwareAcceleratedActivationFunctions: false);
 
         // Set some non-zero random input values.
         var rng = RandomDefaults.CreateRandomSource();

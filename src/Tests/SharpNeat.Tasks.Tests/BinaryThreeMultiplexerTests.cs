@@ -20,7 +20,7 @@ public class BinaryThreeMultiplexerTests
     private static void VerifyNeuralNetResponseInner(bool enableHardwareAcceleration)
     {
         NetFileModel netFileModel = NetFile.Load("TestData/binary-three-multiplexer.net");
-        IBlackBox<double> blackBox = NeuralNetConverter.ToNeuralNet(
+        IBlackBox<double> blackBox = NeuralNetConverter.ToNeuralNet<double>(
             netFileModel, enableHardwareAcceleration, enableHardwareAcceleration);
 
         // Evaluate the neural net.

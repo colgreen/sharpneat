@@ -16,7 +16,7 @@ public class NeuralNetAcyclicBenchmarks
     {
         // Load neural net model from file, and convert into a neural net instance.
         NetFileModel netFileModel = NetFile.Load("data/genomes/binary11.net");
-        __nn = (NeuralNetAcyclic<double>)NeuralNetConverter.ToNeuralNet(netFileModel);
+        __nn = (NeuralNetAcyclic<double>)NeuralNetConverter.ToNeuralNet<double>(netFileModel);
 
         // Set some non-zero random input values.
         var rng = RandomDefaults.CreateRandomSource();

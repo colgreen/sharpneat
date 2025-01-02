@@ -16,7 +16,7 @@ public class NeuralNetConverterTests
         NetFileModel netFileModel = NetFile.Load("TestData/example2.net");
 
         // Act.
-        IBlackBox<double> box = NeuralNetConverter.ToNeuralNet(netFileModel);
+        IBlackBox<double> box = NeuralNetConverter.ToNeuralNet<double>(netFileModel);
         var inputs = box.Inputs.Span;
         inputs[0] = 3.0;
         inputs[1] = 7.0;
@@ -66,7 +66,7 @@ public class NeuralNetConverterTests
         NetFileModel netFileModel = NetFile.Load("TestData/example3.net");
 
         // Act.
-        IBlackBox<double> box = NeuralNetConverter.ToNeuralNet(netFileModel);
+        IBlackBox<double> box = NeuralNetConverter.ToNeuralNet<double>(netFileModel);
         var inputs = box.Inputs.Span;
         inputs[0] = 3.0;
         inputs[1] = 5.0;

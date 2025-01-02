@@ -7,14 +7,14 @@ internal sealed class Program
 {
     static void Main(string[] args)
     {
-        BenchmarkRunner.Run<NeuralNets.ActivationFunctions.Vectorized.ActivationFunctionsBenchmarks>();
+        //BenchmarkRunner.Run<NeuralNets.ActivationFunctions.Vectorized.ActivationFunctionsBenchmarks>();
         //BenchmarkRunner.Run<ConnectionSorterBenchmarks>();
 
-        //BenchmarkRunner.Run<NeuralNets.Double.NeuralNetAcyclicBenchmarks>();
-        //BenchmarkRunner.Run<NeuralNets.Double.Vectorized.NeuralNetAcyclicBenchmarks>();
+        //BenchmarkRunner.Run<NeuralNets.NeuralNetAcyclicBenchmarks>();
+        //BenchmarkRunner.Run<NeuralNets.Vectorized.NeuralNetAcyclicBenchmarks>();
 
-        //BenchmarkRunner.Run<NeuralNets.Double.NeuralNetCyclicBenchmarks>();
-        //BenchmarkRunner.Run<NeuralNets.Double.Vectorized.NeuralNetCyclicBenchmarks>();
+        //BenchmarkRunner.Run<NeuralNets.NeuralNetCyclicBenchmarks>();
+        //BenchmarkRunner.Run<NeuralNets.Vectorized.NeuralNetCyclicBenchmarks>();
 
         //BenchmarkRunner.Run<DistanceMetricUtilsBenchmarks>();
         //BenchmarkRunner.Run<EuclideanDistanceMetricBenchmarks>();
