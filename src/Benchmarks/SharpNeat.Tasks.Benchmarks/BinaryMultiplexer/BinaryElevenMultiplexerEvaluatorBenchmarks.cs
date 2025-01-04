@@ -7,7 +7,7 @@ namespace SharpNeat.Tasks.BinaryMultiplexer;
 
 public class BinaryElevenMultiplexerEvaluatorBenchmarks
 {
-    static readonly BinaryElevenMultiplexerEvaluatorDouble __evaluator = new();
+    static readonly BinaryElevenMultiplexerEvaluatorFloat __evaluator = new();
     static readonly NullBlackBox __blackBox = new();
 
     [Benchmark]
@@ -16,9 +16,9 @@ public class BinaryElevenMultiplexerEvaluatorBenchmarks
         __evaluator.Evaluate(__blackBox);
     }
 
-    private sealed class NullBlackBox : IBlackBox<double>
+    private sealed class NullBlackBox : IBlackBox<float>
     {
-        readonly double[] _inputAndOutputs = new double[13];
+        readonly float[] _inputAndOutputs = new float[13];
 
         public NullBlackBox()
         {
@@ -26,8 +26,8 @@ public class BinaryElevenMultiplexerEvaluatorBenchmarks
             Outputs = _inputAndOutputs.AsMemory(12, 1);
         }
 
-        public Memory<double> Inputs { get; }
-        public Memory<double> Outputs { get; }
+        public Memory<float> Inputs { get; }
+        public Memory<float> Outputs { get; }
         public void Activate() {}
         public void Dispose() {}
         public void Reset() {}

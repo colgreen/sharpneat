@@ -9,26 +9,26 @@ namespace SharpNeat.NeuralNets.ActivationFunctions;
 /// </summary>
 public class ActivationFunctionsBenchmarks
 {
-    static readonly IActivationFunction<double> __ArcSinH = new ArcSinH<double>();
-    static readonly IActivationFunction<double> __ArcTan = new ArcTan<double>();
-    static readonly IActivationFunction<double> __LeakyReLU = new LeakyReLU<double>();
-    static readonly IActivationFunction<double> __LeakyReLUShifted = new LeakyReLUShifted<double>();
-    static readonly IActivationFunction<double> __Logistic = new Logistic<double>();
-    static readonly IActivationFunction<double> __LogisticSteep = new LogisticSteep<double>();
-    static readonly IActivationFunction<double> __MaxMinusOne = new MaxMinusOne<double>();
-    static readonly IActivationFunction<double> __NullFn = new NullFn<double>();
-    static readonly IActivationFunction<double> __PolynomialApproximantSteep = new PolynomialApproximantSteep<double>();
-    static readonly IActivationFunction<double> __QuadraticSigmoid = new QuadraticSigmoid<double>();
-    static readonly IActivationFunction<double> __ReLU = new ReLU<double>();
-    static readonly IActivationFunction<double> __ScaledELU = new ScaledELU<double>();
-    static readonly IActivationFunction<double> __SoftSignSteep = new SoftSignSteep<double>();
-    static readonly IActivationFunction<double> __SReLU = new SReLU<double>();
-    static readonly IActivationFunction<double> __SReLUShifted = new SReLUShifted<double>();
-    static readonly IActivationFunction<double> __TanH = new TanH<double>();
+    static readonly IActivationFunction<float> __ArcSinH = new ArcSinH<float>();
+    static readonly IActivationFunction<float> __ArcTan = new ArcTan<float>();
+    static readonly IActivationFunction<float> __LeakyReLU = new LeakyReLU<float>();
+    static readonly IActivationFunction<float> __LeakyReLUShifted = new LeakyReLUShifted<float>();
+    static readonly IActivationFunction<float> __Logistic = new Logistic<float>();
+    static readonly IActivationFunction<float> __LogisticSteep = new LogisticSteep<float>();
+    static readonly IActivationFunction<float> __MaxMinusOne = new MaxMinusOne<float>();
+    static readonly IActivationFunction<float> __NullFn = new NullFn<float>();
+    static readonly IActivationFunction<float> __PolynomialApproximantSteep = new PolynomialApproximantSteep<float>();
+    static readonly IActivationFunction<float> __QuadraticSigmoid = new QuadraticSigmoid<float>();
+    static readonly IActivationFunction<float> __ReLU = new ReLU<float>();
+    static readonly IActivationFunction<float> __ScaledELU = new ScaledELU<float>();
+    static readonly IActivationFunction<float> __SoftSignSteep = new SoftSignSteep<float>();
+    static readonly IActivationFunction<float> __SReLU = new SReLU<float>();
+    static readonly IActivationFunction<float> __SReLUShifted = new SReLUShifted<float>();
+    static readonly IActivationFunction<float> __TanH = new TanH<float>();
 
     const int __loops = 1000;
-    readonly double[] _x = new double[1003];
-    readonly double[] _w = new double[1003];
+    readonly float[] _x = new float[1003];
+    readonly float[] _w = new float[1003];
 
     public ActivationFunctionsBenchmarks()
     {
@@ -134,10 +134,10 @@ public class ActivationFunctionsBenchmarks
         RunBenchmark(__TanH);
     }
 
-    private void RunBenchmark(IActivationFunction<double> actFn)
+    private void RunBenchmark(IActivationFunction<float> actFn)
     {
-        ref double xref = ref MemoryMarshal.GetReference(_x.AsSpan());
-        ref double wref = ref MemoryMarshal.GetReference(_w.AsSpan());
+        ref float xref = ref MemoryMarshal.GetReference(_x.AsSpan());
+        ref float wref = ref MemoryMarshal.GetReference(_w.AsSpan());
         int len = _x.Length;
 
         for(int i=0; i < __loops; i++)

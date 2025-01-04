@@ -1,16 +1,16 @@
 ﻿namespace SharpNeat.Tasks.PreyCapture;
 
-internal sealed class MockPreyCaptureAgent : IBlackBox<double>
+internal sealed class MockPreyCaptureAgent : IBlackBox<float>
 {
-    readonly double[] _outputArr;
+    readonly float[] _outputArr;
     int _state;
 
     #region Constructor
 
     public MockPreyCaptureAgent()
     {
-        Inputs = new double[14];
-        _outputArr = new double[4];
+        Inputs = new float[14];
+        _outputArr = new float[4];
         Outputs = _outputArr;
     }
 
@@ -18,14 +18,14 @@ internal sealed class MockPreyCaptureAgent : IBlackBox<double>
 
     #region IBlackBox
 
-    public Memory<double> Inputs { get; }
+    public Memory<float> Inputs { get; }
 
-    public Memory<double> Outputs { get; }
+    public Memory<float> Outputs { get; }
 
     public void Activate()
     {
         // Make the agent run around in a tight circle.
-        _outputArr[_state] = 1.0;
+        _outputArr[_state] = 1f;
         if(++_state == 4)
         {
             _state = 0;

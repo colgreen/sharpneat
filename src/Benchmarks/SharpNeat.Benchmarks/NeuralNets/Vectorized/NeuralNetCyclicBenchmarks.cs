@@ -10,13 +10,13 @@ namespace SharpNeat.NeuralNets.Vectorized;
 
 public class NeuralNetCyclicBenchmarks
 {
-    static readonly NeuralNetCyclic<double> __nn;
+    static readonly NeuralNetCyclic<float> __nn;
 
     static NeuralNetCyclicBenchmarks()
     {
         // Load neural net model from file, and convert into a neural net instance.
         NetFileModel netFileModel = NetFile.Load("data/genomes/preycapture.net");
-        __nn = (NeuralNetCyclic<double>)NeuralNetConverter.ToNeuralNet<double>(
+        __nn = (NeuralNetCyclic<float>)NeuralNetConverter.ToNeuralNet<float>(
             netFileModel,
             enableHardwareAcceleratedNeuralNets: true,
             enableHardwareAcceleratedActivationFunctions: false);
@@ -26,7 +26,7 @@ public class NeuralNetCyclicBenchmarks
         var inputs = __nn.Inputs.Span;
         for(int i = 0; i < inputs.Length; i++)
         {
-            inputs[i] = rng.NextDouble();
+            inputs[i] = rng.NextFloat();
         }
     }
 

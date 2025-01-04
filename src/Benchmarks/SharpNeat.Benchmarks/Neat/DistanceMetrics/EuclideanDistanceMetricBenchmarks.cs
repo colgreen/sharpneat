@@ -7,14 +7,14 @@ namespace SharpNeat.Neat.DistanceMetrics;
 
 public class EuclideanDistanceMetricBenchmarks
 {
-    readonly EuclideanDistanceMetric<double> _distanceMetric = new();
-    readonly ConnectionGenes<double>[] _genomeArr;
+    readonly EuclideanDistanceMetric<float> _distanceMetric = new();
+    readonly ConnectionGenes<float>[] _genomeArr;
 
     public EuclideanDistanceMetricBenchmarks()
     {
-        var metaNeatGenome = MetaNeatGenome<double>.CreateAcyclic(12, 1, new LeakyReLU<double>());
-        var popLoader = new NeatPopulationLoader<double>(metaNeatGenome);
-        List<NeatGenome<double>> genomeList = popLoader.LoadFromZipArchive("data/binary11.pop");
+        var metaNeatGenome = MetaNeatGenome<float>.CreateAcyclic(12, 1, new LeakyReLU<float>());
+        var popLoader = new NeatPopulationLoader<float>(metaNeatGenome);
+        List<NeatGenome<float>> genomeList = popLoader.LoadFromZipArchive("data/binary11.pop");
         _genomeArr = genomeList.Select(x => x.ConnectionGenes).ToArray();
     }
 
