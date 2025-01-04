@@ -35,7 +35,7 @@ sealed class Program
             .CreateLogger();
 
         // Create and configure a NEAT experiment instance.
-        var experiment = InitExperiment<double>(experimentId);
+        var experiment = InitExperiment<float>(experimentId);
         if(experiment is null)
             return;
 
