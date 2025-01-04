@@ -42,7 +42,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
         if (length1 == 0)
         {   // All p2 genes are mismatches.
             for (int i = 0; i < length2; i++)
-                distance += weightArr2[i] * weightArr2[i];
+                distance = TWeight.FusedMultiplyAdd(weightArr2[i], weightArr2[i], distance);
 
             return double.CreateChecked(TWeight.Sqrt(distance));
         }
@@ -50,7 +50,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
         if (length2 == 0)
         {   // All p1 elements are mismatches.
             for (int i = 0; i < length1; i++)
-                distance += weightArr1[i] * weightArr1[i];
+                distance = TWeight.FusedMultiplyAdd(weightArr1[i], weightArr1[i], distance);
 
             return double.CreateChecked(TWeight.Sqrt(distance));
         }
@@ -68,7 +68,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             if (conn1 < conn2)
             {
                 // p2 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += weight1 * weight1;
+                distance = TWeight.FusedMultiplyAdd(weight1, weight1, distance);
 
                 // Move to the next element in p1.
                 arr1Idx++;
@@ -77,7 +77,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             {
                 // Matching elements. Note that abs() isn't required because we square the result.
                 TWeight tmp = weight1 - weight2;
-                distance += tmp * tmp;
+                distance = TWeight.FusedMultiplyAdd(tmp, tmp, distance);
 
                 // Move to the next element in both arrays.
                 arr1Idx++;
@@ -86,7 +86,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             else // conn2 > conn1
             {
                 // p1 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += weight2 * weight2;
+                distance = TWeight.FusedMultiplyAdd(weight2, weight2, distance);
 
                 // Move to the next element in p2.
                 arr2Idx++;
@@ -97,7 +97,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             {
                 // All remaining p2 elements are mismatches.
                 for (int i = arr2Idx; i < length2; i++)
-                    distance += weightArr2[i] * weightArr2[i];
+                    distance = TWeight.FusedMultiplyAdd(weightArr2[i], weightArr2[i], distance);
 
                 return double.CreateChecked(TWeight.Sqrt(distance));
             }
@@ -105,7 +105,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             if (arr2Idx == length2)
             {   // All remaining arr1 elements are mismatches.
                 for (int i = arr1Idx; i < weightArr1.Length; i++)
-                    distance += weightArr1[i] * weightArr1[i];
+                    distance = TWeight.FusedMultiplyAdd(weightArr1[i], weightArr1[i], distance);
 
                 return double.CreateChecked(TWeight.Sqrt(distance));
             }
@@ -152,7 +152,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             // All p2 elements are mismatches.
             // p1 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
             for (int i = 0; i < length2; i++)
-                distance += weightArr2[i] * weightArr2[i];
+                distance = TWeight.FusedMultiplyAdd(weightArr2[i], weightArr2[i], distance);
 
             return distance < weightThresold;
         }
@@ -162,7 +162,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             // All p1 elements are mismatches.
             // p2 doesn't specify a value in these dimensions therefore we take its position to be 0 in all of them.
             for (int i = 0; i < length1; i++)
-                distance += weightArr1[i] * weightArr1[i];
+                distance = TWeight.FusedMultiplyAdd(weightArr1[i], weightArr1[i], distance);
 
             return distance < weightThresold;
         }
@@ -183,7 +183,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             if (conn1 > conn2)
             {
                 // p2 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += weight1 * weight1;
+                distance = TWeight.FusedMultiplyAdd(weight1, weight1, distance);
 
                 // Move to the next element in p1.
                 arr1Idx--;
@@ -192,7 +192,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             {
                 // Matching elements. Note that abs() isn't required because we square the result.
                 TWeight tmp = weight1 - weight2;
-                distance += tmp * tmp;
+                distance = TWeight.FusedMultiplyAdd(tmp, tmp, distance);
 
                 // Move to the next element in both lists.
                 arr1Idx--;
@@ -201,7 +201,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             else // conn2 > conn1
             {
                 // p1 doesn't specify a value in this dimension therefore we take its position to be 0.
-                distance += weight2 * weight2;
+                distance = TWeight.FusedMultiplyAdd(weight2, weight2, distance);
 
                 // Move to the next element in p2.
                 arr2Idx--;
@@ -215,7 +215,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             if (arr1Idx < 0)
             {   // Any remaining arr2 elements are mismatches.
                 for (int i = arr2Idx; i > -1; i--)
-                    distance += weightArr2[i] * weightArr2[i];
+                    distance = TWeight.FusedMultiplyAdd(weightArr2[i], weightArr2[i], distance);
 
                 return distance < weightThresold;
             }
@@ -223,7 +223,7 @@ public sealed class EuclideanDistanceMetric<TWeight> : IDistanceMetric<TWeight>
             if (arr2Idx < 0)
             {   // All remaining arr1 elements are mismatches.
                 for (int i = arr1Idx; i > -1; i--)
-                    distance += weightArr1[i] * weightArr1[i];
+                    distance = TWeight.FusedMultiplyAdd(weightArr1[i], weightArr1[i], distance);
 
                 return distance < weightThresold;
             }
