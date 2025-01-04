@@ -9,6 +9,7 @@ namespace SharpNeat.Tasks.FunctionRegression;
 /// Parameter sampling info.
 /// Describes the value range to sample, the number of samples within that range, and the increment between samples.
 /// </summary>
+/// <typeparam name="TScalar">Function data type.</typeparam>
 public readonly struct ParamSamplingInfo<TScalar>
     where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {

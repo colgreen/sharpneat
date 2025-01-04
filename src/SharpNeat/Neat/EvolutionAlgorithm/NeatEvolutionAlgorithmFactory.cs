@@ -42,6 +42,7 @@ public static class NeatEvolutionAlgorithmFactory
     /// <summary>
     /// Create a new instance of <see cref="NeatEvolutionAlgorithm{T}"/> for the given neat experiment.
     /// </summary>
+    /// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
     /// <param name="neatExperiment">A neat experiment instance; this conveys everything required to create a new
     /// evolution algorithm instance that is ready to be run.</param>
     /// <returns>A new instance of <see cref="NeatEvolutionAlgorithm{T}"/>.</returns>

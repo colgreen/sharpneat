@@ -69,7 +69,8 @@ public sealed class NeuralNetCyclic<TScalar> : IBlackBox<TScalar>
          digraph.WeightArray,
          activationFn,
          cyclesPerActivation)
-    {}
+    {
+    }
 
     /// <summary>
     /// Constructs a cyclic neural network.

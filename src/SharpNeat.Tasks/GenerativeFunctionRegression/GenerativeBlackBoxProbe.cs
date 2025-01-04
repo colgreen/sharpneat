@@ -9,6 +9,7 @@ namespace SharpNeat.Tasks.GenerativeFunctionRegression;
 /// <summary>
 /// For probing and recording the responses of instances of <see cref="IBlackBox{T}"/>.
 /// </summary>
+/// <typeparam name="TScalar">Black box input/output data type.</typeparam>
 public sealed class GenerativeBlackBoxProbe<TScalar> : IBlackBoxProbe<TScalar>
     where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {

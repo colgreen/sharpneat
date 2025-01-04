@@ -80,10 +80,10 @@ public sealed class LogisticSteep<TScalar> : IActivationFunction<TScalar>
     // Fast exp approximation, from:
     // https://stackoverflow.com/a/412988/15703
     // https://pdfs.semanticscholar.org/35d3/2b272879a2018a2d33d982639d4be489f789.pdf (A Fast, Compact Approximation of the Exponential Function)
-    //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-    //private static double ExpApprox(double val)
-    //{
-    //    long tmp = (long)((1512775 * val) + (1072693248 - 60801));
-    //    return BitConverter.Int64BitsToDouble(tmp << 32);
-    //}
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // private static double ExpApprox(double val)
+    // {
+    //     long tmp = (long)((1512775 * val) + (1072693248 - 60801));
+    //     return BitConverter.Int64BitsToDouble(tmp << 32);
+    // }
 }

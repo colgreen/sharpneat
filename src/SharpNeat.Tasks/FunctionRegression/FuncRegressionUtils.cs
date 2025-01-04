@@ -8,6 +8,7 @@ namespace SharpNeat.Tasks.FunctionRegression;
 /// <summary>
 /// Static utility methods related to the function regression family of tasks.
 /// </summary>
+/// <typeparam name="TScalar">Function data type.</typeparam>
 public static class FuncRegressionUtils<TScalar>
     where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {

@@ -15,6 +15,7 @@ namespace SharpNeat.NeuralNets.ActivationFunctions.Vectorized;
 ///    https://en.wikipedia.org/wiki/Activation_function
 ///    https://arxiv.org/abs/1512.07030 [Deep Learning with S-shaped Rectified Linear Activation Units].
 /// </summary>
+/// <typeparam name="TScalar">Activation function data type.</typeparam>
 public sealed class SReLUShifted<TScalar> : IActivationFunction<TScalar>
     where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
