@@ -2,27 +2,39 @@
  
 [NEAT](https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies) is an [evolutionary algorithm](https://en.wikipedia.org/wiki/Evolutionary_algorithm) devised by [Kenneth O. Stanley](https://en.wikipedia.org/wiki/Kenneth_Stanley). 
 
-SharpNEAT is a complete implementation of NEAT written in C# and targeting .NET 9.
+SharpNEAT is a full implementation of NEAT written in C# and targeting .NET 9.
 
 ## What is SharpNEAT?
 
-SharpNEAT provides an implementation of an [Evolutionary Algorithm](https://en.wikipedia.org/wiki/Evolutionary_algorithm) (EA) with the specific goal of evolving a population of neural networks towards solving some goal problem task (known as as the Objective function).
+SharpNEAT provides an implementation of an [Evolutionary Algorithm](https://en.wikipedia.org/wiki/Evolutionary_algorithm) (EA) that provides the ability to evolve a population of neural networks towards solving some problem task (also known as an objective function).
 
-The EA uses the evolutionary mechanisms of mutation, recombination, and selection, to search for a neural network that 'solves' a given problem task, with each neural net being assigned a fitness score that represents the quality of the solution it represents.
+The EA applies evolutionary mechanisms of mutation, recombination, and selection to search for neural networks that perform well at a given problem task. Each neural network is evaluated and assigned a fitness score representing the quality of its solution.
 
 Some example problem tasks:
 
-* How to control the limbs of a simple biped or quadruped to make it walk.
-* How to control a rocket to maintain vertical flight.
-* Finding a network that implements some desired digital logic, such as a multiplexer.
+* Controlling the limbs of a simple biped or quadruped to facilitate walking.
+* Controlling a rocket to maintain vertical flight.
+* Designing a neural network to implement digital logic, such as a multiplexer.
 
-A notable feature is that NEAT and SharpNEAT search both neural network structure (the set of network nodes and how they are connected) and connection weights. This is distinct from algorithms such as [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) that attempt to find good connection weights for a given structure.
 
-SharpNEAT is a framework, or 'kit of parts', that facilitates research into evolutionary computation and specifically evolution of neural networks. The framework provides a number of example problem tasks that demonstrate how it can be used to produce a complete working EA.
+A distinctive feature of NEAT is its ability to evolve both the structure (the set of network nodes and how they are connected) and the connection weights of neural networks. This contrasts with approaches like [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) that optimize connection weights for a fixed network structure.
 
-This project aims to be modular, e.g. an alternative genetic coding or entirely new evolutionary algorithm could be used alongside the other parts/classes provided by SharpNEAT. The provision for such modular experimentation was a primary design goal of SharpNEAT, and is facilitated by abstractions made in SharpNEAT's architecture around key concepts such as 'genome' (genetic representation / encoding) and 'evolutionary algorithm' (mutations, recombination, selection strategy, etc.).
+SharpNEAT serves as a framework or 'kit of parts' for conducting research in evolutionary computation, particularly for evolving neural networks. It includes example tasks that demonstrate how to assemble a complete, functioning evolutionary algorithm..
 
-Motivation for the development of SharpNEAT derives from a broader interest in biological evolution, and curiosity around the limits of [neuro-evolution](https://en.wikipedia.org/wiki/Neuroevolution), in terms of the of problems and level of problem complexity it can produce satisfactory solutions for.
+
+## Key Design Principles
+
+SharpNEAT is modular by design. This modularity allows for experimentation with alternative genetic encodings, or entirely different evolutionary algorithms. The architecture emphasizes key abstractions such as:
+
+  * Genome – Genetic representation/encoding.
+
+  * Evolutionary Algorithm – Mutation, recombination, and selection strategies.
+
+
+This design promotes experimentation and customization, facilitating research and development in evolutionary computation.
+
+The motivation behind SharpNEAT stems from a broader interest in biological evolution and the exploration of neuro-evolution, aiming to understand the types and complexity of problems that can be addressed through this approach.
+
 
 ## More Info / Links
 
