@@ -189,7 +189,7 @@ partial class MainForm
         NeatPopulationStatistics popStats = _neatPop.NeatPopulationStats;
 
         // Search mode.
-        ComplexityRegulationMode mode = ((NeatEvolutionAlgorithm<double>)_eaRunner.EA).ComplexityRegulationMode;
+        ComplexityRegulationMode mode = ((NeatEvolutionAlgorithm<float>)_eaRunner.EA).ComplexityRegulationMode;
         txtSearchStatsMode.Text = mode.ToString();
         txtSearchStatsMode.BackColor = mode switch
         {
@@ -254,7 +254,7 @@ partial class MainForm
     #region Private Methods [Send Settings to UI]
 
     private void SendSettingsToUi(
-        INeatExperiment<double> experiment)
+        INeatExperiment<float> experiment)
     {
         SendSettingsToUi(experiment.EvolutionAlgorithmSettings);
         SendSettingsToUi(experiment.AsexualReproductionSettings);
@@ -288,7 +288,7 @@ partial class MainForm
     #region Private Methods [Get Settings from UI]
 
     private void GetSettingsFromUi(
-        INeatExperiment<double> experiment)
+        INeatExperiment<float> experiment)
     {
         GetSettingsFromUi(experiment.EvolutionAlgorithmSettings);
         GetSettingsFromUi(experiment.AsexualReproductionSettings);

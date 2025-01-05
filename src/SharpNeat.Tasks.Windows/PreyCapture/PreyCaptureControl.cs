@@ -28,11 +28,11 @@ public class PreyCaptureControl : GenomeControl
     readonly Brush _brushAgent = new SolidBrush(Color.Red);
     readonly Brush _brushPrey = new SolidBrush(Color.Green);
 
-    readonly IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> _genomeDecoder;
-    readonly PreyCaptureWorld<double> _world;
+    readonly IGenomeDecoder<NeatGenome<float>,IBlackBox<float>> _genomeDecoder;
+    readonly PreyCaptureWorld<float> _world;
 
     // The agent used by the simulation thread.
-    volatile IBlackBox<double> _agent;
+    volatile IBlackBox<float> _agent;
     PictureBox _pbx;
     Image _image;
     readonly bool _initializing = true;
@@ -53,8 +53,8 @@ public class PreyCaptureControl : GenomeControl
     /// <param name="genomeDecoder">Genome decoder.</param>
     /// <param name="world">Prey capture world.</param>
     public PreyCaptureControl(
-        IGenomeDecoder<NeatGenome<double>, IBlackBox<double>> genomeDecoder,
-        PreyCaptureWorld<double> world)
+        IGenomeDecoder<NeatGenome<float>, IBlackBox<float>> genomeDecoder,
+        PreyCaptureWorld<float> world)
     {
         _genomeDecoder = genomeDecoder ?? throw new ArgumentNullException(nameof(genomeDecoder));
         _world = world ?? throw new ArgumentNullException(nameof(world));
@@ -98,7 +98,7 @@ public class PreyCaptureControl : GenomeControl
         existingAgent?.Dispose();
 
         // Decode the genome, and store the resulting IBlackBox agent in an instance field.
-        NeatGenome<double> neatGenome = genome as NeatGenome<double>;
+        NeatGenome<float> neatGenome = genome as NeatGenome<float>;
         _agent = _genomeDecoder.Decode(neatGenome);
 
         // Signal simulation thread to start running a one simulation.
@@ -164,7 +164,7 @@ public class PreyCaptureControl : GenomeControl
         // Get local copy of agent so that the same agent is used throughout each individual simulation trial/run
         // (_agent is being continually updated by the evolution algorithm update events). This is probably an atomic
         // operation and thus thread safe.
-        IBlackBox<double> agent = _agent;
+        IBlackBox<float> agent = _agent;
 
         // Init world state.
         _world.InitPositions();

@@ -44,7 +44,7 @@ partial class MainForm
         UpdateUiState_EaStats();
 
         // Update child forms (those that are open).
-        var bestGenome = ((NeatEvolutionAlgorithm<double>)_eaRunner.EA).Population.BestGenome;
+        var bestGenome = ((NeatEvolutionAlgorithm<float>)_eaRunner.EA).Population.BestGenome;
 
         if(_bestGenomeForm is not null)
             _bestGenomeForm.Genome = bestGenome;

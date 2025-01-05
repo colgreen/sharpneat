@@ -14,7 +14,7 @@ public sealed class PreyCaptureExperimentUiFactory : IExperimentUiFactory
 {
     /// <inheritdoc/>
     public IExperimentUi CreateExperimentUi(
-        INeatExperiment<double> neatExperiment,
+        INeatExperiment<float> neatExperiment,
         Stream jsonConfigStream)
     {
         // Load experiment JSON config.

@@ -15,10 +15,10 @@ namespace SharpNeat.Tasks.Windows.FunctionRegression;
 /// </summary>
 public partial class FnRegressionControl : GenomeControl
 {
-    readonly Func<double,double> _fn;
-    readonly IBlackBoxProbe<double> _blackBoxProbe;
-    readonly double[] _yArrTarget;
-    readonly IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> _genomeDecoder;
+    readonly Func<float,float> _fn;
+    readonly IBlackBoxProbe<float> _blackBoxProbe;
+    readonly float[] _yArrTarget;
+    readonly IGenomeDecoder<NeatGenome<float>,IBlackBox<float>> _genomeDecoder;
     readonly PointPairList _pplTarget;
     readonly PointPairList _pplResponse;
 
@@ -30,10 +30,10 @@ public partial class FnRegressionControl : GenomeControl
     /// <param name="paramSamplingInfo">Parameter sampling info.</param>
     /// <param name="genomeDecoder">Genome decoder.</param>
     public FnRegressionControl(
-        Func<double,double> fn,
-        ParamSamplingInfo<double> paramSamplingInfo,
+        Func<float, float> fn,
+        ParamSamplingInfo<float> paramSamplingInfo,
         bool generativeMode,
-        IGenomeDecoder<NeatGenome<double>,IBlackBox<double>> genomeDecoder)
+        IGenomeDecoder<NeatGenome<float>,IBlackBox<float>> genomeDecoder)
     {
         InitializeComponent();
         InitGraph(string.Empty, string.Empty, string.Empty);
@@ -44,33 +44,33 @@ public partial class FnRegressionControl : GenomeControl
         // Determine the mid output value of the function (over the specified sample points) and a scaling factor
         // to apply the to neural network response for it to be able to recreate the function (because the neural net
         // output range is typically in the interval [0,1], e.g. when using the logistic function activation function).
-        FuncRegressionUtils<double>.CalcFunctionMidAndScale(
+        FuncRegressionUtils<float>.CalcFunctionMidAndScale(
             fn, paramSamplingInfo,
-            out double mid,
-            out double scale);
+            out float mid,
+            out float scale);
 
         if(generativeMode)
         {
-            _blackBoxProbe = new GenerativeBlackBoxProbe<double>(
+            _blackBoxProbe = new GenerativeBlackBoxProbe<float>(
                 paramSamplingInfo.SampleResolution,
                 mid, scale);
         }
         else
         {
-            _blackBoxProbe = new BlackBoxProbe<double>(
+            _blackBoxProbe = new BlackBoxProbe<float>(
                 paramSamplingInfo, mid, scale);
         }
 
-        _yArrTarget = new double[paramSamplingInfo.SampleResolution];
+        _yArrTarget = new float[paramSamplingInfo.SampleResolution];
 
         // Pre-build plot point objects.
         _pplTarget = [];
         _pplResponse = [];
 
-        double[] xArr = paramSamplingInfo.XArr;
+        float[] xArr = paramSamplingInfo.XArr;
         for(int i=0; i<xArr.Length; i++)
         {
-            double x = xArr[i];
+            float x = xArr[i];
             _pplTarget.Add(x, _fn(x));
             _pplResponse.Add(x, 0.0);
         }
@@ -84,11 +84,11 @@ public partial class FnRegressionControl : GenomeControl
     {
         base.OnGenomeUpdated();
 
-        if(_genome is not NeatGenome<double> neatGenome)
+        if(_genome is not NeatGenome<float> neatGenome)
             return;
 
         // Decode genome.
-        IBlackBox<double> box = _genomeDecoder.Decode(neatGenome);
+        IBlackBox<float> box = _genomeDecoder.Decode(neatGenome);
 
         // Probe the black box.
         _blackBoxProbe.Probe(box, _yArrTarget);

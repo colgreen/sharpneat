@@ -28,8 +28,8 @@ internal sealed partial class MainForm : Form
     };
 
     // The current NEAT experiment.
-    private INeatExperiment<double> _neatExperiment;
-    private NeatPopulation<double> _neatPop;
+    private INeatExperiment<float> _neatExperiment;
+    private NeatPopulation<float> _neatPop;
     private EvolutionAlgorithmRunner _eaRunner;
     private IExperimentUi _experimentUi;
     private GenomeForm _bestGenomeForm;
@@ -92,7 +92,7 @@ internal sealed partial class MainForm : Form
         cmbExperiments.SelectedIndex = 0;
     }
 
-    private INeatExperiment<double> GetNeatExperiment()
+    private INeatExperiment<float> GetNeatExperiment()
     {
         // Create a new experiment instance if one has not already been created.
         _neatExperiment ??= CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
@@ -104,7 +104,7 @@ internal sealed partial class MainForm : Form
 
     private IExperimentUi GetExperimentUi()
     {
-        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+        INeatExperiment<float> neatExperiment = GetNeatExperiment();
 
         // Create a new experiment instance if one has not already been created.
         _experimentUi ??= CreateAndConfigureExperimentUi(
