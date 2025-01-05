@@ -25,13 +25,13 @@ partial class MainForm
         if(string.IsNullOrEmpty(filepath))
             return;
 
-        INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
-        NeatPopulationLoader<double> popLoader = new(metaNeatGenome);
+        INeatExperiment<float> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<float> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
+        NeatPopulationLoader<float> popLoader = new(metaNeatGenome);
         
         try
         {
-            List<NeatGenome<double>> genomeList = popLoader.LoadFromZipArchive(filepath);
+            List<NeatGenome<float>> genomeList = popLoader.LoadFromZipArchive(filepath);
 
             if(genomeList.Count == 0)
             {
@@ -39,9 +39,9 @@ partial class MainForm
                 return;
             }
 
-            INeatGenomeBuilder<double> genomeBuilder = NeatGenomeBuilderFactory<double>.Create(metaNeatGenome);
+            INeatGenomeBuilder<float> genomeBuilder = NeatGenomeBuilderFactory<float>.Create(metaNeatGenome);
 
-            _neatPop = new NeatPopulation<double>(
+            _neatPop = new NeatPopulation<float>(
                 metaNeatGenome,
                 genomeBuilder,
                 neatExperiment.PopulationSize,
@@ -61,19 +61,19 @@ partial class MainForm
         if(string.IsNullOrEmpty(filepath))
             return;
 
-        INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
+        INeatExperiment<float> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<float> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
 
         try
         {
             // Load the seed genome.
-            NeatGenome<double> seedGenome = NeatGenomeLoader.Load(filepath, metaNeatGenome, 0);
+            NeatGenome<float> seedGenome = NeatGenomeLoader.Load(filepath, metaNeatGenome, 0);
 
             // Create an instance of the default connection weight mutation scheme.
-            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<double>(
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<float>(
                 neatExperiment.ConnectionWeightScale);
 
-            _neatPop = NeatPopulationFactory<double>.CreatePopulation(
+            _neatPop = NeatPopulationFactory<float>.CreatePopulation(
                 metaNeatGenome,
                 neatExperiment.PopulationSize,
                 seedGenome,
@@ -94,14 +94,14 @@ partial class MainForm
         if(string.IsNullOrEmpty(filepath))
             return;
 
-        INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
-        NeatPopulationLoader<double> popLoader = new(metaNeatGenome);
+        INeatExperiment<float> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<float> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
+        NeatPopulationLoader<float> popLoader = new(metaNeatGenome);
 
         try
         {
             // Load the seed genomes.
-            List<NeatGenome<double>> seedGenomes = popLoader.LoadFromZipArchive(filepath);
+            List<NeatGenome<float>> seedGenomes = popLoader.LoadFromZipArchive(filepath);
 
             if(seedGenomes.Count == 0)
             {
@@ -110,10 +110,10 @@ partial class MainForm
             }
 
             // Create an instance of the default connection weight mutation scheme.
-            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<double>(
+            var weightMutationScheme = WeightMutationSchemeFactory.CreateDefaultScheme<float>(
                 neatExperiment.ConnectionWeightScale);
 
-            _neatPop = NeatPopulationFactory<double>.CreatePopulation(
+            _neatPop = NeatPopulationFactory<float>.CreatePopulation(
                 metaNeatGenome,
                 neatExperiment.PopulationSize,
                 seedGenomes,
@@ -151,7 +151,7 @@ partial class MainForm
     private void saveBestGenomeToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // Get the current best genome.
-        NeatGenome<double> bestGenome = _neatPop?.BestGenome;
+        NeatGenome<float> bestGenome = _neatPop?.BestGenome;
         if(bestGenome is null)
             return;
 
@@ -192,7 +192,7 @@ partial class MainForm
             () => _bestGenomeForm  = null);
 
         // Get the current best genome.
-        NeatGenome<double> bestGenome = _neatPop?.BestGenome;
+        NeatGenome<float> bestGenome = _neatPop?.BestGenome;
         if(bestGenome is not null)
         {
             // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we
@@ -219,7 +219,7 @@ partial class MainForm
             () => _taskForm  = null);
 
         // Get the current best genome.
-        NeatGenome<double> bestGenome = _neatPop?.BestGenome;
+        NeatGenome<float> bestGenome = _neatPop?.BestGenome;
         if(bestGenome is not null)
         {
             // Set the form's current genome. If the EA is running it will be set shortly anyway, but this ensures we

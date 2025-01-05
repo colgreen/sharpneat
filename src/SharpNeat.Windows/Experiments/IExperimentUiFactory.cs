@@ -17,6 +17,6 @@ public interface IExperimentUiFactory
     /// <param name="jsonConfigStream">A stream from which experiment JSON configuration can be read.</param>
     /// <returns>A new instance of <see cref="IExperimentUi"/>.</returns>
     IExperimentUi CreateExperimentUi(
-        INeatExperiment<double> neatExperiment,
+        INeatExperiment<float> neatExperiment,
         Stream jsonConfigStream);
 }

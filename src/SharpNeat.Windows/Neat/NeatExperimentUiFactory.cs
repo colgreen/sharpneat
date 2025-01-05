@@ -12,7 +12,7 @@ public sealed class NeatExperimentUiFactory : IExperimentUiFactory
 {
     /// <inheritdoc/>
     public IExperimentUi CreateExperimentUi(
-        INeatExperiment<double> neatExperiment,
+        INeatExperiment<float> neatExperiment,
         Stream jsonConfigStream)
     {
         return new NeatExperimentUi();

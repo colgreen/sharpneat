@@ -19,7 +19,7 @@ public static class ExperimentUiFactoryExtensions
     /// <returns>A new instance of <see cref="IExperimentUi"/>.</returns>
     public static IExperimentUi CreateExperimentUi(
         this IExperimentUiFactory experimentUiFactory,
-        INeatExperiment<double> neatExperiment,
+        INeatExperiment<float> neatExperiment,
         string jsonConfigFilename)
     {
         using FileStream fs = File.OpenRead(jsonConfigFilename);

@@ -14,11 +14,11 @@ namespace SharpNeat.Tasks.Windows.PreyCapture;
 /// </summary>
 public sealed class PreyCaptureExperimentUi : NeatExperimentUi
 {
-    readonly INeatExperiment<double> _neatExperiment;
+    readonly INeatExperiment<float> _neatExperiment;
     readonly PreyCaptureCustomConfig _customConfig;
 
     public PreyCaptureExperimentUi(
-        INeatExperiment<double> neatExperiment,
+        INeatExperiment<float> neatExperiment,
         PreyCaptureCustomConfig customConfig)
     {
         _neatExperiment = neatExperiment ?? throw new ArgumentNullException(nameof(neatExperiment));
@@ -28,13 +28,13 @@ public sealed class PreyCaptureExperimentUi : NeatExperimentUi
     /// <inheritdoc/>
     public override GenomeControl CreateTaskControl()
     {
-        PreyCaptureWorld<double> world = new(
+        PreyCaptureWorld<float> world = new(
             _customConfig.PreyInitMoves,
             _customConfig.PreySpeed,
             _customConfig.SensorRange,
             _customConfig.MaxTimesteps);
 
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<double>(
+        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<float>(
             _neatExperiment.IsAcyclic,
             _neatExperiment.EnableHardwareAcceleratedNeuralNets);
 

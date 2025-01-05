@@ -1,9 +1,9 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Domains.FunctionRegression;
 using SharpNeat.Experiments;
 using SharpNeat.Neat.Genome.Decoders;
 using SharpNeat.Tasks.FunctionRegression;
+using SharpNeat.Tasks.Windows.FunctionRegression;
 using SharpNeat.Windows;
 using SharpNeat.Windows.Neat;
 
@@ -11,14 +11,14 @@ namespace SharpNeat.Tasks.Windows.GenerativeFunctionRegression;
 
 public sealed class GenerativeFnRegressionUi : NeatExperimentUi
 {
-    readonly INeatExperiment<double> _neatExperiment;
-    readonly Func<double, double> _fn;
-    readonly ParamSamplingInfo<double> _paramSamplingInfo;
+    readonly INeatExperiment<float> _neatExperiment;
+    readonly Func<float, float> _fn;
+    readonly ParamSamplingInfo<float> _paramSamplingInfo;
 
     public GenerativeFnRegressionUi(
-        INeatExperiment<double> neatExperiment,
-        Func<double, double> fn,
-        ParamSamplingInfo<double> paramSamplingInfo)
+        INeatExperiment<float> neatExperiment,
+        Func<float, float> fn,
+        ParamSamplingInfo<float> paramSamplingInfo)
     {
         _neatExperiment = neatExperiment ?? throw new ArgumentNullException(nameof(neatExperiment));
         _fn = fn;
@@ -28,7 +28,7 @@ public sealed class GenerativeFnRegressionUi : NeatExperimentUi
     /// <inheritdoc/>
     public override GenomeControl CreateTaskControl()
     {
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<double>(
+        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<float>(
             _neatExperiment.IsAcyclic,
             _neatExperiment.EnableHardwareAcceleratedNeuralNets);
 

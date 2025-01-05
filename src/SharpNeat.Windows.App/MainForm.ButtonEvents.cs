@@ -36,11 +36,11 @@ partial class MainForm
 
     private void btnCreateRandomPop_Click(object sender, EventArgs e)
     {
-        INeatExperiment<double> neatExperiment = GetNeatExperiment();
-        MetaNeatGenome<double> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
+        INeatExperiment<float> neatExperiment = GetNeatExperiment();
+        MetaNeatGenome<float> metaNeatGenome = neatExperiment.CreateMetaNeatGenome();
 
         // Create an initial population of genomes.
-        _neatPop = NeatPopulationFactory<double>.CreatePopulation(
+        _neatPop = NeatPopulationFactory<float>.CreatePopulation(
             metaNeatGenome,
             connectionsProportion: neatExperiment.InitialInterconnectionsProportion,
             popSize: neatExperiment.PopulationSize);
@@ -60,10 +60,10 @@ partial class MainForm
         }
 
         // Get the current neat experiment, with parameters set from the UI.
-        INeatExperiment<double> neatExperiment = GetNeatExperiment();
+        INeatExperiment<float> neatExperiment = GetNeatExperiment();
 
         // Create evolution algorithm and runner.
-        NeatEvolutionAlgorithm<double> ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(neatExperiment, _neatPop);
+        NeatEvolutionAlgorithm<float> ea = NeatEvolutionAlgorithmFactory.CreateEvolutionAlgorithm(neatExperiment, _neatPop);
         ea.Initialise();
 
         _eaRunner = new EvolutionAlgorithmRunner(
