@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Windows.Experiments;
 
@@ -11,9 +12,10 @@ namespace SharpNeat.Windows.Neat;
 public sealed class NeatExperimentUiFactory : IExperimentUiFactory
 {
     /// <inheritdoc/>
-    public IExperimentUi CreateExperimentUi(
-        INeatExperiment<float> neatExperiment,
+    public IExperimentUi CreateExperimentUi<TScalar>(
+        INeatExperiment<TScalar> neatExperiment,
         Stream jsonConfigStream)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         return new NeatExperimentUi();
     }

@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 
 namespace SharpNeat.Windows.Experiments;
@@ -17,10 +18,11 @@ public static class ExperimentUiFactoryExtensions
     /// <param name="neatExperiment">A neat experiment instance.</param>
     /// <param name="jsonConfigFilename">The name of a file from which experiment JSON configuration can be read.</param>
     /// <returns>A new instance of <see cref="IExperimentUi"/>.</returns>
-    public static IExperimentUi CreateExperimentUi(
+    public static IExperimentUi CreateExperimentUi<TScalar>(
         this IExperimentUiFactory experimentUiFactory,
-        INeatExperiment<float> neatExperiment,
+        INeatExperiment<TScalar> neatExperiment,
         string jsonConfigFilename)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         using FileStream fs = File.OpenRead(jsonConfigFilename);
         return experimentUiFactory.CreateExperimentUi(neatExperiment, fs);

@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Neat.Genome.Decoders;
 using SharpNeat.Tasks.PreyCapture;
@@ -12,13 +13,15 @@ namespace SharpNeat.Tasks.Windows.PreyCapture;
 /// <summary>
 /// Implementation of <see cref="IExperimentUi"/> for the Prey Capture task.
 /// </summary>
-public sealed class PreyCaptureExperimentUi : NeatExperimentUi
+/// <typeparam name="TScalar">Neural net connection weight and signal data type.</typeparam>
+public sealed class PreyCaptureExperimentUi<TScalar> : NeatExperimentUi
+    where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
 {
-    readonly INeatExperiment<float> _neatExperiment;
+    readonly INeatExperiment<TScalar> _neatExperiment;
     readonly PreyCaptureCustomConfig _customConfig;
 
     public PreyCaptureExperimentUi(
-        INeatExperiment<float> neatExperiment,
+        INeatExperiment<TScalar> neatExperiment,
         PreyCaptureCustomConfig customConfig)
     {
         _neatExperiment = neatExperiment ?? throw new ArgumentNullException(nameof(neatExperiment));
@@ -28,16 +31,16 @@ public sealed class PreyCaptureExperimentUi : NeatExperimentUi
     /// <inheritdoc/>
     public override GenomeControl CreateTaskControl()
     {
-        PreyCaptureWorld<float> world = new(
+        PreyCaptureWorld<TScalar> world = new(
             _customConfig.PreyInitMoves,
             _customConfig.PreySpeed,
             _customConfig.SensorRange,
             _customConfig.MaxTimesteps);
 
-        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<float>(
+        var genomeDecoder = NeatGenomeDecoderFactory.CreateGenomeDecoder<TScalar>(
             _neatExperiment.IsAcyclic,
             _neatExperiment.EnableHardwareAcceleratedNeuralNets);
 
-        return new PreyCaptureControl(genomeDecoder, world);
+        return new GenericPreyCaptureControl<TScalar>(genomeDecoder, world);
     }
 }

@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.Windows.App.Experiments;
 using SharpNeat.Windows.Experiments;
@@ -8,8 +9,9 @@ namespace SharpNeat.Windows.App;
 
 internal static class AppUtils
 {
-    public static INeatExperiment<float> CreateAndConfigureExperiment(
+    public static INeatExperiment<TScalar> CreateAndConfigureExperiment<TScalar>(
         ExperimentInfo expInfo)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Create an experiment factory.
         INeatExperimentFactory factory = (INeatExperimentFactory)Activator.CreateInstance(
@@ -18,12 +20,13 @@ internal static class AppUtils
             .Unwrap();
 
         // Create an instance of INeatExperiment, configured using the supplied json config.
-        return factory.CreateExperiment<float>(expInfo.ConfigFile);
+        return factory.CreateExperiment<TScalar>(expInfo.ConfigFile);
     }
 
-    public static IExperimentUi CreateAndConfigureExperimentUi(
-        INeatExperiment<float> neatExperiment,
+    public static IExperimentUi CreateAndConfigureExperimentUi<TScalar>(
+        INeatExperiment<TScalar> neatExperiment,
         ExperimentInfo expInfo)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         if(expInfo.ExperimentUiFactory is null)
             return null;

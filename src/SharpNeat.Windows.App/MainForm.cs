@@ -95,7 +95,7 @@ internal sealed partial class MainForm : Form
     private INeatExperiment<float> GetNeatExperiment()
     {
         // Create a new experiment instance if one has not already been created.
-        _neatExperiment ??= CreateAndConfigureExperiment((ExperimentInfo)cmbExperiments.SelectedItem);
+        _neatExperiment ??= CreateAndConfigureExperiment<float>((ExperimentInfo)cmbExperiments.SelectedItem);
 
         // Read settings from the UI into the experiment instance, and return.
         GetSettingsFromUi(_neatExperiment);

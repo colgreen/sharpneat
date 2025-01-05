@@ -1,5 +1,6 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
+using System.Numerics;
 using SharpNeat.Experiments;
 using SharpNeat.IO;
 using SharpNeat.Tasks.FunctionRegression;
@@ -14,9 +15,10 @@ namespace SharpNeat.Tasks.Windows.GenerativeFunctionRegression;
 public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
 {
     /// <inheritdoc/>
-    public IExperimentUi CreateExperimentUi(
-        INeatExperiment<float> neatExperiment,
+    public IExperimentUi CreateExperimentUi<TScalar>(
+        INeatExperiment<TScalar> neatExperiment,
         Stream jsonConfigStream)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Load experiment JSON config.
         GenerativeFnRegressionExperimentConfig experimentConfig =
@@ -26,27 +28,28 @@ public sealed class GenerativeFnRegressionUiFactory : IExperimentUiFactory
         // Read custom evaluation scheme config.
         ReadEvaluationSchemeConfig(
             experimentConfig.CustomEvaluationSchemeConfig,
-            out Func<float, float> fn,
-            out ParamSamplingInfo<float> paramSamplingInfo);
+            out Func<TScalar, TScalar> fn,
+            out ParamSamplingInfo<TScalar> paramSamplingInfo);
 
-        return new GenerativeFnRegressionUi(
+        return new GenerativeFnRegressionUi<TScalar>(
             neatExperiment, fn, paramSamplingInfo);
     }
 
-    private static void ReadEvaluationSchemeConfig(
+    private static void ReadEvaluationSchemeConfig<TScalar>(
         GenerativeFnRegressionCustomConfig customConfig,
-        out Func<float, float> fn,
-        out ParamSamplingInfo<float> paramSamplingInfo)
+        out Func<TScalar, TScalar> fn,
+        out ParamSamplingInfo<TScalar> paramSamplingInfo)
+        where TScalar : unmanaged, IBinaryFloatingPointIeee754<TScalar>
     {
         // Read function ID.
         FunctionId functionId = Enum.Parse<FunctionId>(customConfig.FunctionId);
 
-        fn = FunctionFactory.GetFunction<float>(functionId);
+        fn = FunctionFactory.GetFunction<TScalar>(functionId);
 
         // Read sample interval min and max, and sample resolution.
-        paramSamplingInfo = new ParamSamplingInfo<float>(
-            (float)customConfig.SampleIntervalMin,
-            (float)customConfig.SampleIntervalMax,
+        paramSamplingInfo = new ParamSamplingInfo<TScalar>(
+            TScalar.CreateChecked(customConfig.SampleIntervalMin),
+            TScalar.CreateChecked(customConfig.SampleIntervalMax),
             customConfig.SampleResolution);
     }
 }
