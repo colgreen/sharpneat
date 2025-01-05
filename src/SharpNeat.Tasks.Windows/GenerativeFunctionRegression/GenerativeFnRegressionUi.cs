@@ -1,9 +1,9 @@
 ﻿// This file is part of SharpNEAT; Copyright Colin D. Green.
 // See LICENSE.txt for details.
-using SharpNeat.Domains.FunctionRegression;
 using SharpNeat.Experiments;
 using SharpNeat.Neat.Genome.Decoders;
 using SharpNeat.Tasks.FunctionRegression;
+using SharpNeat.Tasks.Windows.FunctionRegression;
 using SharpNeat.Windows;
 using SharpNeat.Windows.Neat;
 

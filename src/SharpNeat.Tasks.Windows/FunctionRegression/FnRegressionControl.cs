@@ -8,7 +8,7 @@ using SharpNeat.Tasks.GenerativeFunctionRegression;
 using SharpNeat.Windows;
 using ZedGraph;
 
-namespace SharpNeat.Domains.FunctionRegression;
+namespace SharpNeat.Tasks.Windows.FunctionRegression;
 
 /// <summary>
 /// Task View for function regression tasks.

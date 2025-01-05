@@ -1,4 +1,4 @@
-﻿namespace SharpNeat.Domains.FunctionRegression
+﻿namespace SharpNeat.Tasks.Windows.FunctionRegression
 {
     partial class FnRegressionControl
     {
