@@ -78,7 +78,7 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
 
         // The selected connection will be replaced with a new node and two new connections;
         // get an innovation ID for the new node.
-        int addedNodeId = GetInnovationID(splitConn, parent, out bool newInnovationIdsFlag);
+        int addedNodeId = GetInnovationID(splitConn, parent, out bool newInnovationIdFlag);
 
         // Create the two new connections.
         var newConnArr = new DirectedConnection[]
@@ -187,7 +187,7 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
         // and therefore difficult to understand, modify, and is thus a possible source of defects if modifications are attempted.
 
         // Create an array of hidden node IDs.
-        var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, addedNodeId, newInnovationIdsFlag);
+        var hiddenNodeIdArr = GetHiddenNodeIdArray(parent, addedNodeId, newInnovationIdFlag);
 
         // Create and return a new genome.
         return _genomeBuilder.Create(
@@ -253,7 +253,7 @@ public sealed class AddNodeStrategy<TScalar> : IAsexualReproductionStrategy<TSca
         int[] childIdArr = new int[childLen];
 
         // New innovation IDs are always higher than any existing IDs, therefore adding
-        // the new node ID to the end of the list will maintain sorter order.
+        // the new node ID to the end of the list will maintain sort order.
         if(newInnovationIdsFlag)
         {
             Array.Copy(parentIdArr, childIdArr, parentIdArr.Length);
